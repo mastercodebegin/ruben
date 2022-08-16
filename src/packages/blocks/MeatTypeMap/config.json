@@ -1,0 +1,65 @@
+{
+  "id": "MeatTypeMap",
+  "version": "0.0.2",
+  "status": "preAlpha",
+  "path": "./packages/blocks/MeatTypeMap",
+  "assembler-adapters": [],
+  "mobile": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "MeatTypeMap"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "MeatTypeMap": {
+        "file": "MeatTypeMap.tsx",
+        "extends": "MeatTypeMapController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "MeatTypeMapController",
+            "path": "./MeatTypeMapController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./MeatTypeMapController"
+          }
+        ]
+      }
+    }
+  },
+  "web": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "MeatTypeMap"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "MeatTypeMap": {
+        "file": "MeatTypeMap.web.tsx",
+        "extends": "MeatTypeMapController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "MeatTypeMapController",
+            "path": "./MeatTypeMapController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./MeatTypeMapController"
+          }
+        ]
+      }
+    }
+  }
+}

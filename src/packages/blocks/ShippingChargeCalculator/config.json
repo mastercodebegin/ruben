@@ -1,0 +1,65 @@
+{
+  "id": "ShippingChargeCalculator",
+  "version": "0.0.2",
+  "status": "preAlpha",
+  "path": "./packages/blocks/ShippingChargeCalculator",
+  "assembler-adapters": [],
+  "mobile": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "ShippingChargeCalculator"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "ShippingChargeCalculator": {
+        "file": "ShippingChargeCalculator.tsx",
+        "extends": "ShippingChargeCalculatorController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "ShippingChargeCalculatorController",
+            "path": "./ShippingChargeCalculatorController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./ShippingChargeCalculatorController"
+          }
+        ]
+      }
+    }
+  },
+  "web": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "ShippingChargeCalculator"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "ShippingChargeCalculator": {
+        "file": "ShippingChargeCalculator.web.tsx",
+        "extends": "ShippingChargeCalculatorController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "ShippingChargeCalculatorController",
+            "path": "./ShippingChargeCalculatorController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./ShippingChargeCalculatorController"
+          }
+        ]
+      }
+    }
+  }
+}

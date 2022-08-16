@@ -1,0 +1,65 @@
+{
+  "id": "StripeIntegration",
+  "version": "0.0.2",
+  "status": "preAlpha",
+  "path": "./packages/blocks/StripeIntegration",
+  "assembler-adapters": [],
+  "mobile": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "StripeIntegration"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "StripeIntegration": {
+        "file": "StripeIntegration.tsx",
+        "extends": "StripeIntegrationController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "StripeIntegrationController",
+            "path": "./StripeIntegrationController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./StripeIntegrationController"
+          }
+        ]
+      }
+    }
+  },
+  "web": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "StripeIntegration"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "StripeIntegration": {
+        "file": "StripeIntegration.web.tsx",
+        "extends": "StripeIntegrationController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "StripeIntegrationController",
+            "path": "./StripeIntegrationController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./StripeIntegrationController"
+          }
+        ]
+      }
+    }
+  }
+}

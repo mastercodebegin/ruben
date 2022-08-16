@@ -1,0 +1,1083 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostCreation User can add a post 1`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User can delete a post 1`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User can view a post 1`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User can view a post 2`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User navigates to posts 1`] = `
+<SafeAreaView
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <StatusBar
+    animated={false}
+    barStyle="light-content"
+    showHideTransition="fade"
+  />
+  <ScrollViewMock
+    contentContainerStyle={
+      Object {
+        "flexGrow": 1,
+        "justifyContent": "center",
+        "paddingBottom": 18.125,
+      }
+    }
+    keyboardShouldPersistTaps="handled"
+  >
+    <KeyboardAvoidingView
+      enabled={true}
+      keyboardVerticalOffset={0}
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "marginEnd": 18.115942028985508,
+            "marginStart": 18.115942028985508,
+          }
+        }
+      />
+      <Image
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "alignSelf": "center",
+            "borderColor": "black",
+            "borderRadius": 10,
+            "borderWidth": 1,
+            "height": 521.0144927536232,
+            "marginTop": 18.125,
+            "opacity": 0.6,
+            "width": "90%",
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontSize": 36.231884057971016,
+            "fontWeight": "bold",
+            "marginStart": 32.065217391304344,
+            "marginTop": 9.0625,
+          }
+        }
+      >
+        Post Name:
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontSize": 28.985507246376812,
+            "marginStart": 30.253623188405797,
+            "marginTop": 14.5,
+            "textAlign": "left",
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontSize": 36.231884057971016,
+            "fontWeight": "bold",
+            "marginStart": 32.065217391304344,
+            "marginTop": 9.0625,
+          }
+        }
+      >
+        Cost:
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontSize": 28.985507246376812,
+            "marginStart": 30.253623188405797,
+            "marginTop": 14.5,
+            "textAlign": "left",
+          }
+        }
+      >
+        $
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontSize": 36.231884057971016,
+            "fontWeight": "bold",
+            "marginStart": 32.065217391304344,
+            "marginTop": 9.0625,
+          }
+        }
+      >
+        Description:
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontSize": 28.985507246376812,
+            "marginStart": 30.253623188405797,
+            "marginTop": 14.5,
+            "textAlign": "left",
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontSize": 36.231884057971016,
+            "fontWeight": "bold",
+            "marginStart": 32.065217391304344,
+            "marginTop": 9.0625,
+          }
+        }
+      >
+        Post ID:
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontSize": 28.985507246376812,
+            "marginStart": 30.253623188405797,
+            "marginTop": 14.5,
+            "textAlign": "left",
+          }
+        }
+      />
+    </KeyboardAvoidingView>
+  </ScrollViewMock>
+</SafeAreaView>
+`;
+
+exports[`PostCreation User navigates to posts 2`] = `
+<SafeAreaView
+  style={
+    Object {
+      "alignSelf": "center",
+      "flex": 1,
+      "width": "90%",
+    }
+  }
+>
+  <ScrollViewMock>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "marginTop": 10,
+        }
+      }
+      testID="textProductImageUpload"
+    >
+      <Image
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "borderColor": "black",
+            "borderRadius": 90.57971014492753,
+            "borderWidth": 1,
+            "height": 181.15942028985506,
+            "marginBottom": 45.3125,
+            "marginTop": 9.0625,
+            "opacity": 0.6,
+            "width": 181.15942028985506,
+          }
+        }
+      />
+      <Image
+        source={
+          Object {
+            "testUri": "../../../packages/blocks/postcreation/assets/edit.png",
+          }
+        }
+        style={
+          Object {
+            "height": 36.231884057971016,
+            "left": 163.04347826086956,
+            "position": "absolute",
+            "resizeMode": "contain",
+            "top": 163.125,
+            "width": 36.231884057971016,
+          }
+        }
+      />
+    </TouchableOpacity>
+    <Dropdown
+      absoluteRTLLayout={false}
+      animationDuration={225}
+      baseColor="rgba(0, 0, 0, .38)"
+      data={Array []}
+      disabled={false}
+      dropdownMargins={
+        Object {
+          "max": 16,
+          "min": 8,
+        }
+      }
+      dropdownOffset={
+        Object {
+          "left": 0,
+          "top": 32,
+        }
+      }
+      fontSize={16}
+      hitSlop={
+        Object {
+          "bottom": 6,
+          "left": 4,
+          "right": 4,
+          "top": 6,
+        }
+      }
+      itemColor="rgba(0, 0, 0, .54)"
+      itemCount={4}
+      itemPadding={8}
+      label="Category"
+      labelExtractor={[Function]}
+      onChangeText={[Function]}
+      propsExtractor={[Function]}
+      rippleCentered={false}
+      rippleDuration={400}
+      rippleInsets={
+        Object {
+          "bottom": -8,
+          "left": 0,
+          "right": 0,
+          "top": 16,
+        }
+      }
+      rippleOpacity={0.54}
+      rippleSequential={true}
+      shadeOpacity={0.12}
+      supportedOrientations={
+        Array [
+          "portrait",
+          "portrait-upside-down",
+          "landscape",
+          "landscape-left",
+          "landscape-right",
+        ]
+      }
+      testID="textProductCategory"
+      textColor="rgba(0, 0, 0, .87)"
+      useNativeDriver={false}
+      value=""
+      valueExtractor={[Function]}
+    />
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      placeholder="Product Name"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0.3,
+            "borderColor": "grey",
+            "borderWidth": 1,
+            "color": "black",
+            "fontSize": 30.253623188405797,
+            "height": 90.625,
+            "margin": 5.434782608695652,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+          },
+        ]
+      }
+      testID="textProductName"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <TextInput
+      allowFontScaling={true}
+      multiline={true}
+      numberOfLines={10}
+      onChangeText={[Function]}
+      placeholder="Description"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0.3,
+            "borderColor": "grey",
+            "borderWidth": 1,
+            "color": "black",
+            "fontSize": 30.253623188405797,
+            "height": 145,
+            "margin": 5.434782608695652,
+            "marginTop": 9.0625,
+            "padding": 10,
+          },
+        ]
+      }
+      testID="textProductDiscripation"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <TextInput
+      allowFontScaling={true}
+      keyboardType="numeric"
+      onChangeText={[Function]}
+      placeholder="Price"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0.3,
+            "borderColor": "grey",
+            "borderWidth": 1,
+            "color": "black",
+            "fontSize": 30.253623188405797,
+            "height": 90.625,
+            "margin": 5.434782608695652,
+            "paddingLeft": 10,
+            "paddingRight": 10,
+          },
+        ]
+      }
+      testID="textProductPrice"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#366ef9",
+            "borderRadius": 22,
+            "height": 90.57971014492753,
+            "justifyContent": "center",
+            "marginTop": 36.25,
+          },
+        ]
+      }
+      testID="clickCreatePostButton"
+    >
+      <Text
+        style={
+          Object {
+            "color": "white",
+          }
+        }
+      >
+        Create Post
+      </Text>
+    </TouchableOpacity>
+  </ScrollViewMock>
+</SafeAreaView>
+`;
+
+exports[`PostCreation User navigates to posts 3`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={Array []}
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User navigates to posts 4`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={
+        Array [
+          Object {
+            "data": Object {
+              "attributes": Object {
+                "category": Object {
+                  "data": Object {
+                    "attributes": Object {
+                      "id": 4,
+                      "name": "Cat3",
+                      "sub_categories": Array [],
+                    },
+                    "id": "4",
+                    "type": "category",
+                  },
+                },
+                "created_at": "2021-01-28T09:29:00.732Z",
+                "currency": "$",
+                "description": "Test3267",
+                "id": 105,
+                "name": "Test1",
+                "price": 98,
+                "product_image": "https://sicemefullbuild-28456-ruby.28456.dev.ap-southeast-1.aws.svc.builder.ai/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWkk9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fa5f1697bfb69e848d2bfe42aa0edef781b5f456/EFB1D7FD-0CA6-435D-9889-9CC897189A1C.jpg",
+                "sub_category": Object {
+                  "data": null,
+                },
+                "updated_at": "2021-01-28T09:29:00.737Z",
+              },
+              "id": "105",
+              "type": "post",
+            },
+          },
+        ]
+      }
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [
+            Object {
+              "data": Object {
+                "attributes": Object {
+                  "category": Object {
+                    "data": Object {
+                      "attributes": Object {
+                        "id": 4,
+                        "name": "Cat3",
+                        "sub_categories": Array [],
+                      },
+                      "id": "4",
+                      "type": "category",
+                    },
+                  },
+                  "created_at": "2021-01-28T09:29:00.732Z",
+                  "currency": "$",
+                  "description": "Test3267",
+                  "id": 105,
+                  "name": "Test1",
+                  "price": 98,
+                  "product_image": "https://sicemefullbuild-28456-ruby.28456.dev.ap-southeast-1.aws.svc.builder.ai/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWkk9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fa5f1697bfb69e848d2bfe42aa0edef781b5f456/EFB1D7FD-0CA6-435D-9889-9CC897189A1C.jpg",
+                  "sub_category": Object {
+                    "data": null,
+                  },
+                  "updated_at": "2021-01-28T09:29:00.737Z",
+                },
+                "id": "105",
+                "type": "post",
+              },
+            },
+          ],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`PostCreation User navigates to posts 5`] = `
+<ScrollViewMock
+  keyboardShouldPersistTaps="always"
+  style={
+    Object {
+      "backgroundColor": "#f7f7f7",
+      "flex": 1,
+      "marginLeft": "auto",
+      "marginRight": "auto",
+      "maxWidth": 650,
+      "padding": 16,
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#6200EE",
+        "borderRadius": 20,
+        "height": 90.57971014492753,
+        "marginBottom": 27.1875,
+        "width": "100%",
+      }
+    }
+    testID="clickAddPostCreation"
+  >
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "color": "white",
+          "fontSize": 36.231884057971016,
+          "marginTop": 18.125,
+        }
+      }
+    >
+      Add new Post
+    </Text>
+  </TouchableOpacity>
+  <View>
+    <FlatList
+      data={
+        Array [
+          Object {
+            "data": Object {
+              "attributes": Object {
+                "category": Object {
+                  "data": Object {
+                    "attributes": Object {
+                      "id": 4,
+                      "name": "Cat3",
+                      "sub_categories": Array [],
+                    },
+                    "id": "4",
+                    "type": "category",
+                  },
+                },
+                "created_at": "2021-01-28T09:29:00.732Z",
+                "currency": "$",
+                "description": "Test3267",
+                "id": 105,
+                "name": "Test1",
+                "price": 98,
+                "product_image": "https://sicemefullbuild-28456-ruby.28456.dev.ap-southeast-1.aws.svc.builder.ai/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWkk9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fa5f1697bfb69e848d2bfe42aa0edef781b5f456/EFB1D7FD-0CA6-435D-9889-9CC897189A1C.jpg",
+                "sub_category": Object {
+                  "data": null,
+                },
+                "updated_at": "2021-01-28T09:29:00.737Z",
+              },
+              "id": "105",
+              "type": "post",
+            },
+          },
+        ]
+      }
+      disableVirtualization={false}
+      extraData={
+        Object {
+          "AllCategory": Array [],
+          "PostData": Array [
+            Object {
+              "data": Object {
+                "attributes": Object {
+                  "category": Object {
+                    "data": Object {
+                      "attributes": Object {
+                        "id": 4,
+                        "name": "Cat3",
+                        "sub_categories": Array [],
+                      },
+                      "id": "4",
+                      "type": "category",
+                    },
+                  },
+                  "created_at": "2021-01-28T09:29:00.732Z",
+                  "currency": "$",
+                  "description": "Test3267",
+                  "id": 105,
+                  "name": "Test1",
+                  "price": 98,
+                  "product_image": "https://sicemefullbuild-28456-ruby.28456.dev.ap-southeast-1.aws.svc.builder.ai/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWkk9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fa5f1697bfb69e848d2bfe42aa0edef781b5f456/EFB1D7FD-0CA6-435D-9889-9CC897189A1C.jpg",
+                  "sub_category": Object {
+                    "data": null,
+                  },
+                  "updated_at": "2021-01-28T09:29:00.737Z",
+                },
+                "id": "105",
+                "type": "post",
+              },
+            },
+          ],
+          "allCategories": Array [],
+          "category_id": "",
+          "currency": "$",
+          "description": "",
+          "file": "",
+          "id": "",
+          "image": "",
+          "name": "",
+          "price": "",
+          "profileImageData": Object {},
+          "refresh": false,
+          "selectedCategory": "",
+          "token": "",
+          "uploadedImages": Array [],
+        }
+      }
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </View>
+</ScrollViewMock>
+`;

@@ -1,0 +1,17 @@
+{
+  "bds": {
+    "name": "ordermanagement",
+    "id": "ordermanagement",
+    "platform": [
+      "desktop",
+      "mobile"
+    ],
+    "author": "CMT",
+    "summary": null,
+    "license": "BSD",
+    "version": "1.0.1",
+    "pages": [
+      {}
+    ]
+  }
+}

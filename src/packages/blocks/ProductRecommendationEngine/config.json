@@ -1,0 +1,65 @@
+{
+  "id": "ProductRecommendationEngine",
+  "version": "0.0.2",
+  "status": "preAlpha",
+  "path": "./packages/blocks/ProductRecommendationEngine",
+  "assembler-adapters": [],
+  "mobile": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "ProductRecommendationEngine"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "ProductRecommendationEngine": {
+        "file": "ProductRecommendationEngine.tsx",
+        "extends": "ProductRecommendationEngineController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "ProductRecommendationEngineController",
+            "path": "./ProductRecommendationEngineController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./ProductRecommendationEngineController"
+          }
+        ]
+      }
+    }
+  },
+  "web": {
+    "merge-engine-navigation": {},
+    "assembler-exports": [
+      "ProductRecommendationEngine"
+    ],
+    "assembler-dependencies": [],
+    "catalog-dependencies": [
+      "core",
+      "utilities"
+    ],
+    "assembler-devDependencies": [],
+    "merge-engine-screens": {
+      "ProductRecommendationEngine": {
+        "file": "ProductRecommendationEngine.web.tsx",
+        "extends": "ProductRecommendationEngineController",
+        "ui-elements": [],
+        "imports": [
+          {
+            "value": "ProductRecommendationEngineController",
+            "path": "./ProductRecommendationEngineController"
+          },
+          {
+            "value": "{Props}",
+            "path": "./ProductRecommendationEngineController"
+          }
+        ]
+      }
+    }
+  }
+}
