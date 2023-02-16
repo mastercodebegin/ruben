@@ -17,6 +17,7 @@ import {
   shareIcon,
   blogpostimage,
 } from "./assets";
+import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 
 // Customizable Area End
@@ -44,6 +45,7 @@ export default class LandingPage extends LandingPageController {
     return (
       <SafeAreaView style={styles.mainContainer}>
         {/* Customizable Area Start */}
+        <View style={{flex:1}}>
         <ScrollView
           contentContainerStyle={styles.container}
           showsVerticalScrollIndicator={false}
@@ -108,6 +110,9 @@ export default class LandingPage extends LandingPageController {
           </View>
         </ScrollView>
         <CartDetails/>
+        </View>
+        <BottomTab navigation={this.props.navigation} tabName={'Home'}/>
+        {/* Customizable Area End */}
       </SafeAreaView>
     );
   }
