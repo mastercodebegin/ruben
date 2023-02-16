@@ -1,0 +1,15 @@
+export const SEARCH = require("../assets/search.png");
+export const EXPLORE_BTN = require("../assets/exploreBtn.png");
+export const CHICKEN = require("../assets/chicken.png");
+export const PORK = require("../assets/pork.png");
+export const MEAT_IMAGE1 = require("../assets/meatimage1.jpg");
+export const MEAT_IMAGE2 = require("../assets/meatimage3.jpg");
+export const MEAT_IMAGE3 = require("../assets/meatimage3.jpg");
+export const CART = require("../assets/cart.png");
+export const badge = require("../assets/batge.png");
+export const RATING = require("../assets/rating.png");
+export const homeBackground = require("../assets/homeBackground.png");
+export const splashScreenImage = require("../assets/applogo.png");
+export const sampleProfile = require("../assets/sampleProfile.png");
+export const shareIcon = require("../assets/shareIcon.png");
+export const blogpostimage = require("../assets/blogpostimage.png");
