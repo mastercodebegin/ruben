@@ -14,7 +14,7 @@
         "../../node_modules/@types"
       ]
     },
-    "include": ["../../blocks/**/src/**/*", "../../framework/src/**/*", "../../components/src/**/*"],
+    "include": ["../../blocks/**/src/**/*", "../../framework/src/**/*", "../../components/src/**/*", "src/assets.tsx"],
     "exclude": [
         "__tests__",
         "node_modules",

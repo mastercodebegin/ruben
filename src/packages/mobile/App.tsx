@@ -63,11 +63,12 @@ import Onboardingguide from "../blocks/onboardingguide/src/Onboardingguide";
 import EmailAccountLoginBlock from "../blocks/email-account-login/src/EmailAccountLoginBlock";
 import LandingPage from "../blocks/landingpage/src/LandingPage";
 import Search from "../blocks/search/src/Search";
-
-
+import MeatLocker from '../components/src/MeatLocker';
+import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage'
 const HomeStack = createStackNavigator({
-Home: { screen: Contactus, navigationOptions: { header: null, title: "Home" } },
+Home: { screen: Splashscreen, navigationOptions: { header: null, title: "Splashscreen" } },
 MeatTypeMap:{ screen:MeatTypeMap,navigationOptions:{ title:"MeatTypeMap"}},
+ExplorePage:{ screen:ExplorePage,navigationOptions:{ header: null,title:"ExplorePage"}},
 VisualAnalytics:{ screen:VisualAnalytics,navigationOptions:{ title:"VisualAnalytics"}},
 CustomisableUserProfiles:{ screen:CustomisableUserProfiles,navigationOptions:{ title:"CustomisableUserProfiles"}},
 VideoLibrary:{ screen:VideoLibrary,navigationOptions:{ title:"VideoLibrary"}},
@@ -122,7 +123,7 @@ Splashscreen:{ screen:Splashscreen,navigationOptions:{ title:"Splashscreen"}},
 TargetedFeed:{ screen:TargetedFeed,navigationOptions:{ title:"TargetedFeed"}},
 Onboardingguide:{ screen:Onboardingguide,navigationOptions:{ title:"Onboardingguide"}},
 EmailAccountLoginBlock:{ screen:EmailAccountLoginBlock,navigationOptions:{ title:"EmailAccountLoginBlock"}},
-LandingPage:{ screen:LandingPage,navigationOptions:{ title:"LandingPage"}},
+LandingPage:{ screen:LandingPage,navigationOptions:{ title:"LandingPage",header:null}},
 Search:{ screen:Search,navigationOptions:{ title:"Search"}},
 
   InfoPage: { screen: InfoPage, navigationOptions: { title: "Info" } }, 
@@ -138,6 +139,6 @@ if (!HomeScreen.instance) {
 
 export function App() {
   return (
-    <HomeStack />
+    <HomeStack/>
   );
 };
