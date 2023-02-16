@@ -140,7 +140,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        manifestPlaceholders = [pdftronLicenseKey:PDFTRON_LICENSE_KEY]
+        // manifestPlaceholders = [pdftronLicenseKey:PDFTRON_LICENSE_KEY]
 
     }
     splits {
@@ -222,9 +222,9 @@ dependencies {
     }
 
     //Manual Link Modules
-    implementation project(':react-native-webview')
-    implementation project(':react-native-image-picker')
-    implementation project(':react-native-image-crop-picker')
+    //implementation project(':react-native-webview')
+    //implementation project(':react-native-image-picker')
+    // implementation project(':react-native-image-crop-picker')
     compile project(':react-native-android-location-enabler')
     implementation(project(':react-native-geolocation-service')) {
         exclude group: 'com.google.android.gms', module: 'play-services-location'
@@ -266,7 +266,7 @@ dependencies {
 
     implementation project(':react-native-view-shot')
     implementation project(':react-native-image-to-pdf')
-    implementation project(':@pdftron_react-native-pdf')
+    // implementation project(':@pdftron_react-native-pdf')
 
 
 }
