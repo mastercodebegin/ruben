@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     marginTop: -40,
     alignItems: "center",
     position: "absolute",
-    bottom: 20,
+    bottom: 7,
     left: 0,
     right: 0,
     marginHorizontal: 20,
