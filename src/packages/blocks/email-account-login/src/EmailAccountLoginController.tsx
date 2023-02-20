@@ -8,6 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
+import { Animated } from "react-native";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -34,6 +35,8 @@ interface S {
   labelRememberMe: string;
   btnTxtSocialLogin: string;
   labelOr: string;
+  animatedValue: any;
+  selectedTab: boolean;
   // Customizable Area End
 }
 
@@ -80,6 +83,8 @@ export default class EmailAccountLoginController extends BlockComponent<
       labelRememberMe: configJSON.labelRememberMe,
       btnTxtSocialLogin: configJSON.btnTxtSocialLogin,
       labelOr: configJSON.labelOr,
+      animatedValue: new Animated.Value(0),
+      selectedTab: true,
     };
 
     this.emailReg = new RegExp("");
