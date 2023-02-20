@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, ScrollView, ScrollViewBase, FlatList, Dimensions, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, ScrollView, ScrollViewBase, FlatList, Dimensions, ImageBackground, SafeAreaView } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import {
@@ -20,6 +20,7 @@ import {
     badge,
     RATING
 } from "../assets";
+import BottomTab from "../BottomTab/BottomTab";
 const scrollerData = [{ name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }, { name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }, { name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }];
 const list_data = [{ name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }, { name: 'Meat Dish1', price: '22.99', image: MEAT_IMAGE2 }, { name: 'Meat Dish2', price: '22.99', image: MEAT_IMAGE3 }, { name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }]
 const deviceWidth = Dimensions.get('window').width
@@ -41,7 +42,7 @@ export default class ExplorePage extends LandingPageController {
                                 </View>)
                                 : <Text style={styles.offer}>{'-10% off'}</Text>}
                             <TouchableOpacity style={styles.badgeContainer}>
-                                <Image style={styles.badge} source={badge} />
+                                <Image resizeMode="contain" style={styles.badge} source={badge} />
                             </TouchableOpacity>
                         </View>
                     </ImageBackground>
@@ -62,7 +63,7 @@ export default class ExplorePage extends LandingPageController {
                 <View>
                     <View style={styles.itemHeader}>
                         <Text style={styles.itemCategory}>PORK</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{}}>
                             <Text style={styles.seeAll}>{'SEE ALL >'}</Text>
                         </TouchableOpacity>
                     </View>
@@ -76,8 +77,9 @@ export default class ExplorePage extends LandingPageController {
             )
         }
         return (
+            <SafeAreaView style={{flex:1}}>
             <View style={{flex:1}}>
-            <ScrollView style={styles.main}>
+            <ScrollView contentContainerStyle={{paddingBottom:80}} style={styles.main}>
                 <View style={styles.innerContainer}>
                     <View style={{ paddingHorizontal: 20, }}>
                         <Text style={styles.header}>Store</Text>
@@ -116,6 +118,8 @@ export default class ExplorePage extends LandingPageController {
             </ScrollView>
             <CartDetails/>
             </View>
+            <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
+            </SafeAreaView>
         );
     }
 }
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         flex: 1,
         paddingLeft: 10,
-        color: "red",
+        color: "black",
         borderRadius: 22,
     },
     textInputContainer: {
