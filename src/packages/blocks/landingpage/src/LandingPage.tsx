@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   imageBgr: { paddingHorizontal: 20 },
-  container: { flexGrow: 1 },
+  container: { flexGrow: 1,paddingBottom:90 },
   explorebtn: { alignSelf: "flex-start", marginVertical: 20 },
 });
 // Customizable Area End

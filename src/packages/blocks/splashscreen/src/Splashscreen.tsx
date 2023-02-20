@@ -24,7 +24,7 @@ export default class Splashscreen extends SplashscreenController {
 
   // Customizable Area Start
   onPressContinue = () => {
-    this.props.navigation.navigate("LandingPage");
+    this.props.navigation.navigate("EmailAccountLoginBlock");
   };
   // Customizable Area End
 

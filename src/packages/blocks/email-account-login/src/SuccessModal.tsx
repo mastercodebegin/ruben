@@ -25,7 +25,7 @@ const SuccessModal = ({
   const onpressContinue = () => {
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: "LandingPage" })],
+      actions: [NavigationActions.navigate({ routeName: "MeatLocker" })],
     });
     navigation.dispatch(resetAction);
   };

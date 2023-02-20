@@ -1,20 +1,25 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from "react-native";
-import { redShadow } from "../../components/src";
-const MeatLocker = () => {
-  const onPressContinue = () => {};
+import { View, StyleSheet, Text, ScrollView, Image } from "react-native";
+import Button from "./CustomButton";
+//@ts-ignore
+import { NavigationActions, StackActions } from "react-navigation";
+
+const meatImage1 = require("./meatimage@1.jpg");
+const meatImage2 = require("./meatimage@2.jpg");
+const meatImage3 = require("./meatimage@3.jpg");
+interface MeatLockerTypes {
+  navigation: any;
+}
+const MeatLocker = ({ navigation }: MeatLockerTypes) => {
+  const onPressContinue = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "LandingPage" })],
+    });
+    navigation.dispatch(resetAction);
+  };
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: "#F8F4F4" }}
-    >
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.main}>
         <Text style={styles.header}>What is the</Text>
         <Text style={styles.header}>Meat Locker?</Text>
@@ -35,23 +40,23 @@ const MeatLocker = () => {
           It's extremely important to have this agreement if you operate a SaaS
           app.
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            height: 120,
-            marginTop: 25,
-          }}
-        >
-          <View style={{ backgroundColor: "red", ...styles.images }} />
-          <View style={{ backgroundColor: "blue", ...styles.images }} />
-          <View style={{ backgroundColor: "yellow", ...styles.images }} />
+        <View style={styles.imageContainer}>
+          <View style={styles.images}>
+            <Image style={styles.meatImage} source={meatImage1} />
+          </View>
+          <View style={styles.images}>
+            <Image style={styles.meatImage} source={meatImage2} />
+          </View>
+          <View style={styles.images}>
+            <Image style={styles.meatImage} source={meatImage3} />
+          </View>
         </View>
+        <Button
+          style={{ marginTop: 30 }}
+          label={"Continue"}
+          onPress={onPressContinue}
+        />
       </View>
-
-      <TouchableOpacity onPress={onPressContinue} style={styles.continue}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
-      <Image resizeMode="stretch" source={redShadow} style={styles.shadow} />
     </ScrollView>
   );
 };
@@ -70,26 +75,24 @@ const styles = StyleSheet.create({
     color: "#5C2221",
   },
   text: {
-    fontSize: 20,
+    fontSize: 17,
     paddingVertical: 10,
     color: "#8D7D75",
   },
-  continue: {
-    borderRadius: 28,
-    marginHorizontal: 10,
-    alignItems: "center",
-    backgroundColor: "#a0272a",
-  },
   shadow: { height: 50 },
-  continueText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 24,
-    paddingVertical: 15,
-  },
   images: {
     flex: 1,
     marginHorizontal: 5,
+  },
+  imageContainer: {
+    flexDirection: "row",
+    height: 120,
+    marginTop: 25,
+  },
+  meatImage: {
+    height: "100%",
+    width: "100%",
     borderRadius: 20,
   },
+  container: { flexGrow: 1, backgroundColor: "#F8F4F4" },
 });

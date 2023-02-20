@@ -65,8 +65,10 @@ import LandingPage from "../blocks/landingpage/src/LandingPage";
 import Search from "../blocks/search/src/Search";
 import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage'
+import { View } from 'react-native';
 const HomeStack = createStackNavigator({
 Home: { screen: Splashscreen, navigationOptions: { header: null, title: "Splashscreen" } },
+MeatLocker:{screen : MeatLocker ,navigationOptions: { header: null, title: "MeatLocker" }},
 MeatTypeMap:{ screen:MeatTypeMap,navigationOptions:{ title:"MeatTypeMap"}},
 ExplorePage:{ screen:ExplorePage,navigationOptions:{ header: null,title:"ExplorePage"}},
 VisualAnalytics:{ screen:VisualAnalytics,navigationOptions:{ title:"VisualAnalytics"}},
@@ -122,7 +124,7 @@ EmailAccountRegistration:{ screen:EmailAccountRegistration,navigationOptions:{ t
 Splashscreen:{ screen:Splashscreen,navigationOptions:{ title:"Splashscreen"}},
 TargetedFeed:{ screen:TargetedFeed,navigationOptions:{ title:"TargetedFeed"}},
 Onboardingguide:{ screen:Onboardingguide,navigationOptions:{ title:"Onboardingguide"}},
-EmailAccountLoginBlock:{ screen:EmailAccountLoginBlock,navigationOptions:{ title:"EmailAccountLoginBlock"}},
+EmailAccountLoginBlock:{ screen:EmailAccountLoginBlock,navigationOptions:{ title:"EmailAccountLoginBlock",header:null}},
 LandingPage:{ screen:LandingPage,navigationOptions:{ title:"LandingPage",header:null}},
 Search:{ screen:Search,navigationOptions:{ title:"Search"}},
 
@@ -139,6 +141,8 @@ if (!HomeScreen.instance) {
 
 export function App() {
   return (
+    <View style={{flex:1}}>
     <HomeStack/>
+    </View>
   );
 };
