@@ -17,45 +17,54 @@ import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class UpdateProfileModal extends LandingPageController {
-  onpressContinue() {
-     AsyncStorage.getItem('userDetails').then((usrDetails)=>{
-      const data:any = JSON.parse(usrDetails)
-      var myHeaders = new Headers();
-    myHeaders.append(
-      "token",
-      data?.meta?.token
-    );
-    var formdata = new FormData();
-    formdata.append("photo", this.state.profileImage, "user-square.png");
-    formdata.append("full_name", this.state.name);
-    formdata.append("email_address", this.state.email);
-    formdata.append("about_me", this.state.about_me);
-    formdata.append("instagram_link", this.state.instagram_link);
-    formdata.append("whatsapp_link", this.state.whatsapp_link);
-    formdata.append("facebook_link", this.state.facebook_link);
-    formdata.append("phone_number", this.state.phone_number);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => {console.log(result)
-      alert('success')})
-      .catch((error) => {console.log("error", error)
-    alert('error')
-    });
-    })
-    
-  }
   render() {
+    const onpressContinue = ()=> {      
+       AsyncStorage.getItem('userDetails').then((usrDetails:any)=>{
+        const data:any = JSON.parse(usrDetails)
+        console.log('usrDetails ',usrDetails
+        );
+        
+        var myHeaders = new Headers();
+      myHeaders.append(
+        "token",
+        data?.meta?.token
+      );
+      var formdata = new FormData();
+      formdata.append("photo", this.state.profileImage, "user-square.png");
+      formdata.append('photo', {
+        uri: this.state.profileImage,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
+      formdata.append("full_name", this.state.name);
+      formdata.append("email_address", this.state.email);
+      formdata.append("about_me", this.state.about_me);
+      formdata.append("instagram_link", this.state.instagram_link);
+      formdata.append("whatsapp_link", this.state.whatsapp_link);
+      formdata.append("facebook_link", this.state.facebook_link);
+      formdata.append("phone_number", this.state.phone_number);
+  
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow",
+      };
+  
+      fetch(
+        "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => {console.log(result)
+        alert('success')})
+        .catch((error) => {console.log("error", error)
+      alert('error')
+      });
+      })
+      
+    }
     const opencamera = () => {
       console.log("called");
 
@@ -189,7 +198,7 @@ export default class UpdateProfileModal extends LandingPageController {
 
                 <Button
                   style={{ marginTop: 20 }}
-                  onPress={this.onpressContinue}
+                  onPress={onpressContinue}
                   label={"Save Details"}
                 />
               </ScrollView>
