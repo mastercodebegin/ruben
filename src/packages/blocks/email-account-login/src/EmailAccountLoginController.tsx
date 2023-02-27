@@ -8,7 +8,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
-import { Animated } from "react-native";
+import { Alert, Animated } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -37,6 +38,9 @@ interface S {
   labelOr: string;
   animatedValue: any;
   selectedTab: boolean;
+  showModal: boolean;
+  signupEmail: string;
+  signupPassword: string;
   // Customizable Area End
 }
 
@@ -54,8 +58,10 @@ export default class EmailAccountLoginController extends BlockComponent<
   // Customizable Area Start
   apiEmailLoginCallId: string = "";
   validationApiCallId: string = "";
+  apiEmailSignupCallId: string = "";
   emailReg: RegExp;
   labelTitle: string = "";
+  passwordReg: RegExp;
   // Customizable Area End
 
   constructor(props: Props) {
@@ -85,9 +91,15 @@ export default class EmailAccountLoginController extends BlockComponent<
       labelOr: configJSON.labelOr,
       animatedValue: new Animated.Value(0),
       selectedTab: true,
+      showModal: false,
+      signupEmail: "",
+      signupPassword: "",
     };
 
-    this.emailReg = new RegExp("");
+    this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    this.passwordReg = new RegExp(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,15}$/
+    );
     this.labelTitle = configJSON.labelTitle;
     // Customizable Area End
 
@@ -109,6 +121,73 @@ export default class EmailAccountLoginController extends BlockComponent<
   btnEmailLogInProps = {
     onPress: () => this.doEmailLogIn(),
   };
+  resetStack = () => {
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: "LandingPage" }],
+    });
+  };
+  btnSignupPress = {
+    onpress: () => this.doEmailSignup(),
+    resetStack: this.resetStack,
+  };
+
+  doEmailSignup(): boolean {
+    if (!this.passwordReg.test(this.state.signupPassword)) {
+      Alert.alert(
+        "Invalid password",
+        "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
+      );
+      return false;
+    }
+    const header = {
+      "Content-Type": configJSON.loginApiContentType,
+    };
+
+    const attrs = {
+      email: this.state.signupEmail,
+      password: this.state.signupPassword,
+      activated: true,
+    };
+
+    const data = {
+      type: "email_account",
+      attributes: attrs,
+    };
+
+    const httpBody = {
+      data: data,
+    };
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.apiEmailSignupCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.signupAPiEndPoint
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(header)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(httpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.loginAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+    return true;
+  }
 
   btnPasswordShowHideProps = {
     onPress: () => {
@@ -202,74 +281,112 @@ export default class EmailAccountLoginController extends BlockComponent<
   async receive(from: string, message: Message) {
     // Customizable Area Start
 
-    if (getName(MessageEnum.ReciveUserCredentials) === message.id) {
-      const userName = message.getData(getName(MessageEnum.LoginUserName));
+    // if (getName(MessageEnum.ReciveUserCredentials) === message.id) {
+    //   const userName = message.getData(getName(MessageEnum.LoginUserName));
 
-      const password = message.getData(getName(MessageEnum.LoginPassword));
+    //   const password = message.getData(getName(MessageEnum.LoginPassword));
 
-      const countryCode = message.getData(
-        getName(MessageEnum.LoginCountryCode)
-      );
+    //   const countryCode = message.getData(
+    //     getName(MessageEnum.LoginCountryCode)
+    //   );
 
-      if (!countryCode && userName && password) {
-        this.setState({
-          email: userName,
-          password: password,
-          checkedRememberMe: true,
-        });
+    //   if (!countryCode && userName && password) {
+    //     this.setState({
+    //       email: userName,
+    //       password: password,
+    //       checkedRememberMe: true,
+    //     });
 
-        //@ts-ignore
-        this.txtInputEmailProps.value = userName;
+    //     //@ts-ignore
+    //     this.txtInputEmailProps.value = userName;
 
-        //@ts-ignore
-        this.txtInputPasswordProps.value = password;
+    //     //@ts-ignore
+    //     this.txtInputPasswordProps.value = password;
 
-        this.CustomCheckBoxProps.isChecked = true;
-      }
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
-      const apiRequestCallId = message.getData(
-        getName(MessageEnum.RestAPIResponceDataMessage)
-      );
+    //     this.CustomCheckBoxProps.isChecked = true;
+    //   }
+    // } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
+    //   const apiRequestCallId = message.getData(
+    //     getName(MessageEnum.RestAPIResponceDataMessage)
+    //   );
 
-      var responseJson = message.getData(
+    //   var responseJson = message.getData(
+    //     getName(MessageEnum.RestAPIResponceSuccessMessage)
+    //   );
+
+    //   var errorReponse = message.getData(
+    //     getName(MessageEnum.RestAPIResponceErrorMessage)
+    //   );
+
+    //   if (apiRequestCallId != null) {
+    //     if (
+    //       apiRequestCallId === this.validationApiCallId &&
+    //       responseJson !== undefined
+    //     ) {
+    //       var arrayholder = responseJson.data;
+
+    //       if (arrayholder && arrayholder.length !== 0) {
+    //         let regexData = arrayholder[0];
+
+    //         if (regexData && regexData.email_validation_regexp) {
+    //           this.emailReg = new RegExp(regexData.email_validation_regexp);
+    //         }
+    //       }
+    //     }
+
+    //     if (apiRequestCallId === this.apiEmailLoginCallId) {
+    //       if (responseJson && responseJson.meta && responseJson.meta.token) {
+    //         runEngine.unSubscribeFromMessages(this, this.subScribedMessages);
+    //         this.saveLoggedInUserData(responseJson);
+    //         this.sendLoginSuccessMessage();
+    //         this.openInfoPage();
+    //       } else {
+    //         //Check Error Response
+    //         this.parseApiErrorResponse(responseJson);
+    //         this.sendLoginFailMessage();
+    //       }
+
+    //       this.parseApiCatchErrorResponse(errorReponse);
+    //     }
+    //   }
+    // }
+
+    if (getName(MessageEnum.SessionSaveMessage) === message.id) {
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiEmailLoginCallId != null &&
+      this.apiEmailLoginCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      var signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-
-      var errorReponse = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-
-      if (apiRequestCallId != null) {
-        if (
-          apiRequestCallId === this.validationApiCallId &&
-          responseJson !== undefined
-        ) {
-          var arrayholder = responseJson.data;
-
-          if (arrayholder && arrayholder.length !== 0) {
-            let regexData = arrayholder[0];
-
-            if (regexData && regexData.email_validation_regexp) {
-              this.emailReg = new RegExp(regexData.email_validation_regexp);
-            }
-          }
-        }
-
-        if (apiRequestCallId === this.apiEmailLoginCallId) {
-          if (responseJson && responseJson.meta && responseJson.meta.token) {
-            runEngine.unSubscribeFromMessages(this, this.subScribedMessages);
-            this.saveLoggedInUserData(responseJson);
-            this.sendLoginSuccessMessage();
-            this.openInfoPage();
-          } else {
-            //Check Error Response
-            this.parseApiErrorResponse(responseJson);
-            this.sendLoginFailMessage();
-          }
-
-          this.parseApiCatchErrorResponse(errorReponse);
-        }
+      if (signupResponse?.meta?.token) {
+        AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(signupResponse)
+        ).then(() => {
+          this.resetStack();
+        });
+      } else {
+        Alert.alert("Error", signupResponse.errors[0].failed_login);
       }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiEmailSignupCallId != null &&
+      this.apiEmailSignupCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      var newLogged = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      if (newLogged?.meta?.token) {
+        this.setState({ showModal: true });
+      } else {
+        Alert.alert("Error", newLogged.errors[0].account);
+      }
+    } else {
+      runEngine.debugLog("GOIT");
     }
     // Customizable Area End
   }

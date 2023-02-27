@@ -9,26 +9,17 @@ import {
 } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import { close, copy, emoji } from "./assets";
-//@ts-ignore
-import { NavigationActions, StackActions } from "react-navigation";
 
 interface ModalTypes {
   visible: boolean;
   onpressClose: () => void;
-  navigation: any;
+  onpressContinue: () => void;
 }
 const SuccessModal = ({
   visible = false,
   onpressClose,
-  navigation,
+  onpressContinue,
 }: ModalTypes) => {
-  const onpressContinue = () => {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: "MeatLocker" })],
-    });
-    navigation.dispatch(resetAction);
-  };
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={styles.container}>

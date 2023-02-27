@@ -22,7 +22,7 @@ profile_unmarked
 
 type BottomTabType = {
   tabName: String,
-  navigation:object,
+  navigation:any,
 };
 
 const BottomTab = ({ tabName, navigation }: BottomTabType) => {
@@ -33,6 +33,7 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
             <View style={{ alignItems: "center" }}>
               <Image
                 style={styles.icon}
+                resizeMode='contain'
                 source={image}
               />
               {selected && <View style={styles.dot} />}
@@ -44,9 +45,9 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
     <View style={styles.container}>
       {renderIcons(tabName === "Home" ? home_marked :home_unmarked, tabName === "Home",'LandingPage')}
       {renderIcons(tabName === "Explore" ?shop_marked:shop_unmarked, tabName === "Explore",'ExplorePage')}
-      {renderIcons(tabName === "profile"?profile_marked:profile_unmarked, tabName === "profile",tabName)}
-      {renderIcons(tabName === "element"?element_marked:element_unmarked, tabName === "element",tabName)}
-      {renderIcons(tabName === "settings"?settings_marked:settings_unmarked, tabName === "settings",tabName)}
+      {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
+      {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+      {renderIcons(tabName === "Settings"?settings_marked:settings_unmarked, tabName === "Settings",'Settings')}
     </View>
   );
 };

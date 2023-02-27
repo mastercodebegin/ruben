@@ -14,6 +14,7 @@ exports.errorEmailNotValid = "Email not valid.";
 exports.errorPasswordNotValid = "Password not valid.";
 exports.placeHolderEmail = "Email";
 exports.placeHolderPassword = "Password";
+exports.signupAPiEndPoint = "account_block/accounts";
 exports.labelHeader = "The reason we require login";
 exports.btnTxtLogin = "LOG IN";
 exports.labelRememberMe = "Remember me";

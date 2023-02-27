@@ -223,8 +223,8 @@ dependencies {
 
     //Manual Link Modules
     //implementation project(':react-native-webview')
-    //implementation project(':react-native-image-picker')
-    // implementation project(':react-native-image-crop-picker')
+    // implementation project(':react-native-image-picker')
+    implementation project(':react-native-image-crop-picker')
     compile project(':react-native-android-location-enabler')
     implementation(project(':react-native-geolocation-service')) {
         exclude group: 'com.google.android.gms', module: 'play-services-location'
@@ -241,6 +241,10 @@ dependencies {
     implementation project(':react-native-gesture-handler')
 
     implementation project(':react-native-svg')
+  
+    implementation project(':react-native-screens')
+    
+    implementation project(':react-native-safe-area-context')
 
     implementation project(':react-native-share')
 

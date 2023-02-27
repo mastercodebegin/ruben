@@ -149,15 +149,29 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                 <LoginComponent
                   onchangeEmail={onchangeEmail}
                   onchangePassword={onchangePassword}
+                  email={this.state.email}
+                  password={this.state.password}
                   onpressSignup={onpressSignup}
+                  onpressLogin={this.btnEmailLogInProps.onPress}
                   navigation={this.props.navigation}
                 />
               </View>
               <View style={styles.animated}>
                 <SignupComponent
-                  navigation={this.props.navigation}
-                  onchangeEmail={onchangeEmail}
-                  onchangePassword={onchangePassword}
+                  showModal={this.state.showModal}
+                  setShowModal={(value: boolean) =>
+                    this.setState({ showModal: value })
+                  }
+                  onchangeEmail={(email) =>
+                    this.setState({ signupEmail: email })
+                  }
+                  email={this.state.signupEmail}
+                  password={this.state.signupPassword}
+                  onpressSignup={this.btnSignupPress.onpress}
+                  resetStack={this.btnSignupPress.resetStack}
+                  onchangePassword={(pass) =>
+                    this.setState({ signupPassword: pass })
+                  }
                   onPressLogin={onpressLogin}
                 />
               </View>

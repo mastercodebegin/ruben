@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Text, Modal } from "react-native";
+import React from "react";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import TextInput from "../../../components/src/CustomTextInput";
 import SuccessModal from "./SuccessModal";
@@ -7,20 +7,30 @@ interface SignupComponentTypes {
   onPressLogin: () => void;
   onchangePassword: (text: string) => void;
   onchangeEmail: (text: string) => void;
-  navigation: any;
+  onpressSignup: () => void;
+  email: string;
+  password: string;
+  setShowModal: (value: boolean) => void;
+  showModal: boolean;
+  resetStack: () => void;
 }
 const SignupComponent = ({
   onPressLogin,
   onchangeEmail,
   onchangePassword,
-  navigation,
+  onpressSignup,
+  email,
+  password,
+  showModal,
+  setShowModal,
+  resetStack,
 }: SignupComponentTypes) => {
-  const [showModal, setShowModal] = useState(false);
   return (
     <View style={styles.main}>
       <TextInput
         keyBoardtype="email-address"
         onchangeText={onchangeEmail}
+        value={email}
         label="Email Id"
         placeholder="Email Id"
       />
@@ -28,6 +38,7 @@ const SignupComponent = ({
         secureTextEntry
         label="Password"
         keyBoardtype="default"
+        value={password}
         onchangeText={onchangePassword}
         placeholder="Password"
         containerStyle={{ paddingTop: 20 }}
@@ -44,12 +55,7 @@ const SignupComponent = ({
           </Text>
         </View>
       </View>
-      <Button
-        label={"Sign Up"}
-        onPress={() => {
-          setShowModal(true);
-        }}
-      />
+      <Button label={"Sign Up"} onPress={onpressSignup} />
       <View style={styles.createAcc}>
         <Text style={{ fontSize: 17, color: "#8D7D75" }}>
           {"Already have an account? "}
@@ -62,9 +68,10 @@ const SignupComponent = ({
         <SuccessModal
           onpressClose={() => {
             setShowModal(false);
+            resetStack();
           }}
-          navigation={navigation}
-          visible={showModal}
+          onpressContinue={resetStack}
+          visible={true}
         />
       )}
     </View>

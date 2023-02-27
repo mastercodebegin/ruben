@@ -11,10 +11,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
-// import com.imagepicker.ImagePickerPackage;
+import com.reactnative.ivpusic.imagepicker.*;
+//import com.imagepicker.ImagePickerPackage;
 // import com.reactnativecommunity.webview.RNCWebViewPackage;
-// import com.reactnative.ivpusic.imagepicker.*;
 
 import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
@@ -27,6 +26,8 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.horcrux.svg.SvgPackage;
 
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -44,12 +45,14 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here
           // packages.add(new RNCWebViewPackage());
-          // packages.add(new PickerPackage());
-          // packages.add(new ImagePickerPackage());
+           packages.add(new PickerPackage());
+//           packages.add(new ImagePickerPackage());
           packages.add(new RNAndroidLocationEnablerPackage());
           packages.add(new RNFusedLocationPackage());
           packages.add(new SvgPackage());
           packages.add(new RNGestureHandlerPackage());
+          packages.add(new RNScreensPackage());
+          packages.add(new SafeAreaContextPackage());
           return packages;
         }
 

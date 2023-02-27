@@ -19,7 +19,7 @@ import {
 } from "./assets";
 import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
-
+import BlogPostCard from "./BlogPostCard";
 // Customizable Area End
 
 import LandingPageController, {
@@ -36,82 +36,53 @@ export default class LandingPage extends LandingPageController {
 
   // Customizable Area Start
   postCard = () => {};
-  onpressExploreStore=()=>{
-    this.props.navigation.navigate('ExplorePage')
-  }
+  onpressExploreStore = () => {
+    this.props.navigation.navigate("ExplorePage");
+  };
   // Customizable Area End
 
   render() {
     return (
       <SafeAreaView style={styles.mainContainer}>
         {/* Customizable Area Start */}
-        <View style={{flex:1}}>
-        <ScrollView
-          contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.landingPageView}>
-            <ImageBackground
-              style={styles.imageBgr}
-              resizeMode="stretch"
-              source={homeBackground}
-            >
-              <Image
-                style={styles.appLogo}
-                resizeMode="contain"
-                source={splashScreenImage}
-              />
-              <Text style={styles.header}>Back </Text>
-              <Text style={styles.header}>to Nature.</Text>
-              <Text style={styles.description}>
-                The designations employed and the presentation of material in
-                the information product do not simply.
-              </Text>
-              <TouchableOpacity onPress={this.onpressExploreStore} style={styles.explorebtn}>
-                <Text style={styles.exploreBtn}>Explore Store</Text>
-              </TouchableOpacity>
-            </ImageBackground>
-            <View style={styles.blogPostContainer}>
-              <Text style={styles.post}>Blog Posts</Text>
-            </View>
-            <View style={styles.card}>
-              <View style={{ paddingHorizontal: 15 }}>
-                <View style={styles.blogPostHeader}>
-                  <Image
-                    style={styles.profile}
-                    resizeMode="contain"
-                    source={sampleProfile}
-                  />
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>Masool El Toure</Text>
-                    <Text style={styles.time}>5 min ago</Text>
-                  </View>
-                  <TouchableOpacity>
-                    <Image
-                      resizeMode="contain"
-                      style={styles.share}
-                      source={shareIcon}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.blogText} numberOfLines={2}>
-                  The placeholder text used in design when creating content. It
-                  helps designer plan out where the
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.landingPageView}>
+              <ImageBackground
+                style={styles.imageBgr}
+                resizeMode="stretch"
+                source={homeBackground}
+              >
+                <Image
+                  style={styles.appLogo}
+                  resizeMode="contain"
+                  source={splashScreenImage}
+                />
+                <Text style={styles.header}>Back </Text>
+                <Text style={styles.header}>to Nature.</Text>
+                <Text style={styles.description}>
+                  The designations employed and the presentation of material in
+                  the information product do not simply.
                 </Text>
-                <View style={{ flex: 1 }}>
-                  <Image
-                    style={{ width: "100%", borderRadius: 10, height: 200 }}
-                    resizeMode="stretch"
-                    source={blogpostimage}
-                  />
-                </View>
+                <TouchableOpacity
+                  onPress={this.onpressExploreStore}
+                  style={styles.explorebtn}
+                >
+                  <Text style={styles.exploreBtn}>Explore Store</Text>
+                </TouchableOpacity>
+              </ImageBackground>
+              <View style={styles.blogPostContainer}>
+                <Text style={styles.post}>Blog Posts</Text>
               </View>
+              <BlogPostCard item={{ image: blogpostimage }} />
             </View>
-          </View>
-        </ScrollView>
-        <CartDetails/>
+          </ScrollView>
+          <CartDetails />
         </View>
-        <BottomTab navigation={this.props.navigation} tabName={'Home'}/>
+        <BottomTab navigation={this.props.navigation} tabName={"Home"} />
         {/* Customizable Area End */}
       </SafeAreaView>
     );
@@ -126,10 +97,8 @@ const styles = StyleSheet.create({
   exploreBtn: {
     fontSize: 20,
     paddingVertical: 14,
-    backgroundColor: "#a02721",
     color: "white",
     paddingHorizontal: 30,
-    borderRadius: 27,
     marginVertical: 5,
     fontWeight: "700",
   },
@@ -246,7 +215,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   imageBgr: { paddingHorizontal: 20 },
-  container: { flexGrow: 1,paddingBottom:90 },
-  explorebtn: { alignSelf: "flex-start", marginVertical: 20 },
+  container: { flexGrow: 1, paddingBottom: 90 },
+  explorebtn: {
+    alignSelf: "flex-start",
+    marginVertical: 20,
+    backgroundColor: "#a02721",
+    borderRadius: 27,
+  },
 });
 // Customizable Area End

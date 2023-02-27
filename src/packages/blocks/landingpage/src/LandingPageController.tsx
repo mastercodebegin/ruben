@@ -15,11 +15,24 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
+  visible:boolean;
+  setVisibleProfileModal:()=>void
   // Customizable Area End
 }
 
 interface S {
   // Customizable Area Start
+  selectedTab:string
+  showProfileModal:boolean
+  profileImage:string;
+  name:string,
+  email:string,
+  instagram_link:string;
+  whatsapp_link:string;
+  facebook_link:string;
+  phone_number:string;
+  about_me:string;
+
   // Customizable Area End
 }
 
@@ -41,6 +54,16 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      selectedTab:'favorite',
+      showProfileModal:false,
+      profileImage:'',
+      name:'',
+      email:'',
+      instagram_link:'',
+      facebook_link:'',
+      whatsapp_link:'',
+      about_me:'',
+      phone_number:''
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

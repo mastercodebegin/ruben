@@ -11,7 +11,18 @@ interface LoginComponentTypes {
   onchangePassword: (text: string) => void;
   onchangeEmail: (text: string) => void;
   navigation: any;
+  onpressLogin: () => boolean;
+  email: string;
+  password: string;
 }
+const resetStack = (navigation: any) => {
+  const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: "LandingPage" })],
+  });
+  navigation.dispatch(resetAction);
+};
+
 /**
  *
  * @param param0
@@ -22,29 +33,24 @@ const LoginComponent = ({
   onchangePassword,
   onchangeEmail,
   navigation,
+  onpressLogin,
+  email,
+  password,
 }: LoginComponentTypes) => {
-  const resetStack = () => {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: "LandingPage" })],
-    });
-    navigation.dispatch(resetAction);
-  };
-  const onPressLogin = () => {
-    resetStack();
-  };
   return (
     <View style={styles.mainContainer}>
       <TextInput
         keyBoardtype="email-address"
         label="Email Id"
+        value={email}
         onchangeText={onchangeEmail}
         placeholder="Email Id"
       />
       <TextInput
-        secureTextEntry
+        secureTextEntry={true}
         keyBoardtype="default"
         label="Password"
+        value={password}
         onchangeText={onchangePassword}
         placeholder="Password"
         containerStyle={styles.containerStyle}
@@ -60,7 +66,7 @@ const LoginComponent = ({
           <Text style={styles.text}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      <Button label={"Log In"} onPress={onPressLogin} />
+      <Button label={"Log In"} onPress={onpressLogin} />
       <View style={styles.createAcc}>
         <Text style={styles.text}>{"Don't have an account ? "}</Text>
         <TouchableOpacity onPress={onpressSignup}>
