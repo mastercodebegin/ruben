@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Animated,
+  Alert,
 } from "react-native";
 import {
   responsiveHeight,
@@ -86,7 +87,11 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
         duration: 700,
         useNativeDriver: true,
       }).start(() => {
-        this.setState({ selectedTab: true });
+        this.setState({
+          selectedTab: true,
+          signupEmail: "",
+          signupPassword: "",
+        });
       });
     };
     const onpressSignup = () => {
@@ -95,7 +100,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
         duration: 700,
         useNativeDriver: true,
       }).start(() => {
-        this.setState({ selectedTab: false });
+        this.setState({ selectedTab: false, email: "", password: "" });
       });
     };
     return (
@@ -152,7 +157,14 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                   email={this.state.email}
                   password={this.state.password}
                   onpressSignup={onpressSignup}
-                  onpressLogin={this.btnEmailLogInProps.onPress}
+                  onpressLogin={() => {
+                    if (this.state.email === "") {
+                      Alert.alert("Error", "Email is required");
+                      return false;
+                    }
+                    this.btnEmailLogInProps.onPress();
+                    return true;
+                  }}
                   navigation={this.props.navigation}
                 />
               </View>
