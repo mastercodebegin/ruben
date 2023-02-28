@@ -161,6 +161,9 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                     if (this.state.email === "") {
                       Alert.alert("Error", "Email is required");
                       return false;
+                    } else if (this.state.password === "") {
+                      Alert.alert("Error", "Password is required");
+                      return false;
                     }
                     this.btnEmailLogInProps.onPress();
                     return true;
