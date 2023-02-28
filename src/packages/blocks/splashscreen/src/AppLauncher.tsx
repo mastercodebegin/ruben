@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";
-import { splashScreenImage } from "./assets";
+import { splash } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AppLauncher = () => {
@@ -16,7 +16,7 @@ const AppLauncher = () => {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={splashScreenImage}
+          source={splash}
         />
       </View>
     </SafeAreaView>

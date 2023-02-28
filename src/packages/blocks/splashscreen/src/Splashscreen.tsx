@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { splashScreenImage, redShadow } from "./assets";
+import {  redShadow,splash } from "./assets";
 // Customizable Area End
 
 import SplashscreenController, { Props } from "./SplashscreenController";
@@ -34,9 +34,9 @@ export default class Splashscreen extends SplashscreenController {
         {/* Customizable Area Start */}
         <View style={styles.imageContainer}>
           <Image
-            resizeMode="contain"
+            resizeMode="stretch"
             style={styles.image}
-            source={splashScreenImage}
+            source={splash}
           />
         </View>
         <TouchableOpacity
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F4F4",
   },
   image: {
-    height: "45%",
+    height: "50%",
     width: "90%",
   },
   continue: {
