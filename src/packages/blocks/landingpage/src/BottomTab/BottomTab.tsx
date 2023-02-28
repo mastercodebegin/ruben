@@ -60,13 +60,6 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     paddingHorizontal: 20,
     paddingBottom: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.39,
-    shadowRadius: 8.3,
     elevation: 13,
   },
   iconContainer: { flex: 1, justifyContent: "center", alignItems: "center" },

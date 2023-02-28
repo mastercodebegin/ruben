@@ -1,10 +1,8 @@
-import React from "react";
-//
+import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
+import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
-//@ts-ignore
-import { NavigationActions, StackActions } from "react-navigation";
 
 interface LoginComponentTypes {
   onpressSignup: () => void;
@@ -15,13 +13,6 @@ interface LoginComponentTypes {
   email: string;
   password: string;
 }
-const resetStack = (navigation: any) => {
-  const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: "LandingPage" })],
-  });
-  navigation.dispatch(resetAction);
-};
 
 /**
  *
@@ -37,18 +28,24 @@ const LoginComponent = ({
   email,
   password,
 }: LoginComponentTypes) => {
+  const onpressForgotPassword = () => {
+    navigation?.navigate("ForgotPassword");
+  };
+  const [checked, setChecked] = useState(false);
   return (
     <View style={styles.mainContainer}>
       <TextInput
         keyBoardtype="email-address"
-        label="Email Id"
+        label="Email ID"
         value={email}
+        labeStyle={{ color: "grey" }}
         onchangeText={onchangeEmail}
-        placeholder="Email Id"
+        placeholder="Email ID"
       />
       <TextInput
         secureTextEntry={true}
         keyBoardtype="default"
+        labeStyle={{ color: "grey" }}
         label="Password"
         value={password}
         onchangeText={onchangePassword}
@@ -57,12 +54,10 @@ const LoginComponent = ({
       />
       <View style={styles.remeber}>
         <View style={styles.remeberMe}>
-          <TouchableOpacity style={styles.checkBox}>
-            <View style={styles.dot} />
-          </TouchableOpacity>
+          <CheckBox checked={checked} setChecked={setChecked} />
           <Text style={styles.rememberText}>Remember Me</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onpressForgotPassword}>
           <Text style={styles.text}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
@@ -77,12 +72,6 @@ const LoginComponent = ({
   );
 };
 const styles = StyleSheet.create({
-  dot: {
-    backgroundColor: "#A0272A",
-    height: 9,
-    width: 9,
-    borderRadius: 4.5,
-  },
   containerStyle: { paddingTop: 20 },
   createAcc: {
     flexDirection: "row",
@@ -96,14 +85,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   text: { fontSize: 17, color: "#8D7D75" },
-  checkBox: {
-    height: 18,
-    width: 18,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 9,
-  },
   header: {
     fontSize: 22,
     fontWeight: "bold",

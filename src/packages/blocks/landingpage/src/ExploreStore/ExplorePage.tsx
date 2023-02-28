@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: "black",
         borderRadius: 22,
-        paddingVertical:Platform.OS === 'ios'? 15:0
+        paddingVertical:Platform.OS === 'ios'? 15:undefined
     },
     textInputContainer: {
         flexDirection: "row",

@@ -41,6 +41,7 @@ interface S {
   showModal: boolean;
   signupEmail: string;
   signupPassword: string;
+  showLoader: boolean;
   // Customizable Area End
 }
 
@@ -94,6 +95,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       showModal: false,
       signupEmail: "",
       signupPassword: "",
+      showLoader: false,
     };
 
     this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -121,10 +123,10 @@ export default class EmailAccountLoginController extends BlockComponent<
   btnEmailLogInProps = {
     onPress: () => this.doEmailLogIn(),
   };
-  resetStack = () => {
+  resetStack = (screen: string) => {
     this.props.navigation.reset({
       index: 0,
-      routes: [{ name: "LandingPage" }],
+      routes: [{ name: screen }],
     });
   };
   btnSignupPress = {
@@ -366,7 +368,7 @@ export default class EmailAccountLoginController extends BlockComponent<
           "userDetails",
           JSON.stringify(signupResponse)
         ).then(() => {
-          this.resetStack();
+          this.resetStack("LandingPage");
         });
       } else {
         Alert.alert("Error", signupResponse.errors[0].failed_login);
@@ -381,7 +383,11 @@ export default class EmailAccountLoginController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       if (newLogged?.meta?.token) {
-        this.setState({ showModal: true });
+        AsyncStorage.setItem("userDetails", JSON.stringify(newLogged)).then(
+          () => {
+            this.setState({ showModal: true });
+          }
+        );
       } else {
         Alert.alert("Error", newLogged.errors[0].account);
       }

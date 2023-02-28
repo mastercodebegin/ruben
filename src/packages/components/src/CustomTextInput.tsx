@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     color: "black",
     flex: 1,
     paddingVertical: Platform.OS === "ios" ? 20 : undefined,
+    fontFamily:'Gilroy-Bold',
+    fontSize:17
   },
 
   label: {

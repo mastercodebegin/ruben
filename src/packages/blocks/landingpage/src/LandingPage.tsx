@@ -103,14 +103,15 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   header: {
-    fontWeight: "700",
-    fontSize: 24,
+    fontSize: 30,
     color: "#5C2221",
+    fontFamily:'Gilroy-Heavy'
   },
   description: {
     color: "#8D7D75",
     fontSize: 19,
     width: "70%",
+    marginTop:10
   },
   landingPageText: {
     fontSize: 42,

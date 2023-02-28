@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  ActivityIndicator,
+  Text,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
@@ -17,13 +19,42 @@ import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class UpdateProfileModal extends LandingPageController {
+  showAlert(message:string){
+    Alert.alert('Alert',message)
+  }
 
   render() {
-    const onpressContinue = ()=> {      
+    const onpressContinue = ()=> {   
+      if(this.state.profileImage === ''){
+        this.showAlert('Please select your profile picture ')
+        return
+      } 
+      else if(this.state.name === ''){
+        this.showAlert('Name can not be blank')
+        return
+      }else if (this.state.email === ''){
+        this.showAlert('Email can not be blank')
+        return
+      }
+      else if (this.state.phone_number === ''){
+        this.showAlert('please provide your phone number')
+        return
+      }else if (this.state.about_me === ''){
+        this.showAlert('please provide information about you')
+        return
+      }else if (this.state.instagram_link === ''){
+        this.showAlert('please provide your Instagram link')
+        return
+      }else if (this.state.whatsapp_link === ''){
+        this.showAlert('please provide your WhatsApp link')
+        return
+      }else if (this.state.facebook_link === ''){
+        this.showAlert('please provide your Facebook link')
+        return
+      }
+      this.setState({show_loader:true})  
        AsyncStorage.getItem('userDetails').then((usrDetails:any)=>{
         const data:any = JSON.parse(usrDetails)
-        console.log('usrDetails ',usrDetails
-        );
         
         var myHeaders = new Headers();
       myHeaders.append(
@@ -56,18 +87,14 @@ export default class UpdateProfileModal extends LandingPageController {
         "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles",
         requestOptions
       )
-        .then((response) => response.text())
-        .then((result) => {console.log(result)
-        alert('success')})
-        .catch((error) => {console.log("error", error)
-      alert('error')
+        .then((response) => console.log('response == >/ ',response.status))
+        .finally(()=>{
+        this.setState({show_loader:false})
       });
       })
       
     }
     const opencamera = () => {
-      console.log("called");
-
       ImagePicker.openCamera({
         cropping: false,
       }).then((image) => {
@@ -204,12 +231,21 @@ export default class UpdateProfileModal extends LandingPageController {
               </ScrollView>
             </View>
           </View>
+          {this.state.show_loader && <View style={styles.loader}>
+            <View>
+            <ActivityIndicator size={'large'}/>
+            <Text>Loading...</Text>
+            </View>
+          </View>}
         </View>
       </Modal>
     );
   }
 }
 const styles = StyleSheet.create({
+
+  //@ts-ignore
+  loader:{...StyleSheet.absoluteFill,justifyContent:'center',alignItems:'center',zIndex:100},
   editIcon: { height: 30, width: 35, tintColor: "white" },
   blurr: {
     position: "absolute",

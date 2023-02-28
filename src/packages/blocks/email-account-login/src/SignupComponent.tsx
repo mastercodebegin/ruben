@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
+import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
 import SuccessModal from "./SuccessModal";
 interface SignupComponentTypes {
@@ -12,7 +13,7 @@ interface SignupComponentTypes {
   password: string;
   setShowModal: (value: boolean) => void;
   showModal: boolean;
-  resetStack: () => void;
+  resetStack: (screen: string) => void;
 }
 const SignupComponent = ({
   onPressLogin,
@@ -25,14 +26,15 @@ const SignupComponent = ({
   setShowModal,
   resetStack,
 }: SignupComponentTypes) => {
+  const [checked, setChecked] = useState(false);
   return (
     <View style={styles.main}>
       <TextInput
         keyBoardtype="email-address"
         onchangeText={onchangeEmail}
         value={email}
-        label="Email Id"
-        placeholder="Email Id"
+        label="Email ID"
+        placeholder="Email ID"
       />
       <TextInput
         secureTextEntry
@@ -45,9 +47,7 @@ const SignupComponent = ({
       />
       <View style={styles.remeber}>
         <View style={styles.remeberMe}>
-          <TouchableOpacity style={styles.checkBox}>
-            <View style={styles.dot} />
-          </TouchableOpacity>
+          <CheckBox checked={checked} setChecked={setChecked} />
           <Text style={styles.rememberText}>
             {
               "By clicking you're agreeing to follow Newsletters and Information"
@@ -68,9 +68,9 @@ const SignupComponent = ({
         <SuccessModal
           onpressClose={() => {
             setShowModal(false);
-            resetStack();
+            resetStack("MeatLocker");
           }}
-          onpressContinue={resetStack}
+          onpressContinue={() => resetStack("MeatLocker")}
           visible={true}
         />
       )}
@@ -83,12 +83,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
-  dot: {
-    backgroundColor: "#A0272A",
-    height: 9,
-    width: 9,
-    borderRadius: 4.5,
-  },
   main: { paddingTop: 40, paddingHorizontal: 20 },
   createAcc: {
     flexDirection: "row",
@@ -99,16 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: 40,
-    paddingTop: 10,
+    paddingTop: 15,
     paddingLeft: 10,
-  },
-  checkBox: {
-    height: 18,
-    width: 18,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 9,
   },
   header: {
     fontSize: 22,

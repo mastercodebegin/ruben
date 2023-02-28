@@ -14,11 +14,12 @@ interface ButtonType {
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
   label: String;
-  labelStyle?: StyleProp<TextStyle>
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?:StyleProp<TextStyle>;
 }
-const Button = ({ style = {}, onPress, label = "" ,labelStyle={}}: ButtonType) => {
+const Button = ({ style = {}, onPress, label = "" ,labelStyle={},containerStyle}: ButtonType) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <TouchableOpacity onPress={onPress} style={[styles.continue,style]}>
         <Text style={[styles.text,labelStyle]}>{label}</Text>
       </TouchableOpacity>

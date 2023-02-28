@@ -14,7 +14,8 @@ import AppLauncher from '../blocks/splashscreen/src/AppLauncher';
 import Settings from '../blocks/landingpage/src/SettingsTab/Settings';
 import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
 import HomeScreen from '../components/src/HomeScreen';
-
+import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
+import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -28,26 +29,30 @@ interface NavigatorType {
 const Stack = createStackNavigator();
 
 const RootNavigator = ({initialScreen}: NavigatorType) => (
-  <Stack.Navigator
-    initialRouteName={initialScreen}
-    screenOptions={{headerShown: false, animationEnabled: false}}>
-    <Stack.Screen name="Splashscreen" component={Splashscreen} />
-    <Stack.Screen name="LandingPage" component={LandingPage} />
-    <Stack.Screen
-      name="SocialMediaAccountLoginScreen"
-      component={SocialMediaAccountLoginScreen}
-    />
-    <Stack.Screen name="BlogPost" component={BlogPost} />
-    <Stack.Screen name="ExplorePage" component={ExplorePage} />
-    <Stack.Screen
-      name="EmailAccountLoginBlock"
-      component={EmailAccountLoginBlock}
-    />
-    <Stack.Screen name="Myprofile" component={Myprofile} />
-    <Stack.Screen name="Settings" component={Settings} />
-    <Stack.Screen name="MeatLocker" component={MeatLocker} />
-    <Stack.Screen name="Home" component={ExplorePage} />
-  </Stack.Navigator>
+  <NavigationContainer>
+    <Stack.Navigator
+      initialRouteName={initialScreen}
+      screenOptions={{headerShown: false, animationEnabled: false}}>
+      <Stack.Screen name="Splashscreen" component={Splashscreen} />
+      <Stack.Screen
+        name="SocialMediaAccountLoginScreen"
+        component={SocialMediaAccountLoginScreen}
+      />
+      <Stack.Screen name="BlogPost" component={BlogPost} />
+      <Stack.Screen
+        name="EmailAccountLoginBlock"
+        component={EmailAccountLoginBlock}
+      />
+      <Stack.Screen name="Myprofile" component={Myprofile} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="MeatLocker" component={MeatLocker} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
+      <Stack.Screen name="ExplorePage" component={ExplorePage} />
+      <Stack.Screen name="LandingPage" component={LandingPage} />
+
+    </Stack.Navigator>
+  </NavigationContainer>
 );
 
 export function App() {
@@ -55,8 +60,8 @@ export function App() {
     show: true,
     initialRoute: '',
   });
-  const getUserDetails =  () => {
-     AsyncStorage.getItem('userDetails').then(res => {
+  const getUserDetails = () => {
+    AsyncStorage.getItem('userDetails').then(res => {
       setTimeout(() => {
         if (res) setInitialScreen({show: false, initialRoute: 'LandingPage'});
         else {
@@ -70,13 +75,11 @@ export function App() {
   }, []);
   return (
     <View style={{flex: 1}}>
-      <NavigationContainer>
-        {initialScreen.show ? (
-          <AppLauncher />
-        ) : (
-          <RootNavigator initialScreen={initialScreen.initialRoute} />
-        )}
-      </NavigationContainer>
+      {initialScreen.show ? (
+        <AppLauncher />
+      ) : (
+        <RootNavigator initialScreen={initialScreen.initialRoute} />
+      )}
     </View>
   );
 }

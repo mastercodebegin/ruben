@@ -10,8 +10,8 @@ exports.loginAPiMethod = "POST";
 exports.loginApiContentType = "application/json";
 
 // Customizable Area Start
-exports.errorEmailNotValid = "Email not valid.";
-exports.errorPasswordNotValid = "Password not valid.";
+exports.errorEmailNotValid = "Please enter valid valid email.";
+exports.errorPasswordNotValid = "Please enter valid Password";
 exports.placeHolderEmail = "Email";
 exports.placeHolderPassword = "Password";
 exports.signupAPiEndPoint = "account_block/accounts";

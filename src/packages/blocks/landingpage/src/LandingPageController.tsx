@@ -32,7 +32,7 @@ interface S {
   facebook_link:string;
   phone_number:string;
   about_me:string;
-
+  show_loader:boolean;
   // Customizable Area End
 }
 
@@ -63,7 +63,8 @@ export default class LandingPageController extends BlockComponent<
       facebook_link:'',
       whatsapp_link:'',
       about_me:'',
-      phone_number:''
+      phone_number:'',
+      show_loader:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
