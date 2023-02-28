@@ -1,17 +1,39 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
+} from "react-native";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../assets";
 import CommonStyle from "../commonStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default class Setting extends LandingPageController {
   render() {
+    const logout = () => {
+      AsyncStorage.removeItem("userDetails").then(() => {
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: "EmailAccountLoginBlock" }],
+        });
+      });
+    };
+    const onpressLogout = () => {
+      Alert.alert("Alert", "Are you sure to logout", [
+        { text: "YES", onPress: logout },
+        { text: "CANCEL" },
+      ]);
+    };
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.innercontainer}>
           <Text style={CommonStyle.header}>Settings</Text>
-          <View style={{paddingTop:20}}>
+          <View style={{ paddingTop: 20 }}>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.options}>About Us</Text>
             </TouchableOpacity>
@@ -23,6 +45,12 @@ export default class Setting extends LandingPageController {
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.options}>Terms & conditions</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onpressLogout} style={styles.button}>
+              <Text style={styles.options}>Log Out</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={[styles.options,{color:'#A0272A'}]}>Delete My Account</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -47,6 +75,6 @@ const styles = StyleSheet.create({
   options: {
     fontSize: 17,
     color: DARK_RED,
-    fontWeight:'400'
+    fontWeight: "400",
   },
 });
