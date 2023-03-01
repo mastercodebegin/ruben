@@ -32,8 +32,8 @@ const SignupComponent = ({
       <TextInput
         keyBoardtype="email-address"
         onchangeText={onchangeEmail}
-        value={email}
         label="Email ID"
+        value={email}
         placeholder="Email ID"
       />
       <TextInput
