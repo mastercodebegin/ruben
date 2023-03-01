@@ -34,7 +34,7 @@ export default class Splashscreen extends SplashscreenController {
         {/* Customizable Area Start */}
         <View style={styles.imageContainer}>
           <Image
-            resizeMode="stretch"
+            resizeMode="contain"
             style={styles.image}
             source={splash}
           />
