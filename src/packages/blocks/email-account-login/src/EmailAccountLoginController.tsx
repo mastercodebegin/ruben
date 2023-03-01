@@ -371,7 +371,7 @@ export default class EmailAccountLoginController extends BlockComponent<
           this.resetStack("LandingPage");
         });
       } else {
-        Alert.alert("Error", signupResponse.errors[0].failed_login);
+        Alert.alert("Error", signupResponse?.errors[0]?.failed_login);
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
