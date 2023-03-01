@@ -29,7 +29,16 @@ import CommonStyle from "../commonStyles";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
 export default class Myprofile extends LandingPageController {
+  //@ts-ignore
+  componentDidMount(){
+    if(this.props?.route?.params?.firstTime){
+      this.setState({showProfileModal:true})
+    }else{
+      this.userdetailsProps.getuserDetails.bind(this)()
+    }
+  }
   render() {
+    
     return (
       <SafeAreaView style={styles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -37,7 +46,7 @@ export default class Myprofile extends LandingPageController {
             <View style={{ flex: 1, paddingHorizontal: 20 }}>
               <Text style={CommonStyle.header}>My Profile</Text>
               <View style={styles.orderAlert}>
-                <TouchableOpacity style={styles.cartContainer}>
+                <TouchableOpacity onPress={this.userdetailsProps.getuserDetails} style={styles.cartContainer}>
                   <Image
                     resizeMode="contain"
                     style={styles.cart}
@@ -58,7 +67,7 @@ export default class Myprofile extends LandingPageController {
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
                   <Image style={styles.profileImage} source={profile_pic} />
-                  <Text style={styles.name}>Valdermar Forbsberg</Text>
+                  <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity style={styles.socialbutton}>
                       <Image style={styles.socialIcon} source={instagram} />
@@ -73,9 +82,9 @@ export default class Myprofile extends LandingPageController {
                 </TouchableOpacity>
                 <View style={{ paddingHorizontal: 20 }}>
                   <Text style={styles.headerText}>ABOUT ME</Text>
-                  <Text numberOfLines={3} style={styles.description}>
-                    Create a page represent who you are and what you do in one
-                    link. Professional take control
+                  <Text numberOfLines={3} style={styles.description}>{
+                    this.state.about_me
+                  }
                   </Text>
                   <Text style={styles.headerText}>MY CONTACT</Text>
                   <View style={styles.contact}>
@@ -84,7 +93,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.contactIcon}
                       source={mail}
                     />
-                    <Text style={styles.contactText}>bonewala@gmail.com</Text>
+                    <Text style={styles.contactText}>{this.state.email}</Text>
                   </View>
                   <View style={styles.contact}>
                     <Image
@@ -92,7 +101,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.contactIcon}
                       source={phone}
                     />
-                    <Text style={styles.contactText}>+1 123 4567 8910</Text>
+                    <Text style={styles.contactText}>{'+91 '}{this.state.phone_number}</Text>
                   </View>
                   <TouchableOpacity style={styles.historyButton}>
                     <Text style={styles.historyText}>Purchase History</Text>
@@ -149,11 +158,15 @@ export default class Myprofile extends LandingPageController {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <BottomTab navigation={this.props.navigation} tabName="Myprofile" />
+        {!this.props?.route?.params?.firstTime && <BottomTab navigation={this.props.navigation} tabName="Myprofile" />}
         <Modal
           setVisibleProfileModal={() =>
             this.setState({ showProfileModal: false })
           }
+          state={this.state}
+          firstTime={this.props?.route?.params?.firstTime}
+          setState={(state={})=>{                        
+            this.setState({...state})}}
           visible={this.state.showProfileModal}
         />
       </SafeAreaView>

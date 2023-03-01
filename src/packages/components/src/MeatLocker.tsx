@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import Button from "./CustomButton";
 //@ts-ignore
-import { NavigationActions, StackActions } from "react-navigation";
 
 const meatImage1 = require("./meatimage@1.jpg");
 const meatImage2 = require("./meatimage@2.jpg");
@@ -22,7 +21,7 @@ const MeatLocker = ({ navigation }: MeatLockerTypes) => {
   const onPressContinue = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: "LandingPage" }],
+      routes: [{ name: "Myprofile" , params: {firstTime:true }}],
     });
   };
   return (

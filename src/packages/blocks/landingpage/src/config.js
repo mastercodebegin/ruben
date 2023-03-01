@@ -8,6 +8,7 @@ exports.validationApiMethodType = "GET";
 exports.exampleAPiEndPoint = "EXAMPLE_URL";
 exports.exampleAPiMethod = "POST";
 exports.exampleApiContentType = "application/json";
+exports.userDetailsEndpoint='bx_block_profile/profiles'
 exports.textInputPlaceHolder = "Enter Text";
 exports.labelTitleText = "LandingPage";
 exports.labelBodyText = "LandingPage Body";

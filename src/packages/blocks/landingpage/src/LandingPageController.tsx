@@ -7,6 +7,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -17,6 +18,9 @@ export interface Props {
   // Customizable Area Start
   visible:boolean;
   setVisibleProfileModal:()=>void
+  setState:any;
+  state:any;
+  firstTime:boolean;
   // Customizable Area End
 }
 
@@ -33,6 +37,7 @@ interface S {
   phone_number:string;
   about_me:string;
   show_loader:boolean;
+  id:any
   // Customizable Area End
 }
 
@@ -51,6 +56,9 @@ export default class LandingPageController extends BlockComponent<
 
     // Customizable Area Start
     this.subScribedMessages = [
+        getName(MessageEnum.RestAPIResponceMessage),
+        getName(MessageEnum.ReciveUserCredentials),
+        getName(MessageEnum.CountryCodeMessage),
     ];
 
     this.state = {
@@ -64,19 +72,99 @@ export default class LandingPageController extends BlockComponent<
       whatsapp_link:'',
       about_me:'',
       phone_number:'',
-      show_loader:false
+      show_loader:false,
+      id:null
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
+  
 
   async receive(from: string, message: Message) {
-    // Customizable Area Start
+    // Customizable Area Start    
+    if (getName(MessageEnum.SessionSaveMessage) === message.id) {
+    } 
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getprofileDetailsId != null &&
+      this.getprofileDetailsId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      var profileDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      var error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('signupResponse ',profileDetails);
+
+      if(profileDetails?.data?.attributes){
+        const {
+          about_me,
+          email_address,
+          facebook_link,
+          full_name,
+          instagram_link,
+          phone_number,
+          photo,
+          whatsapp_link,
+          id
+        }=profileDetails?.data?.attributes;
+        this.setState({
+          about_me,email:email_address,
+          facebook_link,name:full_name,
+          instagram_link,phone_number:String(phone_number),
+        profileImage:photo,whatsapp_link,
+      id:id})
+      }
+      
+     
+    } 
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  getprofileDetailsId:string =''
+
+  
+  userdetailsProps={
+    getuserDetails:this.getProfileDetails
+  }
+  async getProfileDetails() {
+    const userDetails = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token':data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    // console.log(' getValidationsMsg.messageId', getValidationsMsg.messageId);
+    
+    this.getprofileDetailsId = getValidationsMsg.messageId;
+    
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.userDetailsEndpoint
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+    
+  }
+ 
   goToHome() {
     const msg: Message = new Message(
       getName(MessageEnum.NavigationHomeScreenMessage)

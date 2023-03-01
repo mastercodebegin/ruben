@@ -360,6 +360,8 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.apiEmailLoginCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
+      console.log("this.apiEmailLoginCallId ", this.apiEmailLoginCallId);
+
       var signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );

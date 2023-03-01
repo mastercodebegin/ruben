@@ -13,10 +13,13 @@ import {
 import {
     SEARCH,
     EXPLORE_BTN,
-    CHICKEN, PORK
+    CHICKEN, PORK,
+    beef_image,
+    lamp_image,
+    honey_image
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-const scrollerData = [{ name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }, { name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }, { name: 'Pork', image: CHICKEN }, { name: 'Beef', image: PORK }, { name: 'Poul', image: CHICKEN }];
+const scrollerData = [{ name: 'Pork', image: PORK }, { name: 'Beef', image: beef_image }, { name: 'Poul', image: CHICKEN }, { name: 'Lamp', image: lamp_image },{name:'Honey',image:honey_image}];
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
 //@ts-ignore
@@ -27,13 +30,13 @@ export default class ExplorePage extends LandingPageController {
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={{flex:1}}>
-            <ScrollView contentContainerStyle={{paddingBottom:80}} style={styles.main}>
+            <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:80}} style={styles.main}>
                 <View style={styles.innerContainer}>
                     <View style={{ paddingHorizontal: 20, }}>
                         <Text style={styles.header}>Store</Text>
                         <View style={styles.textInputContainer}>
                             <View style={styles.searchContainer}>
-                                <Image resizeMode="contain" style={styles.search} source={SEARCH} />
+                                <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
                                 <TextInput
                                     style={styles.textInput}
                                     placeholder="Search any product..."
@@ -52,6 +55,7 @@ export default class ExplorePage extends LandingPageController {
                         </View>
                     </View>
                     <ScrollView showsHorizontalScrollIndicator={false}
+                    bounces={false}
                         style={{ marginLeft: 20 }}
                         horizontal>
                         {scrollerData.map((item, i) => (
@@ -105,7 +109,6 @@ const styles = StyleSheet.create({
     search: {
         height: 20,
         width: 20,
-        borderRadius: 17.5,
         marginLeft: 20,
     },
     searchContainer: {
@@ -129,13 +132,13 @@ const styles = StyleSheet.create({
         color: DARK_RED,
         fontWeight: 'bold',
         fontSize: 19,
-        paddingLeft: 8
+        paddingLeft: 15
     },
-    scrollerImg: { height: 33, width: 33 },
+    scrollerImg: { height: 20, width: 20,tintColor:DARK_RED},
     scrollerItemContainer: {
         flexDirection: 'row',
         paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingVertical: 12,
         backgroundColor: WHITE,
         marginRight: 10,
         borderRadius: 27,

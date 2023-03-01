@@ -34,7 +34,10 @@ export default class ForgotPassword extends ForgotPasswordController {
         style={{ flex: 1 }}
       >
         <ScrollView
-          keyboardShouldPersistTaps="always"
+          keyboardShouldPersistTaps="always"          
+          style={
+            this.isPlatformWeb() ? styles.containerWeb : styles.containerMobile
+          }
         >
           <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
             {/* Customizable Area Start */}

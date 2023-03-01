@@ -28,32 +28,36 @@ interface NavigatorType {
 }
 const Stack = createStackNavigator();
 
-const RootNavigator = ({initialScreen}: NavigatorType) => (
-  <NavigationContainer>
-    <Stack.Navigator
-      initialRouteName={initialScreen}
-      screenOptions={{headerShown: false, animationEnabled: false}}>
-      <Stack.Screen name="Splashscreen" component={Splashscreen} />
-      <Stack.Screen
-        name="SocialMediaAccountLoginScreen"
-        component={SocialMediaAccountLoginScreen}
-      />
-      <Stack.Screen name="BlogPost" component={BlogPost} />
-      <Stack.Screen
-        name="EmailAccountLoginBlock"
-        component={EmailAccountLoginBlock}
-      />
-      <Stack.Screen name="Myprofile" component={Myprofile} />
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="MeatLocker" component={MeatLocker} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="ResetPassword" component={ResetPassword} />
+const RootNavigator = ({initialScreen}: NavigatorType) => {
+  const ref = React.createRef();
+
+  return (
+    <NavigationContainer ref={ref}>
+      <Stack.Navigator
+        initialRouteName={initialScreen}
+        screenOptions={{headerShown: false, animationEnabled: false}}>
+        <Stack.Screen name="Splashscreen" component={Splashscreen} />
+        <Stack.Screen
+          name="SocialMediaAccountLoginScreen"
+          component={SocialMediaAccountLoginScreen}
+        />
+        <Stack.Screen name="BlogPost" component={BlogPost} />
+        <Stack.Screen
+          name="EmailAccountLoginBlock"
+          component={EmailAccountLoginBlock}
+        />
+        <Stack.Screen name="Myprofile" component={Myprofile} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="MeatLocker" component={MeatLocker} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
       <Stack.Screen name="ExplorePage" component={ExplorePage} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
 
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export function App() {
   const [initialScreen, setInitialScreen] = React.useState({

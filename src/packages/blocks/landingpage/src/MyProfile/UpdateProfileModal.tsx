@@ -17,42 +17,47 @@ import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED, profile_pic, edit } from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 export default class UpdateProfileModal extends LandingPageController {
+  constructor(props:any) {
+    super(props);
+  }
   showAlert(message:string){
     Alert.alert('Alert',message)
   }
 
   render() {
+    console.log('updated state',this.props.state);
+    
+    // const firstTime = this.props?.route.params?.firstTime
     const onpressContinue = ()=> {   
-      if(this.state.profileImage === ''){
+      if(this.props.state.profileImage === ''){
         this.showAlert('Please select your profile picture ')
         return
       } 
-      else if(this.state.name === ''){
+      else if(this.props.state.name === ''){
         this.showAlert('Name can not be blank')
         return
-      }else if (this.state.email === ''){
+      }else if (this.props.state.email === ''){
         this.showAlert('Email can not be blank')
         return
       }
-      else if (this.state.phone_number === ''){
+      else if (this.props.state.phone_number === ''){
         this.showAlert('please provide your phone number')
         return
-      }else if (this.state.about_me === ''){
+      }else if (this.props.state.about_me === ''){
         this.showAlert('please provide information about you')
         return
-      }else if (this.state.instagram_link === ''){
+      }else if (this.props.state.instagram_link === ''){
         this.showAlert('please provide your Instagram link')
         return
-      }else if (this.state.whatsapp_link === ''){
+      }else if (this.props.state.whatsapp_link === ''){
         this.showAlert('please provide your WhatsApp link')
         return
-      }else if (this.state.facebook_link === ''){
+      }else if (this.props.state.facebook_link === ''){
         this.showAlert('please provide your Facebook link')
         return
       }
-      this.setState({show_loader:true})  
+      this.props.setState({show_loader:true})  
        AsyncStorage.getItem('userDetails').then((usrDetails:any)=>{
         const data:any = JSON.parse(usrDetails)
         
@@ -62,34 +67,46 @@ export default class UpdateProfileModal extends LandingPageController {
         data?.meta?.token
       );
       var formdata = new FormData();
-      formdata.append("photo", this.state.profileImage, "user-square.png");
-      formdata.append('photo', {
-        uri: this.state.profileImage,
+      // console.log("photo", this.props.state.profileImage, "user-square.png");
+      console.log('photo',data?.meta?.token, {
+        uri: this.props.state.profileImage,
         type: 'image/jpeg',
         name: 'photo.jpg',
       });
-      formdata.append("full_name", this.state.name);
-      formdata.append("email_address", this.state.email);
-      formdata.append("about_me", this.state.about_me);
-      formdata.append("instagram_link", this.state.instagram_link);
-      formdata.append("whatsapp_link", this.state.whatsapp_link);
-      formdata.append("facebook_link", this.state.facebook_link);
-      formdata.append("phone_number", this.state.phone_number);
+
+      // formdata.append("photo", this.props.state.profileImage, "user-square.png");
+      formdata.append('photo', {
+        uri: this.props.state.profileImage,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+        
+      });
+      formdata.append("full_name", this.props.state.name);
+      formdata.append("email_address", this.props.state.email);
+      formdata.append("about_me", this.props.state.about_me);
+      formdata.append("instagram_link", this.props.state.instagram_link.replace(/"/g, ''));
+      formdata.append("whatsapp_link", this.props.state.whatsapp_link.replace(/"/g, ''));
+      formdata.append("facebook_link", this.props.state.facebook_link.replace(/"/g, ''));
+      formdata.append("phone_number", this.props.state.phone_number);
   
       var requestOptions = {
-        method: "POST",
+        method:this.props.firstTime ? "POST" :'PATCH',
         headers: myHeaders,
         body: formdata,
         redirect: "follow",
       };
-  
+      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`
+      console.log('url ',url,'\n',this.props.firstTime ? "POST" :'PATCH');
+      
       fetch(
-        "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles",
+        url,
         requestOptions
       )
-        .then((response) => console.log('response == >/ ',response.status))
+        .then((response) => console.log('response == >/ ',response.status)).catch(e=>{
+          alert('error in api')
+        })
         .finally(()=>{
-        this.setState({show_loader:false})
+        this.props.setState({show_loader:false})
       });
       })
       
@@ -98,7 +115,7 @@ export default class UpdateProfileModal extends LandingPageController {
       ImagePicker.openCamera({
         cropping: false,
       }).then((image) => {
-        this.setState({ profileImage: image.path });
+        this.props.setState({ profileImage: image.path });
       });
     };
 
@@ -107,7 +124,7 @@ export default class UpdateProfileModal extends LandingPageController {
         cropping: false,
       }).then((image) => {
         console.log(image);
-        this.setState({ profileImage: image.path });
+        this.props.setState({ profileImage: image.path });
       });
     };
     const onPressEdit = () => {
@@ -148,8 +165,8 @@ export default class UpdateProfileModal extends LandingPageController {
                     <ImageBackground
                       style={styles.profileImage}
                       source={
-                        this.state.profileImage
-                          ? { uri: this.state.profileImage }
+                        this.props.state.profileImage
+                          ? { uri: this.props.state.profileImage }
                           : profile_pic
                       }
                     >
@@ -165,23 +182,23 @@ export default class UpdateProfileModal extends LandingPageController {
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.name}
-                    onchangeText={(name) => this.setState({ name: name })}
+                    value={this.props.state.name}
+                    onchangeText={(name) => this.props.setState({ name: name })}
                     label="Enter Full Name"
                   />
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.email}
-                    onchangeText={(email) => this.setState({ email: email })}
+                    value={this.props.state.email}
+                    onchangeText={(email) => this.props.setState({ email: email })}
                     label="Email Address"
                     keyBoardtype="email-address"
                   />
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.phone_number}
-                    onchangeText={(num) => this.setState({ phone_number: num })}
+                    value={this.props.state.phone_number}
+                    onchangeText={(num) => this.props.setState({ phone_number: num })}
                     keyBoardtype="number-pad"
                     label="Phone Number"
                   />
@@ -190,34 +207,34 @@ export default class UpdateProfileModal extends LandingPageController {
                     labeStyle={styles.label}
                     multiline={true}
                     numberOfLines={5}
-                    value={this.state.about_me}
-                    onchangeText={(abt) => this.setState({ about_me: abt })}
+                    value={this.props.state.about_me}
+                    onchangeText={(abt) => this.props.setState({ about_me: abt })}
                     label="About Me"
                   />
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.instagram_link}
+                    value={this.props.state.instagram_link.replace(/"/g, '')}
                     onchangeText={(instLink) =>
-                      this.setState({ instagram_link: instLink })
+                      this.props.setState({ instagram_link: instLink })
                     }
                     label="Instagram Link"
                   />
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.whatsapp_link}
+                    value={this.props.state.whatsapp_link.replace(/"/g, '')}
                     onchangeText={(wsLink) =>
-                      this.setState({ whatsapp_link: wsLink })
+                      this.props.setState({ whatsapp_link: wsLink })
                     }
                     label="WhatsApp Link"
                   />
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
-                    value={this.state.facebook_link}
+                    value={this.props.state.facebook_link.replace(/"/g, '')}
                     onchangeText={(fbLink) =>
-                      this.setState({ facebook_link: fbLink })
+                      this.props.setState({ facebook_link: fbLink })
                     }
                     label="Facebook Link"
                   />
@@ -226,12 +243,13 @@ export default class UpdateProfileModal extends LandingPageController {
                 <Button
                   style={{ marginTop: 20 }}
                   onPress={onpressContinue}
+                    // onpressContinue}
                   label={"Save Details"}
                 />
               </ScrollView>
             </View>
           </View>
-          {this.state.show_loader && <View style={styles.loader}>
+          {this.props.state.show_loader && <View style={styles.loader}>
             <View>
             <ActivityIndicator size={'large'}/>
             <Text>Loading...</Text>

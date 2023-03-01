@@ -133,7 +133,8 @@ const styles = StyleSheet.create({
     productName: {
         fontSize: 22,
         color: DARK_RED,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop:15
     },
     cartContainer: {
         paddingVertical: 10,
