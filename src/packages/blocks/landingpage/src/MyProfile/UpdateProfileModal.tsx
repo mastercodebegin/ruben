@@ -14,7 +14,7 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, profile_pic, edit } from "../assets";
+import { close, DARK_RED, profile_pic, edit ,profileSample} from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class UpdateProfileModal extends LandingPageController {
@@ -25,16 +25,14 @@ export default class UpdateProfileModal extends LandingPageController {
     Alert.alert('Alert',message)
   }
 
-  render() {
-    console.log('updated state',this.props.state);
-    
-    // const firstTime = this.props?.route.params?.firstTime
+  render() {        
     const onpressContinue = ()=> {   
-      if(this.props.state.profileImage === ''){
-        this.showAlert('Please select your profile picture ')
-        return
-      } 
-      else if(this.props.state.name === ''){
+      // if(this.props.state.profileImage === ''){
+      //   this.showAlert('Please select your profile picture ')
+      //   return
+      // } 
+      // else 
+      if(this.props.state.name === ''){
         this.showAlert('Name can not be blank')
         return
       }else if (this.props.state.email === ''){
@@ -67,20 +65,12 @@ export default class UpdateProfileModal extends LandingPageController {
         data?.meta?.token
       );
       var formdata = new FormData();
-      // console.log("photo", this.props.state.profileImage, "user-square.png");
-      console.log('photo',data?.meta?.token, {
-        uri: this.props.state.profileImage,
-        type: 'image/jpeg',
-        name: 'photo.jpg',
-      });
-
-      // formdata.append("photo", this.props.state.profileImage, "user-square.png");
-      formdata.append('photo', {
-        uri: this.props.state.profileImage,
-        type: 'image/jpeg',
-        name: 'photo.jpg',
+      // formdata.append('photo', {
+      //   uri: this.props.state.profileImage,
+      //   type: 'image/jpeg',
+      //   name: 'photo1.jpg',
         
-      });
+      // });
       formdata.append("full_name", this.props.state.name);
       formdata.append("email_address", this.props.state.email);
       formdata.append("about_me", this.props.state.about_me);
@@ -95,15 +85,21 @@ export default class UpdateProfileModal extends LandingPageController {
         body: formdata,
         redirect: "follow",
       };
-      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`
-      console.log('url ',url,'\n',this.props.firstTime ? "POST" :'PATCH');
-      
+      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`      
       fetch(
         url,
         requestOptions
       )
-        .then((response) => console.log('response == >/ ',response.status)).catch(e=>{
-          alert('error in api')
+        .then((response) => {
+          if(response.status == 201){
+            Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:()=>{this.goToLandingPage.bind(this)()}}])
+          }else if(response.status == 200){
+            Alert.alert('Success','Profile updated successfully')
+            this.getProfileDetails.bind(this)()
+          }
+        }
+        ).catch(e=>{
+          Alert.alert('Error','Something went wrong , please try again later')
         })
         .finally(()=>{
         this.props.setState({show_loader:false})
@@ -115,7 +111,9 @@ export default class UpdateProfileModal extends LandingPageController {
       ImagePicker.openCamera({
         cropping: false,
       }).then((image) => {
-        this.props.setState({ profileImage: image.path });
+        console.log('image ---- ? ',image);
+        
+        this.props.setState({ profileImage: image.path});
       });
     };
 
@@ -123,8 +121,7 @@ export default class UpdateProfileModal extends LandingPageController {
       await ImagePicker.openPicker({
         cropping: false,
       }).then((image) => {
-        console.log(image);
-        this.props.setState({ profileImage: image.path });
+        this.props.setState({ profileImage:image.path});
       });
     };
     const onPressEdit = () => {
@@ -134,16 +131,17 @@ export default class UpdateProfileModal extends LandingPageController {
           onPress: opencamera,
         },
         { text: "gallery", onPress: openGallery },
-        { text: "cancell", onPress: () => {} },
+        { text: "cancels", onPress: () => {} },
       ]);
     };
+    
     return (
       <Modal visible={this.props.visible} transparent>
         <View style={styles.main}>
           <View style={styles.blur} />
           <View style={styles.container}>
             <View style={styles.innerContainer}>
-              <TouchableOpacity
+              {!this.props.firstTime  && <TouchableOpacity
                 onPress={this.props.setVisibleProfileModal}
                 style={styles.closeBtn}
               >
@@ -152,7 +150,7 @@ export default class UpdateProfileModal extends LandingPageController {
                   style={styles.close}
                   source={close}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity>}
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.contentContainer}
@@ -164,10 +162,10 @@ export default class UpdateProfileModal extends LandingPageController {
                   >
                     <ImageBackground
                       style={styles.profileImage}
-                      source={
-                        this.props.state.profileImage
-                          ? { uri: this.props.state.profileImage }
-                          : profile_pic
+                      onError={e=>{
+                        console.log('image error ',e);
+                      }}
+                      source={ profileSample
                       }
                     >
                       <View style={styles.blurr} />

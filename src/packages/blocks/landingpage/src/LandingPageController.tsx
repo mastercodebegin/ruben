@@ -21,6 +21,7 @@ export interface Props {
   setState:any;
   state:any;
   firstTime:boolean;
+  route:any;
   // Customizable Area End
 }
 
@@ -37,7 +38,8 @@ interface S {
   phone_number:string;
   about_me:string;
   show_loader:boolean;
-  id:any
+  id:any,
+  loader:boolean
   // Customizable Area End
 }
 
@@ -73,7 +75,8 @@ export default class LandingPageController extends BlockComponent<
       about_me:'',
       phone_number:'',
       show_loader:false,
-      id:null
+      id:null,
+      loader:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -96,8 +99,6 @@ export default class LandingPageController extends BlockComponent<
       var error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('signupResponse ',profileDetails);
-
       if(profileDetails?.data?.attributes){
         const {
           about_me,
@@ -114,8 +115,10 @@ export default class LandingPageController extends BlockComponent<
           about_me,email:email_address,
           facebook_link,name:full_name,
           instagram_link,phone_number:String(phone_number),
-        profileImage:photo,whatsapp_link,
-      id:id})
+        profileImage: `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe${photo}`,
+        whatsapp_link,
+      id:id,
+    loader:false})
       }
       
      
@@ -132,7 +135,8 @@ export default class LandingPageController extends BlockComponent<
     getuserDetails:this.getProfileDetails
   }
   async getProfileDetails() {
-    const userDetails = await AsyncStorage.getItem('userDetails')
+    this.setState({loader:true})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
@@ -163,6 +167,13 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
     
+  }
+  goToLandingPage(){
+    this.setState({showProfileModal:false})
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: "LandingPage"}],
+    });
   }
  
   goToHome() {

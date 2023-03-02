@@ -21,11 +21,13 @@ import {
   instagram,
   facebook,
   CART,
+  profileSample
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
 import RenderItems from "../RenderItems/RenderItems";
 import CommonStyle from "../commonStyles";
+import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
 export default class Myprofile extends LandingPageController {
@@ -38,6 +40,8 @@ export default class Myprofile extends LandingPageController {
     }
   }
   render() {
+    console.log('profile image', this.state.profileImage);
+    
     
     return (
       <SafeAreaView style={styles.main}>
@@ -53,9 +57,9 @@ export default class Myprofile extends LandingPageController {
                     source={CART}
                   />
                 </TouchableOpacity>
-                <View>
+                <View style={{flex:1}}>
                   <Text style={styles.alertHeader}>New Order Alert</Text>
-                  <Text style={styles.deliverydate}>
+                  <Text  style={styles.deliverydate}>
                     Est.delivery: Tuesday , 2nd March
                   </Text>
                   <TouchableOpacity style={styles.detailsButton}>
@@ -66,7 +70,7 @@ export default class Myprofile extends LandingPageController {
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
-                  <Image style={styles.profileImage} source={profile_pic} />
+                  <Image style={styles.profileImage} source={profileSample} />
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity style={styles.socialbutton}>
@@ -158,13 +162,19 @@ export default class Myprofile extends LandingPageController {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        {
+            <CommonLoader visible={this.state.loader}/>
+        }
         {!this.props?.route?.params?.firstTime && <BottomTab navigation={this.props.navigation} tabName="Myprofile" />}
+        
+        
         <Modal
           setVisibleProfileModal={() =>
             this.setState({ showProfileModal: false })
           }
           state={this.state}
           firstTime={this.props?.route?.params?.firstTime}
+          navigation={this.props.navigation}
           setState={(state={})=>{                        
             this.setState({...state})}}
           visible={this.state.showProfileModal}

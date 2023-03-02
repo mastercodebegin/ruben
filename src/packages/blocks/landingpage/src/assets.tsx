@@ -27,6 +27,7 @@ export const shop_marked = require("../assets/shop_marked.png");
 export const profile_marked = require("../assets/profile-marked.png");
 export const profile_unmarked = require("../assets/profile_unmarked.png");
 export const profile_pic = require("../assets/profile.png");
+export const profileSample = require("../assets/profile_sample_test.jpg")
 export const whatsapp = require("../assets/whatsapp.png");
 export const phone = require("../assets/phone.png");
 export const facebook = require("../assets/facebook.png");
