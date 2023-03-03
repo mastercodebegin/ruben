@@ -38,8 +38,9 @@ interface S {
   phone_number:string;
   about_me:string;
   show_loader:boolean;
-  id:any,
-  loader:boolean
+  id:any;
+  loader:boolean;
+  keyboardHeight:number
   // Customizable Area End
 }
 
@@ -76,12 +77,13 @@ export default class LandingPageController extends BlockComponent<
       phone_number:'',
       show_loader:false,
       id:null,
-      loader:false
+      loader:false,
+      keyboardHeight:0
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
-  
+
   async receive(from: string, message: Message) {
     // Customizable Area Start    
     if (getName(MessageEnum.SessionSaveMessage) === message.id) {
