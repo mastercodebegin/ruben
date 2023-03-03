@@ -10,6 +10,7 @@ import {
   Alert,
   ActivityIndicator,
   Text,
+  KeyboardAvoidingView
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
@@ -135,7 +136,7 @@ export default class UpdateProfileModal extends LandingPageController {
     
     return (
       <Modal visible={this.props.visible} transparent>
-        <View style={styles.main}>
+        <KeyboardAvoidingView behavior="height" style={styles.main}>
           <View style={styles.blur} />
           <View style={styles.container}>
             <View style={styles.innerContainer}>
@@ -248,7 +249,7 @@ export default class UpdateProfileModal extends LandingPageController {
             <Text>Loading...</Text>
             </View>
           </View>}
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
   }

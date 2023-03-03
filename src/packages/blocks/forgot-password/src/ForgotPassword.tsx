@@ -40,7 +40,6 @@ export default class ForgotPassword extends ForgotPasswordController {
           }
         >
           <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
-
             {/* Customizable Area Start */}
             <SafeAreaView style={styles.main}>
               <View style={{paddingHorizontal:20}}>
