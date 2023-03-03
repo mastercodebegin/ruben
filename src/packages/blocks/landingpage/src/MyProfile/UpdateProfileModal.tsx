@@ -10,7 +10,7 @@ import {
   Alert,
   ActivityIndicator,
   Text,
-  KeyboardAvoidingView
+  Keyboard,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
@@ -24,6 +24,19 @@ export default class UpdateProfileModal extends LandingPageController {
   }
   showAlert(message:string){
     Alert.alert('Alert',message)
+  }
+  //@ts-ignore
+  componentDidMount(){
+      Keyboard.addListener('keyboardWillShow',state=>{
+        this.props.setState({keyboardHeight:state.endCoordinates.height})
+      })
+      Keyboard.addListener('keyboardWillHide',()=>{
+        this.props.setState({keyboardHeight:0})
+      })
+  }
+  //@ts-ignore
+  componentWillUnmount(){
+      Keyboard.removeAllListeners()
   }
 
   render() {        
@@ -136,10 +149,12 @@ export default class UpdateProfileModal extends LandingPageController {
     
     return (
       <Modal visible={this.props.visible} transparent>
-        <KeyboardAvoidingView behavior="height" style={styles.main}>
           <View style={styles.blur} />
-          <View style={styles.container}>
             <View style={styles.innerContainer}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.contentContainer}
+              >
               {!this.props.firstTime  && <TouchableOpacity
                 onPress={this.props.setVisibleProfileModal}
                 style={styles.closeBtn}
@@ -150,10 +165,6 @@ export default class UpdateProfileModal extends LandingPageController {
                   source={close}
                 />
               </TouchableOpacity>}
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.contentContainer}
-              >
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity
                     onPress={onPressEdit}
@@ -237,19 +248,17 @@ export default class UpdateProfileModal extends LandingPageController {
                 <Button
                   style={{ marginTop: 20 }}
                   onPress={onpressContinue}
-                    // onpressContinue}
                   label={"Save Details"}
                 />
+                <View style={{height:this.props.state.keyboardHeight}}/>
               </ScrollView>
             </View>
-          </View>
           {this.props.state.show_loader && <View style={styles.loader}>
             <View>
             <ActivityIndicator size={'large'}/>
             <Text>Loading...</Text>
             </View>
           </View>}
-        </KeyboardAvoidingView>
       </Modal>
     );
   }
@@ -302,13 +311,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   contentContainer: { flexGrow: 1 },
-  container: { flex: 1, paddingVertical: 40, paddingHorizontal: 20 },
   innerContainer: {
     flex: 1,
     backgroundColor: "white",
     borderRadius: 24,
     paddingHorizontal: 20,
     paddingTop: 20,
+    marginVertical: 40, marginHorizontal: 20
   },
   main: {
     flex: 1,
