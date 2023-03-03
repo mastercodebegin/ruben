@@ -82,7 +82,6 @@ export default class LandingPageController extends BlockComponent<
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
   
-
   async receive(from: string, message: Message) {
     // Customizable Area Start    
     if (getName(MessageEnum.SessionSaveMessage) === message.id) {
