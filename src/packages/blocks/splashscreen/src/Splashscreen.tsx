@@ -45,7 +45,9 @@ export default class Splashscreen extends SplashscreenController {
         >
           <Text style={styles.text}>Continue</Text>
         </TouchableOpacity>
-        <Image resizeMode="stretch" source={redShadow} style={styles.shadow} />
+        <Image resizeMode="stretch"
+         source={redShadow}
+          style={styles.shadow} />
         {/* Customizable Area End */}
       </SafeAreaView>
     );
