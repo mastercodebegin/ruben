@@ -20,8 +20,6 @@ import {
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 const scrollerData = [{ name: 'Pork', image: PORK }, { name: 'Beef', image: beef_image }, { name: 'Poul', image: CHICKEN }, { name: 'Lamp', image: lamp_image },{name:'Honey',image:honey_image}];
-const deviceWidth = Dimensions.get('window').width
-const deviceHeight = Dimensions.get('window').height
 //@ts-ignore
 import RenderItems from '../RenderItems/RenderItems'
 export default class ExplorePage extends LandingPageController {
