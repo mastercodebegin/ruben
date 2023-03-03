@@ -7,8 +7,7 @@ interface CheckBoxTypes {
 const CheckBox = ({ checked, setChecked }: CheckBoxTypes) => {
   return (
     <TouchableOpacity
-      onPress={() => setChecked(!checked)}
-      style={styles.checkBox}
+      onPress={() => setChecked(!checked)} style={styles.checkBox}
     >
       {checked && <View style={styles.dot} />}
     </TouchableOpacity>
@@ -24,7 +23,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 9,
   },
-
   dot: {
     backgroundColor: "#A0272A",
     height: 9,
