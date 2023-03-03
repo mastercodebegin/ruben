@@ -111,8 +111,6 @@ export default class UpdateProfileModal extends LandingPageController {
       ImagePicker.openCamera({
         cropping: false,
       }).then((image) => {
-        console.log('image ---- ? ',image);
-        
         this.props.setState({ profileImage: image.path});
       });
     };
@@ -162,9 +160,6 @@ export default class UpdateProfileModal extends LandingPageController {
                   >
                     <ImageBackground
                       style={styles.profileImage}
-                      onError={e=>{
-                        console.log('image error ',e);
-                      }}
                       source={ profileSample
                       }
                     >
