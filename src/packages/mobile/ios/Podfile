@@ -105,9 +105,9 @@ target 'RuebensFTCApp' do
 
   pod 'RNImageToPdf', :path => '../../../node_modules/react-native-image-to-pdf'
 
-  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+  pod 'RNScreens', :path => '../../../node_modules/react-native-screens'
 
-  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+  pod 'RNCMaskedView', :path => '../../../node_modules/@react-native-community/masked-view'
 
   target 'RuebensFTCAppTests' do
     inherit! :search_paths
