@@ -1,13 +1,20 @@
 import React from "react";
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, ScrollView, ScrollViewBase, FlatList, Dimensions, ImageBackground, SafeAreaView, Platform } from "react-native";
+import { 
+    View, 
+    StyleSheet, 
+    Text, 
+    TextInput, 
+    Image, 
+    TouchableOpacity, 
+    ScrollView, 
+    SafeAreaView,
+    Platform } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import {
     LIGHT_GREY,
     DARK_RED,
     WHITE,
-    MID_PEACH,
-    PRIMARY
     //@ts-ignore
 } from "../../assets/constants";
 import {
