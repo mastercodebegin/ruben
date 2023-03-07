@@ -6,9 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Clipboard,
+  ToastAndroid,
+  Platform,
 } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import { close, copy, emoji } from "./assets";
+import Toast from "react-native-simple-toast";
 
 interface ModalTypes {
   visible: boolean;
@@ -20,6 +24,14 @@ const SuccessModal = ({
   onpressClose,
   onpressContinue,
 }: ModalTypes) => {
+  const onpressCopy = () => {
+    Clipboard.setString("ABCD123");
+    if (Platform.OS === "ios") {
+      Toast.show("Code copied");
+      return;
+    }
+    ToastAndroid.show("Code copied", ToastAndroid.SHORT);
+  };
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={styles.container}>
@@ -43,7 +55,7 @@ const SuccessModal = ({
           <Text style={styles.discount}>
             To get instant 10% discount on first order
           </Text>
-          <TouchableOpacity style={styles.copyContainer}>
+          <TouchableOpacity onPress={onpressCopy} style={styles.copyContainer}>
             <Text style={styles.copy}>COPY COUPON CODE</Text>
             <Image style={styles.copyImg} source={copy} />
           </TouchableOpacity>
