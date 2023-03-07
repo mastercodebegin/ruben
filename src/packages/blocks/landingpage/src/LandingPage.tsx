@@ -77,7 +77,7 @@ export default class LandingPage extends LandingPageController {
               <View style={styles.blogPostContainer}>
                 <Text style={styles.post}>Blog Posts</Text>
               </View>
-              <BlogPostCard item={{ image: blogpostimage }} />
+              <BlogPostCard item={{ image: blogpostimage, type: "image" }} />
             </View>
           </ScrollView>
           <CartDetails />
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     color: "#5C2221",
-    fontFamily:'Gilroy-Heavy'
+    fontFamily: "Gilroy-Heavy",
   },
   description: {
     color: "#8D7D75",
     fontSize: 19,
     width: "70%",
-    marginTop:10
+    marginTop: 10,
   },
   landingPageText: {
     fontSize: 42,

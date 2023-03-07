@@ -108,6 +108,8 @@ target 'RuebensFTCApp' do
   pod 'RNScreens', :path => '../../../node_modules/react-native-screens'
 
   pod 'RNCMaskedView', :path => '../../../node_modules/@react-native-community/masked-view'
+  
+  pod 'react-native-simple-toast', :path => '../../../node_modules/react-native-simple-toast'
 
   target 'RuebensFTCAppTests' do
     inherit! :search_paths

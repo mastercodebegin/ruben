@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { blogpostimage, sampleProfile, shareIcon } from "./assets";
+import { sampleProfile, shareIcon, playIcon } from "./assets";
+import Video from "react-native-video";
 interface Types {
-    item:any
+  item: any;
 }
-const BlogPostCard = ({item}:Types) => {
-    console.log('item',item);
-    
+const BlogPostCard = ({ item }: Types) => {
+  const [play, setPaly] = React.useState(true);
   return (
     <View style={styles.card}>
-      <View style={{ paddingHorizontal: 15 }}>
+      <View style={styles.padding}>
         <View style={styles.blogPostHeader}>
           <Image
             style={styles.profile}
@@ -32,17 +32,44 @@ const BlogPostCard = ({item}:Types) => {
           The placeholder text used in design when creating content. It helps
           designer plan out where the
         </Text>
-          <Image
-            style={{ width: "100%", borderRadius: 10, height: 200 }}
+        {item?.type === 'image'?
+        <Image
+        style={styles.blogImage}
+        resizeMode="stretch"
+        source={item.image}
+      />:<View style={styles.videoView}>
+          <Video
+            style={styles.video}
             resizeMode="stretch"
-            source={item.image}
+            paused={play}
+            source={{
+              uri:
+                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            }}
           />
+          <View style={styles.videoContainer}>
+            <TouchableOpacity onPress={() => setPaly(!play)}>
+              <Image
+                style={styles.play}
+                source={playIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>}
       </View>
     </View>
   );
 };
 export default BlogPostCard;
 const styles = StyleSheet.create({
+  blogImage:{ width: "100%", borderRadius: 10, height: 200 },
+  videoView:{ borderRadius: 10,overflow:"hidden"},
+  video:{ width: "100%", height: 200},
+  play:{
+    height: 30,
+    width: 30,
+  },
+  padding:{ paddingHorizontal: 15 },
   card: {
     backgroundColor: "white",
     marginHorizontal: 20,
@@ -66,4 +93,13 @@ const styles = StyleSheet.create({
   time: { color: "grey", fontSize: 17 },
   container: { flexGrow: 1, paddingBottom: 90 },
   explorebtn: { alignSelf: "flex-start", marginVertical: 20 },
+  videoContainer: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

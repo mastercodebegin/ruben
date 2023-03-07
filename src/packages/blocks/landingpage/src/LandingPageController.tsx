@@ -8,6 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Animated} from 'react-native'
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -30,8 +31,8 @@ interface S {
   selectedTab:string
   showProfileModal:boolean
   profileImage:string;
-  name:string,
-  email:string,
+  name:string;
+  email:string;
   instagram_link:string;
   whatsapp_link:string;
   facebook_link:string;
@@ -40,7 +41,9 @@ interface S {
   show_loader:boolean;
   id:any;
   loader:boolean;
-  keyboardHeight:number
+  keyboardHeight:number;
+  blogTab:number;
+  animatedValue:any;
   // Customizable Area End
 }
 
@@ -78,7 +81,9 @@ export default class LandingPageController extends BlockComponent<
       show_loader:false,
       id:null,
       loader:false,
-      keyboardHeight:0
+      keyboardHeight:0,
+      blogTab:0,
+      animatedValue:new Animated.Value(0)
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -116,7 +121,7 @@ export default class LandingPageController extends BlockComponent<
           about_me,email:email_address,
           facebook_link,name:full_name,
           instagram_link,phone_number:String(phone_number),
-        profileImage: `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe${photo}`,
+        profileImage: `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe${photo}?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22photo1.jpg%22%3B+filename%2A%3DUTF-8%27%27photo1.jpg`,
         whatsapp_link,
       id:id,
     loader:false})

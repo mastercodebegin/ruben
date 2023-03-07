@@ -31,12 +31,16 @@ import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
 export default class Myprofile extends LandingPageController {
+  constructor(props: any) {
+    super(props);
+    this.receive = this.receive.bind(this);
+  }
   //@ts-ignore
   componentDidMount(){
     if(this.props?.route?.params?.firstTime){
       this.setState({showProfileModal:true})
     }else{
-      this.userdetailsProps.getuserDetails.bind(this)()
+      this.getProfileDetails()
     }
   }
   render() {
@@ -70,7 +74,8 @@ export default class Myprofile extends LandingPageController {
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
-                  <Image style={styles.profileImage} source={profileSample} />
+                  {this.state.profileImage != '' && <Image style={styles.profileImage}
+                  source={{uri:this.state.profileImage}} />}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity style={styles.socialbutton}>
@@ -172,6 +177,7 @@ export default class Myprofile extends LandingPageController {
           setVisibleProfileModal={() =>
             this.setState({ showProfileModal: false })
           }
+          getProfileDetails={this.getProfileDetails.bind(this)}
           state={this.state}
           firstTime={this.props?.route?.params?.firstTime}
           navigation={this.props.navigation}

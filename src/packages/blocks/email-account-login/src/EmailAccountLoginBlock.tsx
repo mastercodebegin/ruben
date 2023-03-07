@@ -7,10 +7,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ScrollView,
   TouchableWithoutFeedback,
   Animated,
   Alert,
+  SafeAreaView,
 } from "react-native";
 import {
   responsiveHeight,
@@ -106,11 +106,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
     return (
       // Required for all blocks
 
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
+      <SafeAreaView style={{ flex: 1 }}>
         <TouchableWithoutFeedback
           testID={"Background"}
           onPress={() => {
@@ -148,6 +144,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                 flexDirection: "row",
                 width: Dimensions.get("window").width * 2,
                 transform: [{ translateX: this.state.animatedValue }],
+                flex: 1,
               }}
             >
               <View style={styles.animated}>
@@ -193,7 +190,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
             </Animated.View>
           </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
+      </SafeAreaView>
     );
     // Merge Engine - render - End
     // Customizable Area End
