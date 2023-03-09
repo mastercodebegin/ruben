@@ -8,7 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Animated} from 'react-native'
+import {Animated,Alert} from 'react-native'
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -126,19 +126,160 @@ export default class LandingPageController extends BlockComponent<
       id:id,
     loader:false})
       }
-      
-     
     } 
+    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.updateProfileDetailsId != null &&
+    this.updateProfileDetailsId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
+
+      const userDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      var error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+
+      console.log('userDetails=============>>>>>>>/ ',userDetails);
+      
+
+    }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
   getprofileDetailsId:string =''
-
+  updateProfileDetailsId:string =''
   
   userdetailsProps={
     getuserDetails:this.getProfileDetails
+  }
+  // LogNewFoodFunc = async (productid: number, quantity: string, food_type: string, date:string, time: string) => {
+  //   this.setState({ isLoading: true });
+  //   const data: any = await AsyncStorage.getItem("userInfo");
+  //   const userInfo = JSON.parse(data)
+    
+  //   var formdata = new FormData();
+  //   formdata.append("account_id", userInfo.data.id.toString());
+  //   formdata.append("product_id", productid.toString());
+  //   formdata.append("quantity", quantity.toString());
+  //   formdata.append("food_type", food_type.toLowerCase())
+  //   formdata.append("default_time", date+" "+time);
+  //   console.log('formdata', formdata);
+
+  //   if (data) {
+  //     const token = JSON.parse(data)?.meta.token;
+  //     const header = {
+  //       token: token,
+  //     };
+  //     let url = `${baseURL}${configJSON.LOG_NEW_FOOD_END_POINT}`
+  //     const requestMessage = new Message(
+  //       getName(MessageEnum.RestAPIRequestMessage)
+  //     );
+  //     this.logNewFoodMessageId = requestMessage.messageId;
+
+  //     requestMessage.addData(
+  //       getName(MessageEnum.RestAPIResponceEndPointMessage),
+  //       url
+  //     );
+  //     requestMessage.addData(
+  //       getName(MessageEnum.RestAPIRequestHeaderMessage),
+  //       JSON.stringify(header)
+  //     );
+  //     requestMessage.addData(
+  //       getName(MessageEnum.RestAPIRequestBodyMessage),
+  //       formdata
+  //     );
+  //     requestMessage.addData(
+  //       getName(MessageEnum.RestAPIRequestMethodMessage),
+  //       configJSON.HTTP_POST_METHOD
+  //     );
+  //     runEngine.sendMessage(requestMessage.id, requestMessage);
+  //   }
+  //   return true;
+  // }
+
+
+  showAlert(message:string){
+    Alert.alert('Alert',message)
+  }
+  async updateProfileDetails (firstTime:boolean=false){
+    if(this.props.state.profileImage === ''){
+      this.showAlert('Please select your profile picture ');
+      return;
+    } 
+    else if(this.props.state.name === ''){
+      this.showAlert('Name can not be blank')
+      return
+    }else if (this.props.state.email === ''){
+      this.showAlert('Email can not be blank')
+      return
+    }
+    else if (this.props.state.phone_number === ''){
+      this.showAlert('please provide your phone number')
+      return
+    }else if (this.props.state.about_me === ''){
+      this.showAlert('please provide information about you')
+      return
+    }else if (this.props.state.instagram_link === ''){
+      this.showAlert('please provide your Instagram link')
+      return
+    }else if (this.props.state.whatsapp_link === ''){
+      this.showAlert('please provide your WhatsApp link')
+      return
+    }else if (this.props.state.facebook_link === ''){
+      this.showAlert('please provide your Facebook link')
+      return
+    }
+    const token:any = await  AsyncStorage.getItem('userDetails');
+    const data= JSON.parse(token)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    var formdata = new FormData();
+      formdata.append('photo', {
+        //@ts-ignore
+        uri: this.props.state.profileImage,
+        type: 'image/jpeg',
+        name: 'photo1.jpg',
+        
+      });
+      formdata.append("full_name", this.props.state.name);
+      formdata.append("email_address", this.props.state.email);
+      formdata.append("about_me", this.props.state.about_me);
+      formdata.append("instagram_link", this.props.state.instagram_link.replace(/"/g, ''));
+      formdata.append("whatsapp_link", this.props.state.whatsapp_link.replace(/"/g, ''));
+      formdata.append("facebook_link", this.props.state.facebook_link.replace(/"/g, ''));
+      formdata.append("phone_number", this.props.state.phone_number);
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.updateProfileDetailsId = getValidationsMsg.messageId;
+    
+alert( `${firstTime?configJSON.userDetailsEndpoint:configJSON.userDetailsEndpoint+'/'+this.props.state.id}`)
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${firstTime?configJSON.userDetailsEndpoint:configJSON.userDetailsEndpoint+'/'+this.props.state.id}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      formdata
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      firstTime ?  configJSON.exampleAPiMethod : configJSON.updateProfileMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+    
   }
   async getProfileDetails() {
     this.setState({loader:true})
@@ -153,7 +294,6 @@ export default class LandingPageController extends BlockComponent<
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    // console.log(' getValidationsMsg.messageId', getValidationsMsg.messageId);
     
     this.getprofileDetailsId = getValidationsMsg.messageId;
     

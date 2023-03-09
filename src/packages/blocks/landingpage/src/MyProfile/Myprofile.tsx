@@ -44,9 +44,6 @@ export default class Myprofile extends LandingPageController {
     }
   }
   render() {
-    console.log('profile image', this.state.profileImage);
-    
-    
     return (
       <SafeAreaView style={styles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>

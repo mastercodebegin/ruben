@@ -11,19 +11,17 @@ import {
   ActivityIndicator,
   Text,
   Keyboard,
+  Platform,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, profile_pic, edit ,profileSample} from "../assets";
+import { close, DARK_RED, edit } from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props:any) {
     super(props);
-  }
-  showAlert(message:string){
-    Alert.alert('Alert',message)
   }
   //@ts-ignore
   componentDidMount(){
@@ -35,18 +33,17 @@ export default class UpdateProfileModal extends LandingPageController {
       })
   }
   //@ts-ignore
-  componentWillUnmount(){
-      Keyboard.removeAllListeners()
-  }
+  // componentWillUnmount(){
+  //     Keyboard.removeAllListeners()
+  // }
 
   render() {        
-    const onpressContinue = ()=> {   
-      // if(this.props.state.profileImage === ''){
-      //   this.showAlert('Please select your profile picture ')
-      //   return
-      // } 
-      // else 
-      if(this.props.state.name === ''){
+    const onpressContinue = ()=> {
+      if(this.props.state.profileImage === ''){
+        this.showAlert('Please select your profile picture ');
+        return;
+      } 
+      else if(this.props.state.name === ''){
         this.showAlert('Name can not be blank')
         return
       }else if (this.props.state.email === ''){
@@ -80,10 +77,10 @@ export default class UpdateProfileModal extends LandingPageController {
       );
       var formdata = new FormData();
       // formdata.append('photo', {
+        //@ts-ignore
       //   uri: this.props.state.profileImage,
       //   type: 'image/jpeg',
       //   name: 'photo1.jpg',
-        
       // });
       formdata.append("full_name", this.props.state.name);
       formdata.append("email_address", this.props.state.email);
@@ -99,12 +96,16 @@ export default class UpdateProfileModal extends LandingPageController {
         body: formdata,
         redirect: "follow",
       };
-      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`      
+      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`;    
+      alert(JSON.stringify({
+        url,
+        requestOptions}))
       fetch(
         url,
         requestOptions
       )
         .then((response) => {
+          alert(JSON.stringify(response))
           if(response.status == 201){
             Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:()=>{this.goToLandingPage.bind(this)()}}])
           }else if(response.status == 200){
@@ -125,7 +126,7 @@ export default class UpdateProfileModal extends LandingPageController {
       ImagePicker.openCamera({
         cropping: false,
       }).then((image) => {
-        this.props.setState({ profileImage: image.path});
+        this.props.setState({ profileImage:Platform.OS === 'ios' ? `file://${image.path}`:image.path});
       });
     };
 
@@ -133,7 +134,7 @@ export default class UpdateProfileModal extends LandingPageController {
       await ImagePicker.openPicker({
         cropping: false,
       }).then((image) => {
-        this.props.setState({ profileImage:image.path});
+        this.props.setState({ profileImage:Platform.OS === 'ios' ? `file://${image.path}`:image.path});
       });
     };
     const onPressEdit = () => {
@@ -143,7 +144,7 @@ export default class UpdateProfileModal extends LandingPageController {
           onPress: opencamera,
         },
         { text: "gallery", onPress: openGallery },
-        { text: "cancels", onPress: () => {} },
+        { text: "cancel", onPress: () => {} },
       ]);
     };
     
@@ -172,8 +173,7 @@ export default class UpdateProfileModal extends LandingPageController {
                   >
                     <ImageBackground
                       style={styles.profileImage}
-                      source={ profileSample
-                      }
+                      source={ {uri:this.props.state.profileImage}}
                     >
                       <View style={styles.blurr} />
                       <Image
@@ -247,7 +247,8 @@ export default class UpdateProfileModal extends LandingPageController {
 
                 <Button
                   style={{ marginTop: 20 }}
-                  onPress={onpressContinue}
+                  onPress={()=>onpressContinue()}
+                    // this.updateProfileDetails.bind(this)(this.props.firstTime)}
                   label={"Save Details"}
                 />
                 <View style={{height:this.props.state.keyboardHeight}}/>
