@@ -53,7 +53,8 @@ export default class ForgotPassword extends ForgotPasswordController {
               onchangeText={text=>this.setState({email:text})}
               value={this.state.email}
               labeStyle={{color:'grey'}}
-              label="Enter your Email ID"/>
+              placeholder='Email ID'
+              label="Enter Your Email ID"/>
               <Button label={'Send Link to Reset'} onPress={()=>navigation.navigate('ResetPassword')}/>
               </View>
             </SafeAreaView>
@@ -99,7 +100,7 @@ export const styles = StyleSheet.create({
     marginRight: "auto",
     width: "100%",
     maxWidth: 650,
-    backgroundColor: "#fff"
+    backgroundColor: "#F8F4F4"
   },
   containerWeb: {
     padding: 16,
