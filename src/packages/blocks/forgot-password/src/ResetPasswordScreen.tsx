@@ -28,7 +28,7 @@ export default class ResetPassword extends ForgotPasswordController {
         (this.state.resetPassword === "",
         this.state.confirmResetPassword === "")
       ) {
-        Alert.alert("Alert", "please enter password");
+        Alert.alert("Alert", "please enter your password");
         return;
       }
       //reset password
