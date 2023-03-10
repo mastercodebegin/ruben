@@ -45,8 +45,8 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
     <View style={styles.container}>
       {renderIcons(tabName === "Home" ? home_marked :home_unmarked, tabName === "Home",'LandingPage')}
       {renderIcons(tabName === "Explore" ?shop_marked:shop_unmarked, tabName === "Explore",'ExplorePage')}
-      {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
       {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+      {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
       {renderIcons(tabName === "Settings"?settings_marked:settings_unmarked, tabName === "Settings",'Settings')}
     </View>
   );
