@@ -22,6 +22,7 @@ export interface Props {
   setState:any;
   state:any;
   firstTime:boolean;
+  currentUser:string;
   route:any;
   // Customizable Area End
 }
@@ -44,6 +45,8 @@ interface S {
   keyboardHeight:number;
   blogTab:number;
   animatedValue:any;
+  coldPackagingFee:boolean;
+  lifeTimeSubscription:boolean;
   // Customizable Area End
 }
 
@@ -83,7 +86,9 @@ export default class LandingPageController extends BlockComponent<
       loader:false,
       keyboardHeight:0,
       blogTab:0,
-      animatedValue:new Animated.Value(0)
+      animatedValue:new Animated.Value(0),
+      coldPackagingFee:true,
+      lifeTimeSubscription:true
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
