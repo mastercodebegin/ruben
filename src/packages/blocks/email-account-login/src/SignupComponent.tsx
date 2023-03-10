@@ -45,6 +45,8 @@ const SignupComponent = ({
   const [social, setSocial] = useState("");
   const [farmName, setFarmName] = useState("");
   const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const [mEmail,setmEmail]=useState('');
+  const [mPassword,setmPassword]=useState('')
   const [showMerchantModal, setShowMerchantModal] = useState(false);
   useEffect(() => {
     const Open = Keyboard.addListener("keyboardWillChangeFrame", (state) => {
@@ -109,6 +111,24 @@ const SignupComponent = ({
             </View>
           ) : (
             <View>
+              <TextInput
+                keyBoardtype="default"
+                onchangeText={setmEmail}
+                label="Email ID"
+                value={mEmail}
+                labeStyle={styles.label}
+                containerStyle={styles.containerStyle}
+                placeholder="Email ID"
+              />
+              <TextInput
+                keyBoardtype="default"
+                onchangeText={setmPassword}
+                label="Password"
+                value={mPassword}
+                labeStyle={styles.label}
+                containerStyle={styles.containerStyle}
+                placeholder="Passsword"
+              />
               <TextInput
                 keyBoardtype="default"
                 onchangeText={setFarmName}

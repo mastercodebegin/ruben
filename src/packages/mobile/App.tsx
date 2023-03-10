@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{createContext} from 'react';
 import {View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -16,6 +16,8 @@ import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
 import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -27,7 +29,20 @@ interface NavigatorType {
   initialScreen: string;
 }
 const Stack = createStackNavigator();
+export const AppStateContext = createContext({
+  currentUser:'user'
+})
+const initialState = {currentUser:'user'};
 
+export const reducer = (state = initialState, action:any) => {  
+  switch (action?.type) {
+    case 'UPDATE_USER':
+      return {...state,currentUser:action.payload}
+    default:
+      return state;
+  }
+};
+export const store = createStore(reducer);
 const RootNavigator = ({initialScreen}: NavigatorType) => {
   const ref = React.createRef();
 
@@ -78,12 +93,14 @@ export function App() {
     getUserDetails();
   }, []);
   return (
+  <Provider store={store}>
     <View style={{flex: 1}}>
       {initialScreen.show ? (
         <AppLauncher />
       ) : (
-        <RootNavigator initialScreen={initialScreen.initialRoute} />
+          <RootNavigator initialScreen={initialScreen.initialRoute} />
       )}
     </View>
+    </Provider>
   );
 }

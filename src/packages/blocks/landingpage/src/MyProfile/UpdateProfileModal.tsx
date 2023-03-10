@@ -19,6 +19,10 @@ import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED, edit } from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
+const validWhatssappLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
+const valifFacebookLink = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/([a-zA-Z0-9\.]+)(?:\/)?$/
+
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props:any) {
     super(props);
@@ -38,7 +42,7 @@ export default class UpdateProfileModal extends LandingPageController {
   // }
 
   render() {        
-    const onpressContinue = ()=> {
+    const onpressContinue = async ()=> {
       if(this.props.state.profileImage === ''){
         this.showAlert('Please select your profile picture ');
         return;
@@ -67,7 +71,7 @@ export default class UpdateProfileModal extends LandingPageController {
         return
       }
       this.props.setState({show_loader:true})  
-       AsyncStorage.getItem('userDetails').then((usrDetails:any)=>{
+       await AsyncStorage.getItem('userDetails').then(async (usrDetails:any)=>{
         const data:any = JSON.parse(usrDetails)
         
         var myHeaders = new Headers();
@@ -76,18 +80,18 @@ export default class UpdateProfileModal extends LandingPageController {
         data?.meta?.token
       );
       var formdata = new FormData();
-      // formdata.append('photo', {
+       formdata.append('photo', {
         //@ts-ignore
-      //   uri: this.props.state.profileImage,
-      //   type: 'image/jpeg',
-      //   name: 'photo1.jpg',
-      // });
+         uri: this.props.state.profileImage,
+         type: 'image/jpeg',
+         name: 'photo1.jpg',
+       });
       formdata.append("full_name", this.props.state.name);
       formdata.append("email_address", this.props.state.email);
       formdata.append("about_me", this.props.state.about_me);
-      formdata.append("instagram_link", this.props.state.instagram_link.replace(/"/g, ''));
-      formdata.append("whatsapp_link", this.props.state.whatsapp_link.replace(/"/g, ''));
-      formdata.append("facebook_link", this.props.state.facebook_link.replace(/"/g, ''));
+      formdata.append("instagram_link", this.props.state.instagram_link);
+      formdata.append("whatsapp_link", this.props.state.whatsapp_link);
+      formdata.append("facebook_link", this.props.state.facebook_link);
       formdata.append("phone_number", this.props.state.phone_number);
   
       var requestOptions = {
@@ -96,16 +100,12 @@ export default class UpdateProfileModal extends LandingPageController {
         body: formdata,
         redirect: "follow",
       };
-      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`;    
-      alert(JSON.stringify({
-        url,
-        requestOptions}))
-      fetch(
+      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`;
+     await fetch(
         url,
         requestOptions
       )
         .then((response) => {
-          alert(JSON.stringify(response))
           if(response.status == 201){
             Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:()=>{this.goToLandingPage.bind(this)()}}])
           }else if(response.status == 200){
@@ -153,6 +153,7 @@ export default class UpdateProfileModal extends LandingPageController {
           <View style={styles.blur} />
             <View style={styles.innerContainer}>
               <ScrollView
+              bounces={false}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.contentContainer}
               >

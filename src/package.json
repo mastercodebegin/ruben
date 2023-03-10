@@ -64,8 +64,10 @@
     "react-native-webview": "file:./packages/blocks/core/node_modules/react-native-webview",
     "react-navigation": "file:./packages/blocks/core/node_modules/react-navigation",
     "react-navigation-stack": "file:./packages/blocks/core/node_modules/react-navigation-stack",
+    "react-redux": "^8.0.5",
     "react-select": "^3.0.8",
     "recompose": "file:./packages/blocks/core/node_modules/recompose",
+    "redux": "^4.2.1",
     "yup": "file:./packages/blocks/core/node_modules/yup"
   },
   "devDependencies": {

@@ -15,6 +15,7 @@ import {
     LIGHT_GREY,
     DARK_RED,
     WHITE,
+    PRIMARY
     //@ts-ignore
 } from "../../assets/constants";
 import {
@@ -28,8 +29,10 @@ import {
 import BottomTab from "../BottomTab/BottomTab";
 const scrollerData = [{ name: 'Pork', image: PORK }, { name: 'Beef', image: beef_image }, { name: 'Poul', image: CHICKEN }, { name: 'Lamp', image: lamp_image },{name:'Honey',image:honey_image}];
 //@ts-ignore
-import RenderItems from '../RenderItems/RenderItems'
-export default class ExplorePage extends LandingPageController {
+import RenderItems from '../RenderItems/RenderItems';
+import { connect } from 'react-redux';
+import DualButton from "../../../../components/src/DualButton";
+  class ExplorePage extends LandingPageController {
     render() {
         
         return (
@@ -73,13 +76,30 @@ export default class ExplorePage extends LandingPageController {
                     <RenderItems rating={true} />
                 </View>
             </ScrollView>
-            <CartDetails/>
+            {
+                this.props.currentUser==='user'?
+                <CartDetails/>:
+            <DualButton button1Label="Inventory" button2label="+ Add products"/>
+            }
             </View>
             <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
             </SafeAreaView>
         );
     }
 }
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+      updateUser: () => {
+        dispatch({type:'UPDATE_USER',payload:'merchant'})},
+    };
+  };
+  
+const mapStateToProps = (reducer:any) => {    
+   return {
+     currentUser: reducer?.currentUser,
+   };
+ };
+export default connect(mapStateToProps,mapDispatchToProps)(ExplorePage);
 
 const styles = StyleSheet.create({
     main: {
