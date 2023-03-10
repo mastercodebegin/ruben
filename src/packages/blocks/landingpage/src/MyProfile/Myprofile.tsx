@@ -97,7 +97,7 @@ export default class Myprofile extends LandingPageController {
                     <Image
                       resizeMode="contain"
                       style={styles.contactIcon}
-                      source={{uri:'https://hdgfhdfg.png'}}
+                      source={mail}
                     />
                     <Text style={styles.contactText}>{this.state.email}</Text>
                   </View>
