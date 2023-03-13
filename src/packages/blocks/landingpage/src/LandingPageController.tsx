@@ -9,6 +9,10 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert} from 'react-native'
+const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
+const validWhatssappLink = /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
+const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
+
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -97,6 +101,7 @@ export default class LandingPageController extends BlockComponent<
   async receive(from: string, message: Message) {
     // Customizable Area Start    
     if (getName(MessageEnum.SessionSaveMessage) === message.id) {
+      return
     } 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -104,12 +109,14 @@ export default class LandingPageController extends BlockComponent<
       this.getprofileDetailsId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      var profileDetails = message.getData(
+      let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      var error = message.getData(
+      let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log(error);
+      
       if(profileDetails?.data?.attributes){
         const {
           about_me,
@@ -136,85 +143,100 @@ export default class LandingPageController extends BlockComponent<
     this.updateProfileDetailsId != null &&
     this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
-
       const userDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-
-      var error = message.getData(
+      console.log('userDetails ',userDetails);
+      this.props.setState({show_loader:false})  
+      let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      if(error){
+        this.showAlert('something went wrong')
+      }else if(userDetails){
+        if(this.props.firstTime){
+          Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:this.goToLandingPage.bind(this)}])
+        }else{
+          Alert.alert('Success','Profile updated successfully');
+        }
+      }
+      
+    }
+    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getCategoriesId != null &&
+    this.getCategoriesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
 
-      console.log('userDetails=============>>>>>>>/ ',userDetails);
+      const categories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      console.log(categories);
       
 
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.setState({show_loader:false})
+      if(error)
+      {
+        Alert.alert('Error','Something went wrong, Please try again later')
+      }
     }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
-  getprofileDetailsId:string =''
-  updateProfileDetailsId:string =''
+  getprofileDetailsId:string ='';
+  updateProfileDetailsId:string ='';
+  getCategoriesId:string='';
   
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
-  // LogNewFoodFunc = async (productid: number, quantity: string, food_type: string, date:string, time: string) => {
-  //   this.setState({ isLoading: true });
-  //   const data: any = await AsyncStorage.getItem("userInfo");
-  //   const userInfo = JSON.parse(data)
+  async getCategory(){
+    this.setState({show_loader:true})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token':data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
     
-  //   var formdata = new FormData();
-  //   formdata.append("account_id", userInfo.data.id.toString());
-  //   formdata.append("product_id", productid.toString());
-  //   formdata.append("quantity", quantity.toString());
-  //   formdata.append("food_type", food_type.toLowerCase())
-  //   formdata.append("default_time", date+" "+time);
-  //   console.log('formdata', formdata);
+    this.getCategoriesId = getValidationsMsg.messageId;
+    
 
-  //   if (data) {
-  //     const token = JSON.parse(data)?.meta.token;
-  //     const header = {
-  //       token: token,
-  //     };
-  //     let url = `${baseURL}${configJSON.LOG_NEW_FOOD_END_POINT}`
-  //     const requestMessage = new Message(
-  //       getName(MessageEnum.RestAPIRequestMessage)
-  //     );
-  //     this.logNewFoodMessageId = requestMessage.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getCategory
+    );
 
-  //     requestMessage.addData(
-  //       getName(MessageEnum.RestAPIResponceEndPointMessage),
-  //       url
-  //     );
-  //     requestMessage.addData(
-  //       getName(MessageEnum.RestAPIRequestHeaderMessage),
-  //       JSON.stringify(header)
-  //     );
-  //     requestMessage.addData(
-  //       getName(MessageEnum.RestAPIRequestBodyMessage),
-  //       formdata
-  //     );
-  //     requestMessage.addData(
-  //       getName(MessageEnum.RestAPIRequestMethodMessage),
-  //       configJSON.HTTP_POST_METHOD
-  //     );
-  //     runEngine.sendMessage(requestMessage.id, requestMessage);
-  //   }
-  //   return true;
-  // }
-
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
 
   showAlert(message:string){
     Alert.alert('Alert',message)
   }
-  async updateProfileDetails (firstTime:boolean=false){
-    if(this.props.state.profileImage === ''){
-      this.showAlert('Please select your profile picture ');
-      return;
-    } 
-    else if(this.props.state.name === ''){
+  async updateProfileDetails (firstTime:boolean) {
+    // if(this.props.state.profileImage === ''){
+    //   this.showAlert('Please select your profile picture ');
+    //   return;
+    // } 
+    // else 
+    if(this.props.state.name === ''){
       this.showAlert('Name can not be blank')
       return
     }else if (this.props.state.email === ''){
@@ -230,61 +252,68 @@ export default class LandingPageController extends BlockComponent<
     }else if (this.props.state.instagram_link === ''){
       this.showAlert('please provide your Instagram link')
       return
-    }else if (this.props.state.whatsapp_link === ''){
-      this.showAlert('please provide your WhatsApp link')
-      return
-    }else if (this.props.state.facebook_link === ''){
-      this.showAlert('please provide your Facebook link')
+    }
+    else if ( !validInstagramLink.test(this.props.state.instagram_link)){
+      this.showAlert('please provide valid Instagram link')
       return
     }
-    const token:any = await  AsyncStorage.getItem('userDetails');
-    const data= JSON.parse(token)
-    const headers = {
-      'token':data?.meta?.token
-    };
-    var formdata = new FormData();
-      formdata.append('photo', {
-        //@ts-ignore
-        uri: this.props.state.profileImage,
-        type: 'image/jpeg',
-        name: 'photo1.jpg',
-        
-      });
-      formdata.append("full_name", this.props.state.name);
-      formdata.append("email_address", this.props.state.email);
-      formdata.append("about_me", this.props.state.about_me);
-      formdata.append("instagram_link", this.props.state.instagram_link.replace(/"/g, ''));
-      formdata.append("whatsapp_link", this.props.state.whatsapp_link.replace(/"/g, ''));
-      formdata.append("facebook_link", this.props.state.facebook_link.replace(/"/g, ''));
-      formdata.append("phone_number", this.props.state.phone_number);
-
-    const getValidationsMsg = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
+    else if (this.props.state.whatsapp_link === ''){
+      this.showAlert('please provide your WhatsApp link')
+      return
+    }else if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
+      this.showAlert('please provide valid Whats app link')
+      return
+    }
+    else if (this.props.state.facebook_link === ''){
+      this.showAlert('please provide your Facebook link')
+      return
+    }else if ( !validFacebookLink.test(this.props.state.facebook_link)){
+      this.showAlert('please provide valid facebook profile link')
+      return
+    }
+    this.props.setState({show_loader:true})  
+    const userDetails:any = await AsyncStorage.getItem('userDetails');
+    const data:any = JSON.parse(userDetails);
+    const formdata = new FormData();
+    // formdata.append('photo', {
+    //   //@ts-ignore
+    //    uri: this.props.state.profileImage,
+    //    type: 'image/jpeg',
+    //    name: 'photo1.jpg',
+    //  });
+    formdata.append("full_name", this.props.state.name);
+    formdata.append("email_address", this.props.state.email);
+    formdata.append("about_me", this.props.state.about_me);
+    formdata.append("instagram_link", this.props.state.instagram_link);
+    formdata.append("whatsapp_link", this.props.state.whatsapp_link);
+    formdata.append("facebook_link", this.props.state.facebook_link);
+    formdata.append("phone_number", this.props.state.phone_number);
+      const header = {
+        'token': data?.meta?.token,
+      };
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+      this.updateProfileDetailsId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        firstTime ?  configJSON.userDetailsEndpoint : `${configJSON.userDetailsEndpoint}/${this?.props?.state?.id}`
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(header)
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        formdata
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+        firstTime ? 'POST' : 'PATCH'
+      );
+      runEngine.sendMessage(requestMessage.id, requestMessage);
     
-    this.updateProfileDetailsId = getValidationsMsg.messageId;
-    
-alert( `${firstTime?configJSON.userDetailsEndpoint:configJSON.userDetailsEndpoint+'/'+this.props.state.id}`)
-    getValidationsMsg.addData(
-      getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${firstTime?configJSON.userDetailsEndpoint:configJSON.userDetailsEndpoint+'/'+this.props.state.id}`
-    );
-
-    getValidationsMsg.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(headers)
-    );
-
-    getValidationsMsg.addData(
-      getName(MessageEnum.RestAPIRequestBodyMessage),
-      formdata
-    );
-    getValidationsMsg.addData(
-      getName(MessageEnum.RestAPIRequestMethodMessage),
-      firstTime ?  configJSON.exampleAPiMethod : configJSON.updateProfileMethod
-    );
-    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
-    
+    return true;
   }
   async getProfileDetails() {
     this.setState({loader:true})
