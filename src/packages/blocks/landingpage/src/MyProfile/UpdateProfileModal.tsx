@@ -16,16 +16,13 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, edit } from "../assets";
+import { close, DARK_RED, edit ,sampleProfile,profileSample} from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
-const validWhatssappLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
-const valifFacebookLink = /^(?:https?:\/\/)?(?:www\.)?facebook\.com\/([a-zA-Z0-9\.]+)(?:\/)?$/
 
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props:any) {
     super(props);
+    this.receive = this.receive.bind(this);
   }
   //@ts-ignore
   componentDidMount(){
@@ -42,86 +39,6 @@ export default class UpdateProfileModal extends LandingPageController {
   // }
 
   render() {        
-    const onpressContinue = async ()=> {
-      if(this.props.state.profileImage === ''){
-        this.showAlert('Please select your profile picture ');
-        return;
-      } 
-      else if(this.props.state.name === ''){
-        this.showAlert('Name can not be blank')
-        return
-      }else if (this.props.state.email === ''){
-        this.showAlert('Email can not be blank')
-        return
-      }
-      else if (this.props.state.phone_number === ''){
-        this.showAlert('please provide your phone number')
-        return
-      }else if (this.props.state.about_me === ''){
-        this.showAlert('please provide information about you')
-        return
-      }else if (this.props.state.instagram_link === ''){
-        this.showAlert('please provide your Instagram link')
-        return
-      }else if (this.props.state.whatsapp_link === ''){
-        this.showAlert('please provide your WhatsApp link')
-        return
-      }else if (this.props.state.facebook_link === ''){
-        this.showAlert('please provide your Facebook link')
-        return
-      }
-      this.props.setState({show_loader:true})  
-       await AsyncStorage.getItem('userDetails').then(async (usrDetails:any)=>{
-        const data:any = JSON.parse(usrDetails)
-        
-        var myHeaders = new Headers();
-      myHeaders.append(
-        "token",
-        data?.meta?.token
-      );
-      var formdata = new FormData();
-       formdata.append('photo', {
-        //@ts-ignore
-         uri: this.props.state.profileImage,
-         type: 'image/jpeg',
-         name: 'photo1.jpg',
-       });
-      formdata.append("full_name", this.props.state.name);
-      formdata.append("email_address", this.props.state.email);
-      formdata.append("about_me", this.props.state.about_me);
-      formdata.append("instagram_link", this.props.state.instagram_link);
-      formdata.append("whatsapp_link", this.props.state.whatsapp_link);
-      formdata.append("facebook_link", this.props.state.facebook_link);
-      formdata.append("phone_number", this.props.state.phone_number);
-  
-      var requestOptions = {
-        method:this.props.firstTime ? "POST" :'PATCH',
-        headers: myHeaders,
-        body: formdata,
-        redirect: "follow",
-      };
-      const url = `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_profile/profiles${this.props.firstTime ? '' :'/'+this?.props?.state?.id}`;
-     await fetch(
-        url,
-        requestOptions
-      )
-        .then((response) => {
-          if(response.status == 201){
-            Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:()=>{this.goToLandingPage.bind(this)()}}])
-          }else if(response.status == 200){
-            Alert.alert('Success','Profile updated successfully')
-            this.getProfileDetails.bind(this)()
-          }
-        }
-        ).catch(e=>{
-          Alert.alert('Error','Something went wrong , please try again later')
-        })
-        .finally(()=>{
-        this.props.setState({show_loader:false})
-      });
-      })
-      
-    }
     const opencamera = () => {
       ImagePicker.openCamera({
         cropping: false,
@@ -174,7 +91,10 @@ export default class UpdateProfileModal extends LandingPageController {
                   >
                     <ImageBackground
                       style={styles.profileImage}
-                      source={ {uri:this.props.state.profileImage}}
+                      source={ 
+                        profileSample
+                        // {uri:this.props.state.profileImage}
+                      }
                     >
                       <View style={styles.blurr} />
                       <Image
@@ -248,8 +168,7 @@ export default class UpdateProfileModal extends LandingPageController {
 
                 <Button
                   style={{ marginTop: 20 }}
-                  onPress={()=>onpressContinue()}
-                    // this.updateProfileDetails.bind(this)(this.props.firstTime)}
+                  onPress={()=>this.updateProfileDetails(this.props.firstTime)}
                   label={"Save Details"}
                 />
                 <View style={{height:this.props.state.keyboardHeight}}/>
