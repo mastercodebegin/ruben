@@ -23,6 +23,7 @@ interface SignupComponentTypes {
   setShowModal: (value: boolean) => void;
   showModal: boolean;
   resetStack: (screen: string) => void;
+  couponCode: string;
 }
 const SignupComponent = ({
   onPressLogin,
@@ -34,6 +35,7 @@ const SignupComponent = ({
   showModal,
   setShowModal,
   resetStack,
+  couponCode,
 }: SignupComponentTypes) => {
   const [checked, setChecked] = useState(false);
   const [isMerchant, setIsMerchant] = useState("user");
@@ -45,8 +47,8 @@ const SignupComponent = ({
   const [social, setSocial] = useState("");
   const [farmName, setFarmName] = useState("");
   const [keyboardOffset, setKeyboardOffset] = useState(0);
-  const [mEmail,setmEmail]=useState('');
-  const [mPassword,setmPassword]=useState('')
+  const [mEmail, setmEmail] = useState("");
+  const [mPassword, setmPassword] = useState("");
   const [showMerchantModal, setShowMerchantModal] = useState(false);
   useEffect(() => {
     const Open = Keyboard.addListener("keyboardWillChangeFrame", (state) => {
@@ -238,6 +240,7 @@ const SignupComponent = ({
             setShowModal(false);
             resetStack("MeatLocker");
           }}
+          couponCode={couponCode}
           onpressContinue={() => resetStack("MeatLocker")}
           visible={showModal}
         />

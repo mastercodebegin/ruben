@@ -72,7 +72,11 @@ export default class Myprofile extends LandingPageController {
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
                   {this.state.profileImage != '' && <Image style={styles.profileImage}
-                  source={{uri:this.state.profileImage}} />}
+                  source={
+                    profileSample
+                    // {uri:this.state.profileImage}
+                  } 
+                  />}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity style={styles.socialbutton}>
@@ -174,6 +178,7 @@ export default class Myprofile extends LandingPageController {
           setVisibleProfileModal={() =>
             this.setState({ showProfileModal: false })
           }
+          //@ts-ignore
           getProfileDetails={this.getProfileDetails.bind(this)}
           state={this.state}
           firstTime={this.props?.route?.params?.firstTime}

@@ -42,6 +42,7 @@ interface S {
   signupEmail: string;
   signupPassword: string;
   showLoader: boolean;
+  coupon_code: string;
   // Customizable Area End
 }
 
@@ -96,6 +97,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       signupEmail: "",
       signupPassword: "",
       showLoader: false,
+      coupon_code: "",
     };
 
     this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -282,87 +284,15 @@ export default class EmailAccountLoginController extends BlockComponent<
 
   async receive(from: string, message: Message) {
     // Customizable Area Start
-
-    // if (getName(MessageEnum.ReciveUserCredentials) === message.id) {
-    //   const userName = message.getData(getName(MessageEnum.LoginUserName));
-
-    //   const password = message.getData(getName(MessageEnum.LoginPassword));
-
-    //   const countryCode = message.getData(
-    //     getName(MessageEnum.LoginCountryCode)
-    //   );
-
-    //   if (!countryCode && userName && password) {
-    //     this.setState({
-    //       email: userName,
-    //       password: password,
-    //       checkedRememberMe: true,
-    //     });
-
-    //     //@ts-ignore
-    //     this.txtInputEmailProps.value = userName;
-
-    //     //@ts-ignore
-    //     this.txtInputPasswordProps.value = password;
-
-    //     this.CustomCheckBoxProps.isChecked = true;
-    //   }
-    // } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
-    //   const apiRequestCallId = message.getData(
-    //     getName(MessageEnum.RestAPIResponceDataMessage)
-    //   );
-
-    //   var responseJson = message.getData(
-    //     getName(MessageEnum.RestAPIResponceSuccessMessage)
-    //   );
-
-    //   var errorReponse = message.getData(
-    //     getName(MessageEnum.RestAPIResponceErrorMessage)
-    //   );
-
-    //   if (apiRequestCallId != null) {
-    //     if (
-    //       apiRequestCallId === this.validationApiCallId &&
-    //       responseJson !== undefined
-    //     ) {
-    //       var arrayholder = responseJson.data;
-
-    //       if (arrayholder && arrayholder.length !== 0) {
-    //         let regexData = arrayholder[0];
-
-    //         if (regexData && regexData.email_validation_regexp) {
-    //           this.emailReg = new RegExp(regexData.email_validation_regexp);
-    //         }
-    //       }
-    //     }
-
-    //     if (apiRequestCallId === this.apiEmailLoginCallId) {
-    //       if (responseJson && responseJson.meta && responseJson.meta.token) {
-    //         runEngine.unSubscribeFromMessages(this, this.subScribedMessages);
-    //         this.saveLoggedInUserData(responseJson);
-    //         this.sendLoginSuccessMessage();
-    //         this.openInfoPage();
-    //       } else {
-    //         //Check Error Response
-    //         this.parseApiErrorResponse(responseJson);
-    //         this.sendLoginFailMessage();
-    //       }
-
-    //       this.parseApiCatchErrorResponse(errorReponse);
-    //     }
-    //   }
-    // }
-
     if (getName(MessageEnum.SessionSaveMessage) === message.id) {
+      return;
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.apiEmailLoginCallId != null &&
       this.apiEmailLoginCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      console.log("this.apiEmailLoginCallId ", this.apiEmailLoginCallId);
-
-      var signupResponse = message.getData(
+      let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       if (signupResponse?.meta?.token) {
@@ -381,13 +311,16 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.apiEmailSignupCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      var newLogged = message.getData(
+      let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       if (newLogged?.meta?.token) {
         AsyncStorage.setItem("userDetails", JSON.stringify(newLogged)).then(
           () => {
-            this.setState({ showModal: true });
+            this.setState({
+              showModal: true,
+              coupon_code: newLogged?.data?.attributes?.code,
+            });
           }
         );
       } else {

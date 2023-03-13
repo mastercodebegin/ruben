@@ -13,6 +13,6 @@ exports.userDetailsEndpoint='bx_block_profile/profiles';
 exports.textInputPlaceHolder = "Enter Text";
 exports.labelTitleText = "LandingPage";
 exports.labelBodyText = "LandingPage Body";
-
+exports.getCategory= "bx_block_categories/categories"
 exports.btnExampleTitle = "CLICK ME";
 // Customizable Area End

@@ -48,18 +48,18 @@ export default class Setting extends LandingPageController {
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.options}>Terms & conditions</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <View style={styles.button}>
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Lifetime Subscription</Text>
                   <Trigger
-                    value={this.state.coldPackagingFee}
+                    value={this.state.lifeTimeSubscription}
                     setValue={(value) => {
-                      this.setState({ coldPackagingFee: value });
+                      this.setState({ lifeTimeSubscription: value });
                     }}
                   />
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              </View>
+              <View style={styles.button}>
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Cold Packaging Fee</Text>
                   <Trigger
@@ -69,7 +69,7 @@ export default class Setting extends LandingPageController {
                     }}
                   />
                 </View>
-              </TouchableOpacity>
+              </View>
               <TouchableOpacity onPress={onpressLogout} style={styles.button}>
                 <Text style={styles.options}>Log Out</Text>
               </TouchableOpacity>
@@ -108,5 +108,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingRight:10
   },
 });

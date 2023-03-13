@@ -177,6 +177,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                   onchangeEmail={(email) =>
                     this.setState({ signupEmail: email })
                   }
+                  couponCode={this.state.coupon_code}
                   email={this.state.signupEmail}
                   password={this.state.signupPassword}
                   onpressSignup={this.btnSignupPress.onpress}

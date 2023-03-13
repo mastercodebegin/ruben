@@ -18,14 +18,16 @@ interface ModalTypes {
   visible: boolean;
   onpressClose: () => void;
   onpressContinue: () => void;
+  couponCode: string;
 }
 const SuccessModal = ({
   visible = false,
   onpressClose,
   onpressContinue,
+  couponCode,
 }: ModalTypes) => {
   const onpressCopy = () => {
-    Clipboard.setString("ABCD123");
+    Clipboard.setString(couponCode);
     if (Platform.OS === "ios") {
       Toast.show("Code copied");
       return;

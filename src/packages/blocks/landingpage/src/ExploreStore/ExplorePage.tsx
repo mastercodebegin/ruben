@@ -32,7 +32,16 @@ const scrollerData = [{ name: 'Pork', image: PORK }, { name: 'Beef', image: beef
 import RenderItems from '../RenderItems/RenderItems';
 import { connect } from 'react-redux';
 import DualButton from "../../../../components/src/DualButton";
+import CommonLoader from "../../../../components/src/CommonLoader";
   class ExplorePage extends LandingPageController {
+    constructor(props:any) {
+        super(props);
+        this.receive = this.receive.bind(this);
+    }
+    //@ts-ignore
+    componentDidMount() {
+        this.getCategory()
+    }
     render() {
         
         return (
@@ -83,6 +92,7 @@ import DualButton from "../../../../components/src/DualButton";
             }
             </View>
             <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
+            {this.state.show_loader && <CommonLoader visible={this.state.show_loader}/>}
             </SafeAreaView>
         );
     }
