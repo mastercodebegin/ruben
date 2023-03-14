@@ -11,6 +11,8 @@ import {
   Animated,
   Alert,
   SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import {
   responsiveHeight,
@@ -107,90 +109,94 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
       // Required for all blocks
 
       <SafeAreaView style={{ flex: 1 }}>
-        <TouchableWithoutFeedback
-          testID={"Background"}
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          <View style={styles.container}>
-            <View style={{ paddingHorizontal: 20 }}>
-              <Image style={styles.logo} source={Logo} />
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity onPress={onpressLogin}>
-                  <Text
-                    style={[
-                      styles.header,
-                      this.state.selectedTab && styles.selected,
-                    ]}
-                  >
-                    Log In
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onpressSignup}>
-                  <Text
-                    style={[
-                      styles.header,
-                      !this.state.selectedTab && styles.selected,
-                    ]}
-                  >
-                    Sign Up
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <Animated.View
-              style={{
-                flexDirection: "row",
-                width: Dimensions.get("window").width * 2,
-                transform: [{ translateX: this.state.animatedValue }],
-                flex: 1,
+        <KeyboardAvoidingView behavior="padding">
+          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+            <TouchableWithoutFeedback
+              testID={"Background"}
+              onPress={() => {
+                this.hideKeyboard();
               }}
             >
-              <View style={styles.animated}>
-                <LoginComponent
-                  onchangeEmail={onchangeEmail}
-                  onchangePassword={onchangePassword}
-                  email={this.state.email}
-                  password={this.state.password}
-                  onpressSignup={onpressSignup}
-                  onpressLogin={() => {
-                    if (this.state.email === "") {
-                      Alert.alert("Error", "Email is required");
-                      return false;
-                    } else if (this.state.password === "") {
-                      Alert.alert("Error", "Password is required");
-                      return false;
-                    }
-                    this.btnEmailLogInProps.onPress();
-                    return true;
+              <View style={styles.container}>
+                <View style={{ paddingHorizontal: 20 }}>
+                  <Image style={styles.logo} source={Logo} />
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity onPress={onpressLogin}>
+                      <Text
+                        style={[
+                          styles.header,
+                          this.state.selectedTab && styles.selected,
+                        ]}
+                      >
+                        Log In
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onpressSignup}>
+                      <Text
+                        style={[
+                          styles.header,
+                          !this.state.selectedTab && styles.selected,
+                        ]}
+                      >
+                        Sign Up
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <Animated.View
+                  style={{
+                    flexDirection: "row",
+                    width: Dimensions.get("window").width * 2,
+                    transform: [{ translateX: this.state.animatedValue }],
+                    flex: 1,
                   }}
-                  navigation={this.props.navigation}
-                />
+                >
+                  <View style={styles.animated}>
+                    <LoginComponent
+                      onchangeEmail={onchangeEmail}
+                      onchangePassword={onchangePassword}
+                      email={this.state.email}
+                      password={this.state.password}
+                      onpressSignup={onpressSignup}
+                      onpressLogin={() => {
+                        if (this.state.email === "") {
+                          Alert.alert("Error", "Email is required");
+                          return false;
+                        } else if (this.state.password === "") {
+                          Alert.alert("Error", "Password is required");
+                          return false;
+                        }
+                        this.btnEmailLogInProps.onPress();
+                        return true;
+                      }}
+                      navigation={this.props.navigation}
+                    />
+                  </View>
+                  <View style={styles.animated}>
+                    <SignupComponent
+                      showModal={this.state.showModal}
+                      setShowModal={(value: boolean) =>
+                        this.setState({ showModal: value })
+                      }
+                      onchangeEmail={(email) =>
+                        this.setState({ signupEmail: email })
+                      }
+                      couponCode={this.state.coupon_code}
+                      email={this.state.signupEmail}
+                      password={this.state.signupPassword}
+                      onpressSignup={this.btnSignupPress.onpress}
+                      resetStack={this.btnSignupPress.resetStack}
+                      onchangePassword={(pass) =>
+                        this.setState({ signupPassword: pass })
+                      }
+                      onPressLogin={onpressLogin}
+                    />
+                  </View>
+                </Animated.View>
               </View>
-              <View style={styles.animated}>
-                <SignupComponent
-                  showModal={this.state.showModal}
-                  setShowModal={(value: boolean) =>
-                    this.setState({ showModal: value })
-                  }
-                  onchangeEmail={(email) =>
-                    this.setState({ signupEmail: email })
-                  }
-                  couponCode={this.state.coupon_code}
-                  email={this.state.signupEmail}
-                  password={this.state.signupPassword}
-                  onpressSignup={this.btnSignupPress.onpress}
-                  resetStack={this.btnSignupPress.resetStack}
-                  onchangePassword={(pass) =>
-                    this.setState({ signupPassword: pass })
-                  }
-                  onPressLogin={onpressLogin}
-                />
-              </View>
-            </Animated.View>
-          </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
     // Merge Engine - render - End
