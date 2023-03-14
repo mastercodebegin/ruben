@@ -145,7 +145,8 @@ const SignupComponent = ({
               onchangeText={setDescription}
               label="Description of the Farm"
               value={description}
-              labeStyle={styles.label}
+              labeStyle={{ ...styles.label, paddingBottom: 10 }}
+              multiline
               containerStyle={styles.containerStyle}
               placeholder="Description of the Farm"
             />
@@ -181,7 +182,7 @@ const SignupComponent = ({
         </View>
         <Button
           label={isMerchant === "user" ? "Sign Up" : "Submit Farm"}
-          onPress={onpressSignup}
+          onPress={isMerchant === "user" ? onpressSignup : () => {}}
         />
         <View style={styles.createAcc}>
           <Text style={{ fontSize: 17, color: "#8D7D75" }}>
@@ -198,6 +199,8 @@ const SignupComponent = ({
           customChildren
           blur
           visible={showMerchantModal}
+          //@ts-ignore
+          setVisible={setShowMerchantModal}
           transparent
         >
           <Text style={styles.text}>

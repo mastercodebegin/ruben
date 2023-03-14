@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  ScrollView,
-} from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
@@ -40,42 +34,40 @@ const LoginComponent = ({
   const [checked, setChecked] = useState(false);
   return (
     <View style={styles.mainContainer}>
-      <ScrollView>
-        <TextInput
-          keyBoardtype="email-address"
-          label="Email ID"
-          value={email}
-          labeStyle={styles.label}
-          onchangeText={onchangeEmail}
-          placeholder="Email ID"
-        />
-        <TextInput
-          secureTextEntry={true}
-          keyBoardtype="default"
-          labeStyle={styles.label}
-          label="Password"
-          value={password}
-          onchangeText={onchangePassword}
-          placeholder="Password"
-          containerStyle={styles.containerStyle}
-        />
-        <View style={styles.remeber}>
-          <View style={styles.remeberMe}>
-            <CheckBox checked={checked} setChecked={setChecked} />
-            <Text style={styles.rememberText}>Remember Me</Text>
-          </View>
-          <TouchableOpacity onPress={onpressForgotPassword}>
-            <Text style={styles.text}>Forgot Password?</Text>
-          </TouchableOpacity>
+      <TextInput
+        keyBoardtype="email-address"
+        label="Email ID"
+        value={email}
+        labeStyle={styles.label}
+        onchangeText={onchangeEmail}
+        placeholder="Email ID"
+      />
+      <TextInput
+        secureTextEntry={true}
+        keyBoardtype="default"
+        labeStyle={styles.label}
+        label="Password"
+        value={password}
+        onchangeText={onchangePassword}
+        placeholder="Password"
+        containerStyle={styles.containerStyle}
+      />
+      <View style={styles.remeber}>
+        <View style={styles.remeberMe}>
+          <CheckBox checked={checked} setChecked={setChecked} />
+          <Text style={styles.rememberText}>Remember Me</Text>
         </View>
-        <Button label={"Log In"} onPress={onpressLogin} />
-        <View style={styles.createAcc}>
-          <Text style={styles.text}>{"Don't have an account ? "}</Text>
-          <TouchableOpacity onPress={onpressSignup}>
-            <Text style={styles.signup}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        <TouchableOpacity onPress={onpressForgotPassword}>
+          <Text style={styles.text}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
+      <Button label={"Log In"} onPress={onpressLogin} />
+      <View style={styles.createAcc}>
+        <Text style={styles.text}>{"Don't have an account ? "}</Text>
+        <TouchableOpacity onPress={onpressSignup}>
+          <Text style={styles.signup}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
