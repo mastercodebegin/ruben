@@ -123,6 +123,7 @@ const SignupComponent = ({
                 placeholder="Email ID"
               />
               <TextInput
+                secureTextEntry
                 keyBoardtype="default"
                 onchangeText={setmPassword}
                 label="Password"
