@@ -189,6 +189,9 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                       onchangePassword={(pass) =>
                         this.setState({ signupPassword: pass })
                       }
+                      doMerchantSignup={this.btnSignupPress.merchantSignup.bind(
+                        this
+                      )}
                       onPressLogin={onpressLogin}
                     />
                   </View>

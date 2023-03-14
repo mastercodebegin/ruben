@@ -134,6 +134,7 @@ export default class EmailAccountLoginController extends BlockComponent<
   btnSignupPress = {
     onpress: () => this.doEmailSignup(),
     resetStack: this.resetStack,
+    merchantSignup: this.doMerchantSignup,
   };
 
   doEmailSignup(): boolean {
@@ -191,6 +192,14 @@ export default class EmailAccountLoginController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
     return true;
+  }
+  doMerchantSignup(password: string) {
+    if (!this.passwordReg.test(password)) {
+      Alert.alert(
+        "Invalid password",
+        "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
+      );
+    }
   }
 
   btnPasswordShowHideProps = {

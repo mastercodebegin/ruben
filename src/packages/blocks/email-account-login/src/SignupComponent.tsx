@@ -17,6 +17,7 @@ interface SignupComponentTypes {
   showModal: boolean;
   resetStack: (screen: string) => void;
   couponCode: string;
+  doMerchantSignup: (password: string) => void;
 }
 const SignupComponent = ({
   onPressLogin,
@@ -29,6 +30,7 @@ const SignupComponent = ({
   setShowModal,
   resetStack,
   couponCode,
+  doMerchantSignup,
 }: SignupComponentTypes) => {
   const [checked, setChecked] = useState(false);
   const [isMerchant, setIsMerchant] = useState("user");
@@ -182,7 +184,11 @@ const SignupComponent = ({
         </View>
         <Button
           label={isMerchant === "user" ? "Sign Up" : "Submit Farm"}
-          onPress={isMerchant === "user" ? onpressSignup : () => {}}
+          onPress={
+            isMerchant === "user"
+              ? onpressSignup
+              : () => doMerchantSignup(mPassword)
+          }
         />
         <View style={styles.createAcc}>
           <Text style={{ fontSize: 17, color: "#8D7D75" }}>
