@@ -33,7 +33,7 @@ const TextInput = ({
   onchangeText,
   containerStyle,
   keyBoardtype,
-  multiline,
+  multiline=false,
   textInputStyle,
   numberOfLines,
   labeStyle,

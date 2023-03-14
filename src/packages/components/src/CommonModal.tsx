@@ -6,7 +6,7 @@ const closeIcon = require("./closeIcon.png");
 interface ModalProps {
   transparent?: boolean;
   visible: boolean;
-  setVisible?: boolean;
+  setVisible?: ()=>void;
   blur?: boolean;
   button?: boolean;
   buttonLabel?: string;

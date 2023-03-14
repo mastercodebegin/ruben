@@ -14,7 +14,6 @@ import {
   MID_PEACH,
   DARK_RED,
   WHITE,
-  profile_pic,
   whatsapp,
   mail,
   phone,
@@ -74,7 +73,6 @@ export default class Myprofile extends LandingPageController {
                   {this.state.profileImage != '' && <Image style={styles.profileImage}
                   source={
                     profileSample
-                    // {uri:this.state.profileImage}
                   } 
                   />}
                   <Text style={styles.name}>{this.state.name}</Text>

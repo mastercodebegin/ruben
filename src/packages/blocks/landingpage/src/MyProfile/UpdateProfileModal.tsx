@@ -16,7 +16,7 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, edit ,sampleProfile,profileSample} from "../assets";
+import { close, DARK_RED, edit ,profileSample} from "../assets";
 import ImagePicker from "react-native-image-crop-picker";
 
 export default class UpdateProfileModal extends LandingPageController {
@@ -93,7 +93,6 @@ export default class UpdateProfileModal extends LandingPageController {
                       style={styles.profileImage}
                       source={ 
                         profileSample
-                        // {uri:this.props.state.profileImage}
                       }
                     >
                       <View style={styles.blurr} />

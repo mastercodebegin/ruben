@@ -51,6 +51,7 @@ interface S {
   animatedValue:any;
   coldPackagingFee:boolean;
   lifeTimeSubscription:boolean;
+  categories:Array<object>
   // Customizable Area End
 }
 
@@ -92,7 +93,8 @@ export default class LandingPageController extends BlockComponent<
       blogTab:0,
       animatedValue:new Animated.Value(0),
       coldPackagingFee:true,
-      lifeTimeSubscription:true
+      lifeTimeSubscription:true,
+      categories:[]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -146,47 +148,48 @@ export default class LandingPageController extends BlockComponent<
       const userDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      console.log('userDetails ',userDetails);
       this.props.setState({show_loader:false})  
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if(error){
-        this.showAlert('something went wrong')
-      }else if(userDetails){
-        if(this.props.firstTime){
-          Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:this.goToLandingPage.bind(this)}])
-        }else{
-          Alert.alert('Success','Profile updated successfully');
-        }
-      }
-      
+      this.updateProfileCallback(error,userDetails)
     }
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getCategoriesId != null &&
     this.getCategoriesId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
-
       const categories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      console.log(categories);
-      
-
+      );  
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.setState({show_loader:false})
-      if(error)
-      {
-        Alert.alert('Error','Something went wrong, Please try again later')
-      }
+      this.categoryCallback(error,categories?.data)
     }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  categoryCallback(error:any,categories:any){
+      if(error)
+      {
+        Alert.alert('Error','Something went wrong, Please try again later')
+      }else{
+        this.setState({show_loader:false,categories:categories})
+      }
+  }
+  updateProfileCallback(error:any,response:any){
+    if(error){
+      this.showAlert('something went wrong')
+    }else if(response){
+      if(this.props.firstTime){
+        Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:this.goToLandingPage.bind(this)}])
+      }else{
+        Alert.alert('Success','Profile updated successfully',[{text:'OK',onPress:()=> this.props.setState({showProfileModal:false})}]);
+      }
+    }
+  }
   getprofileDetailsId:string ='';
   updateProfileDetailsId:string ='';
   getCategoriesId:string='';
@@ -275,12 +278,6 @@ export default class LandingPageController extends BlockComponent<
     const userDetails:any = await AsyncStorage.getItem('userDetails');
     const data:any = JSON.parse(userDetails);
     const formdata = new FormData();
-    // formdata.append('photo', {
-    //   //@ts-ignore
-    //    uri: this.props.state.profileImage,
-    //    type: 'image/jpeg',
-    //    name: 'photo1.jpg',
-    //  });
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
     formdata.append("about_me", this.props.state.about_me);

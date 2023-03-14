@@ -15,24 +15,20 @@ import {
     LIGHT_GREY,
     DARK_RED,
     WHITE,
-    PRIMARY
     //@ts-ignore
 } from "../../assets/constants";
 import {
     SEARCH,
     EXPLORE_BTN,
-    CHICKEN, PORK,
-    beef_image,
-    lamp_image,
-    honey_image
+    PORK,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-const scrollerData = [{ name: 'Pork', image: PORK }, { name: 'Beef', image: beef_image }, { name: 'Poul', image: CHICKEN }, { name: 'Lamp', image: lamp_image },{name:'Honey',image:honey_image}];
 //@ts-ignore
 import RenderItems from '../RenderItems/RenderItems';
 import { connect } from 'react-redux';
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
+import { FlatList } from "react-native-gesture-handler";
   class ExplorePage extends LandingPageController {
     constructor(props:any) {
         super(props);
@@ -40,7 +36,7 @@ import CommonLoader from "../../../../components/src/CommonLoader";
     }
     //@ts-ignore
     componentDidMount() {
-        this.getCategory()
+        this.getCategory.bind(this)()
     }
     render() {
         
@@ -71,16 +67,20 @@ import CommonLoader from "../../../../components/src/CommonLoader";
                             </View>
                         </View>
                     </View>
-                    <ScrollView showsHorizontalScrollIndicator={false}
+                    <FlatList data={this.state.categories} 
+                    horizontal
+                    style={{marginLeft:20}}
                     bounces={false}
-                        style={{ marginLeft: 20 }}
-                        horizontal>
-                        {scrollerData.map((item, i) => (
-                            <TouchableOpacity key={i} style={styles.scrollerItemContainer}>
-                                <Image style={styles.scrollerImg} source={item?.image} />
-                                <Text style={styles.scrollerText}>{item?.name}</Text>
-                            </TouchableOpacity>))}
-                    </ScrollView>
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({item,index})=>{
+                        return(
+                            <TouchableOpacity key={index} style={styles.scrollerItemContainer}>
+                                <Image style={styles.scrollerImg} source={PORK} />
+                                <Text style={styles.scrollerText}>{item?.attributes.name}</Text>
+                            </TouchableOpacity>
+                        )
+                    }}
+                    />
                     <RenderItems rating={false} />
                     <RenderItems rating={true} />
                 </View>
