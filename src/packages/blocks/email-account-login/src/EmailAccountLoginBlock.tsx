@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import {
   responsiveHeight,
@@ -109,7 +110,9 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
       // Required for all blocks
 
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
           <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
             <TouchableWithoutFeedback
               testID={"Background"}

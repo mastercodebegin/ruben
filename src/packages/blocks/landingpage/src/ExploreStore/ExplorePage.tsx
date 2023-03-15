@@ -20,7 +20,6 @@ import {
 import {
     SEARCH,
     EXPLORE_BTN,
-    PORK,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 //@ts-ignore
@@ -29,6 +28,7 @@ import { connect } from 'react-redux';
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { FlatList } from "react-native-gesture-handler";
+import FastImage from 'react-native-fast-image'
   class ExplorePage extends LandingPageController {
     constructor(props:any) {
         super(props);
@@ -75,7 +75,7 @@ import { FlatList } from "react-native-gesture-handler";
                     renderItem={({item,index})=>{
                         return(
                             <TouchableOpacity key={index} style={styles.scrollerItemContainer}>
-                                <Image style={styles.scrollerImg} source={PORK} />
+                                <FastImage style={styles.scrollerImg} source={{uri:item?.attributes?.icon?.url}} />
                                 <Text style={styles.scrollerText}>{item?.attributes.name}</Text>
                             </TouchableOpacity>
                         )
