@@ -51,7 +51,9 @@ interface S {
   animatedValue:any;
   coldPackagingFee:boolean;
   lifeTimeSubscription:boolean;
-  categories:Array<object>
+  categories:Array<object>;
+  subcategories:Array<object>;
+  selectedSub:any;
   // Customizable Area End
 }
 
@@ -94,7 +96,9 @@ export default class LandingPageController extends BlockComponent<
       animatedValue:new Animated.Value(0),
       coldPackagingFee:true,
       lifeTimeSubscription:true,
-      categories:[]
+      categories:[],
+      subcategories:[],
+      selectedSub:null
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

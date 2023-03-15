@@ -28,8 +28,11 @@ import { connect } from 'react-redux';
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { FlatList } from "react-native-gesture-handler";
+//@ts-ignore
+import RenderCategories from './RenderCategories'
 import FastImage from 'react-native-fast-image'
-  class ExplorePage extends LandingPageController {
+
+class ExplorePage extends LandingPageController {
     constructor(props:any) {
         super(props);
         this.receive = this.receive.bind(this);
@@ -39,6 +42,7 @@ import FastImage from 'react-native-fast-image'
         this.getCategory.bind(this)()
     }
     render() {
+        console.log(' this.state.subcategories ', this.state.subcategories);
         
         return (
             <SafeAreaView style={{flex:1}}>
@@ -74,13 +78,30 @@ import FastImage from 'react-native-fast-image'
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item,index})=>{
                         return(
-                            <TouchableOpacity key={index} style={styles.scrollerItemContainer}>
-                                <FastImage style={styles.scrollerImg} source={{uri:item?.attributes?.icon?.url}} />
-                                <Text style={styles.scrollerText}>{item?.attributes.name}</Text>
-                            </TouchableOpacity>
+                            <RenderCategories setSubCategory={(category:any)=>this.setState({subcategories:category,selectedSub:null})} item={item} index={index}/>
                         )
                     }}
                     />
+                    <View style={styles.subContainer}>
+                        {
+                            this.state.subcategories.map((value:any,i)=>{
+                        return (
+                        <TouchableOpacity 
+                            onPress={()=>this.setState({selectedSub:i})}
+                            style={[styles.subcategory,{backgroundColor:this.state.selectedSub === i ? '#A0272A': WHITE,}]} key={i}>
+                            <FastImage 
+                             tintColor={this.state.selectedSub === i ? 'white': DARK_RED}
+                             style={{height:25,width:25,marginRight:10,}}
+                             source={{uri:value?.icon}}/>
+                            <Text numberOfLines={1} style={{
+                                fontSize:20,
+                                color:this.state.selectedSub === i ? 'white': DARK_RED,
+                                fontWeight:'500',
+                                }}>{value?.name}</Text>
+                        </TouchableOpacity>)
+                            })
+                        }
+                    </View>
                     <RenderItems rating={false} />
                     <RenderItems rating={true} />
                 </View>
@@ -109,9 +130,23 @@ const mapStateToProps = (reducer:any) => {
      currentUser: reducer?.currentUser,
    };
  };
-export default connect(mapStateToProps,mapDispatchToProps)(ExplorePage);
+ const ReduxExplorePage : any= connect(mapStateToProps,mapDispatchToProps)(ExplorePage);
+export default ReduxExplorePage;
 
 const styles = StyleSheet.create({
+    subContainer:{flexDirection:'row',paddingHorizontal:20,},
+    subcategory:{
+        flex:1,
+        alignItems:'center',
+        paddingVertical:15,
+        marginLeft:10,
+        borderRadius:25,
+        marginTop:20,
+        flexDirection:'row',
+        paddingHorizontal:10,
+        overflow:'hidden',
+        paddingLeft:14
+    },
     main: {
         flex: 1,
         backgroundColor: LIGHT_GREY,
@@ -163,22 +198,7 @@ const styles = StyleSheet.create({
     },
     flatList: { marginLeft: 20, paddingTop: 20 },
     explore: { height: 25, width: 25 },
-    scrollerText: {
-        color: DARK_RED,
-        fontWeight: 'bold',
-        fontSize: 19,
-        paddingLeft: 15
-    },
-    scrollerImg: { height: 20, width: 20,tintColor:DARK_RED},
-    scrollerItemContainer: {
-        flexDirection: 'row',
-        paddingHorizontal: 20,
-        paddingVertical: 12,
-        backgroundColor: WHITE,
-        marginRight: 10,
-        borderRadius: 27,
-        alignItems: 'center'
-    },
+
     rating: {
         color: 'white',
         paddingLeft: 10,
