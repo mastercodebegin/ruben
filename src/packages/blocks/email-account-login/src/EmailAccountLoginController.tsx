@@ -145,6 +145,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       );
       return false;
     }
+    this.setState({showLoader:true})
     const header = {
       "Content-Type": configJSON.loginApiContentType,
     };
@@ -304,6 +305,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
+      this.setState({showLoader:false})
       if (signupResponse?.meta?.token) {
         AsyncStorage.setItem(
           "userDetails",
@@ -320,6 +322,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.apiEmailSignupCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
+      this.setState({showLoader:false})
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -416,6 +419,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.showAlert("Error", configJSON.errorPasswordNotValid);
       return false;
     }
+    this.setState({showLoader:true})
 
     const header = {
       "Content-Type": configJSON.loginApiContentType,
