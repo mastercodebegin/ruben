@@ -55,6 +55,7 @@ export const checkValidEmail = (email: string) => {
 import EmailAccountLoginController, {
   Props,
 } from "./EmailAccountLoginController";
+import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class EmailAccountLoginBlock extends EmailAccountLoginController {
   // Customizable Area Start
@@ -201,6 +202,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                 </Animated.View>
               </View>
             </TouchableWithoutFeedback>
+            <CommonLoader visible={this.state.showLoader}/>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
