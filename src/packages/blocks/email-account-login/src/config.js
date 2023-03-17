@@ -21,7 +21,7 @@ exports.labelRememberMe = "Remember me";
 exports.btnTxtSocialLogin = "LOGIN WITH SOCIAL MEDIA";
 exports.labelOr = "OR";
 exports.labelTitle = "Log in";
-
+exports.resetPassword = "bx_block_forgot_password/otps"
 exports.imgPasswordInVisiblePath = "assets/ic_password_invisible.png";
 exports.imgPasswordVisiblePath = "assets/ic_password_visible.png";
 // Customizable Area End

@@ -10,7 +10,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert} from 'react-native'
 const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
-const validWhatssappLink = /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
+const validWhatssappLink = /^https?:\/\/wa\.me\/[0-9]+(\?text=.*)?$/
+// /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
 const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
 
 // Customizable Area End
@@ -179,6 +180,7 @@ export default class LandingPageController extends BlockComponent<
       if(error)
       {
         Alert.alert('Error','Something went wrong, Please try again later')
+        this.setState({show_loader:false});
       }else{
         this.setState({show_loader:false,categories:categories})
       }

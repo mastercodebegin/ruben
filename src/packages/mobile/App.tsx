@@ -1,5 +1,5 @@
-import React,{createContext} from 'react';
-import {View} from 'react-native';
+import React,{createContext,useEffect} from 'react';
+import { View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
@@ -42,12 +42,51 @@ export const reducer = (state = initialState, action:any) => {
       return state;
   }
 };
+const config = {
+  screens: {
+    // BlogPost: '*',
+    
+  },
+};
+
+const linking = {
+  prefixes: ['https://'],
+  config: config,
+    getStateFromPath: path => {
+      switch ('Settings') {
+        case 'Settings':
+          return {
+            routes: [
+              {
+                name: 'ResetPassword',
+                params: { token: path?.split("token=")[1] },
+                state: {
+                  index: 1,
+                  routes: [
+                    {
+                      name: 'Settings',
+                      params: { id: '42' },
+                    },
+                  ],
+                },
+              },
+            ],
+          };
+        default:
+          return null;
+      }
+    },
+};
+
 export const store = createStore(reducer);
-const RootNavigator = ({initialScreen}: NavigatorType) => {
+const RootNavigator = ({initialScreen}: NavigatorType) => {  
   const ref = React.createRef();
 
   return (
-    <NavigationContainer ref={ref}>
+    <NavigationContainer 
+    ref={ref}
+    linking={linking}
+    >
       <Stack.Navigator
         initialRouteName={initialScreen}
         screenOptions={{headerShown: false, animationEnabled: false}}>
@@ -89,9 +128,9 @@ export function App() {
       }, 2000);
     });
   };
-  React.useEffect(() => {
-    getUserDetails();
-  }, []);
+ useEffect(()=>{
+  getUserDetails()
+ },[])
   return (
   <Provider store={store}>
     <View style={{flex: 1}}>

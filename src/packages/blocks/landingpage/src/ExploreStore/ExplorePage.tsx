@@ -20,6 +20,7 @@ import {
 import {
     SEARCH,
     EXPLORE_BTN,
+    CHICKEN
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 //@ts-ignore
@@ -92,7 +93,7 @@ class ExplorePage extends LandingPageController {
                             <FastImage 
                              tintColor={this.state.selectedSub === i ? 'white': DARK_RED}
                              style={{height:25,width:25,marginRight:10,}}
-                             source={{uri:value?.icon}}/>
+                             source={CHICKEN}/>
                             <Text numberOfLines={1} style={{
                                 fontSize:20,
                                 color:this.state.selectedSub === i ? 'white': DARK_RED,
