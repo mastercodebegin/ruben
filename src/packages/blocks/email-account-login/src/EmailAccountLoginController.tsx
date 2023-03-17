@@ -304,17 +304,18 @@ export default class EmailAccountLoginController extends BlockComponent<
     ) {
       let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      this.setState({showLoader:false})
+      );    
       if (signupResponse?.meta?.token) {
         AsyncStorage.setItem(
           "userDetails",
           JSON.stringify(signupResponse)
         ).then(() => {
+          this.setState({showLoader:false})
           this.resetStack("LandingPage");
         });
       } else {
-        Alert.alert("Error", signupResponse?.errors[0]?.failed_login);
+        Alert.alert("Error", signupResponse?.errors[0]?.failed_login,
+        [{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -322,7 +323,6 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.apiEmailSignupCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      this.setState({showLoader:false})
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -332,11 +332,13 @@ export default class EmailAccountLoginController extends BlockComponent<
             this.setState({
               showModal: true,
               coupon_code: newLogged?.data?.attributes?.code,
+             showLoader:false
             });
           }
         );
       } else {
-        Alert.alert("Error", newLogged.errors[0].account);
+        Alert.alert("Error", newLogged.errors[0].account,
+        [{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
       }
     } else {
       runEngine.debugLog("GOIT");
@@ -419,7 +421,6 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.showAlert("Error", configJSON.errorPasswordNotValid);
       return false;
     }
-    this.setState({showLoader:true})
 
     const header = {
       "Content-Type": configJSON.loginApiContentType,

@@ -49,13 +49,13 @@ export const checkValidEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+import CommonLoader from "../../../components/src/CommonLoader";
 
 // Customizable Area End
 
 import EmailAccountLoginController, {
   Props,
 } from "./EmailAccountLoginController";
-import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class EmailAccountLoginBlock extends EmailAccountLoginController {
   // Customizable Area Start
@@ -170,6 +170,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                           Alert.alert("Error", "Password is required");
                           return false;
                         }
+                        this.setState({showLoader:true})
                         this.btnEmailLogInProps.onPress();
                         return true;
                       }}
