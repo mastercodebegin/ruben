@@ -9,6 +9,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert} from 'react-native'
+import ImagePicker from "react-native-image-crop-picker";
 const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
 const validWhatssappLink = /^https?:\/\/wa\.me\/[0-9]+(\?text=.*)?$/
 // /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
@@ -36,7 +37,7 @@ interface S {
   // Customizable Area Start
   selectedTab:string
   showProfileModal:boolean
-  profileImage:string;
+  profileImage:any;
   name:string;
   email:string;
   instagram_link:string;
@@ -55,6 +56,7 @@ interface S {
   categories:Array<object>;
   subcategories:Array<object>;
   selectedSub:any;
+  productsList:Array<object>;
   // Customizable Area End
 }
 
@@ -99,7 +101,14 @@ export default class LandingPageController extends BlockComponent<
       lifeTimeSubscription:true,
       categories:[],
       subcategories:[],
-      selectedSub:null
+      selectedSub:null,
+      productsList:[{
+        title:'',
+        category:null,
+        price:'',
+        images:[],
+        desciption:''
+      }]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -140,7 +149,7 @@ export default class LandingPageController extends BlockComponent<
           about_me,email:email_address,
           facebook_link,name:full_name,
           instagram_link,phone_number:String(phone_number),
-        profileImage: `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe${photo}?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22photo1.jpg%22%3B+filename%2A%3DUTF-8%27%27photo1.jpg`,
+        profileImage: photo?.url,
         whatsapp_link,
       id:id,
     loader:false})
@@ -235,17 +244,44 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
+   opencamera(callBack:(res:any)=>void,error:(e:any)=>void){
+    ImagePicker.openCamera({
+      cropping: false,
+      mediaType:'photo'
+    }).then((image) => {
+      callBack(image)
+    }).catch(e=>error(e))
+  };
 
+  async openGallery(callBack:(res:any)=>void,error:(e:any)=>void){
+     ImagePicker.openPicker({
+      cropping: false,
+      mediaType:'photo'
+    }).then((image) => {
+      callBack(image)
+    }).catch(e=>{
+      error(e)
+    });
+  };
+  selectImage(callBack:(res:any)=>void,error:(e:any)=>void){
+    Alert.alert("Choose image from", "", [
+      {
+        text: "camera",
+        onPress:()=>this.opencamera(callBack,error),
+      },
+      { text: "gallery", onPress:()=> this.openGallery(callBack,error) },
+      { text: "cancel", onPress: () => {} },
+    ]);
+  }
   showAlert(message:string){
     Alert.alert('Alert',message)
   }
   async updateProfileDetails (firstTime:boolean) {
-    // if(this.props.state.profileImage === ''){
-    //   this.showAlert('Please select your profile picture ');
-    //   return;
-    // } 
-    // else 
-    if(this.props.state.name === ''){
+    if(this.props.state.profileImage === ''){
+      this.showAlert('Please select your profile picture ');
+      return;
+    } 
+    else if(this.props.state.name === ''){
       this.showAlert('Name can not be blank')
       return
     }else if (this.props.state.email === ''){
@@ -280,10 +316,17 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('please provide valid facebook profile link')
       return
     }
-    this.props.setState({show_loader:true})  
+    this.props.setState({show_loader:true})
     const userDetails:any = await AsyncStorage.getItem('userDetails');
     const data:any = JSON.parse(userDetails);
     const formdata = new FormData();
+    if(this.props.state?.profileImage?.path){
+    formdata.append('photo', {
+      //@ts-ignore
+       uri: this.props.state.profileImage.path,
+       type: this.props.state?.profileImage?.mime,
+       name: `${data?.meta?.token}${new Date().getTime()}${this.props.state?.profileImage?.filename}`,
+     });}
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
     formdata.append("about_me", this.props.state.about_me);
