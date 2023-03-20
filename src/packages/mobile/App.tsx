@@ -6,6 +6,7 @@ import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
 import LandingPage from '../blocks/landingpage/src/LandingPage';
+import AddProductScreen from '../blocks/landingpage/src/AddProducts/AddProduct'
 import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,7 +33,7 @@ const Stack = createStackNavigator();
 export const AppStateContext = createContext({
   currentUser:'user'
 })
-const initialState = {currentUser:'user'};
+const initialState = {currentUser:'merchant'};
 
 export const reducer = (state = initialState, action:any) => {  
   switch (action?.type) {
@@ -107,7 +108,7 @@ const RootNavigator = ({initialScreen}: NavigatorType) => {
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
       <Stack.Screen name="ExplorePage" component={ExplorePage} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
-
+      <Stack.Screen name="AddProducts" component={AddProductScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
