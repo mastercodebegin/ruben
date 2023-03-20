@@ -110,7 +110,7 @@ class ExplorePage extends LandingPageController {
             {
                 this.props.currentUser==='user'?
                 <CartDetails/>:
-            <DualButton button1Label="Inventory" button2label="+ Add products"/>
+            <DualButton button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>
             }
             </View>
             <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
