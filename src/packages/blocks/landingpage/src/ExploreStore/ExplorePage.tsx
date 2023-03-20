@@ -8,7 +8,9 @@ import {
     TouchableOpacity, 
     ScrollView, 
     SafeAreaView,
-    Platform } from "react-native";
+    Platform,
+    RefreshControl
+} from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import {
@@ -42,13 +44,28 @@ class ExplorePage extends LandingPageController {
     componentDidMount() {
         this.getCategory.bind(this)()
     }
-    render() {
-        console.log(' this.state.subcategories ', this.state.subcategories);
-        
+    render() {        
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={{flex:1}}>
-            <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:80}} style={styles.main}>
+            <ScrollView 
+            onLayout={e=>{
+                console.log(e);
+            }}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom:80}}
+            refreshControl={
+                <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={()=>{
+                    this.setState({refresh:true})
+                    this.getCategory()
+                }}
+                // enabled={true}
+                />
+            }
+            style={styles.main}>
                 <View style={styles.innerContainer}>
                     <View style={{ paddingHorizontal: 20, }}>
                         <Text style={styles.header}>Store</Text>

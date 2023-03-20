@@ -1,4 +1,4 @@
-import React,{createContext,useEffect} from 'react';
+import React,{useEffect} from 'react';
 import { View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -25,20 +25,21 @@ if (!HomeScreen.instance) {
     id: 'HomeScreen',
   };
   const homeScreen = new HomeScreen(defaultProps);
+  console.log(homeScreen);
+  
 }
 interface NavigatorType {
   initialScreen: string;
 }
 const Stack = createStackNavigator();
-export const AppStateContext = createContext({
-  currentUser:'user'
-})
-const initialState = {currentUser:'merchant'};
+const initialState = {currentUser:'merchant',profileDetails:null};
 
-export const reducer = (state = initialState, action:any) => {  
+const reducer = (state = initialState, action:any) => {  
   switch (action?.type) {
     case 'UPDATE_USER':
       return {...state,currentUser:action.payload}
+      case 'PROFILE_DETAILS':
+      return {...state,profileDetails:action.payload}
     default:
       return state;
   }
@@ -85,7 +86,9 @@ const RootNavigator = ({initialScreen}: NavigatorType) => {
 
   return (
     <NavigationContainer 
+    //@ts-ignore
     ref={ref}
+    //@ts-ignore
     linking={linking}
     >
       <Stack.Navigator

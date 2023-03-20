@@ -10,11 +10,11 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert} from 'react-native'
 import ImagePicker from "react-native-image-crop-picker";
+//@ts-ignore
+import {store} from '../../../mobile/App';
 const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
 const validWhatssappLink = /^https?:\/\/wa\.me\/[0-9]+(\?text=.*)?$/
-// /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
 const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
-
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -57,6 +57,7 @@ interface S {
   subcategories:Array<object>;
   selectedSub:any;
   productsList:Array<object>;
+  refresh:boolean;
   // Customizable Area End
 }
 
@@ -108,7 +109,8 @@ export default class LandingPageController extends BlockComponent<
         price:'',
         images:[],
         desciption:''
-      }]
+      }],
+      refresh:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -153,6 +155,20 @@ export default class LandingPageController extends BlockComponent<
         whatsapp_link,
       id:id,
     loader:false})
+    const dispatch = store?.dispatch;
+     dispatch({
+      type:'PROFILE_DETAILS',
+      payload:{
+      about_me,
+      email_address,
+      facebook_link,
+      full_name,
+      instagram_link,
+      phone_number,
+      photo,
+      whatsapp_link,
+      id
+    }})
       }
     } 
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -189,9 +205,9 @@ export default class LandingPageController extends BlockComponent<
       if(error)
       {
         Alert.alert('Error','Something went wrong, Please try again later')
-        this.setState({show_loader:false});
+        this.setState({show_loader:false,refresh:false});
       }else{
-        this.setState({show_loader:false,categories:categories})
+        this.setState({show_loader:false,categories:categories,refresh:false})
       }
   }
   updateProfileCallback(error:any,response:any){
@@ -281,38 +297,43 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('Please select your profile picture ');
       return;
     } 
-    else if(this.props.state.name === ''){
+    if(this.props.state.name === ''){
       this.showAlert('Name can not be blank')
       return
-    }else if (this.props.state.email === ''){
+    }
+    if (this.props.state.email === ''){
       this.showAlert('Email can not be blank')
       return
     }
-    else if (this.props.state.phone_number === ''){
+    if (this.props.state.phone_number === ''){
       this.showAlert('please provide your phone number')
       return
-    }else if (this.props.state.about_me === ''){
+    }
+    if (this.props.state.about_me === ''){
       this.showAlert('please provide information about you')
       return
-    }else if (this.props.state.instagram_link === ''){
+    }
+    if (this.props.state.instagram_link === ''){
       this.showAlert('please provide your Instagram link')
       return
     }
-    else if ( !validInstagramLink.test(this.props.state.instagram_link)){
+    if ( !validInstagramLink.test(this.props.state.instagram_link)){
       this.showAlert('please provide valid Instagram link')
       return
     }
-    else if (this.props.state.whatsapp_link === ''){
+    if (this.props.state.whatsapp_link === ''){
       this.showAlert('please provide your WhatsApp link')
       return
-    }else if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
+    }
+    if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
       this.showAlert('please provide valid Whats app link')
       return
     }
-    else if (this.props.state.facebook_link === ''){
+    if (this.props.state.facebook_link === ''){
       this.showAlert('please provide your Facebook link')
       return
-    }else if ( !validFacebookLink.test(this.props.state.facebook_link)){
+    }
+    if ( !validFacebookLink.test(this.props.state.facebook_link)){
       this.showAlert('please provide valid facebook profile link')
       return
     }
@@ -321,11 +342,17 @@ export default class LandingPageController extends BlockComponent<
     const data:any = JSON.parse(userDetails);
     const formdata = new FormData();
     if(this.props.state?.profileImage?.path){
+      const imagePath = this.props.state.profileImage.path
+      const imageName = this.props.state?.profileImage?.filename ? 
+      this.props.state?.profileImage?.filename :imagePath.slice(imagePath.lastIndexOf('/') + 1)
+      const filename = `${
+        data?.meta?.token}${
+        new Date().getTime()}${imageName}`
     formdata.append('photo', {
       //@ts-ignore
-       uri: this.props.state.profileImage.path,
+       uri: imagePath,
        type: this.props.state?.profileImage?.mime,
-       name: `${data?.meta?.token}${new Date().getTime()}${this.props.state?.profileImage?.filename}`,
+       name: filename,
      });}
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
@@ -369,20 +396,14 @@ export default class LandingPageController extends BlockComponent<
       "Content-Type": configJSON.validationApiContentType,
       'token':data?.meta?.token
     };
-
-
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
     this.getprofileDetailsId = getValidationsMsg.messageId;
-    
-
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.userDetailsEndpoint
     );
-
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -392,7 +413,6 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
-    
   }
   goToLandingPage(){
     this.setState({showProfileModal:false})

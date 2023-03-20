@@ -33,6 +33,7 @@ export const phone = require("../assets/phone.png");
 export const facebook = require("../assets/facebook.png");
 export const instagram = require("../assets/instagram.png");
 export const mail = require("../assets/mail.png");
+export const backArrow = require("../assets/backArrow.png");
 export const edit = require("../assets/edit.png");
 export const APP_BACKGROUND = "#FFE3D4";
 export const playIcon = require("../assets/playIcon.png");
