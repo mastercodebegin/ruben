@@ -19,6 +19,7 @@ import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
+import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/TermsAndConditions'
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -54,7 +55,7 @@ const config = {
 const linking = {
   prefixes: ['https://'],
   config: config,
-    getStateFromPath: path => {
+    getStateFromPath: (path:any) => {
       switch ('Settings') {
         case 'Settings':
           return {
@@ -112,6 +113,7 @@ const RootNavigator = ({initialScreen}: NavigatorType) => {
       <Stack.Screen name="ExplorePage" component={ExplorePage} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
       <Stack.Screen name="AddProducts" component={AddProductScreen}/>
+      <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

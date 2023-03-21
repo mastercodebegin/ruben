@@ -10,3 +10,4 @@ export const PER_KG = 'per kg'
 export const PUBLISH_NOW = 'Publish Now'
 export const CANCEL = 'Cancel'
 export const ENTER_DESCRPTION = 'Enter Descrption';
+export const TERMS_AND_CONDITIONS ='Terms & Conditions'

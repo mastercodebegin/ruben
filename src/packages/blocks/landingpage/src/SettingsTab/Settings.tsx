@@ -45,7 +45,9 @@ export default class Setting extends LandingPageController {
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.options}>Analytics</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+              onPress={()=>this.props.navigation.navigate('TermsAndCondition')}
+               style={styles.button}>
                 <Text style={styles.options}>Terms & conditions</Text>
               </TouchableOpacity>
               <View style={styles.button}>
