@@ -44,3 +44,6 @@ export const PRIMARY = "#A0272A";
 export const TERTIERY = "#B7DEEC";
 export const WHITE = "#FFFFFF";
 export const close = require("../assets/close1.png");
+export const backArrow = require("../assets/back.png");
+export const remove = require('../assets/remove.png');
+export const plus = require('../assets/plus.png');

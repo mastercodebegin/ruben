@@ -1,7 +1,7 @@
-import React,{createContext,useEffect} from 'react';
-import { View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { createContext, useEffect } from 'react';
+import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
@@ -10,14 +10,16 @@ import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
+import MyCart from '../blocks/landingpage/src/MyCart/MyCart';
+import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
 import AppLauncher from '../blocks/splashscreen/src/AppLauncher';
 import Settings from '../blocks/landingpage/src/SettingsTab/Settings';
 import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
 import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -30,14 +32,14 @@ interface NavigatorType {
 }
 const Stack = createStackNavigator();
 export const AppStateContext = createContext({
-  currentUser:'user'
+  currentUser: 'user'
 })
-const initialState = {currentUser:'user'};
+const initialState = { currentUser: 'user' };
 
-export const reducer = (state = initialState, action:any) => {  
+export const reducer = (state = initialState, action: any) => {
   switch (action?.type) {
     case 'UPDATE_USER':
-      return {...state,currentUser:action.payload}
+      return { ...state, currentUser: action.payload }
     default:
       return state;
   }
@@ -45,51 +47,51 @@ export const reducer = (state = initialState, action:any) => {
 const config = {
   screens: {
     // BlogPost: '*',
-    
+
   },
 };
 
 const linking = {
   prefixes: ['https://'],
   config: config,
-    getStateFromPath: path => {
-      switch ('Settings') {
-        case 'Settings':
-          return {
-            routes: [
-              {
-                name: 'ResetPassword',
-                params: { token: path?.split("token=")[1] },
-                state: {
-                  index: 1,
-                  routes: [
-                    {
-                      name: 'Settings',
-                      params: { id: '42' },
-                    },
-                  ],
-                },
+  getStateFromPath: path => {
+    switch ('Settings') {
+      case 'Settings':
+        return {
+          routes: [
+            {
+              name: 'ResetPassword',
+              params: { token: path?.split("token=")[1] },
+              state: {
+                index: 1,
+                routes: [
+                  {
+                    name: 'Settings',
+                    params: { id: '42' },
+                  },
+                ],
               },
-            ],
-          };
-        default:
-          return null;
-      }
-    },
+            },
+          ],
+        };
+      default:
+        return null;
+    }
+  },
 };
 
 export const store = createStore(reducer);
-const RootNavigator = ({initialScreen}: NavigatorType) => {  
+const RootNavigator = ({ initialScreen }: NavigatorType) => {
   const ref = React.createRef();
 
   return (
-    <NavigationContainer 
-    ref={ref}
-    linking={linking}
+    <NavigationContainer
+      ref={ref}
+      linking={linking}
     >
       <Stack.Navigator
         initialRouteName={initialScreen}
-        screenOptions={{headerShown: false, animationEnabled: false}}>
+        screenOptions={{ headerShown: false, animationEnabled: false }}>
         <Stack.Screen name="Splashscreen" component={Splashscreen} />
         <Stack.Screen
           name="SocialMediaAccountLoginScreen"
@@ -101,12 +103,14 @@ const RootNavigator = ({initialScreen}: NavigatorType) => {
           component={EmailAccountLoginBlock}
         />
         <Stack.Screen name="Myprofile" component={Myprofile} />
+        <Stack.Screen name="MyCart" component={MyCart} />
+        <Stack.Screen name="AboutUs" component={AboutUs} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="MeatLocker" component={MeatLocker} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
-      <Stack.Screen name="ExplorePage" component={ExplorePage} />
-      <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="ExplorePage" component={ExplorePage} />
+        <Stack.Screen name="LandingPage" component={LandingPage} />
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -121,25 +125,25 @@ export function App() {
   const getUserDetails = () => {
     AsyncStorage.getItem('userDetails').then(res => {
       setTimeout(() => {
-        if (res) setInitialScreen({show: false, initialRoute: 'LandingPage'});
+        if (res) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
         else {
-          setInitialScreen({show: false, initialRoute: 'Splashscreen'});
+          setInitialScreen({ show: false, initialRoute: 'Splashscreen' });
         }
       }, 2000);
     });
   };
- useEffect(()=>{
-  getUserDetails()
- },[])
+  useEffect(() => {
+    getUserDetails()
+  }, [])
   return (
-  <Provider store={store}>
-    <View style={{flex: 1}}>
-      {initialScreen.show ? (
-        <AppLauncher />
-      ) : (
+    <Provider store={store}>
+      <View style={{ flex: 1 }}>
+        {initialScreen.show ? (
+          <AppLauncher />
+        ) : (
           <RootNavigator initialScreen={initialScreen.initialRoute} />
-      )}
-    </View>
+        )}
+      </View>
     </Provider>
   );
 }

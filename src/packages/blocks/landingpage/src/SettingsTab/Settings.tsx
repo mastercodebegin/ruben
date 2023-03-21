@@ -36,7 +36,7 @@ export default class Setting extends LandingPageController {
           <View style={styles.innercontainer}>
             <Text style={CommonStyle.header}>Settings</Text>
             <View style={{ paddingTop: 20 }}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate('AboutUs')} style={styles.button}>
                 <Text style={styles.options}>About Us</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button}>

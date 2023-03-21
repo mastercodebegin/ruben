@@ -15,13 +15,13 @@ interface ButtonType {
   onPress: () => void;
   label: String;
   labelStyle?: StyleProp<TextStyle>;
-  containerStyle?:StyleProp<TextStyle>;
+  containerStyle?: StyleProp<TextStyle>;
 }
-const Button = ({ style = {}, onPress, label = "" ,labelStyle={},containerStyle}: ButtonType) => {
+const Button = ({ style = {}, onPress, label = "", labelStyle = {}, containerStyle }: ButtonType) => {
   return (
     <View style={containerStyle}>
-      <TouchableOpacity onPress={onPress} style={[styles.continue,style]}>
-        <Text style={[styles.text,labelStyle]}>{label}</Text>
+      <TouchableOpacity onPress={onPress} style={[styles.continue, style]}>
+        <Text style={[styles.text, labelStyle]}>{label}</Text>
       </TouchableOpacity>
       <Image resizeMode="stretch" source={require('./shadow.png')} style={styles.shadow} />
     </View>
@@ -40,7 +40,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingVertical: 15,
   },
-  shadow: { height: 50,  width: "100%",top:-10,zIndex:-10,},
-
-
+  shadow: { height: 50, width: "100%", top: -10, zIndex: -10, },
 });
