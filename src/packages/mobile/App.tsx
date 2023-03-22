@@ -20,6 +20,7 @@ import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/TermsAndConditions'
+import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -33,7 +34,7 @@ interface NavigatorType {
   initialScreen: string;
 }
 const Stack = createStackNavigator();
-const initialState = {currentUser:'merchant',profileDetails:null};
+const initialState = {currentUser:'user',profileDetails:null};
 
 const reducer = (state = initialState, action:any) => {  
   switch (action?.type) {
@@ -114,6 +115,7 @@ const RootNavigator = ({initialScreen}: NavigatorType) => {
       <Stack.Screen name="LandingPage" component={LandingPage} />
       <Stack.Screen name="AddProducts" component={AddProductScreen}/>
       <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
+      <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -22,7 +22,9 @@ const TermsAndCondition = ({ navigation }: any) => {
           <Text style={styles.headerText}>{TERMS_AND_CONDITIONS}</Text>
         </View>
         <ScrollView
-          bounces={false}
+        style={{borderRadius:20}}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
           contentContainerStyle={styles.contentContainer}
         >
           <Text style={styles.text}>
@@ -72,7 +74,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     backgroundColor: WHITE,
-    borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: LIGHT_GREY,
     paddingTop: 20,
+    paddingBottom:20
   },
   header: {
     flexDirection: "row",

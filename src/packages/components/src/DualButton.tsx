@@ -25,9 +25,9 @@ const DualButton = ({
       </TouchableOpacity>
       <TouchableOpacity
         onPress={button2Onpress}
-        style={{ backgroundColor: PRIMARY, ...styles.bottomButton }}
+        style={{ backgroundColor: PRIMARY, ...styles.bottomButton,marginLeft:5 }}
       >
-        <Text style={{ color: "white", ...styles.buttonText }}>
+        <Text style={{ color: "white", ...styles.buttonText, }}>
           {button2label}
         </Text>
       </TouchableOpacity>
@@ -46,16 +46,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
     borderRadius: 30,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
   },
   inventoryContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    left: 0,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    // position: "absolute",
+    // bottom: 0,
+    // right: 0,
+    // left: 0,
+    // paddingHorizontal: 20,
+    // marginBottom: 20,
   },
 });

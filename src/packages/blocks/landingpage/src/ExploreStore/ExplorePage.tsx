@@ -187,7 +187,8 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingTop: 20,
-        paddingBottom: 15
+        paddingBottom: 15,
+        zIndex:100
     },
     search: {
         height: 20,

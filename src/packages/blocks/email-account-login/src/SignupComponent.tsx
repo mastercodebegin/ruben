@@ -254,7 +254,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
-  main: { paddingTop: 40, paddingHorizontal: 20, flex: 1 },
+  main: { paddingTop: 40, paddingHorizontal: 20, flex: 1,
+  paddingBottom:20 },
   createAcc: {
     flexDirection: "row",
     justifyContent: "center",
