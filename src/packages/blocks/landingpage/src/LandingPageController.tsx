@@ -228,8 +228,8 @@ export default class LandingPageController extends BlockComponent<
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
-  async getCategory(){
-    this.setState({show_loader:true})
+  async getCategory(loader=true){
+    this.setState({show_loader:loader})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
     const headers = {

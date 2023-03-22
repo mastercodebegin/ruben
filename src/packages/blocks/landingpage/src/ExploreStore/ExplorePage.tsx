@@ -48,11 +48,7 @@ class ExplorePage extends LandingPageController {
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={{flex:1}}>
-            <ScrollView 
-            onLayout={e=>{
-                console.log(e);
-            }}
-            bounces={false}
+            <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom:80}}
             refreshControl={
@@ -60,9 +56,8 @@ class ExplorePage extends LandingPageController {
                 refreshing={this.state.refresh}
                 onRefresh={()=>{
                     this.setState({refresh:true})
-                    this.getCategory()
+                    this.getCategory(false)
                 }}
-                // enabled={true}
                 />
             }
             style={styles.main}>
@@ -151,7 +146,7 @@ const mapStateToProps = (reducer:any) => {
  const ReduxExplorePage : any= connect(mapStateToProps,mapDispatchToProps)(ExplorePage);
 export default ReduxExplorePage;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     subContainer:{flexDirection:'row',paddingHorizontal:20,},
     subcategory:{
         flex:1,
