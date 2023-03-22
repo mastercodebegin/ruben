@@ -48,6 +48,7 @@
     "react-native-gesture-handler": "file:./packages/blocks/core/node_modules/react-native-gesture-handler",
     "react-native-image-crop-picker": "file:./packages/blocks/core/node_modules/react-native-image-crop-picker",
     "react-native-image-picker": "file:./packages/blocks/core/node_modules/react-native-image-picker",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-material-dropdown": "file:./packages/blocks/core/node_modules/react-native-material-dropdown",
     "react-native-material-textfield": "file:./packages/blocks/core/node_modules/react-native-material-textfield",
     "react-native-modal": "^11.5.6",
