@@ -33,6 +33,8 @@ project(':react-native-gesture-handler').projectDir = new File(rootProject.proje
 include ':react-native-svg'
 project(':react-native-svg').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-svg/android')
 
+include ':react-native-fast-image'
+project(':react-native-fast-image').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-fast-image/android')
 include ':react-native-share'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-share/android')
 

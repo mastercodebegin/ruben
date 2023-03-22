@@ -246,6 +246,8 @@ dependencies {
     
     implementation project(':react-native-safe-area-context')
 
+    implementation project(':react-native-fast-image')
+
     implementation project(':react-native-share')
 
     implementation project(':react-native-video')
