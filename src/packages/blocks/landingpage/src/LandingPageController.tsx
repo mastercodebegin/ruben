@@ -196,11 +196,34 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback(error,categories?.data)
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSubCategoryId != null &&
+      this.getSubCategoryId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const subCategories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.getSubcategoryCallback(subCategories,error)
+      
+    }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  getSubcategoryCallback(subCategories:any,error:any){
+    if(error){
+      this.setState({show_loader:false})
+      Alert.alert('Error','Something went wrong, Please try again later')
+    }else{
+      this.setState({subcategories:subCategories?.data,show_loader:false})
+    }
+  }
   categoryCallback(error:any,categories:any){
       if(error)
       {
@@ -224,6 +247,7 @@ export default class LandingPageController extends BlockComponent<
   getprofileDetailsId:string ='';
   updateProfileDetailsId:string ='';
   getCategoriesId:string='';
+  getSubCategoryId:string='';
   
   userdetailsProps={
     getuserDetails:this.getProfileDetails
@@ -387,6 +411,35 @@ export default class LandingPageController extends BlockComponent<
       runEngine.sendMessage(requestMessage.id, requestMessage);
     
     return true;
+  }
+  async getSubcategories(subCategoryId:string){
+    this.setState({show_loader:true,selectedSub:null})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.getSubCategoryId = subcategory.messageId;
+    
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.subCategory}${subCategoryId}`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getProfileDetails() {
     this.setState({loader:true})

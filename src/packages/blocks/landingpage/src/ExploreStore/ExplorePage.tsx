@@ -91,30 +91,41 @@ class ExplorePage extends LandingPageController {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item,index})=>{
                         return(
-                            <RenderCategories setSubCategory={(category:any)=>this.setState({subcategories:category,selectedSub:null})} item={item} index={index}/>
+                            <RenderCategories
+                            onpress={this.getSubcategories.bind(this)}
+                            item={item} 
+                            index={index}/>
                         )
                     }}
                     />
-                    <View style={styles.subContainer}>
-                        {
-                            this.state.subcategories.map((value:any,i)=>{
-                        return (
-                        <TouchableOpacity 
-                            onPress={()=>this.setState({selectedSub:i})}
-                            style={[styles.subcategory,{backgroundColor:this.state.selectedSub === i ? '#A0272A': WHITE,}]} key={i}>
+                    <FlatList
+                    data={this.state.subcategories}
+                    horizontal
+                    bounces={false}
+                    style={{marginLeft:20}}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={
+                        ({item})=>{
+                            const seleceted =this.state.selectedSub === item?.attributes?.id 
+                            return <TouchableOpacity 
+                            onPress={()=>this.setState({selectedSub:item?.attributes?.id})}
+                            style={[styles.subcategory,
+                                {
+                                backgroundColor:seleceted ? '#A0272A': WHITE,}
+                                ]}>
                             <FastImage 
-                             tintColor={this.state.selectedSub === i ? 'white': DARK_RED}
+                             tintColor={seleceted ? 'white': DARK_RED}
                              style={{height:25,width:25,marginRight:10,}}
                              source={CHICKEN}/>
                             <Text numberOfLines={1} style={{
                                 fontSize:20,
-                                color:this.state.selectedSub === i ? 'white': DARK_RED,
+                                color:seleceted ? 'white': DARK_RED,
                                 fontWeight:'500',
-                                }}>{value?.name}</Text>
-                        </TouchableOpacity>)
-                            })
+                                }}>{item?.attributes?.name}</Text>
+                        </TouchableOpacity>
                         }
-                    </View>
+                    }
+                    />
                     <RenderItems rating={false} />
                     <RenderItems rating={true} />
                 </View>
@@ -152,11 +163,11 @@ export const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         paddingVertical:15,
-        marginLeft:10,
+        marginRight:10,
         borderRadius:25,
         marginTop:20,
         flexDirection:'row',
-        paddingHorizontal:10,
+        paddingHorizontal:15,
         overflow:'hidden',
         paddingLeft:14
     },

@@ -14,5 +14,6 @@ exports.textInputPlaceHolder = "Enter Text";
 exports.labelTitleText = "LandingPage";
 exports.labelBodyText = "LandingPage Body";
 exports.getCategory= "bx_block_categories/categories"
+exports.subCategory= "bx_block_categories/sub_categories?category_id="
 exports.btnExampleTitle = "CLICK ME";
 // Customizable Area End
