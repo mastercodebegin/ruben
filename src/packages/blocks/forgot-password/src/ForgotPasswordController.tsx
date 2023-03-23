@@ -15,8 +15,8 @@ export const configJSON = require("./config");
 
 export interface Props {
   navigation: any;
-  route:any;
   // Customizable Area Start
+  route:any;
   // Customizable Area End
 }
 
