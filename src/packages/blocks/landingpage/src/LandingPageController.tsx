@@ -56,6 +56,7 @@ interface S {
   categories:Array<object>;
   subcategories:Array<object>;
   selectedSub:any;
+  searchText:string;
   productsList:Array<object>;
   refresh:boolean;
   // Customizable Area End
@@ -103,6 +104,7 @@ export default class LandingPageController extends BlockComponent<
       categories:[],
       subcategories:[],
       selectedSub:null,
+      searchText:'',
       productsList:[{
         title:'',
         category:null,
