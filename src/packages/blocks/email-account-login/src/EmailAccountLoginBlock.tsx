@@ -125,8 +125,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                         style={[
                           styles.header,
                           this.state.selectedTab && styles.selected,
-                        ]}
-                      >
+                        ]}>
                         Log In
                       </Text>
                     </TouchableOpacity>
