@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
 import MyCart from '../blocks/landingpage/src/MyCart/MyCart';
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
+import Alert from '../blocks/landingpage/src/Alert/Alert';
 import AppLauncher from '../blocks/splashscreen/src/AppLauncher';
 import Settings from '../blocks/landingpage/src/SettingsTab/Settings';
 import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
@@ -111,7 +112,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="ExplorePage" component={ExplorePage} />
         <Stack.Screen name="LandingPage" component={LandingPage} />
-
+        <Stack.Screen name="Alert" component={Alert} />
       </Stack.Navigator>
     </NavigationContainer>
   );

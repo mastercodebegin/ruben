@@ -39,10 +39,20 @@ interface S {
   animatedValue: any;
   selectedTab: boolean;
   showModal: boolean;
+  showMerModal: boolean;
   signupEmail: string;
   signupPassword: string;
   showLoader: boolean;
   coupon_code: string;
+  mEmail: string;
+  mPassword: string;
+  farmName: string;
+  product: string;
+  location: string;
+  contact: string;
+  description: string;
+  website: string;
+  social: string;
   // Customizable Area End
 }
 
@@ -61,6 +71,7 @@ export default class EmailAccountLoginController extends BlockComponent<
   apiEmailLoginCallId: string = "";
   validationApiCallId: string = "";
   apiEmailSignupCallId: string = "";
+  apiMerchantEmailSignupCallId: string = "";
   emailReg: RegExp;
   labelTitle: string = "";
   passwordReg: RegExp;
@@ -94,10 +105,20 @@ export default class EmailAccountLoginController extends BlockComponent<
       animatedValue: new Animated.Value(0),
       selectedTab: true,
       showModal: false,
+      showMerModal: false,
       signupEmail: "",
       signupPassword: "",
       showLoader: false,
       coupon_code: "",
+      mEmail: '',
+      mPassword: '',
+      farmName: '',
+      product: '',
+      location: '',
+      contact: '',
+      description: '',
+      website: '',
+      social: '',
     };
 
     this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -137,6 +158,10 @@ export default class EmailAccountLoginController extends BlockComponent<
     merchantSignup: this.doMerchantSignup,
   };
 
+  showAlert(message: string) {
+    Alert.alert('Alert', message)
+  }
+
   doEmailSignup(): boolean {
     if (!this.passwordReg.test(this.state.signupPassword)) {
       Alert.alert(
@@ -145,7 +170,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       );
       return false;
     }
-    this.setState({showLoader:true})
+    this.setState({ showLoader: true })
     const header = {
       "Content-Type": configJSON.loginApiContentType,
     };
@@ -194,13 +219,133 @@ export default class EmailAccountLoginController extends BlockComponent<
 
     return true;
   }
+
   doMerchantSignup(password: string) {
-    if (!this.passwordReg.test(password)) {
-      Alert.alert(
-        "Invalid password",
-        "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
-      );
+    // if (!this.emailReg.test(this.state.email)){
+    //   this.showAlert('Email can not be blank')
+    //   return
+    // }
+    // else if (!this.passwordReg.test(this.state.mPassword)) {
+    //   Alert.alert(
+    //     "Invalid password",
+    //     "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
+    //   );
+    //   return
+    // }
+    if (this.state.mEmail === '') {
+      this.showAlert('Email can not be blank')
+      return
     }
+    else if (this.state.mPassword === '') {
+      this.showAlert('password can not be blank')
+      return
+    }
+    else if (this.state.farmName === '') {
+      this.showAlert('please provide your Farm Name')
+      return
+    } else if (this.state.product === '') {
+      this.showAlert('please provide your product Name')
+      return
+    } else if (this.state.location === '') {
+      this.showAlert('please provide your location')
+      return
+    } else if (this.state.contact === '') {
+      this.showAlert('please provide your contact')
+      return
+    } else if (this.state.description === '') {
+      this.showAlert('please fill your Description')
+      return
+    } else if (this.state.website === '') {
+      this.showAlert('please provide your website link')
+      return
+    } else if (this.state.social === '') {
+      this.showAlert('please provide your social Media')
+      return
+    } else {
+      this.setState({ showLoader: true })
+      const header = {
+        "Content-Type": configJSON.loginApiContentType,
+      };
+
+      const attrs = {
+        email: this.state.mEmail,
+        password: this.state.mPassword,
+        farm_name: this.state.farmName,
+        farm_description: this.state.description,
+        farm_location: this.state.location,
+        farm_website: this.state.website,
+        contact_information: this.state.contact,
+        farm_socialmedia: this.state.social,
+        farm_products: this.state.product,
+        activated: "true"
+      };
+      console.log('attributes-=-=-=-=->>>', attrs);
+
+      const data = {
+        type: "email_account",
+        user_type: "merchant",
+        attributes: attrs,
+      };
+
+      const httpBody = {
+        data: data,
+      };
+
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+
+      this.apiMerchantEmailSignupCallId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        configJSON.signupAPiEndPoint
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(header)
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        JSON.stringify(httpBody)
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+        configJSON.loginAPiMethod
+      );
+
+      runEngine.sendMessage(requestMessage.id, requestMessage);
+
+      return true;
+    }
+
+    // else if (!validInstagramLink.test(this.props.state.instagram_link)) {
+    //   this.showAlert('please provide valid Instagram link')
+    //   return
+    // }
+    // else if (this.props.state.whatsapp_link === '') {
+    //   this.showAlert('please provide your WhatsApp link')
+    //   return
+    // } else if (!validWhatssappLink.test(this.props.state.whatsapp_link)) {
+    //   this.showAlert('please provide valid Whats app link')
+    //   return
+    // }
+    // else if (this.props.state.facebook_link === '') {
+    //   this.showAlert('please provide your Facebook link')
+    //   return
+    // } else if (!validFacebookLink.test(this.props.state.facebook_link)) {
+    //   this.showAlert('please provide valid facebook profile link')
+    //   return
+    // }
+    // if (!this.passwordReg.test(password)) {
+    //   Alert.alert(
+    //     "Invalid password",
+    //     "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
+    //   );
+    //   return false
+    // }
   }
 
   btnPasswordShowHideProps = {
@@ -300,28 +445,28 @@ export default class EmailAccountLoginController extends BlockComponent<
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.apiEmailLoginCallId != null &&
       this.apiEmailLoginCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );    
+      );
       if (signupResponse?.meta?.token) {
         AsyncStorage.setItem(
           "userDetails",
           JSON.stringify(signupResponse)
         ).then(() => {
-          this.setState({showLoader:false})
+          this.setState({ showLoader: false })
           this.resetStack("LandingPage");
         });
       } else {
         Alert.alert("Error", signupResponse?.errors[0]?.failed_login,
-        [{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.apiEmailSignupCallId != null &&
       this.apiEmailSignupCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -332,15 +477,41 @@ export default class EmailAccountLoginController extends BlockComponent<
             this.setState({
               showModal: true,
               coupon_code: newLogged?.data?.attributes?.code,
-             showLoader:false
+              showLoader: false
             });
           }
         );
       } else {
         Alert.alert("Error", newLogged.errors[0].account,
-        [{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
-    } else {
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiMerchantEmailSignupCallId != null &&
+      this.apiMerchantEmailSignupCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let newLogged = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      if (newLogged?.meta?.token) {
+        AsyncStorage.setItem("merchantUserDetails", JSON.stringify(newLogged))
+          .then(
+            () => {
+              this.setState({
+                showMerModal: true,
+                // coupon_code: newLogged?.data?.attributes?.code,
+                showLoader: false
+              });
+            }
+          );
+      } else {
+        Alert.alert("Error", newLogged.errors[0].account,
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
+      }
+    }
+    else {
       runEngine.debugLog("GOIT");
     }
     // Customizable Area End
