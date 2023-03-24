@@ -16,6 +16,7 @@ export const configJSON = require("./config");
 export interface Props {
   navigation: any;
   // Customizable Area Start
+  route:any;
   // Customizable Area End
 }
 
@@ -170,7 +171,7 @@ export default class ForgotPasswordController extends BlockComponent<
       btnConfirmPasswordShowHide: true,
       resetPassword:'',
       confirmResetPassword:'',
-      email:''
+      email:this.props.route?.params?.email ? this.props.route?.params?.email : ''
     };
     // Customizable Area End
   }

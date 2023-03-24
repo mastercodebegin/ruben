@@ -20,7 +20,6 @@ import {
   instagram,
   facebook,
   CART,
-  profileSample
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -29,6 +28,7 @@ import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
+import FastImage from "react-native-fast-image";
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -70,11 +70,13 @@ export default class Myprofile extends LandingPageController {
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
-                  {this.state.profileImage != '' && <Image style={styles.profileImage}
+                  {this.state.profileImage != '' && (<FastImage style={styles.profileImage}
                   source={
-                    profileSample
+                    {uri:this.state.profileImage?.path ?
+                      this.state.profileImage?.path :
+                      this.state.profileImage}
                   } 
-                  />}
+                  />)}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity style={styles.socialbutton}>

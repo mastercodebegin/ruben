@@ -111,6 +111,8 @@ target 'RuebensFTCApp' do
   
   pod 'react-native-simple-toast', :path => '../../../node_modules/react-native-simple-toast'
 
+  pod 'react-native-encrypted-storage', :path => '../../../node_modules/react-native-encrypted-storage'
+
   target 'RuebensFTCAppTests' do
     inherit! :search_paths
     # Pods for testing

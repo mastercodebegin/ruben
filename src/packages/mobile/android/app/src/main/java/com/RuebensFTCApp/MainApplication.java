@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactnative.ivpusic.imagepicker.*;
+import com.dylanvann.fastimage.FastImageViewPackage;
 //import com.imagepicker.ImagePickerPackage;
 // import com.reactnativecommunity.webview.RNCWebViewPackage;
 
@@ -53,6 +54,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           packages.add(new RNGestureHandlerPackage());
           packages.add(new RNScreensPackage());
           packages.add(new SafeAreaContextPackage());
+          packages.add(new FastImageViewPackage());
           return packages;
         }
 

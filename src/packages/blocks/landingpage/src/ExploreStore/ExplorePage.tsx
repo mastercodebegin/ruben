@@ -8,7 +8,9 @@ import {
     TouchableOpacity, 
     ScrollView, 
     SafeAreaView,
-    Platform } from "react-native";
+    Platform,
+    RefreshControl
+} from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import {
@@ -42,13 +44,23 @@ class ExplorePage extends LandingPageController {
     componentDidMount() {
         this.getCategory.bind(this)()
     }
-    render() {
-        console.log(' this.state.subcategories ', this.state.subcategories);
-        
+    render() {        
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={{flex:1}}>
-            <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:80}} style={styles.main}>
+            <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom:80}}
+            refreshControl={
+                <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={()=>{
+                    this.setState({refresh:true})
+                    this.getCategory(false)
+                }}
+                />
+            }
+            style={styles.main}>
                 <View style={styles.innerContainer}>
                     <View style={{ paddingHorizontal: 20, }}>
                         <Text style={styles.header}>Store</Text>
@@ -79,30 +91,41 @@ class ExplorePage extends LandingPageController {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item,index})=>{
                         return(
-                            <RenderCategories setSubCategory={(category:any)=>this.setState({subcategories:category,selectedSub:null})} item={item} index={index}/>
+                            <RenderCategories
+                            onpress={this.getSubcategories.bind(this)}
+                            item={item} 
+                            index={index}/>
                         )
                     }}
                     />
-                    <View style={styles.subContainer}>
-                        {
-                            this.state.subcategories.map((value:any,i)=>{
-                        return (
-                        <TouchableOpacity 
-                            onPress={()=>this.setState({selectedSub:i})}
-                            style={[styles.subcategory,{backgroundColor:this.state.selectedSub === i ? '#A0272A': WHITE,}]} key={i}>
+                    <FlatList
+                    data={this.state.subcategories}
+                    horizontal
+                    bounces={false}
+                    style={{marginLeft:20}}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={
+                        ({item})=>{
+                            const seleceted =this.state.selectedSub === item?.attributes?.id 
+                            return <TouchableOpacity 
+                            onPress={()=>this.setState({selectedSub:item?.attributes?.id})}
+                            style={[styles.subcategory,
+                                {
+                                backgroundColor:seleceted ? '#A0272A': WHITE,}
+                                ]}>
                             <FastImage 
-                             tintColor={this.state.selectedSub === i ? 'white': DARK_RED}
+                             tintColor={seleceted ? 'white': DARK_RED}
                              style={{height:25,width:25,marginRight:10,}}
                              source={CHICKEN}/>
                             <Text numberOfLines={1} style={{
                                 fontSize:20,
-                                color:this.state.selectedSub === i ? 'white': DARK_RED,
+                                color:seleceted ? 'white': DARK_RED,
                                 fontWeight:'500',
-                                }}>{value?.name}</Text>
-                        </TouchableOpacity>)
-                            })
+                                }}>{item?.attributes?.name}</Text>
+                        </TouchableOpacity>
                         }
-                    </View>
+                    }
+                    />
                     <RenderItems rating={false} />
                     <RenderItems rating={true} />
                 </View>
@@ -110,7 +133,7 @@ class ExplorePage extends LandingPageController {
             {
                 this.props.currentUser==='user'?
                 <CartDetails/>:
-            <DualButton button1Label="Inventory" button2label="+ Add products"/>
+            <DualButton button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>
             }
             </View>
             <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
@@ -134,17 +157,17 @@ const mapStateToProps = (reducer:any) => {
  const ReduxExplorePage : any= connect(mapStateToProps,mapDispatchToProps)(ExplorePage);
 export default ReduxExplorePage;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     subContainer:{flexDirection:'row',paddingHorizontal:20,},
     subcategory:{
         flex:1,
         alignItems:'center',
         paddingVertical:15,
-        marginLeft:10,
+        marginRight:10,
         borderRadius:25,
         marginTop:20,
         flexDirection:'row',
-        paddingHorizontal:10,
+        paddingHorizontal:15,
         overflow:'hidden',
         paddingLeft:14
     },
@@ -175,7 +198,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingTop: 20,
-        paddingBottom: 15
+        paddingBottom: 15,
+        zIndex:100
     },
     search: {
         height: 20,

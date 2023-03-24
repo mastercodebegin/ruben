@@ -11,9 +11,6 @@ import {
   Animated,
   Alert,
   SafeAreaView,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import {
   responsiveHeight,
@@ -29,6 +26,7 @@ import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
 import LoginComponent from "./LoginComponent";
 import SignupComponent from "./SignupComponent";
 import { Logo } from "./assets";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 //@ts-ignore
 import CustomCheckBox from "../../../components/src/CustomCheckBox";
 
@@ -111,15 +109,12 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
       // Required for all blocks
 
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+          <KeyboardAwareScrollView 
+          showsVerticalScrollIndicator={false} 
+          bounces={false}>
             <TouchableWithoutFeedback
               testID={"Background"}
-              onPress={() => {
-                this.hideKeyboard();
-              }}
+              onPress={this.hideKeyboard}
             >
               <View style={styles.container}>
                 <View style={{ paddingHorizontal: 20 }}>
@@ -244,9 +239,8 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                 </Animated.View>
               </View>
             </TouchableWithoutFeedback>
-            <CommonLoader visible={this.state.showLoader} />
-          </ScrollView>
-        </KeyboardAvoidingView>
+            <CommonLoader visible={this.state.showLoader}/>
+          </KeyboardAwareScrollView>
       </SafeAreaView>
     );
     // Merge Engine - render - End

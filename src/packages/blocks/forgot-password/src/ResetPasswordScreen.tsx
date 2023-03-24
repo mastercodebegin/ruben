@@ -31,6 +31,7 @@ export default class ResetPassword extends ForgotPasswordController {
         return;
       }else if((this.state.resetPassword !== this.state.confirmResetPassword)){
         Alert.alert('Alert',"Passwords are not matching")
+        return;
       }
       let myHeaders = new Headers();
       myHeaders.append("token", this.props?.route?.params?.token);

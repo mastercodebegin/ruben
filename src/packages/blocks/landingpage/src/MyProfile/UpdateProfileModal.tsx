@@ -6,8 +6,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ImageBackground,
-  Alert,
   ActivityIndicator,
   Text,
   Keyboard,
@@ -16,9 +14,8 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, edit ,profileSample} from "../assets";
-import ImagePicker from "react-native-image-crop-picker";
-
+import { close, DARK_RED, edit } from "../assets";
+import FastImage from "react-native-fast-image";
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props:any) {
     super(props);
@@ -33,37 +30,16 @@ export default class UpdateProfileModal extends LandingPageController {
         this.props.setState({keyboardHeight:0})
       })
   }
-  //@ts-ignore
-  // componentWillUnmount(){
-  //     Keyboard.removeAllListeners()
-  // }
 
   render() {        
-    const opencamera = () => {
-      ImagePicker.openCamera({
-        cropping: false,
-      }).then((image) => {
-        this.props.setState({ profileImage:Platform.OS === 'ios' ? `file://${image.path}`:image.path});
-      });
-    };
 
-    const openGallery = async () => {
-      await ImagePicker.openPicker({
-        cropping: false,
-      }).then((image) => {
-        this.props.setState({ profileImage:Platform.OS === 'ios' ? `file://${image.path}`:image.path});
-      });
-    };
-    const onPressEdit = () => {
-      Alert.alert("Choose image from", "", [
-        {
-          text: "camera",
-          onPress: opencamera,
-        },
-        { text: "gallery", onPress: openGallery },
-        { text: "cancel", onPress: () => {} },
-      ]);
-    };
+    const imageCallback = (res:any)=>{      
+      this.props.setState({ profileImage:{...res,path:Platform.OS === 'ios' ? `file://${res.path}`:res.path}});
+    }
+    const handleImageError= (err:any)=>{
+      console.log(err);
+      alert(err)
+    }
     
     return (
       <Modal visible={this.props.visible} transparent>
@@ -86,22 +62,26 @@ export default class UpdateProfileModal extends LandingPageController {
               </TouchableOpacity>}
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity
-                    onPress={onPressEdit}
+                    onPress={()=>this.selectImage(imageCallback,handleImageError)}
                     style={{ alignSelf: "center" }}
                   >
-                    <ImageBackground
-                      style={styles.profileImage}
-                      source={ 
-                        profileSample
-                      }
+                    <View
+                      style={styles.profileImage}              
                     >
+                      <FastImage
+                      style={{position:'absolute',height:'100%',width:'100%'}}
+                      source={ 
+                        {uri:this.props.state.profileImage?.path ?
+                          this.props.state.profileImage?.path :
+                          this.props.state.profileImage}
+                      }/>
                       <View style={styles.blurr} />
                       <Image
                         resizeMode="contain"
                         style={styles.editIcon}
                         source={edit}
                       />
-                    </ImageBackground>
+                    </View>
                   </TouchableOpacity>
 
                   <TextInput

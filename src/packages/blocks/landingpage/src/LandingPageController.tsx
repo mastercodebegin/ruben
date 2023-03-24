@@ -9,11 +9,12 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert} from 'react-native'
+import ImagePicker from "react-native-image-crop-picker";
+//@ts-ignore
+import {store} from '../../../mobile/App';
 const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
 const validWhatssappLink = /^https?:\/\/wa\.me\/[0-9]+(\?text=.*)?$/
-// /^https?:\/\/(?:chat|api)\.whatsapp\.com\/(?:send\?phone=|wa\?)[0-9]+$/;
 const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
-
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -36,7 +37,7 @@ interface S {
   // Customizable Area Start
   selectedTab:string
   showProfileModal:boolean
-  profileImage:string;
+  profileImage:any;
   name:string;
   email:string;
   instagram_link:string;
@@ -55,6 +56,8 @@ interface S {
   categories:Array<object>;
   subcategories:Array<object>;
   selectedSub:any;
+  productsList:Array<object>;
+  refresh:boolean;
   // Customizable Area End
 }
 
@@ -99,7 +102,15 @@ export default class LandingPageController extends BlockComponent<
       lifeTimeSubscription:true,
       categories:[],
       subcategories:[],
-      selectedSub:null
+      selectedSub:null,
+      productsList:[{
+        title:'',
+        category:null,
+        price:'',
+        images:[],
+        desciption:''
+      }],
+      refresh:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -140,10 +151,24 @@ export default class LandingPageController extends BlockComponent<
           about_me,email:email_address,
           facebook_link,name:full_name,
           instagram_link,phone_number:String(phone_number),
-        profileImage: `https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe${photo}?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22photo1.jpg%22%3B+filename%2A%3DUTF-8%27%27photo1.jpg`,
+        profileImage: photo?.url,
         whatsapp_link,
       id:id,
     loader:false})
+    const dispatch = store?.dispatch;
+     dispatch({
+      type:'PROFILE_DETAILS',
+      payload:{
+      about_me,
+      email_address,
+      facebook_link,
+      full_name,
+      instagram_link,
+      phone_number,
+      photo,
+      whatsapp_link,
+      id
+    }})
       }
     } 
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -171,18 +196,41 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback(error,categories?.data)
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSubCategoryId != null &&
+      this.getSubCategoryId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const subCategories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.getSubcategoryCallback(subCategories,error)
+      
+    }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  getSubcategoryCallback(subCategories:any,error:any){
+    if(error){
+      this.setState({show_loader:false})
+      Alert.alert('Error','Something went wrong, Please try again later')
+    }else{
+      this.setState({subcategories:subCategories?.data,show_loader:false})
+    }
+  }
   categoryCallback(error:any,categories:any){
       if(error)
       {
         Alert.alert('Error','Something went wrong, Please try again later')
-        this.setState({show_loader:false});
+        this.setState({show_loader:false,refresh:false});
       }else{
-        this.setState({show_loader:false,categories:categories})
+        this.setState({show_loader:false,categories:categories,refresh:false})
       }
   }
   updateProfileCallback(error:any,response:any){
@@ -199,12 +247,13 @@ export default class LandingPageController extends BlockComponent<
   getprofileDetailsId:string ='';
   updateProfileDetailsId:string ='';
   getCategoriesId:string='';
+  getSubCategoryId:string='';
   
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
-  async getCategory(){
-    this.setState({show_loader:true})
+  async getCategory(loader=true){
+    this.setState({show_loader:loader})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
     const headers = {
@@ -235,55 +284,100 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
+   opencamera(callBack:(res:any)=>void,error:(e:any)=>void){
+    ImagePicker.openCamera({
+      cropping: false,
+      mediaType:'photo'
+    }).then((image) => {
+      callBack(image)
+    }).catch(e=>error(e))
+  };
 
+  async openGallery(callBack:(res:any)=>void,error:(e:any)=>void){
+     ImagePicker.openPicker({
+      cropping: false,
+      mediaType:'photo'
+    }).then((image) => {
+      callBack(image)
+    }).catch(e=>{
+      error(e)
+    });
+  };
+  selectImage(callBack:(res:any)=>void,error:(e:any)=>void){
+    Alert.alert("Choose image from", "", [
+      {
+        text: "camera",
+        onPress:()=>this.opencamera(callBack,error),
+      },
+      { text: "gallery", onPress:()=> this.openGallery(callBack,error) },
+      { text: "cancel", onPress: () => {} },
+    ]);
+  }
   showAlert(message:string){
     Alert.alert('Alert',message)
   }
   async updateProfileDetails (firstTime:boolean) {
-    // if(this.props.state.profileImage === ''){
-    //   this.showAlert('Please select your profile picture ');
-    //   return;
-    // } 
-    // else 
+    if(this.props.state.profileImage === ''){
+      this.showAlert('Please select your profile picture ');
+      return;
+    } 
     if(this.props.state.name === ''){
       this.showAlert('Name can not be blank')
       return
-    }else if (this.props.state.email === ''){
+    }
+    if (this.props.state.email === ''){
       this.showAlert('Email can not be blank')
       return
     }
-    else if (this.props.state.phone_number === ''){
+    if (this.props.state.phone_number === ''){
       this.showAlert('please provide your phone number')
       return
-    }else if (this.props.state.about_me === ''){
+    }
+    if (this.props.state.about_me === ''){
       this.showAlert('please provide information about you')
       return
-    }else if (this.props.state.instagram_link === ''){
+    }
+    if (this.props.state.instagram_link === ''){
       this.showAlert('please provide your Instagram link')
       return
     }
-    else if ( !validInstagramLink.test(this.props.state.instagram_link)){
+    if ( !validInstagramLink.test(this.props.state.instagram_link)){
       this.showAlert('please provide valid Instagram link')
       return
     }
-    else if (this.props.state.whatsapp_link === ''){
+    if (this.props.state.whatsapp_link === ''){
       this.showAlert('please provide your WhatsApp link')
       return
-    }else if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
+    }
+    if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
       this.showAlert('please provide valid Whats app link')
       return
     }
-    else if (this.props.state.facebook_link === ''){
+    if (this.props.state.facebook_link === ''){
       this.showAlert('please provide your Facebook link')
       return
-    }else if ( !validFacebookLink.test(this.props.state.facebook_link)){
+    }
+    if ( !validFacebookLink.test(this.props.state.facebook_link)){
       this.showAlert('please provide valid facebook profile link')
       return
     }
-    this.props.setState({show_loader:true})  
+    this.props.setState({show_loader:true})
     const userDetails:any = await AsyncStorage.getItem('userDetails');
     const data:any = JSON.parse(userDetails);
     const formdata = new FormData();
+    if(this.props.state?.profileImage?.path){
+      const imagePath = this.props.state.profileImage.path
+      const imageName = this.props.state?.profileImage?.filename ? 
+      this.props.state?.profileImage?.filename :imagePath.slice(imagePath.lastIndexOf('/') + 1)
+      const filename = `${
+        data?.meta?.token}${
+        new Date().getTime()}${imageName}`
+    formdata.append('photo', {
+      //@ts-ignore
+       uri: imagePath,
+       type: this.props.state?.profileImage?.mime,
+       name: filename,
+     });}
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
     formdata.append("about_me", this.props.state.about_me);
@@ -318,6 +412,35 @@ export default class LandingPageController extends BlockComponent<
     
     return true;
   }
+  async getSubcategories(subCategoryId:string){
+    this.setState({show_loader:true,selectedSub:null})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.getSubCategoryId = subcategory.messageId;
+    
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.subCategory}${subCategoryId}`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
   async getProfileDetails() {
     this.setState({loader:true})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
@@ -326,20 +449,14 @@ export default class LandingPageController extends BlockComponent<
       "Content-Type": configJSON.validationApiContentType,
       'token':data?.meta?.token
     };
-
-
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
     this.getprofileDetailsId = getValidationsMsg.messageId;
-    
-
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.userDetailsEndpoint
     );
-
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -349,7 +466,6 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
-    
   }
   goToLandingPage(){
     this.setState({showProfileModal:false})
