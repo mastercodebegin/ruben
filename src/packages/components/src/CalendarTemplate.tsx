@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, createContext } from "react";
 import {
   Animated,
   View,
@@ -24,6 +24,8 @@ import {
   SEARCH,
   EXPLORE_BTN,
 } from "../../blocks/landingpage/src/assets";
+import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
+export const Calendarcontext = createContext({disable:false});
 interface CalendarTemplateTypes {
   children: React.ReactElement<any, any>;
   header: string;
@@ -32,6 +34,7 @@ interface CalendarTemplateTypes {
   animateString2: string;
   onChangeText: (text: string) => void;
   additionalHeader?: React.ReactElement<any, any>;
+  navigation?:any
 }
 
 const CalendarTemplate = ({
@@ -41,7 +44,8 @@ const CalendarTemplate = ({
   animateString1 = "",
   animateString2 = "",
   onChangeText,
-  additionalHeader
+  additionalHeader,
+  navigation
 }: CalendarTemplateTypes) => {
   const [selected, setSelected] = useState("incom");
   const [showCalendar, setShowCalendar] = useState(false);
@@ -54,87 +58,89 @@ const CalendarTemplate = ({
     }).start();
   };
   const headerComponent = () => (
-    <View style={styles.main}>
-      <Text style={styles.header}>{header}</Text>
-      <View style={styles.animatedContainer}>
-        <Animated.View
-          style={{
-            ...styles.animatedView,
-            transform: [{ translateX: AnimatedValue }],
-          }}
-        />
-        <TouchableOpacity
-          disabled={selected === "incom" || showCalendar}
-          onPress={() => animate(0, "incom")}
-          style={styles.selectorContainer}
-        >
-          <Text
-            style={[
-              styles.selectorText,
-              selected === "incom" && styles.selectedStyle,
-            ]}
-          >
-            {animateString1}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          disabled={selected === "prev" || showCalendar}
-          onPress={() => {
-            animate(calculatedScreenW / 2, "prev");
-          }}
-          style={styles.selectorContainer}
-        >
-          <Text
-            style={[
-              styles.selectorText,
-              selected === "prev" && styles.selectedStyle,
-            ]}
-          >
-            {animateString2}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={expStyles.textInputContainer}>
-        <View style={expStyles.searchContainer}>
-          <Image
-            resizeMode="stretch"
-            style={[
-              expStyles.search,
-              {
-                tintColor: DARK_RED,
-              },
-            ]}
-            source={SEARCH}
+    <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
+      <View style={styles.main}>
+        <Text style={styles.header}>{header}</Text>
+        <View style={styles.animatedContainer}>
+          <Animated.View
+            style={{
+              ...styles.animatedView,
+              transform: [{ translateX: AnimatedValue }],
+            }}
           />
-          <TextInput
-            style={expStyles.textInput}
-            editable={!showCalendar}
-            placeholder="Search any product..."
-            placeholderTextColor={"#8D7D75"}
-          />
-        </View>
-        <View style={{ height: "100%" }}>
           <TouchableOpacity
-            onPress={() => setShowCalendar(!showCalendar)}
-            style={expStyles.exploreBtn}
+            disabled={selected === "incom" || showCalendar}
+            onPress={() => animate(0, "incom")}
+            style={styles.selectorContainer}
           >
-            <Image
-              style={expStyles.explore}
-              resizeMode="contain"
-              source={EXPLORE_BTN}
-            />
+            <Text
+              style={[
+                styles.selectorText,
+                selected === "incom" && styles.selectedStyle,
+              ]}
+            >
+              {animateString1}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            disabled={selected === "prev" || showCalendar}
+            onPress={() => {
+              animate(calculatedScreenW / 2, "prev");
+            }}
+            style={styles.selectorContainer}
+          >
+            <Text
+              style={[
+                styles.selectorText,
+                selected === "prev" && styles.selectedStyle,
+              ]}
+            >
+              {animateString2}
+            </Text>
           </TouchableOpacity>
         </View>
-        {showCalendar && (
-          <TouchableWithoutFeedback>
-            <View style={styles.calendarContainer}>
-              <Calendar />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+        <View style={expStyles.textInputContainer}>
+          <View style={expStyles.searchContainer}>
+            <Image
+              resizeMode="stretch"
+              style={[
+                expStyles.search,
+                {
+                  tintColor: DARK_RED,
+                },
+              ]}
+              source={SEARCH}
+            />
+            <TextInput
+              style={expStyles.textInput}
+              editable={!showCalendar}
+              placeholder="Search any product..."
+              placeholderTextColor={"#8D7D75"}
+            />
+          </View>
+          <View style={{ height: "100%" }}>
+            <TouchableOpacity
+              onPress={() => setShowCalendar(!showCalendar)}
+              style={expStyles.exploreBtn}
+            >
+              <Image
+                style={expStyles.explore}
+                resizeMode="contain"
+                source={EXPLORE_BTN}
+              />
+            </TouchableOpacity>
+          </View>
+          {showCalendar && (
+            <TouchableWithoutFeedback>
+              <View style={styles.calendarContainer}>
+                <Calendar />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
+        {additionalHeader}
       </View>
-      {additionalHeader}
-    </View>
+    </TouchableWithoutFeedback>
   );
   return (
     <SafeAreaView style={styles.flex}>
@@ -142,11 +148,22 @@ const CalendarTemplate = ({
         bounces={false}
         showsVerticalScrollIndicator={false}
         data={[1, 2, 3, 5]}
+        onScrollBeginDrag={() => setShowCalendar(false)}
         ListHeaderComponentStyle={{ zIndex: 1000 }}
         keyExtractor={(_, i) => String(i)}
-        renderItem={() => children}
+        renderItem={() => (
+          <Calendarcontext.Provider value={{ disable: showCalendar }}>
+            <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
+              <View>
+              {children}
+              </View>
+            </TouchableWithoutFeedback>
+          </Calendarcontext.Provider>
+        )}
         ListHeaderComponent={headerComponent}
       />
+            <BottomTab navigation={navigation} tabName="OrdersScreen" />
+
     </SafeAreaView>
   );
 };

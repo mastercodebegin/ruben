@@ -28,7 +28,6 @@ import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
-import FastImage from "react-native-fast-image";
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -70,7 +69,7 @@ export default class Myprofile extends LandingPageController {
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
                 <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
-                  {this.state.profileImage != '' && (<FastImage style={styles.profileImage}
+                  {this.state.profileImage != '' && (<Image style={styles.profileImage}
                   source={
                     {uri:this.state.profileImage?.path ?
                       this.state.profileImage?.path :
@@ -125,12 +124,12 @@ export default class Myprofile extends LandingPageController {
               showsHorizontalScrollIndicator={false}
             >
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "favorite" })}
+                onPress={() => this.setState({ selectedTab: "MyFavoritesScreen" })}
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "favorite" && styles.selected,
+                    this.state.selectedTab === "MyFavoritesScreen" && styles.selected,
                   ]}
                 >
                   My Favorites
@@ -163,7 +162,7 @@ export default class Myprofile extends LandingPageController {
               </TouchableOpacity>
             </ScrollView>
             <RenderItems rating={false} />
-            <TouchableOpacity style={styles.seeBtn}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
               <Text style={styles.seeText}>see All</Text>
             </TouchableOpacity>
           </View>

@@ -14,8 +14,10 @@ import { LIGHT_GREY, DARK_RED, WHITE } from "../assets";
 import CommonStyle from "../commonStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Trigger from "../../../../components/src/CustomTrigger";
+import { store } from "../../../../mobile/App";
 export default class Setting extends LandingPageController {
   render() {
+    const isUser = store.getState().currentUser==='user'
     const logout = () => {
       AsyncStorage.removeItem("userDetails").then(() => {
         this.props.navigation.reset({
@@ -39,9 +41,9 @@ export default class Setting extends LandingPageController {
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.options}>About Us</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              {isUser && <TouchableOpacity style={styles.button}>
                 <Text style={styles.options}>My Orders</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>}
               <TouchableOpacity style={styles.button}>
                 <Text style={styles.options}>Analytics</Text>
               </TouchableOpacity>
@@ -50,7 +52,7 @@ export default class Setting extends LandingPageController {
                style={styles.button}>
                 <Text style={styles.options}>Terms & conditions</Text>
               </TouchableOpacity>
-              <View style={styles.button}>
+              {isUser && <View style={styles.button}>
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Lifetime Subscription</Text>
                   <Trigger
@@ -60,8 +62,8 @@ export default class Setting extends LandingPageController {
                     }}
                   />
                 </View>
-              </View>
-              <View style={styles.button}>
+              </View>}
+              {isUser && <View style={styles.button}>
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Cold Packaging Fee</Text>
                   <Trigger
@@ -71,15 +73,15 @@ export default class Setting extends LandingPageController {
                     }}
                   />
                 </View>
-              </View>
+              </View>}
               <TouchableOpacity onPress={onpressLogout} style={styles.button}>
                 <Text style={styles.options}>Log Out</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              {isUser && <TouchableOpacity style={styles.button}>
                 <Text style={[styles.options, { color: "#A0272A" }]}>
                   Delete My Account
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity>}
             </View>
           </View>
         </ScrollView>

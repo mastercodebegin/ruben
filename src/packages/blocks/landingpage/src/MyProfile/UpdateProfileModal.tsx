@@ -15,7 +15,6 @@ import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED, edit } from "../assets";
-import FastImage from "react-native-fast-image";
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props:any) {
     super(props);
@@ -68,7 +67,7 @@ export default class UpdateProfileModal extends LandingPageController {
                     <View
                       style={styles.profileImage}              
                     >
-                      <FastImage
+                      <Image
                       style={{position:'absolute',height:'100%',width:'100%'}}
                       source={ 
                         {uri:this.props.state.profileImage?.path ?

@@ -17,22 +17,25 @@ settings_unmarked,
 element_marked,
 element_unmarked,
 profile_marked,
-profile_unmarked
+profile_unmarked,
+Bill,
 } from "../assets";
-
+//@ts-ignore
+import {store} from '../../../../mobile/App'
 type BottomTabType = {
-  tabName: String,
+  tabName: string,
   navigation:any,
 };
 
 const BottomTab = ({ tabName, navigation }: BottomTabType) => {
-    const renderIcons = (image: ImageSourcePropType, selected: boolean,navigate:String) => {
+  const isUser=store.getState().currentUser === 'user';
+    const renderIcons = (image: ImageSourcePropType, selected: boolean,navigate:string) => {
         return (
           <TouchableOpacity onPress={()=>{
             navigation?.navigate(navigate)}} style={styles.iconContainer}>
             <View style={{ alignItems: "center" }}>
               <Image
-                style={styles.icon}
+                style={{...styles.icon, tintColor:selected?PRIMARY:'#D3D3D3'}}
                 resizeMode='contain'
                 source={image}
               />
@@ -41,12 +44,25 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
           </TouchableOpacity>
         );
       };
+      const constUserComponent =()=>{
+        return <>
+        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+        {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
+        </>
+      }
+      const merchantComponent =()=>{
+        return <>
+        {renderIcons(Bill, tabName === "OrdersScreen",'OrdersScreen')}
+        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+        </>
+      }
   return (
     <View style={styles.container}>
       {renderIcons(tabName === "Home" ? home_marked :home_unmarked, tabName === "Home",'LandingPage')}
       {renderIcons(tabName === "Explore" ?shop_marked:shop_unmarked, tabName === "Explore",'ExplorePage')}
-      {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
-      {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
+      {isUser ? constUserComponent()
+      :merchantComponent()
+      }
       {renderIcons(tabName === "Settings"?settings_marked:settings_unmarked, tabName === "Settings",'Settings')}
     </View>
   );

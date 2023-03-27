@@ -33,7 +33,6 @@ import CommonLoader from "../../../../components/src/CommonLoader";
 import { FlatList } from "react-native-gesture-handler";
 //@ts-ignore
 import RenderCategories from './RenderCategories'
-import FastImage from 'react-native-fast-image'
 
 class ExplorePage extends LandingPageController {
     constructor(props:any) {
@@ -113,9 +112,8 @@ class ExplorePage extends LandingPageController {
                                 {
                                 backgroundColor:seleceted ? '#A0272A': WHITE,}
                                 ]}>
-                            <FastImage 
-                             tintColor={seleceted ? 'white': DARK_RED}
-                             style={{height:25,width:25,marginRight:10,}}
+                            <Image 
+                             style={{height:25,width:25,marginRight:10,tintColor: seleceted ? 'white': DARK_RED}}
                              source={CHICKEN}/>
                             <Text numberOfLines={1} style={{
                                 fontSize:20,
@@ -133,7 +131,9 @@ class ExplorePage extends LandingPageController {
             {
                 this.props.currentUser==='user'?
                 <CartDetails/>:
-            <DualButton button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>
+            <DualButton
+            containerStyle={styles.dualButton}
+             button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>
             }
             </View>
             <BottomTab navigation={this.props.navigation} tabName={'Explore'}/>
@@ -158,6 +158,7 @@ const mapStateToProps = (reducer:any) => {
 export default ReduxExplorePage;
 
 export const styles = StyleSheet.create({
+    dualButton:{position:'absolute',bottom:0,paddingHorizontal:20,marginBottom:20},
     subContainer:{flexDirection:'row',paddingHorizontal:20,},
     subcategory:{
         flex:1,
