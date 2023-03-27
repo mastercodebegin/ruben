@@ -16,12 +16,14 @@ const meatImage2 = require("./meatimage@2.jpg");
 const meatImage3 = require("./meatimage@3.jpg");
 interface MeatLockerTypes {
   navigation: any;
+  route:any;
 }
-const MeatLocker = ({ navigation }: MeatLockerTypes) => {
+const MeatLocker = ({ navigation,route }: MeatLockerTypes) => {
   const onPressContinue = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: "Myprofile" , params: {firstTime:true }}],
+      routes: [{ name: route?.params?.screen ? route?.params?.screen:  "Myprofile" ,
+      params: {firstTime:true }}],
     });
   };
   return (

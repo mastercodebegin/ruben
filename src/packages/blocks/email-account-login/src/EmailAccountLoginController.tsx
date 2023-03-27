@@ -146,10 +146,10 @@ export default class EmailAccountLoginController extends BlockComponent<
   btnEmailLogInProps = {
     onPress: () => this.doEmailLogIn(),
   };
-  resetStack = (screen: string) => {
+  resetStack = (screen: string,params={}) => {
     this.props.navigation.reset({
       index: 0,
-      routes: [{ name: screen }],
+      routes: [{ name: screen , params}],
     });
   };
   btnSignupPress = {
@@ -221,17 +221,6 @@ export default class EmailAccountLoginController extends BlockComponent<
   }
 
   doMerchantSignup(password: string) {
-    // if (!this.emailReg.test(this.state.email)){
-    //   this.showAlert('Email can not be blank')
-    //   return
-    // }
-    // else if (!this.passwordReg.test(this.state.mPassword)) {
-    //   Alert.alert(
-    //     "Invalid password",
-    //     "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
-    //   );
-    //   return
-    // }
     if (this.state.mEmail === '') {
       this.showAlert('Email can not be blank')
       return
@@ -584,12 +573,12 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.state.email.length === 0 ||
       !this.emailReg.test(this.state.email)
     ) {
-      this.showAlert("Error", configJSON.errorEmailNotValid);
+      this.showAlert(configJSON.errorEmailNotValid);
       return false;
     }
 
     if (this.state.password === null || this.state.password.length === 0) {
-      this.showAlert("Error", configJSON.errorPasswordNotValid);
+      this.showAlert(configJSON.errorPasswordNotValid);
       return false;
     }
 
