@@ -35,6 +35,14 @@ const DATA = [
         title: 'Chicken',
         title2: 'goo'
     },
+    {
+        title: 'Meat 1',
+        title2: 'goo',
+    },
+    {
+        title: 'Beaf Head',
+        title2: 'goo'
+    },
 ];
 
 
@@ -65,9 +73,47 @@ export default class MyCart extends LandingPageController {
                         My Cart
                     </Text>
                 </View>
+                <View style={{ paddingHorizontal: 20 }}>
+                    <View style={{ alignSelf: 'center' }} >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, }}>
+                            <View style={styles.checkBox}>
+                                <View style={styles.dot}></View>
+                            </View>
+                            <View style={styles.horizontalLine} />
+                            <View style={styles.checkBox}></View>
+                            <View style={styles.horizontalLine} />
+                            <View style={styles.checkBox}></View>
+                            <View style={styles.horizontalLine} />
+                            <View style={styles.checkBox}></View>
+                        </View>
+                        <View style={styles.cartProcessDetails}>
+                            <Text style={styles.cartTextStyle}>My Cart</Text>
+                            <Text style={{ color: 'grey' }}>Personal Details</Text>
+                            <Text style={{ color: 'grey' }}>Summary</Text>
+                            <Text style={{ color: 'grey' }}>Payment</Text>
+                        </View>
+                    </View>
+                    <View style={styles.cartItemsContainer}>
+                        <View style={{ flexDirection: 'row', padding: 15 }}>
+                            <Text style={styles.addedTextStyle}>ADDED ITEMS</Text>
+                            <Text style={styles.totalItemsCountStyle}>  (03)</Text>
+                        </View>
+                        <View style={styles.fullHorizontalLine} />
+                        <View style={{ height: '80%' }}>
+                            <FlatList
+                                data={DATA}
+                                renderItem={({ item }) => <CustomCart item={item} />}
+                                keyExtractor={item => item.id}
+                                showsVerticalScrollIndicator={false}
+                            />
+                        </View>
+
+                    </View>
+                </View>
+
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ flex: 1, paddingHorizontal: 20 }}>
-                        <View style={{ alignSelf: 'center' }} >
+                        {/* <View style={{ alignSelf: 'center' }} >
                             <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, }}>
                                 <View style={styles.checkBox}>
                                     <View style={styles.dot}></View>
@@ -85,20 +131,23 @@ export default class MyCart extends LandingPageController {
                                 <Text style={{ color: 'grey' }}>Summary</Text>
                                 <Text style={{ color: 'grey' }}>Payment</Text>
                             </View>
-                        </View>
-                        <View style={styles.cartItemsContainer}>
+                        </View> */}
+                        {/* <View style={styles.cartItemsContainer}>
                             <View style={{ flexDirection: 'row', padding: 15 }}>
                                 <Text style={styles.addedTextStyle}>ADDED ITEMS</Text>
                                 <Text style={styles.totalItemsCountStyle}>  (03)</Text>
                             </View>
                             <View style={styles.fullHorizontalLine} />
-                            <FlatList
-                                data={DATA}
-                                renderItem={({ item }) => <CustomCart item={item} />}
-                                keyExtractor={item => item.id}
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </View>
+                            <View style={{backgroundColor:'red' , height:'80%'}}>
+                                <FlatList
+                                    data={DATA}
+                                    renderItem={({ item }) => <CustomCart item={item} />}
+                                    keyExtractor={item => item.id}
+                                    showsVerticalScrollIndicator={false}
+                                />
+                            </View>
+
+                        </View> */}
                         <View style={styles.dashedBorderStyle}>
                             <Text style={styles.discountText}>Enter Discount Code</Text>
                             <TouchableOpacity>
@@ -246,9 +295,10 @@ const styles = StyleSheet.create({
     cancleButtonStyle: {
         borderRadius: 28,
         alignItems: "center",
-        backgroundColor: "#fff",
+        backgroundColor: "#EFDBD8",
         borderColor: '#A0272A',
-        borderWidth: 1, bottom: 30
+        borderWidth: 1,
+        bottom: 10
     },
     cancleTextButton: {
         color: '#A0272A',
