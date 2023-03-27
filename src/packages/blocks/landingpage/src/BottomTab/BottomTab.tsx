@@ -35,7 +35,7 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
             navigation?.navigate(navigate)}} style={styles.iconContainer}>
             <View style={{ alignItems: "center" }}>
               <Image
-                style={{...styles.icon, tintColor:selected?PRIMARY:'#D3D3D3'}}
+                style={{...styles.icon, tintColor:selected?PRIMARY:'grey'}}
                 resizeMode='contain'
                 source={image}
               />

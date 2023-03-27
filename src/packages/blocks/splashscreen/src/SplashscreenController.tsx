@@ -56,9 +56,6 @@ export default class SplashscreenController extends BlockComponent<
   // Customizable Area Start
   async componentDidMount() {
     super.componentDidMount();
-    // setTimeout(() => {
-    //   this.goToHome()
-    // }, this.state.timeout);
   }
 
   goToHome() {

@@ -158,8 +158,8 @@ export default class EmailAccountLoginController extends BlockComponent<
     merchantSignup: this.doMerchantSignup,
   };
 
-  showAlert(message: string) {
-    Alert.alert('Alert', message)
+  showAlert(title:string,message: string) {
+    Alert.alert(title, message)
   }
 
   doEmailSignup(): boolean {
@@ -222,33 +222,33 @@ export default class EmailAccountLoginController extends BlockComponent<
 
   doMerchantSignup(password: string) {
     if (this.state.mEmail === '') {
-      this.showAlert('Email can not be blank')
+      this.showAlert('Error','Email can not be blank')
       return
     }
     else if (this.state.mPassword === '') {
-      this.showAlert('password can not be blank')
+      this.showAlert('Error','password can not be blank')
       return
     }
     else if (this.state.farmName === '') {
-      this.showAlert('please provide your Farm Name')
+      this.showAlert('Error','please provide your Farm Name')
       return
     } else if (this.state.product === '') {
-      this.showAlert('please provide your product Name')
+      this.showAlert('Error','please provide your product Name')
       return
     } else if (this.state.location === '') {
-      this.showAlert('please provide your location')
+      this.showAlert('Error','please provide your location')
       return
     } else if (this.state.contact === '') {
-      this.showAlert('please provide your contact')
+      this.showAlert('Error','please provide your contact')
       return
     } else if (this.state.description === '') {
-      this.showAlert('please fill your Description')
+      this.showAlert('Error','please fill your Description')
       return
     } else if (this.state.website === '') {
-      this.showAlert('please provide your website link')
+      this.showAlert('Error','please provide your website link')
       return
     } else if (this.state.social === '') {
-      this.showAlert('please provide your social Media')
+      this.showAlert('Error','please provide your social Media')
       return
     } else {
       this.setState({ showLoader: true })
@@ -268,8 +268,6 @@ export default class EmailAccountLoginController extends BlockComponent<
         farm_products: this.state.product,
         activated: "true"
       };
-      console.log('attributes-=-=-=-=->>>', attrs);
-
       const data = {
         type: "email_account",
         user_type: "merchant",
@@ -309,32 +307,6 @@ export default class EmailAccountLoginController extends BlockComponent<
 
       return true;
     }
-
-    // else if (!validInstagramLink.test(this.props.state.instagram_link)) {
-    //   this.showAlert('please provide valid Instagram link')
-    //   return
-    // }
-    // else if (this.props.state.whatsapp_link === '') {
-    //   this.showAlert('please provide your WhatsApp link')
-    //   return
-    // } else if (!validWhatssappLink.test(this.props.state.whatsapp_link)) {
-    //   this.showAlert('please provide valid Whats app link')
-    //   return
-    // }
-    // else if (this.props.state.facebook_link === '') {
-    //   this.showAlert('please provide your Facebook link')
-    //   return
-    // } else if (!validFacebookLink.test(this.props.state.facebook_link)) {
-    //   this.showAlert('please provide valid facebook profile link')
-    //   return
-    // }
-    // if (!this.passwordReg.test(password)) {
-    //   Alert.alert(
-    //     "Invalid password",
-    //     "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
-    //   );
-    //   return false
-    // }
   }
 
   btnPasswordShowHideProps = {
@@ -424,6 +396,20 @@ export default class EmailAccountLoginController extends BlockComponent<
     ? this.txtInputEmailWebProps
     : this.txtInputEmailMobileProps;
 
+    loginCallBack(signupResponse:any){
+      if (signupResponse?.meta?.token) {
+        AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(signupResponse)
+        ).then(() => {
+          this.setState({ showLoader: false })
+          this.resetStack("LandingPage");
+        });
+      } else {
+        Alert.alert("Error", signupResponse?.errors[0]?.failed_login,
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
+      }
+    }
   // Customizable Area End
 
   async receive(from: string, message: Message) {
@@ -439,18 +425,8 @@ export default class EmailAccountLoginController extends BlockComponent<
       let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      if (signupResponse?.meta?.token) {
-        AsyncStorage.setItem(
-          "userDetails",
-          JSON.stringify(signupResponse)
-        ).then(() => {
-          this.setState({ showLoader: false })
-          this.resetStack("LandingPage");
-        });
-      } else {
-        Alert.alert("Error", signupResponse?.errors[0]?.failed_login,
-          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
-      }
+      this.loginCallBack(signupResponse)
+     
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.apiEmailSignupCallId != null &&
@@ -573,12 +549,12 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.state.email.length === 0 ||
       !this.emailReg.test(this.state.email)
     ) {
-      this.showAlert(configJSON.errorEmailNotValid);
+      this.showAlert("Error", configJSON.errorEmailNotValid);
       return false;
     }
 
     if (this.state.password === null || this.state.password.length === 0) {
-      this.showAlert(configJSON.errorPasswordNotValid);
+      this.showAlert("Error", configJSON.errorEmailNotValid);
       return false;
     }
 

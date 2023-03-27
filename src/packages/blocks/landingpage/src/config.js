@@ -16,4 +16,5 @@ exports.labelBodyText = "LandingPage Body";
 exports.getCategory= "bx_block_categories/categories"
 exports.subCategory= "bx_block_categories/sub_categories?category_id="
 exports.btnExampleTitle = "CLICK ME";
+exports.getImageBlog='bx_block_posts/posts/get_images';
 // Customizable Area End

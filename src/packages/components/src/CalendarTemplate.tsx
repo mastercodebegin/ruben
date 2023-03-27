@@ -142,6 +142,7 @@ const CalendarTemplate = ({
       </View>
     </TouchableWithoutFeedback>
   );
+  const contextValue=React.useMemo(()=>({ disable: showCalendar }),[showCalendar])
   return (
     <SafeAreaView style={styles.flex}>
       <FlatList
@@ -152,7 +153,7 @@ const CalendarTemplate = ({
         ListHeaderComponentStyle={{ zIndex: 1000 }}
         keyExtractor={(_, i) => String(i)}
         renderItem={() => (
-          <Calendarcontext.Provider value={{ disable: showCalendar }}>
+          <Calendarcontext.Provider value={contextValue}>
             <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
               <View>
               {children}

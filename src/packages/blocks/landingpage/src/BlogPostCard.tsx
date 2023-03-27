@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon } from "./assets";
+import { sampleProfile, shareIcon, playIcon,blogpostimage } from "./assets";
 import Video from "react-native-video";
 interface Types {
   item: any;
+  type:string;
 }
-const BlogPostCard = ({ item }: Types) => {
+const BlogPostCard = ({ item ,type}: Types) => {
   const [play, setPaly] = React.useState(true);
   return (
     <View style={styles.card}>
@@ -17,8 +18,8 @@ const BlogPostCard = ({ item }: Types) => {
             source={sampleProfile}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>Masool El Toure</Text>
-            <Text style={styles.time}>5 min ago</Text>
+            <Text style={styles.name}>{item?.attributes?.name}</Text>
+            <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
           <TouchableOpacity>
             <Image
@@ -28,15 +29,13 @@ const BlogPostCard = ({ item }: Types) => {
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.blogText} numberOfLines={2}>
-          The placeholder text used in design when creating content. It helps
-          designer plan out where the
+        <Text style={styles.blogText} numberOfLines={2}>{item?.attributes?.description}
         </Text>
-        {item?.type === 'image'?
+        {type === 'image'?
         <Image
         style={styles.blogImage}
         resizeMode="stretch"
-        source={item.image}
+        source={blogpostimage}
       />:<View style={styles.videoView}>
           <Video
             style={styles.video}

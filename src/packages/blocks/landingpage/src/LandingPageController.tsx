@@ -59,6 +59,7 @@ interface S {
   searchText:string;
   productsList:Array<object>;
   refresh:boolean;
+  imageBlogList:Array<object>;
   // Customizable Area End
 }
 
@@ -83,7 +84,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
-      selectedTab:'favorite',
+      selectedTab:'MyFavoritesScreen',
       showProfileModal:false,
       profileImage:'',
       name:'',
@@ -112,7 +113,8 @@ export default class LandingPageController extends BlockComponent<
         images:[],
         desciption:''
       }],
-      refresh:false
+      refresh:false,
+      imageBlogList:[]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -171,6 +173,8 @@ export default class LandingPageController extends BlockComponent<
       whatsapp_link,
       id
     }})
+      }else{
+        this.setState({loader:false})
       }
     } 
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -213,7 +217,23 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories,error)
       
     }
-    runEngine.debugLog("Message Recived", message);
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getBlogPostsId != null &&
+      this.getBlogPostsId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ){
+      const imageBlogPosts = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        console.log(error);
+        this.setState({imageBlogList:imageBlogPosts?.data})
+
+    }
+    // runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
@@ -250,6 +270,7 @@ export default class LandingPageController extends BlockComponent<
   updateProfileDetailsId:string ='';
   getCategoriesId:string='';
   getSubCategoryId:string='';
+  getBlogPostsId:string='';
   
   userdetailsProps={
     getuserDetails:this.getProfileDetails
@@ -318,33 +339,69 @@ export default class LandingPageController extends BlockComponent<
   showAlert(message:string){
     Alert.alert('Alert',message)
   }
-  async updateProfileDetails (firstTime:boolean) {
+  async getblogPosts(){
+    this.setState({show_loader:true,selectedSub:null})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.getBlogPostsId = subcategory.messageId;
+    
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getImageBlog
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  checkValidation(){
     if(this.props.state.profileImage === ''){
       this.showAlert('Please select your profile picture ');
-      return;
+      return false;
     } 
     if(this.props.state.name === ''){
       this.showAlert('Name can not be blank')
-      return
+      return false;
     }
     if (this.props.state.email === ''){
       this.showAlert('Email can not be blank')
-      return
+      return false;
     }
     if (this.props.state.phone_number === ''){
       this.showAlert('please provide your phone number')
-      return
+      return false;
     }
     if (this.props.state.about_me === ''){
       this.showAlert('please provide information about you')
-      return
+      return false;
     }
     if (this.props.state.instagram_link === ''){
       this.showAlert('please provide your Instagram link')
-      return
+      return false;
     }
     if ( !validInstagramLink.test(this.props.state.instagram_link)){
       this.showAlert('please provide valid Instagram link')
+      return false;
+    }
+    return true
+  }
+  
+  async updateProfileDetails (firstTime:boolean) {
+    if(!this.checkValidation()){
       return
     }
     if (this.props.state.whatsapp_link === ''){

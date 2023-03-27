@@ -8,15 +8,9 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
 } from "react-native";
-import {
-  homeBackground,
-  splashScreenImage,
-  sampleProfile,
-  shareIcon,
-  blogpostimage,
-} from "./assets";
+import { homeBackground, splashScreenImage } from "./assets";
 import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 import BlogPostCard from "./BlogPostCard";
@@ -39,6 +33,10 @@ export default class LandingPage extends LandingPageController {
   onpressExploreStore = () => {
     this.props.navigation.navigate("ExplorePage");
   };
+  async componentDidMount() {
+    super.componentDidMount();
+    this.getblogPosts();
+  }
   // Customizable Area End
 
   render() {
@@ -46,40 +44,50 @@ export default class LandingPage extends LandingPageController {
       <SafeAreaView style={styles.mainContainer}>
         {/* Customizable Area Start */}
         <View style={{ flex: 1 }}>
-          <ScrollView
-            contentContainerStyle={styles.container}
+          <FlatList
+            data={this.state.imageBlogList}
+            bounces={false}
             showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.landingPageView}>
-              <ImageBackground
-                style={styles.imageBgr}
-                resizeMode="stretch"
-                source={homeBackground}
-              >
-                <Image
-                  style={styles.appLogo}
-                  resizeMode="contain"
-                  source={splashScreenImage}
-                />
-                <Text style={styles.header}>Back </Text>
-                <Text style={styles.header}>to Nature.</Text>
-                <Text style={styles.description}>
-                  The designations employed and the presentation of material in
-                  the information product do not simply.
-                </Text>
-                <TouchableOpacity
-                  onPress={this.onpressExploreStore}
-                  style={styles.explorebtn}
+            contentContainerStyle={{paddingBottom:70}}
+            ListHeaderComponent={() => (
+              <View style={styles.landingPageView}>
+                <ImageBackground
+                  style={styles.imageBgr}
+                  resizeMode="stretch"
+                  source={homeBackground}
                 >
-                  <Text style={styles.exploreBtn}>Explore Store</Text>
-                </TouchableOpacity>
-              </ImageBackground>
-              <View style={styles.blogPostContainer}>
-                <Text style={styles.post}>Blog Posts</Text>
+                  <Image
+                    style={styles.appLogo}
+                    resizeMode="contain"
+                    source={splashScreenImage}
+                  />
+                  <Text style={styles.header}>Back </Text>
+                  <Text style={styles.header}>to Nature.</Text>
+                  <Text style={styles.description}>
+                    The designations employed and the presentation of material
+                    in the information product do not simply.
+                  </Text>
+                  <TouchableOpacity
+                    onPress={this.onpressExploreStore}
+                    style={styles.explorebtn}
+                  >
+                    <Text style={styles.exploreBtn}>Explore Store</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+                <View style={styles.blogPostContainer}>
+                  <Text style={styles.post}>Blog Posts</Text>
+                </View>
               </View>
-              <BlogPostCard item={{ image: blogpostimage, type: "image" }} />
-            </View>
-          </ScrollView>
+            )}
+            keyExtractor={(_:any,index)=>{
+              return _?.id
+            }}
+            renderItem={({item,index}) => (
+              <View style={{marginBottom:10}}>
+                <BlogPostCard type={'image'} item={item} />
+              </View>
+            )}
+          />
           <CartDetails />
         </View>
         <BottomTab navigation={this.props.navigation} tabName={"Home"} />
