@@ -122,6 +122,10 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
+        <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
+        <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
+        <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
+        <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

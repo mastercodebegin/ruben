@@ -466,7 +466,6 @@ export default class EmailAccountLoginController extends BlockComponent<
             () => {
               this.setState({
                 showMerModal: true,
-                // coupon_code: newLogged?.data?.attributes?.code,
                 showLoader: false
               });
             }
@@ -554,7 +553,7 @@ export default class EmailAccountLoginController extends BlockComponent<
     }
 
     if (this.state.password === null || this.state.password.length === 0) {
-      this.showAlert("Error", configJSON.errorEmailNotValid);
+      this.showAlert("Error", configJSON.errorPasswordNotValid);
       return false;
     }
 
