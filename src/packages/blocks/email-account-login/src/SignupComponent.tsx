@@ -14,10 +14,30 @@ interface SignupComponentTypes {
   email: string;
   password: string;
   setShowModal: (value: boolean) => void;
+  setShowMerchantModal: (value: boolean) => void;
   showModal: boolean;
+  showMerchantModal: boolean;
   resetStack: (screen: string) => void;
   couponCode: string;
   doMerchantSignup: (password: string) => void;
+  mEmail: string;
+  onChangeMEmail: (text: string) => void;
+  mPassword: string;
+  onChangeMPassword: (text: string) => void;
+  farmName: string;
+  onChangeFarmName: (text: string) => void;
+  product: string;
+  onChangeProduct: (text: string) => void;
+  location: string;
+  onChangeLocation: (text: string) => void;
+  contact: string;
+  onChangeContact: (text: string) => void;
+  description: string;
+  onChangeDescription: (text: string) => void;
+  website: string;
+  onChangeWebsite: (text: string) => void;
+  social: string;
+  onChnageSocial: (text: string) => void;
 }
 const SignupComponent = ({
   onPressLogin,
@@ -28,22 +48,42 @@ const SignupComponent = ({
   password,
   showModal,
   setShowModal,
+  showMerchantModal,
+  setShowMerchantModal,
   resetStack,
   couponCode,
   doMerchantSignup,
+  mEmail,
+  onChangeMEmail,
+  mPassword,
+  onChangeMPassword,
+  farmName,
+  onChangeFarmName,
+  product,
+  onChangeProduct,
+  location,
+  onChangeLocation,
+  contact,
+  onChangeContact,
+  description,
+  onChangeDescription,
+  website,
+  onChangeWebsite,
+  social,
+  onChnageSocial
 }: SignupComponentTypes) => {
   const [checked, setChecked] = useState(false);
   const [isMerchant, setIsMerchant] = useState("user");
-  const [product, setProduct] = useState("");
-  const [location, setLocation] = useState("");
-  const [contact, setContact] = useState("");
-  const [description, setDescription] = useState("");
-  const [website, setWebSite] = useState("");
-  const [social, setSocial] = useState("");
-  const [farmName, setFarmName] = useState("");
-  const [mEmail, setmEmail] = useState("");
-  const [mPassword, setmPassword] = useState("");
-  const [showMerchantModal, setShowMerchantModal] = useState(false);
+  // const [product, setProduct] = useState("");
+  // const [location, setLocation] = useState("");
+  // const [contact, setContact] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [website, setWebSite] = useState("");
+  // const [social, setSocial] = useState("");
+  // const [farmName, setFarmName] = useState("");
+  // const [mEmail, setmEmail] = useState("");
+  // const [mPassword, setmPassword] = useState("");
+  // const [showMerchantModal, setShowMerchantModal] = useState(false);
 
   return (
     <View style={styles.main}>
@@ -89,7 +129,7 @@ const SignupComponent = ({
           <View>
             <TextInput
               keyBoardtype="default"
-              onchangeText={setmEmail}
+              onchangeText={onChangeMEmail}
               label="Email ID"
               value={mEmail}
               labeStyle={styles.label}
@@ -99,7 +139,7 @@ const SignupComponent = ({
             <TextInput
               secureTextEntry
               keyBoardtype="default"
-              onchangeText={setmPassword}
+              onchangeText={onChangeMPassword}
               label="Password"
               value={mPassword}
               labeStyle={styles.label}
@@ -108,7 +148,7 @@ const SignupComponent = ({
             />
             <TextInput
               keyBoardtype="default"
-              onchangeText={setFarmName}
+              onchangeText={onChangeFarmName}
               label="Name of Farm"
               value={farmName}
               labeStyle={styles.label}
@@ -117,7 +157,7 @@ const SignupComponent = ({
             />
             <TextInput
               keyBoardtype="default"
-              onchangeText={setProduct}
+              onchangeText={onChangeProduct}
               label="Products of Farm"
               value={product}
               labeStyle={styles.label}
@@ -128,7 +168,7 @@ const SignupComponent = ({
               label="Location of Farm"
               keyBoardtype="default"
               value={location}
-              onchangeText={setLocation}
+              onchangeText={onChangeLocation}
               labeStyle={styles.label}
               placeholder="Location of Farm"
               containerStyle={styles.containerStyle}
@@ -137,14 +177,14 @@ const SignupComponent = ({
               label="Contact Information"
               keyBoardtype="default"
               value={contact}
-              onchangeText={setContact}
+              onchangeText={onChangeContact}
               placeholder="Contact Information"
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
             />
             <TextInput
               keyBoardtype="default"
-              onchangeText={setDescription}
+              onchangeText={onChangeDescription}
               label="Description of the Farm"
               value={description}
               labeStyle={{ ...styles.label, paddingBottom: 10 }}
@@ -156,14 +196,14 @@ const SignupComponent = ({
               label="Farm Website"
               keyBoardtype="default"
               value={website}
-              onchangeText={setWebSite}
+              onchangeText={onChangeWebsite}
               labeStyle={styles.label}
               placeholder="Farm Website"
               containerStyle={styles.containerStyle}
             />
             <TextInput
               keyBoardtype="default"
-              onchangeText={setSocial}
+              onchangeText={onChnageSocial}
               label="Farm Social Media"
               value={social}
               labeStyle={styles.label}
@@ -208,6 +248,7 @@ const SignupComponent = ({
           //@ts-ignore
           setVisible={setShowMerchantModal}
           transparent
+          onpressButton={() => { resetStack("MeatLocker") }}
         >
           <Text style={styles.text}>
             Thank you for your application! The Meat Locker will react out!

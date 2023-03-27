@@ -125,8 +125,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                         style={[
                           styles.header,
                           this.state.selectedTab && styles.selected,
-                        ]}
-                      >
+                        ]}>
                         Log In
                       </Text>
                     </TouchableOpacity>
@@ -165,7 +164,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                           Alert.alert("Error", "Password is required");
                           return false;
                         }
-                        this.setState({showLoader:true})
+                        this.setState({ showLoader: true })
                         this.btnEmailLogInProps.onPress();
                         return true;
                       }}
@@ -181,6 +180,10 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                       onchangeEmail={(email) =>
                         this.setState({ signupEmail: email })
                       }
+                      showMerchantModal={this.state.showMerModal}
+                      setShowMerchantModal={(value: boolean) => {
+                        this.setState({ showMerModal: value })
+                      }}
                       couponCode={this.state.coupon_code}
                       email={this.state.signupEmail}
                       password={this.state.signupPassword}
@@ -189,6 +192,43 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                       onchangePassword={(pass) =>
                         this.setState({ signupPassword: pass })
                       }
+                      mEmail={this.state.mEmail}
+                      onChangeMEmail={(mEmail) => {
+                        this.setState({ mEmail: mEmail })
+                      }}
+                      mPassword={this.state.mPassword}
+                      onChangeMPassword={(mpass) => {
+                        this.setState({ mPassword: mpass })
+                      }}
+                      farmName={this.state.farmName}
+                      onChangeFarmName={(farmText) => {
+                        this.setState({ farmName: farmText })
+                      }}
+                      product={this.state.product}
+                      onChangeProduct={(productText) => {
+                        this.setState({ product: productText })
+                      }}
+                      location={this.state.location}
+                      onChangeLocation={(locText) => {
+                        this.setState({ location: locText })
+                      }}
+                      contact={this.state.contact}
+                      onChangeContact={(contactText) => {
+                        this.setState({ contact: contactText })
+                      }}
+                      description={this.state.description}
+                      onChangeDescription={(descriptionText) => {
+                        this.setState({ description: descriptionText })
+                      }}
+                      website={this.state.website}
+                      onChangeWebsite={(webText) => {
+                        this.setState({ website: webText })
+                      }}
+                      social={this.state.social}
+                      onChnageSocial={(socialText) => {
+                        this.setState({ social: socialText })
+                      }}
+
                       doMerchantSignup={this.btnSignupPress.merchantSignup.bind(
                         this
                       )}
