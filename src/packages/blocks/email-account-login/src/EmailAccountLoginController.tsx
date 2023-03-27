@@ -461,7 +461,9 @@ export default class EmailAccountLoginController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       if (newLogged?.meta?.token) {
-        AsyncStorage.setItem("merchantUserDetails", JSON.stringify(newLogged))
+        AsyncStorage.setItem("userDetails", 
+        JSON.stringify({...newLogged,
+          meta:{...newLogged?.meta,user_type:'merchant'}}))
           .then(
             () => {
               this.setState({

@@ -73,7 +73,7 @@ export default class BlogPost extends LandingPageController {
             transform: [{ translateX: this.state.animatedValue }],
           }}
         >
-          <Posts />
+          <Posts list={this.state.imageBlogList} getList={()=>this.getblogPosts()} />
           <VideoLibrary />
         </Animated.View>
         <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />

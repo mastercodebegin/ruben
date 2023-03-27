@@ -20,6 +20,7 @@ import LandingPageController, {
   Props,
   configJSON
 } from "./LandingPageController";
+import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class LandingPage extends LandingPageController {
   constructor(props: Props) {
@@ -35,7 +36,7 @@ export default class LandingPage extends LandingPageController {
   };
   async componentDidMount() {
     super.componentDidMount();
-    this.getblogPosts();
+    this.getblogPosts.bind(this)();
   }
   // Customizable Area End
 
@@ -91,6 +92,7 @@ export default class LandingPage extends LandingPageController {
           <CartDetails />
         </View>
         <BottomTab navigation={this.props.navigation} tabName={"Home"} />
+        <CommonLoader visible={this.state.show_loader}/>
         {/* Customizable Area End */}
       </SafeAreaView>
     );

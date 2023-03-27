@@ -21,18 +21,22 @@ export default class Posts extends React.Component {
       pause: false,
     };
   }
+  async componentDidMount() {
+    this.props.getList()
+  }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.flex}>
           <FlatList
-            data={dummyData}
+            data={this.props.list}
+            bounces={false}
             keyExtractor={(_, index) => String(index)}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <View style={styles.margin}>
-                <BlogPostCard item={item} />
+                <BlogPostCard type="image" item={item} />
               </View>
             )}
           />

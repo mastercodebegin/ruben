@@ -230,7 +230,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
         );
         console.log(error);
-        this.setState({imageBlogList:imageBlogPosts?.data})
+        this.setState({imageBlogList:imageBlogPosts?.data,show_loader:false})
 
     }
     // runEngine.debugLog("Message Recived", message);
@@ -340,7 +340,7 @@ export default class LandingPageController extends BlockComponent<
     Alert.alert('Alert',message)
   }
   async getblogPosts(){
-    this.setState({show_loader:true,selectedSub:null})
+    this.setState({show_loader:true})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
     const headers = {
