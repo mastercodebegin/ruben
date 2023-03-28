@@ -10,16 +10,12 @@ import {
 } from "react-native";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
-import { LIGHT_GREY, MEAT_IMAGE1, MEAT_IMAGE2, MEAT_IMAGE3 } from "../assets";
+import { LIGHT_GREY } from "../assets";
 import commonStyle from "../commonStyles";
 import VideoLibrary from "./VideoLibrary";
 import Posts from "./Post";
+import CommonLoader from "../../../../components/src/CommonLoader";
 
-const dummyData = [
-  { image: MEAT_IMAGE1 },
-  { image: MEAT_IMAGE2 },
-  { image: MEAT_IMAGE3 },
-];
 const deviceWidth = Dimensions.get("window").width;
 export default class BlogPost extends LandingPageController {
   render() {
@@ -74,9 +70,10 @@ export default class BlogPost extends LandingPageController {
           }}
         >
           <Posts list={this.state.imageBlogList} getList={()=>this.getblogPosts()} />
-          <VideoLibrary />
+          <VideoLibrary list={this.state.videoLibrary} getList={()=>this.getVideoBlog()}/>
         </Animated.View>
         <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
+        <CommonLoader visible={this.state.show_loader}/>
       </SafeAreaView>
     );
   }

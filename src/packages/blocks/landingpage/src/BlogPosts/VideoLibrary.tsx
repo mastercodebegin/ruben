@@ -6,15 +6,16 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
-import LandingPageController from "../LandingPageController";
 import BlogPostCard from "../BlogPostCard";
-import { LIGHT_GREY, MEAT_IMAGE1, MEAT_IMAGE2, MEAT_IMAGE3 } from "../assets";
-const dummyData = [
-  { image: MEAT_IMAGE1 },
-  { image: MEAT_IMAGE2 },
-  { image: MEAT_IMAGE3 },
-];
-export default class VideoLibrary extends React.Component {
+import { LIGHT_GREY } from "../assets";
+type Props = {
+  list:Array<object>,
+  getList:()=>void
+};
+type State = {
+  pause:boolean,
+};
+export default class VideoLibrary extends React.Component<Props,State> {
   constructor(props: any) {
     super(props);
 
@@ -22,18 +23,22 @@ export default class VideoLibrary extends React.Component {
       pause: false,
     };
   }
+  async componentDidMount() {
+    this.props.getList();
+  }
 
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={{ flex: 1 }}>
           <FlatList
-            data={dummyData}
+            data={this.props?.list}
             keyExtractor={(_, index) => String(index)}
             showsVerticalScrollIndicator={false}
+            bounces={false}
             renderItem={({ item }) => (
               <View style={{ marginBottom: 20 }}>
-                <BlogPostCard item={item} />
+                <BlogPostCard  item={item} />
               </View>
             )}
           />

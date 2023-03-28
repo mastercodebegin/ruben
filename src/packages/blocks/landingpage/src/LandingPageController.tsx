@@ -60,6 +60,7 @@ interface S {
   productsList:Array<object>;
   refresh:boolean;
   imageBlogList:Array<object>;
+  videoLibrary:Array<object>;
   // Customizable Area End
 }
 
@@ -114,7 +115,8 @@ export default class LandingPageController extends BlockComponent<
         desciption:''
       }],
       refresh:false,
-      imageBlogList:[]
+      imageBlogList:[],
+      videoLibrary:[]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -122,10 +124,7 @@ export default class LandingPageController extends BlockComponent<
 
   async receive(from: string, message: Message) {
     // Customizable Area Start    
-    if (getName(MessageEnum.SessionSaveMessage) === message.id) {
-      return
-    } 
-    else if (
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null &&
       this.getprofileDetailsId ===
@@ -232,12 +231,33 @@ export default class LandingPageController extends BlockComponent<
         console.log(error);
         this.setState({imageBlogList:imageBlogPosts?.data,show_loader:false})
 
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getVideoLibraryId != null &&
+      this.getVideoLibraryId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ){
+      const videoLibrary = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        this.videoLibraryCallback(videoLibrary,error)
+       
     }
-    // runEngine.debugLog("Message Recived", message);
+    runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  videoLibraryCallback(videoLibrary:any,error:any){
+    if(error){
+      this.showAlert('Something went wrong, please try again later')
+    }else{
+      this.setState({videoLibrary:videoLibrary?.data,show_loader:false})
+    }
+  }
   getSubcategoryCallback(subCategories:any,error:any){
     if(error){
       this.setState({show_loader:false})
@@ -271,7 +291,7 @@ export default class LandingPageController extends BlockComponent<
   getCategoriesId:string='';
   getSubCategoryId:string='';
   getBlogPostsId:string='';
-  
+  getVideoLibraryId:string='';
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
@@ -367,6 +387,33 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async getVideoBlog(){
+    this.setState({show_loader:true})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const videoLibrary = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.getVideoLibraryId = videoLibrary.messageId;
+    videoLibrary.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getVideoBlog
+    );
+
+    videoLibrary.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    videoLibrary.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
   checkValidation(){
     if(this.props.state.profileImage === ''){

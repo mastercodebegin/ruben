@@ -14,13 +14,13 @@ import { homeBackground, splashScreenImage } from "./assets";
 import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 import BlogPostCard from "./BlogPostCard";
+import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
 import LandingPageController, {
   Props,
   configJSON
 } from "./LandingPageController";
-import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class LandingPage extends LandingPageController {
   constructor(props: Props) {

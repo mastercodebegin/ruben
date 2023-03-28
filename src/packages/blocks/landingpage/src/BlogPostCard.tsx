@@ -4,10 +4,10 @@ import { sampleProfile, shareIcon, playIcon,blogpostimage } from "./assets";
 import Video from "react-native-video";
 interface Types {
   item: any;
-  type:string;
+  type?:string;
 }
 const BlogPostCard = ({ item ,type}: Types) => {
-  const [play, setPaly] = React.useState(true);
+  const [play, setPaly] = React.useState(true);  
   return (
     <View style={styles.card}>
       <View style={styles.padding}>

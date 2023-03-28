@@ -7,13 +7,15 @@ import {
   Dimensions,
 } from "react-native";
 import BlogPostCard from "../BlogPostCard";
-import { LIGHT_GREY, MEAT_IMAGE1, MEAT_IMAGE2, MEAT_IMAGE3 } from "../assets";
-const dummyData = [
-  { image: MEAT_IMAGE1, type: "image" },
-  { image: MEAT_IMAGE2, type: "image" },
-  { image: MEAT_IMAGE3, type: "image" },
-];
-export default class Posts extends React.Component {
+import { LIGHT_GREY } from "../assets";
+type Props = {
+  getList: () => void;
+  list: Array<object>;
+};
+type State = {
+  pause: boolean;
+};
+export default class Posts extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -22,7 +24,7 @@ export default class Posts extends React.Component {
     };
   }
   async componentDidMount() {
-    this.props.getList()
+    this.props.getList();
   }
 
   render() {

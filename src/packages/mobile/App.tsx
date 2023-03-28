@@ -137,7 +137,9 @@ export function App() {
     initialRoute: '',
   });
   const getUserDetails = () => {
-    AsyncStorage.getItem('userDetails').then(res => {
+    AsyncStorage.getItem('userDetails').then((res:any) => {
+      const usr_details= JSON.parse(res);
+      console.log(usr_details);
       setTimeout(() => {
         if (res) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
         else {
