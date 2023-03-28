@@ -15,6 +15,7 @@ import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 import BlogPostCard from "./BlogPostCard";
 import CommonLoader from "../../../components/src/CommonLoader";
+import { store } from "../../../mobile/App";
 // Customizable Area End
 
 import LandingPageController, {
@@ -89,7 +90,7 @@ export default class LandingPage extends LandingPageController {
               </View>
             )}
           />
-          <CartDetails />
+          {store.getState().currentUser === 'user' && <CartDetails />}
         </View>
         <BottomTab navigation={this.props.navigation} tabName={"Home"} />
         <CommonLoader visible={this.state.show_loader}/>

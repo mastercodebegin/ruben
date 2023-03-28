@@ -10,6 +10,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import { Alert, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//@ts-ignore
+import { store } from "../../../mobile/App";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -466,6 +468,7 @@ export default class EmailAccountLoginController extends BlockComponent<
           meta:{...newLogged?.meta,user_type:'merchant'}}))
           .then(
             () => {
+              store.dispatch({type:'UPDATE_USER',payload:'merchany'})
               this.setState({
                 showMerModal: true,
                 showLoader: false

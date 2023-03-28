@@ -46,14 +46,14 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
       };
       const constUserComponent =()=>{
         return <>
-        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPostStack')}
         {renderIcons(tabName === "Myprofile"?profile_marked:profile_unmarked, tabName === "Myprofile",'Myprofile')}
         </>
       }
       const merchantComponent =()=>{
         return <>
         {renderIcons(Bill, tabName === "OrdersScreen",'OrdersScreen')}
-        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPost')}
+        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPostStack')}
         </>
       }
   return (

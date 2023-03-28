@@ -51,6 +51,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
               <Image
                 style={styles.play}
                 source={playIcon}
+                
               />
             </TouchableOpacity>
           </View>
@@ -67,6 +68,15 @@ const styles = StyleSheet.create({
   play:{
     height: 30,
     width: 30,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 5,
+},
+shadowOpacity: 0.34,
+shadowRadius: 6.27,
+elevation: 10,
+borderRadius:20
   },
   padding:{ paddingHorizontal: 15 },
   card: {
