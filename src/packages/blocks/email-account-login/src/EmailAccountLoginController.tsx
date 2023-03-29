@@ -123,7 +123,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       social: '',
     };
 
-    this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    this.emailReg = new RegExp(/^[^\s@]++@[^\s@]++.[^\s@]++$/);
     this.passwordReg = new RegExp(
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,15}$/
     );
