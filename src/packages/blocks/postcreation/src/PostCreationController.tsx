@@ -7,7 +7,7 @@ import MessageEnum, {
 import PostCreationCommonController from './PostCreationCommonController'
 
 // Customizable Area Start
-// import ImagePicker from "react-native-image-crop-picker";
+import ImagePicker from "react-native-image-crop-picker";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -33,27 +33,29 @@ export default class PostCreationController extends PostCreationCommonController
         skipBackup: true
       }
     };
+    console.log(options);
     
-    // ImagePicker.openPicker({
-    //   multiple: false,
-    //   mediaType: "photo",
-    //   compressImageQuality: 0.3,
-    //   includeBase64: true,
-    //   cropping: true
-    // }).then(async (image:any) => {
-    //   let filename = image.path.substring(
-    //     image.path.lastIndexOf("/") + 1,
-    //     image.path.length
-    //   );
-    //   this.setState({
-    //     image: image.sourceURL,
-    //     profileImageData: {
-    //       data: image.data,
-    //       filename: filename,
-    //       content_type: image.mime
-    //     }
-    //   });
-    // });
+    
+    ImagePicker.openPicker({
+      multiple: false,
+      mediaType: "photo",
+      compressImageQuality: 0.3,
+      includeBase64: true,
+      cropping: true
+    }).then(async (image:any) => {
+      let filename = image.path.substring(
+        image.path.lastIndexOf("/") + 1,
+        image.path.length
+      );
+      this.setState({
+        image: image.sourceURL,
+        profileImageData: {
+          data: image.data,
+          filename: filename,
+          content_type: image.mime
+        }
+      });
+    });
   };
   // Customizable Area End
 }

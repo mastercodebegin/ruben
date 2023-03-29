@@ -13,7 +13,7 @@ import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {store} from '../../../mobile/App';
 const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
-const validWhatssappLink = /^https?:\/\/wa\.me\/[0-9]+(\?text=.*)?$/
+const validWhatssappLink = /^https?:\/\/wa\.me\/\d+(\?text=.*)?$/
 const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
 // Customizable Area End
 
@@ -272,7 +272,9 @@ export default class LandingPageController extends BlockComponent<
         Alert.alert('Error','Something went wrong, Please try again later')
         this.setState({show_loader:false,refresh:false});
       }else{
-        this.setState({show_loader:false,categories:categories,refresh:false})
+        this.setState({show_loader:false,
+          categories:this.categoryPageNumber > 1 ? [...this.state.categories , ...categories]: categories,
+          refresh:false})
       }
   }
   updateProfileCallback(error:any,response:any){
@@ -292,10 +294,11 @@ export default class LandingPageController extends BlockComponent<
   getSubCategoryId:string='';
   getBlogPostsId:string='';
   getVideoLibraryId:string='';
+  categoryPageNumber:number=1;
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
-  async getCategory(loader=true){
+  async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
@@ -314,7 +317,7 @@ export default class LandingPageController extends BlockComponent<
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.getCategory
+      `bx_block_categories/categories?page=${page}`
     );
 
     getValidationsMsg.addData(
@@ -334,7 +337,7 @@ export default class LandingPageController extends BlockComponent<
     }).then((image) => {
       callBack(image)
     }).catch(e=>error(e))
-  };
+  }
 
   async openGallery(callBack:(res:any)=>void,error:(e:any)=>void){
      ImagePicker.openPicker({
@@ -345,7 +348,7 @@ export default class LandingPageController extends BlockComponent<
     }).catch(e=>{
       error(e)
     });
-  };
+  }
   selectImage(callBack:(res:any)=>void,error:(e:any)=>void){
     Alert.alert("Choose image from", "", [
       {

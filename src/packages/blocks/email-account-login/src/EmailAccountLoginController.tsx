@@ -225,32 +225,38 @@ export default class EmailAccountLoginController extends BlockComponent<
       this.showAlert('Error','Email can not be blank')
       return
     }
-    else if (this.state.mPassword === '') {
+    if (this.state.mPassword === '') {
       this.showAlert('Error','password can not be blank')
       return
     }
-    else if (this.state.farmName === '') {
+    if (this.state.farmName === '') {
       this.showAlert('Error','please provide your Farm Name')
       return
-    } else if (this.state.product === '') {
+    } 
+    if (this.state.product === '') {
       this.showAlert('Error','please provide your product Name')
       return
-    } else if (this.state.location === '') {
+    } 
+    if (this.state.location === '') {
       this.showAlert('Error','please provide your location')
       return
-    } else if (this.state.contact === '') {
+    } 
+    if (this.state.contact === '') {
       this.showAlert('Error','please provide your contact')
       return
-    } else if (this.state.description === '') {
+    } 
+    if (this.state.description === '') {
       this.showAlert('Error','please fill your Description')
       return
-    } else if (this.state.website === '') {
+    } 
+    if (this.state.website === '') {
       this.showAlert('Error','please provide your website link')
       return
-    } else if (this.state.social === '') {
+    } 
+    if (this.state.social === '') {
       this.showAlert('Error','please provide your social Media')
       return
-    } else {
+    } 
       this.setState({ showLoader: true })
       const header = {
         "Content-Type": configJSON.loginApiContentType,
@@ -306,7 +312,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       runEngine.sendMessage(requestMessage.id, requestMessage);
 
       return true;
-    }
+    
   }
 
   btnPasswordShowHideProps = {

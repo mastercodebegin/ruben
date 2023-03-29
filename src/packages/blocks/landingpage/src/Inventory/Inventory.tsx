@@ -6,13 +6,11 @@ import {
     TouchableOpacity,
     SafeAreaView,
     Image,
-    ScrollView,
     TextInput,
     FlatList
 } from "react-native";
 import LandingPageController from "../LandingPageController";
-import { LIGHT_GREY, DARK_RED, backArrow, cow, SEARCH, EXPLORE_BTN, } from "../assets";
-import Button from "../../../../components/src/CustomButton";
+import { LIGHT_GREY, DARK_RED, backArrow, SEARCH, EXPLORE_BTN, } from "../assets";
 const DATA = [
     {
         title: 'Meat 1',
@@ -26,50 +24,6 @@ const DATA = [
         title: 'Chicken',
         title2: 'goo'
     },
-    // {
-    //     title: 'Meat 1',
-    //     title2: 'goo',
-    // },
-    // {
-    //     title: 'Beaf Head',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Chicken',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Meat 1',
-    //     title2: 'goo',
-    // },
-    // {
-    //     title: 'Beaf Head',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Chicken',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Beaf Head',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Chicken',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Meat 1',
-    //     title2: 'goo',
-    // },
-    // {
-    //     title: 'Beaf Head',
-    //     title2: 'goo'
-    // },
-    // {
-    //     title: 'Chicken',
-    //     title2: 'goo'
-    // },
 ];
 
 
@@ -123,7 +77,6 @@ export default class Inventory extends LandingPageController {
     }
 
     render() {
-        const { navigation } = this.props;
         return (
             <SafeAreaView style={styles.main}>
                 <View style={{
@@ -145,7 +98,6 @@ export default class Inventory extends LandingPageController {
                     </TouchableOpacity>
 
                 </View>
-                {/* <ScrollView bounces={false} showsVerticalScrollIndicator={false}> */}
                 <View style={styles.innercontainer}>
                     <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{

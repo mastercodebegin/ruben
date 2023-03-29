@@ -11,14 +11,10 @@ import {
 } from "react-native";
 import {
     LIGHT_GREY,
-    PRIMARY,
-    MID_PEACH,
     DARK_RED,
-    WHITE,
-    MEAT_IMAGE1
+    backArrow
 } from "../assets";
 import LandingPageController from "../LandingPageController";
-import { backArrow } from "../assets";
 import CustomCart from "./CustomCart";
 import Button from "../../../../components/src/CustomButton";
 //@ts-ignore
@@ -51,10 +47,6 @@ export default class MyCart extends LandingPageController {
         super(props);
         this.receive = this.receive.bind(this);
     }
-    //@ts-ignore
-    componentDidMount() {
-    }
-
     onpressContinue = () => {
         alert('coming soon')
     }

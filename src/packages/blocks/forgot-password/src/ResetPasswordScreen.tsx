@@ -5,8 +5,6 @@ import {
   Text,
   Alert,
   StyleSheet,
-  TouchableOpacity,
-  Image,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   ScrollView,
