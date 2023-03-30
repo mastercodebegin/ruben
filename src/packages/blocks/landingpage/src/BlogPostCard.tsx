@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon } from "./assets";
+import { sampleProfile, shareIcon, playIcon ,blogpostimage} from "./assets";
 import Video from "react-native-video";
 interface Types {
   item: any;
@@ -20,7 +20,10 @@ const BlogPostCard = ({ item ,type}: Types) => {
             source={sampleProfile}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>{item?.attributes?.name}</Text>
+            <Text style={styles.name}>
+              Masood El Toure
+              {/* {item?.attributes?.name} */}
+              </Text>
             <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
           <TouchableOpacity>
@@ -37,15 +40,19 @@ const BlogPostCard = ({ item ,type}: Types) => {
         <Image
         style={styles.blogImage}
         resizeMode="stretch"
-        source={{uri:item?.attributes?.images[0]?.url}}
+        source={
+          
+          // {uri:item?.attributes?.images[0]?.url}
+          blogpostimage
+        }
       />:<View style={styles.videoView}>
           <Video
             style={styles.video}
             resizeMode="stretch"
             paused={play}
             source={{
-              uri:
-              item?.attributes?.videos[0]?.url
+              uri:'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+              // item?.attributes?.videos[0]?.url
             }}
           />
           <View style={styles.videoContainer}>

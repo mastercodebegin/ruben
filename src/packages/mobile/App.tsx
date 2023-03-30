@@ -139,7 +139,9 @@ export function App() {
   const getUserDetails = () => {
     AsyncStorage.getItem('userDetails').then((res:any) => {
       const usr_details= JSON.parse(res);
-      console.log(usr_details);
+      if(usr_details?.meta?.user_type === 'merchant'){
+        store.dispatch({type:'UPDATE_USER',payload:'merchant'})
+      }
       setTimeout(() => {
         if (res) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
         else {
