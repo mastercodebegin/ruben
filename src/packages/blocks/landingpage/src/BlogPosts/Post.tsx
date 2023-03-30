@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   FlatList,
-  SafeAreaView,
-  Dimensions,
 } from "react-native";
 import BlogPostCard from "../BlogPostCard";
 import { LIGHT_GREY } from "../assets";
@@ -29,7 +27,6 @@ export default class Posts extends React.Component<Props, State> {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
         <View style={styles.flex}>
           <FlatList
             data={this.props.list}
@@ -43,17 +40,12 @@ export default class Posts extends React.Component<Props, State> {
             )}
           />
         </View>
-      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingBottom: 20, paddingTop: 30 },
-  flex: { flex: 1 },
-  container: {
-    backgroundColor: LIGHT_GREY,
-    width: Dimensions.get("window").width,
-  },
+  flex: { flex: 1 ,backgroundColor: LIGHT_GREY,},
   margin: { marginBottom: 20 },
 });

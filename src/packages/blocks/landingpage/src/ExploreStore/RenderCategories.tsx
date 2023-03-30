@@ -5,6 +5,7 @@ import {
     WHITE
     //@ts-ignore
 } from "../../assets/constants";
+import { CHICKEN } from "../assets";
 const RenderCategories = ({item,index,onpress}:any)=>{    
     return(
         <TouchableOpacity 
@@ -12,7 +13,7 @@ const RenderCategories = ({item,index,onpress}:any)=>{
         key={index} 
         style={styles.scrollerItemContainer}>
             <Image  style={styles.scrollerImg}
-             source={{uri:item?.attributes?.icon?.url}} />
+             source={CHICKEN} />
             <Text style={styles.scrollerText}>
                 {item?.attributes.name}
             </Text>
