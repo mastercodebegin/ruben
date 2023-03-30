@@ -17,6 +17,7 @@ import ForgotPasswordController, { Props } from "./ForgotPasswordController";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
 import { backArrow } from "./assets";
+export const configJSON = require("./config");
 //Customizable Area End
 
 export default class ForgotPassword extends ForgotPasswordController {
@@ -68,7 +69,7 @@ export default class ForgotPassword extends ForgotPasswordController {
                   label={"Send Link to Reset"}
                   onPress={
                     async () => {
-                      if( !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email))){
+                      if( !(configJSON.emailregex.test(this.state.email))){
                         Alert.alert("Alert", "Please enter valid email");
                         return
                       }

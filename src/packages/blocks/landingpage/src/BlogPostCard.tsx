@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon,blogpostimage } from "./assets";
+import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
 interface Types {
   item: any;
   type?:string;
+  index?:number;
+  visibleItem?:number;
 }
 const BlogPostCard = ({ item ,type}: Types) => {
   const [play, setPaly] = React.useState(true);  
@@ -35,7 +37,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
         <Image
         style={styles.blogImage}
         resizeMode="stretch"
-        source={blogpostimage}
+        source={{uri:item?.attributes?.images[0]?.url}}
       />:<View style={styles.videoView}>
           <Video
             style={styles.video}
@@ -43,7 +45,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
             paused={play}
             source={{
               uri:
-                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              item?.attributes?.videos[0]?.url
             }}
           />
           <View style={styles.videoContainer}>
