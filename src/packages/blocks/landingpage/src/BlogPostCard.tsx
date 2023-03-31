@@ -21,8 +21,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
           />
           <View style={styles.nameContainer}>
             <Text style={styles.name}>
-              Masood El Toure
-              {/* {item?.attributes?.name} */}
+              {item?.attributes?.name}
               </Text>
             <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
@@ -41,8 +40,6 @@ const BlogPostCard = ({ item ,type}: Types) => {
         style={styles.blogImage}
         resizeMode="stretch"
         source={
-          
-          // {uri:item?.attributes?.images[0]?.url}
           blogpostimage
         }
       />:<View style={styles.videoView}>
@@ -51,8 +48,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
             resizeMode="stretch"
             paused={play}
             source={{
-              uri:'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-              // item?.attributes?.videos[0]?.url
+              uri: item?.attributes?.videos[0]?.url
             }}
           />
           <View style={styles.videoContainer}>
