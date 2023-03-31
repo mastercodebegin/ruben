@@ -89,8 +89,9 @@ class ExplorePage extends LandingPageController {
                     bounces={false}
                     showsHorizontalScrollIndicator={false}
                     onEndReached={()=>{
-                        if(this.categoryPage === null)
+                        if(this.categoryPage === null){
                         return
+                    }
                         this.categoryPage=this.categoryPage+1;
                         this.getCategory.bind(this)(this.categoryPage)
                     }}
