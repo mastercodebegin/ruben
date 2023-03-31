@@ -9,6 +9,7 @@ import BlogPostCard from "../BlogPostCard";
 import { LIGHT_GREY } from "../assets";
 import LandingPageController from "../LandingPageController";
 import BottomTab from "../BottomTab/BottomTab";
+import CommonLoader from "../../../../components/src/CommonLoader";
 export default class VideoLibrary extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -34,6 +35,7 @@ export default class VideoLibrary extends LandingPageController {
           />
           </View>
           <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
+          <CommonLoader visible={this.state.show_loader}/>
         </View>
     );
   }

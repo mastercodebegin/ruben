@@ -65,6 +65,6 @@ exports.placeholderIsPassword = "password";
 exports.countryCodeSelectorPlaceholder = "Select Country";
 // Customizable Area Start
 exports.phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-exports.emailregex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+exports.emailregex = '[^@]+[@][\\S]+[.][\\S]+'
 exports.resetPassword = "bx_block_forgot_password/otps"
 // Customizable Area End

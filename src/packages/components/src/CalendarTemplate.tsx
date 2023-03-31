@@ -25,7 +25,7 @@ import {
   EXPLORE_BTN,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
-export const Calendarcontext = createContext({disable:false});
+export const Calendarcontext = createContext({ disable: false,item:{} });
 interface CalendarTemplateTypes {
   children: React.ReactElement<any, any>;
   header: string;
@@ -34,7 +34,9 @@ interface CalendarTemplateTypes {
   animateString2: string;
   onChangeText: (text: string) => void;
   additionalHeader?: React.ReactElement<any, any>;
-  navigation?:any
+  navigation?: any;
+  showBottomTab?:boolean;
+  data:Array<object>;
 }
 
 const CalendarTemplate = ({
@@ -45,7 +47,9 @@ const CalendarTemplate = ({
   animateString2 = "",
   onChangeText,
   additionalHeader,
-  navigation
+  navigation,
+  showBottomTab=true,
+  data=[]
 }: CalendarTemplateTypes) => {
   const [selected, setSelected] = useState("incom");
   const [showCalendar, setShowCalendar] = useState(false);
@@ -142,29 +146,28 @@ const CalendarTemplate = ({
       </View>
     </TouchableWithoutFeedback>
   );
-  const contextValue=React.useMemo(()=>({ disable: showCalendar }),[showCalendar])
+  const contextValue = React.useMemo(() => ({ disable: showCalendar }), [
+    showCalendar,
+  ]);
   return (
     <SafeAreaView style={styles.flex}>
       <FlatList
         bounces={false}
         showsVerticalScrollIndicator={false}
-        data={[1, 2, 3, 5]}
+        data={data}
         onScrollBeginDrag={() => setShowCalendar(false)}
         ListHeaderComponentStyle={{ zIndex: 1000 }}
         keyExtractor={(_, i) => String(i)}
-        renderItem={() => (
-          <Calendarcontext.Provider value={contextValue}>
+        renderItem={({item}:any) => (
+          <Calendarcontext.Provider value={{...contextValue,item:item}}>
             <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
-              <View>
-              {children}
-              </View>
+              <View>{children}</View>
             </TouchableWithoutFeedback>
           </Calendarcontext.Provider>
         )}
         ListHeaderComponent={headerComponent}
       />
-            <BottomTab navigation={navigation} tabName="OrdersScreen" />
-
+      {showBottomTab&&<BottomTab navigation={navigation} tabName="OrdersScreen" />}
     </SafeAreaView>
   );
 };

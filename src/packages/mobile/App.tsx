@@ -28,6 +28,7 @@ import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
+import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -144,6 +145,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
+        <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

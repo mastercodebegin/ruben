@@ -10,6 +10,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import { Alert, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//@ts-ignore
 import { store } from "../../../mobile/App";
 // Customizable Area End
 
@@ -73,9 +74,9 @@ export default class EmailAccountLoginController extends BlockComponent<
   validationApiCallId: string = "";
   apiEmailSignupCallId: string = "";
   apiMerchantEmailSignupCallId: string = "";
-  emailReg: RegExp;
+  emailReg: any;
   labelTitle: string = "";
-  passwordReg: RegExp;
+  passwordReg: any;
   // Customizable Area End
 
   constructor(props: Props) {
@@ -122,8 +123,8 @@ export default class EmailAccountLoginController extends BlockComponent<
       social: '',
     };
 
-    this.emailReg = new RegExp("");
-    this.passwordReg = new RegExp("");
+    this.emailReg = null;
+    this.passwordReg = null;
     this.labelTitle = configJSON.labelTitle;
     // Customizable Area End
 
