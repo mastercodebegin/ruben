@@ -33,6 +33,8 @@ export default class PostCreationController extends PostCreationCommonController
         skipBackup: true
       }
     };
+    console.log(options);
+    
     
     ImagePicker.openPicker({
       multiple: false,

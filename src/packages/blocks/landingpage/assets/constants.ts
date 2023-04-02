@@ -1,0 +1,8 @@
+export const APP_BACKGROUND = '#FFE3D4'
+export const BLACK = '#000000'
+export const DARK_RED = '#5C2221'
+export const LIGHT_GREY = '#F8F4F4'
+export const MID_PEACH = '#8D7D75'
+export const PRIMARY = '#A0272A'
+export const TERTIERY = '#B7DEEC'
+export const WHITE = '#FFFFFF' 

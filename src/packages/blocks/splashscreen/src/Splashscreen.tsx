@@ -1,12 +1,14 @@
 import React from "react";
 // Customizable Area Start
-import { 
-  StyleSheet, 
-  Text, 
-  Image, 
-  View, 
-  SafeAreaView 
+import {
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
+import {  redShadow,splash } from "./assets";
 // Customizable Area End
 
 import SplashscreenController, { Props } from "./SplashscreenController";
@@ -21,19 +23,32 @@ export default class Splashscreen extends SplashscreenController {
   }
 
   // Customizable Area Start
+  onPressContinue = () => {
+    this.props.navigation.navigate("EmailAccountLoginBlock");
+  };
   // Customizable Area End
 
   render() {
     return (
       <SafeAreaView style={styles.mainContainer}>
-      {/* Customizable Area Start */}
-        <View style={styles.logoView}>
-          <Image source={imgSplash} style={{width:300, height:150}}/>
-          <Text testID="txtLogo" style={styles.logoText}>
-            RuebensFTCApp
-          </Text>
+        {/* Customizable Area Start */}
+        <View style={styles.imageContainer}>
+          <Image
+            resizeMode="contain"
+            style={styles.image}
+            source={splash}
+          />
         </View>
-      {/* Customizable Area End */}
+        <TouchableOpacity
+          onPress={this.onPressContinue}
+          style={styles.continue}
+        >
+          <Text style={styles.text}>Continue</Text>
+        </TouchableOpacity>
+        <Image resizeMode="stretch"
+         source={redShadow}
+          style={styles.shadow} />
+        {/* Customizable Area End */}
       </SafeAreaView>
     );
   }
@@ -41,23 +56,33 @@ export default class Splashscreen extends SplashscreenController {
 
 // Customizable Area Start
 const styles = StyleSheet.create({
-  logoView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  logoText: {
-    fontSize: 42,
-    letterSpacing: 2,
-    fontWeight: "bold",
-    color: "#323441",
-    marginTop: 15
-  },
   mainContainer: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#F8F4F4",
+  },
+  image: {
+    height: "50%",
+    width: "90%",
+  },
+  continue: {
+    borderRadius: 28,
     alignItems: "center",
-    backgroundColor: "#fff"
-  }
+    backgroundColor: "#a0272a",
+    marginHorizontal: 20,
+  },
+  text: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 20,
+    paddingVertical: 15,
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F8F4F4",
+  },
+  shadow: { height: 50, marginHorizontal: 10, width: "100%" },
 });
 // Customizable Area End

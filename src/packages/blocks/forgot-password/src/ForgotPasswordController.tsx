@@ -16,6 +16,7 @@ export const configJSON = require("./config");
 export interface Props {
   navigation: any;
   // Customizable Area Start
+  route:any;
   // Customizable Area End
 }
 
@@ -34,6 +35,9 @@ interface S {
   token: any;
   enablePasswordField: Boolean;
   btnConfirmPasswordShowHide: Boolean;
+  resetPassword:string;
+  confirmResetPassword:string;
+  email:string
   // Customizable Area End
 }
 
@@ -164,7 +168,10 @@ export default class ForgotPasswordController extends BlockComponent<
       passwordSchema: passwordSchema,
       token: "",
       enablePasswordField: true,
-      btnConfirmPasswordShowHide: true
+      btnConfirmPasswordShowHide: true,
+      resetPassword:'',
+      confirmResetPassword:'',
+      email:this.props.route?.params?.email ? this.props.route?.params?.email : ''
     };
     // Customizable Area End
   }

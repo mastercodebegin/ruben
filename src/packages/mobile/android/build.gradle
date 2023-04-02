@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        minSdkVersion = 30
+        minSdkVersion = 27
         compileSdkVersion = 31
         targetSdkVersion = 31
         supportLibVersion = "30.0.0"
@@ -47,7 +47,7 @@ allprojects {
         maven { url 'https://maven.google.com' }
         google()
         jcenter()
-        mavenCentral()
+        // mavenCentral() -> removed for build issue
         maven { url 'https://jitpack.io' }
     }
 }

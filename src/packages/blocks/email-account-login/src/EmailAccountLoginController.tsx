@@ -8,6 +8,10 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
+import { Alert, Animated } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+//@ts-ignore
+import { store } from "../../../mobile/App";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -34,6 +38,23 @@ interface S {
   labelRememberMe: string;
   btnTxtSocialLogin: string;
   labelOr: string;
+  animatedValue: any;
+  selectedTab: boolean;
+  showModal: boolean;
+  showMerModal: boolean;
+  signupEmail: string;
+  signupPassword: string;
+  showLoader: boolean;
+  coupon_code: string;
+  mEmail: string;
+  mPassword: string;
+  farmName: string;
+  product: string;
+  location: string;
+  contact: string;
+  description: string;
+  website: string;
+  social: string;
   // Customizable Area End
 }
 
@@ -51,8 +72,11 @@ export default class EmailAccountLoginController extends BlockComponent<
   // Customizable Area Start
   apiEmailLoginCallId: string = "";
   validationApiCallId: string = "";
-  emailReg: RegExp;
+  apiEmailSignupCallId: string = "";
+  apiMerchantEmailSignupCallId: string = "";
+  emailReg: any;
   labelTitle: string = "";
+  passwordReg: any;
   // Customizable Area End
 
   constructor(props: Props) {
@@ -80,9 +104,27 @@ export default class EmailAccountLoginController extends BlockComponent<
       labelRememberMe: configJSON.labelRememberMe,
       btnTxtSocialLogin: configJSON.btnTxtSocialLogin,
       labelOr: configJSON.labelOr,
+      animatedValue: new Animated.Value(0),
+      selectedTab: true,
+      showModal: false,
+      showMerModal: false,
+      signupEmail: "",
+      signupPassword: "",
+      showLoader: false,
+      coupon_code: "",
+      mEmail: '',
+      mPassword: '',
+      farmName: '',
+      product: '',
+      location: '',
+      contact: '',
+      description: '',
+      website: '',
+      social: '',
     };
 
-    this.emailReg = new RegExp("");
+    this.emailReg = null;
+    this.passwordReg = null;
     this.labelTitle = configJSON.labelTitle;
     // Customizable Area End
 
@@ -104,6 +146,181 @@ export default class EmailAccountLoginController extends BlockComponent<
   btnEmailLogInProps = {
     onPress: () => this.doEmailLogIn(),
   };
+  resetStack = (screen: string,params={}) => {
+    this.props.navigation.reset({
+      index: 0,
+      routes: [{ name: screen , params}],
+    });
+  };
+  btnSignupPress = {
+    onpress: () => this.doEmailSignup(),
+    resetStack: this.resetStack,
+    merchantSignup: this.doMerchantSignup,
+  };
+
+  showAppAlert(title:string,message: string) {
+    Alert.alert(title, message)
+  }
+
+  doEmailSignup(): boolean {
+    if(!this.emailReg.test(this.state.signupEmail)){
+      Alert.alert(
+        "Invalid Email",
+        "Please enter valid Email"
+      );
+      return false;
+    }
+    if (!this.passwordReg.test(this.state.signupPassword)) {
+      Alert.alert(
+        "Invalid password",
+        "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
+      );
+      return false;
+    }
+    this.setState({ showLoader: true })
+    const header = {
+      "Content-Type": configJSON.loginApiContentType,
+    };
+
+    const attrs = {
+      email: this.state.signupEmail,
+      password: this.state.signupPassword,
+      activated: true,
+    };
+
+    const data = {
+      type: "email_account",
+      attributes: attrs,
+    };
+
+    const httpBody = {
+      data: data,
+    };
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.apiEmailSignupCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.signupAPiEndPoint
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(header)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(httpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.loginAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+    return true;
+  }
+
+  doMerchantSignup(password: string) {
+    if (this.state.mEmail === '') {
+      this.showAppAlert('Error','Email can not be blank')
+      return
+    }
+    if (this.state.mPassword === '') {
+      this.showAppAlert('Error','password can not be blank')
+      return
+    }
+    if (this.state.farmName === '') {
+      this.showAppAlert('Error','please provide your Farm Name')
+      return
+    } 
+    if (this.state.product === '') {
+      this.showAppAlert('Error','please provide your product Name')
+      return
+    } 
+    if (this.state.location === '') {
+      this.showAppAlert('Error','please provide your location')
+      return
+    } 
+    if (this.state.contact === '') {
+      this.showAppAlert('Error','please provide your contact')
+      return
+    } 
+    if (this.state.description === '') {
+      this.showAppAlert('Error','please fill your Description')
+      return
+    } 
+    if (this.state.website === '') {
+      this.showAppAlert('Error','please provide your website link')
+      return
+    } 
+    if (this.state.social === '') {
+      this.showAppAlert('Error','please provide your social Media')
+      return
+    } 
+      this.setState({ showLoader: true })
+      const header = {
+        "Content-Type": configJSON.loginApiContentType,
+      };
+
+      const attrs = {
+        email: this.state.mEmail,
+        password: this.state.mPassword,
+        farm_name: this.state.farmName,
+        farm_description: this.state.description,
+        farm_location: this.state.location,
+        farm_website: this.state.website,
+        contact_information: this.state.contact,
+        farm_socialmedia: this.state.social,
+        farm_products: this.state.product,
+        activated: "true"
+      };
+      const data = {
+        type: "email_account",
+        user_type: "merchant",
+        attributes: attrs,
+      };
+
+      const httpBody = {
+        data: data,
+      };
+
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+
+      this.apiMerchantEmailSignupCallId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        configJSON.signupAPiEndPoint
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(header)
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        JSON.stringify(httpBody)
+      );
+
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+        configJSON.loginAPiMethod
+      );
+
+      runEngine.sendMessage(requestMessage.id, requestMessage);
+
+      return true;
+    
+  }
 
   btnPasswordShowHideProps = {
     onPress: () => {
@@ -192,79 +409,125 @@ export default class EmailAccountLoginController extends BlockComponent<
     ? this.txtInputEmailWebProps
     : this.txtInputEmailMobileProps;
 
-  // Customizable Area End
-
-  async receive(from: string, message: Message) {
-    // Customizable Area Start
-
-    if (getName(MessageEnum.ReciveUserCredentials) === message.id) {
-      const userName = message.getData(getName(MessageEnum.LoginUserName));
-
-      const password = message.getData(getName(MessageEnum.LoginPassword));
-
-      const countryCode = message.getData(
-        getName(MessageEnum.LoginCountryCode)
-      );
-
-      if (!countryCode && userName && password) {
-        this.setState({
-          email: userName,
-          password: password,
-          checkedRememberMe: true,
+    loginCallBack(signupResponse:any){
+      if (signupResponse?.meta?.token) {
+        AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(signupResponse)
+        ).then(() => {
+          this.setState({ showLoader: false })
+          this.resetStack("LandingPage");
         });
-
-        //@ts-ignore
-        this.txtInputEmailProps.value = userName;
-
-        //@ts-ignore
-        this.txtInputPasswordProps.value = password;
-
-        this.CustomCheckBoxProps.isChecked = true;
+      } else {
+        Alert.alert("Error", signupResponse?.errors[0]?.failed_login,
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
-      const apiRequestCallId = message.getData(
-        getName(MessageEnum.RestAPIResponceDataMessage)
-      );
-
-      var responseJson = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-
-      var errorReponse = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-
+    }
+    validationApiCallback(apiRequestCallId:any,responseJson:any){
       if (apiRequestCallId != null) {
         if (
           apiRequestCallId === this.validationApiCallId &&
           responseJson !== undefined
         ) {
-          var arrayholder = responseJson.data;
+          let arrayholder = responseJson.data;
 
           if (arrayholder && arrayholder.length !== 0) {
             let regexData = arrayholder[0];
 
-            if (regexData && regexData.email_validation_regexp) {
+            if (regexData && regexData.email_validation_regexp && regexData.password_validation_regexp) {
               this.emailReg = new RegExp(regexData.email_validation_regexp);
+              this.passwordReg = new RegExp(regexData.password_validation_regexp);
             }
           }
-        }
+        }}
+    }
+  // Customizable Area End
 
-        if (apiRequestCallId === this.apiEmailLoginCallId) {
-          if (responseJson && responseJson.meta && responseJson.meta.token) {
-            runEngine.unSubscribeFromMessages(this, this.subScribedMessages);
-            this.saveLoggedInUserData(responseJson);
-            this.sendLoginSuccessMessage();
-            this.openInfoPage();
-          } else {
-            //Check Error Response
-            this.parseApiErrorResponse(responseJson);
-            this.sendLoginFailMessage();
+  async receive(from: string, message: Message) {
+    // Customizable Area Start
+    if (getName(MessageEnum.SessionSaveMessage) === message.id) {
+      return;
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiEmailLoginCallId != null &&
+      this.apiEmailLoginCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let signupResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.loginCallBack(signupResponse)
+     
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiEmailSignupCallId != null &&
+      this.apiEmailSignupCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let newLogged = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      if (newLogged?.meta?.token) {
+        AsyncStorage.setItem("userDetails", JSON.stringify(newLogged)).then(
+          () => {
+            this.setState({
+              showModal: true,
+              coupon_code: newLogged?.data?.attributes?.code,
+              showLoader: false
+            });
           }
-
-          this.parseApiCatchErrorResponse(errorReponse);
-        }
+        );
+      } else {
+        Alert.alert("Error", newLogged.errors[0].account,
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.apiMerchantEmailSignupCallId != null &&
+      this.apiMerchantEmailSignupCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let newLogged = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      if (newLogged?.meta?.token) {
+        AsyncStorage.setItem("userDetails", 
+        JSON.stringify({...newLogged,
+          meta:{...newLogged?.meta,user_type:'merchant'}}))
+          .then(
+            () => {
+              store.dispatch({type:'UPDATE_USER',payload:'merchant'})
+              this.setState({
+                showMerModal: true,
+                showLoader: false
+              });
+            }
+          );
+      } else {
+        Alert.alert("Error", newLogged.errors[0].account,
+          [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
+      }
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
+      const apiRequestCallId = message.getData(
+        getName(MessageEnum.RestAPIResponceDataMessage)
+      );
+
+      let responseJson = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );      
+
+      let errorReponse = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(errorReponse);
+      this.validationApiCallback(apiRequestCallId,responseJson)
+
+     }
+
+    else {
+      runEngine.debugLog("GOIT");
     }
     // Customizable Area End
   }

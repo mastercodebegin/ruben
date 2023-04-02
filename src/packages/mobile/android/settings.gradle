@@ -3,8 +3,8 @@ rootProject.name = 'RuebensFTCApp'
 include ':react-native-view-shot'
 project(':react-native-view-shot').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-view-shot/android')
 
-include ':@pdftron_react-native-pdf'
-project(':@pdftron_react-native-pdf').projectDir = new File(rootProject.projectDir, '../../../node_modules/@pdftron/react-native-pdf/android')
+// include ':@pdftron_react-native-pdf'
+// project(':@pdftron_react-native-pdf').projectDir = new File(rootProject.projectDir, '../../../node_modules/@pdftron/react-native-pdf/android')
 
 apply from: file("../../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings, "../../..")
 include ':app'
@@ -18,8 +18,8 @@ project(':react-native-webview').projectDir = new File(rootProject.projectDir, '
 include ':react-native-image-crop-picker'
 project(':react-native-image-crop-picker').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-image-crop-picker/android')
 
-include ':react-native-image-picker'
-project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-image-picker/android')
+// include ':react-native-image-picker'
+// project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-image-picker/android')
 
 include ':react-native-android-location-enabler'
 project(':react-native-android-location-enabler').projectDir = new File(rootProject.projectDir, 	'../../../node_modules/react-native-android-location-enabler/android')
@@ -33,11 +33,19 @@ project(':react-native-gesture-handler').projectDir = new File(rootProject.proje
 include ':react-native-svg'
 project(':react-native-svg').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-svg/android')
 
+include ':react-native-fast-image'
+project(':react-native-fast-image').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-fast-image/android')
 include ':react-native-share'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-share/android')
 
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-video/android')
+
+include (':react-native-safe-area-context')
+project(':react-native-safe-area-context').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-safe-area-context/android')
+
+include ':react-native-screens'
+project(':react-native-screens').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-screens/android')
 
 include ':react-native-calendar-events'
 project(':react-native-calendar-events').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-calendar-events/android')
