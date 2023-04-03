@@ -606,7 +606,7 @@ export default class EmailAccountLoginController extends BlockComponent<
     if (
       this.state.email === null ||
       this.state.email.length === 0 ||
-      !this.emailReg?.test(this.state.email)
+      !this.emailReg.test(this.state.email)
     ) {
       this.showAlert("Error", configJSON.errorEmailNotValid);
       return false;
