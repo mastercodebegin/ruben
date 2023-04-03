@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, Text, StyleSheet ,Share} from "react-native";
 import { sampleProfile, shareIcon, playIcon ,blogpostimage} from "./assets";
 import Video from "react-native-video";
 interface Types {
@@ -9,6 +9,19 @@ interface Types {
   visibleItem?:number;
 }
 const BlogPostCard = ({ item ,type}: Types) => {
+  const shareContent = async () => {
+    try {
+      const result = await Share.share({
+        message: 'This is the message to be shared',
+        url: 'https://example.com',
+        title: 'Share Title',
+      
+      });
+      console.log(result);
+    } catch (error:any) {
+      console.log(error.message);
+    }
+  };
   const [play, setPaly] = React.useState(true);  
   return (
     <View style={styles.card}>
@@ -25,7 +38,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
               </Text>
             <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={shareContent}>
             <Image
               resizeMode="contain"
               style={styles.share}
@@ -72,16 +85,8 @@ const styles = StyleSheet.create({
   video:{ width: "100%", height: 200},
   play:{
     height: 30,
-    width: 30,
-    shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 5,
-},
-shadowOpacity: 0.34,
-shadowRadius: 6.27,
-elevation: 10,
-borderRadius:20
+    width: 30, 
+tintColor:'grey'
   },
   padding:{ paddingHorizontal: 15 },
   card: {
