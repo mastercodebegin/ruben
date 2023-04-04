@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   Image,
+  Linking 
 } from "react-native";
 import {
   LIGHT_GREY,
@@ -20,6 +21,7 @@ import {
   instagram,
   facebook,
   CART,
+  cow,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -41,6 +43,24 @@ export default class Myprofile extends LandingPageController {
       this.getProfileDetails()
     }
   }
+  openFacebookProfile = () => {
+    Linking.openURL(`https://www.facebook.com/${'FbUsername'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
+  redirectToInstagramProfile = () => {
+    Linking.openURL(`https://instagram.com/${'instaUsername'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
+  redirectToWhatsAppProfile = () => {
+    Linking.openURL(`https://wa.me/${'phoneNumber'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.main}>
@@ -78,13 +98,16 @@ export default class Myprofile extends LandingPageController {
                   />)}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton} 
+                     onPress={this.redirectToInstagramProfile} >
                       <Image style={styles.socialIcon} source={instagram} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton}
+                     onPress={this.redirectToWhatsAppProfile}>
                       <Image style={styles.socialIcon} source={whatsapp} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton} 
+                    onPress={this.openFacebookProfile}>
                       <Image style={styles.socialIcon} source={facebook} />
                     </TouchableOpacity>
                   </View>
@@ -161,17 +184,16 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
             </ScrollView>
-            <RenderItems rating={false} />
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
-              <Text style={styles.seeText}>see All</Text>
-            </TouchableOpacity>
+              <RenderItems rating={false} />
+              <TouchableOpacity onPress={() => this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
+                <Text style={styles.seeText}>see All</Text>
+              </TouchableOpacity>
           </View>
         </ScrollView>
         {
             <CommonLoader visible={this.state.loader}/>
         }
         {!this.props?.route?.params?.firstTime && <BottomTab navigation={this.props.navigation} tabName="Myprofile" />}
-        
         
         <Modal
           setVisibleProfileModal={() =>
