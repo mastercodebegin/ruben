@@ -25,7 +25,7 @@ interface S {
   txtSavedValue: string;
   enableField: boolean;
   // Customizable Area Start
-  termsAndCondition:string;
+  termsAndCondition: string;
   // Customizable Area End
 }
 
@@ -41,7 +41,7 @@ export default class TermsAndConditionsController extends BlockComponent<
   SS
 > {
   // Customizable Area Start
-  getTermsAndCondition:string= '';
+  getTermsAndCondition: string = "";
   // Customizable Area End
 
   constructor(props: Props) {
@@ -63,7 +63,7 @@ export default class TermsAndConditionsController extends BlockComponent<
       txtSavedValue: "A",
       enableField: false,
       // Customizable Area Start
-      termsAndCondition:'',
+      termsAndCondition: "",
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -91,18 +91,22 @@ export default class TermsAndConditionsController extends BlockComponent<
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getTermsAndCondition != null &&
       this.getTermsAndCondition ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let termsAndConditionResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );
 
       let termsAndConditionError = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if(!termsAndConditionError){
-      this.setState({termsAndCondition:termsAndConditionResponse?.data[0]?.attributes?.description})
-    }}
+      if (!termsAndConditionError) {
+        this.setState({
+          termsAndCondition:
+            termsAndConditionResponse?.data[0]?.attributes?.description,
+        });
+      }
+    }
     // Customizable Area End
   }
 
@@ -163,14 +167,12 @@ export default class TermsAndConditionsController extends BlockComponent<
 
   // Customizable Area Start
   async callGetTermsAndConditions() {
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
-      'token':data?.meta?.token
+      token: data?.meta?.token,
     };
-
-
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)

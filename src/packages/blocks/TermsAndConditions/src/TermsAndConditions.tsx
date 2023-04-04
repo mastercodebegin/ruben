@@ -12,7 +12,13 @@ import {
 } from "react-native";
 //@ts-ignore
 import { TERMS_AND_CONDITIONS } from "../../../components/src/constants";
-import { backArrow, DARK_RED, WHITE, LIGHT_GREY } from "../../landingpage/src/assets";
+//@ts-ignore
+import {
+  backArrow,
+  DARK_RED,
+  WHITE,
+  LIGHT_GREY,
+} from "../../landingpage/src/assets";
 
 // Customizable Area End
 
@@ -25,41 +31,38 @@ export default class TermsAndConditions extends TermsAndConditionsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
-    
+
     // Customizable Area End
   }
 
   // Customizable Area Start
-  async componentDidMount(){
-      this.callGetTermsAndConditions()
+  async componentDidMount() {
+    this.callGetTermsAndConditions();
   }
   // Customizable Area End
 
   render() {
     // Customizable Area Start
-    const {navigation} = this.props
+    const { navigation } = this.props;
     return (
       <SafeAreaView style={styles.flex}>
-      <View style={styles.main}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() =>navigation?.goBack()}>
-            <Image style={styles.back} source={backArrow} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{TERMS_AND_CONDITIONS}</Text>
+        <View style={styles.main}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation?.goBack()}>
+              <Image style={styles.back} source={backArrow} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>{TERMS_AND_CONDITIONS}</Text>
+          </View>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            contentContainerStyle={styles.contentContainer}
+          >
+            <Text style={styles.text}>{this.state.termsAndCondition}</Text>
+          </ScrollView>
         </View>
-        <ScrollView
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <Text style={styles.text}>
-            {this.state.termsAndCondition}
-          </Text>
-          
-        </ScrollView>
-      </View>
-    </SafeAreaView>
-    )
+      </SafeAreaView>
+    );
     // Customizable Area End
   }
 }
@@ -76,14 +79,14 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    borderRadius:20
+    borderRadius: 20,
   },
   main: {
     flex: 1,
     paddingHorizontal: 20,
     backgroundColor: LIGHT_GREY,
     paddingTop: 20,
-    paddingBottom:20
+    paddingBottom: 20,
   },
   header: {
     flexDirection: "row",
