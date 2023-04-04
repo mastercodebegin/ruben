@@ -43,10 +43,6 @@ let artBoardWidthOrg = 375;
  * @param email String which is going to beckecked valid or not
  * @returns An boolean which reperesents email is valid or not
  */
-export const checkValidEmail = (email: string) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
 import CommonLoader from "../../../components/src/CommonLoader";
 
 // Customizable Area End
@@ -154,6 +150,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                       onchangeEmail={onchangeEmail}
                       onchangePassword={onchangePassword}
                       email={this.state.email}
+                      emailReg={this.emailregex}
                       password={this.state.password}
                       onpressSignup={onpressSignup}
                       onpressLogin={() => {

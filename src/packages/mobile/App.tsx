@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { View , SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
@@ -27,6 +27,9 @@ import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/Terms
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
+import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
+import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
+import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -38,6 +41,21 @@ if (!HomeScreen.instance) {
 }
 interface NavigatorType {
   initialScreen: string;
+}
+const BlogPostStack= ()=>{
+  const Stack = createStackNavigator();
+
+    return (
+      <SafeAreaView style={{flex:1}}>
+      <Stack.Navigator screenOptions={()=>({
+        header:(props)=><Header props={props}/>
+      })}>
+       <Stack.Screen options={{}} name="BlogPost" component={BlogPost} />
+       <Stack.Screen options={{}} name="VideoLibrary" component={VideoLibrary} />
+      </Stack.Navigator>
+      </SafeAreaView>
+    );
+  
 }
 const Stack = createStackNavigator();
 const initialState = { currentUser: 'user', profileDetails: null };
@@ -87,15 +105,15 @@ const linking = {
     }
   },
 };
+export const navigationRef = React.createRef();
 
 export const store = createStore(reducer);
 const RootNavigator = ({ initialScreen }: NavigatorType) => {
-  const ref = React.createRef();
 
   return (
     <NavigationContainer
       //@ts-ignore
-      ref={ref}
+      ref={navigationRef}
       //@ts-ignore
       linking={linking}
     >
@@ -107,7 +125,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
           name="SocialMediaAccountLoginScreen"
           component={SocialMediaAccountLoginScreen}
         />
-        <Stack.Screen name="BlogPost" component={BlogPost} />
+        {/* <Stack.Screen name="BlogPost" component={BlogPost} /> */}
         <Stack.Screen
           name="EmailAccountLoginBlock"
           component={EmailAccountLoginBlock}
@@ -128,6 +146,8 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
+        <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
+        <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -141,7 +161,9 @@ export function App() {
   const getUserDetails = () => {
     AsyncStorage.getItem('userDetails').then((res:any) => {
       const usr_details= JSON.parse(res);
-      console.log(usr_details);
+      if(usr_details?.meta?.user_type === 'merchant'){
+        store.dispatch({type:'UPDATE_USER',payload:'merchant'})
+      }
       setTimeout(() => {
         if (res) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
         else {

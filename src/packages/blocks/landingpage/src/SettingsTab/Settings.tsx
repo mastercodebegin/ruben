@@ -19,6 +19,7 @@ export default class Setting extends LandingPageController {
   render() {
     const isUser = store.getState().currentUser==='user'
     const logout = () => {
+      store.dispatch({type:'UPDATE_USER',payload:'user'})
       AsyncStorage.removeItem("userDetails").then(() => {
         this.props.navigation.reset({
           index: 0,
@@ -26,6 +27,9 @@ export default class Setting extends LandingPageController {
         });
       });
     };
+    const myOrders=()=>{
+      this.props.navigation.navigate('MyOrdersScreen')
+    }
     const onpressLogout = () => {
       Alert.alert("Alert", "Are you sure to logout", [
         { text: "YES", onPress: logout },
@@ -41,7 +45,7 @@ export default class Setting extends LandingPageController {
               <TouchableOpacity onPress={()=> this.props.navigation.navigate('AboutUs')} style={styles.button}>
                 <Text style={styles.options}>About Us</Text>
               </TouchableOpacity>
-              {isUser && <TouchableOpacity style={styles.button}>
+              {isUser && <TouchableOpacity onPress={myOrders} style={styles.button}>
                 <Text style={styles.options}>My Orders</Text>
               </TouchableOpacity>}
               <TouchableOpacity style={styles.button}>
