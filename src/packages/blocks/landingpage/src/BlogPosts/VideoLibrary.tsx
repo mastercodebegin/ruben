@@ -3,36 +3,27 @@ import {
   View,
   StyleSheet,
   FlatList,
-  SafeAreaView,
   Dimensions,
 } from "react-native";
 import BlogPostCard from "../BlogPostCard";
 import { LIGHT_GREY } from "../assets";
-type Props = {
-  list:Array<object>,
-  getList:()=>void
-};
-type State = {
-  pause:boolean,
-};
-export default class VideoLibrary extends React.Component<Props,State> {
+import LandingPageController from "../LandingPageController";
+import BottomTab from "../BottomTab/BottomTab";
+import CommonLoader from "../../../../components/src/CommonLoader";
+export default class VideoLibrary extends LandingPageController {
   constructor(props: any) {
     super(props);
-
-    this.state = {
-      pause: false,
-    };
   }
   async componentDidMount() {
-    this.props.getList();
+    this.getVideoBlog()
   }
 
   render() {
     return (
-      <SafeAreaView style={styles.safeArea}>
         <View style={{ flex: 1 }}>
+          <View style={{flex:1}}>
           <FlatList
-            data={this.props?.list}
+            data={this.state.videoLibrary}
             keyExtractor={(_, index) => String(index)}
             showsVerticalScrollIndicator={false}
             bounces={false}
@@ -42,8 +33,10 @@ export default class VideoLibrary extends React.Component<Props,State> {
               </View>
             )}
           />
+          </View>
+          <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
+          <CommonLoader visible={this.state.show_loader}/>
         </View>
-      </SafeAreaView>
     );
   }
 }

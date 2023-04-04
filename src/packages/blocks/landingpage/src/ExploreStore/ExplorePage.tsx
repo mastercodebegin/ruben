@@ -41,7 +41,7 @@ class ExplorePage extends LandingPageController {
     }
     //@ts-ignore
     componentDidMount() {
-        this.getCategory.bind(this)(this.categoryPageNumber)
+        this.getCategory.bind(this)(1)
     }
     render() {        
         return (
@@ -89,8 +89,12 @@ class ExplorePage extends LandingPageController {
                     bounces={false}
                     showsHorizontalScrollIndicator={false}
                     onEndReached={()=>{
-                        this.categoryPageNumber = this.categoryPageNumber+1;
-                        this.getCategory.bind(this)(this.categoryPageNumber,false)}}
+                        if(this.categoryPage === null){
+                        return
+                    }
+                        this.categoryPage=this.categoryPage+1;
+                        this.getCategory.bind(this)(this.categoryPage)
+                    }}
                     renderItem={({item,index})=>{
                         return(
                             <RenderCategories

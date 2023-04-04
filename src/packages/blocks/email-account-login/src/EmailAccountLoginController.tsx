@@ -10,6 +10,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import { Alert, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//@ts-ignore
+import { store } from "../../../mobile/App";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -72,9 +74,9 @@ export default class EmailAccountLoginController extends BlockComponent<
   validationApiCallId: string = "";
   apiEmailSignupCallId: string = "";
   apiMerchantEmailSignupCallId: string = "";
-  emailReg: RegExp;
+  emailReg: any;
   labelTitle: string = "";
-  passwordReg: RegExp;
+  passwordReg: any;
   // Customizable Area End
 
   constructor(props: Props) {
@@ -121,10 +123,8 @@ export default class EmailAccountLoginController extends BlockComponent<
       social: '',
     };
 
-    this.emailReg = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    this.passwordReg = new RegExp(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[a-zA-Z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,15}$/
-    );
+    this.emailReg = null;
+    this.passwordReg = null;
     this.labelTitle = configJSON.labelTitle;
     // Customizable Area End
 
@@ -158,11 +158,18 @@ export default class EmailAccountLoginController extends BlockComponent<
     merchantSignup: this.doMerchantSignup,
   };
 
-  showAlert(title:string,message: string) {
+  showAppAlert(title:string,message: string) {
     Alert.alert(title, message)
   }
 
   doEmailSignup(): boolean {
+    if(!this.emailReg.test(this.state.signupEmail)){
+      Alert.alert(
+        "Invalid Email",
+        "Please enter valid Email"
+      );
+      return false;
+    }
     if (!this.passwordReg.test(this.state.signupPassword)) {
       Alert.alert(
         "Invalid password",
@@ -222,39 +229,39 @@ export default class EmailAccountLoginController extends BlockComponent<
 
   doMerchantSignup(password: string) {
     if (this.state.mEmail === '') {
-      this.showAlert('Error','Email can not be blank')
+      this.showAppAlert('Error','Email can not be blank')
       return
     }
     if (this.state.mPassword === '') {
-      this.showAlert('Error','password can not be blank')
+      this.showAppAlert('Error','password can not be blank')
       return
     }
     if (this.state.farmName === '') {
-      this.showAlert('Error','please provide your Farm Name')
+      this.showAppAlert('Error','please provide your Farm Name')
       return
     } 
     if (this.state.product === '') {
-      this.showAlert('Error','please provide your product Name')
+      this.showAppAlert('Error','please provide your product Name')
       return
     } 
     if (this.state.location === '') {
-      this.showAlert('Error','please provide your location')
+      this.showAppAlert('Error','please provide your location')
       return
     } 
     if (this.state.contact === '') {
-      this.showAlert('Error','please provide your contact')
+      this.showAppAlert('Error','please provide your contact')
       return
     } 
     if (this.state.description === '') {
-      this.showAlert('Error','please fill your Description')
+      this.showAppAlert('Error','please fill your Description')
       return
     } 
     if (this.state.website === '') {
-      this.showAlert('Error','please provide your website link')
+      this.showAppAlert('Error','please provide your website link')
       return
     } 
     if (this.state.social === '') {
-      this.showAlert('Error','please provide your social Media')
+      this.showAppAlert('Error','please provide your social Media')
       return
     } 
       this.setState({ showLoader: true })
@@ -416,6 +423,24 @@ export default class EmailAccountLoginController extends BlockComponent<
           [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
     }
+    validationApiCallback(apiRequestCallId:any,responseJson:any){
+      if (apiRequestCallId != null) {
+        if (
+          apiRequestCallId === this.validationApiCallId &&
+          responseJson !== undefined
+        ) {
+          let arrayholder = responseJson.data;
+
+          if (arrayholder && arrayholder.length !== 0) {
+            let regexData = arrayholder[0];
+
+            if (regexData && regexData.email_validation_regexp && regexData.password_validation_regexp) {
+              this.emailReg = new RegExp(regexData.email_validation_regexp);
+              this.passwordReg = new RegExp(regexData.password_validation_regexp);
+            }
+          }
+        }}
+    }
   // Customizable Area End
 
   async receive(from: string, message: Message) {
@@ -472,6 +497,7 @@ export default class EmailAccountLoginController extends BlockComponent<
           meta:{...newLogged?.meta,user_type:'merchant'}}))
           .then(
             () => {
+              store.dispatch({type:'UPDATE_USER',payload:'merchant'})
               this.setState({
                 showMerModal: true,
                 showLoader: false
@@ -483,6 +509,23 @@ export default class EmailAccountLoginController extends BlockComponent<
           [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
       }
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
+      const apiRequestCallId = message.getData(
+        getName(MessageEnum.RestAPIResponceDataMessage)
+      );
+
+      let responseJson = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );      
+
+      let errorReponse = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(errorReponse);
+      this.validationApiCallback(apiRequestCallId,responseJson)
+
+     }
+
     else {
       runEngine.debugLog("GOIT");
     }

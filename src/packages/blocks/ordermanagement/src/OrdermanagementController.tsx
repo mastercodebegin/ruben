@@ -105,11 +105,11 @@ export default class OrdermanagementController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceDataMessage)
       );
 
-      var responseJson = message.getData(
+      let responseJson = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
 
-      var errorReponse = message.getData(
+      let errorReponse = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (responseJson && responseJson.data) {
@@ -123,7 +123,6 @@ export default class OrdermanagementController extends BlockComponent<
           this.setState({ isRateVisible: !this.state.isRateVisible });
           this.props.navigation.goBack();
         }
-        // runEngine.debugLog("API Recived", responseJson.data);
       } else if (apiRequestCallId === this.cancelOrderAPICallId) {
         this.getOrdersDataRequest(this.state.token);
         this.setState({
@@ -220,7 +219,7 @@ export default class OrdermanagementController extends BlockComponent<
       "Content-Type": configJSON.ordersApiContentType,
       token: this.state.token,
     };
-    var data = {
+    let data = {
       item_id: this.state.activeItemId,
     };
     const requestMessage = new Message(
@@ -256,7 +255,7 @@ export default class OrdermanagementController extends BlockComponent<
       "Content-Type": configJSON.ordersApiContentType,
       token: this.state.token,
     };
-    var data = {
+    let data = {
       catalogue_id: id,
       rating: this.state.starCount,
       comment: this.state.comment,

@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon,blogpostimage } from "./assets";
+import { sampleProfile, shareIcon, playIcon ,blogpostimage} from "./assets";
 import Video from "react-native-video";
 interface Types {
   item: any;
   type?:string;
+  index?:number;
+  visibleItem?:number;
 }
 const BlogPostCard = ({ item ,type}: Types) => {
   const [play, setPaly] = React.useState(true);  
@@ -18,7 +20,9 @@ const BlogPostCard = ({ item ,type}: Types) => {
             source={sampleProfile}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>{item?.attributes?.name}</Text>
+            <Text style={styles.name}>
+              {item?.attributes?.name}
+              </Text>
             <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
           <TouchableOpacity>
@@ -35,15 +39,16 @@ const BlogPostCard = ({ item ,type}: Types) => {
         <Image
         style={styles.blogImage}
         resizeMode="stretch"
-        source={blogpostimage}
+        source={
+          blogpostimage
+        }
       />:<View style={styles.videoView}>
           <Video
             style={styles.video}
             resizeMode="stretch"
             paused={play}
             source={{
-              uri:
-                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              uri: item?.attributes?.videos[0]?.url
             }}
           />
           <View style={styles.videoContainer}>
@@ -51,6 +56,7 @@ const BlogPostCard = ({ item ,type}: Types) => {
               <Image
                 style={styles.play}
                 source={playIcon}
+                
               />
             </TouchableOpacity>
           </View>
@@ -67,6 +73,15 @@ const styles = StyleSheet.create({
   play:{
     height: 30,
     width: 30,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 5,
+},
+shadowOpacity: 0.34,
+shadowRadius: 6.27,
+elevation: 10,
+borderRadius:20
   },
   padding:{ paddingHorizontal: 15 },
   card: {

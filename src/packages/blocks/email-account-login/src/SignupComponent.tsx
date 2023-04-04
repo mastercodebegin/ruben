@@ -118,7 +118,7 @@ const SignupComponent = ({
         ) : (
           <View>
             <TextInput
-              keyBoardtype="default"
+              keyBoardtype="email-address"
               onchangeText={onChangeMEmail}
               label="Email ID"
               value={mEmail}

@@ -61,6 +61,7 @@ interface S {
   refresh:boolean;
   imageBlogList:Array<object>;
   videoLibrary:Array<object>;
+  visibleCard:number
   // Customizable Area End
 }
 
@@ -116,7 +117,8 @@ export default class LandingPageController extends BlockComponent<
       }],
       refresh:false,
       imageBlogList:[],
-      videoLibrary:[]
+      videoLibrary:[],
+      visibleCard:0
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -199,7 +201,7 @@ export default class LandingPageController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.categoryCallback(error,categories?.data)
+      this.categoryCallback.bind(this)(error,categories?.data)
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -266,15 +268,17 @@ export default class LandingPageController extends BlockComponent<
       this.setState({subcategories:subCategories?.data,show_loader:false})
     }
   }
-  categoryCallback(error:any,categories:any){
+  categoryCallback(error:any,categories:Array<object>){
       if(error)
       {
         Alert.alert('Error','Something went wrong, Please try again later')
         this.setState({show_loader:false,refresh:false});
       }else{
-        this.setState({show_loader:false,
-          categories:this.categoryPageNumber > 1 ? [...this.state.categories , ...categories]: categories,
-          refresh:false})
+        if(categories?.length === 0){
+          this.categoryPage = null;
+          this.setState({show_loader:false})
+        }else{
+        this.setState({show_loader:false,categories: this.categoryPage > 1 ? [...this.state.categories,...categories]: categories,refresh:false})}
       }
   }
   updateProfileCallback(error:any,response:any){
@@ -294,7 +298,7 @@ export default class LandingPageController extends BlockComponent<
   getSubCategoryId:string='';
   getBlogPostsId:string='';
   getVideoLibraryId:string='';
-  categoryPageNumber:number=1;
+  categoryPage:any=1;
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
