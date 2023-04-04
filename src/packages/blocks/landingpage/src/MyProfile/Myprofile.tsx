@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   Image,
+  Linking 
 } from "react-native";
 import {
   LIGHT_GREY,
@@ -20,6 +21,7 @@ import {
   instagram,
   facebook,
   CART,
+  cow,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -41,6 +43,24 @@ export default class Myprofile extends LandingPageController {
       this.getProfileDetails()
     }
   }
+  openFacebookProfile = () => {
+    Linking.openURL(`https://www.facebook.com/${'FbUsername'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
+  redirectToInstagramProfile = () => {
+    Linking.openURL(`https://instagram.com/${'instaUsername'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
+  redirectToWhatsAppProfile = () => {
+    Linking.openURL(`https://wa.me/${'phoneNumber'}`).catch(() => {
+      this.showAlert('Invalid User name please update your profile')
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.main}>
@@ -78,13 +98,16 @@ export default class Myprofile extends LandingPageController {
                   />)}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton} 
+                     onPress={this.redirectToInstagramProfile} >
                       <Image style={styles.socialIcon} source={instagram} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton}
+                     onPress={this.redirectToWhatsAppProfile}>
                       <Image style={styles.socialIcon} source={whatsapp} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton}>
+                    <TouchableOpacity style={styles.socialbutton} 
+                    onPress={this.openFacebookProfile}>
                       <Image style={styles.socialIcon} source={facebook} />
                     </TouchableOpacity>
                   </View>
@@ -161,17 +184,40 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
             </ScrollView>
-            <RenderItems rating={false} />
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
-              <Text style={styles.seeText}>see All</Text>
-            </TouchableOpacity>
+            {this.state.selectedTab == "remaining" ?
+              <View style={styles.remainingInvContainer}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <View style={styles.invImageContainer}>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.invImgStyle}
+                      source={cow}
+                    />
+                  </View>
+                  <View style={styles.invDesContainer}>
+                    <Text style={styles.invDesText}>Total Available cuts</Text>
+                    <Text style={styles.invTotalText}>10</Text>
+                  </View>
+                </View>
+                <TouchableOpacity style={styles.CreditsButton}
+                  onPress={() => { this.props.navigation.navigate("MyCreditScreen") }} >
+                  <Text style={styles.viewDetail}>My Credits</Text>
+                </TouchableOpacity>
+              </View>
+              :
+              <>
+                <RenderItems rating={false} />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
+                  <Text style={styles.seeText}>see All</Text>
+                </TouchableOpacity>
+              </>
+            }
           </View>
         </ScrollView>
         {
             <CommonLoader visible={this.state.loader}/>
         }
         {!this.props?.route?.params?.firstTime && <BottomTab navigation={this.props.navigation} tabName="Myprofile" />}
-        
         
         <Modal
           setVisibleProfileModal={() =>
@@ -333,4 +379,48 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 17,
   },
+  remainingInvContainer: {
+    backgroundColor: WHITE,
+    margin: 20,
+    overflow: "hidden",
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    borderRadius: 20
+  },
+  invImageContainer: {
+    width: '40%',
+    height: 120,
+  },
+  invImgStyle: {
+    width: '100%',
+    height: '100%'
+  },
+  invDesContainer: {
+    width: '60%',
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    justifyContent: 'center',
+  },
+  invDesText: {
+    color: MID_PEACH,
+    fontSize: 14,
+    textTransform: "uppercase"
+  },
+  invTotalText: {
+    color: DARK_RED,
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 8,
+  },
+  CreditsButton: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: PRIMARY,
+    paddingVertical: 12,
+    paddingHorizontal: 22,
+    borderRadius: 24,
+    marginTop: 15
+  }
 });
