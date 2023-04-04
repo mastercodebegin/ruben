@@ -9,10 +9,8 @@ import {
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import {
-  MEAT_IMAGE1,
   WHITE,
   DARK_RED,
-  badge,
   cow,
   LIGHT_GREY,
   PRIMARY,
