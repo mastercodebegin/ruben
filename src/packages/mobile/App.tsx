@@ -26,6 +26,7 @@ import { createStore } from 'redux';
 import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/TermsAndConditions'
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
+import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -126,6 +127,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
+        <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
