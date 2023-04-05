@@ -12,9 +12,9 @@ import {Animated,Alert} from 'react-native'
 import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {store} from '../../../mobile/App';
-const validInstagramLink = /^(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/)([a-zA-Z0-9_\-\.]+)(?:\/)?$/
+const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_]+\/?$/
 const validWhatssappLink = /^https?:\/\/wa\.me\/\d+(\?text=.*)?$/
-const validFacebookLink = /^https?:\/\/(?:www\.)?facebook\.com\/(?:\w+\/)?(?:profile|pg)\/\d+$/;
+const validFacebookLink = /(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:[a-zA-Z0-9-._]+\/)?(?:profile\.php\?id=\d+|[a-zA-Z0-9-._]+)/;
 // Customizable Area End
 
 export const configJSON = require("./config");
