@@ -25,6 +25,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
+import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
@@ -143,6 +144,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
+        <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
       </Stack.Navigator>
