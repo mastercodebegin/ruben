@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import CommonLoader from "../../../components/src/CommonLoader";
 //@ts-ignore
 import { TERMS_AND_CONDITIONS } from "../../../components/src/constants";
 //@ts-ignore
@@ -60,6 +61,7 @@ export default class TermsAndConditions extends TermsAndConditionsController {
           >
             <Text style={styles.text}>{this.state.termsAndCondition}</Text>
           </ScrollView>
+          <CommonLoader visible={this.state.showLoader} />
         </View>
       </SafeAreaView>
     );

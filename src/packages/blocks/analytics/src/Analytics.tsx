@@ -4,13 +4,11 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Button,
-  Platform
+  SafeAreaView
   // Customizable Area Start
   // Customizable Area End
 } from "react-native";
+import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
@@ -27,43 +25,19 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          {/* Customizable Area Start */}
-          {/* Merge Engine UI Engine Code */}
-          <View>
-            {this.isPlatformWeb() ? (
-              <Text
-                testID="labelTitle" //Merge Engine::From BDS
-                style={styles.title} //UI Engine::From Sketch
-              >
-                {configJSON.labelTitleText}
-              </Text> //UI Engine::From Sketch
-            ) : null}
-
-            <Text
-              testID="labelBody" //Merge Engine::From BDS
-              style={styles.body} //UI Engine::From Sketch
-            >
-              {" "}
-              {/* UI Engine::From Sketch */}
-              {configJSON.labelBodyText} {/* UI Engine::From Sketch */}
-            </Text>
-
-            <Button
-              testID={"btnExample"} //Merge Engine::From BDS
-              title={configJSON.btnExampleTitle} //UI Engine::From Sketch
-              {...this.btnExampleProps} //Merge Engine::From BDS - {...this.testIDProps}
-            />
+     <SafeAreaView style={styles.main}>
+      <HeaderWithBackArrowTemplate headerText="Analytics" navigation={this.props.navigation}>
+      <View style={styles.main}>
+        <View>
+          <Text>{"Number of Spend"}</Text>
+          <View style={{flexDirection:"row",justifyContent:'space-between'}}>
+            <Text style={{fontSize:18}}>{'243201'}</Text>
+            <Text style={{fontSize:18}}>{"$ 334456"}</Text>
           </View>
-          {/* Merge Engine UI Engine Code */}
-          {/* Customizable Area End */}
-        </TouchableWithoutFeedback>
-      </ScrollView>
+        </View>
+      </View>
+      </HeaderWithBackArrowTemplate>
+     </SafeAreaView>
       // Customizable Area End
     );
   }
@@ -71,43 +45,8 @@ export default class Analytics extends AnalyticsController {
 
 // Customizable Area Start
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: Platform.OS === "web" ? "75%" : "100%",
-    maxWidth: 650,
-    backgroundColor: "#ffffffff"
-  },
-  title: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8
-  },
-  body: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8
-  },
-  bgPasswordContainer: {
-    flexDirection: "row",
-    backgroundColor: "#00000000",
-    marginBottom: 16,
-    borderBottomWidth: 1,
-    borderColor: "#767676",
-    borderRadius: 2,
-    padding: 10,
-    borderWidth: Platform.OS === "web" ? 0 : 1
-  },
-  bgMobileInput: {
-    flex: 1
-  },
-  showHide: {
-    alignSelf: "center"
-  },
-  imgShowhide: Platform.OS === "web" ? { height: 30, width: 30 } : {}
+  main:{
+    flex:1,
+  }
 });
 // Customizable Area End

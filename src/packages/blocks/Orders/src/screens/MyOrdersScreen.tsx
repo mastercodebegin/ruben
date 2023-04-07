@@ -77,6 +77,17 @@ const dummyData=[
       ]
   },
 ]
+const FooterComponent = ()=>{
+    return (<View style={{}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Text style={{color:DARK_RED}}>{'Estimated Delivery'}</Text>
+            <Text style={{color:'grey'}}>{'30th March 2023'}</Text>
+        </View>
+        <View style={{backgroundColor:LIGHT_GREY,marginTop:10}}>
+            <View style={{height:5,backgroundColor:DARK_RED,width:'60%'}}/>
+        </View>
+    </View>)
+}
 const RenderItem =()=>{
   const item:any = React.useContext(Calendarcontext)
   
@@ -87,6 +98,7 @@ const RenderItem =()=>{
             data={[...item.item?.data]}
             keyExtractor={(item,index)=>JSON.stringify(index)+item}
             style={styles.flatlist}
+            ListFooterComponent={<FooterComponent/>}
             renderItem={({item})=>(
                 <View style={{width:'100%',paddingBottom:15}}>
                     <View style={{flexDirection:'row',width:'100%'}}>

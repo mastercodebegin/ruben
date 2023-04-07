@@ -26,6 +26,7 @@ interface S {
   enableField: boolean;
   // Customizable Area Start
   termsAndCondition: string;
+  showLoader: boolean;
   // Customizable Area End
 }
 
@@ -64,6 +65,7 @@ export default class TermsAndConditionsController extends BlockComponent<
       enableField: false,
       // Customizable Area Start
       termsAndCondition: "",
+      showLoader: false,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -104,7 +106,10 @@ export default class TermsAndConditionsController extends BlockComponent<
         this.setState({
           termsAndCondition:
             termsAndConditionResponse?.data[0]?.attributes?.description,
+          showLoader: false,
         });
+      } else {
+        this.setState({ showLoader: false });
       }
     }
     // Customizable Area End
@@ -167,6 +172,7 @@ export default class TermsAndConditionsController extends BlockComponent<
 
   // Customizable Area Start
   async callGetTermsAndConditions() {
+    this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {

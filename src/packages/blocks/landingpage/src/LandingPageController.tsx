@@ -61,7 +61,8 @@ interface S {
   refresh:boolean;
   imageBlogList:Array<object>;
   videoLibrary:Array<object>;
-  visibleCard:number
+  visibleCard:number,
+  aboutus:any;
   // Customizable Area End
 }
 
@@ -118,7 +119,8 @@ export default class LandingPageController extends BlockComponent<
       refresh:false,
       imageBlogList:[],
       videoLibrary:[],
-      visibleCard:0
+      visibleCard:0,
+      aboutus:null
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -247,12 +249,34 @@ export default class LandingPageController extends BlockComponent<
         );
         this.videoLibraryCallback(videoLibrary,error)
        
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getAboutUsId != null &&
+      this.getAboutUsId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ){
+      const aboutus = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        this.aboutusCallback(aboutus,error)
+       
     }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
+
+  aboutusCallback(aboutus:any,error:any){    
+    if(error){
+      this.setState({show_loader:false})
+    }else{
+      this.setState({show_loader:false,aboutus:aboutus?.data.length})
+    }
+  }
   videoLibraryCallback(videoLibrary:any,error:any){
     if(error){
       this.showAlert('Something went wrong, please try again later')
@@ -295,6 +319,7 @@ export default class LandingPageController extends BlockComponent<
   getprofileDetailsId:string ='';
   updateProfileDetailsId:string ='';
   getCategoriesId:string='';
+  getAboutUsId:any;
   getSubCategoryId:string='';
   getBlogPostsId:string='';
   getVideoLibraryId:string='';
@@ -322,6 +347,40 @@ export default class LandingPageController extends BlockComponent<
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_categories/categories?page=${page}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+
+
+  async getAboutUs(){
+    this.setState({show_loader:true})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data:any = JSON.parse(userDetails)
+    const headers = {
+      'token':data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    
+    this.getAboutUsId = getValidationsMsg.messageId;
+    
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+     configJSON.getAboutUs
     );
 
     getValidationsMsg.addData(

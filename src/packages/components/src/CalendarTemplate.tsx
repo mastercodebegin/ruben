@@ -23,9 +23,10 @@ import {
   PRIMARY,
   SEARCH,
   EXPLORE_BTN,
+  backArrow as BackArrow,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
-export const Calendarcontext = createContext({ disable: false,item:{} });
+export const Calendarcontext = createContext({ disable: false, item: {} });
 interface CalendarTemplateTypes {
   children: React.ReactElement<any, any>;
   header: string;
@@ -35,8 +36,8 @@ interface CalendarTemplateTypes {
   onChangeText: (text: string) => void;
   additionalHeader?: React.ReactElement<any, any>;
   navigation?: any;
-  showBottomTab?:boolean;
-  data:Array<object>;
+  showBottomTab?: boolean;
+  data: Array<object>;
 }
 
 const CalendarTemplate = ({
@@ -48,8 +49,8 @@ const CalendarTemplate = ({
   onChangeText,
   additionalHeader,
   navigation,
-  showBottomTab=true,
-  data=[]
+  showBottomTab = true,
+  data = [],
 }: CalendarTemplateTypes) => {
   const [selected, setSelected] = useState("incom");
   const [showCalendar, setShowCalendar] = useState(false);
@@ -64,7 +65,15 @@ const CalendarTemplate = ({
   const headerComponent = () => (
     <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
       <View style={styles.main}>
-        <Text style={styles.header}>{header}</Text>
+        <View style={styles.headerContainer}>
+          {backArrow&&<TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ paddingHorizontal: 10 }}
+          >
+            <Image style={{ height: 20, width: 20 }} source={BackArrow} />
+          </TouchableOpacity>}
+          <Text style={styles.header}>{header}</Text>
+        </View>
         <View style={styles.animatedContainer}>
           <Animated.View
             style={{
@@ -158,8 +167,8 @@ const CalendarTemplate = ({
         onScrollBeginDrag={() => setShowCalendar(false)}
         ListHeaderComponentStyle={{ zIndex: 1000 }}
         keyExtractor={(_, i) => String(i)}
-        renderItem={({item}:any) => (
-          <Calendarcontext.Provider value={{...contextValue,item:item}}>
+        renderItem={({ item }: any) => (
+          <Calendarcontext.Provider value={{ ...contextValue, item: item }}>
             <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
               <View>{children}</View>
             </TouchableWithoutFeedback>
@@ -167,7 +176,9 @@ const CalendarTemplate = ({
         )}
         ListHeaderComponent={headerComponent}
       />
-      {showBottomTab&&<BottomTab navigation={navigation} tabName="OrdersScreen" />}
+      {showBottomTab && (
+        <BottomTab navigation={navigation} tabName="OrdersScreen" />
+      )}
     </SafeAreaView>
   );
 };
@@ -213,7 +224,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: DARK_RED,
-    paddingBottom: 20,
   },
   selectorContainer: {
     flex: 1,
@@ -225,5 +235,11 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: WHITE,
     borderRadius: 30,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 20,
+    width:'100%',
   },
 });
