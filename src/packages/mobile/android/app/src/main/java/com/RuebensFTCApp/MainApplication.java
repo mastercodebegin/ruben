@@ -2,10 +2,12 @@ package com.RuebensFTCApp;
 
 import androidx.multidex.MultiDexApplication;
 import android.content.Context;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import io.radar.react.RNRadarPackage;
 import io.radar.sdk.Radar;
+import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -47,7 +49,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           // Packages that cannot be autolinked yet can be added manually here
           // packages.add(new RNCWebViewPackage());
            packages.add(new PickerPackage());
-//           packages.add(new ImagePickerPackage());
+          // packages.add(new ImagePickerPackage());
           packages.add(new RNAndroidLocationEnablerPackage());
           packages.add(new RNFusedLocationPackage());
           packages.add(new SvgPackage());
@@ -55,6 +57,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           packages.add(new RNScreensPackage());
           packages.add(new SafeAreaContextPackage());
           packages.add(new FastImageViewPackage());
+          packages.add(new RNFetchBlobPackage());
+          // packages.add(new RNFSPackage());
           return packages;
         }
 

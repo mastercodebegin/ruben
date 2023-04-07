@@ -1,28 +1,46 @@
-import React from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet ,Share} from "react-native";
-import { sampleProfile, shareIcon, playIcon ,blogpostimage} from "./assets";
+import React, { useCallback, useState } from "react";
+import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
+import { downloadFiles, shareFiles } from "../../../components/src/utils";
+import CommonLoader from "../../../components/src/CommonLoader";
 interface Types {
   item: any;
-  type?:string;
-  index?:number;
-  visibleItem?:number;
+  type?: string;
+  index?: number;
+  visibleItem?: number;
 }
-const BlogPostCard = ({ item ,type}: Types) => {
-  const shareContent = async () => {
-    try {
-      const result = await Share.share({
-        message: 'This is the message to be shared',
-        url: 'https://example.com',
-        title: 'Share Title',
-      
-      });
-      console.log(result);
-    } catch (error:any) {
-      console.log(error.message);
-    }
-  };
-  const [play, setPaly] = React.useState(true);  
+const BlogPostCard = ({ item, type }: Types) => {
+  const [play, setPaly] = React.useState(true);
+  const [showLoader, setShowLoader] = useState(false);
+  const shareContent = useCallback(
+    async (content: string, fileDetails: any) => {
+      setShowLoader(true);      
+      downloadFiles(
+        fileDetails?.url,
+        fileDetails?.filename,
+        "Image",
+        "image/png",
+        "Downloading image",
+        true,
+        true
+      )
+        .then((res: any) => {
+          setShowLoader(false);
+          setTimeout(() => {
+            shareFiles(content, res, "sharing image")
+              .catch(() => {
+                alert("share failed");
+              });
+          }, 300);
+        })
+        .catch((e) => {
+          alert("error while downloading image");
+          setShowLoader(false);
+        });
+    },
+    [showLoader]
+  );
   return (
     <View style={styles.card}>
       <View style={styles.padding}>
@@ -33,12 +51,18 @@ const BlogPostCard = ({ item ,type}: Types) => {
             source={sampleProfile}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.name}>
-              {item?.attributes?.name}
-              </Text>
+            <Text style={styles.name}>{item?.attributes?.name}</Text>
             <Text style={styles.time}>{item?.attributes?.created_at}</Text>
           </View>
-          <TouchableOpacity onPress={shareContent}>
+          <TouchableOpacity
+            style={{ padding: 5 }}
+            onPress={() =>
+              shareContent(
+                item?.attributes?.description,
+                item?.attributes?.images[0]
+              )
+            }
+          >
             <Image
               resizeMode="contain"
               style={styles.share}
@@ -46,49 +70,48 @@ const BlogPostCard = ({ item ,type}: Types) => {
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.blogText} numberOfLines={2}>{item?.attributes?.description}
+        <Text style={styles.blogText} numberOfLines={2}>
+          {item?.attributes?.description}
         </Text>
-        {type === 'image'?
-        <Image
-        style={styles.blogImage}
-        resizeMode="stretch"
-        source={
-          blogpostimage
-        }
-      />:<View style={styles.videoView}>
-          <Video
-            style={styles.video}
+        {type === "image" ? (
+          <Image
+            style={styles.blogImage}
             resizeMode="stretch"
-            paused={play}
-            source={{
-              uri: item?.attributes?.videos[0]?.url
-            }}
+            source={{ uri: item?.attributes?.images[0]?.url }}
           />
-          <View style={styles.videoContainer}>
-            <TouchableOpacity onPress={() => setPaly(!play)}>
-              <Image
-                style={styles.play}
-                source={playIcon}
-                
-              />
-            </TouchableOpacity>
+        ) : (
+          <View style={styles.videoView}>
+            <Video
+              style={styles.video}
+              resizeMode="stretch"
+              paused={play}
+              source={{
+                uri: item?.attributes?.videos[0]?.url,
+              }}
+            />
+            <View style={styles.videoContainer}>
+              <TouchableOpacity onPress={() => setPaly(!play)}>
+                <Image style={styles.play} source={playIcon} />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>}
+        )}
       </View>
+      {showLoader && <CommonLoader visible={showLoader} />}
     </View>
   );
 };
 export default BlogPostCard;
 const styles = StyleSheet.create({
-  blogImage:{ width: "100%", borderRadius: 10, height: 200 },
-  videoView:{ borderRadius: 10,overflow:"hidden"},
-  video:{ width: "100%", height: 200},
-  play:{
+  blogImage: { width: "100%", borderRadius: 10, height: 200 },
+  videoView: { borderRadius: 10, overflow: "hidden" },
+  video: { width: "100%", height: 200 },
+  play: {
     height: 30,
-    width: 30, 
-tintColor:'grey'
+    width: 30,
+    tintColor: "grey",
   },
-  padding:{ paddingHorizontal: 15 },
+  padding: { paddingHorizontal: 15 },
   card: {
     backgroundColor: "white",
     marginHorizontal: 20,
