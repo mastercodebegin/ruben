@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   exports.httpGetMethod = "GET"
   exports.httpPostMethod = "POST"
   exports.httpPutMethod = "PUT"
-  
   exports.ordersApiContentType = "application/json";
-  exports.ordersAPiEndPoint = "order_management/orders";
+  exports.ordersAPiEndPoint = "bx_block_shopping_cart/orders?filter_by=scheduled";
   exports.rateAPiEndPoint = "catalogue/reviews";
   // Customizable Area End

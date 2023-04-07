@@ -116,6 +116,9 @@ const RenderItem =()=>{
 }
 
 export default class MyOrdersScreen extends OrdersController {
+    async componentDidMount(): Promise<void> {
+        this.getOrdersList()
+    }
   render(): React.ReactNode {
     return (
         <CalendarTemplate
@@ -123,8 +126,10 @@ export default class MyOrdersScreen extends OrdersController {
           animateString1="Ongoing"
           animateString2="Completed"
           header="My Orders"
+          navigation={this.props.navigation}
           data={dummyData}
           showBottomTab={false}
+          backArrow
         >
           <View style={styles.main}>
             <RenderItem/>
