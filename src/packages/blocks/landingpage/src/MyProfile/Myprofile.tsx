@@ -44,19 +44,19 @@ export default class Myprofile extends LandingPageController {
     }
   }
   openFacebookProfile = () => {
-    Linking.openURL(`https://www.facebook.com/${'FbUsername'}`).catch(() => {
+    Linking.openURL(`${this.state.facebook_link}`).catch(() => {
       this.showAlert('Invalid User name please update your profile')
     });
   };
 
   redirectToInstagramProfile = () => {
-    Linking.openURL(`https://instagram.com/${'instaUsername'}`).catch(() => {
+    Linking.openURL(`${this.state.instagram_link}`).catch(() => {
       this.showAlert('Invalid User name please update your profile')
     });
   };
 
   redirectToWhatsAppProfile = () => {
-    Linking.openURL(`https://wa.me/${'phoneNumber'}`).catch(() => {
+    Linking.openURL(`${this.state.whatsapp_link}`).catch(() => {
       this.showAlert('Invalid User name please update your profile')
     });
   };
