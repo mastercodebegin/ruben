@@ -30,6 +30,7 @@ import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
+import Analytics from '../blocks/analytics/src/Analytics';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -147,6 +148,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
+        <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

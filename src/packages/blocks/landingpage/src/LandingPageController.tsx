@@ -274,7 +274,7 @@ export default class LandingPageController extends BlockComponent<
     if(error){
       this.setState({show_loader:false})
     }else{
-      this.setState({show_loader:false,aboutus:aboutus?.data.length})
+      this.setState({show_loader:false,aboutus:aboutus?.data?.length &&aboutus?.data[aboutus?.data?.length-1]})
     }
   }
   videoLibraryCallback(videoLibrary:any,error:any){
