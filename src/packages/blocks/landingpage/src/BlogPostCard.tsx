@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon } from "./assets";
-import Video from "react-native-video";
+import React, {  useCallback, useState, SetStateAction, Dispatch} from "react";
+import { View, Image, TouchableOpacity, Text, StyleSheet ,ActivityIndicator} from "react-native";
+import { sampleProfile, shareIcon } from "./assets";
 import { downloadFiles, shareFiles } from "../../../components/src/utils";
-import CommonLoader from "../../../components/src/CommonLoader";
+import VideoPlayer from "react-native-video-player";
 interface Types {
   item: any;
   type?: string;
   index?: number;
   visibleItem?: number;
+  onPlay:(ref:Dispatch<SetStateAction<boolean>>)=>void;
 }
-const BlogPostCard = ({ item, type }: Types) => {
-  const [play, setPaly] = React.useState(true);
+const BlogPostCard = ({ item, type,onPlay }: Types) => {
   const [showLoader, setShowLoader] = useState(false);
+  const [play, setPaly] = React.useState(false);
+  const [buffering,setBuffering]=useState(false)
   const shareContent = useCallback(
     async (content: string, fileDetails: any) => {
       setShowLoader(true);      
@@ -81,23 +82,39 @@ const BlogPostCard = ({ item, type }: Types) => {
           />
         ) : (
           <View style={styles.videoView}>
-            <Video
+            <VideoPlayer
               style={styles.video}
               resizeMode="stretch"
               paused={play}
-              source={{
+              
+              onStart={()=>{onPlay(setPaly)}}
+              onVideoBuffer={()=>{
+                console.log('buffering');
+                
+              }}
+              onBuffer={(data)=>{
+                console.log('datadata ',data);
+
+                setBuffering(data.isBuffering)
+                
+              }}
+              controls={false}
+              onPlayPress={()=>{
+                onPlay(setPaly)
+                setPaly(false)}}
+              video={{
                 uri: item?.attributes?.videos[0]?.url,
               }}
             />
-            <View style={styles.videoContainer}>
+            {buffering && <View style={styles.videoContainer}>
               <TouchableOpacity onPress={() => setPaly(!play)}>
-                <Image style={styles.play} source={playIcon} />
+                <ActivityIndicator color="white" size={'large'}/>
+                {/* <Image style={styles.play} source={playIcon} /> */}
               </TouchableOpacity>
-            </View>
+            </View>}
           </View>
         )}
       </View>
-      {showLoader && <CommonLoader visible={showLoader} />}
     </View>
   );
 };

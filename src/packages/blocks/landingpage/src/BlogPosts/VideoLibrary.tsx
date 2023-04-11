@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useRef} from "react";
 import {
   View,
   StyleSheet,
@@ -10,6 +10,28 @@ import { LIGHT_GREY } from "../assets";
 import LandingPageController from "../LandingPageController";
 import BottomTab from "../BottomTab/BottomTab";
 import CommonLoader from "../../../../components/src/CommonLoader";
+const VideoComponent =({data}:any)=>{
+  const videoRef = useRef({pause:null})
+  return ( <View style={{flex:1}}>
+  <FlatList
+    data={data}
+    keyExtractor={(_, index) => String(index)}
+    showsVerticalScrollIndicator={false}
+    bounces={false}
+    onScrollBeginDrag={()=>{
+      //@ts-ignore
+    videoRef.current.pause && videoRef.current.pause(true)      
+    }}
+    renderItem={({ item }) => (
+      <View style={{ marginBottom: 20 }}>
+        <BlogPostCard onPlay={(ref)=>{
+          //@ts-ignore
+       videoRef.current.pause=ref;
+        }}  item={item} />
+      </View>
+    )}
+  />
+  </View>)}
 export default class VideoLibrary extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -21,19 +43,7 @@ export default class VideoLibrary extends LandingPageController {
   render() {
     return (
         <View style={{ flex: 1 }}>
-          <View style={{flex:1}}>
-          <FlatList
-            data={this.state.videoLibrary}
-            keyExtractor={(_, index) => String(index)}
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            renderItem={({ item }) => (
-              <View style={{ marginBottom: 20 }}>
-                <BlogPostCard  item={item} />
-              </View>
-            )}
-          />
-          </View>
+         <VideoComponent data={this.state.videoLibrary} />
           <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
           <CommonLoader visible={this.state.show_loader}/>
         </View>

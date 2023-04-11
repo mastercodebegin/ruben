@@ -7,12 +7,16 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  FlatList,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import {
   LIGHT_GREY,
   DARK_RED,
   backArrow,
+  MEAT_IMAGE3,
+  MEAT_IMAGE2,
+  badge
 } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 
@@ -85,13 +89,13 @@ export default class AboutUs extends LandingPageController {
               </View>
             </View>
             <View>
-              {/* <Text
+              <Text
                 style={{ fontWeight: "700", color: "grey", marginVertical: 10 }}
               >
                 FEATURED FARMS
-              </Text> */}
+              </Text>
             </View>
-            {/* <View style={styles.featuredFarmContainer}>
+            <View style={styles.featuredFarmContainer}>
               <View style={{ flexDirection: "row" }}>
                 <Image
                   source={MEAT_IMAGE2}
@@ -202,7 +206,7 @@ export default class AboutUs extends LandingPageController {
                   />
                 </View>
               </View>
-            </View> */}
+            </View>
           </View>
         </ScrollView>:<CommonLoader visible={this.state.show_loader}/>}
       </SafeAreaView>
