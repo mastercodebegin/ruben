@@ -66,7 +66,7 @@ export default class Myprofile extends LandingPageController {
       <SafeAreaView style={styles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <View style={styles.innerContainer}>
               <Text style={CommonStyle.header}>My Profile</Text>
               <View style={styles.orderAlert}>
                 <TouchableOpacity onPress={this.userdetailsProps.getuserDetails} style={styles.cartContainer}>
@@ -379,6 +379,7 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 17,
   },
+  innerContainer:{ flex: 1, paddingHorizontal: 20 },
   remainingInvContainer: {
     backgroundColor: WHITE,
     margin: 20,

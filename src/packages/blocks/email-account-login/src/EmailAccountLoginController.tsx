@@ -163,14 +163,14 @@ export default class EmailAccountLoginController extends BlockComponent<
   }
 
   doEmailSignup(): boolean {
-    if(!this.emailReg.test(this.state.signupEmail)){
+    if(!this.emailReg?.test(this.state.signupEmail)){
       Alert.alert(
         "Invalid Email",
         "Please enter valid Email"
       );
       return false;
     }
-    if (!this.passwordReg.test(this.state.signupPassword)) {
+    if (!this.passwordReg?.test(this.state.signupPassword)) {
       Alert.alert(
         "Invalid password",
         "Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be between 8 and 15 characters in length."
@@ -186,6 +186,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       email: this.state.signupEmail,
       password: this.state.signupPassword,
       activated: true,
+      user_type:"customer"
     };
 
     const data = {
@@ -279,7 +280,8 @@ export default class EmailAccountLoginController extends BlockComponent<
         contact_information: this.state.contact,
         farm_socialmedia: this.state.social,
         farm_products: this.state.product,
-        activated: "true"
+        activated: "true",
+        user_type: "merchant"
       };
       const data = {
         type: "email_account",
@@ -411,6 +413,13 @@ export default class EmailAccountLoginController extends BlockComponent<
 
     loginCallBack(signupResponse:any){
       if (signupResponse?.meta?.token) {
+        console.log('signupResponse?.meta?.user_type ',signupResponse?.meta?.user_type);
+        
+        if(signupResponse?.meta?.user_type === 'merchant'){
+          store.dispatch({type:'UPDATE_USER',payload:'merchant'})
+        }else if(signupResponse?.meta?.user_type === 'customer'){
+          store.dispatch({type:'UPDATE_USER',payload:'user'})
+        }
         AsyncStorage.setItem(
           "userDetails",
           JSON.stringify(signupResponse)

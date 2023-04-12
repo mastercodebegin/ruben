@@ -19,4 +19,5 @@ exports.btnExampleTitle = "CLICK ME";
 exports.getImageBlog='bx_block_posts/posts/get_images';
 exports.getVideoBlog='bx_block_posts/posts/get_videos';
 exports.addProductEndpoint='bx_block_catalogue/catalogues';
+exports.getAboutUs="bx_block_content_management/contents";
 // Customizable Area End

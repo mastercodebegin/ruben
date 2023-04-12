@@ -4,10 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Button,
-  Platform
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
   // Customizable Area Start
   // Customizable Area End
 } from "react-native";
@@ -27,43 +26,64 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          {/* Customizable Area Start */}
-          {/* Merge Engine UI Engine Code */}
-          <View>
-            {this.isPlatformWeb() ? (
-              <Text
-                testID="labelTitle" //Merge Engine::From BDS
-                style={styles.title} //UI Engine::From Sketch
-              >
-                {configJSON.labelTitleText}
-              </Text> //UI Engine::From Sketch
-            ) : null}
-
-            <Text
-              testID="labelBody" //Merge Engine::From BDS
-              style={styles.body} //UI Engine::From Sketch
-            >
-              {" "}
-              {/* UI Engine::From Sketch */}
-              {configJSON.labelBodyText} {/* UI Engine::From Sketch */}
-            </Text>
-
-            <Button
-              testID={"btnExample"} //Merge Engine::From BDS
-              title={configJSON.btnExampleTitle} //UI Engine::From Sketch
-              {...this.btnExampleProps} //Merge Engine::From BDS - {...this.testIDProps}
-            />
+      <SafeAreaView style={styles.flex}>
+        <View style={styles.main}>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image
+                style={styles.backImage}
+                source={require("../../../components/src/arrow_left.png")}
+              />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>{"Analytics"}</Text>
           </View>
-          {/* Merge Engine UI Engine Code */}
-          {/* Customizable Area End */}
-        </TouchableWithoutFeedback>
-      </ScrollView>
+          <View style={styles.main}>
+            <View style={styles.numberOfSent}>
+              <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ fontSize: 18, color: "#5C2221" }}>
+                  {"243201"}
+                </Text>
+                <Text style={{ fontSize: 18, color: "#A0272A" }}>
+                  {"$ 334456"}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.numberOfSent}>
+              <Text style={{ color: "#5C2221", fontSize: 17 }}>{"Cow"}</Text>
+            </View>
+
+            <View style={styles.boxContainer}>
+              <View style={styles.box}>
+                <Text style={styles.boxHeader}>Current Animal purchased</Text>
+                <Text style={styles.boxText}>Cow</Text>
+              </View>
+              <View style={styles.seperator} />
+              <View style={styles.box}>
+                <Text style={styles.boxHeader}>Total Cuts</Text>
+                <Text style={styles.boxText}>10</Text>
+              </View>
+            </View>
+            <View style={styles.boxContainer}>
+              <View style={styles.box}>
+                <Text style={styles.boxHeader}>Used cuts</Text>
+                <Text style={styles.boxText}>7</Text>
+              </View>
+              <View style={styles.seperator} />
+              <View style={styles.box}>
+                <Text  style={styles.boxHeader}>Remaining Cuts</Text>
+                <Text style={styles.boxText}>{'3 (10%)'}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </SafeAreaView>
+
       // Customizable Area End
     );
   }
@@ -71,43 +91,48 @@ export default class Analytics extends AnalyticsController {
 
 // Customizable Area Start
 const styles = StyleSheet.create({
-  container: {
+  seperator: { width: 10 },
+  boxContainer: { flexDirection: "row", width: "100%", paddingBottom: 15 },
+  boxText: {
+    color: "#5C2221",
+    fontSize: 17,
+    paddingTop: 20,
+    fontWeight: "bold",
+  },
+  boxHeader: { fontSize: 17, color: "grey" },
+  box: {
     flex: 1,
-    padding: 16,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: Platform.OS === "web" ? "75%" : "100%",
-    maxWidth: 650,
-    backgroundColor: "#ffffffff"
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderRadius: 15,
   },
-  title: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8
+  numOfSent: { fontSize: 15, color: "grey", paddingBottom: 5 },
+  numberOfSent: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 15,
   },
-  body: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8
+  main: {
+    flex: 1,
+    backgroundColor: "#F8F4F4",
+    paddingHorizontal: 10,
+    paddingTop: 10,
   },
-  bgPasswordContainer: {
+  headerContainer: {
     flexDirection: "row",
-    backgroundColor: "#00000000",
-    marginBottom: 16,
-    borderBottomWidth: 1,
-    borderColor: "#767676",
-    borderRadius: 2,
-    padding: 10,
-    borderWidth: Platform.OS === "web" ? 0 : 1
+    alignItems: "center",
+    paddingBottom: 15,
   },
-  bgMobileInput: {
-    flex: 1
+  headerText: {
+    fontSize: 25,
+    paddingLeft: 20,
+    color: "#5C2221",
+    fontWeight: "400",
   },
-  showHide: {
-    alignSelf: "center"
-  },
-  imgShowhide: Platform.OS === "web" ? { height: 30, width: 30 } : {}
+  backImage: { height: 20, width: 20 },
+  flex: { flex: 1 },
 });
 // Customizable Area End
