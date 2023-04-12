@@ -9,7 +9,6 @@
     "@material-ui/icons": "file:../blocks/core/node_modules/@material-ui/icons",
     "@material-ui/lab": "file:../blocks/core/node_modules/@material-ui/lab",
     "@material-ui/pickers": "file:../blocks/core/node_modules/@material-ui/pickers",
-    "@pdftron/webviewer": "file:../blocks/core/node_modules/@pdftron/webviewer",
     "@react-native-community/async-storage-backend-web": "file:../blocks/core/node_modules/@react-native-community/async-storage-backend-web",
     "babel-preset-es2015": "file:../blocks/core/node_modules/babel-preset-es2015",
     "firebase": "file:../blocks/core/node_modules/firebase",
@@ -32,7 +31,6 @@
     "html-react-parser": "file:../blocks/core/node_modules/html-react-parser"
   },
   "scripts": {
-    "configDeps": "cp -a ../../node_modules/@pdftron/webviewer/public/. ./public/lib",
     "compile": "yarn configDeps && tsc -b",
     "prestart": "npm run compile",
     "start": "concurrently \"npm run compile -- -w --incremental\" \"HTTPS=true npm run _start\"",

@@ -27,6 +27,7 @@ interface S {
   // Customizable Area Start
   termsAndCondition: string;
   showLoader: boolean;
+  aboutus: any;
   // Customizable Area End
 }
 
@@ -66,6 +67,7 @@ export default class TermsAndConditionsController extends BlockComponent<
       // Customizable Area Start
       termsAndCondition: "",
       showLoader: false,
+      aboutus: null,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
