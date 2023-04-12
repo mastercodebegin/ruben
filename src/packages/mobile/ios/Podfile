@@ -66,7 +66,7 @@ target 'RuebensFTCApp' do
   pod 'Permission-Siri', :path => "#{permissions_path}/Siri.podspec"
   pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition.podspec"
   pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit.podspec"
-
+  pod 'rn-fetch-blob', :path => '../../../node_modules/rn-fetch-blob/rn-fetch-blob.podspec'
   pod 'react-native-maps', :path => '../../../node_modules/react-native-maps/react-native-maps.podspec'
   pod 'react-native-google-maps', :path => '../../../node_modules/react-native-maps/react-native-google-maps.podspec'
   pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS

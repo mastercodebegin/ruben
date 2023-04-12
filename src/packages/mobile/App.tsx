@@ -23,13 +23,14 @@ import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/TermsAndConditions'
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
+import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
+import Analytics from '../blocks/analytics/src/Analytics';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -125,7 +126,6 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
           name="SocialMediaAccountLoginScreen"
           component={SocialMediaAccountLoginScreen}
         />
-        {/* <Stack.Screen name="BlogPost" component={BlogPost} /> */}
         <Stack.Screen
           name="EmailAccountLoginBlock"
           component={EmailAccountLoginBlock}
@@ -141,13 +141,14 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
-        <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
+        <Stack.Screen name='TermsAndCondition' component={TermsAndConditions}/>
         <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProducts' component={AddProductScreen}/>
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
+        <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
