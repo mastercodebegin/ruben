@@ -1,19 +1,19 @@
 import React from "react"
 import { View, ImageBackground, TouchableOpacity, FlatList, Text, Image, Dimensions, StyleSheet } from "react-native"
 import { MEAT_IMAGE1, MEAT_IMAGE2, MEAT_IMAGE3, DARK_RED, MID_PEACH, WHITE, PRIMARY, LIGHT_GREY, CART, RATING, badge } from '../assets'
-const list_data = [{ name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }, { name: 'Meat Dish1', price: '22.99', image: MEAT_IMAGE2 }, { name: 'Meat Dish2', price: '22.99', image: MEAT_IMAGE3 }, { name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }]
+// const list_data = [{ name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }, { name: 'Meat Dish1', price: '22.99', image: MEAT_IMAGE2 }, { name: 'Meat Dish2', price: '22.99', image: MEAT_IMAGE3 }, { name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }]
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
 interface Types {
     rating: boolean,
-    header?: false,
+    header?: boolean,
     item?: any
 }
 const RenderItem = ({ item, rating }: Types) => {
     return (
         <View style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
-                style={styles.itemImage} source={item?.image} >
+                style={styles.itemImage} source={item?.attributes?.images?.url}>
                 <View style={styles.offerContainer}>
                     {rating ?
                         (<View style={styles.ratingContainer}>
@@ -22,17 +22,17 @@ const RenderItem = ({ item, rating }: Types) => {
                             </TouchableOpacity>
                             <Text style={styles.rating}>{'4.8/5'}</Text>
                         </View>)
-                        : <Text style={styles.offer}>{'-10% off'}</Text>}
+                        : <Text style={styles.offer}>{item?.attributes?.discount}</Text>}
                     <TouchableOpacity style={styles.badgeContainer}>
                         <Image resizeMode="contain" style={styles.badge} source={badge} />
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
             <View style={{ paddingHorizontal: 15 }}>
-                <Text style={styles.productName}>{item?.name}</Text>
-                <Text style={styles.description} numberOfLines={1}>Are you searching for ...</Text>
+                <Text style={styles.productName}>{item?.attributes?.name}</Text>
+                <Text style={styles.description} numberOfLines={1}>{item?.attributes?.description}</Text>
                 <View style={styles.priceContainer}>
-                    <Text style={styles.price}>{`$ ${item?.price}`}</Text>
+                    <Text style={styles.price}>{`$ ${item?.attributes?.price}` + "/Kg"}</Text>
                     <TouchableOpacity style={styles.cartContainer}>
                         <Image resizeMode="contain" style={styles.cart} source={CART} />
                     </TouchableOpacity>
@@ -40,7 +40,7 @@ const RenderItem = ({ item, rating }: Types) => {
             </View>
         </View>)
 }
-const RenderItems = ({ rating, header }: Types) => {
+const RenderItems = ({ rating, header, item }: Types) => {
     return (
         <View>
             {header && <View style={styles.itemHeader}>
@@ -54,7 +54,7 @@ const RenderItems = ({ rating, header }: Types) => {
                 keyExtractor={(item, i) => String(i)}
                 horizontal
                 renderItem={({ item }) => <RenderItem rating={rating} item={item} />}
-                data={list_data} />
+                data={item} />
         </View>
     )
 }

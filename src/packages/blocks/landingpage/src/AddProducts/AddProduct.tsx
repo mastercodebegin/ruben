@@ -32,10 +32,13 @@ import {
   PER_KG,
   UPLOAD_IMAGE,
   PUBLISH_NOW,
-  CANCEL
+  CHOOSE_CATEGORY,
+  CANCEL,
+  CHOOSE_SUB_CATEGORY
   //@ts-ignore
 } from "../../../../components/src/constants";
 import Button from "../../../../components/src/CustomButton";
+import { Dropdown } from 'react-native-element-dropdown';
 
 export default class AddProducts extends LandingPageController {
   render() {
@@ -89,6 +92,59 @@ export default class AddProducts extends LandingPageController {
                     }}
                     style={styles.textInput}
                   />
+                   <Text style={styles.label}>{CHOOSE_CATEGORY}</Text>
+                  <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      data={this.state.categoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        this.setState({ categoryItem: item?.title })
+                        console.log("new input == ", this.state.categoryItem)
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.item}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.categoryItem}
+                    />
+
+                  </View>
+                  <Text style={styles.label}>{CHOOSE_SUB_CATEGORY}</Text>
+                  <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      data={this.state.subCategoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        this.setState({ subCategoryItem: item?.title  })
+                        console.log("new input == ", this.state.subCategoryItem)
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.item}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.subCategoryItem}
+                    />
+                  </View>
                   <Text style={styles.label}>{ENTER_DESCRPTION}</Text>
                   <TextInput
                     //@ts-ignore
@@ -181,8 +237,8 @@ export default class AddProducts extends LandingPageController {
             }}
             ListFooterComponent={()=>(
               <View>
-                <Button style={styles.buttonStyle} onPress={()=>{}} label={PUBLISH_NOW}/>
-                <Button style={styles.buttonStyle} transparentBackground onPress={()=>{}} label={CANCEL}/>
+                <Button style={styles.buttonStyle} onPress={()=>{ this.addProduct()}} label={PUBLISH_NOW}/>
+                <Button style={styles.buttonStyle} transparentBackground onPress={()=>{this.props.navigation.navigate('ExplorePage')}} label={CANCEL}/>
               </View>
             )}
           />
@@ -308,5 +364,52 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 10,
     paddingHorizontal: 20,
+  },
+  dropdownContainer: {
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 12,
+    marginBottom: 4
+  },
+  dropdown: {
+    height: 50,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  item: {
+    padding: 8,
+    marginBottom: 5,
+    borderBottomWidth: 1,
+    borderColor: LIGHT_GREY,
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+    color: "#000"
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: DARK_RED
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: DARK_RED,
+  },
+  iconStyle: {
+    width: 30,
+    height: 30,
+    color: DARK_RED,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });

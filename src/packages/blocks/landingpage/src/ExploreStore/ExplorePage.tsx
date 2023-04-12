@@ -42,6 +42,7 @@ class ExplorePage extends LandingPageController {
     //@ts-ignore
     componentDidMount() {
         this.getCategory.bind(this)(1)
+        this.getProductList()
     }
     render() {        
         return (
@@ -131,12 +132,12 @@ class ExplorePage extends LandingPageController {
                         }
                     }
                     />
-                    <RenderItems rating={false} />
-                    <RenderItems rating={true} />
+                  <RenderItems item={this.state.productList} rating={false} />
+              <RenderItems item={this.state.productList} header={true} rating={true} />
                 </View>
             </ScrollView>
             {
-                this.props.currentUser==='user'?
+                this.props.currentUser ==='user'?
                 <CartDetails/>:
             <DualButton
             containerStyle={styles.dualButton}
