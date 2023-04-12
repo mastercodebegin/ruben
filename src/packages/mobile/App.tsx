@@ -144,7 +144,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
         <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
-        <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
+        <Stack.Screen name='AddProducts' component={AddProductScreen}/>
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>

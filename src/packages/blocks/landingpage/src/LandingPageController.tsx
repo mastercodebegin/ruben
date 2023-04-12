@@ -61,7 +61,13 @@ interface S {
   refresh:boolean;
   imageBlogList:Array<object>;
   videoLibrary:Array<object>;
-  visibleCard:number
+  visibleCard:number;
+  categoryItem: string;
+  subCategoryItem: string;
+  categoryList: Array<object>;
+  subCategoryList: Array<object>;
+  productList: Array<object>;
+  
   // Customizable Area End
 }
 
@@ -118,7 +124,46 @@ export default class LandingPageController extends BlockComponent<
       refresh:false,
       imageBlogList:[],
       videoLibrary:[],
-      visibleCard:0
+      visibleCard:0,
+      categoryItem: '',
+      subCategoryItem: '',
+      productList: [],
+      categoryList: [
+        {
+          title: 'Lamb',
+          id: 0
+        },
+        {
+          title: 'Pork',
+          id: 1
+        },
+        {
+          title: 'Wholesale',
+          id: 2
+        },
+        {
+          title: 'Chicken',
+          id: 3,
+        },
+      ],
+      subCategoryList: [
+        {
+          title: 'Lamb',
+          id: 0
+        },
+        {
+          title: 'Lamb1',
+          id: 1
+        },
+        {
+          title: 'Lamb2',
+          id: 2
+        },
+        {
+          title: 'Lamb3',
+          id: 3,
+        },
+      ]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -247,6 +292,21 @@ export default class LandingPageController extends BlockComponent<
         );
         this.videoLibraryCallback(videoLibrary,error)
        
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getProductId != null &&
+      this.getProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(" error == == ", error);
+      this.setState({ productList: productListData?.data, show_loader: false })
+
     }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
@@ -301,6 +361,10 @@ export default class LandingPageController extends BlockComponent<
   categoryPage:any=1;
   userdetailsProps={
     getuserDetails:this.getProfileDetails
+  }
+  getProductId: string = '';
+  productListProps = {
+    getProductLists: this.getProductList
   }
   async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
@@ -594,6 +658,89 @@ export default class LandingPageController extends BlockComponent<
     );
     msg.addData(getName(MessageEnum.NavigationPropsMessage), this.props);
     this.send(msg);
+  }
+
+  goToMyCreditsScreen() {
+    this.props.navigation.navigate("MyCreditScreen");
+  }
+
+  async addProduct() {
+    if (this.state.productsList[0].title === '') {
+      this.showAlert('Please provide title')
+      return
+    }
+    if (this.state.productsList[0].price === '') {
+      this.showAlert('Please provide price')
+      return
+    }
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const formdata = new FormData();
+    formdata.append("category_id", "1");
+    formdata.append("sub_category_id", "2");
+    formdata.append("name", this.state.productsList[0].title);
+    formdata.append("description", this.state.productsList[0].desciption);
+    formdata.append("price", this.state.productsList[0].price);
+    this.state.productsList[0].images?.forEach(image => {
+      formdata.append("images[]", {
+        uri: image?.path,
+        type: image?.mime ? image?.mime : 'image/jpg',
+        name: '',
+      })
+    });
+    console.log('formData==', formdata)
+    const addProductMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    addProductMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.addProductEndpoint
+    );
+    addProductMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    addProductMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+    runEngine.sendMessage(addProductMsg.id, addProductMsg);
+    Alert.alert('Success', 'Hey! your product create successfully', [{
+      text: 'OK', onPress: () => {
+        this.props.navigation.navigate('ExplorePage')
+      }
+    }]);
+  }
+
+  async getProductList() {
+    console.log('Add Product list == ',)
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const getProductListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getProductId = getProductListMsg.messageId;
+    getProductListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.addProductEndpoint
+    );
+    getProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   // Customizable Area End
 }

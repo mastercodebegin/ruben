@@ -18,4 +18,5 @@ exports.subCategory= "bx_block_categories/sub_categories?category_id="
 exports.btnExampleTitle = "CLICK ME";
 exports.getImageBlog='bx_block_posts/posts/get_images';
 exports.getVideoBlog='bx_block_posts/posts/get_videos';
+exports.addProductEndpoint='bx_block_catalogue/catalogues';
 // Customizable Area End
