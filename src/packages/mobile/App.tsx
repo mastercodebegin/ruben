@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View , SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
@@ -48,8 +48,12 @@ const BlogPostStack= ()=>{
 
     return (
       <SafeAreaView style={{flex:1}}>
+      <Header navigation={navigationRef.current}/>
       <Stack.Navigator screenOptions={()=>({
-        header:(props)=><Header props={props}/>
+        gestureEnabled: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureDirection:'horizontal',
+        headerShown:false
       })}>
        <Stack.Screen options={{}} name="BlogPost" component={BlogPost} />
        <Stack.Screen options={{}} name="VideoLibrary" component={VideoLibrary} />
