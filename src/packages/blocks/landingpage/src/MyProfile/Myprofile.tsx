@@ -160,12 +160,12 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "recomentation" })}
+                onPress={() => this.setState({ selectedTab: "Recomentations" })}
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "recomentation" &&
+                    this.state.selectedTab === "Recomentations" &&
                       styles.selected,
                   ]}
                 >
