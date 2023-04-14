@@ -57,7 +57,7 @@ export default class AddProducts extends LandingPageController {
                 this.setState({
                   productsList: [
                     ...this.state.productsList,
-                    { title: "", category: null, price: "", images: [] },
+                    { title: "", category: '', price: "", images: [], subcategories: '' },
                   ],
                 })
               }
@@ -99,14 +99,19 @@ export default class AddProducts extends LandingPageController {
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
                       data={this.state.categoryList}
                       maxHeight={400}
                       labelField={"title"}
                       valueField={'title'}
                       placeholder="Select item"
                       onChange={(item: any) => {
-                        this.setState({ categoryItem: item?.title })
-                        console.log("new input == ", this.state.categoryItem)
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          category: item?.id,
+                        };
+                        this.setState({ productsList: list })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -126,14 +131,19 @@ export default class AddProducts extends LandingPageController {
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
                       data={this.state.subCategoryList}
                       maxHeight={400}
                       labelField={"title"}
                       valueField={'title'}
                       placeholder="Select item"
                       onChange={(item: any) => {
-                        this.setState({ subCategoryItem: item?.title  })
-                        console.log("new input == ", this.state.subCategoryItem)
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          subcategories: item?.id,
+                        };
+                        this.setState({ productsList: list })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -402,14 +412,16 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
     color: DARK_RED,
+    fontWeight:"700",
   },
   iconStyle: {
     width: 30,
     height: 30,
     color: DARK_RED,
   },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
+  containerStyle: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    top: -36
+  }
 });

@@ -116,10 +116,11 @@ export default class LandingPageController extends BlockComponent<
       searchText:'',
       productsList:[{
         title:'',
-        category:null,
+        category:'',
         price:'',
         images:[],
-        desciption:''
+        desciption:'',
+        subcategories: ''
       }],
       refresh:false,
       imageBlogList:[],
