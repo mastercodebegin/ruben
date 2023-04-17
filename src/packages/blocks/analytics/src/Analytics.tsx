@@ -98,7 +98,7 @@ export default class Analytics extends AnalyticsController {
       // Customizable Area End
       );
     }
-  }  
+  }    
 
 // Customizable Area Start
 const styles = StyleSheet.create({
