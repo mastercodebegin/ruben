@@ -23,7 +23,7 @@ const MeatLocker = ({ navigation,route }: MeatLockerTypes) => {
     navigation.reset({
       index: 0,
       routes: [{ name: route?.params?.screen ? route?.params?.screen:  "Myprofile" ,
-      params: {firstTime:true }}],
+      params: {firstTime:true ,email:route?.params?.email ? route?.params?.email:''}}],
     });
   };
   return (

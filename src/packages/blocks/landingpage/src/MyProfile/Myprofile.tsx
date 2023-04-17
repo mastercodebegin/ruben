@@ -39,7 +39,7 @@ export default class Myprofile extends LandingPageController {
   //@ts-ignore
   componentDidMount(){
     if(this.props?.route?.params?.firstTime){
-      this.setState({showProfileModal:true})
+      this.setState({showProfileModal:true,email:this.props.route?.params?.email?this.props.route?.params?.email:''})
     }else{
       this.getProfileDetails()
     }
