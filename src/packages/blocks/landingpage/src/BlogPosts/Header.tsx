@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: LIGHT_GREY,
   },
-  container: { flexDirection: "row", alignItems: "center" },
+  container: { flexDirection: "row", alignItems: "center" ,width:'100%',    backgroundColor: LIGHT_GREY,
+},
   unselected: { color: "grey", fontSize: 19, fontWeight: "normal" },
 });
