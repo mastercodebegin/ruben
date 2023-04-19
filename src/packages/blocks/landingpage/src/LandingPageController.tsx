@@ -115,12 +115,12 @@ export default class LandingPageController extends BlockComponent<
       selectedSub:null,
       searchText:'',
       productsList:[{
-        title:'',
-        category:'',
-        price:'',
-        images:[],
-        desciption:'',
-        subcategories: ''
+        category_id: '',
+        sub_category_id: '',
+        name: '',
+        price: '',
+        images: [],
+        desciption: ''
       }],
       refresh:false,
       imageBlogList:[],
@@ -460,7 +460,8 @@ export default class LandingPageController extends BlockComponent<
    opencamera(callBack:(res:any)=>void,error:(e:any)=>void){
     ImagePicker.openCamera({
       cropping: false,
-      mediaType:'photo'
+      mediaType:'photo',
+      includeBase64: true
     }).then((image) => {
       callBack(image)
     }).catch(e=>error(e))
@@ -469,7 +470,8 @@ export default class LandingPageController extends BlockComponent<
   async openGallery(callBack:(res:any)=>void,error:(e:any)=>void){
      ImagePicker.openPicker({
       cropping: false,
-      mediaType:'photo'
+      mediaType:'photo',
+      includeBase64: true
     }).then((image) => {
       callBack(image)
     }).catch(e=>{
@@ -728,6 +730,10 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('Please provide title')
       return
     }
+    if (this.state.productsList[0].category === '') {
+      this.showAlert('Please provide category')
+      return
+    }
     if (this.state.productsList[0].price === '') {
       this.showAlert('Please provide price')
       return
@@ -736,22 +742,27 @@ export default class LandingPageController extends BlockComponent<
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
+      "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-    const formdata = new FormData();
-    formdata.append("category_id", "1");
-    formdata.append("sub_category_id", "2");
-    formdata.append("name", this.state.productsList[0].title);
-    formdata.append("description", this.state.productsList[0].desciption);
-    formdata.append("price", this.state.productsList[0].price);
-    this.state.productsList[0].images?.forEach(image => {
-      formdata.append("images[]", {
-        uri: image?.path,
-        type: image?.mime ? image?.mime : 'image/jpg',
-        name: '',
-      })
+    // const formdata = new FormData();
+    // formdata.append("category_id", "1");
+    // formdata.append("sub_category_id", "2");
+    // formdata.append("name", this.state.productsList[0].title);
+    // formdata.append("description", this.state.productsList[0].desciption);
+    // formdata.append("price", this.state.productsList[0].price);
+    // this.state.productsList[0].images?.forEach(image => {
+    //   formdata.append("images[]", {
+    //     uri: image?.path,
+    //     type: image?.mime ? image?.mime : 'image/jpg',
+    //     name: '',
+    //   })
+    // });
+    // console.log('formData==', formdata)
+    var raw = JSON.stringify({
+      "catalogues": this.state.productsList
     });
-    console.log('formData==', formdata)
+    console.log('add products == =',  headers)
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -764,15 +775,26 @@ export default class LandingPageController extends BlockComponent<
       JSON.stringify(headers)
     );
     addProductMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(raw)
+    );
+    addProductMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.exampleAPiMethod
     );
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
-    Alert.alert('Success', 'Hey! your product create successfully', [{
-      text: 'OK', onPress: () => {
-        this.props.navigation.navigate('ExplorePage')
-      }
-    }]);
+    const error = addProductMsg.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    if (error) {
+      Alert.alert('Error', error);
+    } else {
+      Alert.alert('Success', 'Hey! your product create successfully', [{
+        text: 'OK', onPress: () => {
+          this.props.navigation.navigate('ExplorePage')
+        }
+      }]);
+    }
   }
 
   async getProductList() {
@@ -783,6 +805,9 @@ export default class LandingPageController extends BlockComponent<
     const headers = {
       'token': data?.meta?.token
     };
+    const formdata = new FormData();
+    // formdata.append("page", '2');
+    console.log('formData==', formdata)
     const getProductListMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
