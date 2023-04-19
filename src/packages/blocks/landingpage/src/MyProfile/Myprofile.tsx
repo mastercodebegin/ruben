@@ -44,21 +44,33 @@ export default class Myprofile extends LandingPageController {
     }
   }
   openFacebookProfile = () => {
-    Linking.openURL(`${this.state.facebook_link}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.facebook_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   redirectToInstagramProfile = () => {
-    Linking.openURL(`${this.state.instagram_link}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.instagram_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   redirectToWhatsAppProfile = () => {
-    Linking.openURL(`${this.state.whatsapp_link}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.whatsapp_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   render() {
