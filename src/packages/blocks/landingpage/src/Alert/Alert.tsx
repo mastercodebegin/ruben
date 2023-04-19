@@ -72,7 +72,6 @@ export default class Alert extends LandingPageController {
                                     width: '48%',
                                     backgroundColor: '#fff',
                                     borderRadius: 20,
-                                    // marginVertical: 20,
                                     padding: 15,
                                     height: 120
                                 }}>
