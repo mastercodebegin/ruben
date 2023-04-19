@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -16,7 +16,11 @@ import {
   PRIMARY,
   MID_PEACH,
 } from "../assets";
+import MyCreditDetailsModal from "./MyCreditDetailsModal";
 const MyCreditScreen = ({ navigation }: any) => {
+
+  const [isShowMyCreditModal, setShowMyCreditModal] = useState(false)
+
   return (
     <HeaderWithBackArrowTemplate
       headerText="My Credit"
@@ -54,7 +58,8 @@ const MyCreditScreen = ({ navigation }: any) => {
                   <Text style={styles.text}>Remaining Cuts</Text>
                   <Text style={styles.desText}>3</Text>
                 </View>
-                <TouchableOpacity style={styles.pickButton}>
+                <TouchableOpacity style={styles.pickButton}
+                  onPress={() => { setShowMyCreditModal(true) }}>
                   <Text style={styles.pickText}>Pickup / Deliver </Text>
                 </TouchableOpacity>
               </View>
@@ -64,7 +69,11 @@ const MyCreditScreen = ({ navigation }: any) => {
             return String(index);
           }}
         />
+        {isShowMyCreditModal &&
+          <MyCreditDetailsModal />
+        }
       </View>
+
     </HeaderWithBackArrowTemplate>
   );
 };
