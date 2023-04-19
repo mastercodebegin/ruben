@@ -41,6 +41,14 @@ import Button from "../../../../components/src/CustomButton";
 import { Dropdown } from 'react-native-element-dropdown';
 
 export default class AddProducts extends LandingPageController {
+  constructor(props: any) {
+    super(props);
+    this.receive = this.receive.bind(this);
+  }
+  //@ts-ignore
+  componentDidMount() {
+    this.getCategory.bind(this)(1)
+  }
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -57,7 +65,7 @@ export default class AddProducts extends LandingPageController {
                 this.setState({
                   productsList: [
                     ...this.state.productsList,
-                    { title: "", category: '', price: "", images: [], subcategories: '' },
+                    { category_id: '',sub_category_id: '',name: "", price: "", images: []},
                   ],
                 })
               }
@@ -86,7 +94,7 @@ export default class AddProducts extends LandingPageController {
                       const list = this.state.productsList;
                       list[index] = {
                         ...list[index],
-                        title: title,
+                        name: title,
                       };
                       this.setState({ productsList: list });
                     }}
@@ -109,7 +117,7 @@ export default class AddProducts extends LandingPageController {
                         const list = this.state.productsList;
                         list[index] = {
                           ...list[index],
-                          category: item?.id,
+                          category_id: item?.id,
                         };
                         this.setState({ productsList: list })
                       }}
@@ -141,13 +149,13 @@ export default class AddProducts extends LandingPageController {
                         const list = this.state.productsList;
                         list[index] = {
                           ...list[index],
-                          subcategories: item?.id,
+                          sub_category_id: item?.id,
                         };
                         this.setState({ productsList: list })
                       }}
                       renderItem={(item: any) => {
                         return (
-                          <View style={styles.item}>
+                          <View style={styles.itemListStyle}>
                             <Text style={styles.textItem}>{item?.title}</Text>
                           </View>
                         )
@@ -377,13 +385,13 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     backgroundColor: LIGHT_GREY,
-    borderRadius: 12,
-    marginBottom: 4
+    borderRadius: 10,
+    marginBottom: 0
   },
   dropdown: {
     height: 50,
     backgroundColor: LIGHT_GREY,
-    borderRadius: 12,
+    borderRadius: 10,
     padding: 12,
     shadowColor: '#000',
     shadowOffset: {
@@ -394,7 +402,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
   },
-  item: {
+  itemListStyle: {
     padding: 8,
     marginBottom: 5,
     borderBottomWidth: 1,
@@ -403,7 +411,7 @@ const styles = StyleSheet.create({
   textItem: {
     flex: 1,
     fontSize: 16,
-    color: "#000"
+    color: DARK_RED
   },
   placeholderStyle: {
     fontSize: 16,
@@ -417,11 +425,11 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 30,
     height: 30,
-    color: DARK_RED,
+    tintColor: DARK_RED,
   },
   containerStyle: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: -36
+    top: -38
   }
 });

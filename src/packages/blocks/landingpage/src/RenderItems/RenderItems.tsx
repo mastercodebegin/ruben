@@ -1,6 +1,6 @@
 import React from "react"
 import { View, ImageBackground, TouchableOpacity, FlatList, Text, Image, Dimensions, StyleSheet } from "react-native"
-import { MEAT_IMAGE1, MEAT_IMAGE2, MEAT_IMAGE3, DARK_RED, MID_PEACH, WHITE, PRIMARY, LIGHT_GREY, CART, RATING, badge } from '../assets'
+import {DARK_RED, MID_PEACH, WHITE, PRIMARY, LIGHT_GREY, CART, RATING, badge } from '../assets'
 // const list_data = [{ name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }, { name: 'Meat Dish1', price: '22.99', image: MEAT_IMAGE2 }, { name: 'Meat Dish2', price: '22.99', image: MEAT_IMAGE3 }, { name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }]
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
@@ -13,6 +13,7 @@ const RenderItem = ({ item, rating }: Types) => {
     const total = item?.attributes?.price;
     const partial = item?.attributes?.discount;
     const percentage = (partial / total) * 100;
+    console.log("renderItem cat == =", percentage)
     return (
         <View style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
