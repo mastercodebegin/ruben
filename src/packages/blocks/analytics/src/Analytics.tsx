@@ -10,10 +10,10 @@ import {
   Platform
   // Customizable Area Start
   ,TouchableOpacity,
-  Image
+  Image,
+  SafeAreaView
   // Customizable Area End
 } from "react-native";
-
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
@@ -30,6 +30,7 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
+      <SafeAreaView>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <TouchableWithoutFeedback
           onPress={() => {
@@ -95,9 +96,10 @@ export default class Analytics extends AnalyticsController {
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
       </ScrollView>
+      </SafeAreaView>
       // Customizable Area End
-    ); 
-  } 
+    );
+  }
 }
 
 // Customizable Area Start
