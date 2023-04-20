@@ -96,8 +96,8 @@ export default class Analytics extends AnalyticsController {
         </TouchableWithoutFeedback>
       </ScrollView>
       // Customizable Area End
-    );
-  }
+    ); 
+  } 
 }
 
 // Customizable Area Start
