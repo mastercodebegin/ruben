@@ -30,7 +30,6 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <SafeAreaView>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <TouchableWithoutFeedback
           onPress={() => {
@@ -38,6 +37,7 @@ export default class Analytics extends AnalyticsController {
           }}
         >
           {/* Customizable Area Start */}
+          <SafeAreaView>
           <View style={styles.main}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -93,10 +93,10 @@ export default class Analytics extends AnalyticsController {
             </View>
           </View>
         </View>
+          </SafeAreaView>
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
       </ScrollView>
-      </SafeAreaView>
       // Customizable Area End
     );
   }
