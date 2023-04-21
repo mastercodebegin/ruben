@@ -1,132 +1,120 @@
 import React from "react";
 // Customizable Area Start
 import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  View,
   ScrollView,
-  Modal,
   Platform,
+  SafeAreaView,
 } from "react-native";
 // Customizable Area End
 
 import { Props, configJSON } from "./FavouritesController";
 
 import FavouritesController from "./FavouritesController";
+import { DARK_RED, MEAT_IMAGE1, WHITE, arrowLeft, badge } from "../../landingpage/src/assets";
 
 export default class Favourites extends FavouritesController {
   constructor(props: Props) {
     super(props);
+    this.receive = this.receive.bind(this);
+  }
+  //@ts-ignore
+  componentDidMount() {
+    this.getFavoritesList()
   }
 
   render() {
     return (
-      //Merge Engine DefaultContainer
-      <ScrollView style={styles.container}>
-        {/* Customizable Area Start */}
-        <View
-          style={this.state.isVisible ? styles.modalBox : styles.modalBoxHidden}
-        >
-          <Modal
-            animationType={"fade"}
-            transparent={false}
-            visible={this.state.isVisible}
-          >
-            <View style={styles.modal}>
-              <ScrollView>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Id:{"  "}</Text>
-                  {this.state.activeId}
-                </Text>
-                <Text numberOfLines={2} style={styles.infoText}>
-                  <Text style={styles.labelText}>Type:{"  "}</Text>
-                  {this.state.favouriteType}
-                </Text>
-                <Text numberOfLines={2} style={styles.infoText}>
-                  <Text style={styles.labelText}>Value:{"  "}</Text>
-                  {this.state.favouriteId}
-                </Text>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Created At:{"  "}</Text>
-                  {this.state.activeCreatedAt}
-                </Text>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Updated At:{"  "}</Text>
-                  {this.state.activeUpdatedAt}
-                </Text>
-              </ScrollView>
-              <View style={styles.buttonBox}>
-                <TouchableOpacity
-                  testID={"btnDeleteFavorite"}
-                  style={[styles.viewBtn, styles.viewBtnWidth]}
-                  onPress={() => {
-                    this.deleteFavorite(this.state.activeId);
-                  }}
-                >
-                  <Text style={styles.viewBtnText}>delete</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  testID={"btnCloseFavorite"}
-                  style={[styles.viewBtnWidth, styles.closeBtn]}
-                  onPress={() => {
-                    this.hideModal();
-                  }}
-                >
-                  <Text style={styles.closeBtnText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        </View>
-        <View style={{ display: this.state.isVisible ? "none" : "flex" }}>
-          <TouchableOpacity
-            testID={"btnAddFavouritesTxt"}
-            style={styles.addBtn}
-            onPress={() => {
-              this.addFavourites();
-            }}
-          >
-            <Text style={styles.addtext}>Add Favorite</Text>
+      //@ts-ignore
+      <SafeAreaView style={styles.flex}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <Image style={styles.backImage} source={arrowLeft} />
           </TouchableOpacity>
-
-          {this.state.favourites.map((item: any, index: number) => {
-            return (
-              <View key={index} style={styles.tableBox}>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Id:{"  "}</Text>
-                  {item.id}
-                </Text>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Favorite Id:{"  "}</Text>
-                  {item.attributes.favouriteable_id}
-                </Text>
-                <Text style={styles.infoText}>
-                  <Text style={styles.labelText}>Value:{"  "}</Text>
-                  {item.attributes.favouriteable_id}
-                </Text>
-                <TouchableOpacity
-                  testID={"btnViewFavouritesTxt"}
-                  style={styles.viewBtn}
-                  onPress={() => {
-                    this.setModal(item);
-                  }}
-                >
-                  <Text style={styles.viewBtnText}>View</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+          <Text style={styles.headerText}>{"My Favorites"}</Text>
         </View>
-        {/* Customizable Area End */}
-      </ScrollView>
-      //Merge Engine End DefaultContainer
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={[1, 2, 3, 4, 5, 6]}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            renderItem={() => {
+              return (
+                <View style={styles.main}>
+                  <Image
+                    resizeMode="stretch"
+                    style={styles.image}
+                    source={MEAT_IMAGE1}
+                  />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      paddingTop: 10,
+                    }}
+                  >
+                    <Text style={styles.text}>Meat</Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.text}>$ 29.00</Text>
+                      <Text style={styles.kg}>{" / kg"}</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', width: '100%' }}>
+                    <Text style={{ flex: 1, color: DARK_RED, fontSize: 15, paddingTop: 10 }}>
+                      Filler text is text that shares some characteristics of a
+                      real written text, but is random or otherwise generated
+                    </Text>
+                    <View>
+                      <TouchableOpacity
+                        style={{
+                          padding: 7,
+                          borderRadius: 20,
+                          borderColor: 'red',
+                          borderWidth: 2,
+                          marginTop: 10,
+                          marginLeft: 10
+                        }}
+                      >
+                        <Image
+                          style={{
+                            tintColor: "red",
+                            height: 20,
+                            width: 20,
+                          }}
+                          source={badge}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              );
+            }}
+            keyExtractor={(_, index) => {
+              return String(index);
+            }}
+          />
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 // Customizable Area Start
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
+  headerContainer: { flexDirection: "row", alignItems: "center",padding:15 },
+  headerText: {
+    fontSize: 25,
+    paddingLeft: 20,
+    color: DARK_RED,
+    fontWeight: "400",
+  },
+  backImage: { height: 20, width: 20 },
   container: {
     flex: 1,
     padding: 16,
@@ -136,105 +124,24 @@ const styles = StyleSheet.create({
     maxWidth: 650,
     backgroundColor: "#ffffffff",
   },
-  tableBox: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: "#ccc",
-    padding: 15,
-    marginVertical: 10,
-    marginBottom: 30,
+  main: {
+    backgroundColor: WHITE,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    paddingBottom: 20,
+    overflow: "hidden",
+    marginBottom: 15,
+    borderRadius: 15,
   },
-  webviewStyle: {
-    height: 200,
-  },
-  infoText: {
-    fontSize: 16,
-    marginVertical: 4,
-  },
-  labelText: {
+  image: { height: 200, width: "100%", borderRadius: 15 },
+  text: {
+    color: DARK_RED,
     fontWeight: "bold",
+    fontSize: 18,
   },
-  viewBtn: {
-    backgroundColor: "blue",
-    paddingVertical: 8,
-    borderRadius: 4,
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: "blue",
-  },
-  viewBtnText: {
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 16,
-  },
-  addBtn: {
-    backgroundColor: "blue",
-    marginBottom: 10,
-    width: 80,
-    height: 40,
-    display: "flex",
-    justifyContent: "center",
-    borderRadius: 4,
-    alignSelf: "flex-end",
-  },
-  addtext: {
-    fontSize: 16,
-    color: "#fff",
-    textAlign: "center",
-  },
-  buttonTop: {
-    display: "flex",
-    alignSelf: "flex-end",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-  },
-  closeBtn: {
-    backgroundColor: "#fff",
-    paddingVertical: 8,
-    borderRadius: 4,
-    marginTop: 10,
-    borderColor: "#ccc",
-    borderWidth: 1,
-  },
-  buttonBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  modalBoxHidden: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    display: "none",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#fff",
-  },
-  modalBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    display: "flex",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#fff",
-  },
-  modal: {
-    width: "80%",
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    marginTop: 80,
-    marginLeft: 40,
-    padding: 15,
-  },
-  viewBtnWidth: {
-    width: "48%",
-  },
-  closeBtnText: {
-    color: "#000",
-    textAlign: "center",
-    fontSize: 16,
+  kg: {
+    fontSize: 17,
+    color: DARK_RED,
   },
 });
 // Customizable Area End

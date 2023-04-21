@@ -308,8 +308,23 @@ export default class LandingPageController extends BlockComponent<
       );
       console.log(" error == == ", error);
       this.setState({ productList: productListData?.data, show_loader: false })
-      }
-      else if (
+      }else if (
+        getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+        this.getAddProductId != null &&
+        this.getAddProductId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      ) {
+        const addProductListData = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        console.log("addProductListData  == == ", addProductListData);
+        console.log("addProductListData error == == ", error);
+        this.addProductCallback(addProductListData, error)
+        // this.setState({ addProductList: addProductListData?.data, show_loader: false })
+      }else if (
         getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAboutUsId != null &&
       this.getAboutUsId ===
@@ -329,6 +344,18 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
+  addProductCallback(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    } else {
+      console.log("response = = =", response)
+      Alert.alert('Success', 'Hey! your product create successfully', [{
+        text: 'OK', onPress: () => {
+          this.props.navigation.navigate('ExplorePage')
+        }
+      }]);
+    }
+  }
 
   aboutusCallback(aboutus:any,error:any){    
     if(error){
@@ -391,6 +418,11 @@ export default class LandingPageController extends BlockComponent<
   productListProps = {
     getProductLists: this.getProductList
   }
+  getAddProductId: string = '';
+  addProductListProps = {
+    getAddProductLists: this.addProduct
+  }
+
   async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
@@ -745,20 +777,6 @@ export default class LandingPageController extends BlockComponent<
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-    // const formdata = new FormData();
-    // formdata.append("category_id", "1");
-    // formdata.append("sub_category_id", "2");
-    // formdata.append("name", this.state.productsList[0].title);
-    // formdata.append("description", this.state.productsList[0].desciption);
-    // formdata.append("price", this.state.productsList[0].price);
-    // this.state.productsList[0].images?.forEach(image => {
-    //   formdata.append("images[]", {
-    //     uri: image?.path,
-    //     type: image?.mime ? image?.mime : 'image/jpg',
-    //     name: '',
-    //   })
-    // });
-    // console.log('formData==', formdata)
     var raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
@@ -766,6 +784,7 @@ export default class LandingPageController extends BlockComponent<
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
+    this.getAddProductId = addProductMsg.messageId;
     addProductMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.addProductEndpoint
@@ -783,18 +802,6 @@ export default class LandingPageController extends BlockComponent<
       configJSON.exampleAPiMethod
     );
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
-    const error = addProductMsg.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    if (error) {
-      Alert.alert('Error', error);
-    } else {
-      Alert.alert('Success', 'Hey! your product create successfully', [{
-        text: 'OK', onPress: () => {
-          this.props.navigation.navigate('ExplorePage')
-        }
-      }]);
-    }
   }
 
   async getProductList() {

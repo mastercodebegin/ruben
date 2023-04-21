@@ -5,6 +5,7 @@ import MessageEnum, {
   getName,
 } from "../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../framework/src/RunEngine";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Customizable Area Start
 // Customizable Area End
 export const configJSON = require("./config");
@@ -12,6 +13,10 @@ export const configJSON = require("./config");
 export interface Props {
   navigation: any;
   id: string;
+  setState: any;
+  state: any;
+  currentUser: string;
+  route: any;
 }
 
 interface S {
@@ -27,6 +32,8 @@ interface S {
   title: string;
   content: string;
   value: any;
+  favouritesList: any;
+  show_loader: boolean;
   // Customizable Area End
 }
 
@@ -68,6 +75,8 @@ export default class FavouritesController extends BlockComponent<Props, S, SS> {
       title: "",
       content: "",
       value: this.value,
+      favouritesList: [],
+      show_loader: false,
     };
     this.onChange = (value) => {
       this.value = value;
@@ -143,6 +152,21 @@ export default class FavouritesController extends BlockComponent<Props, S, SS> {
           this.parseApiErrorResponse(responseJson);
           this.parseApiCatchErrorResponse(errorReponse);
         }
+      } else if (
+        getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+        this.getFavoritesListId != null &&
+        this.getFavoritesListId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      ) {
+        const favoritesListData = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        console.log(" error == == ", favoritesListData);
+        this.setState({ favouritesList: favoritesListData?.data, show_loader: false })
+        console.log(" error == == ", this.state.favouritesList);
       }
     }
     // Customizable Area End
@@ -253,6 +277,10 @@ export default class FavouritesController extends BlockComponent<Props, S, SS> {
     return true;
   };
 
+  getFavoritesListId: string = '';
+  favoritesListProps = {
+    getFavoritesLists: this.getFavoritesList
+  }
   getFavourites = (token: string) => {
     const header = {
       "Content-Type": configJSON.favouritesApiApiContentType,
@@ -280,5 +308,41 @@ export default class FavouritesController extends BlockComponent<Props, S, SS> {
 
     runEngine.sendMessage(requestMessage.id, requestMessage);
   };
+
+  async getFavoritesList() {
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const tokenData: any = JSON.parse(userDetails)
+    console.log("userdata",tokenData)
+    const headers = {
+      "Content-Type": configJSON.favouritesApiApiContentType,
+      'token': tokenData?.meta?.token,
+    };
+    var data = {
+      "favouriteable_type": "AccountBlock::Account",
+    };
+
+    const getFavoritesListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getFavoritesListId = getFavoritesListMsg.messageId;
+    getFavoritesListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getFavoritesListEndpoint
+    );
+    getFavoritesListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getFavoritesListMsg.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      data
+    );
+    getFavoritesListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getFavoritesListMsg.id, getFavoritesListMsg);
+  }
   // Customizable Area End
 }
