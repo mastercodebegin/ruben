@@ -7,76 +7,64 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
+import CommonLoader from "../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import {
-  MEAT_IMAGE1,
   WHITE,
   DARK_RED,
   badge,
 } from "../../landingpage/src/assets";
 import RecomentationsController from "./RecomentationsController";
 export default class Recomentations extends RecomentationsController {
+  constructor(props: any) {
+    super(props);
+    this.receive = this.receive.bind(this);
+  }
+  async componentDidMount() {
+    this.callRecomentationsApi();
+  }
   render(): React.ReactNode {
     return (
       <HeaderWithBackArrowTemplate
         headerText="Recomentations"
         navigation={this.props.navigation}
       >
-        <View style={{ flex: 1 }}>
+        {this.state.show_loader ?
+        <CommonLoader visible={this.state.show_loader}/>:
+        <View style={styles.flex}>
           <FlatList
-            data={[1, 2, 3, 4, 5, 6]}
+            data={this.state.recomentedProducts}
             showsVerticalScrollIndicator={false}
             bounces={false}
-            renderItem={() => {
+            renderItem={({item}:any) => {              
               return (
                 <View style={styles.main}>
                   <Image
                     resizeMode="stretch"
                     style={styles.image}
-                    source={MEAT_IMAGE1}
+                    source={{uri:item?.attributes?.images[0]?.url}}
                   />
                   <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      paddingTop: 10,
-                    }}
+                    style={styles.row}
                   >
-                    <Text style={styles.text}>Meat</Text>
+                    <Text style={styles.text}>{item?.attributes?.name}</Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={styles.text}>$ 29.00</Text>
+                      <Text style={styles.text}>$ {item?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
                     </View>
                   </View>
-                  <View style={{ flexDirection: "row", width: "100%" }}>
+                  <View style={styles.descContainer}>
                     <Text
-                      style={{
-                        flex: 1,
-                        color: DARK_RED,
-                        fontSize: 15,
-                        paddingTop: 10,
-                      }}
+                      style={styles.description}
                     >
-                      Filler text is text that shares some characteristics of a
-                      real written text, but is random or otherwise generated
+                     {item?.attributes?.description}
                     </Text>
                     <View>
                       <TouchableOpacity
-                        style={{
-                          padding: 7,
-                          borderRadius: 20,
-                          borderColor: "red",
-                          borderWidth: 2,
-                          marginTop: 10,
-                          marginLeft: 10,
-                        }}
+                        style={styles.badgeContainer}
                       >
                         <Image
-                          style={{
-                            tintColor: "red",
-                            height: 20,
-                            width: 20,
-                          }}
+                          style={styles.badge}
                           source={badge}
                         />
                       </TouchableOpacity>
@@ -89,7 +77,7 @@ export default class Recomentations extends RecomentationsController {
               return String(index);
             }}
           />
-        </View>
+        </View>}
       </HeaderWithBackArrowTemplate>
     );
   }
@@ -115,4 +103,30 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: DARK_RED,
   },
+  badgeContainer:{
+    padding: 7,
+    borderRadius: 20,
+    borderColor: "red",
+    borderWidth: 2,
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  description:{
+    flex: 1,
+    color: DARK_RED,
+    fontSize: 15,
+    paddingTop: 10,
+  },
+  row:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 10,
+  },
+  badge:{
+    tintColor: "red",
+    height: 20,
+    width: 20,
+  },
+  descContainer:{ flexDirection: "row", width: "100%" },
+  flex:{ flex: 1 }
 });

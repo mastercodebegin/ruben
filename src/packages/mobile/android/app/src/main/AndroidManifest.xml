@@ -42,7 +42,6 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
       android:largeHeap="true"
       android:usesCleartextTraffic="true">
       

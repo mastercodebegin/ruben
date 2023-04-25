@@ -32,6 +32,8 @@ import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
 import Analytics from '../blocks/analytics/src/Analytics';
 import Recomentations from '../blocks/Recomentations/src/recomentations';
+import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
+import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -56,8 +58,8 @@ const BlogPostStack= ()=>{
         gestureDirection:'horizontal',
         headerShown:false
       })}>
-       <Stack.Screen options={{}} name="BlogPost" component={BlogPost} />
-       <Stack.Screen options={{}} name="VideoLibrary" component={VideoLibrary} />
+       <Stack.Screen name="BlogPost" component={BlogPost} />
+       <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
       </Stack.Navigator>
       </SafeAreaView>
     );
@@ -87,8 +89,19 @@ const linking = {
   prefixes: ['https://'],
   config: config,
   getStateFromPath: (path: any) => {
-    switch ('Settings') {
-      case 'Settings':
+    const specifiedPath =  path.split("=")[0];
+    const screen =specifiedPath.split("/").pop()
+    switch (screen) {
+      case 'video':
+        return {
+          routes: [
+            {
+              name: 'LoadingScreen',
+              params: { video: path?.split("video=")[1] },
+            },
+          ],
+        };
+      case 'token':
         return {
           routes: [
             {
@@ -155,6 +168,8 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
         <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
         <Stack.Screen name='Recomentations' component={Recomentations}/>
+        <Stack.Screen name='DetailsPage' component={DetailsPage}/>
+        <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

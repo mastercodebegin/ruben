@@ -49,3 +49,4 @@ export const close = require("../assets/close1.png");
 export const remove = require('../assets/remove.png');
 export const plus = require('../assets/plus.png');
 export const cow = require('../assets/cow.png');
+export const pause = require('../assets/pause.png');

@@ -7,76 +7,7 @@ import CalendarTemplate, { Calendarcontext } from "../../../../components/src/Ca
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg'
 const {LIGHT_GREY,DARK_RED} =constants
-const dummyData=[
-    {
-        date:'JAN 4TH, 2023',
-        data:[
-            {
-                name:'Meat 1',
-                count:3,
-                price:66,
-                image:meatimage
-            },
-            {
-                name:'Beef Head',
-                count:3,
-                price:66,
-                image:meatimage
-            },
-            {
-                name:'Vegetables',
-                count:3,
-                price:66,
-                image:meatimage
-            }
-        ]
-    },
-    {
-        date:'JAN 5TH, 2023',
-        data:[
-            {
-                name:'Meat 1',
-                count:3,
-                price:66,
-                image:meatimage
-            },
-            {
-                name:'Beef Head',
-                count:3,
-                price:66,
-                image:meatimage
-            },
-            {
-                name:'Vegetables',
-                count:3,
-                price:66,
-                image:meatimage
-            }
-        ]
-    }, {
-      date:'JAN 4TH, 2023',
-      data:[
-          {
-              name:'Meat 1',
-              count:3,
-              price:66,
-              image:meatimage
-          },
-          {
-              name:'Beef Head',
-              count:3,
-              price:66,
-              image:meatimage
-          },
-          {
-              name:'Vegetables',
-              count:3,
-              price:66,
-              image:meatimage
-          }
-      ]
-  },
-]
+
 const FooterComponent = ()=>{
     return (<View style={{}}>
         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
@@ -132,6 +63,20 @@ export default class MyOrdersScreen extends OrdersController {
         this.getOrdersList()
     }
   render(): React.ReactNode {
+    const monthShortNames= [
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ];
     return (
         <CalendarTemplate
         onChangeText={()=>{}}
@@ -139,12 +84,58 @@ export default class MyOrdersScreen extends OrdersController {
           animateString2="Completed"
           header="My Orders"
           navigation={this.props.navigation}
-          data={dummyData}
+          data={[{}]}
           showBottomTab={false}
           backArrow
         >
           <View style={styles.main}>
-            <RenderItem/>
+            {/* <RenderItem/> */}
+            <FlatList
+            data={this.state.ordersList}
+            keyExtractor={(item,index)=>JSON.stringify(index)+item}
+            style={{marginHorizontal:20,}}
+            ListEmptyComponent={()=>{
+                return <View>
+                    <Text style={{fontWeight:'bold',textAlign:'center'}}>No Data Found</Text>
+                    </View>
+            }}
+            renderItem={({item}:any)=>{ 
+                const date = new Date(item?.attributes?.delivered_at)
+                return(
+                <View style={{width:'100%',paddingBottom:15,backgroundColor:'white',padding:20,borderRadius:20,marginBottom:20}}>
+                    <Text style={{fontWeight:'bold',color:'grey',fontSize:15,paddingBottom:10}}>{`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}</Text>
+                    <View style={{flexDirection:'row',width:'100%'}}>
+                    <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
+                <View style={{flex:1,paddingLeft:10,justifyContent:'space-between'}}>
+                    <View style={styles.row}>
+                <Text style={styles.productName}>{item?.attributes?.catalogue?.data?.attributes?.name}</Text>
+                <Text style={styles.price}>{`$ ${item?.attributes?.price
+                } X ${item?.attributes?.quantity}`}</Text>
+                    </View>
+                    <View style={styles.row}>
+                <View style={styles.counterContainer}>
+                    <TouchableOpacity style={styles.button}>
+                <Text style={styles.count}>{'-'}</Text>
+                    </TouchableOpacity>
+                <Text style={styles.counter}>{item?.attributes?.quantity}</Text>
+                <TouchableOpacity style={styles.button}>
+                <Text style={styles.count}>{'+'}</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={{color:DARK_RED,fontSize:16,fontWeight:'bold'}}>{`$${Number(item?.attributes?.price)*Number(item?.attributes?.quantity)}`}</Text>
+                    </View>
+                </View>
+                </View>
+                <View style={{flexDirection:"row",paddingTop:25,justifyContent:'space-between',paddingBottom:10}}>
+                    <Text style={{color:DARK_RED,fontSize:16}}>Estimated Delivery</Text>
+                    <Text style={{fontWeight:'bold',color:'grey',fontSize:15,paddingBottom:10}}>{`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}</Text>
+                </View>
+                    <View style={{height:5,backgroundColor:LIGHT_GREY,width:'100%'}}>
+                        <View style={{backgroundColor:DARK_RED,width:'50%',height:'100%'}}/>
+                    </View>
+                </View>
+            )}}
+            />
           </View>
         </CalendarTemplate>
     );

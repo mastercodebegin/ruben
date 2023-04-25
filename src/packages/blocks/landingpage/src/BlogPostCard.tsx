@@ -1,120 +1,109 @@
-import React, {  useCallback, useState, SetStateAction, Dispatch} from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet ,ActivityIndicator} from "react-native";
-import { sampleProfile, shareIcon } from "./assets";
-import { downloadFiles, shareFiles } from "../../../components/src/utils";
-import VideoPlayer from "react-native-video-player";
+import React from "react";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Clipboard,
+  Platform,
+  ToastAndroid,
+} from "react-native";
+import { sampleProfile, shareIcon, playIcon } from "./assets";
+import Video from "react-native-video";
+import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-simple-toast";
+import FastImage from 'react-native-fast-image'
 interface Types {
   item: any;
   type?: string;
   index?: number;
   visibleItem?: number;
-  onPlay:(ref:Dispatch<SetStateAction<boolean>>)=>void;
 }
-const BlogPostCard = ({ item, type,onPlay }: Types) => {
-  const [showLoader, setShowLoader] = useState(false);
-  const [play, setPaly] = React.useState(false);
-  const [buffering,setBuffering]=useState(false)
-  const shareContent = useCallback(
-    async (content: string, fileDetails: any) => {
-      setShowLoader(true);      
-      downloadFiles(
-        fileDetails?.url,
-        fileDetails?.filename,
-        "Image",
-        "image/png",
-        "Downloading image",
-        true,
-        true
-      )
-        .then((res: any) => {
-          setShowLoader(false);
-          setTimeout(() => {
-            shareFiles(content, res, "sharing image")
-              .catch(() => {
-                alert("share failed");
-              });
-          }, 300);
-        })
-        .catch((e) => {
-          alert("error while downloading image");
-          setShowLoader(false);
-        });
-    },
-    [showLoader]
-  );
+const BlogPostCard = ({ item, type }: Types) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.card}>
-      <View style={styles.padding}>
-        <View style={styles.blogPostHeader}>
-          <Image
-            style={styles.profile}
-            resizeMode="contain"
-            source={sampleProfile}
-          />
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{item?.attributes?.name}</Text>
-            <Text style={styles.time}>{item?.attributes?.created_at}</Text>
-          </View>
-          <TouchableOpacity
-            style={{ padding: 5 }}
-            onPress={() =>
-              shareContent(
-                item?.attributes?.description,
-                item?.attributes?.images[0]
-              )
-            }
-          >
+      <TouchableWithoutFeedback
+        onPress={() =>
+          navigation.navigate("DetailsPage", {
+            name: item?.attributes?.name,
+            created_at: item?.attributes?.created_at,
+            url:
+              type === "image"
+                ? item?.attributes?.images[0]?.url
+                : item?.attributes?.videos[0]?.url,
+            description: item?.attributes?.description,
+            type: type,
+            id:item?.attributes?.id
+          })
+        }
+      >
+        <View style={styles.padding}>
+          <View style={styles.blogPostHeader}>
             <Image
+              style={styles.profile}
               resizeMode="contain"
-              style={styles.share}
-              source={shareIcon}
+              source={sampleProfile}
             />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.blogText} numberOfLines={2}>
-          {item?.attributes?.description}
-        </Text>
-        {type === "image" ? (
-          <Image
-            style={styles.blogImage}
-            resizeMode="stretch"
-            source={{ uri: item?.attributes?.images[0]?.url }}
-          />
-        ) : (
-          <View style={styles.videoView}>
-            <VideoPlayer
-              style={styles.video}
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{item?.attributes?.name}</Text>
+              <Text style={styles.time}>{item?.attributes?.created_at}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                Clipboard.setString(
+                  `https://ruebensftcapp.page.link/63fF?/video=${item?.attributes?.id}`
+                );
+                if (Platform.OS === "ios") {
+                  Toast.show("Link copied");
+                  return;
+                }
+                ToastAndroid.show("Link copied", ToastAndroid.SHORT);
+              }}
+              style={{ padding: 5 }}
+            >
+              <Image
+                resizeMode="contain"
+                style={styles.share}
+                source={shareIcon}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.blogText} numberOfLines={2}>
+            {item?.attributes?.description}
+          </Text>
+          {type === "image" ? (
+            <Image
+              style={styles.blogImage}
               resizeMode="stretch"
-              paused={play}
-              
-              onStart={()=>{onPlay(setPaly)}}
-              onVideoBuffer={()=>{
-                console.log('buffering');
-                
-              }}
-              onBuffer={(data)=>{
-                console.log('datadata ',data);
-
-                setBuffering(data.isBuffering)
-                
-              }}
-              controls={false}
-              onPlayPress={()=>{
-                onPlay(setPaly)
-                setPaly(false)}}
-              video={{
+              source={{ uri: item?.attributes?.images[0]?.url }}
+            />
+          ) : (
+            <View style={styles.videoView}>
+              {Platform.OS === 'ios'?
+              <Video
+              style={styles.video}
+              paused
+              resizeMode="stretch"
+              source={{
                 uri: item?.attributes?.videos[0]?.url,
               }}
-            />
-            {buffering && <View style={styles.videoContainer}>
-              <TouchableOpacity onPress={() => setPaly(!play)}>
-                <ActivityIndicator color="white" size={'large'}/>
-                {/* <Image style={styles.play} source={playIcon} /> */}
-              </TouchableOpacity>
-            </View>}
-          </View>
-        )}
-      </View>
+            />:<FastImage
+                style={styles.video}
+                resizeMode="stretch"
+                source={{
+                  uri: item?.attributes?.videos[0]?.url,
+                }}
+              />}
+              <View style={styles.videoContainer}>
+                <Image style={{ height: 40, width: 40 }} source={playIcon} />
+              </View>
+            </View>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

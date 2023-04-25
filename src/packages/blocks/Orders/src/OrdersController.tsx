@@ -84,7 +84,7 @@ export default class OrdersController extends BlockComponent<
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_shopping_cart/orders?filter_by=scheduled'
+      'bx_block_shopping_cart/orders/index_share'
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
