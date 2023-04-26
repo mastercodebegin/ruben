@@ -41,6 +41,7 @@ export default class Myprofile extends LandingPageController {
       this.setState({showProfileModal:true})
     }else{
       this.getProfileDetails()
+      this.getOrderList()
     }
   }
   openFacebookProfile = () => {
@@ -91,7 +92,8 @@ export default class Myprofile extends LandingPageController {
                 <View style={{flex:1}}>
                   <Text style={styles.alertHeader}>New Order Alert</Text>
                   <Text  style={styles.deliverydate}>
-                    Est.delivery: Tuesday , 2nd March
+                    Est.delivery: 
+                    {this.state.orderList[0]?.attributes?.delivered_at}
                   </Text>
                   <TouchableOpacity style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
