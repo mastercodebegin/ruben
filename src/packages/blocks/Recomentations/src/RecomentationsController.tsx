@@ -8,28 +8,22 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
-export const configJSON = require("./config");
-
+const configJSON = require("./config.js");
 export interface Props {
   navigation: any;
   id: string;
 }
 
 interface S {
-ordersList:Array<object>
+  recomentedProducts: Array<object>;
+  show_loader:boolean;
 }
 
 interface SS {
   id: any;
 }
 
-export default class OrdersController extends BlockComponent<
-  Props,
-  S,
-  SS
-> {
-  getOrdersListCallId:any;
-
+export default class OrdersController extends BlockComponent<Props, S, SS> {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
@@ -41,58 +35,67 @@ export default class OrdersController extends BlockComponent<
     ];
 
     this.state = {
-      ordersList:[]
+      recomentedProducts: [],
+      show_loader:false
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
+  validationApiCallId: string;
+
   async receive(from: string, message: Message) {
     if (getName(MessageEnum.SessionSaveMessage) === message.id) {
       return;
-    } else if (
+    }
+     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getOrdersListCallId != null &&
-      this.getOrdersListCallId ===
+      this.validationApiCallId != null &&
+      this.validationApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      let ordersList = message.getData(
+      let receomentedProduct = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-
-      let error = message.getData(
+      let errorResponse = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if(error){
-        Alert.alert('Error','something went wrong please try again later')
+      if(errorResponse){
+        this.setState({show_loader:false})
+        Alert.alert('Alert',"Something went wrong")
       }else{
-        this.setState({ordersList:ordersList?.data})
-      }  
-    }
-    else {
+        this.setState({recomentedProducts:receomentedProduct?.data,show_loader:false})
+      }
+      
+      }else {
       runEngine.debugLog("GOIT");
     }
   }
-  async getOrdersList() {
+  async callRecomentationsApi() {
+    this.setState({show_loader:true})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)
+
     const headers = {
+      "Content-Type": configJSON.validationApiContentType,
       'token':data?.meta?.token
     };
+
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    this.getOrdersListCallId = getValidationsMsg.messageId;
+    this.validationApiCallId = getValidationsMsg.messageId;
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_shopping_cart/orders/index_share'
+      configJSON.recomentationUrl
     );
+
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.httpGetMethod
+      configJSON.getMethod
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View , SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
@@ -31,6 +31,9 @@ import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
 import Analytics from '../blocks/analytics/src/Analytics';
 import Favourites from '../blocks/favourites/src/Favourites';
+import Recomentations from '../blocks/Recomentations/src/recomentations';
+import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
+import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -48,11 +51,15 @@ const BlogPostStack= ()=>{
 
     return (
       <SafeAreaView style={{flex:1}}>
+      <Header navigation={navigationRef.current}/>
       <Stack.Navigator screenOptions={()=>({
-        header:(props)=><Header props={props}/>
+        gestureEnabled: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureDirection:'horizontal',
+        headerShown:false
       })}>
-       <Stack.Screen options={{}} name="BlogPost" component={BlogPost} />
-       <Stack.Screen options={{}} name="VideoLibrary" component={VideoLibrary} />
+       <Stack.Screen name="BlogPost" component={BlogPost} />
+       <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
       </Stack.Navigator>
       </SafeAreaView>
     );
@@ -82,8 +89,19 @@ const linking = {
   prefixes: ['https://'],
   config: config,
   getStateFromPath: (path: any) => {
-    switch ('Settings') {
-      case 'Settings':
+    const specifiedPath =  path.split("=")[0];
+    const screen =specifiedPath.split("/").pop()
+    switch (screen) {
+      case 'video':
+        return {
+          routes: [
+            {
+              name: 'LoadingScreen',
+              params: { video: path?.split("video=")[1] },
+            },
+          ],
+        };
+      case 'token':
         return {
           routes: [
             {
@@ -149,6 +167,9 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
         <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
+        <Stack.Screen name='Recomentations' component={Recomentations}/>
+        <Stack.Screen name='DetailsPage' component={DetailsPage}/>
+        <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -16,7 +16,6 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/pickers": "^3.3.10",
-    "@pdftron/react-native-pdf": "3.0.2-beta.94",
     "@pdftron/webviewer": "8.3.0",
     "@react-native-community/async-storage-backend-legacy": "^2.0.0-rc.2",
     "@react-native-community/async-storage-backend-web": "^2.0.0-rc.0",

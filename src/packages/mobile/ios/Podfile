@@ -99,7 +99,7 @@ target 'RuebensFTCApp' do
 
   pod 'react-native-document-picker', :path => '../../../node_modules/react-native-document-picker'
 
-  pod 'PDFNet', podspec: 'https://www.pdftron.com/downloads/ios/cocoapods/xcframeworks/pdfnet/latest.podspec'
+  # pod 'PDFNet', podspec: 'https://www.pdftron.com/downloads/ios/cocoapods/xcframeworks/pdfnet/latest.podspec'
 
   pod 'react-native-view-shot', :path => '../../../node_modules/react-native-view-shot'
 

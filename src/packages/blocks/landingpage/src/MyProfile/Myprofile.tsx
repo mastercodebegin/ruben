@@ -22,6 +22,7 @@ import {
   facebook,
   CART,
   cow,
+  MEAT_IMAGE1
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -38,7 +39,7 @@ export default class Myprofile extends LandingPageController {
   //@ts-ignore
   componentDidMount(){
     if(this.props?.route?.params?.firstTime){
-      this.setState({showProfileModal:true})
+      this.setState({showProfileModal:true,email:this.props.route?.params?.email?this.props.route?.params?.email:''})
     }else{
       this.getProfileDetails()
       this.getOrderList()
@@ -77,7 +78,7 @@ export default class Myprofile extends LandingPageController {
   render() {
     return (
       <SafeAreaView style={styles.main}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1 }}>
             <View style={styles.innerContainer}>
               <Text style={CommonStyle.header}>My Profile</Text>
@@ -173,12 +174,12 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "recomentation" })}
+                onPress={() => this.setState({ selectedTab: "Recomentations" })}
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "recomentation" &&
+                    this.state.selectedTab === "Recomentations" &&
                       styles.selected,
                   ]}
                 >
@@ -220,7 +221,11 @@ export default class Myprofile extends LandingPageController {
               </View>
               :
               <>
-                <RenderItems rating={false} />
+                <RenderItems item={[
+                  {attributes: {images:{url:MEAT_IMAGE1},price:20,
+                  description:'are you searching for a dessert',name:'Vegetable salad'}},
+                  {attributes: {images:{url:MEAT_IMAGE1},price:40,description:'are you searching for a dessert',name:'Vegetable salad'}}
+                  ]} rating={false} />
                 <TouchableOpacity onPress={() => this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
                   <Text style={styles.seeText}>see All</Text>
                 </TouchableOpacity>

@@ -18,22 +18,14 @@ buildscript {
         // Add the following line:
         classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
 
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:4.0.2'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
-def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
-
 allprojects {
-    configurations.all {
-        resolutionStrategy {
-            // Remove this override in 0.65+, as a proper fix is included in react-native itself.
-            force "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
-        }
-    }
     repositories {
         mavenLocal()
         maven {
@@ -49,5 +41,10 @@ allprojects {
         jcenter()
         // mavenCentral() -> removed for build issue
         maven { url 'https://jitpack.io' }
+    }
+       configurations.all {
+        resolutionStrategy {
+            force 'com.facebook.react:react-native:0.61.3'
+        }
     }
 }

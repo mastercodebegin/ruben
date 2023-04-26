@@ -4,10 +4,14 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Button,
+  Platform
   // Customizable Area Start
+  ,TouchableOpacity,
+  Image,
+  SafeAreaView
   // Customizable Area End
 } from "react-native";
 
@@ -26,8 +30,15 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <SafeAreaView style={styles.flex}>
-        <View style={styles.main}>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.hideKeyboard();
+          }}
+        >
+          {/* Customizable Area Start */}
+          <SafeAreaView>
+          <View style={styles.main}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Image
@@ -82,8 +93,10 @@ export default class Analytics extends AnalyticsController {
             </View>
           </View>
         </View>
-      </SafeAreaView>
-
+          </SafeAreaView>
+          {/* Customizable Area End */}
+        </TouchableWithoutFeedback>
+      </ScrollView>
       // Customizable Area End
     );
   }
@@ -91,6 +104,9 @@ export default class Analytics extends AnalyticsController {
 
 // Customizable Area Start
 const styles = StyleSheet.create({
+  container:{
+    flexGrow:1
+  },
   seperator: { width: 10 },
   boxContainer: { flexDirection: "row", width: "100%", paddingBottom: 15 },
   boxText: {

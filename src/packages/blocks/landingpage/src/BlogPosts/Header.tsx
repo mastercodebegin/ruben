@@ -1,21 +1,25 @@
-import React from "react";
-import { View,  Text, StyleSheet,TouchableWithoutFeedback } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { LIGHT_GREY } from "../assets";
 import commonStyle from "../commonStyles";
 
-export const Header = ({ props }: any) => {
+export const Header = (props: any) => {
+  const [selected, setSelected] = useState(
+    props?.selected ? props?.selected : "blog"
+  );
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
         onPress={() => {
-          props.navigation.navigate("BlogPost");
+          setSelected("blog");
+          props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
         }}
       >
         <Text
           style={[
             commonStyle.header,
             styles.header,
-            props?.navigation?.getState().index === 1 && styles.unselected,
+            selected === "video" && styles.unselected,
           ]}
         >
           Blog Posts
@@ -23,16 +27,34 @@ export const Header = ({ props }: any) => {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
         onPress={() => {
-          props.navigation.navigate("VideoLibrary");
+          setSelected("video");
+          props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
         }}
       >
-        <Text style={[commonStyle.header, styles.header, props?.navigation?.getState().index === 0 && styles.unselected,]}>Video Library</Text>
+        <Text
+          style={[
+            commonStyle.header,
+            styles.header,
+            selected === "blog" && styles.unselected,
+          ]}
+        >
+          Video Library
+        </Text>
       </TouchableWithoutFeedback>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  header: { paddingHorizontal: 20, paddingBottom: 20, paddingTop: 30 ,backgroundColor:LIGHT_GREY},
-  container: { flexDirection: "row", alignItems: "center" },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 25,
+    backgroundColor: LIGHT_GREY,
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: LIGHT_GREY,
+  },
   unselected: { color: "grey", fontSize: 19, fontWeight: "normal" },
 });
