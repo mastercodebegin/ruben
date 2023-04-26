@@ -7,7 +7,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  ScrollView,
   Platform,
   SafeAreaView,
 } from "react-native";
@@ -16,7 +15,7 @@ import {
 import { Props, configJSON } from "./FavouritesController";
 
 import FavouritesController from "./FavouritesController";
-import { DARK_RED, MEAT_IMAGE1, WHITE, arrow_left, badge } from "../../landingpage/src/assets";
+import { DARK_RED, WHITE, arrowLeft, badge } from "../../landingpage/src/assets";
 
 export default class Favourites extends FavouritesController {
   constructor(props: Props) {
@@ -34,7 +33,7 @@ export default class Favourites extends FavouritesController {
       <SafeAreaView style={styles.flex}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backImage} source={arrow_left} />
+            <Image style={styles.backImage} source={arrowLeft} />
           </TouchableOpacity>
           <Text style={styles.headerText}>{"My Favorites"}</Text>
         </View>
@@ -44,12 +43,12 @@ export default class Favourites extends FavouritesController {
             showsVerticalScrollIndicator={false}
             bounces={false}
             renderItem={(item) => {
-              console.log("item",item?.item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url)
               return (
                 <View style={styles.main}>
                   <Image
                     resizeMode="stretch"
                     style={styles.image}
+                    //@ts-ignore
                     source={{uri:item?.item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url}}                 
                   />
                   <View

@@ -6,8 +6,10 @@ import MessageEnum, {
 } from "../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // Customizable Area Start
 // Customizable Area End
+
 export const configJSON = require("./config");
 
 export interface Props {
