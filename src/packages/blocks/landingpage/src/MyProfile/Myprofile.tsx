@@ -31,6 +31,7 @@ import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
+import moment from "moment";
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -94,7 +95,7 @@ export default class Myprofile extends LandingPageController {
                   <Text style={styles.alertHeader}>New Order Alert</Text>
                   <Text  style={styles.deliverydate}>
                     Est.delivery: 
-                    {this.state.orderList[0]?.attributes?.delivered_at}
+                    {moment(this.state.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
                   </Text>
                   <TouchableOpacity style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
