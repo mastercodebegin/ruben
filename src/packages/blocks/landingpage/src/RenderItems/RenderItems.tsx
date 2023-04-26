@@ -17,7 +17,7 @@ const RenderItem = ({ item, rating }: Types) => {
     return (
         <View style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
-                style={[item?.attributes?.images[0]?.url ? styles.itemImage : styles.itemNoImage]} source={item?.attributes?.images[0]?.url}>
+                style={[item?.attributes?.images[0]?.url ? styles.itemImage : styles.itemNoImage]} source={{uri:item?.attributes?.images[0]?.url}}>
                 <View style={styles.offerContainer}>
                     {rating ?
                         (<View style={styles.ratingContainer}>

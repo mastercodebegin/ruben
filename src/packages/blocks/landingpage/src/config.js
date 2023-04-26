@@ -20,4 +20,5 @@ exports.getImageBlog='bx_block_posts/posts/get_images';
 exports.getVideoBlog='bx_block_posts/posts/get_videos';
 exports.addProductEndpoint='bx_block_catalogue/catalogues';
 exports.getAboutUs="bx_block_content_management/contents";
+exports.getOrderDetails="bx_block_shopping_cart/orders/index_share"
 // Customizable Area End
