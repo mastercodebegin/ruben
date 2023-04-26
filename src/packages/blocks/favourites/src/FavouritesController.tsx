@@ -314,35 +314,57 @@ export default class FavouritesController extends BlockComponent<Props, S, SS> {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const tokenData: any = JSON.parse(userDetails)
     console.log("userdata",tokenData)
-    const headers = {
-      "Content-Type": configJSON.favouritesApiApiContentType,
-      'token': tokenData?.meta?.token,
-    };
-    var data = {
-      "favouriteable_type": "AccountBlock::Account",
-    };
+    // const headers = {
+    //   "Content-Type": configJSON.favouritesApiApiContentType,
+    //   'token': tokenData?.meta?.token,
+    // };
+    // var data = {
+    //   "favouriteable_type": "AccountBlock::Account"
+    // };
+    // const getFavoritesListMsg = new Message(
+    //   getName(MessageEnum.RestAPIRequestMessage)
+    // );
+    // this.getFavoritesListId = getFavoritesListMsg.messageId;
+    // getFavoritesListMsg.addData(
+    //   getName(MessageEnum.RestAPIResponceEndPointMessage),
+    //   configJSON.getFavoritesListEndpoint
+    // );
+    // getFavoritesListMsg.addData(
+    //   getName(MessageEnum.RestAPIRequestHeaderMessage),
+    //   JSON.stringify(headers)
+    // );
+    // // getFavoritesListMsg.addData(
+    // //   getName(MessageEnum.RestAPIRequestBodyMessage),
+    // //   data
+    // // );
+    // getFavoritesListMsg.addData(
+    //   getName(MessageEnum.RestAPIRequestMethodMessage),
+    //   configJSON.validationApiMethodType
+    // );
+    // runEngine.sendMessage(getFavoritesListMsg.id, getFavoritesListMsg);
 
-    const getFavoritesListMsg = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
-    this.getFavoritesListId = getFavoritesListMsg.messageId;
-    getFavoritesListMsg.addData(
-      getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.getFavoritesListEndpoint
-    );
-    getFavoritesListMsg.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(headers)
-    );
-    getFavoritesListMsg.addData(
-      getName(MessageEnum.RestAPIRequestBodyMessage),
-      data
-    );
-    getFavoritesListMsg.addData(
-      getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.validationApiMethodType
-    );
-    runEngine.sendMessage(getFavoritesListMsg.id, getFavoritesListMsg);
+    var myHeaders = new Headers();
+    myHeaders.append("token",tokenData?.meta?.token);
+    
+    var raw = "";
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    
+    fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_favourites/favourites", requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ favouritesList: data?.data, show_loader: false })
+        console.log("list== =",this.state.favouritesList);
+      })
+      .catch(error => console.log('error', error));
   }
+
+
+
   // Customizable Area End
 }

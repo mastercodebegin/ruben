@@ -16,7 +16,7 @@ import {
 import { Props, configJSON } from "./FavouritesController";
 
 import FavouritesController from "./FavouritesController";
-import { DARK_RED, MEAT_IMAGE1, WHITE, arrowLeft, badge } from "../../landingpage/src/assets";
+import { DARK_RED, MEAT_IMAGE1, WHITE, arrow_left, badge } from "../../landingpage/src/assets";
 
 export default class Favourites extends FavouritesController {
   constructor(props: Props) {
@@ -34,22 +34,23 @@ export default class Favourites extends FavouritesController {
       <SafeAreaView style={styles.flex}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Image style={styles.backImage} source={arrowLeft} />
+            <Image style={styles.backImage} source={arrow_left} />
           </TouchableOpacity>
           <Text style={styles.headerText}>{"My Favorites"}</Text>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,paddingHorizontal:10}}>
           <FlatList
-            data={[1, 2, 3, 4, 5, 6]}
+            data={this.state.favouritesList}
             showsVerticalScrollIndicator={false}
             bounces={false}
-            renderItem={() => {
+            renderItem={(item) => {
+              console.log("item",item?.item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url)
               return (
                 <View style={styles.main}>
                   <Image
                     resizeMode="stretch"
                     style={styles.image}
-                    source={MEAT_IMAGE1}
+                    source={{uri:item?.item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url}}                 
                   />
                   <View
                     style={{
@@ -58,16 +59,15 @@ export default class Favourites extends FavouritesController {
                       paddingTop: 10,
                     }}
                   >
-                    <Text style={styles.text}>Meat</Text>
+                    <Text style={styles.text}>{item?.item?.attributes?.catalogue_id?.data?.attributes?.name}</Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={styles.text}>$ 29.00</Text>
+                      <Text style={styles.text}>$ {item?.item?.attributes?.catalogue_id?.data?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
                     </View>
                   </View>
                   <View style={{ flexDirection: 'row', width: '100%' }}>
                     <Text style={{ flex: 1, color: DARK_RED, fontSize: 15, paddingTop: 10 }}>
-                      Filler text is text that shares some characteristics of a
-                      real written text, but is random or otherwise generated
+                     {item?.item?.attributes?.catalogue_id?.data?.attributes?.description}
                     </Text>
                     <View>
                       <TouchableOpacity

@@ -68,6 +68,7 @@ interface S {
   subCategoryList: Array<object>;
   productList: Array<object>;
   aboutus:any;
+  orderList: Array<object>;
   // Customizable Area End
 }
 
@@ -129,6 +130,7 @@ export default class LandingPageController extends BlockComponent<
       categoryItem: '',
       subCategoryItem: '',
       productList: [],
+      orderList: [],
       categoryList: [
         {
           title: 'Lamb',
@@ -339,6 +341,22 @@ export default class LandingPageController extends BlockComponent<
         this.aboutusCallback(aboutus,error)
        
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getOrderId != null &&
+      this.getOrderId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const orderListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ orderList: orderListData?.data, show_loader: false })
+      console.log("success orderData == ==", this.state.orderList);
+    }
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
@@ -422,7 +440,10 @@ export default class LandingPageController extends BlockComponent<
   addProductListProps = {
     getAddProductLists: this.addProduct
   }
-
+  getOrderId: string = '';
+  orderListProps = {
+    getOrderListData: this.getOrderList
+  }
   async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
     const userDetails:any = await AsyncStorage.getItem('userDetails')
@@ -832,6 +853,33 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
+  }
+
+  async getOrderList() {
+    console.log('order list == ',)
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const getOrderListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getOrderId = getOrderListMsg.messageId;
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getOrderDetails
+    );
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getOrderListMsg.id, getOrderListMsg);
   }
   // Customizable Area End
 }

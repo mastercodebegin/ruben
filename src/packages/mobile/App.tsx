@@ -24,13 +24,13 @@ import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
-import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
 import Analytics from '../blocks/analytics/src/Analytics';
+import Favourites from '../blocks/favourites/src/Favourites';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -142,7 +142,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
         <Stack.Screen name='TermsAndCondition' component={TermsAndConditions}/>
-        <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
+        <Stack.Screen name='MyFavoritesScreen' component={Favourites}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
         <Stack.Screen name='AddProducts' component={AddProductScreen}/>
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
