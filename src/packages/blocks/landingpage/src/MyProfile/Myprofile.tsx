@@ -97,7 +97,7 @@ export default class Myprofile extends LandingPageController {
                     Est.delivery: 
                     {moment(this.state.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
                   </Text>
-                  <TouchableOpacity style={styles.detailsButton}>
+                  <TouchableOpacity onPress={()=>this.props.navigation.navigate("MyOrdersScreen")} style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
                   </TouchableOpacity>
                 </View>
