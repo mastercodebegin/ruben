@@ -2,23 +2,14 @@ import React from "react";
 
 //Customizable Area Start
 import {
-  View,
   StyleSheet,
   ScrollView,
-  Text,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  Alert,
 } from "react-native";
 import ForgotPasswordController, { Props } from "./ForgotPasswordController";
-import TextInput from "../../../components/src/CustomTextInput";
-import Button from "../../../components/src/CustomButton";
-import { backArrow } from "./assets";
 export const configJSON = require("./config");
-const emailReg = new RegExp(configJSON?.emailregex);
+import ResetComponent from "./ResetPasswordComponent";
 //Customizable Area End
 
 export default class ForgotPassword extends ForgotPasswordController {
@@ -44,71 +35,7 @@ export default class ForgotPassword extends ForgotPasswordController {
         >
           <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
             {/* Customizable Area Start */}
-            <SafeAreaView style={styles.main}>
-              <View style={{ paddingHorizontal: 10 }}>
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={styles.backContainer}
-                >
-                  <Image style={styles.back} source={backArrow} />
-                </TouchableOpacity>
-                <Text style={styles.header}>
-                  Confirm E-Mail to get the link
-                </Text>
-                <Text style={styles.label}>
-                  Enter your E-Mail ID to get the link
-                </Text>
-                <TextInput
-                  containerStyle={{ paddingBottom: 40 }}
-                  onchangeText={(text) => this.setState({ email: text })}
-                  value={this.state.email}
-                  labeStyle={{ color: "grey" }}
-                  placeholder="Email ID"
-                  label="Enter Your Email ID"
-                />
-                <Button
-                  label={"Send Link to Reset"}
-                  onPress={
-                    async () => {                      
-                      if( !(emailReg.test(this.state.email))){
-                        Alert.alert("Alert", "Please enter valid email");
-                        return
-                      }
-                      let myHeaders = new Headers();
-                      myHeaders.append("Content-Type", "application/json");
-                
-                      let raw = JSON.stringify({
-                        data: {
-                          attributes: {
-                            email: this.state.email,
-                          },
-                        },
-                      });
-                
-                      let requestOptions = {
-                        method: "POST",
-                        headers: myHeaders,
-                        body: raw,
-                        redirect: "follow",
-                      };
-                
-                      fetch(
-                        "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_forgot_password/otps",
-                        requestOptions
-                      )
-                        .then((response) =>{
-                          // alert(response.status)
-                          if(response.status == 200){
-                            Alert.alert("Success", "Check Your Email For Reset Password Link!");
-                          }else{
-                            Alert.alert("Something went wrong", "Please check the email you have entered is valid or not");
-                          }
-                         }).catch((error) => console.log("error", "Something went wrong."));
-                    }
-                  }
-                />
-              </View>
-            </SafeAreaView>
+              <ResetComponent navigation={navigation}/>
             {/* Customizable Area End */}
           </TouchableWithoutFeedback>
         </ScrollView>
