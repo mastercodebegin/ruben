@@ -107,15 +107,6 @@ const linking = {
             {
               name: 'ResetPassword',
               params: { token: path?.split("token=")[1] },
-              state: {
-                index: 1,
-                routes: [
-                  {
-                    name: 'Settings',
-                    params: { id: '42' },
-                  },
-                ],
-              },
             },
           ],
         };
