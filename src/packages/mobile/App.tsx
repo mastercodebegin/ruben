@@ -11,7 +11,7 @@ import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
-import MyCart from '../blocks/landingpage/src/MyCart/MyCart';
+import MyCart from '../blocks/MyCart/src/MyCart'
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
 import Alert from '../blocks/landingpage/src/Alert/Alert';
 import Inventory from '../blocks/landingpage/src/Inventory/Inventory';
@@ -136,7 +136,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
           component={SocialMediaAccountLoginScreen}
         />
         <Stack.Screen
-          name="EmailAccountLoginBlock"
+          name="EmailAccountLoginBlock" 
           component={EmailAccountLoginBlock}
         />
         <Stack.Screen name="Myprofile" component={Myprofile} />
