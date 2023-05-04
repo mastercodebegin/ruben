@@ -57,7 +57,7 @@ interface S {
   subcategories:Array<object>;
   selectedSub:any;
   searchText:string;
-  productsList:Array<object>;
+  productsList:Array<any>;
   refresh:boolean;
   imageBlogList:Array<object>;
   videoLibrary:Array<object>;
@@ -200,7 +200,7 @@ export default class LandingPageController extends BlockComponent<
           photo,
           whatsapp_link,
           id
-        }=profileDetails?.data?.attributes;
+        }=profileDetails.data.attributes;
         this.setState({
           about_me,email:email_address,
           facebook_link,name:full_name,
@@ -226,8 +226,7 @@ export default class LandingPageController extends BlockComponent<
       }else{
         this.setState({loader:false})
       }
-    } 
-    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.updateProfileDetailsId != null &&
     this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
@@ -267,7 +266,18 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories,error)
       
     }
-    else if (
+  else{
+      this.receiveCallback(message)
+    }
+    
+    runEngine.debugLog("Message Recived", message);
+    // Customizable Area End
+  }
+
+  // Customizable Area Start
+
+  receiveCallback(message:any){
+     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getBlogPostsId != null &&
       this.getBlogPostsId ===
@@ -322,8 +332,6 @@ export default class LandingPageController extends BlockComponent<
         const error = message.getData(
           getName(MessageEnum.RestAPIResponceErrorMessage)
         );
-        console.log("addProductListData  == == ", addProductListData);
-        console.log("addProductListData error == == ", error);
         this.addProductCallback(addProductListData, error)
         // this.setState({ addProductList: addProductListData?.data, show_loader: false })
       }else if (
@@ -355,13 +363,8 @@ export default class LandingPageController extends BlockComponent<
       );
       console.log(error);
       this.setState({ orderList: orderListData?.data, show_loader: false })
-      console.log("success orderData == ==", this.state.orderList);
     }
-    runEngine.debugLog("Message Recived", message);
-    // Customizable Area End
   }
-
-  // Customizable Area Start
   addProductCallback(error: any, response: any) {
     if (error) {
       this.showAlert('something went wrong')
@@ -798,7 +801,7 @@ export default class LandingPageController extends BlockComponent<
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-    var raw = JSON.stringify({
+    const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
     console.log('add products == =',  headers)
@@ -826,7 +829,6 @@ export default class LandingPageController extends BlockComponent<
   }
 
   async getProductList() {
-    console.log('Add Product list == ',)
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -834,8 +836,7 @@ export default class LandingPageController extends BlockComponent<
       'token': data?.meta?.token
     };
     const formdata = new FormData();
-    // formdata.append("page", '2');
-    console.log('formData==', formdata)
+    console.log('formData ', formdata)
     const getProductListMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
