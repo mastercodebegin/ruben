@@ -69,7 +69,7 @@ class ExplorePage extends LandingPageController {
                                 <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
                                 <TextInput
                                     style={styles.textInput}
-                                    placeholder="Search any product..."
+                                    placeholder="Search any Product/Video"
                                     placeholderTextColor={"#8D7D75"}
                                 />
                             </View>
