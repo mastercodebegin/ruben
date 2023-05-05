@@ -12,8 +12,11 @@ import MileStone from "../../../components/src/MilestoneComponent";
 import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
-
+//@ts-ignore
 export default class MyCart extends MyCartController {
+  async componentDidMount(){
+    this.getCart()
+  }
   render() {
     return (
       <SafeAreaView style={styles.main}>
@@ -22,7 +25,8 @@ export default class MyCart extends MyCartController {
           headerText="My Cart"
         >
           <FlatList
-            data={[{}, {}, {}, {}, {}, {}, {}, {}]}
+            data={this.state.productsList}
+            bounces={false}
             ListHeaderComponent={() => (
               <View>
                 <MileStone
@@ -83,13 +87,19 @@ export default class MyCart extends MyCartController {
                 </TouchableOpacity>
               </View>
             )}
-            renderItem={() => (
+            ListEmptyComponent={()=>(
+              <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
+                {"No items added in the cart"}
+                </Text>)}
+            renderItem={({item}) => {
+              return (
               <ProductDetailComponent
-                name="Vegetables"
-                price={20}
-                quantity={2}
+                name={item.attributes?.catalogue?.data?.attributes?.name}
+                price={item.attributes?.price}
+                quantity={item.attributes?.quantity}
+                image={item.attributes?.catalogue?.data?.attributes?.images[0]}
               />
-            )}
+            )}}
           />
         </HeaderWithBackArrowTemplate>
       </SafeAreaView>

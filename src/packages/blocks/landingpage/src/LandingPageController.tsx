@@ -7,8 +7,9 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
+import Toast from "react-native-simple-toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Animated,Alert} from 'react-native'
+import {Animated,Alert,ToastAndroid,Platform} from 'react-native'
 import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {store} from '../../../mobile/App';
@@ -68,7 +69,7 @@ interface S {
   subCategoryList: Array<object>;
   productList: Array<object>;
   aboutus:any;
-  orderList: Array<object>;
+  orderList: Array<any>;
   // Customizable Area End
 }
 
@@ -364,6 +365,34 @@ export default class LandingPageController extends BlockComponent<
       console.log(error);
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
+    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.addToFavId != null &&
+    this.addToFavId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
+        const AddToFavRes = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );  
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        this.addToFavCallBack(AddToFavRes,error);
+        
+      }
+  }
+  addToFavCallBack(AddToFavRes:any,error:any){
+    if(error){
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong");
+        return;
+      }
+      ToastAndroid.show("Something went wrong", ToastAndroid.SHORT);
+    }else if(AddToFavRes) {
+      if (Platform.OS === "ios") {
+        Toast.show("Product added to favorites");
+        return;
+      }
+      ToastAndroid.show("Product added to favorites", ToastAndroid.SHORT);
+    }
   }
   addProductCallback(error: any, response: any) {
     if (error) {
@@ -432,6 +461,8 @@ export default class LandingPageController extends BlockComponent<
   getBlogPostsId:string='';
   getVideoLibraryId:string='';
   categoryPage:any=1;
+  addToFavId:string=''
+  addToCartId:string='';
   userdetailsProps={
     getuserDetails:this.getProfileDetails
   }
@@ -855,9 +886,93 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
+  async AddToFavorites(catalogue_id:number) {
+    console.log('catalogue_idcatalogue_id ',catalogue_id);
+    
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetail: any = JSON.parse(userDetails);       
+    const header = {
+      'token': userDetail?.meta?.token,
+      "Content-Type": "application/json"
+    };
+    const data = {
+      "data":{
+          "favouriteable_id":userDetail.data?.id,
+          favouriteable_type:"AccountBlock::Account",
+          catalogue_id
+      }
+  }
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.addToFavId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_favourites/favourites'
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(header)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(data)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'POST'
+    );
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+  }
 
+  async addToCart(id:number) {
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetail: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': userDetail?.meta?.token
+    };
+
+    const httpBody = {
+      order_items:{
+          catalogue_id:id,
+          quantity:1,
+          taxable:true,
+          taxable_value:0.1233,
+          order_charges:0.124,
+          delivered_at:"2023-04-23T12:23:44.754Z"
+      }
+  }
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.addToCartId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.addToCart
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(httpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+  }
   async getOrderList() {
-    console.log('order list == ',)
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)

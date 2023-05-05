@@ -70,8 +70,9 @@ export default class ResetComponent extends  BlockComponent<Props, S, SS>  {
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
       } else {
-            if(resetResponse.success)
-            Alert.alert('Success','Check Your Email For Reset Password Link!',[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+            if(resetResponse.success){
+              Alert.alert('Success','Check Your Email For Reset Password Link!',[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+            }
       }
     }
   }

@@ -15,9 +15,6 @@ export default class MyCreditDetailsModal extends LandingPageController {
     super(props);
     this.receive = this.receive.bind(this);
   }
-  //@ts-ignore
-  componentDidMount() {
-  }
 
   render() {
 

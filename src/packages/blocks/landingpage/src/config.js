@@ -19,6 +19,8 @@ exports.btnExampleTitle = "CLICK ME";
 exports.getImageBlog='bx_block_posts/posts/get_images';
 exports.getVideoBlog='bx_block_posts/posts/get_videos';
 exports.addProductEndpoint='bx_block_catalogue/catalogues';
+exports.addToFavEndPoint="bx_block_favourites/favourites";
 exports.getAboutUs="bx_block_content_management/contents";
-exports.getOrderDetails="bx_block_shopping_cart/orders/order_alerts"
+exports.getOrderDetails="bx_block_shopping_cart/orders/order_alerts";
+exports.addToCart='bx_block_shopping_cart/order_items';
 // Customizable Area End

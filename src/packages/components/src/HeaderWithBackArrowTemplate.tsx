@@ -23,7 +23,7 @@ const HeaderWithBackArrowTemplate = ({
     <SafeAreaView style={styles.flex}>
       <View style={styles.main}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={{padding:5}} onPress={() => navigation.goBack()}>
             <Image style={styles.backImage} source={arrowLeft} />
           </TouchableOpacity>
           <Text style={styles.headerText}>{headerText}</Text>
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     color: DARK_RED,
     fontWeight: "400",
   },
-  backImage: { height: 20, width: 20 },
+  backImage: { height: 15, width: 15 },
   flex: { flex: 1 },
 });

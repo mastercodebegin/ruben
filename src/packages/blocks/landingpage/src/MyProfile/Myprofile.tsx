@@ -95,7 +95,7 @@ export default class Myprofile extends LandingPageController {
                   <Text style={styles.alertHeader}>New Order Alert</Text>
                   <Text  style={styles.deliverydate}>
                     Est.delivery: 
-                    {moment(this.state.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
+                    {moment(this?.state?.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
                   </Text>
                   <TouchableOpacity onPress={()=>this.props.navigation.navigate("MyOrdersScreen")} style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
@@ -222,7 +222,7 @@ export default class Myprofile extends LandingPageController {
               </View>
               :
               <>
-                <RenderItems item={[
+                <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={[
                   {attributes: {images:{url:MEAT_IMAGE1},price:20,
                   description:'are you searching for a dessert',name:'Vegetable salad'}},
                   {attributes: {images:{url:MEAT_IMAGE1},price:40,description:'are you searching for a dessert',name:'Vegetable salad'}}

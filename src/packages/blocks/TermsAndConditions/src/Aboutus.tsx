@@ -40,9 +40,7 @@ const ImageData = [
 ];
 
 export default class AboutUs extends TermsAndConditionsController {
-  async componentDidMount(): Promise<void> {
-    // this.getAboutUs.bind(this)();
-  }
+
   renderItem = (item: any) => {
     return (
       <View style={styles.imagesCon}>

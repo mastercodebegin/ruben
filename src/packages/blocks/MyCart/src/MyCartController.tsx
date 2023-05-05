@@ -8,6 +8,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
+const configJSON = require('../config.js')
 export interface Props {
   navigation: any;
   id: string;
@@ -16,6 +17,7 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
+  productsList:Array<any>;
 }
 
 interface SS {
@@ -35,17 +37,18 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       showLoader: false,
+      productsList:[]
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
-  getDetailsId: string = "";
+  cartCallId:string ='';
 
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getDetailsId != null &&
-      this.getDetailsId ===
+      this.cartCallId != null &&
+      this.cartCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let blogDetails = message.getData(
@@ -57,12 +60,12 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       if (error) {
         Alert.alert("Error", "Something went wrong");
       } else {
-       console.log(blogDetails);
+      this.setState({productsList:blogDetails?.data})
        
       }
     }
   }
-  async getBlogDetails() {
+  async getCart() {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -71,11 +74,11 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-    this.getDetailsId = subcategory.messageId;
+    this.cartCallId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_posts/posts/${this.props.route?.params?.video}`
+      configJSON.getCart
     );
 
     subcategory.addData(
@@ -84,7 +87,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      "GET"
+     configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }

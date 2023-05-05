@@ -85,12 +85,12 @@ export default class LandingPage extends LandingPageController {
               return _?.id
             }}
             renderItem={({item,index}) =>{
-              if(item?.attributes?.enable)
+              if(item?.attributes?.enable){
               return  (
               <View style={{marginBottom:10}}>
                 <BlogPostCard type={'image'} item={item} />
               </View>
-            )
+            )}
           return <></>}}
           />
           {store.getState().currentUser === 'user' && <CartDetails />}

@@ -1,19 +1,21 @@
 import React from "react"
 import { View, ImageBackground, TouchableOpacity, FlatList, Text, Image, Dimensions, StyleSheet } from "react-native"
 import {DARK_RED, MID_PEACH, WHITE, PRIMARY, LIGHT_GREY, CART, RATING, badge } from '../assets'
-// const list_data = [{ name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }, { name: 'Meat Dish1', price: '22.99', image: MEAT_IMAGE2 }, { name: 'Meat Dish2', price: '22.99', image: MEAT_IMAGE3 }, { name: 'Vegetable Salad', price: '22.99', image: MEAT_IMAGE1 }]
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
 interface Types {
     rating: boolean,
     header?: boolean,
-    item?: any
+    item?: any,
+    onpressFav:(id:number)=>Promise<void>,
+    onPressCart:(id:number)=>Promise<void>
 }
-const RenderItem = ({ item, rating }: Types) => {
+const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
     const total = item?.attributes?.price;
     const partial = item?.attributes?.discount;
     const percentage = (partial / total) * 100;
-    console.log("renderItem cat == =", percentage)
+    console.log('item ',item?.attributes);
+    
     return (
         <View style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
@@ -27,7 +29,7 @@ const RenderItem = ({ item, rating }: Types) => {
                             <Text style={styles.rating}>{item?.attributes?.average_rating + '/5'}</Text>
                         </View>)
                         : <Text style={styles.offer}>{'-' + percentage.toFixed(0) + '% off'}</Text>}
-                    <TouchableOpacity style={styles.badgeContainer}>
+                    <TouchableOpacity onPress={()=>onpressFav(item?.attributes?.id)}  style={styles.badgeContainer}>
                         <Image resizeMode="contain" style={styles.badge} source={badge} />
                     </TouchableOpacity>
                 </View>
@@ -37,14 +39,14 @@ const RenderItem = ({ item, rating }: Types) => {
                 <Text style={styles.description} numberOfLines={1}>{item?.attributes?.description}</Text>
                 <View style={styles.priceContainer}>
                     <Text style={styles.price}>{`$ ${item?.attributes?.price}` + "/Kg"}</Text>
-                    <TouchableOpacity style={styles.cartContainer}>
+                    <TouchableOpacity onPress={()=>onPressCart(item?.attributes?.id)} style={styles.cartContainer}>
                         <Image resizeMode="contain" style={styles.cart} source={CART} />
                     </TouchableOpacity>
                 </View>
             </View>
         </View>)
 }
-const RenderItems = ({ rating, header, item }: Types) => {
+const RenderItems = ({ rating, header, item,onpressFav,onPressCart }: Types) => {
     return (
         <View>
             {header && <View style={styles.itemHeader}>
@@ -57,7 +59,7 @@ const RenderItems = ({ rating, header, item }: Types) => {
                 style={styles.flatList}
                 keyExtractor={(item, i) => String(i)}
                 horizontal
-                renderItem={({ item }) => <RenderItem rating={rating} item={item} />}
+                renderItem={({ item }) => <RenderItem onPressCart={onPressCart} onpressFav={onpressFav} rating={rating} item={item} />}
                 data={item} />
         </View>
     )

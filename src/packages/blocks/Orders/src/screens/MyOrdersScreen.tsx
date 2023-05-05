@@ -26,7 +26,7 @@ const RenderItem =()=>{
         <View style={styles.innerContainer}>
             <Text style={styles.text}>{item?.item?.date}</Text>
             <FlatList
-            data={[...item.item?.data]}
+            data={[...item.item.data]}
             keyExtractor={(item,index)=>JSON.stringify(index)+item}
             style={styles.flatlist}
             ListFooterComponent={<FooterComponent/>}

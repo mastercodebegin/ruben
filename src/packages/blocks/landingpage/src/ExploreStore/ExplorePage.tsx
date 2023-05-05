@@ -132,8 +132,8 @@ class ExplorePage extends LandingPageController {
                         }
                     }
                     />
-                  <RenderItems item={this.state.productList} rating={false} />
-              <RenderItems item={this.state.productList} header={true} rating={true} />
+                  <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} rating={false} />
+              <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} header={true} rating={true} />
                 </View>
             </ScrollView>
             {

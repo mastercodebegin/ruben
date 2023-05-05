@@ -18,4 +18,5 @@ export const MID_PEACH = "#8D7D75";
 export const PRIMARY = "#A0272A";
 export const TERTIERY = "#B7DEEC";
 export const WHITE = "#FFFFFF";
-export const deepLinkingURL='https://ruebensftcapp.page.link/63fF'
+export const deepLinkingURL='https://ruebensftcapp.page.link/63fF';
+export const removeImage = require('./remove.png');

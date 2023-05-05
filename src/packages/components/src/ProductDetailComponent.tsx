@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 //@ts-ignore
-import { DARK_RED, LIGHT_GREY } from "./constants";
+import { DARK_RED, LIGHT_GREY, removeImage } from "./constants";
 //@ts-ignore
 import MeatImage from "./meatimage@1.jpg";
-const ProductDetailComponent = ({ name, price, quantity }: any) => {
+const ProductDetailComponent = ({ name, price, quantity,image }: any) => {  
   return (
     <View style={styles.main}>
       <View style={styles.rowCon}>
@@ -29,13 +29,20 @@ const ProductDetailComponent = ({ name, price, quantity }: any) => {
             >{`$${Number(price) * Number(quantity)}`}</Text>
           </View>
         </View>
+        <TouchableOpacity style={{padding:7,backgroundColor:LIGHT_GREY,marginLeft:10,borderRadius:5}}>
+          <Image
+            resizeMode="contain"
+            style={{ height: 20, width: 20 }}
+            source={removeImage}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   innerContainer: { flex: 1, paddingLeft: 10, justifyContent: "space-between" },
-  rowCon: { flexDirection: "row", width: "100%" },
+  rowCon: { flexDirection: "row", width: "100%", alignItems: "center" },
   image: { height: 50, width: 50, borderRadius: 10 },
   main: {
     width: "100%",
