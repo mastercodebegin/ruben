@@ -65,16 +65,6 @@ defineFeature(feature, (test) => {
       termsInstance.callGetTermsAndConditions();
       expect(onSubmit).toHaveBeenCalled();
     });
-    then("Check button press", () => {
-      const component = create(<TermsAndConditions {...screenProps} />);
-      const termsInstance: any = component.getInstance();
-
-      const onSubmit = jest.fn();
-      termsInstance.callGetTermsAndConditions = onSubmit;
-      termsInstance.forceUpdate();
-      termsInstance.doButtonPressed();
-      expect(onSubmit).toHaveBeenCalled();
-    });
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

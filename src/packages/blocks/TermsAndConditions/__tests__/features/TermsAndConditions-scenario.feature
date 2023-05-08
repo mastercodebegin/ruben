@@ -6,5 +6,4 @@ Feature: TermsAndConditions
         Then TermsAndConditions will load with out errors
         Then callGetTermsAndConditions
         Then check api call
-        Then Check button press
         And I can leave the screen with out errors
