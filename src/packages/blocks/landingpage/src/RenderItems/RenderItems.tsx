@@ -13,9 +13,7 @@ interface Types {
 const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
     const total = item?.attributes?.price;
     const partial = item?.attributes?.discount;
-    const percentage = (partial / total) * 100;
-    console.log('item ',item?.attributes);
-    
+    const percentage = (partial / total) * 100;    
     return (
         <View style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
@@ -29,7 +27,7 @@ const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
                             <Text style={styles.rating}>{item?.attributes?.average_rating + '/5'}</Text>
                         </View>)
                         : <Text style={styles.offer}>{'-' + percentage.toFixed(0) + '% off'}</Text>}
-                    <TouchableOpacity onPress={()=>onpressFav(item?.attributes?.id)}  style={styles.badgeContainer}>
+                    <TouchableOpacity onPress={()=>onpressFav(item?.id)}  style={styles.badgeContainer}>
                         <Image resizeMode="contain" style={styles.badge} source={badge} />
                     </TouchableOpacity>
                 </View>
@@ -39,7 +37,7 @@ const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
                 <Text style={styles.description} numberOfLines={1}>{item?.attributes?.description}</Text>
                 <View style={styles.priceContainer}>
                     <Text style={styles.price}>{`$ ${item?.attributes?.price}` + "/Kg"}</Text>
-                    <TouchableOpacity onPress={()=>onPressCart(item?.attributes?.id)} style={styles.cartContainer}>
+                    <TouchableOpacity onPress={()=>onPressCart(item?.id)} style={styles.cartContainer}>
                         <Image resizeMode="contain" style={styles.cart} source={CART} />
                     </TouchableOpacity>
                 </View>

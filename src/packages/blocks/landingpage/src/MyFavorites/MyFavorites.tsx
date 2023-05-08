@@ -6,86 +6,210 @@ import {
   Image,
   StyleSheet,
   Text,
+  Alert,
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
-import {
-  MEAT_IMAGE1,
-  WHITE,
-  DARK_RED,
-  badge,
-} from "../assets";
-const MyFavoritesScreen = ({ navigation }: any) => {
-  return (
-    <HeaderWithBackArrowTemplate
-      headerText="My Favorites"
-      navigation={navigation}
-    >
-      <View style={{ flex: 1 }}>
-        <FlatList
-          data={[1, 2, 3, 4, 5, 6]}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          renderItem={() => {
-            return (
-              <View style={styles.main}>
-                <Image
-                  resizeMode="stretch"
-                  style={styles.image}
-                  source={MEAT_IMAGE1}
-                />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingTop: 10,
-                  }}
-                >
-                  <Text style={styles.text}>Meat</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>$ 29.00</Text>
-                    <Text style={styles.kg}>{" / kg"}</Text>
-                  </View>
-                </View>
-                <View style={{flexDirection:'row',width:'100%'}}>
-                  <Text style={{flex:1,color:DARK_RED,fontSize:15,paddingTop:10}}>
-                    Filler text is text that shares some characteristics of a
-                    real written text, but is random or otherwise generated
-                  </Text>
-                  <View>
-                  <TouchableOpacity
-                    style={{
-                      padding: 7,
-                      borderRadius:20,
-                      borderColor:'red',
-                      borderWidth:2,
-                      marginTop:10,
-                      marginLeft:10
-                    }}
-                  >
-                    <Image
-                      style={{
-                        tintColor: "red",
-                        height: 20,
-                        width: 20,
-                      }}
-                      source={badge}
-                    />
-                  </TouchableOpacity>
-                    </View>
-                </View>
-              </View>
-            );
-          }}
-          keyExtractor={(_, index) => {
-            return String(index);
-          }}
-        />
-      </View>
-    </HeaderWithBackArrowTemplate>
-  );
-};
+import {  WHITE, DARK_RED, badge } from "../assets";
+import CommonLoader from "../../../../components/src/CommonLoader";
+import { Message } from "../../../../framework/src/Message";
+import { BlockComponent } from "../../../../framework/src/BlockComponent";
+import MessageEnum, {
+  getName,
+} from "../../../../framework/src/Messages/MessageEnum";
+import { IBlock } from "../../../../framework/src/IBlock";
+import { runEngine } from "../../../../framework/src/RunEngine";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default MyFavoritesScreen;
+export const configJSON = require("../config");
+
+export interface Props {
+  navigation: any;
+  id: string;
+}
+
+interface S {
+  show_loader: boolean;
+  favoritesList: Array<any>;
+}
+
+interface SS {
+  id: any;
+}
+interface MetaTypes {
+token:string
+}
+interface AsyncStorageType {
+  meta:MetaTypes
+}
+export default class MyFavorites extends BlockComponent<Props, S, SS> {
+  constructor(props: Props) {
+    super(props);
+    this.receive = this.receive.bind(this);
+    this.subScribedMessages = [
+      getName(MessageEnum.RestAPIResponceMessage),
+      getName(MessageEnum.ReciveUserCredentials),
+      getName(MessageEnum.CountryCodeMessage),
+    ];
+    this.state = {
+      show_loader: false,
+      favoritesList: [],
+    };
+    runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
+  }
+  async componentDidMount() {
+    this.getFavorites();
+  }
+  getFavoritesId: string = "";
+  async getFavorites() {
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: AsyncStorageType = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const Favorites = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.getFavoritesId = Favorites.messageId;
+    Favorites.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.favoritesEndPoint
+    );
+    Favorites.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    Favorites.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(Favorites.id, Favorites);
+  }
+
+  async receive(from: string, message: Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getFavoritesId != null &&
+      this.getFavoritesId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let Favorites = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        Alert.alert("Error", "Something went wrong please try again", [
+          {
+            text: "OK",
+            onPress: () => this.setState({ show_loader: false }),
+          },
+        ]);
+      } else {
+        this.setState({
+          show_loader: false,
+          favoritesList: Favorites.data ? Favorites.data : [],
+        });
+      }
+    }
+  }
+  render() {
+    return (
+      <HeaderWithBackArrowTemplate
+        headerText="My Favorites"
+        navigation={this.props.navigation}
+      >
+        {this.state.show_loader ? (
+          <CommonLoader visible={this.state.show_loader} />
+        ) : (
+          <View style={{ flex: 1 }}>
+            <FlatList
+              data={this.state.favoritesList}
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              renderItem={({ item }) => {
+                if (!item.attributes.catalogue_id.data) {
+                  return <></>;
+                }
+                return (
+                  <View style={styles.main}>
+                    <Image
+                      resizeMode="stretch"
+                      style={styles.image}
+                      source={{uri:item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url}}
+                    />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingTop: 10,
+                      }}
+                    >
+                      <Text style={styles.text}>
+                        {item?.attributes?.catalogue_id?.data?.attributes?.name}
+                      </Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={styles.text}>
+                          ${" "}
+                          {
+                            item?.attributes?.catalogue_id?.data?.attributes
+                              ?.price
+                          }
+                        </Text>
+                        <Text style={styles.kg}>{" / kg"}</Text>
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: "row", width: "100%" }}>
+                      <Text
+                        style={{
+                          flex: 1,
+                          color: DARK_RED,
+                          fontSize: 15,
+                          paddingTop: 10,
+                        }}
+                      >
+                        {
+                          item?.attributes?.catalogue_id?.data?.attributes
+                            ?.description
+                        }
+                      </Text>
+                      <View>
+                        <TouchableOpacity
+                          style={{
+                            padding: 7,
+                            borderRadius: 20,
+                            borderColor: "red",
+                            borderWidth: 2,
+                            marginTop: 10,
+                            marginLeft: 10,
+                          }}
+                        >
+                          <Image
+                            style={{
+                              tintColor: "red",
+                              height: 20,
+                              width: 20,
+                            }}
+                            source={badge}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                );
+              }}
+              keyExtractor={(_, index) => {
+                return String(index);
+              }}
+            />
+          </View>
+        )}
+      </HeaderWithBackArrowTemplate>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
   main: {
     backgroundColor: WHITE,

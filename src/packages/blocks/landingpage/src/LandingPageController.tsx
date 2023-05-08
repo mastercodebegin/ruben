@@ -7,12 +7,12 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
-import Toast from "react-native-simple-toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Animated,Alert,ToastAndroid,Platform} from 'react-native'
+import {Animated,Alert} from 'react-native'
 import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {store} from '../../../mobile/App';
+import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
 const validFacebookLink = /(?:https?:\/\/)?(?:www\.)?facebook\.com/;
@@ -267,6 +267,19 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories,error)
       
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.addToCartId != null &&
+      this.addToCartId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      
+      this.addToCartCallBack(error)
+      
+    }
   else{
       this.receiveCallback(message)
     }
@@ -379,19 +392,20 @@ export default class LandingPageController extends BlockComponent<
         
       }
   }
+
+
+  addToCartCallBack(error:any){    
+    if(error){      
+      showToast('Something went wrong')
+    }else{
+      showToast('Product Added to the cart')
+    }
+  }
   addToFavCallBack(AddToFavRes:any,error:any){
     if(error){
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong");
-        return;
-      }
-      ToastAndroid.show("Something went wrong", ToastAndroid.SHORT);
+      showToast("Something went wrong");
     }else if(AddToFavRes) {
-      if (Platform.OS === "ios") {
-        Toast.show("Product added to favorites");
-        return;
-      }
-      ToastAndroid.show("Product added to favorites", ToastAndroid.SHORT);
+      showToast("Product added to favorites");
     }
   }
   addProductCallback(error: any, response: any) {

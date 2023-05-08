@@ -30,7 +30,7 @@ import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
 import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
 import Analytics from '../blocks/analytics/src/Analytics';
-import Favourites from '../blocks/favourites/src/Favourites';
+import Favourites from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import Recomentations from '../blocks/Recomentations/src/recomentations';
 import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';

@@ -60,12 +60,7 @@ export default class AboutUs extends LandingPageController {
       <SafeAreaView style={styles.main}>
         {!this.state.show_loader ? <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: 20,
-              paddingTop: 10,
-            }}
+            style={styles.headerContainer}
           >
             <TouchableOpacity
               onPress={() => navigation.goBack()}
@@ -214,6 +209,12 @@ export default class AboutUs extends LandingPageController {
   }
 }
 const styles = StyleSheet.create({
+  headerContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   main: {
     flex: 1,
     backgroundColor: LIGHT_GREY,
@@ -224,7 +225,6 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     padding: 5,
-    alignSelf: "flex-start",
   },
   back: {
     height: 15,
@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: "500",
     color: DARK_RED,
+    paddingLeft:5
   },
   imageDescription: {
     width: "100%",
