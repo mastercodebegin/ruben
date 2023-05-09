@@ -32,12 +32,23 @@ import {
   PER_KG,
   UPLOAD_IMAGE,
   PUBLISH_NOW,
-  CANCEL
+  CHOOSE_CATEGORY,
+  CANCEL,
+  CHOOSE_SUB_CATEGORY
   //@ts-ignore
 } from "../../../../components/src/constants";
 import Button from "../../../../components/src/CustomButton";
+import { Dropdown } from 'react-native-element-dropdown';
 
 export default class AddProducts extends LandingPageController {
+  constructor(props: any) {
+    super(props);
+    this.receive = this.receive.bind(this);
+  }
+  //@ts-ignore
+  componentDidMount() {
+    this.getCategory.bind(this)(1)
+  }
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -54,7 +65,7 @@ export default class AddProducts extends LandingPageController {
                 this.setState({
                   productsList: [
                     ...this.state.productsList,
-                    { title: "", category: null, price: "", images: [] },
+                    { category_id: '',sub_category_id: '',name: "", price: "", images: []},
                   ],
                 })
               }
@@ -83,12 +94,75 @@ export default class AddProducts extends LandingPageController {
                       const list = this.state.productsList;
                       list[index] = {
                         ...list[index],
-                        title: title,
+                        name: title,
                       };
                       this.setState({ productsList: list });
                     }}
                     style={styles.textInput}
                   />
+                   <Text style={styles.label}>{CHOOSE_CATEGORY}</Text>
+                  <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={this.state.categoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          category_id: item?.id,
+                        };
+                        this.setState({ productsList: list })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.item}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.categoryItem}
+                    />
+
+                  </View>
+                  <Text style={styles.label}>{CHOOSE_SUB_CATEGORY}</Text>
+                  <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={this.state.subCategoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          sub_category_id: item?.id,
+                        };
+                        this.setState({ productsList: list })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.itemListStyle}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.subCategoryItem}
+                    />
+                  </View>
                   <Text style={styles.label}>{ENTER_DESCRPTION}</Text>
                   <TextInput
                     //@ts-ignore
@@ -181,8 +255,8 @@ export default class AddProducts extends LandingPageController {
             }}
             ListFooterComponent={()=>(
               <View>
-                <Button style={styles.buttonStyle} onPress={()=>{}} label={PUBLISH_NOW}/>
-                <Button style={styles.buttonStyle} transparentBackground onPress={()=>{}} label={CANCEL}/>
+                <Button style={styles.buttonStyle} onPress={()=>{ this.addProduct()}} label={PUBLISH_NOW}/>
+                <Button style={styles.buttonStyle} transparentBackground onPress={()=>{this.props.navigation.navigate('ExplorePage')}} label={CANCEL}/>
               </View>
             )}
           />
@@ -309,4 +383,53 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 20,
   },
+  dropdownContainer: {
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 10,
+    marginBottom: 0
+  },
+  dropdown: {
+    height: 50,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 10,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  itemListStyle: {
+    padding: 8,
+    marginBottom: 5,
+    borderBottomWidth: 1,
+    borderColor: LIGHT_GREY,
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+    color: DARK_RED
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: DARK_RED
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: DARK_RED,
+    fontWeight:"700",
+  },
+  iconStyle: {
+    width: 30,
+    height: 30,
+    tintColor: DARK_RED,
+  },
+  containerStyle: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    top: -38
+  }
 });

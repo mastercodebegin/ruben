@@ -1,89 +1,127 @@
 import React from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { sampleProfile, shareIcon, playIcon ,blogpostimage} from "./assets";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Clipboard,
+  Platform,
+  ToastAndroid,
+} from "react-native";
+import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
+import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-simple-toast";
+import FastImage from 'react-native-fast-image'
+//@ts-ignore
+import {deepLinkingURL} from '../../../components/src/constants';
 interface Types {
   item: any;
-  type?:string;
-  index?:number;
-  visibleItem?:number;
+  type?: string;
+  index?: number;
+  visibleItem?: number;
 }
-const BlogPostCard = ({ item ,type}: Types) => {
-  const [play, setPaly] = React.useState(true);  
+const BlogPostCard = ({ item, type }: Types) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.card}>
-      <View style={styles.padding}>
-        <View style={styles.blogPostHeader}>
-          <Image
-            style={styles.profile}
-            resizeMode="contain"
-            source={sampleProfile}
-          />
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>
-              {item?.attributes?.name}
-              </Text>
-            <Text style={styles.time}>{item?.attributes?.created_at}</Text>
-          </View>
-          <TouchableOpacity>
-            <Image
-              resizeMode="contain"
-              style={styles.share}
-              source={shareIcon}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.blogText} numberOfLines={2}>{item?.attributes?.description}
-        </Text>
-        {type === 'image'?
-        <Image
-        style={styles.blogImage}
-        resizeMode="stretch"
-        source={
-          blogpostimage
+      <TouchableWithoutFeedback
+        onPress={() =>
+          navigation.navigate("DetailsPage", {
+            name: item?.attributes?.name,
+            created_at: item?.attributes?.created_at,
+            url:
+              type === "image"
+                ? item?.attributes?.images[0]?.url
+                : item?.attributes?.videos[0]?.url,
+            description: item?.attributes?.description,
+            type: type,
+            id:item?.attributes?.id
+          })
         }
-      />:<View style={styles.videoView}>
-          <Video
-            style={styles.video}
-            resizeMode="stretch"
-            paused={play}
-            source={{
-              uri: item?.attributes?.videos[0]?.url
-            }}
-          />
-          <View style={styles.videoContainer}>
-            <TouchableOpacity onPress={() => setPaly(!play)}>
+      >
+        <View style={styles.padding}>
+          <View style={styles.blogPostHeader}>
+            <Image
+              style={styles.profile}
+              resizeMode="contain"
+              source={sampleProfile}
+            />
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{item?.attributes?.name}</Text>
+              <Text style={styles.time}>{item?.attributes?.created_at}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                Clipboard.setString(
+                  type === "image"?
+                  `${deepLinkingURL}?/blogpost=${item?.attributes?.id}`:
+                  `${deepLinkingURL}?/video=${item?.attributes?.id}`
+                );
+                if (Platform.OS === "ios") {
+                  Toast.show("Link copied");
+                  return;
+                }
+                ToastAndroid.show("Link copied", ToastAndroid.SHORT);
+              }}
+              style={{ padding: 5 }}
+            >
               <Image
-                style={styles.play}
-                source={playIcon}
-                
+                resizeMode="contain"
+                style={styles.share}
+                source={shareIcon}
               />
             </TouchableOpacity>
           </View>
-        </View>}
-      </View>
+          <Text style={styles.blogText} numberOfLines={2}>
+            {item?.attributes?.description}
+          </Text>
+          {type === "image" ? (
+            <Image
+              style={styles.blogImage}
+              resizeMode="stretch"
+              source={{ uri: item?.attributes?.images[0]?.url }}
+            />
+          ) : (
+            <View style={styles.videoView}>
+              {Platform.OS === 'ios'?
+              <Video
+              style={styles.video}
+              paused
+              resizeMode="stretch"
+              source={{
+                uri: item?.attributes?.videos[0]?.url,
+              }}
+            />:<FastImage
+                style={styles.video}
+                resizeMode="stretch"
+                source={{
+                  uri: item?.attributes?.videos[0]?.url,
+                }}
+              />}
+              <View style={styles.videoContainer}>
+                <Image style={{ height: 40, width: 40 }} source={playIcon} />
+              </View>
+            </View>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
 export default BlogPostCard;
 const styles = StyleSheet.create({
-  blogImage:{ width: "100%", borderRadius: 10, height: 200 },
-  videoView:{ borderRadius: 10,overflow:"hidden"},
-  video:{ width: "100%", height: 200},
-  play:{
+  blogImage: { width: "100%", borderRadius: 10, height: 200 },
+  videoView: { borderRadius: 10, overflow: "hidden" },
+  video: { width: "100%", height: 200 },
+  play: {
     height: 30,
     width: 30,
-    shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 5,
-},
-shadowOpacity: 0.34,
-shadowRadius: 6.27,
-elevation: 10,
-borderRadius:20
+    tintColor: "grey",
   },
-  padding:{ paddingHorizontal: 15 },
+  padding: { paddingHorizontal: 15 },
   card: {
     backgroundColor: "white",
     marginHorizontal: 20,

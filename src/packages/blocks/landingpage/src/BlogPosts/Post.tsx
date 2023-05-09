@@ -33,11 +33,14 @@ export default class Posts extends React.Component<Props, State> {
             bounces={false}
             keyExtractor={(_, index) => String(index)}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({ item }:any) =>{
+              if(item?.attributes?.enable){
+              return  (
               <View style={styles.margin}>
                 <BlogPostCard type="image" item={item} />
               </View>
             )}
+          return <></>}}
           />
         </View>
     );

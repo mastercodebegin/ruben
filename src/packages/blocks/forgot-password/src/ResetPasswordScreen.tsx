@@ -5,72 +5,126 @@ import {
   Text,
   Alert,
   StyleSheet,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import ForgotPasswordController, { Props } from "./ForgotPasswordController";
 import { styles as forgotStyle } from "./ForgotPassword";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
-export default class ResetPassword extends ForgotPasswordController {
+import { BlockComponent } from "../../../framework/src/BlockComponent";
+import MessageEnum, {
+  getName,
+} from "../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../framework/src/RunEngine";
+import { IBlock } from "../../../framework/src/IBlock";
+import { Message } from "../../../framework/src/Message";
+import CommonLoader from "../../../components/src/CommonLoader";
+export interface Props {
+  navigation: any;
+  id: string;
+  route: any;
+}
+
+interface S {
+  resetPassword: string;
+  confirmResetPassword:string;
+  showLoader:boolean;
+}
+
+interface SS {
+  id: any;
+}
+
+export default class ResetPassword extends  BlockComponent<Props, S, SS>  {
   constructor(props: Props) {
     super(props);
-    //Customizable Area Start
-    //Customizable Area End
-  }
-  render() {
-    const onpressResetPassword = () => {
-      if (
-        (this.state.resetPassword === "",
-        this.state.confirmResetPassword === "")
-      ) {
-        Alert.alert("Alert", "please enter your password");
-        return;
-      }else if((this.state.resetPassword !== this.state.confirmResetPassword)){
-        Alert.alert('Alert',"Passwords are not matching")
-        return;
-      }
-      let myHeaders = new Headers();
-      myHeaders.append("token", this.props?.route?.params?.token);
-      myHeaders.append("Content-Type", "application/json");
+    this.receive = this.receive.bind(this);
+    this.subScribedMessages = [
+      getName(MessageEnum.RestAPIResponceMessage),
+      getName(MessageEnum.ReciveUserCredentials),
+      getName(MessageEnum.CountryCodeMessage),
+    ];
 
-      let raw = JSON.stringify({
-       "data": {
-       "new_password": this.state.resetPassword,
-        "confirm_password": this.state.confirmResetPassword
-      }
-      });
-
-let requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
-
-fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_forgot_password/passwords", requestOptions)
-  .then(response => response.text())
-  .then(result =>{
-    Alert.alert('Success','Your password resetted successfully',[{text:'OK',onPress:()=>this.props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'EmailAccountLoginBlock' }],
-    })}])
-  })
-  .catch(error => {
-    console.log('error ',error);
-    
-    Alert.alert("Error","Something went wrong")
-  });
+    this.state = {
+      resetPassword: '',
+      confirmResetPassword:'',
+      showLoader:false
     };
 
+    runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
+  }
+  getDetailsId: string = "";
+  async receive(from: string, message: Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getDetailsId != null &&
+      this.getDetailsId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let resetResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        this.setState({showLoader:false})
+        Alert.alert("Error", "Something went wrong");
+      } else {
+            if(resetResponse?.errors){
+              Alert.alert('Error',JSON.stringify(resetResponse),[{text:'okay',onPress:()=>this.setState({showLoader:false})
+            }])
+            }else{
+              Alert.alert('Success','Your password resetted successfully',[{text:'OK',onPress:()=>{
+                this.setState({showLoader:false})
+                this.props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'EmailAccountLoginBlock' }],
+              })}}])
+            }
+      }
+    }
+  }
+  async requestResetMail() {
+    this.setState({showLoader:true})
+    const headers = {
+      "Content-Type": "application/json",
+      token:  this.props?.route?.params?.token
+    };
+    const resetPassword = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.getDetailsId = resetPassword.messageId;
+    const body = JSON.stringify({
+      data: {
+        new_password: this.state.resetPassword,
+        confirm_password: this.state.confirmResetPassword
+     }
+     });
+     resetPassword.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      body
+    );
+
+     resetPassword.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_forgot_password/passwords'
+    );
+
+    resetPassword.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    resetPassword.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      "POST"
+    );
+    runEngine.sendMessage(resetPassword.id, resetPassword);
+  }
+
+  render() {
     return (
-      <KeyboardAvoidingView
-        behavior={this.isPlatformiOS() ? "padding" : undefined}
-        style={{ flex: 1 }}
-      >
         <ScrollView
-          keyboardShouldPersistTaps="always"
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
@@ -101,13 +155,13 @@ fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/
                 />
                 <Button
                   label={"Reset Password"}
-                  onPress={onpressResetPassword}
+                  onPress={this.requestResetMail.bind(this)}
                 />
               </View>
+            <CommonLoader visible={this.state.showLoader}/>
             </SafeAreaView>
           </TouchableWithoutFeedback>
         </ScrollView>
-      </KeyboardAvoidingView>
     );
   }
 }

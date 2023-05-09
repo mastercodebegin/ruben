@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.httpGetMethod = "GET";
 exports.httpDeleteMethod = "DELETE";
 exports.httpPostMethod = "POST";
-
 exports.favouritesApiApiContentType = "application/json";
 exports.favouritesApiEndPoint = "favourites/favourites";
 exports.textInputPlaceHolder = "Enter Text";
@@ -14,4 +13,5 @@ exports.contentPlaceHolder = "Enter Content";
 exports.configError = "Error";
 exports.configErrorType = "Please enter a type";
 exports.configErrorId = "Please enter a valid id";
+exports.getFavoritesListEndpoint="bx_block_favourites/favourites"
 // Customizable Area End

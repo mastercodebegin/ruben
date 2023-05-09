@@ -150,7 +150,6 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                       onchangeEmail={onchangeEmail}
                       onchangePassword={onchangePassword}
                       email={this.state.email}
-                      emailReg={this.emailregex}
                       password={this.state.password}
                       onpressSignup={onpressSignup}
                       onpressLogin={() => {

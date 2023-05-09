@@ -8,6 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -24,6 +25,9 @@ interface S {
   txtSavedValue: string;
   enableField: boolean;
   // Customizable Area Start
+  termsAndCondition: string;
+  showLoader: boolean;
+  aboutus: any;
   // Customizable Area End
 }
 
@@ -39,6 +43,7 @@ export default class TermsAndConditionsController extends BlockComponent<
   SS
 > {
   // Customizable Area Start
+  getTermsAndCondition: string = "";
   // Customizable Area End
 
   constructor(props: Props) {
@@ -49,6 +54,9 @@ export default class TermsAndConditionsController extends BlockComponent<
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
+      getName(MessageEnum.CountryCodeMessage),
+      getName(MessageEnum.RestAPIResponceMessage),
+      getName(MessageEnum.ReciveUserCredentials),
       // Customizable Area End
     ];
 
@@ -57,6 +65,9 @@ export default class TermsAndConditionsController extends BlockComponent<
       txtSavedValue: "A",
       enableField: false,
       // Customizable Area Start
+      termsAndCondition: "",
+      showLoader: false,
+      aboutus: null,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -80,6 +91,29 @@ export default class TermsAndConditionsController extends BlockComponent<
     }
 
     // Customizable Area Start
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getTermsAndCondition != null &&
+      this.getTermsAndCondition ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let termsAndConditionResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let termsAndConditionError = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!termsAndConditionError) {
+        this.setState({
+          termsAndCondition:
+            termsAndConditionResponse?.data[0]?.attributes?.description,
+          showLoader: false,
+        });
+      } else {
+        this.setState({ showLoader: false });
+      }
+    }
     // Customizable Area End
   }
 
@@ -139,5 +173,34 @@ export default class TermsAndConditionsController extends BlockComponent<
   };
 
   // Customizable Area Start
+  async callGetTermsAndConditions() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      token: data?.meta?.token,
+    };
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getTermsAndCondition = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getTermsAndCondition
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
   // Customizable Area End
 }

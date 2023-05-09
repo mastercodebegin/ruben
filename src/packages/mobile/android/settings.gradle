@@ -41,11 +41,17 @@ project(':react-native-share').projectDir = new File(rootProject.projectDir, '..
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-video/android')
 
+include ':rn-fetch-blob'
+project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../../../node_modules/rn-fetch-blob/android')
+
 include (':react-native-safe-area-context')
 project(':react-native-safe-area-context').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-safe-area-context/android')
 
 include ':react-native-screens'
 project(':react-native-screens').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-screens/android')
+
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../../../node_modules/:react-native-fs/android')
 
 include ':react-native-calendar-events'
 project(':react-native-calendar-events').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-calendar-events/android')

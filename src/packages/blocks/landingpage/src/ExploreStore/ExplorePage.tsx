@@ -42,6 +42,7 @@ class ExplorePage extends LandingPageController {
     //@ts-ignore
     componentDidMount() {
         this.getCategory.bind(this)(1)
+        this.getProductList()
     }
     render() {        
         return (
@@ -68,7 +69,7 @@ class ExplorePage extends LandingPageController {
                                 <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
                                 <TextInput
                                     style={styles.textInput}
-                                    placeholder="Search any product..."
+                                    placeholder="Search any Product/Video"
                                     placeholderTextColor={"#8D7D75"}
                                 />
                             </View>
@@ -131,12 +132,12 @@ class ExplorePage extends LandingPageController {
                         }
                     }
                     />
-                    <RenderItems rating={false} />
-                    <RenderItems rating={true} />
+                  <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} rating={false} />
+              <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} header={true} rating={true} />
                 </View>
             </ScrollView>
             {
-                this.props.currentUser==='user'?
+                this.props.currentUser ==='user'?
                 <CartDetails/>:
             <DualButton
             containerStyle={styles.dualButton}

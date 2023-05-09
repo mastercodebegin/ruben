@@ -22,6 +22,7 @@ import {
   facebook,
   CART,
   cow,
+  MEAT_IMAGE1
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -30,6 +31,7 @@ import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 //@ts-ignore
 import Modal from "./UpdateProfileModal";
+import moment from "moment";
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -38,35 +40,48 @@ export default class Myprofile extends LandingPageController {
   //@ts-ignore
   componentDidMount(){
     if(this.props?.route?.params?.firstTime){
-      this.setState({showProfileModal:true})
+      this.setState({showProfileModal:true,email:this.props.route?.params?.email?this.props.route?.params?.email:''})
     }else{
       this.getProfileDetails()
+      this.getOrderList()
     }
   }
   openFacebookProfile = () => {
-    Linking.openURL(`https://www.facebook.com/${'FbUsername'}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.facebook_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   redirectToInstagramProfile = () => {
-    Linking.openURL(`https://instagram.com/${'instaUsername'}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.instagram_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   redirectToWhatsAppProfile = () => {
-    Linking.openURL(`https://wa.me/${'phoneNumber'}`).catch(() => {
+    if (this.state.facebook_link === '') {
       this.showAlert('Invalid User name please update your profile')
-    });
+    } else {
+      Linking.openURL(`${this.state.whatsapp_link}`).catch(() => {
+        this.showAlert('Invalid User name please update your profile')
+      });
+    }
   };
 
   render() {
     return (
       <SafeAreaView style={styles.main}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <View style={styles.innerContainer}>
               <Text style={CommonStyle.header}>My Profile</Text>
               <View style={styles.orderAlert}>
                 <TouchableOpacity onPress={this.userdetailsProps.getuserDetails} style={styles.cartContainer}>
@@ -79,9 +94,10 @@ export default class Myprofile extends LandingPageController {
                 <View style={{flex:1}}>
                   <Text style={styles.alertHeader}>New Order Alert</Text>
                   <Text  style={styles.deliverydate}>
-                    Est.delivery: Tuesday , 2nd March
+                    Est.delivery: 
+                    {moment(this?.state?.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
                   </Text>
-                  <TouchableOpacity style={styles.detailsButton}>
+                  <TouchableOpacity onPress={()=>this.props.navigation.navigate("MyOrdersScreen")} style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
                   </TouchableOpacity>
                 </View>
@@ -159,12 +175,12 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "recomentation" })}
+                onPress={() => this.setState({ selectedTab: "Recomentations" })}
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "recomentation" &&
+                    this.state.selectedTab === "Recomentations" &&
                       styles.selected,
                   ]}
                 >
@@ -206,7 +222,11 @@ export default class Myprofile extends LandingPageController {
               </View>
               :
               <>
-                <RenderItems rating={false} />
+                <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={[
+                  {attributes: {images:{url:MEAT_IMAGE1},price:20,
+                  description:'are you searching for a dessert',name:'Vegetable salad'}},
+                  {attributes: {images:{url:MEAT_IMAGE1},price:40,description:'are you searching for a dessert',name:'Vegetable salad'}}
+                  ]} rating={false} />
                 <TouchableOpacity onPress={() => this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
                   <Text style={styles.seeText}>see All</Text>
                 </TouchableOpacity>
@@ -379,6 +399,7 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 17,
   },
+  innerContainer:{ flex: 1, paddingHorizontal: 20 },
   remainingInvContainer: {
     backgroundColor: WHITE,
     margin: 20,

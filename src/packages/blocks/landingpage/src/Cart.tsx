@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const CartDetails = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.bottomIconContainer}>
       <Text style={styles.cart}>MY CART</Text>
@@ -9,7 +11,7 @@ const CartDetails = () => {
         <View style={styles.numContainer}>
           <Text style={styles.number}>12</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('MyCart')}>
           <Text style={styles.checkout}>Check Out</Text>
         </TouchableOpacity>
       </View>

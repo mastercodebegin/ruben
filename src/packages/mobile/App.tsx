@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View , SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
@@ -11,7 +11,7 @@ import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
-import MyCart from '../blocks/landingpage/src/MyCart/MyCart';
+import MyCart from '../blocks/MyCart/src/MyCart'
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
 import Alert from '../blocks/landingpage/src/Alert/Alert';
 import Inventory from '../blocks/landingpage/src/Inventory/Inventory';
@@ -23,13 +23,17 @@ import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import TermsAndCondition from '../blocks/landingpage/src/TermsAndCondition/TermsAndConditions'
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
-import MyFavoritesScreen from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
 import MyOrdersScreen from '../blocks/Orders/src/screens/MyOrdersScreen';
+import TermsAndConditions from '../blocks/TermsAndConditions/src/TermsAndConditions';
+import Analytics from '../blocks/analytics/src/Analytics';
+import Favourites from '../blocks/landingpage/src/MyFavorites/MyFavorites';
+import Recomentations from '../blocks/Recomentations/src/recomentations';
+import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
+import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -47,11 +51,15 @@ const BlogPostStack= ()=>{
 
     return (
       <SafeAreaView style={{flex:1}}>
+      <Header navigation={navigationRef.current}/>
       <Stack.Navigator screenOptions={()=>({
-        header:(props)=><Header props={props}/>
+        gestureEnabled: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureDirection:'horizontal',
+        headerShown:false
       })}>
-       <Stack.Screen options={{}} name="BlogPost" component={BlogPost} />
-       <Stack.Screen options={{}} name="VideoLibrary" component={VideoLibrary} />
+       <Stack.Screen name="BlogPost" component={BlogPost} />
+       <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
       </Stack.Navigator>
       </SafeAreaView>
     );
@@ -81,22 +89,24 @@ const linking = {
   prefixes: ['https://'],
   config: config,
   getStateFromPath: (path: any) => {
-    switch ('Settings') {
-      case 'Settings':
+    const specifiedPath =  path.split("=")[0];
+    const screen =specifiedPath.split("/").pop()
+    switch (screen) {
+      case 'video':
+        return {
+          routes: [
+            {
+              name: 'LoadingScreen',
+              params: { video: path?.split("video=")[1] },
+            },
+          ],
+        };
+      case 'token':
         return {
           routes: [
             {
               name: 'ResetPassword',
               params: { token: path?.split("token=")[1] },
-              state: {
-                index: 1,
-                routes: [
-                  {
-                    name: 'Settings',
-                    params: { id: '42' },
-                  },
-                ],
-              },
             },
           ],
         };
@@ -125,9 +135,8 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
           name="SocialMediaAccountLoginScreen"
           component={SocialMediaAccountLoginScreen}
         />
-        {/* <Stack.Screen name="BlogPost" component={BlogPost} /> */}
         <Stack.Screen
-          name="EmailAccountLoginBlock"
+          name="EmailAccountLoginBlock" 
           component={EmailAccountLoginBlock}
         />
         <Stack.Screen name="Myprofile" component={Myprofile} />
@@ -141,13 +150,17 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
-        <Stack.Screen name='TermsAndCondition' component={TermsAndCondition}/>
-        <Stack.Screen name='MyFavoritesScreen' component={MyFavoritesScreen}/>
+        <Stack.Screen name='TermsAndCondition' component={TermsAndConditions}/>
+        <Stack.Screen name='MyFavoritesScreen' component={Favourites}/>
         <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
-        <Stack.Screen name='AddProductScreen' component={AddProductScreen}/>
+        <Stack.Screen name='AddProducts' component={AddProductScreen}/>
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
+        <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
+        <Stack.Screen name='Recomentations' component={Recomentations}/>
+        <Stack.Screen name='DetailsPage' component={DetailsPage}/>
+        <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

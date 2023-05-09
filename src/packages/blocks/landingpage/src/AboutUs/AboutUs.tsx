@@ -7,18 +7,18 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  FlatList,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import {
   LIGHT_GREY,
   DARK_RED,
   backArrow,
-  MEAT_IMAGE1,
-  MEAT_IMAGE2,
   MEAT_IMAGE3,
-  badge,
+  MEAT_IMAGE2,
+  badge
 } from "../assets";
-import { FlatList } from "react-native-gesture-handler";
+import CommonLoader from "../../../../components/src/CommonLoader";
 
 const ImageData = [
   {
@@ -40,6 +40,10 @@ const ImageData = [
 ];
 
 export default class AboutUs extends LandingPageController {
+
+  async componentDidMount(): Promise<void> {
+    this.getAboutUs.bind(this)()
+}
   renderItem = (item: any) => {
     return (
       <View style={{ paddingHorizontal: 5, marginVertical: 10 }}>
@@ -54,14 +58,9 @@ export default class AboutUs extends LandingPageController {
     const { navigation } = this.props;
     return (
       <SafeAreaView style={styles.main}>
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        {!this.state.show_loader ? <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: 20,
-              paddingTop: 10,
-            }}
+            style={styles.headerContainer}
           >
             <TouchableOpacity
               onPress={() => navigation.goBack()}
@@ -74,12 +73,13 @@ export default class AboutUs extends LandingPageController {
           <View style={styles.innercontainer}>
             <View style={styles.imageDescription}>
               <View style={styles.imageContainer}>
-                <Image source={MEAT_IMAGE1} style={styles.imageStyle} />
+                <Image 
+                  source={{uri:this.state.aboutus?.attributes?.photo?.url}}
+                  style={styles.imageStyle} />
               </View>
               <View style={{ marginVertical: 10 }}>
                 <Text style={{ fontSize: 16, color: "grey" }}>
-                  A Terma and Conditon is not Required and it's not mandatory by
-                  law
+                 {this.state.aboutus?.attributes?.description}
                 </Text>
               </View>
             </View>
@@ -183,7 +183,7 @@ export default class AboutUs extends LandingPageController {
                     width: "75%",
                   }}
                 >
-                  Filter text is the text thaht shares some characteristics of a
+                  Filter text is the text tht shares some characteristics of a
                   real written text , but is a random or otherwise generated .
                 </Text>
                 <View
@@ -203,12 +203,18 @@ export default class AboutUs extends LandingPageController {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </ScrollView>:<CommonLoader visible={this.state.show_loader}/>}
       </SafeAreaView>
     );
   }
 }
 const styles = StyleSheet.create({
+  headerContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   main: {
     flex: 1,
     backgroundColor: LIGHT_GREY,
@@ -219,7 +225,6 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     padding: 5,
-    alignSelf: "flex-start",
   },
   back: {
     height: 15,
@@ -229,6 +234,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: "500",
     color: DARK_RED,
+    paddingLeft:5
   },
   imageDescription: {
     width: "100%",

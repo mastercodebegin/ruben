@@ -17,7 +17,7 @@ interface SignupComponentTypes {
   setShowMerchantModal: (value: boolean) => void;
   showModal: boolean;
   showMerchantModal: boolean;
-  resetStack: (screen: string,params?:any) => void;
+  resetStack: (screen: string, params?: any) => void;
   couponCode: string;
   doMerchantSignup: (password: string) => void;
   mEmail: string;
@@ -70,7 +70,7 @@ const SignupComponent = ({
   website,
   onChangeWebsite,
   social,
-  onChnageSocial
+  onChnageSocial,
 }: SignupComponentTypes) => {
   const [checked, setChecked] = useState(false);
   const [isMerchant, setIsMerchant] = useState("user");
@@ -238,7 +238,9 @@ const SignupComponent = ({
           //@ts-ignore
           setVisible={setShowMerchantModal}
           transparent
-          onpressButton={() => { resetStack("MeatLocker",{screen:'LandingPage'}) }}
+          onpressButton={() => {
+            resetStack("MeatLocker", { screen: "LandingPage" });
+          }}
         >
           <Text style={styles.text}>
             Thank you for your application! The Meat Locker will react out!
@@ -249,10 +251,10 @@ const SignupComponent = ({
         <SuccessModal
           onpressClose={() => {
             setShowModal(false);
-            resetStack("MeatLocker");
+            resetStack("MeatLocker", { email: email });
           }}
           couponCode={couponCode}
-          onpressContinue={() => resetStack("MeatLocker")}
+          onpressContinue={() => resetStack("MeatLocker", { email: email })}
           visible={showModal}
         />
       )}
@@ -285,8 +287,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
-  main: { paddingTop: 40, paddingHorizontal: 20, flex: 1,
-  paddingBottom:20 },
+  main: { paddingTop: 40, paddingHorizontal: 20, flex: 1, paddingBottom: 20 },
   createAcc: {
     flexDirection: "row",
     justifyContent: "center",

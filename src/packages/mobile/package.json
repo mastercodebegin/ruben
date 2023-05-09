@@ -11,7 +11,6 @@
     "xcode": "open ios/RuebensFTCApp.xcworkspace"
   },  
   "dependencies": {
-    "@pdftron/react-native-pdf": "file:../blocks/core/node_modules/@pdftron/react-native-pdf",
     "@react-native-community/async-storage-backend-legacy": "file:../blocks/core/node_modules/@react-native-community/async-storage-backend-legacy",
     "@react-native-community/datetimepicker": "file:../blocks/core/node_modules/@react-native-community/datetimepicker",
     "@react-native-firebase/analytics": "file:../blocks/core/node_modules/@react-native-firebase/analytics",

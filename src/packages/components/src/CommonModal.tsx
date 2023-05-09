@@ -20,7 +20,7 @@ const CommonModal = ({
   setVisible,
   blur = false,
   buttonLabel = "",
-  onpressButton,
+  onpressButton=()=>{},
   children,
   customChildren,
 }: ModalProps) => {
