@@ -88,7 +88,7 @@ const config = {
 const linking = {
   prefixes: ['https://'],
   config: config,
-  getStateFromPath: (path: any) => {
+  getStateFromPath: (path: string) => {
     const specifiedPath =  path.split("=")[0];
     const screen =specifiedPath.split("/").pop()
     switch (screen) {
@@ -107,6 +107,24 @@ const linking = {
             {
               name: 'ResetPassword',
               params: { token: path?.split("token=")[1] },
+            },
+          ],
+        };
+        case'blogpost':
+        return {
+          routes: [
+            {
+              name: 'LoadingScreen',
+              params: { blog :true , id: path?.split("blogpost=")[1] },
+            },
+          ],
+        };
+        case'product':
+        return {
+          routes: [
+            {
+              name: 'LoadingScreen',
+              params: { product :true , id: path?.split("product=")[1] },
             },
           ],
         };

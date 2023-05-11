@@ -4,7 +4,14 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { DARK_RED, LIGHT_GREY, removeImage } from "./constants";
 //@ts-ignore
 import MeatImage from "./meatimage@1.jpg";
-const ProductDetailComponent = ({ name, price, quantity,image }: any) => {  
+const ProductDetailComponent = ({
+  name,
+  price,
+  quantity,
+  image,
+  onpressRemove,
+  onpressIncrease
+}: any) => {
   return (
     <View style={styles.main}>
       <View style={styles.rowCon}>
@@ -16,11 +23,11 @@ const ProductDetailComponent = ({ name, price, quantity,image }: any) => {
           </View>
           <View style={styles.row}>
             <View style={styles.counterContainer}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity onPress={()=>onpressIncrease(1)} style={styles.button}>
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
               <Text style={styles.counter}>{quantity}</Text>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity onPress={()=>onpressIncrease(1)} style={styles.button}>
                 <Text style={styles.count}>{"+"}</Text>
               </TouchableOpacity>
             </View>
@@ -29,7 +36,10 @@ const ProductDetailComponent = ({ name, price, quantity,image }: any) => {
             >{`$${Number(price) * Number(quantity)}`}</Text>
           </View>
         </View>
-        <TouchableOpacity style={{padding:7,backgroundColor:LIGHT_GREY,marginLeft:10,borderRadius:5}}>
+        <TouchableOpacity
+          onPress={onpressRemove}
+          style={styles.removeContainer}
+        >
           <Image
             resizeMode="contain"
             style={{ height: 20, width: 20 }}
@@ -41,6 +51,12 @@ const ProductDetailComponent = ({ name, price, quantity,image }: any) => {
   );
 };
 const styles = StyleSheet.create({
+  removeContainer:{
+    padding: 7,
+    backgroundColor: LIGHT_GREY,
+    marginLeft: 10,
+    borderRadius: 5,
+  },
   innerContainer: { flex: 1, paddingLeft: 10, justifyContent: "space-between" },
   rowCon: { flexDirection: "row", width: "100%", alignItems: "center" },
   image: { height: 50, width: 50, borderRadius: 10 },

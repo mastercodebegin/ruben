@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BlockComponent } from "../../../framework/src/BlockComponent";
@@ -8,6 +7,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
+import { showToast } from "../../../components/src/ShowToast";
 const configJSON = require('../config.js')
 export interface Props {
   navigation: any;
@@ -43,6 +43,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
   cartCallId:string ='';
+  removeItemCallId:string='';
+  increaseCartCallId:string='';
 
   async receive(from: string, message: Message) {
     if (
@@ -58,12 +60,32 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        Alert.alert("Error", "Something went wrong");
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
-      this.setState({productsList:blogDetails?.data})
+      this.setState({productsList:blogDetails?.data,showLoader:false})
        
       }
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.removeItemCallId != null &&
+      this.removeItemCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let increaseCartResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      console.log('increaseCartResponse ',increaseCartResponse);
+      
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+      } else {
+        showToast('success')
+      }
     }
+    
   }
   async getCart() {
     this.setState({ showLoader: true });
@@ -88,6 +110,54 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async increaseCartQuatity(count:number){
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.increaseCartCallId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.increaseCartQuantity}${count}`
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpPostMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async removeItemFromCart(id:number){
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.removeItemCallId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.removeItemEndpoint}${id}`
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpDeleteMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }

@@ -8,9 +8,10 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Animated,Alert} from 'react-native'
+import {Animated,Alert,Clipboard} from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
+import {deepLinkingURL} from '../../../components/src/constants';
 import {store} from '../../../mobile/App';
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
@@ -985,6 +986,12 @@ export default class LandingPageController extends BlockComponent<
 
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
+  }
+  shareProducts(id:number){
+    Clipboard.setString(
+      `${deepLinkingURL}?/product=${1}`
+    );
+    showToast('Link Copied')
   }
   async getOrderList() {
     this.setState({ show_loader: true })

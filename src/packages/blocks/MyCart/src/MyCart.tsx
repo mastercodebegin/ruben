@@ -12,6 +12,7 @@ import MileStone from "../../../components/src/MilestoneComponent";
 import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
+import CommonLoader from "../../../components/src/CommonLoader";
 //@ts-ignore
 export default class MyCart extends MyCartController {
   async componentDidMount(){
@@ -34,13 +35,12 @@ export default class MyCart extends MyCartController {
                   selected="My Cart"
                 />
                 <View style={styles.headerContainer}>
-                  <Text style={styles.headerText}>{"ADDED ITEMS (4)"}</Text>
+                  <Text style={styles.headerText}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
                 </View>
               </View>
             )}
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
-            style={{}}
             keyExtractor={(item, index) => {
               return String(item) + index;
             }}
@@ -98,10 +98,13 @@ export default class MyCart extends MyCartController {
                 price={item.attributes?.price}
                 quantity={item.attributes?.quantity}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
+                onpressRemove={this.removeItemFromCart.bind(this)}
+                onpressIncrease={this.increaseCartQuatity.bind(this)}
               />
             )}}
           />
         </HeaderWithBackArrowTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
     );
   }
