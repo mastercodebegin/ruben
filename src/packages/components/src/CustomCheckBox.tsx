@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { CheckBox as CheckBoxIos } from 'react-native-elements';
 import {Platform, Switch } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 type MyProps = { testID:string, isChecked: boolean; onChangeValue?: (value: boolean) => void };
@@ -27,14 +26,6 @@ export default class CustomCheckBox extends Component<MyProps, MyState> {
 
     if (Platform.OS === 'ios') {
       return (
-        /* <CheckBoxIos
-            checked={this.state.isChecked}
-            onPress={() => {
-              const value = !this.state.isChecked;
-              this.setState({ isChecked: value });
-              this.props.onChangeValue(value);
-            }}
-          /> */
 
         <Switch
           testID={testID}
@@ -46,6 +37,7 @@ export default class CustomCheckBox extends Component<MyProps, MyState> {
       );
     } else {
       return (
+        //@ts-ignore
         <CheckBox
           testID={testID}
           // eslint-disable-next-line react-native/no-inline-styles
@@ -53,18 +45,16 @@ export default class CustomCheckBox extends Component<MyProps, MyState> {
             marginRight: Platform.OS === "web" ? 5 : 0,
             marginLeft: Platform.OS === "web" ? 5 : 0 }}
           value={this.state.isChecked}
-          onValueChange={value => this.handleValueChange(value)}
+          onValueChange={(value: boolean) => this.handleValueChange(value)}
         />
       );
     }
   }
 
   componentWillReceiveProps(nextProps: any) {
-    if (true) {
       this.setState({
         isChecked: nextProps.isChecked
       });
-    }
   }
 
   handleValueChange(value: boolean) {

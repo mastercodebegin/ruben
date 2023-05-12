@@ -13,7 +13,6 @@ import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
-//@ts-ignore
 export default class MyCart extends MyCartController {
   async componentDidMount(){
     this.getCart()
@@ -91,14 +90,19 @@ export default class MyCart extends MyCartController {
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item}) => {
+            renderItem={({item,index}) => {
               return (
-              <ProductDetailComponent
+                <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
                 price={item.attributes?.price}
                 quantity={item.attributes?.quantity}
+                index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
-                onpressRemove={this.removeItemFromCart.bind(this)}
+                onpressRemove={(index:number)=>{
+                  const array = [...this.state.productsList]                  
+                    array.splice(index, 1);
+                    this.setState({productsList:array})
+                }}
                 onpressIncrease={this.increaseCartQuatity.bind(this)}
               />
             )}}

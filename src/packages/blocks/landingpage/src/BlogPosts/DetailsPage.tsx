@@ -56,7 +56,9 @@ const DetailsPage = ({ route }: any) => {
                 <TouchableOpacity
                   onPress={() => {
                     Clipboard.setString(
-                      `https://ruebensftcapp.page.link/63fF?/video=${id}`
+                      `https://ruebensftcapp.page.link/63fF?/${
+                        type === "image" ? "blogpost" : "video"
+                      }=${id}`
                     );
                     if (Platform.OS === "ios") {
                       Toast.show("Link copied");
@@ -98,43 +100,44 @@ const DetailsPage = ({ route }: any) => {
                     source={{ uri: url }}
                   />
                   <View style={styles.videoContainer}>
-                    <TouchableWithoutFeedback onPress={()=>{
-                    console.log('calledd');
-                    if(displayButton){
-                      setDisplayButton(false)
-                    }
-                    setDisplayButton(!displayButton)
-                  }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
+                    <TouchableWithoutFeedback
+                      onPress={() => {
+                        if (displayButton) {
+                          setDisplayButton(false);
+                        }
+                        setDisplayButton(!displayButton);
                       }}
                     >
-                      {loading ? (
-                        <ActivityIndicator size={"large"} />
-                      ) : (
-                        <TouchableOpacity
-                          onPress={() => {
-                            setPlay(!play);
-                            if (!play) {
-                              setTimeout(() => {
-                                setDisplayButton(false);
-                              }, 700);
-                            }
-                          }}
-                        >
-                          <Image
-                            style={[
-                              { height: 40, width: 40 },
-                              !displayButton && { display: "none" },
-                            ]}
-                            source={!play ? playIcon : pause}
-                          />
-                        </TouchableOpacity>
-                      )}
-                    </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {loading ? (
+                          <ActivityIndicator size={"large"} />
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() => {
+                              setPlay(!play);
+                              if (!play) {
+                                setTimeout(() => {
+                                  setDisplayButton(false);
+                                }, 700);
+                              }
+                            }}
+                          >
+                            <Image
+                              style={[
+                                { height: 40, width: 40 },
+                                !displayButton && { display: "none" },
+                              ]}
+                              source={!play ? playIcon : pause}
+                            />
+                          </TouchableOpacity>
+                        )}
+                      </View>
                     </TouchableWithoutFeedback>
                   </View>
                 </View>

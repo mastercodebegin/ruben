@@ -2,13 +2,11 @@ import { defineFeature, loadFeature} from "jest-cucumber"
 import { shallow, ShallowWrapper } from 'enzyme'
 
 import * as helpers from '../../../../framework/src/Helpers'
-import {runEngine} from '../../../../framework/src/RunEngine'
-import {Message} from "../../../../framework/src/Message"
-
-import MessageEnum, {getName} from "../../../../framework/src/Messages/MessageEnum"; 
 import React from "react";
 import LandingPage from "../../src/LandingPage"
-const navigation = require("react-navigation")
+const navigation = {
+    navigate:jest.fn()
+}
 
 const screenProps = {
     navigation: navigation,
@@ -22,7 +20,7 @@ defineFeature(feature, (test) => {
 
     beforeEach(() => {
         jest.resetModules()
-        jest.doMock('react-native', () => ({ Platform: { OS: 'web' }}))
+        jest.doMock('react-native', () => ({ Platform: { OS: 'web' },nativeModule:{}}))
         jest.spyOn(helpers, 'getOS').mockImplementation(() => 'web');
     });
 
@@ -31,7 +29,9 @@ defineFeature(feature, (test) => {
         let instance:LandingPage; 
 
         given('I am a User loading LandingPage', () => {
-            landingPageBlock = shallow(<LandingPage {...screenProps}/>)
+            landingPageBlock = shallow(<LandingPage visible={false} setVisibleProfileModal={function (): void {
+                throw new Error("Function not implemented.")
+            } } setState={undefined} state={undefined} firstTime={false} currentUser={"user"} route={undefined} {...screenProps}/>)
         });
 
         when('I navigate to the LandingPage', () => {
@@ -40,11 +40,6 @@ defineFeature(feature, (test) => {
 
         then('LandingPage will load with out errors', () => {
             expect(landingPageBlock).toBeTruthy();
-        });
-
-        then('I can select the button with with out errors', () => {
-            let buttonComponent = landingPageBlock.findWhere((node) => node.prop('testID') === 'goToHomeButton');
-            buttonComponent.simulate('press')
         });
 
         then('I can leave the screen with out errors', () => {

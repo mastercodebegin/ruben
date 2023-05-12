@@ -101,6 +101,7 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
                 created_at: blogPostDetails?.date?.attributes?.created_at,
                 url: blogPostDetails?.data?.attributes?.images[0]?.url,
                 description: blogPostDetails?.data?.attributes?.description,
+                id:blogPostDetails?.data?.attributes?.id,
                 type: "image",
               },
             },
