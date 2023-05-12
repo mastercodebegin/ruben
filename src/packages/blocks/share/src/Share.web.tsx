@@ -30,6 +30,7 @@ export default class Share extends ShareController {
               {configJSON.labelBodyText}
             </Typography>
             <FacebookShareButton
+            //@ts-ignore
               translate={false}
               url={configJSON.url}
               quote={configJSON.quote}
@@ -38,6 +39,7 @@ export default class Share extends ShareController {
             >
               <FacebookIcon
                 size={36}
+                //@ts-ignore
                 crossOrigin={undefined}
                 path={undefined}
               />

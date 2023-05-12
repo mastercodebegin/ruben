@@ -12,7 +12,7 @@ import MileStone from "../../../components/src/MilestoneComponent";
 import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
-//@ts-ignore
+import CommonLoader from "../../../components/src/CommonLoader";
 export default class MyCart extends MyCartController {
   async componentDidMount(){
     this.getCart()
@@ -34,13 +34,12 @@ export default class MyCart extends MyCartController {
                   selected="My Cart"
                 />
                 <View style={styles.headerContainer}>
-                  <Text style={styles.headerText}>{"ADDED ITEMS (4)"}</Text>
+                  <Text style={styles.headerText}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
                 </View>
               </View>
             )}
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
-            style={{}}
             keyExtractor={(item, index) => {
               return String(item) + index;
             }}
@@ -91,17 +90,25 @@ export default class MyCart extends MyCartController {
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item}) => {
+            renderItem={({item,index}) => {
               return (
-              <ProductDetailComponent
+                <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
                 price={item.attributes?.price}
                 quantity={item.attributes?.quantity}
+                index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
+                onpressRemove={(index:number)=>{
+                  const array = [...this.state.productsList]                  
+                    array.splice(index, 1);
+                    this.setState({productsList:array})
+                }}
+                onpressIncrease={this.increaseCartQuatity.bind(this)}
               />
             )}}
           />
         </HeaderWithBackArrowTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
     );
   }

@@ -104,7 +104,7 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
     return (
       // Required for all blocks
 
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 ,backgroundColor:'#F8F4F4'}}>
           <KeyboardAwareScrollView 
           showsVerticalScrollIndicator={false} 
           bounces={false}>

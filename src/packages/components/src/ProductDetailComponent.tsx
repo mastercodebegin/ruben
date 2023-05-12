@@ -1,10 +1,19 @@
-import React from "react";
+import React,{useState} from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 //@ts-ignore
 import { DARK_RED, LIGHT_GREY, removeImage } from "./constants";
 //@ts-ignore
 import MeatImage from "./meatimage@1.jpg";
-const ProductDetailComponent = ({ name, price, quantity,image }: any) => {  
+const ProductDetailComponent = ({
+  name,
+  price,
+  quantity,
+  image,
+  onpressRemove,
+  onpressIncrease,
+  index
+}: any) => {
+  const [quantities,setQuantities]=useState(quantity?Number(quantity):0)
   return (
     <View style={styles.main}>
       <View style={styles.rowCon}>
@@ -12,24 +21,31 @@ const ProductDetailComponent = ({ name, price, quantity,image }: any) => {
         <View style={styles.innerContainer}>
           <View style={styles.row}>
             <Text style={styles.productName}>{name}</Text>
-            <Text style={styles.price}>{`$ ${price} X ${quantity}`}</Text>
+            <Text style={styles.price}>{`$ ${price} X ${quantities}`}</Text>
           </View>
           <View style={styles.row}>
             <View style={styles.counterContainer}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity onPress={()=>{
+                if(quantities>1){
+                setQuantities(quantities-1)
+              }
+                }} style={styles.button}>
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
-              <Text style={styles.counter}>{quantity}</Text>
-              <TouchableOpacity style={styles.button}>
+              <Text style={styles.counter}>{quantities}</Text>
+              <TouchableOpacity onPress={()=>setQuantities(quantities+1)} style={styles.button}>
                 <Text style={styles.count}>{"+"}</Text>
               </TouchableOpacity>
             </View>
             <Text
               style={{ color: DARK_RED, fontSize: 16, fontWeight: "bold" }}
-            >{`$${Number(price) * Number(quantity)}`}</Text>
+            >{`$${Number(price) * Number(quantities)}`}</Text>
           </View>
         </View>
-        <TouchableOpacity style={{padding:7,backgroundColor:LIGHT_GREY,marginLeft:10,borderRadius:5}}>
+        <TouchableOpacity
+          onPress={()=>onpressRemove(index)}
+          style={styles.removeContainer}
+        >
           <Image
             resizeMode="contain"
             style={{ height: 20, width: 20 }}
@@ -41,6 +57,12 @@ const ProductDetailComponent = ({ name, price, quantity,image }: any) => {
   );
 };
 const styles = StyleSheet.create({
+  removeContainer:{
+    padding: 7,
+    backgroundColor: LIGHT_GREY,
+    marginLeft: 10,
+    borderRadius: 5,
+  },
   innerContainer: { flex: 1, paddingLeft: 10, justifyContent: "space-between" },
   rowCon: { flexDirection: "row", width: "100%", alignItems: "center" },
   image: { height: 50, width: 50, borderRadius: 10 },

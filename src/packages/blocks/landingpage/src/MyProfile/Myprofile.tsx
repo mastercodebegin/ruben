@@ -95,7 +95,6 @@ export default class Myprofile extends LandingPageController {
                   <Text style={styles.alertHeader}>New Order Alert</Text>
                   <Text  style={styles.deliverydate}>
                     Est.delivery: 
-                    {moment(this?.state?.orderList[0]?.attributes?.order_items?.data[0]?.attributes?.delivered_at).format('MM-DD-YYYY')}
                   </Text>
                   <TouchableOpacity onPress={()=>this.props.navigation.navigate("MyOrdersScreen")} style={styles.detailsButton}>
                     <Text style={styles.viewDetail}>View Details</Text>
