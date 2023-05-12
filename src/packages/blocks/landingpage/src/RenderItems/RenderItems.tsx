@@ -1,6 +1,7 @@
 import React from "react"
 import { View, ImageBackground, TouchableOpacity, FlatList, Text, Image, Dimensions, StyleSheet } from "react-native"
 import {DARK_RED, MID_PEACH, WHITE, PRIMARY, LIGHT_GREY, CART, RATING, badge } from '../assets'
+import { useNavigation } from "@react-navigation/native"
 const deviceWidth = Dimensions.get('window').width
 const deviceHeight = Dimensions.get('window').height
 interface Types {
@@ -13,9 +14,10 @@ interface Types {
 const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
     const total = item?.attributes?.price;
     const partial = item?.attributes?.discount;
-    const percentage = (partial / total) * 100;    
+    const percentage = (partial / total) * 100;
+    const navigation = useNavigation()
     return (
-        <View style={styles.renderContainer}>
+        <TouchableOpacity onPress={()=>navigation.navigate('ProductDetailScreen')} style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
                 style={[item?.attributes?.images[0]?.url ? styles.itemImage : styles.itemNoImage]} source={{uri:item?.attributes?.images[0]?.url}}>
                 <View style={styles.offerContainer}>
@@ -42,7 +44,7 @@ const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>)
+        </TouchableOpacity>)
 }
 const RenderItems = ({ rating, header, item,onpressFav,onPressCart }: Types) => {
     return (

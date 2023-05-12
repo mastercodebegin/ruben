@@ -120,6 +120,15 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      this.props.navigation.reset({
+        index: 1,
+        routes: [
+          { name: "LandingPage" },
+          {
+            name: "ProductDetailScreen"
+          },
+        ],
+      });
      this.productDetailCallBack(productDetails,error)
     }
     

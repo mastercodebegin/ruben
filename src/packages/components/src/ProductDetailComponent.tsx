@@ -21,12 +21,12 @@ const ProductDetailComponent = ({
         <View style={styles.innerContainer}>
           <View style={styles.row}>
             <Text style={styles.productName}>{name}</Text>
-            <Text style={styles.price}>{`$ ${price} X ${quantity}`}</Text>
+            <Text style={styles.price}>{`$ ${price} X ${quantities}`}</Text>
           </View>
           <View style={styles.row}>
             <View style={styles.counterContainer}>
               <TouchableOpacity onPress={()=>{
-                if(quantities>=0){
+                if(quantities>1){
                 setQuantities(quantities-1)
               }
                 }} style={styles.button}>
@@ -39,7 +39,7 @@ const ProductDetailComponent = ({
             </View>
             <Text
               style={{ color: DARK_RED, fontSize: 16, fontWeight: "bold" }}
-            >{`$${Number(price) * Number(quantity)}`}</Text>
+            >{`$${Number(price) * Number(quantities)}`}</Text>
           </View>
         </View>
         <TouchableOpacity

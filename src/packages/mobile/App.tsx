@@ -34,6 +34,7 @@ import Favourites from '../blocks/landingpage/src/MyFavorites/MyFavorites';
 import Recomentations from '../blocks/Recomentations/src/recomentations';
 import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
+import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -179,6 +180,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='Recomentations' component={Recomentations}/>
         <Stack.Screen name='DetailsPage' component={DetailsPage}/>
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
+        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
