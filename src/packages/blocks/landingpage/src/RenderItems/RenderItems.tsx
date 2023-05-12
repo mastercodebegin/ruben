@@ -17,7 +17,7 @@ const RenderItem = ({ item, rating,onpressFav ,onPressCart}: Types) => {
     const percentage = (partial / total) * 100;
     const navigation = useNavigation()
     return (
-        <TouchableOpacity onPress={()=>navigation.navigate('ProductDetailScreen')} style={styles.renderContainer}>
+        <TouchableOpacity onPress={()=>navigation.navigate('ProductDetailScreen',{id:item?.id})} style={styles.renderContainer}>
             <ImageBackground resizeMode="stretch"
                 style={[item?.attributes?.images[0]?.url ? styles.itemImage : styles.itemNoImage]} source={{uri:item?.attributes?.images[0]?.url}}>
                 <View style={styles.offerContainer}>

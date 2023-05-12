@@ -315,7 +315,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={()=> showToast("Product added to the cart")}
+                onPress={()=> this.addToCart(this.props.route.params?.id)}
                   style={{
                     justifyContent: "center",
                     backgroundColor: PRIMARY,
