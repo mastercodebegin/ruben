@@ -38,14 +38,14 @@ import {
   //@ts-ignore
 } from "../../../../components/src/constants";
 import Button from "../../../../components/src/CustomButton";
+import { Dropdown } from "../../../../components/src/DropDown/src";
 
 export default class AddProducts extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
   }
-  //@ts-ignore
-  componentDidMount() {
+  async componentDidMount() {
     this.getCategory.bind(this)(1)
   }
   render() {
@@ -101,10 +101,66 @@ export default class AddProducts extends LandingPageController {
                   />
                    <Text style={styles.label}>{CHOOSE_CATEGORY}</Text>
                   <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={this.state.categoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          category_id: item?.id,
+                        };
+                        this.setState({ productsList: list })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.item}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.categoryItem}
+                    />
 
                   </View>
                   <Text style={styles.label}>{CHOOSE_SUB_CATEGORY}</Text>
                   <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={this.state.subCategoryList}
+                      maxHeight={400}
+                      labelField={"title"}
+                      valueField={'title'}
+                      placeholder="Select item"
+                      onChange={(item: any) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          sub_category_id: item?.id,
+                        };
+                        this.setState({ productsList: list })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View style={styles.itemListStyle}>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.subCategoryItem}
+                    />
                   </View>
                   <Text style={styles.label}>{ENTER_DESCRPTION}</Text>
                   <TextInput
