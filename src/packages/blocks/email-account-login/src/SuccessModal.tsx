@@ -57,7 +57,7 @@ const SuccessModal = ({
           <Text style={styles.discount}>
             To get instant 10% discount on first order
           </Text>
-          <TouchableOpacity onPress={onpressCopy} style={styles.copyContainer}>
+          <TouchableOpacity testID="copy_code_id" onPress={onpressCopy} style={styles.copyContainer}>
             <Text style={styles.copy}>COPY COUPON CODE</Text>
             <Image style={styles.copyImg} source={copy} />
           </TouchableOpacity>

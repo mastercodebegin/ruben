@@ -3,10 +3,12 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 interface CheckBoxTypes {
   checked: boolean;
   setChecked: (value: boolean) => void;
+  testID?:string;
 }
-const CheckBox = ({ checked, setChecked }: CheckBoxTypes) => {
+const CheckBox = ({ checked, setChecked ,testID}: CheckBoxTypes) => {
   return (
     <TouchableOpacity
+    testID={testID}
       onPress={() => setChecked(!checked)} style={styles.checkBox}
     >
       {checked && <View style={styles.dot} />}
