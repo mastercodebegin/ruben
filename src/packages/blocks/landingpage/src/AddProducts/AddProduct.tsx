@@ -38,15 +38,14 @@ import {
   //@ts-ignore
 } from "../../../../components/src/constants";
 import Button from "../../../../components/src/CustomButton";
-import { Dropdown } from 'react-native-element-dropdown';
+import { Dropdown } from "../../../../components/src/DropDown/src";
 
 export default class AddProducts extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
   }
-  //@ts-ignore
-  componentDidMount() {
+  async componentDidMount() {
     this.getCategory.bind(this)(1)
   }
   render() {
@@ -271,7 +270,7 @@ const styles = StyleSheet.create({
   },
   dollar:{
     fontSize:17,
-    color:PRIMARY,
+    color:DARK_RED,
     paddingLeft:20,
     fontWeight:'bold'
   },
@@ -358,7 +357,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     fontSize:17,
-    color:PRIMARY,
+    color:DARK_RED,
     fontWeight:'bold'
   },
   safeArea: { flex: 1, backgroundColor: LIGHT_GREY },

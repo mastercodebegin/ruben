@@ -10,7 +10,7 @@ exports.loginAPiMethod = "POST";
 exports.loginApiContentType = "application/json";
 
 // Customizable Area Start
-exports.errorEmailNotValid = "Please enter valid valid email.";
+exports.errorEmailNotValid = "Please enter valid email.";
 exports.errorPasswordNotValid = "Please enter valid Password";
 exports.placeHolderEmail = "Email";
 exports.placeHolderPassword = "Password";
@@ -24,4 +24,5 @@ exports.labelTitle = "Log in";
 exports.resetPassword = "bx_block_forgot_password/otps"
 exports.imgPasswordInVisiblePath = "assets/ic_password_invisible.png";
 exports.imgPasswordVisiblePath = "assets/ic_password_visible.png";
+exports.emailReg="[^@]+[@][\\S]+[.][\\S]+"
 // Customizable Area End

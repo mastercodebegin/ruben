@@ -123,7 +123,7 @@ export default class EmailAccountLoginController extends BlockComponent<
       social: '',
     };
 
-    this.emailReg = null;
+    this.emailReg = new RegExp(configJSON.emailReg);
     this.passwordReg = null;
     this.labelTitle = configJSON.labelTitle;
     // Customizable Area End
@@ -411,10 +411,12 @@ export default class EmailAccountLoginController extends BlockComponent<
     ? this.txtInputEmailWebProps
     : this.txtInputEmailMobileProps;
 
-    loginCallBack(signupResponse:any){
-      if (signupResponse?.meta?.token) {
-        console.log('signupResponse?.meta?.user_type ',signupResponse?.meta?.user_type);
-        
+    loginCallBack(signupResponse:any,error:any=false){
+      if(error){
+        Alert.alert('Alert','Some thing went wrong please try again.',[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+        return
+      }
+      if (signupResponse?.meta?.token) {        
         if(signupResponse?.meta?.user_type === 'merchant'){
           store.dispatch({type:'UPDATE_USER',payload:'merchant'})
         }else if(signupResponse?.meta?.user_type === 'customer'){
@@ -465,7 +467,12 @@ export default class EmailAccountLoginController extends BlockComponent<
       let signupResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.loginCallBack(signupResponse)
+      let loginError:any = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      
+      this.loginCallBack(signupResponse,loginError)
+    
      
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&

@@ -12,37 +12,15 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-} from "react-native-responsive-dimensions";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-} from "react-native-simple-radio-button";
 import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
 import LoginComponent from "./LoginComponent";
 import SignupComponent from "./SignupComponent";
 import { Logo } from "./assets";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-//@ts-ignore
-import CustomCheckBox from "../../../components/src/CustomCheckBox";
-
-// Merge Engine - import assets - Start
-// Merge Engine - import assets - End
-
-// Merge Engine - Artboard Dimension  - Start
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 let artBoardHeightOrg = 667;
 let artBoardWidthOrg = 375;
-// Merge Engine - Artboard Dimension  - End
+export const configJSON = require("./config");
 
-/**
- * called when user presses login or signup it will check email is valid or not
- * @param email String which is going to beckecked valid or not
- * @returns An boolean which reperesents email is valid or not
- */
 import CommonLoader from "../../../components/src/CommonLoader";
 
 // Customizable Area End
@@ -158,6 +136,16 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                           return false;
                         } else if (this.state.password === "") {
                           Alert.alert("Error", "Password is required");
+                          return false;
+                        }else if (
+                          this.state.email === null ||
+                          this.state.email.length === 0 ||
+                          !this.emailReg.test(this.state.email)
+                        ) {
+                          this.showAlert("Error", configJSON.errorEmailNotValid);
+                          return false;
+                        }else if (this.state.password === null || this.state.password.length === 0) {
+                          this.showAlert("Error", configJSON.errorPasswordNotValid);
                           return false;
                         }
                         this.setState({ showLoader: true })
