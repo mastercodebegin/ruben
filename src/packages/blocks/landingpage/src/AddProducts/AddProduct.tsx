@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   },
   dollar:{
     fontSize:17,
-    color:PRIMARY,
+    color:DARK_RED,
     paddingLeft:20,
     fontWeight:'bold'
   },
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     fontSize:17,
-    color:PRIMARY,
+    color:DARK_RED,
     fontWeight:'bold'
   },
   safeArea: { flex: 1, backgroundColor: LIGHT_GREY },
