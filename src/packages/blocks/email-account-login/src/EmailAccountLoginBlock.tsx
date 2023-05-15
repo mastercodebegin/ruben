@@ -12,15 +12,11 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
 import LoginComponent from "./LoginComponent";
 import SignupComponent from "./SignupComponent";
 import { Logo } from "./assets";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-let artBoardHeightOrg = 667;
-let artBoardWidthOrg = 375;
 export const configJSON = require("./config");
-
 import CommonLoader from "../../../components/src/CommonLoader";
 
 // Customizable Area End
@@ -31,29 +27,38 @@ import EmailAccountLoginController, {
 
 export default class EmailAccountLoginBlock extends EmailAccountLoginController {
   // Customizable Area Start
+  onpressLoginButton(){
+      if (this.state.email === "") {
+        Alert.alert("Error", "Email is required");
+        return false;
+      } else if (this.state.password === "") {
+        Alert.alert("Error", "Password is required");
+        return false;
+      }else if (
+        this.state.email === null ||
+        !this.emailReg.test(this.state.email)
+      ) {
+        this.showAlert("Error", configJSON.errorEmailNotValid);
+        return false;
+      }
+      this.setState({ showLoader: true })
+      this.btnEmailLogInProps.onPress();
+      return true;
+  }
+   onchangeEmail(text: string){
+    this.setState({ email: text });
+  };
   // Customizable Area End
 
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
-    Dimensions.addEventListener("change", (e) => {
-      MergeEngineUtilities.init(
-        artBoardHeightOrg,
-        artBoardWidthOrg,
-        Dimensions.get("window").height,
-        Dimensions.get("window").width
-      );
-      this.forceUpdate();
-    });
     // Customizable Area End
   }
 
   render() {
     // Customizable Area Start
     // Merge Engine - render - Start
-    const onchangeEmail = (text: string) => {
-      this.setState({ email: text });
-    };
     const onchangePassword = (text: string) => {
       this.setState({ password: text });
     };
@@ -125,33 +130,12 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
                 >
                   <View style={styles.animated}>
                     <LoginComponent
-                      onchangeEmail={onchangeEmail}
+                      onchangeEmail={this.onchangeEmail.bind(this)}
                       onchangePassword={onchangePassword}
                       email={this.state.email}
                       password={this.state.password}
                       onpressSignup={onpressSignup}
-                      onpressLogin={() => {
-                        if (this.state.email === "") {
-                          Alert.alert("Error", "Email is required");
-                          return false;
-                        } else if (this.state.password === "") {
-                          Alert.alert("Error", "Password is required");
-                          return false;
-                        }else if (
-                          this.state.email === null ||
-                          this.state.email.length === 0 ||
-                          !this.emailReg.test(this.state.email)
-                        ) {
-                          this.showAlert("Error", configJSON.errorEmailNotValid);
-                          return false;
-                        }else if (this.state.password === null || this.state.password.length === 0) {
-                          this.showAlert("Error", configJSON.errorPasswordNotValid);
-                          return false;
-                        }
-                        this.setState({ showLoader: true })
-                        this.btnEmailLogInProps.onPress();
-                        return true;
-                      }}
+                      onpressLogin={this.onpressLoginButton.bind(this)}
                       navigation={this.props.navigation}
                     />
                   </View>

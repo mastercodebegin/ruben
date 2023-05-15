@@ -12,6 +12,7 @@ import {Animated,Alert,Clipboard} from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {deepLinkingURL} from '../../../components/src/constants';
+//@ts-ignore
 import {store} from '../../../mobile/App';
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;

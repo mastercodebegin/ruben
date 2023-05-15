@@ -88,8 +88,9 @@ const SignupComponent = ({
           </View>
           <View style={styles.row}>
             <CheckBox
+              testID="merchant_check_box_id"
               checked={isMerchant === "merchant"}
-              setChecked={(usr) => setIsMerchant(!usr ? "user" : "merchant")}
+              setChecked={(usr) =>{ setIsMerchant(!usr ? "user" : "merchant")}}
             />
             <Text style={styles.rememberText}>Merchant</Text>
           </View>
