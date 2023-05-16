@@ -62,8 +62,6 @@ import EmailAccountRegistration from "../../blocks/email-account-registration/sr
 import Splashscreen from "../../blocks/splashscreen/src/Splashscreen";
 import TargetedFeed from "../../blocks/TargetedFeed/src/TargetedFeed";
 import Onboardingguide from "../../blocks/onboardingguide/src/Onboardingguide";
-import EmailAccountLoginBlock from "../../blocks/email-account-login/src/EmailAccountLoginBlock";
-import LandingPage from "../../blocks/landingpage/src/LandingPage";
 import Search from "../../blocks/search/src/Search";
 
 
@@ -222,12 +220,6 @@ path:"/TargetedFeed"},
 Onboardingguide:{
  component:Onboardingguide,
 path:"/Onboardingguide"},
-EmailAccountLoginBlock:{
- component:EmailAccountLoginBlock,
-path:"/EmailAccountLoginBlock"},
-LandingPage:{
- component:LandingPage,
-path:"/LandingPage"},
 Search:{
  component:Search,
 path:"/Search"},
