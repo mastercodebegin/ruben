@@ -19,6 +19,7 @@
     "@types/react": "file:./packages/blocks/core/node_modules/@types/react"
   },
   "dependencies": {
+    "@pdftron/webviewer": "file:./packages/blocks/core/node_modules/@pdftron/webviewer",
     "@react-native-async-storage/async-storage": "^1.15.15",
     "@react-native-community/checkbox": "file:./packages/blocks/core/node_modules/@react-native-community/checkbox",
     "@react-native-community/masked-view": "^0.1.11",
@@ -34,7 +35,6 @@
     "invert-color": "file:./packages/blocks/core/node_modules/invert-color",
     "metro-react-native-babel-preset": "file:./packages/blocks/core/node_modules/metro-react-native-babel-preset",
     "moment": "file:./packages/blocks/core/node_modules/moment",
-    "@pdftron/webviewer": "file:./packages/blocks/core/node_modules/@pdftron/webviewer",
     "react-geocode": "file:./packages/blocks/core/node_modules/react-geocode",
     "react-google-charts": "2.0.29",
     "react-native": "file:./packages/blocks/core/node_modules/react-native",
