@@ -78,7 +78,7 @@ export default class MyCart extends MyCartController {
                   {"*terms & conditions apply"}
                 </Text>
                 <Button
-                  onPress={() => {}}
+                  onPress={() => this.props.navigation.navigate('PersonelDetails')}
                   label="Continue to Personel Details"
                 />
                 <TouchableOpacity style={styles.button}>
@@ -90,7 +90,7 @@ export default class MyCart extends MyCartController {
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item,index}) => {
+            renderItem={({item,index}) => {              
               return (
                 <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
@@ -103,7 +103,7 @@ export default class MyCart extends MyCartController {
                     array.splice(index, 1);
                     this.setState({productsList:array})
                 }}
-                onpressIncrease={this.increaseCartQuatity.bind(this)}
+                onpressIncrease={()=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,true)}
               />
             )}}
           />

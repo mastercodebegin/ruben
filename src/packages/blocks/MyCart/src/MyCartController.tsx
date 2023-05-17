@@ -62,7 +62,12 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
-      this.setState({productsList:blogDetails?.data,showLoader:false})
+        if(blogDetails?.data)
+        {
+          this.setState({productsList:blogDetails?.data,showLoader:false})
+        }else{
+          this.setState({productsList:[],showLoader:false})
+        }
        
       }
     }else if (
@@ -113,7 +118,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async increaseCartQuatity(count:number){
+  async increaseCartQuatity(id:number,type:boolean){    
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -125,7 +130,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.increaseCartQuantity}${count}`
+      `${type ? configJSON.increaseCartQuantity : configJSON.decreaseCartQuantity}${id}`
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

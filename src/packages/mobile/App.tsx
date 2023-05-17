@@ -35,6 +35,7 @@ import Recomentations from '../blocks/Recomentations/src/recomentations';
 import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
+import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -181,6 +182,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='DetailsPage' component={DetailsPage}/>
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
+        <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
