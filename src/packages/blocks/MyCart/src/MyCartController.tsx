@@ -62,9 +62,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
-        if(blogDetails?.data)
+        if(blogDetails?.data[0]?.attributes?.order_items?.data)
         {
-          this.setState({productsList:blogDetails?.data,showLoader:false})
+          this.setState({productsList:blogDetails?.data[0]?.attributes?.order_items?.data,showLoader:false})
+
         }else{
           this.setState({productsList:[],showLoader:false})
         }

@@ -37,7 +37,8 @@ export default class LandingPage extends LandingPageController {
   };
   async componentDidMount() {
     super.componentDidMount();
-    this.getblogPosts.bind(this)();
+    await this.getblogPosts.bind(this)();
+    this.getCart.bind(this)();
   }
   // Customizable Area End
 
@@ -93,7 +94,7 @@ export default class LandingPage extends LandingPageController {
             )}
           return <></>}}
           />
-          {store.getState().currentUser === 'user' && <CartDetails />}
+          {store.getState().currentUser === 'user' &&this.state.cartList.length>0 && <CartDetails numberOfItem={this.state.cartList.length} />}
         </View>
         <BottomTab navigation={this.props.navigation} tabName={"Home"} />
         <CommonLoader visible={this.state.show_loader}/>

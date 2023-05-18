@@ -90,11 +90,11 @@ export default class MyCart extends MyCartController {
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item,index}) => {              
+            renderItem={({item,index}) => { 
               return (
                 <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
-                price={item.attributes?.price}
+                price={item.attributes?.catalogue?.data?.attributes?.price}
                 quantity={item.attributes?.quantity}
                 index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
@@ -116,7 +116,7 @@ export default class MyCart extends MyCartController {
 const styles = StyleSheet.create({
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
-  contentContainer: { paddingBottom: 20 },
+  contentContainer: { paddingBottom: 20,paddingHorizontal:20 },
   buttonText: {
     color: "#A0272A",
     textAlign: "center",

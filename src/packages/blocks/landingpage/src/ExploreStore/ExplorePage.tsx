@@ -39,10 +39,10 @@ class ExplorePage extends LandingPageController {
         super(props);
         this.receive = this.receive.bind(this);
     }
-    //@ts-ignore
-    componentDidMount() {
+    async componentDidMount() {
         this.getCategory.bind(this)(1)
         this.getProductList()
+        this.getCart()
     }
     render() {        
         return (
@@ -138,7 +138,10 @@ class ExplorePage extends LandingPageController {
             </ScrollView>
             {
                 this.props.currentUser ==='user'?
-                <CartDetails/>:
+                <>
+                {this.state.cartList.length >0 &&<CartDetails numberOfItem={this.state.cartList.length }/>}
+                </>
+                :
             <DualButton
             containerStyle={styles.dualButton}
              button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>

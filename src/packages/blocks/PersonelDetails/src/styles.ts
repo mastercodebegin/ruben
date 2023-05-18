@@ -44,4 +44,18 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   seperatorLine: { borderBottomColor: "lightgrey", borderBottomWidth: 1 },
+  availableSlot:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal:10
+  },
+  slotContainer:{
+    paddingVertical: 12,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    borderRadius: 5,
+    flex:1,
+    justifyContent:"center",
+    alignItems:'center'
+  }
 });

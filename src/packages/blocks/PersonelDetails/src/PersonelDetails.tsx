@@ -14,6 +14,9 @@ import PersonelDetailsController from "./PersonelDetailsController";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./MyDetails";
 import SavedAddresses from "./SavedAddresses";
+import AvailableSlots from "./AvailableSlots";
+import DoubleButton from "../../../components/src/DoubleButton";
+
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -33,8 +36,10 @@ export default class PersonelDetails extends PersonelDetailsController {
     return (
       <SafeAreaView style={styles.safearea}>
         <HeaderWithBackArrowTemplate
-          headerText="Payment Details"
+          headerText="Personal Details"
           navigation={this.props.navigation}
+          scrollView
+          showsVerticalScrollIndicator={false}
         >
           <View style={styles.main}>
             <MileStone
@@ -66,6 +71,14 @@ export default class PersonelDetails extends PersonelDetailsController {
             <View style={{ paddingTop: 20 }}>
               <SavedAddresses />
             </View>
+            <AvailableSlots />
+            <DoubleButton
+              button1Label="Continue to Summary"
+              button1_Onpress={() => {}}
+              button2Label="Cancel"
+              button2_Onpress={() => {}}
+              containerStyle={{ paddingTop: 20 }}
+            />
           </View>
         </HeaderWithBackArrowTemplate>
       </SafeAreaView>
