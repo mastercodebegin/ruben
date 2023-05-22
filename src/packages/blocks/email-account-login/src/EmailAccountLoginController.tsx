@@ -228,7 +228,7 @@ export default class EmailAccountLoginController extends BlockComponent<
     return true;
   }
 
-  doMerchantSignup(password: string) {
+  doMerchantSignup() {
     if (this.state.mEmail === '') {
       this.showAppAlert('Error','Email can not be blank')
       return

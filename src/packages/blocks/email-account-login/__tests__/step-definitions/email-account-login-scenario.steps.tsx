@@ -19,7 +19,7 @@ const screenProps = {
   navigation: navigation,
   id: "EmailAccountLoginBlock",
 };
-const signupProps={
+export const signupProps={
     onPressLogin:jest.fn(),
           onchangePassword:jest.fn(),
           onchangeEmail:jest.fn(),
@@ -189,7 +189,7 @@ defineFeature(feature, (test) => {
             website:'www.test.com',
             social:'www.facebook.com'
           });
-          const merchantSignupResponse = instance.doMerchantSignup('Qweqwe123!')
+          const merchantSignupResponse = instance.doMerchantSignup()
           expect(merchantSignupResponse).toBeTruthy()
     })
     then("user can see the welcome modal", () => {

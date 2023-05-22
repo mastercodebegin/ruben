@@ -2,10 +2,11 @@ import React from "react";
 import {
   View,
   SafeAreaView,
-  FlatList,
   Text,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
+  TouchableWithoutFeedback
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MileStone from "../../../components/src/MilestoneComponent";
@@ -13,19 +14,22 @@ import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
+import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 export default class MyCart extends MyCartController {
   async componentDidMount(){
     this.getCart()
   }
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
           headerText="My Cart"
         >
-          <FlatList
+          <KeyboardAwareFlatList
             data={this.state.productsList}
+            removeClippedSubviews={true} 
             bounces={false}
             ListHeaderComponent={() => (
               <View>
@@ -43,14 +47,25 @@ export default class MyCart extends MyCartController {
             keyExtractor={(item, index) => {
               return String(item) + index;
             }}
-            ListFooterComponent={() => (
+            ListFooterComponent={
               <View>
-                <View style={styles.bottomRadius} />
                 <View style={styles.discountContainer}>
                   <View style={styles.shade} />
-                  <Text style={styles.discount}>Enter Discount Code</Text>
+                  <TextInput
+        placeholder="Enter Discount Code"
+        onFocus={() => {
+          void(0);
+        }}
+        value={this.state.discountCode}
+        onChangeText={(text)=>this.setState({discountCode:text})}
+        style={styles.textInput}
+        placeholderTextColor='#A0272A'
+        />
+                  <TouchableOpacity>
                   <Text style={styles.direct}>Fetch Directly</Text>
+                  </TouchableOpacity>
                 </View>
+                <View style={styles.bottomRadius} />
                 <View style={styles.paymentContainer}>
                   <Text style={styles.headerText}>PAYMENT DETAILS</Text>
                   <View style={styles.seperator} />
@@ -85,7 +100,7 @@ export default class MyCart extends MyCartController {
                   <Text style={styles.buttonText}>{"Cancel"}</Text>
                 </TouchableOpacity>
               </View>
-            )}
+            }
             ListEmptyComponent={()=>(
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
@@ -110,6 +125,7 @@ export default class MyCart extends MyCartController {
         </HeaderWithBackArrowTemplate>
         <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -145,7 +161,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 20,
   },
-  direct: { fontSize: 16, fontWeight: "bold", color: "grey" },
+  direct: { fontSize: 16, fontWeight: "bold", color: "grey",paddingVertical:25 },
   discount: {
     fontSize: 16,
     fontWeight: "bold",
@@ -164,8 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 20,
-    paddingVertical: 25,
-    paddingHorizontal: 25,
+    paddingRight: 25,
     borderRadius: 35,
     borderWidth: 2,
     borderColor: "#A0272A",
@@ -192,4 +207,5 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   main: { flex: 1 },
+  textInput:{flex:1,paddingLeft:25,fontWeight:'bold',fontSize:16,color:'#A0272A'}
 });

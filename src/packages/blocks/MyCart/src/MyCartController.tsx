@@ -18,6 +18,7 @@ export interface Props {
 interface S {
   showLoader: boolean;
   productsList:Array<any>;
+  discountCode:string;
 }
 
 interface SS {
@@ -37,7 +38,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       showLoader: false,
-      productsList:[]
+      productsList:[],
+      discountCode:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
