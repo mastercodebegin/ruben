@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  TouchableWithoutFeedback
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MileStone from "../../../components/src/MilestoneComponent";
@@ -15,21 +14,17 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
+import { store } from "../../../components/src/utils";
 export default class MyCart extends MyCartController {
-  async componentDidMount(){
-    this.getCart()
-  }
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => this.hideKeyboard()}>
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
           headerText="My Cart"
         >
           <KeyboardAwareFlatList
-            data={this.state.productsList}
-            removeClippedSubviews={true} 
+            data={store.getState().cartDetails}
             bounces={false}
             ListHeaderComponent={() => (
               <View>
@@ -49,23 +44,21 @@ export default class MyCart extends MyCartController {
             }}
             ListFooterComponent={
               <View>
+              <View style={styles.bottomRadius} />
+
                 <View style={styles.discountContainer}>
                   <View style={styles.shade} />
                   <TextInput
-        placeholder="Enter Discount Code"
-        onFocus={() => {
-          void(0);
-        }}
-        value={this.state.discountCode}
-        onChangeText={(text)=>this.setState({discountCode:text})}
-        style={styles.textInput}
-        placeholderTextColor='#A0272A'
-        />
+                   placeholder="Enter Discount Code"
+                    value={this.state.discountCode}
+                     onChangeText={(text)=>this.setState({discountCode:text})}
+                    style={styles.textInput}
+                    placeholderTextColor='#A0272A'
+                    />
                   <TouchableOpacity>
                   <Text style={styles.direct}>Fetch Directly</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.bottomRadius} />
                 <View style={styles.paymentContainer}>
                   <Text style={styles.headerText}>PAYMENT DETAILS</Text>
                   <View style={styles.seperator} />
@@ -125,7 +118,6 @@ export default class MyCart extends MyCartController {
         </HeaderWithBackArrowTemplate>
         <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
-      </TouchableWithoutFeedback>
     );
   }
 }

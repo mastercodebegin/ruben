@@ -20,8 +20,7 @@ profile_marked,
 profile_unmarked,
 Bill,
 } from "../assets";
-//@ts-ignore
-import {store} from '../../../../mobile/App'
+import { store } from "../../../../components/src/utils"; 
 type BottomTabType = {
   tabName: string,
   navigation:any,

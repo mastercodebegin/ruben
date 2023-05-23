@@ -6,7 +6,7 @@ interface CheckBoxTypes {
   testID?:string;
   backgroundColor?:string | undefined;
 }
-const CheckBox = ({ checked, setChecked ,testID,backgroundColor=undefined}: CheckBoxTypes) => {
+const CheckBox = ({ checked, setChecked ,testID,backgroundColor='white'}: CheckBoxTypes) => {
   return (
     <TouchableOpacity
     testID={testID}

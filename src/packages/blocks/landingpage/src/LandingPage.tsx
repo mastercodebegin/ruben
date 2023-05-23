@@ -15,7 +15,9 @@ import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 import BlogPostCard from "./BlogPostCard";
 import CommonLoader from "../../../components/src/CommonLoader";
-import { store } from "../../../mobile/App";
+import { store } from "../../../components/src/utils"; 
+import { connect } from 'react-redux';
+
 // Customizable Area End
 
 import LandingPageController, {
@@ -94,7 +96,7 @@ export default class LandingPage extends LandingPageController {
             )}
           return <></>}}
           />
-          {store.getState().currentUser === 'user' &&this.state.cartList.length>0 && <CartDetails numberOfItem={this.state.cartList.length} />}
+          {store.getState().currentUser === 'user' &&this.props.cartDetails.length>0 && <CartDetails numberOfItem={this.props.cartDetails.length} />}
         </View>
         <BottomTab navigation={this.props.navigation} tabName={"Home"} />
         <CommonLoader visible={this.state.show_loader}/>
@@ -105,6 +107,19 @@ export default class LandingPage extends LandingPageController {
 }
 
 // Customizable Area Start
+const mapDispatchToProps = (dispatch:any) => {
+  return {
+    updateCartDetails: (payload:any) => {
+      dispatch({type:'UPDATE_CART_DETAILS',payload})},
+  };
+};
+
+const mapStateToProps = (reducer:any) => {    
+ return {
+  cartDetails: reducer?.cartDetails,
+ };
+};
+export const ReduxLandingPage : any= connect(mapStateToProps,mapDispatchToProps)(LandingPage);
 const styles = StyleSheet.create({
   landingPageView: {
     flex: 1,

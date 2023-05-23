@@ -139,7 +139,7 @@ class ExplorePage extends LandingPageController {
             {
                 this.props.currentUser ==='user'?
                 <>
-                {this.state.cartList.length >0 &&<CartDetails numberOfItem={this.state.cartList.length }/>}
+                {this.props.cartDetails.length >0 &&<CartDetails numberOfItem={this.props.cartDetails.length }/>}
                 </>
                 :
             <DualButton
@@ -155,14 +155,15 @@ class ExplorePage extends LandingPageController {
 }
 const mapDispatchToProps = (dispatch:any) => {
     return {
-      updateUser: () => {
-        dispatch({type:'UPDATE_USER',payload:'merchant'})},
+    updateCartDetails: (payload:any) => {
+     dispatch({type:'UPDATE_CART_DETAILS',payload:payload})},
     };
   };
   
 const mapStateToProps = (reducer:any) => {    
    return {
      currentUser: reducer?.currentUser,
+     cartDetails:reducer.cartDetails
    };
  };
  const ReduxExplorePage : any= connect(mapStateToProps,mapDispatchToProps)(ExplorePage);

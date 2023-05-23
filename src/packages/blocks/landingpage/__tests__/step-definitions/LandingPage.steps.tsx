@@ -34,10 +34,10 @@ defineFeature(feature, (test) => {
     given("I am a User loading LandingPage", () => {
       landingPageBlock = shallow(
         <LandingPage
+          updateCartDetails={jest.fn()}
+          cartDetails={[]}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={undefined}
           state={undefined}
           firstTime={false}

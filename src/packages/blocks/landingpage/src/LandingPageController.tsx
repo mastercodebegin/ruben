@@ -13,7 +13,7 @@ import ImagePicker from "react-native-image-crop-picker";
 //@ts-ignore
 import {deepLinkingURL} from '../../../components/src/constants';
 //@ts-ignore
-import {store} from '../../../mobile/App';
+import { store } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
@@ -33,6 +33,8 @@ export interface Props {
   firstTime:boolean;
   currentUser:string;
   route:any;
+  updateCartDetails:(data:any)=>void;
+  cartDetails:Array<any>;
   // Customizable Area End
 }
 
@@ -280,7 +282,10 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      
+      const subCategories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      this.props.updateCartDetails(subCategories?.data?.attributes?.order_items?.data)
       this.addToCartCallBack(error)
       
     }
@@ -406,7 +411,7 @@ export default class LandingPageController extends BlockComponent<
       this.getCartId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      const blogDetails = message.getData(
+      const cartDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );  
       const error = message.getData(
@@ -415,9 +420,9 @@ export default class LandingPageController extends BlockComponent<
       if(error){
         Alert.alert('Error',"Something went wrong please try again.")
       }
-      else if(blogDetails?.data[0]?.attributes?.order_items?.data)
+      else if(cartDetails?.data[0]?.attributes?.order_items?.data)
         {
-         this.setState({cartList :blogDetails?.data[0]?.attributes?.order_items?.data})
+         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
         }
     }
   }
