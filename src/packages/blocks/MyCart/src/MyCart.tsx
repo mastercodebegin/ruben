@@ -55,7 +55,7 @@ export default class MyCart extends MyCartController {
                     style={styles.textInput}
                     placeholderTextColor='#A0272A'
                     />
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>this.getDiscountCode.bind(this)()}>
                   <Text style={styles.direct}>Fetch Directly</Text>
                   </TouchableOpacity>
                 </View>

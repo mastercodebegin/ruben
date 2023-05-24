@@ -9,4 +9,5 @@ exports.ordersApiContentType = "application/json";
 exports.getCart = "bx_block_shopping_cart/orders/order_alerts";
 exports.removeItemEndpoint = "bx_block_shopping_cart/order_items/destroy?id=";
 exports.increaseCartQuantity="bx_block_shopping_cart/orders/increase_product_quantity?catalogue_id=";
-exports.decreaseCartQuantity="bx_block_shopping_cart/orders/decrease_product_quantity?catalogue_id="
+exports.decreaseCartQuantity="bx_block_shopping_cart/orders/decrease_product_quantity?catalogue_id=";
+exports.fetchDiscoundCode="account_block/accounts/fetch_discount";

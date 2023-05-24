@@ -15,7 +15,6 @@ import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-simple-toast";
 import FastImage from 'react-native-fast-image'
-//@ts-ignore
 import {deepLinkingURL} from '../../../components/src/constants';
 interface Types {
   item: any;

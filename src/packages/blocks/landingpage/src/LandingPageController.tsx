@@ -10,9 +10,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert,Clipboard} from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
-//@ts-ignore
 import {deepLinkingURL} from '../../../components/src/constants';
-//@ts-ignore
 import { store } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
@@ -285,7 +283,7 @@ export default class LandingPageController extends BlockComponent<
       const subCategories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );  
-      this.props.updateCartDetails(subCategories?.data?.attributes?.order_items?.data)
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:subCategories?.data?.attributes?.order_items?.data})
       this.addToCartCallBack(error)
       
     }
@@ -422,6 +420,7 @@ export default class LandingPageController extends BlockComponent<
       }
       else if(cartDetails?.data[0]?.attributes?.order_items?.data)
         {
+          store.dispatch({type:'UPDATE_CART_DETAILS',payload:cartDetails?.data[0]?.attributes?.order_items?.data});
          this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
         }
     }
