@@ -26,8 +26,12 @@ export default class MyCart extends MyCartController {
     }
     const getDiscountPrice=()=>{
      const percentatge =( Math.abs(this.state.discountPercentage) / 100) *getTotalPrice()
-      return Math.round(percentatge)
+      return Math.abs(this.state.discountPercentage);//Math.round(percentatge)
     }
+    const getDicountPercentage=()=>{
+      const percentatge =( Math.abs(this.state.discountPercentage) * 100) / getTotalPrice()
+       return Math.round(percentatge)
+     }
     const getTotal = ()=>{
       return (getTotalPrice() - getDiscountPrice())
     }
@@ -83,7 +87,7 @@ export default class MyCart extends MyCartController {
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{`-$${getDiscountPrice()} (${Math.abs(this.state.discountPercentage)}%)`}</Text>
+                      <Text style={styles.answer}>{`-$${getDiscountPrice()} (${getDicountPercentage()}%)`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
