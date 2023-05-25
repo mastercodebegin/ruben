@@ -19,6 +19,7 @@ interface S {
   showLoader: boolean;
   productsList:Array<any>;
   discountCode:string;
+  discountPercentage:number;
 }
 
 interface SS {
@@ -39,7 +40,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     this.state = {
       showLoader: false,
       productsList:[],
-      discountCode:''
+      discountCode:'',
+      discountPercentage:0
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -89,7 +91,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if (error) {
       Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
     } else if(discoundCode?.promo_code) {
-      this.setState({discountCode:discoundCode?.promo_code,showLoader:false})
+      this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount});
       showToast('Discound code fetched successfully')
     }
   }

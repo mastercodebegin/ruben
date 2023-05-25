@@ -17,6 +17,20 @@ import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 import { store } from "../../../components/src/utils";
 export default class MyCart extends MyCartController {
   render() {
+    const getTotalPrice=()=>{
+      const array = [...store.getState().cartDetails]
+      const totalPrice= array.reduce((accumulator, item:any) => {        
+        return accumulator +item.attributes?.catalogue?.data?.attributes?.price;
+      }, 0);
+      return totalPrice;
+    }
+    const getDiscountPrice=()=>{
+     const percentatge =( Math.abs(this.state.discountPercentage) / 100) *getTotalPrice()
+      return Math.round(percentatge)
+    }
+    const getTotal = ()=>{
+      return (getTotalPrice() - getDiscountPrice())
+    }
     return (
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
@@ -65,21 +79,21 @@ export default class MyCart extends MyCartController {
                   <View style={styles.answerContainer}>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{"$360.00"}</Text>
+                      <Text style={styles.answer}>{`$ ${getTotalPrice()}`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{"-$60.00 (10%)"}</Text>
+                      <Text style={styles.answer}>{`-$${getDiscountPrice()} (${Math.abs(this.state.discountPercentage)}%)`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
-                      <Text style={styles.answer}>{"$0.00"}</Text>
+                      <Text style={styles.answer}>{"$40.00"}</Text>
                     </View>
                   </View>
                   <View style={styles.seperator} />
                   <View style={[styles.row, { paddingHorizontal: 20 }]}>
-                    <Text style={styles.paymentText}>Shipping Charges</Text>
-                    <Text style={styles.answer}>{"$300.00"}</Text>
+                    <Text style={styles.paymentText}>Total</Text>
+                    <Text style={styles.answer}>{`$${getTotal()}`}</Text>
                   </View>
                 </View>
                 <Text style={styles.termsAndCondition}>
