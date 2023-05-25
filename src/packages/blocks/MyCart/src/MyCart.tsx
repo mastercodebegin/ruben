@@ -91,7 +91,7 @@ export default class MyCart extends MyCartController {
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
-                      <Text style={styles.answer}>{"$40.00"}</Text>
+                      <Text style={styles.answer}>{"$0.00"}</Text>
                     </View>
                   </View>
                   <View style={styles.seperator} />
