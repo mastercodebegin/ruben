@@ -1,9 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-//@ts-ignore
-import { DARK_RED, LIGHT_GREY, removeImage } from "./constants";
-//@ts-ignore
-import MeatImage from "./meatimage@1.jpg";
+const { DARK_RED, LIGHT_GREY, removeImage } = require("./constants");
+const MeatImage = require("./meatimage@1.jpg");
 const ProductDetailComponent = ({
   name,
   price,
@@ -11,9 +9,9 @@ const ProductDetailComponent = ({
   image,
   onpressRemove,
   onpressIncrease,
-  index
+  index,
 }: any) => {
-  const [quantities,setQuantities]=useState(quantity?Number(quantity):0)
+  const [quantities, setQuantities] = useState(quantity ? Number(quantity) : 0);
   return (
     <View style={styles.main}>
       <View style={styles.rowCon}>
@@ -25,15 +23,21 @@ const ProductDetailComponent = ({
           </View>
           <View style={styles.row}>
             <View style={styles.counterContainer}>
-              <TouchableOpacity onPress={()=>{
-                if(quantities>1){
-                setQuantities(quantities-1)
-              }
-                }} style={styles.button}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (quantities > 1) {
+                    setQuantities(quantities - 1);
+                  }
+                }}
+                style={styles.button}
+              >
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
               <Text style={styles.counter}>{quantities}</Text>
-              <TouchableOpacity onPress={()=>setQuantities(quantities+1)} style={styles.button}>
+              <TouchableOpacity
+                onPress={() => onpressIncrease()}
+                style={styles.button}
+              >
                 <Text style={styles.count}>{"+"}</Text>
               </TouchableOpacity>
             </View>
@@ -43,7 +47,7 @@ const ProductDetailComponent = ({
           </View>
         </View>
         <TouchableOpacity
-          onPress={()=>onpressRemove(index)}
+          onPress={() => onpressRemove(index)}
           style={styles.removeContainer}
         >
           <Image
@@ -57,7 +61,7 @@ const ProductDetailComponent = ({
   );
 };
 const styles = StyleSheet.create({
-  removeContainer:{
+  removeContainer: {
     padding: 7,
     backgroundColor: LIGHT_GREY,
     marginLeft: 10,

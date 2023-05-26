@@ -14,12 +14,13 @@ import { LIGHT_GREY, DARK_RED, WHITE } from "../assets";
 import CommonStyle from "../commonStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Trigger from "../../../../components/src/CustomTrigger";
-import { store } from "../../../../mobile/App";
+import { store } from "../../../../components/src/utils"; 
 export default class Setting extends LandingPageController {
   render() {
     const isUser = store.getState().currentUser==='user'
     const logout = () => {
       store.dispatch({type:'UPDATE_USER',payload:'user'})
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:[]})
       AsyncStorage.removeItem("userDetails").then(() => {
         this.props.navigation.reset({
           index: 0,

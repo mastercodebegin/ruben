@@ -39,10 +39,10 @@ class ExplorePage extends LandingPageController {
         super(props);
         this.receive = this.receive.bind(this);
     }
-    //@ts-ignore
-    componentDidMount() {
+    async componentDidMount() {
         this.getCategory.bind(this)(1)
         this.getProductList()
+        this.getCart()
     }
     render() {        
         return (
@@ -138,7 +138,10 @@ class ExplorePage extends LandingPageController {
             </ScrollView>
             {
                 this.props.currentUser ==='user'?
-                <CartDetails/>:
+                <>
+                {this.props.cartDetails.length >0 &&<CartDetails numberOfItem={this.props.cartDetails.length }/>}
+                </>
+                :
             <DualButton
             containerStyle={styles.dualButton}
              button2Onpress={()=>this.props.navigation.navigate('AddProducts')} button1Label="Inventory" button2label="+ Add products"/>
@@ -152,14 +155,15 @@ class ExplorePage extends LandingPageController {
 }
 const mapDispatchToProps = (dispatch:any) => {
     return {
-      updateUser: () => {
-        dispatch({type:'UPDATE_USER',payload:'merchant'})},
+    updateCartDetails: (payload:any) => {
+     dispatch({type:'UPDATE_CART_DETAILS',payload:payload})},
     };
   };
   
 const mapStateToProps = (reducer:any) => {    
    return {
      currentUser: reducer?.currentUser,
+     cartDetails:reducer.cartDetails
    };
  };
  const ReduxExplorePage : any= connect(mapStateToProps,mapDispatchToProps)(ExplorePage);

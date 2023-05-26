@@ -10,8 +10,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import { Alert, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//@ts-ignore
-import { store } from "../../../mobile/App";
+import { store } from "../../../components/src/utils";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -228,7 +227,7 @@ export default class EmailAccountLoginController extends BlockComponent<
     return true;
   }
 
-  doMerchantSignup(password: string) {
+  doMerchantSignup() {
     if (this.state.mEmail === '') {
       this.showAppAlert('Error','Email can not be blank')
       return

@@ -121,12 +121,15 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
         navigation={this.props.navigation}
       >
         {this.state.show_loader ? (
-          <CommonLoader visible={this.state.show_loader} />
+          <View>
+            <CommonLoader visible={this.state.show_loader} />
+          </View>
         ) : (
           <View style={{ flex: 1 }}>
             <FlatList
               data={this.state.favoritesList}
               showsVerticalScrollIndicator={false}
+              contentContainerStyle={{paddingHorizontal:20}}
               bounces={false}
               renderItem={({ item }) => {
                 if (!item.attributes.catalogue_id.data) {

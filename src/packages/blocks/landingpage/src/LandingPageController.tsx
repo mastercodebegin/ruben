@@ -10,10 +10,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Animated,Alert,Clipboard} from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
-//@ts-ignore
 import {deepLinkingURL} from '../../../components/src/constants';
-//@ts-ignore
-import {store} from '../../../mobile/App';
+import { store } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
@@ -33,6 +31,8 @@ export interface Props {
   firstTime:boolean;
   currentUser:string;
   route:any;
+  updateCartDetails:(data:any)=>void;
+  cartDetails:Array<any>;
   // Customizable Area End
 }
 
@@ -72,6 +72,7 @@ interface S {
   productList: Array<object>;
   aboutus:any;
   orderList: Array<any>;
+  cartList:Array<any>;
   // Customizable Area End
 }
 
@@ -170,7 +171,8 @@ export default class LandingPageController extends BlockComponent<
           id: 3,
         },
       ],
-      aboutus:null
+      aboutus:null,
+      cartList:[]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -278,7 +280,10 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      
+      const subCategories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:subCategories?.data?.attributes?.order_items?.data})
       this.addToCartCallBack(error)
       
     }
@@ -392,9 +397,34 @@ export default class LandingPageController extends BlockComponent<
         );
         this.addToFavCallBack(AddToFavRes,error);
         
+      }else{
+        this.cartCallBack(message)
       }
   }
 
+  cartCallBack(message:any){
+     if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getCartId != null &&
+      this.getCartId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const cartDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );  
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if(error){
+        Alert.alert('Error',"Something went wrong please try again.")
+      }
+      else if(cartDetails?.data[0]?.attributes?.order_items?.data)
+        {
+          store.dispatch({type:'UPDATE_CART_DETAILS',payload:cartDetails?.data[0]?.attributes?.order_items?.data});
+         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
+        }
+    }
+  }
 
   addToCartCallBack(error:any){    
     if(error){      
@@ -478,6 +508,7 @@ export default class LandingPageController extends BlockComponent<
   getVideoLibraryId:string='';
   categoryPage:any=1;
   addToFavId:string=''
+  getCartId:string='';
   addToCartId:string='';
   userdetailsProps={
     getuserDetails:this.getProfileDetails
@@ -993,6 +1024,29 @@ export default class LandingPageController extends BlockComponent<
       `${deepLinkingURL}?/product=${1}`
     );
     showToast('Link Copied')
+  }
+  async getCart() {
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.getCartId = subcategory.messageId;
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getCart
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getOrderList() {
     this.setState({ show_loader: true })

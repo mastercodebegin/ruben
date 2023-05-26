@@ -36,6 +36,7 @@ export default class Recomentations extends RecomentationsController {
             data={this.state.recomentedProducts}
             showsVerticalScrollIndicator={false}
             bounces={false}
+            contentContainerStyle={{paddingHorizontal:20}}
             renderItem={({item}:any) => {              
               return (
                 <View style={styles.main}>

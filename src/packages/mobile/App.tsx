@@ -5,7 +5,7 @@ import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/s
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
-import LandingPage from '../blocks/landingpage/src/LandingPage';
+import {ReduxLandingPage} from '../blocks/landingpage/src/LandingPage';
 import AddProductScreen from '../blocks/landingpage/src/AddProducts/AddProduct'
 import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
@@ -22,7 +22,6 @@ import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
@@ -35,6 +34,8 @@ import Recomentations from '../blocks/Recomentations/src/recomentations';
 import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
+import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
+import { linking, store } from '../components/src/utils';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -67,83 +68,14 @@ const BlogPostStack= ()=>{
   
 }
 const Stack = createStackNavigator();
-const initialState = { currentUser: 'user', profileDetails: null };
 
-const reducer = (state = initialState, action: any) => {
-  switch (action?.type) {
-    case 'UPDATE_USER':
-      return { ...state, currentUser: action.payload }
-    case 'PROFILE_DETAILS':
-      return { ...state, profileDetails: action.payload }
-    default:
-      return state;
-  }
-};
-const config = {
-  screens: {
-    // BlogPost: '*',
+export const navigationRef:any = React.createRef();
 
-  },
-};
-
-const linking = {
-  prefixes: ['https://'],
-  config: config,
-  getStateFromPath: (path: string) => {
-    const specifiedPath =  path.split("=")[0];
-    const screen =specifiedPath.split("/").pop()
-    switch (screen) {
-      case 'video':
-        return {
-          routes: [
-            {
-              name: 'LoadingScreen',
-              params: { video: path?.split("video=")[1] },
-            },
-          ],
-        };
-      case 'token':
-        return {
-          routes: [
-            {
-              name: 'ResetPassword',
-              params: { token: path?.split("token=")[1] },
-            },
-          ],
-        };
-        case'blogpost':
-        return {
-          routes: [
-            {
-              name: 'LoadingScreen',
-              params: { blog :true , id: path?.split("blogpost=")[1] },
-            },
-          ],
-        };
-        case'product':
-        return {
-          routes: [
-            {
-              name: 'LoadingScreen',
-              params: { product :true , id: path?.split("product=")[1] },
-            },
-          ],
-        };
-      default:
-        return null;
-    }
-  },
-};
-export const navigationRef = React.createRef();
-
-export const store = createStore(reducer);
 const RootNavigator = ({ initialScreen }: NavigatorType) => {
 
   return (
     <NavigationContainer
-      //@ts-ignore
       ref={navigationRef}
-      //@ts-ignore
       linking={linking}
     >
       <Stack.Navigator
@@ -166,7 +98,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="ExplorePage" component={ExplorePage} />
-        <Stack.Screen name="LandingPage" component={LandingPage} />
+        <Stack.Screen name="LandingPage" component={ReduxLandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
         <Stack.Screen name='TermsAndCondition' component={TermsAndConditions}/>
@@ -181,6 +113,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='DetailsPage' component={DetailsPage}/>
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
+        <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

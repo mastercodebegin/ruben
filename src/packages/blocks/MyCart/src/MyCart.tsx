@@ -2,10 +2,10 @@ import React from "react";
 import {
   View,
   SafeAreaView,
-  FlatList,
   Text,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MileStone from "../../../components/src/MilestoneComponent";
@@ -13,19 +13,36 @@ import MyCartController from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
+import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
+import { store } from "../../../components/src/utils";
 export default class MyCart extends MyCartController {
-  async componentDidMount(){
-    this.getCart()
-  }
   render() {
+    const getTotalPrice=()=>{
+      const array = [...store.getState().cartDetails]
+      const totalPrice= array.reduce((accumulator, item:any) => {        
+        return accumulator +item.attributes?.catalogue?.data?.attributes?.price;
+      }, 0);
+      return totalPrice;
+    }
+    const getDiscountPrice=()=>{
+     //const percentatge =( Math.abs(this.state.discountPercentage) / 100) *getTotalPrice()
+      return Math.abs(this.state.discountPercentage);
+    }
+    const getDicountPercentage=()=>{
+      const percentatge =( Math.abs(this.state.discountPercentage) * 100) / getTotalPrice()
+       return Math.round(percentatge)
+     }
+    const getTotal = ()=>{
+      return (getTotalPrice() - getDiscountPrice())
+    }
     return (
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
           headerText="My Cart"
         >
-          <FlatList
-            data={this.state.productsList}
+          <KeyboardAwareFlatList
+            data={store.getState().cartDetails}
             bounces={false}
             ListHeaderComponent={() => (
               <View>
@@ -43,13 +60,22 @@ export default class MyCart extends MyCartController {
             keyExtractor={(item, index) => {
               return String(item) + index;
             }}
-            ListFooterComponent={() => (
+            ListFooterComponent={
               <View>
-                <View style={styles.bottomRadius} />
+              <View style={styles.bottomRadius} />
+
                 <View style={styles.discountContainer}>
                   <View style={styles.shade} />
-                  <Text style={styles.discount}>Enter Discount Code</Text>
+                  <TextInput
+                   placeholder="Enter Discount Code"
+                    value={this.state.discountCode}
+                     onChangeText={(text)=>this.setState({discountCode:text})}
+                    style={styles.textInput}
+                    placeholderTextColor='#A0272A'
+                    />
+                  <TouchableOpacity onPress={()=>this.getDiscountCode.bind(this)()}>
                   <Text style={styles.direct}>Fetch Directly</Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.paymentContainer}>
                   <Text style={styles.headerText}>PAYMENT DETAILS</Text>
@@ -57,11 +83,11 @@ export default class MyCart extends MyCartController {
                   <View style={styles.answerContainer}>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{"$360.00"}</Text>
+                      <Text style={styles.answer}>{`$ ${getTotalPrice()}`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{"-$60.00 (10%)"}</Text>
+                      <Text style={styles.answer}>{`-$${getDiscountPrice()} (${getDicountPercentage()}%)`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
@@ -70,31 +96,31 @@ export default class MyCart extends MyCartController {
                   </View>
                   <View style={styles.seperator} />
                   <View style={[styles.row, { paddingHorizontal: 20 }]}>
-                    <Text style={styles.paymentText}>Shipping Charges</Text>
-                    <Text style={styles.answer}>{"$300.00"}</Text>
+                    <Text style={styles.paymentText}>Total</Text>
+                    <Text style={styles.answer}>{`$${getTotal()}`}</Text>
                   </View>
                 </View>
                 <Text style={styles.termsAndCondition}>
                   {"*terms & conditions apply"}
                 </Text>
                 <Button
-                  onPress={() => {}}
+                  onPress={() => this.props.navigation.navigate('PersonelDetails')}
                   label="Continue to Personel Details"
                 />
                 <TouchableOpacity style={styles.button}>
                   <Text style={styles.buttonText}>{"Cancel"}</Text>
                 </TouchableOpacity>
               </View>
-            )}
+            }
             ListEmptyComponent={()=>(
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item,index}) => {
+            renderItem={({item,index}) => { 
               return (
                 <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
-                price={item.attributes?.price}
+                price={item.attributes?.catalogue?.data?.attributes?.price}
                 quantity={item.attributes?.quantity}
                 index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
@@ -103,7 +129,7 @@ export default class MyCart extends MyCartController {
                     array.splice(index, 1);
                     this.setState({productsList:array})
                 }}
-                onpressIncrease={this.increaseCartQuatity.bind(this)}
+                onpressIncrease={()=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,true)}
               />
             )}}
           />
@@ -116,7 +142,7 @@ export default class MyCart extends MyCartController {
 const styles = StyleSheet.create({
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
-  contentContainer: { paddingBottom: 20 },
+  contentContainer: { paddingBottom: 20,paddingHorizontal:20 },
   buttonText: {
     color: "#A0272A",
     textAlign: "center",
@@ -145,7 +171,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 20,
   },
-  direct: { fontSize: 16, fontWeight: "bold", color: "grey" },
+  direct: { fontSize: 16, fontWeight: "bold", color: "grey",paddingVertical:25 },
   discount: {
     fontSize: 16,
     fontWeight: "bold",
@@ -164,8 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 20,
-    paddingVertical: 25,
-    paddingHorizontal: 25,
+    paddingRight: 25,
     borderRadius: 35,
     borderWidth: 2,
     borderColor: "#A0272A",
@@ -192,4 +217,5 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   main: { flex: 1 },
+  textInput:{flex:1,paddingLeft:25,fontWeight:'bold',fontSize:16,color:'#A0272A'}
 });

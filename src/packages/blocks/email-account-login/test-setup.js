@@ -10,7 +10,7 @@ jest.mock('@react-native-async-storage/async-storage',()=>({
 jest.mock('react-native-simple-toast',()=>({show:jest.fn()}))
 
 
-jest.mock("../../mobile/App", () => ({
+jest.mock("../../components/src/utils", () => ({
     store: {
       getState: jest.fn(() => "mocked state"),
       dispatch:jest.fn()

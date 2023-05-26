@@ -4,12 +4,13 @@ interface CheckBoxTypes {
   checked: boolean;
   setChecked: (value: boolean) => void;
   testID?:string;
+  backgroundColor?:string | undefined;
 }
-const CheckBox = ({ checked, setChecked ,testID}: CheckBoxTypes) => {
+const CheckBox = ({ checked, setChecked ,testID,backgroundColor='white'}: CheckBoxTypes) => {
   return (
     <TouchableOpacity
     testID={testID}
-      onPress={() => setChecked(!checked)} style={styles.checkBox}
+      onPress={() => setChecked(!checked)} style={{...styles.checkBox,backgroundColor:backgroundColor}}
     >
       {checked && <View style={styles.dot} />}
     </TouchableOpacity>

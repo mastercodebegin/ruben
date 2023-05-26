@@ -18,6 +18,8 @@ export interface Props {
 interface S {
   showLoader: boolean;
   productsList:Array<any>;
+  discountCode:string;
+  discountPercentage:number;
 }
 
 interface SS {
@@ -37,7 +39,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       showLoader: false,
-      productsList:[]
+      productsList:[],
+      discountCode:'',
+      discountPercentage:0
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -45,27 +49,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   cartCallId:string ='';
   removeItemCallId:string='';
   increaseCartCallId:string='';
+  fetchDiscountCode:string='';
 
   async receive(from: string, message: Message) {
-    if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.cartCallId != null &&
-      this.cartCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let blogDetails = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      if (error) {
-        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
-      } else {
-      this.setState({productsList:blogDetails?.data,showLoader:false})
-       
-      }
-    }else if (
+  if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.removeItemCallId != null &&
       this.removeItemCallId ===
@@ -73,9 +60,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     ) {
       let increaseCartResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      console.log('increaseCartResponse ',increaseCartResponse);
-      
+      );      
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -84,8 +69,29 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       } else {
         showToast('success')
       }
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.fetchDiscountCode != null &&
+      this.fetchDiscountCode ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let discoundCode = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );      
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.discoundCodeCallback(discoundCode,error)
     }
     
+  }
+  discoundCodeCallback(discoundCode:any,error=false){
+    if (error) {
+      Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+    } else if(discoundCode?.promo_code) {
+      this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount});
+      showToast('Discound code fetched successfully')
+    }
   }
   async getCart() {
     this.setState({ showLoader: true });
@@ -113,7 +119,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async increaseCartQuatity(count:number){
+  async increaseCartQuatity(id:number,type:boolean){    
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -125,7 +131,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.increaseCartQuantity}${count}`
+      `${type ? configJSON.increaseCartQuantity : configJSON.decreaseCartQuantity}${id}`
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -158,6 +164,32 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
      configJSON.httpDeleteMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async getDiscountCode() {
+    this.setState({showLoader:true})
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.fetchDiscountCode = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.fetchDiscoundCode
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
