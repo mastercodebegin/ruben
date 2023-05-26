@@ -60,9 +60,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     ) {
       let increaseCartResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      console.log('increaseCartResponse ',increaseCartResponse);
-      
+      );      
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
