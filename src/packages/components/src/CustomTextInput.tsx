@@ -24,6 +24,7 @@ interface TextInputType {
   textInputStyle?: StyleProp<TextStyle>;
   labeStyle?: StyleProp<TextStyle>;
   numberOfLines?: number;
+  testID?:string;
 }
 const TextInput = ({
   label,
@@ -37,6 +38,7 @@ const TextInput = ({
   textInputStyle,
   numberOfLines,
   labeStyle,
+  testID
 }: TextInputType) => {
   const [secureEntry, setSecureEntry] = React.useState(secureTextEntry);
   return (
@@ -49,6 +51,7 @@ const TextInput = ({
           value={value}
           keyboardType={keyBoardtype}
           multiline={multiline}
+          testID={testID}
           numberOfLines={numberOfLines}
           onChangeText={onchangeText}
           placeholder={placeholder}

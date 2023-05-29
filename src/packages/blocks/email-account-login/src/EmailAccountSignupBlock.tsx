@@ -16,27 +16,7 @@ import EmailAccountLoginController, {
 import Header from "./RenderHeader";
 
 export default class EmailAccountSignupBlock extends EmailAccountLoginController {
-  onpressLoginButton() {
-    if (this.state.email === "") {
-      Alert.alert("Error", "Email is required");
-      return false;
-    } else if (this.state.password === "") {
-      Alert.alert("Error", "Password is required");
-      return false;
-    } else if (
-      this.state.email === null ||
-      !this.emailReg.test(this.state.email)
-    ) {
-      this.showAlert("Error", configJSON.errorEmailNotValid);
-      return false;
-    }
-    this.setState({ showLoader: true });
-    this.btnEmailLogInProps.onPress();
-    return true;
-  }
-  onchangeEmail(text: string) {
-    this.setState({ email: text });
-  }
+
   constructor(props: Props) {
     super(props);
   }

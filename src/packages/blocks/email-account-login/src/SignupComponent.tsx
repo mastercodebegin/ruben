@@ -82,6 +82,7 @@ const SignupComponent = ({
           <View style={styles.row}>
             <CheckBox
               checked={isMerchant === "user"}
+              testID="user_checkBox"
               setChecked={(usr) => setIsMerchant(usr ? "user" : "merchant")}
             />
             <Text style={styles.rememberText}>User</Text>
@@ -103,6 +104,7 @@ const SignupComponent = ({
               label="Email ID"
               value={email}
               labeStyle={styles.label}
+              testID='user-email'
               placeholder="Email ID"
             />
             <TextInput
@@ -110,6 +112,7 @@ const SignupComponent = ({
               label="Password"
               keyBoardtype="default"
               value={password}
+              testID="user_password"
               onchangeText={onchangePassword}
               placeholder="Password"
               labeStyle={styles.label}
@@ -123,6 +126,7 @@ const SignupComponent = ({
               onchangeText={onChangeMEmail}
               label="Email ID"
               value={mEmail}
+              testID="merchant_mail"
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
               placeholder="Email ID"
