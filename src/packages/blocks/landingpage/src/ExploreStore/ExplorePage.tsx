@@ -74,7 +74,10 @@ class ExplorePage extends LandingPageController {
                                 />
                             </View>
                             <View style={{ height: "100%" }}>
-                                <TouchableOpacity style={styles.exploreBtn}>
+                                <TouchableOpacity style={styles.exploreBtn}                             
+                                 onPress={()=> {
+                                    console.log("add filter")
+                                 }}>
                                     <Image
                                         style={styles.explore}
                                         resizeMode="contain"
