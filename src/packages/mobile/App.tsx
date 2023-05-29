@@ -5,6 +5,7 @@ import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/s
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
+import EmailAccountSignuplock from '../blocks/email-account-login/src/EmailAccountSignupBlock';
 import {ReduxLandingPage} from '../blocks/landingpage/src/LandingPage';
 import AddProductScreen from '../blocks/landingpage/src/AddProducts/AddProduct'
 import MeatLocker from '../components/src/MeatLocker';
@@ -36,6 +37,7 @@ import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
 import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
 import { linking, store } from '../components/src/utils';
+import { customAlert } from '../framework/src/Utilities';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -54,16 +56,32 @@ const BlogPostStack= ()=>{
     return (
       <SafeAreaView style={{flex:1}}>
       <Header navigation={navigationRef.current}/>
-      <Stack.Navigator screenOptions={()=>({
+      <Stack.Navigator screenOptions={{
         gestureEnabled: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         gestureDirection:'horizontal',
         headerShown:false
-      })}>
+      }}>
        <Stack.Screen name="BlogPost" component={BlogPost} />
        <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
       </Stack.Navigator>
       </SafeAreaView>
+    );
+  
+}
+const AuthenticationStack= ()=>{
+  const Stack = createStackNavigator();
+
+    return (
+      <Stack.Navigator screenOptions={{
+        gestureEnabled: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureDirection:'horizontal',
+        headerShown:false
+      }}>
+       <Stack.Screen name="EmailAccountLoginBlock" component={EmailAccountLoginBlock} />
+       <Stack.Screen name="EmailAccountSignupBlock" component={EmailAccountSignuplock} />
+      </Stack.Navigator>
     );
   
 }
@@ -85,10 +103,6 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen
           name="SocialMediaAccountLoginScreen"
           component={SocialMediaAccountLoginScreen}
-        />
-        <Stack.Screen
-          name="EmailAccountLoginBlock" 
-          component={EmailAccountLoginBlock}
         />
         <Stack.Screen name="Myprofile" component={Myprofile} />
         <Stack.Screen name="MyCart" component={MyCart} />
@@ -114,6 +128,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
         <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
+        <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -136,7 +151,7 @@ export function App() {
           setInitialScreen({ show: false, initialRoute: 'Splashscreen' });
         }
       }, 2000);
-    });
+    }).catch(()=>customAlert('Error','Something went wrong'));
   };
   useEffect(() => {
     getUserDetails()

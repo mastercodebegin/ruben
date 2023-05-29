@@ -9,6 +9,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
+import { customAlert } from "../../../framework/src/Utilities";
 export interface Props {
   navigation: any;
   id: string;
@@ -47,12 +48,12 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
 
   async componentDidMount() {
     if(this.props.route.params.blog){      
-      this.getBlogPostDetails(this.props.route.params.id);
+      this.getBlogPostDetails(this.props.route.params.id).catch(()=>customAlert('Error','Something went wrong'));
     }else if(this.props.route.params.product){
-      this.getProductDetails(27)
+      this.getProductDetails(27).catch(()=>customAlert('Error','Something went wrong'))
     }
     else {
-      this.getVideoLibrary();
+      this.getVideoLibrary().catch(()=>customAlert('Error','Something went wrong'));
     }
   }
 
@@ -79,17 +80,13 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     ){
       let blogPostDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      console.log('blogPostDetailsblogPostDetails ',blogPostDetails);
-      
+      );      
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
         Alert.alert("Error", "Something went wrong");
-      }else {
-        console.log('blogPostDetails?.data?.attributes?.name ',blogPostDetails?.data?.attributes?.name);
-        
+      }else {        
         this.props.navigation.reset({
           index: 1,
           routes: [
@@ -160,10 +157,10 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
           this.setState({showLoader:false})
           this.props.navigation.reset({
             index: 0,
-            routes: [{ name: "EmailAccountLoginBlock" }],
+            routes: [{ name: "AuthenticationStack" }],
           });
         }
-      });
+      }).catch(()=>customAlert('Error','Something went wrong'));
     }
   }
 
