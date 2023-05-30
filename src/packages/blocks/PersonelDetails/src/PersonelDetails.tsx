@@ -72,6 +72,10 @@ export default class PersonelDetails extends PersonelDetailsController {
               <SavedAddresses />
             </View>
             <AvailableSlots />
+            <View style={{paddingTop:20}}>
+            <Text style={styles.estimation}>{'* Estimated delivery:'}</Text>
+            <Text style={styles.estimation}>{'Within 3 days, 21st Oct,Friday- 9:00 AM to 6:00 PM'}</Text>
+            </View>
             <DoubleButton
               button1Label="Continue to Summary"
               button1_Onpress={() => {}}

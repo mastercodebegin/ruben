@@ -2,10 +2,28 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import CheckBox from "../../../components/src/CustomRadioBtn";
-import { DARK_RED, LIGHT_GREY ,PRIMARY} from "../../../components/src/constants";
+import {
+  DARK_RED,
+  LIGHT_GREY,
+  PRIMARY,
+} from "../../../components/src/constants";
 
+const addressList = [
+  {
+    name: "Office Address",
+    address: "12 AB building near test road , Dallas",
+  },
+  {
+    name: "Home Address",
+    address: "12 AB building near test road , Dallas",
+  },
+  {
+    name: "Other Address",
+    address: "12 AB building near test road , Dallas",
+  },
+];
 const RenderAddress = ({ title }: any) => (
-  <View>
+  <View key={title}>
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <CheckBox
         backgroundColor={LIGHT_GREY}
@@ -30,22 +48,12 @@ export default class SavedAddresses extends Component {
             {"CHOOSE FROM SAVED ADDRESSES"}
           </Text>
         </View>
-        <RenderAddress title="Office Address" />
-        <RenderAddress title="Home Address" />
-        <RenderAddress title="Other Address" />
+        {addressList.map((item) => {
+          return <RenderAddress key={item.name} title={item.name} />;
+        })}
 
-        <TouchableOpacity
-          style={{
-            borderColor: PRIMARY,
-            borderWidth: 1,
-            alignItems: "center",
-            marginTop: 20,
-            paddingVertical:12,
-            borderRadius:20,
-            backgroundColor:LIGHT_GREY
-          }}
-        >
-          <Text style={{color:PRIMARY,}}>Delivery</Text>
+        <TouchableOpacity style={styles.delivery}>
+          <Text style={{ color: PRIMARY }}>Delivery</Text>
         </TouchableOpacity>
       </View>
     );

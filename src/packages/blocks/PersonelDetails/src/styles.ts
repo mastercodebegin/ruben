@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { LIGHT_GREY, WHITE } from "../../../components/src/constants";
+import { LIGHT_GREY, PRIMARY, WHITE } from "../../../components/src/constants";
 import {
   responsiveHeight,
   responsiveWidth,
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    paddingTop: 20,
+    paddingVertical: 20,
   },
   safearea: { flex: 1, backgroundColor: LIGHT_GREY },
   seperator: { width: responsiveWidth(3) },
@@ -44,18 +44,63 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   seperatorLine: { borderBottomColor: "lightgrey", borderBottomWidth: 1 },
-  availableSlot:{
+  availableSlot: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal:10
   },
-  slotContainer:{
+  slotContainer: {
     paddingVertical: 12,
     marginHorizontal: 5,
     marginVertical: 5,
     borderRadius: 5,
-    flex:1,
-    justifyContent:"center",
-    alignItems:'center'
-  }
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+  },
+  blur: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: "white",
+    opacity: 0.6,
+    borderRadius: 15,
+  },
+  checkBoxContainer: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    elevation: 1,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+    alignItems: "center",
+  },
+  availableText: { color: DARK_RED, fontSize: 17, paddingVertical: 15 },
+  address: { fontSize: 16, color: DARK_RED, paddingHorizontal: 12 },
+  slots: { marginTop: 20, paddingBottom: 20 },
+  container: { paddingHorizontal: 15 },
+  estimation: {
+    fontSize: 17,
+    color: "grey",
+  },
+  delivery: {
+    borderColor: PRIMARY,
+    borderWidth: 1,
+    alignItems: "center",
+    marginTop: 20,
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: LIGHT_GREY,
+  },
+  emptySlot: { flex: 1, marginHorizontal: 5, marginVertical: 5 },
 });
