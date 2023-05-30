@@ -73,6 +73,7 @@ interface S {
   aboutus:any;
   orderList: Array<any>;
   cartList:Array<any>;
+  show_SortingDropdown: boolean,
   // Customizable Area End
 }
 
@@ -103,6 +104,7 @@ export default class LandingPageController extends BlockComponent<
       name:'',
       email:'',
       instagram_link:'',
+      show_SortingDropdown: false,
       facebook_link:'',
       whatsapp_link:'',
       about_me:'',
