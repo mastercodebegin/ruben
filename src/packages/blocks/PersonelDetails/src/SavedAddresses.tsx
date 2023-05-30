@@ -8,38 +8,40 @@ import {
   PRIMARY,
 } from "../../../components/src/constants";
 
-const addressList = [
-  {
-    name: "Office Address",
-    address: "12 AB building near test road , Dallas",
-  },
-  {
-    name: "Home Address",
-    address: "12 AB building near test road , Dallas",
-  },
-  {
-    name: "Other Address",
-    address: "12 AB building near test road , Dallas",
-  },
-];
-const RenderAddress = ({ title }: any) => (
+interface RenderAddressTypes {
+  title: string;
+  setChecked: () => void;
+  checked: boolean;
+}
+const RenderAddress = ({ title, setChecked, checked }: RenderAddressTypes) => (
   <View key={title}>
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <CheckBox
-        backgroundColor={LIGHT_GREY}
-        checked={true}
-        setChecked={() => {}}
-      />
-      <Text style={[styles.question, { paddingVertical: 10, paddingLeft: 10 }]}>
-        {title}
-      </Text>
+    <View style={styles.addressContainer}>
+      <TouchableOpacity style={styles.padding} onPress={setChecked}>
+        <CheckBox
+          backgroundColor={LIGHT_GREY}
+          checked={checked}
+          disabled
+          setChecked={() => {}}
+        />
+      </TouchableOpacity>
+      <Text style={[styles.question, styles.addressText]}>{title}</Text>
     </View>
     <Text style={{ color: DARK_RED }}>
       {"12 AB building near test road , Dallas"}
     </Text>
   </View>
 );
-export default class SavedAddresses extends Component {
+interface Props {
+  setSelectedAddress: (address: number) => void;
+  selectedAddress: number;
+  addressList: Array<any>;
+}
+interface State {}
+export default class SavedAddresses extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {};
+  }
   render() {
     return (
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
@@ -48,8 +50,17 @@ export default class SavedAddresses extends Component {
             {"CHOOSE FROM SAVED ADDRESSES"}
           </Text>
         </View>
-        {addressList.map((item) => {
-          return <RenderAddress key={item.name} title={item.name} />;
+        {this.props.addressList.map((item, index) => {
+          return (
+            <RenderAddress
+              checked={this.props.selectedAddress === index}
+              setChecked={() => {
+                this.props.setSelectedAddress(index);
+              }}
+              key={item.name}
+              title={item.name}
+            />
+          );
         })}
 
         <TouchableOpacity style={styles.delivery}>

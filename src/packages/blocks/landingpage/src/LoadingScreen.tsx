@@ -43,17 +43,16 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
   getDetailsId: string = "";
-  getBlogPostId:string ="";
-  getProductDetailsId:string = "";
+  getBlogPostId: string = "";
+  getProductDetailsId: string = "";
 
   async componentDidMount() {
-    if(this.props.route.params.blog){      
-      this.getBlogPostDetails(this.props.route.params.id).catch(()=>customAlert('Error','Something went wrong'));
-    }else if(this.props.route.params.product){
-      this.getProductDetails(27).catch(()=>customAlert('Error','Something went wrong'))
-    }
-    else {
-      this.getVideoLibrary().catch(()=>customAlert('Error','Something went wrong'));
+    if (this.props.route.params.blog) {
+      await this.getBlogPostDetails(this.props.route.params.id);
+    } else if (this.props.route.params.product) {
+      await this.getProductDetails(27);
+    } else {
+      await this.getVideoLibrary();
     }
   }
 
@@ -70,23 +69,22 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-     this.videoLibraryCallback(blogDetails,error)
-    }
-    else if (
+      this.videoLibraryCallback(blogDetails, error);
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getBlogPostId != null &&
       this.getBlogPostId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ){
+    ) {
       let blogPostDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
         Alert.alert("Error", "Something went wrong");
-      }else {        
+      } else {
         this.props.navigation.reset({
           index: 1,
           routes: [
@@ -98,22 +96,22 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
                 created_at: blogPostDetails?.date?.attributes?.created_at,
                 url: blogPostDetails?.data?.attributes?.images[0]?.url,
                 description: blogPostDetails?.data?.attributes?.description,
-                id:blogPostDetails?.data?.attributes?.id,
+                id: blogPostDetails?.data?.attributes?.id,
                 type: "image",
               },
             },
           ],
         });
       }
-    }  else if (
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getProductDetailsId != null &&
       this.getProductDetailsId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ){
+    ) {
       let productDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -122,54 +120,55 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
         routes: [
           { name: "LandingPage" },
           {
-            name: "ProductDetailScreen"
+            name: "ProductDetailScreen",
           },
         ],
       });
-     this.productDetailCallBack(productDetails,error)
+      this.productDetailCallBack(productDetails, error);
     }
-    
   }
-  videoLibraryCallback(blogDetails:any,error:any){
+  videoLibraryCallback(blogDetails: any, error: any) {
     if (error) {
       Alert.alert("Error", "Something went wrong");
     } else {
-      AsyncStorage.getItem("userDetails").then((res) => {
-        if (res) {
-          this.setState({showLoader:false})
-          this.props.navigation.reset({
-            index: 1,
-            routes: [
-              { name: "LandingPage" },
-              {
-                name: "DetailsPage",
-                params: {
-                  name: blogDetails?.data?.attributes?.name,
-                  created_at: blogDetails?.date?.attributes?.created_at,
-                  url: blogDetails?.data?.attributes?.videos[0]?.url,
-                  description: blogDetails?.data?.attributes?.description,
-                  type: "video",
+      AsyncStorage.getItem("userDetails")
+        .then((res) => {
+          if (res) {
+            this.setState({ showLoader: false });
+            this.props.navigation.reset({
+              index: 1,
+              routes: [
+                { name: "LandingPage" },
+                {
+                  name: "DetailsPage",
+                  params: {
+                    name: blogDetails?.data?.attributes?.name,
+                    created_at: blogDetails?.date?.attributes?.created_at,
+                    url: blogDetails?.data?.attributes?.videos[0]?.url,
+                    description: blogDetails?.data?.attributes?.description,
+                    type: "video",
+                  },
                 },
-              },
-            ],
-          });
-        } else {
-          this.setState({showLoader:false})
-          this.props.navigation.reset({
-            index: 0,
-            routes: [{ name: "AuthenticationStack" }],
-          });
-        }
-      }).catch(()=>customAlert('Error','Something went wrong'));
+              ],
+            });
+          } else {
+            this.setState({ showLoader: false });
+            this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: "AuthenticationStack" }],
+            });
+          }
+        })
+        .then(() => {})
+        .catch(() => customAlert("Error", "Something went wrong"));
     }
   }
 
-  productDetailCallBack(productDetails:any,error:any){
+  productDetailCallBack(productDetails: any, error: any) {
     if (error) {
       Alert.alert("Error", "Something went wrong");
-    }else {        
-      console.log('productDetails ',productDetails);
-      
+    } else {
+      console.log("productDetails ", productDetails);
     }
   }
   async getVideoLibrary() {
@@ -187,7 +186,6 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_posts/posts/${this.props.route?.params?.video}`
     );
-    
 
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -199,7 +197,7 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async getBlogPostDetails(id:number) {
+  async getBlogPostDetails(id: number) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -208,7 +206,7 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-    this.getBlogPostId = subcategory.messageId;    
+    this.getBlogPostId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -225,7 +223,7 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async getProductDetails(id:number) {
+  async getProductDetails(id: number) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -234,7 +232,7 @@ export default class LoadingScreen extends BlockComponent<Props, S, SS> {
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-    this.getProductDetailsId = subcategory.messageId;    
+    this.getProductDetailsId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),

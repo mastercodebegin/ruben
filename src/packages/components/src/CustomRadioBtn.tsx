@@ -3,14 +3,23 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 interface CheckBoxTypes {
   checked: boolean;
   setChecked: (value: boolean) => void;
-  testID?:string;
-  backgroundColor?:string | undefined;
+  testID?: string;
+  backgroundColor: string | undefined;
+  disabled?: boolean;
 }
-const CheckBox = ({ checked, setChecked ,testID,backgroundColor='white'}: CheckBoxTypes) => {
+const CheckBox = ({
+  checked,
+  setChecked,
+  testID,
+  backgroundColor = "white",
+  disabled,
+}: CheckBoxTypes) => {
   return (
     <TouchableOpacity
-    testID={testID}
-      onPress={() => setChecked(!checked)} style={{...styles.checkBox,backgroundColor:backgroundColor}}
+      disabled={disabled}
+      testID={testID}
+      onPress={() => setChecked(!checked)}
+      style={{ ...styles.checkBox, backgroundColor: backgroundColor }}
     >
       {checked && <View style={styles.dot} />}
     </TouchableOpacity>

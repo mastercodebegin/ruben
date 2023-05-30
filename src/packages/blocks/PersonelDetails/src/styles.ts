@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 20,
     borderRadius: 20,
+    paddingBottom: 20,
   },
   seperatorLine: { borderBottomColor: "lightgrey", borderBottomWidth: 1 },
   availableSlot: {
@@ -103,4 +104,7 @@ export const styles = StyleSheet.create({
     backgroundColor: LIGHT_GREY,
   },
   emptySlot: { flex: 1, marginHorizontal: 5, marginVertical: 5 },
+  addressContainer: { flexDirection: "row", alignItems: "center" },
+  padding: { padding: 3 },
+  addressText: { paddingVertical: 10, paddingLeft: 10 },
 });
