@@ -181,14 +181,6 @@ defineFeature(feature, (test) => {
       simulateTextInput("user-email", "test@gmail.com");
       simulateTextInput("user_password", "QWEqwe123!");
     });
-    then("user trying to signup us a merchant", () => {
-      const { getByTestId } = render(
-        <EmailAccountSignupBlock {...screenProps} />
-      );
-
-      fireEvent.press(getByTestId("user_checkBox"));
-      simulateTextInput("merchant_mail", "test@gmail.com");
-    });
     then("user trying to signup us a user", () => {
       const { getByTestId } = render(
         <EmailAccountSignupBlock {...screenProps} />

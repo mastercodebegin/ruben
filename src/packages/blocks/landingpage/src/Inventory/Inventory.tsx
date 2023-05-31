@@ -165,7 +165,7 @@ export default class Inventory extends LandingPageController {
                     <FlatList
                         data={DATA}
                         renderItem={({ item }) => this.renderItem(item)}
-                        keyExtractor={item => item.id}
+                        keyExtractor={(item) => item.title}
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={this.ItemSeparatorComponent}
                     />

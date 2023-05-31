@@ -10,10 +10,9 @@ import {
 import LandingPageController from "../LandingPageController";
 import { DARK_RED, LIGHT_GREY, MID_PEACH, cow, } from "../assets";
 import { BLACK } from "../colors";
-export default class MyCreditDetailsModal extends LandingPageController {
+export default class MyCreditDetailsModal extends React.Component {
   constructor(props: any) {
     super(props);
-    this.receive = this.receive.bind(this);
   }
 
   render() {

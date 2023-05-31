@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  TouchableWithoutFeedback,
-  Alert,
-  SafeAreaView,
-} from "react-native";
+import { TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import SignupComponent from "./SignupComponent";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 export const configJSON = require("./config");

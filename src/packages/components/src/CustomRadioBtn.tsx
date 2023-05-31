@@ -4,7 +4,7 @@ interface CheckBoxTypes {
   checked: boolean;
   setChecked: (value: boolean) => void;
   testID?: string;
-  backgroundColor: string | undefined;
+  backgroundColor?: string;
   disabled?: boolean;
 }
 const CheckBox = ({

@@ -118,6 +118,7 @@ export default class UpdateProfileModal extends LandingPageController {
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
+                    keyBoardtype="url"
                     value={this.props.state.instagram_link.replace(/"/g, '')}
                     onchangeText={(instLink) =>
                       this.props.setState({ instagram_link: instLink })
@@ -127,6 +128,7 @@ export default class UpdateProfileModal extends LandingPageController {
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
+                    keyBoardtype="url"
                     value={this.props.state.whatsapp_link.replace(/"/g, '')}
                     onchangeText={(wsLink) =>
                       this.props.setState({ whatsapp_link: wsLink })
@@ -136,6 +138,7 @@ export default class UpdateProfileModal extends LandingPageController {
                   <TextInput
                     textInputStyle={styles.textinput}
                     labeStyle={styles.label}
+                    keyBoardtype="url"
                     value={this.props.state.facebook_link.replace(/"/g, '')}
                     onchangeText={(fbLink) =>
                       this.props.setState({ facebook_link: fbLink })
