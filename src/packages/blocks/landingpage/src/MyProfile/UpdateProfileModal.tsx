@@ -16,40 +16,45 @@ import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED, edit } from "../assets";
 export default class UpdateProfileModal extends LandingPageController {
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
   }
-  //@ts-ignore
-  componentDidMount(){
-      Keyboard.addListener('keyboardWillShow',state=>{
-        this.props.setState({keyboardHeight:state.endCoordinates.height})
-      })
-      Keyboard.addListener('keyboardWillHide',()=>{
-        this.props.setState({keyboardHeight:0})
-      })
+
+  async componentDidMount() {
+    Keyboard.addListener("keyboardWillShow", (state) => {
+      this.props.setState({ keyboardHeight: state.endCoordinates.height });
+    });
+    Keyboard.addListener("keyboardWillHide", () => {
+      this.props.setState({ keyboardHeight: 0 });
+    });
   }
 
-  render() {        
-
-    const imageCallback = (res:any)=>{      
-      this.props.setState({ profileImage:{...res,path:Platform.OS === 'ios' ? `file://${res.path}`:res.path}});
-    }
-    const handleImageError= (err:any)=>{
+  render() {
+    const imageCallback = (res: any) => {
+      this.props.setState({
+        profileImage: {
+          ...res,
+          path: Platform.OS === "ios" ? `file://${res.path}` : res.path,
+        },
+      });
+    };
+    const handleImageError = (err: any) => {
       console.log(err);
-      alert(err)
-    }
-    
+      alert(err);
+    };
+
     return (
       <Modal visible={this.props.visible} transparent>
-          <View style={styles.blur} />
-            <View style={styles.innerContainer}>
-              <ScrollView
-              bounces={false}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.contentContainer}
-              >
-              {!this.props.firstTime  && <TouchableOpacity
+        <View style={styles.blur} />
+        <View style={styles.innerContainer}>
+          <ScrollView
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainer}
+          >
+            {!this.props.firstTime && (
+              <TouchableOpacity
                 onPress={this.props.setVisibleProfileModal}
                 style={styles.closeBtn}
               >
@@ -58,117 +63,140 @@ export default class UpdateProfileModal extends LandingPageController {
                   style={styles.close}
                   source={close}
                 />
-              </TouchableOpacity>}
-                <View style={{ flex: 1 }}>
-                  <TouchableOpacity
-                    onPress={()=>this.selectImage(imageCallback,handleImageError)}
-                    style={{ alignSelf: "center" }}
-                  >
-                    <View
-                      style={styles.profileImage}              
-                    >
-                      <Image
-                      style={{position:'absolute',height:'100%',width:'100%'}}
-                      source={ 
-                        {uri:this.props.state.profileImage?.path ?
-                          this.props.state.profileImage?.path :
-                          this.props.state.profileImage}
-                      }/>
-                      <View style={styles.blurr} />
-                      <Image
-                        resizeMode="contain"
-                        style={styles.editIcon}
-                        source={edit}
-                      />
-                    </View>
-                  </TouchableOpacity>
-
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    value={this.props.state.name}
-                    onchangeText={(name) => this.props.setState({ name: name })}
-                    label="Enter Full Name"
+              </TouchableOpacity>
+            )}
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity
+                testID="select_image_from_storage_id"
+                onPress={() =>
+                  this.selectImage(imageCallback, handleImageError)
+                }
+                style={{ alignSelf: "center" }}
+              >
+                <View style={styles.profileImage}>
+                  <Image
+                    style={{
+                      position: "absolute",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                    source={{
+                      uri: this.props.state.profileImage?.path
+                        ? this.props.state.profileImage?.path
+                        : this.props.state.profileImage,
+                    }}
                   />
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    value={this.props.state.email}
-                    onchangeText={(email) => this.props.setState({ email: email })}
-                    label="Email Address"
-                    keyBoardtype="email-address"
-                  />
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    value={this.props.state.phone_number}
-                    onchangeText={(num) => this.props.setState({ phone_number: num })}
-                    keyBoardtype="number-pad"
-                    label="Phone Number"
-                  />
-                  <TextInput
-                    textInputStyle={[styles.textinput, { height: 120 }]}
-                    labeStyle={styles.label}
-                    multiline={true}
-                    numberOfLines={5}
-                    value={this.props.state.about_me}
-                    onchangeText={(abt) => this.props.setState({ about_me: abt })}
-                    label="About Me"
-                  />
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    keyBoardtype="url"
-                    value={this.props.state.instagram_link.replace(/"/g, '')}
-                    onchangeText={(instLink) =>
-                      this.props.setState({ instagram_link: instLink })
-                    }
-                    label="Instagram Link"
-                  />
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    keyBoardtype="url"
-                    value={this.props.state.whatsapp_link.replace(/"/g, '')}
-                    onchangeText={(wsLink) =>
-                      this.props.setState({ whatsapp_link: wsLink })
-                    }
-                    label="WhatsApp Link"
-                  />
-                  <TextInput
-                    textInputStyle={styles.textinput}
-                    labeStyle={styles.label}
-                    keyBoardtype="url"
-                    value={this.props.state.facebook_link.replace(/"/g, '')}
-                    onchangeText={(fbLink) =>
-                      this.props.setState({ facebook_link: fbLink })
-                    }
-                    label="Facebook Link"
+                  <View style={styles.blurr} />
+                  <Image
+                    resizeMode="contain"
+                    style={styles.editIcon}
+                    source={edit}
                   />
                 </View>
+              </TouchableOpacity>
 
-                <Button
-                  style={{ marginTop: 20 }}
-                  onPress={()=>this.updateProfileDetails(this.props.firstTime)}
-                  label={"Save Details"}
-                />
-                <View style={{height:this.props.state.keyboardHeight}}/>
-              </ScrollView>
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                value={this.props.state.name}
+                testID="name_test_id"
+                onchangeText={(name) => this.props.setState({ name: name })}
+                label="Enter Full Name"
+              />
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                value={this.props.state.email}
+                testID="email_test_id"
+                onchangeText={(email) => this.props.setState({ email: email })}
+                label="Email Address"
+                keyBoardtype="email-address"
+              />
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                value={this.props.state.phone_number}
+                testID="phone_number_test_id"
+                onchangeText={(num) =>
+                  this.props.setState({ phone_number: num })
+                }
+                keyBoardtype="number-pad"
+                label="Phone Number"
+              />
+              <TextInput
+                textInputStyle={[styles.textinput, { height: 120 }]}
+                labeStyle={styles.label}
+                multiline={true}
+                testID="about_me_test_id"
+                numberOfLines={5}
+                value={this.props.state.about_me}
+                onchangeText={(abt) => this.props.setState({ about_me: abt })}
+                label="About Me"
+              />
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                keyBoardtype="url"
+                value={this.props.state.instagram_link.replace(/"/g, "")}
+                testID="instagram_test_id"
+                onchangeText={(instLink) =>
+                  this.props.setState({ instagram_link: instLink })
+                }
+                label="Instagram Link"
+              />
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                keyBoardtype="url"
+                testID="whatsapp_test_id"
+                value={this.props.state.whatsapp_link.replace(/"/g, "")}
+                onchangeText={(wsLink) =>
+                  this.props.setState({ whatsapp_link: wsLink })
+                }
+                label="WhatsApp Link"
+              />
+              <TextInput
+                textInputStyle={styles.textinput}
+                labeStyle={styles.label}
+                keyBoardtype="url"
+                testID="facebook_test_id"
+                value={this.props.state.facebook_link.replace(/"/g, "")}
+                onchangeText={(fbLink) =>
+                  this.props.setState({ facebook_link: fbLink })
+                }
+                label="Facebook Link"
+              />
             </View>
-          {this.props.state.show_loader && <View style={styles.loader}>
+
+            <Button
+              style={{ marginTop: 20 }}
+              testID="save_details_id"
+              onPress={() => this.updateProfileDetails(this.props.firstTime)}
+              label={"Save Details"}
+            />
+            <View style={{ height: this.props.state.keyboardHeight }} />
+          </ScrollView>
+        </View>
+        {this.props.state.show_loader && (
+          <View style={styles.loader}>
             <View>
-            <ActivityIndicator size={'large'}/>
-            <Text>Loading...</Text>
+              <ActivityIndicator size={"large"} />
+              <Text>Loading...</Text>
             </View>
-          </View>}
+          </View>
+        )}
       </Modal>
     );
   }
 }
 const styles = StyleSheet.create({
-
-  //@ts-ignore
-  loader:{...StyleSheet.absoluteFill,justifyContent:'center',alignItems:'center',zIndex:100},
+  loader: {
+    //@ts-ignore
+    ...StyleSheet.absoluteFill,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 100,
+  },
   editIcon: { height: 30, width: 35, tintColor: "white" },
   blurr: {
     position: "absolute",
@@ -219,7 +247,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingHorizontal: 20,
     paddingTop: 20,
-    marginVertical: 40, marginHorizontal: 20
+    marginVertical: 40,
+    marginHorizontal: 20,
   },
   main: {
     flex: 1,

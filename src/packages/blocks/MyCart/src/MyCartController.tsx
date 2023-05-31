@@ -20,6 +20,7 @@ interface S {
   productsList:Array<any>;
   discountCode:string;
   discountPercentage:number;
+  show_modal:boolean;
 }
 
 interface SS {
@@ -41,7 +42,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       showLoader: false,
       productsList:[],
       discountCode:'',
-      discountPercentage:0
+      discountPercentage:0,
+      show_modal:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

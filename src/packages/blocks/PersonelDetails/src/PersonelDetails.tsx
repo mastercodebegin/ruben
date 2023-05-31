@@ -17,7 +17,7 @@ import MyDetails from "./MyDetails";
 import SavedAddresses from "./SavedAddresses";
 import AvailableSlots from "./AvailableSlots";
 import DoubleButton from "../../../components/src/DoubleButton";
-
+import DeliveryFeesModal from "./DeliveryFeesModal";
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -140,10 +140,15 @@ export default class PersonelDetails extends PersonelDetailsController {
             </View>
             <DoubleButton
               button1Label="Continue to Summary"
-              button1_Onpress={() => {}}
+              button1_Onpress={() => this.setState({ show_modal: true })}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
+            />
+            <DeliveryFeesModal
+              visible={this.state.show_modal}
+              onpressClose={() => this.setState({ show_modal: false })}
+              onpressContinue={() => {}}
             />
           </View>
         </HeaderWithBackArrowTemplate>

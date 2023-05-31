@@ -16,6 +16,7 @@ interface S {
   showLoader: boolean;
   selectedAddress: number;
   selectedTab: "delivery" | "shipping" | "pickup";
+  show_modal:boolean;
 }
 
 interface SS {
@@ -41,6 +42,7 @@ export default class PersonelDetailsController extends BlockComponent<
       showLoader: false,
       selectedAddress: 0,
       selectedTab: "delivery",
+      show_modal:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
