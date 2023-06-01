@@ -15,6 +15,8 @@ interface ButtonTypes {
   button2Onpress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
   disable?: boolean;
+  buttn1TestID?: string;
+  buttn2TestID?: string;
 }
 const DualButton = ({
   button1Label = "",
@@ -23,10 +25,13 @@ const DualButton = ({
   button2label = "",
   containerStyle = {},
   disable,
+  buttn2TestID,
+  buttn1TestID,
 }: ButtonTypes) => {
   return (
     <View style={[styles.inventoryContainer, containerStyle]}>
       <TouchableOpacity
+        testID={buttn1TestID}
         disabled={disable}
         onPress={button1Onpress}
         style={[styles.bottomButton, styles.inventory]}
@@ -38,6 +43,7 @@ const DualButton = ({
       <TouchableOpacity
         disabled={disable}
         onPress={button2Onpress}
+        testID={buttn2TestID}
         style={{
           backgroundColor: PRIMARY,
           ...styles.bottomButton,

@@ -24,20 +24,6 @@ interface ImageBoxType {
   selected: boolean;
   onpress: () => void;
 }
-const addressList = [
-  {
-    name: "Office Address",
-    address: "12 AB building near test road , Dallas",
-  },
-  {
-    name: "Home Address",
-    address: "12 AB building near test road , Dallas",
-  },
-  {
-    name: "Other Address",
-    address: "12 AB building near test road , Dallas",
-  },
-];
 const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   <TouchableOpacity
     onPress={onpress}
@@ -59,7 +45,16 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   </TouchableOpacity>
 );
 export default class PersonelDetails extends PersonelDetailsController {
+  async componentDidMount(){
+      this.getAddressList()
+  }
   render() {
+    const {address,phone_number, zip_code,name} = {
+      address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
+      phone_number:this.state.addressList[this.state.selectedAddress]?.attributes?.phone_number || '',
+      zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
+      name:this.state.addressList[this.state.selectedAddress]?.attributes?.name
+    }    
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel", [
@@ -108,20 +103,20 @@ export default class PersonelDetails extends PersonelDetailsController {
                   <MyDetails
                     header="MY DETAILS"
                     list={[
-                      { question: "name", ans: "Maria Tofimova" },
+                      { question: "name", ans: name  },
                       { question: "email", ans: "test@gmail.com" },
-                      { question: "phone", ans: "+ 121212122121" },
+                      { question: "phone",ans:phone_number  },
                       {
                         question: "Shipping Add.",
-                        ans: addressList[this.state.selectedAddress].address,
+                        ans: address,
                       },
-                      { question: "Zipcode", ans: "123456" },
+                      { question: "Zipcode", ans:zip_code },
                     ]}
                   />
                 </View>
                 <View style={{ paddingTop: 20 }}>
                   <SavedAddresses
-                    addressList={addressList}
+                    addressList={this.state.addressList}
                     setSelectedAddress={(index) =>
                       this.setState({ selectedAddress: index })
                     }
