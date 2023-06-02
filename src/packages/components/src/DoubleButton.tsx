@@ -17,19 +17,25 @@ interface ButtonTypes {
 }
 const DoubleButton = ({
   button1Label,
-  button1_Onpress,
+  button1_Onpress = () => {},
   button2Label,
-  button2_Onpress,
+  button2_Onpress = () => {},
   containerStyle,
 }: ButtonTypes) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <TouchableOpacity style={[styles.button, styles.button1Style]}>
+      <TouchableOpacity
+        onPress={button1_Onpress}
+        style={[styles.button, styles.button1Style]}
+      >
         <Text style={[styles.textStyles, { color: WHITE }]}>
           {button1Label}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.button2Style]}>
+      <TouchableOpacity
+        onPress={button2_Onpress}
+        style={[styles.button, styles.button2Style]}
+      >
         <Text style={[styles.textStyles, { color: PRIMARY }]}>
           {button2Label}
         </Text>

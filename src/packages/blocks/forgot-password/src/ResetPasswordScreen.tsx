@@ -79,7 +79,7 @@ export default class ResetPassword extends  BlockComponent<Props, S, SS>  {
                 this.setState({showLoader:false})
                 this.props.navigation.reset({
                 index: 0,
-                routes: [{ name: 'EmailAccountLoginBlock' }],
+                routes: [{ name: 'AuthenticationStack' }],
               })}}])
             }
       }

@@ -49,7 +49,7 @@ const RenderAboutThisFarm = () => {
 };
 export default RenderAboutThisFarm;
 const styles = StyleSheet.create({
-  main: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
+  main: { },
   price: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
   productImage: { height: 220, width: "100%", borderRadius: 20 },
   productContainer: {

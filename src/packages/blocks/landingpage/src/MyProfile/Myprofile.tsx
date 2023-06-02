@@ -7,7 +7,7 @@ import {
   Text,
   ScrollView,
   Image,
-  Linking 
+  Linking,
 } from "react-native";
 import {
   LIGHT_GREY,
@@ -22,56 +22,58 @@ import {
   facebook,
   CART,
   cow,
-  MEAT_IMAGE1
+  MEAT_IMAGE1,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
 import RenderItems from "../RenderItems/RenderItems";
 import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
-//@ts-ignore
 import Modal from "./UpdateProfileModal";
-import moment from "moment";
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
   }
-  //@ts-ignore
-  componentDidMount(){
-    if(this.props?.route?.params?.firstTime){
-      this.setState({showProfileModal:true,email:this.props.route?.params?.email?this.props.route?.params?.email:''})
-    }else{
-      this.getProfileDetails()
-      this.getOrderList()
+  async componentDidMount() {
+    if (this.props?.route?.params?.firstTime) {
+      this.setState({
+        showProfileModal: true,
+        email: this.props.route?.params?.email
+          ? this.props.route?.params?.email
+          : "",
+      });
+    } else {
+      this.getProfileDetails();
+      this.getOrderList();
     }
   }
   openFacebookProfile = () => {
-    if (this.state.facebook_link === '') {
-      this.showAlert('Invalid User name please update your profile')
+    if (this.state.facebook_link === "") {
+      this.showAlert("Invalid User name please update your profile");
     } else {
-      Linking.openURL(`${this.state.facebook_link}`).catch(() => {
-        this.showAlert('Invalid User name please update your profile')
+      Linking.openURL(`${this.state.facebook_link}`)?.catch(() => {
+        this.showAlert("Invalid User name please update your profile");
       });
     }
   };
 
   redirectToInstagramProfile = () => {
-    if (this.state.facebook_link === '') {
-      this.showAlert('Invalid User name please update your profile')
+    if (this.state.instagram_link === "") {
+      this.showAlert("Invalid User name please update your profile");
     } else {
-      Linking.openURL(`${this.state.instagram_link}`).catch(() => {
-        this.showAlert('Invalid User name please update your profile')
+      Linking.openURL(`${this.state.instagram_link}`)?.catch(() => {
+        this.showAlert("Invalid User name please update your profile");
       });
     }
   };
 
   redirectToWhatsAppProfile = () => {
-    if (this.state.facebook_link === '') {
-      this.showAlert('Invalid User name please update your profile')
+    if (this.state.whatsapp_link === "") {
+      this.showAlert("Invalid User name please update your profile");
     } else {
-      Linking.openURL(`${this.state.whatsapp_link}`).catch(() => {
-        this.showAlert('Invalid User name please update your profile')
+      Linking.openURL(`${this.state.whatsapp_link}`)?.catch(() => {
+        this.showAlert("Invalid User name please update your profile");
       });
     }
   };
@@ -84,54 +86,74 @@ export default class Myprofile extends LandingPageController {
             <View style={styles.innerContainer}>
               <Text style={CommonStyle.header}>My Profile</Text>
               <View style={styles.orderAlert}>
-                <TouchableOpacity onPress={this.userdetailsProps.getuserDetails} style={styles.cartContainer}>
+                <TouchableOpacity
+                  onPress={this.userdetailsProps.getuserDetails}
+                  style={styles.cartContainer}
+                >
                   <Image
                     resizeMode="contain"
                     style={styles.cart}
                     source={CART}
                   />
                 </TouchableOpacity>
-                <View style={{flex:1}}>
+                <View style={{ flex: 1 }}>
                   <Text style={styles.alertHeader}>New Order Alert</Text>
-                  <Text  style={styles.deliverydate}>
-                    Est.delivery: 
-                  </Text>
-                  <TouchableOpacity onPress={()=>this.props.navigation.navigate("MyOrdersScreen")} style={styles.detailsButton}>
+                  <Text style={styles.deliverydate}>Est.delivery:</Text>
+                  <TouchableOpacity
+                    testID="navigate_myorder_id"
+                    onPress={() =>
+                      this.props.navigation.navigate("MyOrdersScreen")
+                    }
+                    style={styles.detailsButton}
+                  >
                     <Text style={styles.viewDetail}>View Details</Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
-                <TouchableOpacity onPress={()=> this.setState({ showProfileModal: true })} style={styles.profile}>
-                  {this.state.profileImage != '' && (<Image style={styles.profileImage}
-                  source={
-                    {uri:this.state.profileImage?.path ?
-                      this.state.profileImage?.path :
-                      this.state.profileImage}
-                  } 
-                  />)}
+                <TouchableOpacity
+                testID="edit_profile_test_id"
+                  onPress={() => this.setState({ showProfileModal: true })}
+                  style={styles.profile}
+                >
+                  {this.state.profileImage != "" && (
+                    <Image
+                      style={styles.profileImage}
+                      testID="updated_profile_id"
+                      source={{
+                        uri: this.state.profileImage?.path
+                          ? this.state.profileImage?.path
+                          : this.state.profileImage,
+                      }}
+                    />
+                  )}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
-                    <TouchableOpacity style={styles.socialbutton} 
-                     onPress={this.redirectToInstagramProfile} >
+                    <TouchableOpacity
+                      style={styles.socialbutton}
+                      onPress={this.redirectToInstagramProfile}
+                    >
                       <Image style={styles.socialIcon} source={instagram} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton}
-                     onPress={this.redirectToWhatsAppProfile}>
+                    <TouchableOpacity
+                      style={styles.socialbutton}
+                      onPress={this.redirectToWhatsAppProfile}
+                    >
                       <Image style={styles.socialIcon} source={whatsapp} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.socialbutton} 
-                    onPress={this.openFacebookProfile}>
+                    <TouchableOpacity
+                      style={styles.socialbutton}
+                      onPress={this.openFacebookProfile}
+                    >
                       <Image style={styles.socialIcon} source={facebook} />
                     </TouchableOpacity>
                   </View>
                 </TouchableOpacity>
                 <View style={{ paddingHorizontal: 20 }}>
                   <Text style={styles.headerText}>ABOUT ME</Text>
-                  <Text numberOfLines={3} style={styles.description}>{
-                    this.state.about_me
-                  }
+                  <Text numberOfLines={3} style={styles.description}>
+                    {this.state.about_me}
                   </Text>
                   <Text style={styles.headerText}>MY CONTACT</Text>
                   <View style={styles.contact}>
@@ -148,7 +170,10 @@ export default class Myprofile extends LandingPageController {
                       style={styles.contactIcon}
                       source={phone}
                     />
-                    <Text style={styles.contactText}>{'+91 '}{this.state.phone_number}</Text>
+                    <Text style={styles.contactText}>
+                      {"+91 "}
+                      {this.state.phone_number}
+                    </Text>
                   </View>
                   <TouchableOpacity style={styles.historyButton}>
                     <Text style={styles.historyText}>Purchase History</Text>
@@ -162,12 +187,15 @@ export default class Myprofile extends LandingPageController {
               showsHorizontalScrollIndicator={false}
             >
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "MyFavoritesScreen" })}
+                onPress={() =>
+                  this.setState({ selectedTab: "MyFavoritesScreen" })
+                }
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "MyFavoritesScreen" && styles.selected,
+                    this.state.selectedTab === "MyFavoritesScreen" &&
+                      styles.selected,
                   ]}
                 >
                   My Favorites
@@ -199,9 +227,11 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
             </ScrollView>
-            {this.state.selectedTab == "remaining" ?
+            {this.state.selectedTab == "remaining" ? (
               <View style={styles.remainingInvContainer}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <View
+                  style={{ flexDirection: "row", justifyContent: "center" }}
+                >
                   <View style={styles.invImageContainer}>
                     <Image
                       resizeMode="contain"
@@ -214,30 +244,59 @@ export default class Myprofile extends LandingPageController {
                     <Text style={styles.invTotalText}>10</Text>
                   </View>
                 </View>
-                <TouchableOpacity style={styles.CreditsButton}
-                  onPress={() => { this.props.navigation.navigate("MyCreditScreen") }} >
+                <TouchableOpacity
+                  style={styles.CreditsButton}
+                  testID="navigate_to_MyCreditScreen"
+                  onPress={() => {
+                    this.props.navigation.navigate("MyCreditScreen");
+                  }}
+                >
                   <Text style={styles.viewDetail}>My Credits</Text>
                 </TouchableOpacity>
               </View>
-              :
+            ) : (
               <>
-                <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={[
-                  {attributes: {images:{url:MEAT_IMAGE1},price:20,
-                  description:'are you searching for a dessert',name:'Vegetable salad'}},
-                  {attributes: {images:{url:MEAT_IMAGE1},price:40,description:'are you searching for a dessert',name:'Vegetable salad'}}
-                  ]} rating={false} />
-                <TouchableOpacity onPress={() => this.props.navigation.navigate(this.state.selectedTab)} style={styles.seeBtn}>
+                <RenderItems
+                  onPressCart={this.addToCart.bind(this)}
+                  onpressFav={this.AddToFavorites.bind(this)}
+                  item={[
+                    {
+                      attributes: {
+                        images: { url: MEAT_IMAGE1 },
+                        price: 20,
+                        description: "are you searching for a dessert",
+                        name: "Vegetable salad",
+                      },
+                    },
+                    {
+                      attributes: {
+                        images: { url: MEAT_IMAGE1 },
+                        price: 40,
+                        description: "are you searching for a dessert",
+                        name: "Vegetable salad",
+                      },
+                    },
+                  ]}
+                  rating={false}
+                />
+                <TouchableOpacity
+                testID="see_all_button"
+                  onPress={() =>
+                    this.props.navigation.navigate(this.state.selectedTab)
+                  }
+                  style={styles.seeBtn}
+                >
                   <Text style={styles.seeText}>see All</Text>
                 </TouchableOpacity>
               </>
-            }
+            )}
           </View>
         </ScrollView>
-        {
-            <CommonLoader visible={this.state.loader}/>
-        }
-        {!this.props?.route?.params?.firstTime && <BottomTab navigation={this.props.navigation} tabName="Myprofile" />}
-        
+        {<CommonLoader visible={this.state.loader} />}
+        {!this.props?.route?.params?.firstTime && (
+          <BottomTab navigation={this.props.navigation} tabName="Myprofile" />
+        )}
+
         <Modal
           setVisibleProfileModal={() =>
             this.setState({ showProfileModal: false })
@@ -247,8 +306,9 @@ export default class Myprofile extends LandingPageController {
           state={this.state}
           firstTime={this.props?.route?.params?.firstTime}
           navigation={this.props.navigation}
-          setState={(state={})=>{                        
-            this.setState({...state})}}
+          setState={(state = {}) => {
+            this.setState({ ...state });
+          }}
           visible={this.state.showProfileModal}
         />
       </SafeAreaView>
@@ -398,49 +458,49 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 17,
   },
-  innerContainer:{ flex: 1, paddingHorizontal: 20 },
+  innerContainer: { flex: 1, paddingHorizontal: 20 },
   remainingInvContainer: {
     backgroundColor: WHITE,
     margin: 20,
     overflow: "hidden",
     paddingVertical: 20,
     paddingHorizontal: 15,
-    borderRadius: 20
+    borderRadius: 20,
   },
   invImageContainer: {
-    width: '40%',
+    width: "40%",
     height: 120,
   },
   invImgStyle: {
-    width: '100%',
-    height: '100%'
+    width: "100%",
+    height: "100%",
   },
   invDesContainer: {
-    width: '60%',
+    width: "60%",
     backgroundColor: LIGHT_GREY,
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 5,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   invDesText: {
     color: MID_PEACH,
     fontSize: 14,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
   },
   invTotalText: {
     color: DARK_RED,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingTop: 8,
   },
   CreditsButton: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     backgroundColor: PRIMARY,
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 24,
-    marginTop: 15
-  }
+    marginTop: 15,
+  },
 });
