@@ -162,7 +162,7 @@ class ExplorePage extends LandingPageController {
                 ]} onSelect={(item) => {
                     console.log("checking itme--->", item.value)
                     this.setState({ sortAscending: item.value === '1' ? false : true })
-                    this.getProductList(item.value === '1' ? false : true)
+                    this.getProductList(item.value === '1' ? true : false)
                     this.setState({ show_SortingDropdown: false })
                 }} onpressButton={() => {
                     this.setState({ show_SortingDropdown: false })
