@@ -74,6 +74,7 @@ interface S {
   orderList: Array<any>;
   cartList:Array<any>;
   show_SortingDropdown: boolean,
+  sortAscending: boolean,
   // Customizable Area End
 }
 
@@ -105,6 +106,7 @@ export default class LandingPageController extends BlockComponent<
       email:'',
       instagram_link:'',
       show_SortingDropdown: false,
+      sortAscending: false,
       facebook_link:'',
       whatsapp_link:'',
       about_me:'',
@@ -908,7 +910,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getProductList() {
+  async getProductList(type:boolean) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -923,8 +925,8 @@ export default class LandingPageController extends BlockComponent<
     this.getProductId = getProductListMsg.messageId;
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.addProductEndpoint
-    );
+      `${configJSON.addProductEndpoint}${type ? "desc" : "asc"}`
+      );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)

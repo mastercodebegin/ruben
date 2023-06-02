@@ -44,7 +44,7 @@ class ExplorePage extends LandingPageController {
     }
     async componentDidMount() {
         this.getCategory.bind(this)(1)
-        this.getProductList()
+        this.getProductList(this.state.sortAscending)
         this.getCart()
     }
     render() {
@@ -160,7 +160,9 @@ class ExplorePage extends LandingPageController {
                         { label: 'Pricing High to Low', value: '2' },
                                            
                 ]} onSelect={(item) => {
-                    console.log("checking itme--->", item)
+                    console.log("checking itme--->", item.value)
+                    this.setState({ sortAscending: item.value === '1' ? false : true })
+                    this.getProductList(item.value === '1' ? false : true)
                     this.setState({ show_SortingDropdown: false })
                 }} onpressButton={() => {
                     this.setState({ show_SortingDropdown: false })
