@@ -6,7 +6,6 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
 
 const configJSON = require("../config.js");
 export interface Props {
@@ -20,7 +19,7 @@ interface S {
   selectedAddress: number;
   selectedTab: "delivery" | "shipping" | "pickup";
   show_modal: boolean;
-  addressList:Array<any>;
+  addressList: Array<any>;
 }
 
 interface SS {
@@ -47,13 +46,13 @@ export default class PersonelDetailsController extends BlockComponent<
       selectedAddress: 0,
       selectedTab: "delivery",
       show_modal: false,
-      addressList:[]
+      addressList: [],
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
 
-  getPersonelDetails=''
+  getPersonelDetails: string = "";
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -67,22 +66,27 @@ export default class PersonelDetailsController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if(!error &&PersonelDetails?.data?.length > 0 ){
-        this.setState({addressList:PersonelDetails?.data})
+      if (
+        !error &&
+        PersonelDetails.data &&
+        PersonelDetails.data.length &&
+        PersonelDetails.data.length > 0
+      ) {
+        this.setState({ addressList: PersonelDetails.data });
       }
     }
   }
-  async getAddressList(){
-    this.setState({showLoader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getAddressList() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
     const headers = {
-      'token':data?.meta?.token
+      token: data?.meta?.token,
     };
     const PersonalDetails = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getPersonelDetails = PersonalDetails.messageId;
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),

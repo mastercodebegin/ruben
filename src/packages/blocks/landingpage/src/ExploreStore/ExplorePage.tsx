@@ -16,13 +16,11 @@ import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
 import { SEARCH, EXPLORE_BTN, CHICKEN } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-//@ts-ignore
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { FlatList } from "react-native-gesture-handler";
-//@ts-ignore
 import RenderCategories from "./RenderCategories";
 
 export class ExplorePage extends LandingPageController {
