@@ -24,8 +24,10 @@ export default class Setting extends LandingPageController {
       AsyncStorage.removeItem("userDetails").then(() => {
         this.props.navigation.reset({
           index: 0,
-          routes: [{ name: "EmailAccountLoginBlock" }],
+          routes: [{ name: "AuthenticationStack" }],
         });
+      }).catch(()=>{
+        Alert.alert('Error','Something went wrong');
       });
     };
     const myOrders=()=>{

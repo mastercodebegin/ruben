@@ -122,7 +122,7 @@ export default class AddProducts extends LandingPageController {
                       }}
                       renderItem={(item: any) => {
                         return (
-                          <View style={styles.item}>
+                          <View>
                             <Text style={styles.textItem}>{item?.title}</Text>
                           </View>
                         )
