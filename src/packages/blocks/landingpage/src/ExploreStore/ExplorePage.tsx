@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React from "react";
 import {
     View,
     StyleSheet,
@@ -10,8 +10,6 @@ import {
     SafeAreaView,
     Platform,
     RefreshControl,
-    Modal,
-    ListRenderItem
 } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
@@ -161,8 +159,8 @@ class ExplorePage extends LandingPageController {
                                            
                 ]} onSelect={(item) => {
                     console.log("checking itme--->", item.value)
-                    this.setState({ sortAscending: item.value === '1' ? false : true })
-                    this.getProductList(item.value === '1' ? false : true)
+                    this.setState({ sortAscending: item.value === '1' })
+                    this.getProductList(item.value === '1')
                     this.setState({ show_SortingDropdown: false })
                 }} onpressButton={() => {
                     this.setState({ show_SortingDropdown: false })
