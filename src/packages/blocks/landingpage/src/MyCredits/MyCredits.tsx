@@ -18,48 +18,41 @@ import {
 } from "../assets";
 import MyCreditDetailsModal from "./MyCreditDetailsModal";
 const MyCreditScreen = ({ navigation }: any) => {
-
-  const [isShowMyCreditModal, setShowMyCreditModal] = useState(false)
+  const [isShowMyCreditModal, setShowMyCreditModal] = useState(false);
 
   return (
-    <HeaderWithBackArrowTemplate
-      headerText="My Credit"
-      navigation={navigation}
-    >
+    <HeaderWithBackArrowTemplate headerText="My Credit" navigation={navigation}>
       <View style={{ flex: 1 }}>
         <FlatList
-          data={[1, 2,]}
+          data={[1, 2]}
           showsVerticalScrollIndicator={false}
           bounces={false}
           renderItem={() => {
             return (
               <View style={styles.main}>
-                <Image
-                  resizeMode="stretch"
-                  style={styles.image}
-                  source={cow}
-                />
-                <View
-                  style={styles.flexContainer}
-                >
+                <Image resizeMode="stretch" style={styles.image} source={cow} />
+                <View style={styles.flexContainer}>
                   <Text style={styles.text}>Purchased Animal</Text>
                   <Text style={styles.desText}>Cow</Text>
-
                 </View>
-                <View style={styles.flexContainer} >
+                <View style={styles.flexContainer}>
                   <Text style={styles.text}>Total Cuts</Text>
                   <Text style={styles.desText}>10</Text>
                 </View>
-                <View style={styles.flexContainer} >
+                <View style={styles.flexContainer}>
                   <Text style={styles.text}>Used Cuts</Text>
                   <Text style={styles.desText}>7</Text>
                 </View>
-                <View style={styles.flexContainer} >
+                <View style={styles.flexContainer}>
                   <Text style={styles.text}>Remaining Cuts</Text>
                   <Text style={styles.desText}>3</Text>
                 </View>
-                <TouchableOpacity style={styles.pickButton}
-                  onPress={() => { setShowMyCreditModal(true) }}>
+                <TouchableOpacity
+                  style={styles.pickButton}
+                  onPress={() => {
+                    setShowMyCreditModal(true);
+                  }}
+                >
                   <Text style={styles.pickText}>Pickup / Deliver </Text>
                 </TouchableOpacity>
               </View>
@@ -69,11 +62,8 @@ const MyCreditScreen = ({ navigation }: any) => {
             return String(index);
           }}
         />
-        {isShowMyCreditModal &&
-          <MyCreditDetailsModal />
-        }
+        {isShowMyCreditModal && <MyCreditDetailsModal />}
       </View>
-
     </HeaderWithBackArrowTemplate>
   );
 };
@@ -93,7 +83,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginTop: 20,
     marginBottom: 10,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   text: {
     color: MID_PEACH,
@@ -103,11 +93,11 @@ const styles = StyleSheet.create({
   desText: {
     fontSize: 17,
     color: DARK_RED,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderBottomWidth: 1,
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -121,11 +111,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: PRIMARY,
     marginHorizontal: 20,
-    marginTop: 10
+    marginTop: 10,
   },
   pickText: {
     fontSize: 16,
     color: PRIMARY,
-    fontWeight: '700'
+    fontWeight: "700",
   },
 });

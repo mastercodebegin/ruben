@@ -3,21 +3,23 @@ import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
-jest.mock('../../framework/src/Utilities',()=>({
-  customAlert:jest.fn()
-}))
+jest.mock("../../framework/src/Utilities", () => ({
+  customAlert: jest.fn(),
+}));
 jest.mock("../../components/src/utils", () => ({
   store: {
-    getState: jest.fn(() => "mocked state"),
+    getState: jest.fn(() => ({
+      currentUser: "user",
+    })),
     dispatch: jest.fn(),
   },
 }));
 jest.mock("react-native-simple-toast", () => {});
 jest.mock("@react-native-async-storage/async-storage", () => ({
-  getItem: jest.fn(()=>({meta:{token:'rtretwftyweyfwtfeytwf'}})),
+  getItem: jest.fn(() => ({ meta: { token: "rtretwftyweyfwtfeytwf" } })),
   setItem: jest.fn(),
 }));
-
+jest.mock('../../components/src/ShowToast',()=>({showToast:jest.fn()}))
 jest.mock("react-native-image-crop-picker", () => ({
   openCamera: jest.fn(),
   openPicker: jest.fn(),

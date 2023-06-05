@@ -3,9 +3,14 @@ import { TouchableOpacity, StyleSheet, Animated } from "react-native";
 interface TriggerProps {
   value: boolean;
   setValue: (value: boolean) => void;
+  testID?: string;
 }
 
-const Trigger = ({ value = false, setValue = () => {} }: TriggerProps) => {
+const Trigger = ({
+  value = false,
+  setValue = () => {},
+  testID,
+}: TriggerProps) => {
   const animatedValue = useRef(new Animated.Value(value ? 22 : 3)).current;
   const onpressTrigger = () => {
     if (!value) {
@@ -21,7 +26,11 @@ const Trigger = ({ value = false, setValue = () => {} }: TriggerProps) => {
     }).start(() => setValue(false));
   };
   return (
-    <TouchableOpacity onPress={onpressTrigger} style={styles.trigger}>
+    <TouchableOpacity
+      testID={testID}
+      onPress={onpressTrigger}
+      style={styles.trigger}
+    >
       <Animated.View
         style={[
           styles.scroller,
@@ -41,7 +50,7 @@ const styles = StyleSheet.create({
   trigger: {
     backgroundColor: "#34C759",
     width: 55,
-    height:32,
+    height: 32,
     justifyContent: "center",
     borderRadius: 25,
   },

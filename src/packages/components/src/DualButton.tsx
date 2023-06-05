@@ -68,16 +68,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
     borderRadius: 30,
-    // marginHorizontal: 20,
   },
   inventoryContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // position: "absolute",
-    // bottom: 0,
-    // right: 0,
-    // left: 0,
-    // paddingHorizontal: 20,
-    // marginBottom: 20,
   },
 });

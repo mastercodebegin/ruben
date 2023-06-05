@@ -36,7 +36,7 @@ export default class MyCart extends MyCartController {
     }
     return (
       <SafeAreaView style={styles.main}>
-        <HeaderWithBackArrowTemplate
+        {/* <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
           headerText="My Cart"
         >
@@ -133,7 +133,7 @@ export default class MyCart extends MyCartController {
             )}}
           />
         </HeaderWithBackArrowTemplate>
-        <CommonLoader visible={this.state.showLoader}/>
+        <CommonLoader visible={this.state.showLoader}/> */}
       </SafeAreaView>
     );
   }

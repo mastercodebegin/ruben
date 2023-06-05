@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   Platform,
   RefreshControl,
+  FlatList
 } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
@@ -20,7 +21,6 @@ import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
-import { FlatList } from "react-native-gesture-handler";
 import RenderCategories from "./RenderCategories";
 
 export class ExplorePage extends LandingPageController {
@@ -108,7 +108,7 @@ export class ExplorePage extends LandingPageController {
                 bounces={false}
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => {
+                renderItem={({ item }:any) => {
                   const seleceted =
                     this.state.selectedSub === item?.attributes?.id;
                   return (
