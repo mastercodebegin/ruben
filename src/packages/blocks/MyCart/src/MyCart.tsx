@@ -14,11 +14,13 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
-import { store } from "../../../components/src/utils";
 export default class MyCart extends MyCartController {
+  async componentDidMount() {
+    this.getCart()
+  }
   render() {
     const getTotalPrice=()=>{
-      const array = [...store.getState().cartDetails]
+      const array =[...this.state.productsList]
       const totalPrice= array.reduce((accumulator, item:any) => {        
         return accumulator +item.attributes?.catalogue?.data?.attributes?.price;
       }, 0);
@@ -36,12 +38,12 @@ export default class MyCart extends MyCartController {
     }
     return (
       <SafeAreaView style={styles.main}>
-        {/* <HeaderWithBackArrowTemplate
+        <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
           headerText="My Cart"
         >
           <KeyboardAwareFlatList
-            data={store.getState().cartDetails}
+            data={this.state.productsList}
             bounces={false}
             ListHeaderComponent={() => (
               <View>
@@ -56,7 +58,7 @@ export default class MyCart extends MyCartController {
             )}
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => {
+            keyExtractor={(item:any, index:number) => {
               return String(item) + index;
             }}
             ListFooterComponent={
@@ -68,7 +70,7 @@ export default class MyCart extends MyCartController {
                   <TextInput
                    placeholder="Enter Discount Code"
                     value={this.state.discountCode}
-                     onChangeText={(text)=>this.setState({discountCode:text})}
+                     onChangeText={(text:string)=>this.setState({discountCode:text})}
                     style={styles.textInput}
                     placeholderTextColor='#A0272A'
                     />
@@ -115,7 +117,7 @@ export default class MyCart extends MyCartController {
               <Text style={{fontSize:17,textAlign:'center',backgroundColor:'white'}}>
                 {"No items added in the cart"}
                 </Text>)}
-            renderItem={({item,index}) => { 
+            renderItem={({item,index}:any) => { 
               return (
                 <ProductDetailComponent
                 name={item.attributes?.catalogue?.data?.attributes?.name}
@@ -128,12 +130,12 @@ export default class MyCart extends MyCartController {
                     array.splice(index, 1);
                     this.setState({productsList:array})
                 }}
-                onpressIncrease={()=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,true)}
+                onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
               />
             )}}
           />
         </HeaderWithBackArrowTemplate>
-        <CommonLoader visible={this.state.showLoader}/> */}
+        <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
     );
   }
