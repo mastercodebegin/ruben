@@ -30,7 +30,7 @@ defineFeature(feature, (test) => {
     });
 
     then("user can see my credits modal", () => {
-      var MycreditsModal = render(<MyCreditsModal />);
+      const MycreditsModal = render(<MyCreditsModal />);
       expect(MycreditsModal).toBeTruthy();
     });
   });

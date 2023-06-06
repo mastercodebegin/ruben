@@ -23,10 +23,6 @@ defineFeature(feature, (test) => {
       Platform: { OS: "web" },
       nativeModule: {},
     }));
-    jest.doMock("react-native", () => ({
-      Platform: { OS: "web" },
-      nativeModule: {},
-    }));
     jest.doMock("../../../../components/src/utils", () => ({
       store: {
         getState: jest.fn(() => ({

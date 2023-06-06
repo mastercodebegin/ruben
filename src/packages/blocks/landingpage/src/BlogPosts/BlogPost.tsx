@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY } from "../assets";
@@ -14,11 +10,14 @@ export default class BlogPost extends LandingPageController {
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <View style={{flex:1,backgroundColor:'red'}}>
-          <Posts list={this.state.imageBlogList} getList={()=>this.getblogPosts()} />
+        <View style={styles.flex}>
+          <Posts
+            list={this.state.imageBlogList}
+            getList={() => this.getblogPosts()}
+          />
         </View>
         <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
-        <CommonLoader visible={this.state.show_loader}/>
+        <CommonLoader visible={this.state.show_loader} />
       </SafeAreaView>
     );
   }
@@ -32,4 +31,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
+  flex: { flex: 1 },
 });
