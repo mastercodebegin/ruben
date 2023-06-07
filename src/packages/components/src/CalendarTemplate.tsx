@@ -66,12 +66,14 @@ const CalendarTemplate = ({
     <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
       <View style={styles.main}>
         <View style={styles.headerContainer}>
-          {backArrow&&<TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{ paddingHorizontal: 10 }}
-          >
-            <Image style={{ height: 20, width: 20 }} source={BackArrow} />
-          </TouchableOpacity>}
+          {backArrow && (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ paddingHorizontal: 10 }}
+            >
+              <Image style={{ height: 20, width: 20 }} source={BackArrow} />
+            </TouchableOpacity>
+          )}
           <Text style={styles.header}>{header}</Text>
         </View>
         <View style={styles.animatedContainer}>
@@ -240,6 +242,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingBottom: 20,
-    width:'100%',
+    width: "100%",
   },
 });

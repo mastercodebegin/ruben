@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 const { DARK_RED, LIGHT_GREY, removeImage } = require("./constants");
 const MeatImage = require("./meatimage@1.jpg");
@@ -11,7 +11,6 @@ const ProductDetailComponent = ({
   onpressIncrease,
   index,
 }: any) => {
-  const [quantities, setQuantities] = useState(quantity ? Number(quantity) : 0);
   return (
     <View style={styles.main}>
       <View style={styles.rowCon}>
@@ -19,23 +18,19 @@ const ProductDetailComponent = ({
         <View style={styles.innerContainer}>
           <View style={styles.row}>
             <Text style={styles.productName}>{name}</Text>
-            <Text style={styles.price}>{`$ ${price} X ${quantities}`}</Text>
+            <Text style={styles.price}>{`$ ${price} X ${quantity}`}</Text>
           </View>
           <View style={styles.row}>
             <View style={styles.counterContainer}>
               <TouchableOpacity
-                onPress={() => {
-                  if (quantities > 1) {
-                    setQuantities(quantities - 1);
-                  }
-                }}
+                onPress={() => onpressIncrease(false)}
                 style={styles.button}
               >
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
-              <Text style={styles.counter}>{quantities}</Text>
+              <Text style={styles.counter}>{quantity}</Text>
               <TouchableOpacity
-                onPress={() => onpressIncrease()}
+                onPress={() => onpressIncrease(true)}
                 style={styles.button}
               >
                 <Text style={styles.count}>{"+"}</Text>
@@ -43,7 +38,7 @@ const ProductDetailComponent = ({
             </View>
             <Text
               style={{ color: DARK_RED, fontSize: 16, fontWeight: "bold" }}
-            >{`$${Number(price) * Number(quantities)}`}</Text>
+            >{`$${Number(price) * Number(quantity)}`}</Text>
           </View>
         </View>
         <TouchableOpacity

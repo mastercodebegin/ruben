@@ -234,7 +234,7 @@ export default class AddProducts extends LandingPageController {
                         source={{uri:Platform.OS === 'ios'? `file://${prop.item?.path}`:prop.item?.path}} 
                         style={styles.imagesContainer}>
                       <TouchableOpacity onPress={()=>{
-                        const imageList = [...item?.images]
+                        const imageList = [...item.images]
                         imageList.splice(prop.index,1)
                         const list = this.state.productsList;
                           list[index] = {

@@ -17,6 +17,7 @@ interface ButtonType {
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<TextStyle>;
   transparentBackground?: boolean;
+  testID?:string;
 }
 const Button = ({
   style = {},
@@ -25,11 +26,13 @@ const Button = ({
   labelStyle = {},
   containerStyle,
   transparentBackground = false,
+  testID
 }: ButtonType) => {
   return (
     <View style={containerStyle}>
       <TouchableOpacity
         onPress={onPress}
+        testID={testID}
         style={[
           styles.continue,
           style,

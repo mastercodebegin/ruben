@@ -15,6 +15,8 @@ interface ButtonTypes {
   button2Onpress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
   disable?: boolean;
+  buttn1TestID?: string;
+  buttn2TestID?: string;
 }
 const DualButton = ({
   button1Label = "",
@@ -23,10 +25,13 @@ const DualButton = ({
   button2label = "",
   containerStyle = {},
   disable,
+  buttn2TestID,
+  buttn1TestID,
 }: ButtonTypes) => {
   return (
     <View style={[styles.inventoryContainer, containerStyle]}>
       <TouchableOpacity
+        testID={buttn1TestID}
         disabled={disable}
         onPress={button1Onpress}
         style={[styles.bottomButton, styles.inventory]}
@@ -38,6 +43,7 @@ const DualButton = ({
       <TouchableOpacity
         disabled={disable}
         onPress={button2Onpress}
+        testID={buttn2TestID}
         style={{
           backgroundColor: PRIMARY,
           ...styles.bottomButton,
@@ -62,16 +68,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
     borderRadius: 30,
-    // marginHorizontal: 20,
   },
   inventoryContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // position: "absolute",
-    // bottom: 0,
-    // right: 0,
-    // left: 0,
-    // paddingHorizontal: 20,
-    // marginBottom: 20,
   },
 });
