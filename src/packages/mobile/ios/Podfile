@@ -47,7 +47,7 @@ target 'RuebensFTCApp' do
   pod 'Firebase/Analytics'
 
   pod 'RNLocalize', :path => '../../../node_modules/react-native-localize/RNLocalize.podspec'
-
+  pod 'stripe-react-native', :path => '../../../node_modules/stripe/stripe-react-native/ios'
   pod 'RNPermissions', :path => '../../../node_modules/react-native-permissions'
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency.podspec"
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
