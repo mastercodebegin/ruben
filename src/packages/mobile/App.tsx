@@ -36,6 +36,7 @@ import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
 import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
+import StripeIntegration from '../blocks/StripeIntegration/src/StripeIntegration';
 import { linking, store } from '../components/src/utils';
 import { customAlert } from '../framework/src/Utilities';
 if (!HomeScreen.instance) {
@@ -128,6 +129,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
         <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
+        <Stack.Screen name="StripeIntegration" component={StripeIntegration}/>
         <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
       </Stack.Navigator>
     </NavigationContainer>
