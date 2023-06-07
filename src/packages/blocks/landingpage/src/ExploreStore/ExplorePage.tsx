@@ -158,7 +158,6 @@ class ExplorePage extends LandingPageController {
                         { label: 'Pricing High to Low', value: '2' },
                                            
                 ]} onSelect={(item) => {
-                    console.log("checking itme--->", item.value)
                     this.setState({sortAscending: item.value === '1'})
                     this.getProductList(item.value === '1')
                     this.setState({ show_SortingDropdown: false })
