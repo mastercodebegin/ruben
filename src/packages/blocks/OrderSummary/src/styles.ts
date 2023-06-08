@@ -140,4 +140,49 @@ export const styles = StyleSheet.create({
   deliverPriceText: {
     color: PRIMARY,
   },
+  meatStorageHeading: {
+    fontSize: 18,
+    color: DARK_RED,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  meatStorageOption: {
+    backgroundColor: WHITE,
+    padding: 20,
+    borderRadius: 20,
+    marginTop: 20,
+  },
+  meatStorageHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  meatStoragePrice: {
+    fontSize: 18,
+    color: PRIMARY,
+    fontWeight: "bold",
+  },
+  monthText: {
+    fontSize: 14,
+    fontWeight: "normal",
+  },
+  meatStorageDesc: {
+    color: "grey",
+    fontSize: 16,
+  },
+  addMeatStorageButton: {
+    borderWidth: 1,
+    borderColor: PRIMARY,
+    borderRadius: 20,
+    paddingVertical: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    backgroundColor: WHITE,
+  },
+  addMeatStorageButtonText: {
+    fontWeight: "bold",
+    fontSize: 17,
+    color: PRIMARY,
+  },
 });

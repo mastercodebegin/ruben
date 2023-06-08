@@ -21,6 +21,7 @@ interface S {
   show_modal: boolean;
   addressList: Array<any>;
   productsList:Array<any>;
+  currentStorageClass: string;
 }
 
 interface SS {
@@ -48,7 +49,8 @@ export default class OrderSummaryController extends BlockComponent<
       selectedTab: "delivery",
       show_modal: false,
       addressList: [],
-      productsList: []
+      productsList: [],
+      currentStorageClass: ''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
