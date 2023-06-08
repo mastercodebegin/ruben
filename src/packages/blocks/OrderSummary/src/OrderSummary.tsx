@@ -144,8 +144,8 @@ export default class OrderSummary extends OrderSummaryController {
                   { question: "Phone",ans:phone_number  },
                   {
                     question: "Shipping Add.",
-  ans: address,
-  },
+                    ans: address,
+                  },
                   { question: "Zipcode", ans:zip_code },
                 ]}
               />
@@ -167,7 +167,7 @@ export default class OrderSummary extends OrderSummaryController {
                 footer={{question: "Total", ans: "$407.00"}}
               />
             </View>
-            {this.state.selectedTab !== "pickup" ? (
+            {this.state.selectedTab === "pickup" ? (
                 <>
                   <Text style={[styles.meatStorageHeading, {marginTop: 30}]}>Meat Storage</Text>
                   <View style={styles.meatStorageOption}>
