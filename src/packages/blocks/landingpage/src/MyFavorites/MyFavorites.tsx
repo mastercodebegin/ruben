@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
-import {  WHITE, DARK_RED, badge } from "../assets";
+import { WHITE, DARK_RED, badge } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { Message } from "../../../../framework/src/Message";
 import { BlockComponent } from "../../../../framework/src/BlockComponent";
@@ -36,10 +36,10 @@ interface SS {
   id: any;
 }
 interface MetaTypes {
-token:string
+  token: string;
 }
 interface AsyncStorageType {
-  meta:MetaTypes
+  meta: MetaTypes;
 }
 export default class MyFavorites extends BlockComponent<Props, S, SS> {
   constructor(props: Props) {
@@ -109,7 +109,7 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
       } else {
         this.setState({
           show_loader: false,
-          favoritesList: Favorites.data ? Favorites.data : [],
+          favoritesList: Favorites.data || [],
         });
       }
     }
@@ -125,14 +125,14 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
             <CommonLoader visible={this.state.show_loader} />
           </View>
         ) : (
-          <View style={{ flex: 1 }}>
+          <View style={styles.flex}>
             <FlatList
               data={this.state.favoritesList}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{paddingHorizontal:20}}
+              contentContainerStyle={styles.contentContainer}
               bounces={false}
               renderItem={({ item }) => {
-                if (!item.attributes.catalogue_id.data) {
+                if (!item?.attributes?.catalogue_id?.data) {
                   return <></>;
                 }
                 return (
@@ -140,19 +140,17 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
                     <Image
                       resizeMode="stretch"
                       style={styles.image}
-                      source={{uri:item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url}}
-                    />
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingTop: 10,
+                      source={{
+                        uri:
+                          item?.attributes?.catalogue_id?.data?.attributes
+                            ?.images[0]?.url,
                       }}
-                    >
+                    />
+                    <View style={styles.renderContainer}>
                       <Text style={styles.text}>
                         {item?.attributes?.catalogue_id?.data?.attributes?.name}
                       </Text>
-                      <View style={{ flexDirection: "row" }}>
+                      <View style={styles.row}>
                         <Text style={styles.text}>
                           ${" "}
                           {
@@ -163,39 +161,16 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
                         <Text style={styles.kg}>{" / kg"}</Text>
                       </View>
                     </View>
-                    <View style={{ flexDirection: "row", width: "100%" }}>
-                      <Text
-                        style={{
-                          flex: 1,
-                          color: DARK_RED,
-                          fontSize: 15,
-                          paddingTop: 10,
-                        }}
-                      >
+                    <View style={styles.descriptionContainer}>
+                      <Text style={styles.description}>
                         {
                           item?.attributes?.catalogue_id?.data?.attributes
                             ?.description
                         }
                       </Text>
                       <View>
-                        <TouchableOpacity
-                          style={{
-                            padding: 7,
-                            borderRadius: 20,
-                            borderColor: "red",
-                            borderWidth: 2,
-                            marginTop: 10,
-                            marginLeft: 10,
-                          }}
-                        >
-                          <Image
-                            style={{
-                              tintColor: "red",
-                              height: 20,
-                              width: 20,
-                            }}
-                            source={badge}
-                          />
+                        <TouchableOpacity style={styles.badgeButton}>
+                          <Image style={styles.badge} source={badge} />
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -233,4 +208,31 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: DARK_RED,
   },
+  renderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 10,
+  },
+  description: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 10,
+  },
+  badgeButton: {
+    padding: 7,
+    borderRadius: 20,
+    borderColor: "red",
+    borderWidth: 2,
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  badge: {
+    tintColor: "red",
+    height: 20,
+    width: 20,
+  },
+  descriptionContainer: { flexDirection: "row", width: "100%" },
+  contentContainer: { paddingHorizontal: 20 },
+  flex: { flex: 1 },
+  row: { flexDirection: "row" },
 });

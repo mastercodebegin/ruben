@@ -1,36 +1,26 @@
 import React from "react";
 import {
-    View,
-    StyleSheet,
-    Text,
-    TextInput,
-    Image,
-    TouchableOpacity,
-    ScrollView,
-    SafeAreaView,
-    Platform,
-    RefreshControl,
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  Platform,
+  RefreshControl,
+  FlatList
 } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
-import {
-    LIGHT_GREY,
-    DARK_RED,
-    WHITE,
-    //@ts-ignore
-} from "../../assets/constants";
-import {
-    SEARCH,
-    EXPLORE_BTN,
-    CHICKEN
-} from "../assets";
+import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
+import { SEARCH, EXPLORE_BTN, CHICKEN } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-//@ts-ignore
-import RenderItems from '../RenderItems/RenderItems';
-import { connect } from 'react-redux';
+import RenderItems from "../RenderItems/RenderItems";
+import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
-import { FlatList } from "react-native-gesture-handler";
 //@ts-ignore
 import RenderCategories from './RenderCategories'
 import SortingDropdown from "../../../../components/src/SortingDropdown";
@@ -280,5 +270,4 @@ export const styles = StyleSheet.create({
         paddingVertical: 10,
         borderBottomWidth: 1,
     },
-
 });

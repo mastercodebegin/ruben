@@ -1,4 +1,4 @@
-import React ,{useContext}from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import CalendarTemplate, {
   Calendarcontext,
@@ -7,7 +7,7 @@ import { DARK_RED, MEAT_IMAGE1 } from "../assets";
 import DualButton from "../../../../components/src/DualButton";
 
 const ChildrenComponent = () => {
-  const contextValue =useContext(Calendarcontext);  
+  const contextValue = useContext(Calendarcontext);
   return (
     <View
       style={{
@@ -46,35 +46,39 @@ const ChildrenComponent = () => {
           </View>
         </View>
 
-        <DualButton disable={contextValue?.disable} button1Label="Decline" button2label="Accept" />
+        <DualButton
+          disable={contextValue?.disable}
+          button1Label="Decline"
+          button2label="Accept"
+        />
       </View>
     </View>
   );
 };
 const OrdersScreen = ({ navigation }: any) => {
   return (
-      <CalendarTemplate
-        header="Orders"
-        data={[]}
-        navigation={navigation}
-        animateString1="incoming Orders"
-        animateString2="Previous Orders"
-        onChangeText={(text) => {}}
-        additionalHeader={
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingBottom: 10,
-            }}
-          >
-            <Text style={styles.header}>JANUARY</Text>
-            <Text style={styles.header}>5 ORDERS</Text>
-          </View>
-        }
-      >
-        <ChildrenComponent />
-      </CalendarTemplate>
+    <CalendarTemplate
+      header="Orders"
+      data={[]}
+      navigation={navigation}
+      animateString1="incoming Orders"
+      animateString2="Previous Orders"
+      onChangeText={(text) => {}}
+      additionalHeader={
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingBottom: 10,
+          }}
+        >
+          <Text style={styles.header}>JANUARY</Text>
+          <Text style={styles.header}>5 ORDERS</Text>
+        </View>
+      }
+    >
+      <ChildrenComponent />
+    </CalendarTemplate>
   );
 };
 export default OrdersScreen;
