@@ -184,6 +184,8 @@ export default class LandingPageController extends BlockComponent<
 
   async receive(from: string, message: Message) {
     // Customizable Area Start    
+
+    console.log("landingpage receive calld")
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null &&

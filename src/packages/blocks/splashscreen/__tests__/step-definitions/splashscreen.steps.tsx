@@ -2,7 +2,7 @@ import { defineFeature, loadFeature} from "jest-cucumber"
 import { shallow, ShallowWrapper } from 'enzyme'
 
 import * as helpers from '../../../../framework/src/Helpers'
-
+import AppLauncher from "../../src/AppLauncher";
 import React from "react";
 import Splashscreen from "../../src/Splashscreen"
 const navigation = require("react-navigation")
@@ -39,6 +39,10 @@ defineFeature(feature, (test) => {
         then('Splashscreen will load with out errors', () => {
             expect(Splashscreen).toBeTruthy()
         });
+
+        then('I can see the App launcher',()=>{
+            splashscreen = shallow(<AppLauncher/>)
+        })
 
         then('I can leave the screen with out errors', () => {
             instance.componentWillUnmount()

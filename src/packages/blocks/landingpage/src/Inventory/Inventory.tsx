@@ -109,6 +109,7 @@ export default class Inventory extends LandingPageController {
                         }}>
                             <Image source={SEARCH} style={{ height: 20, width: 20, left: 10 }} />
                             <TextInput
+                            testID="search_product_id"
                                 style={{ left: 20, color: '#E7E4DF', width: '70%' }}
                                 value={this.state.searchText}
                                 onChangeText={(searchText) => this.onChangeSearch(searchText)}
