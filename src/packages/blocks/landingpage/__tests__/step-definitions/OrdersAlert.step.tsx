@@ -26,10 +26,9 @@ defineFeature(feature, (test) => {
   });
 
   test("User navigates to orders screen", ({ given, when, then }) => {
-    let AboutUsBlock;
 
     given("users loading orders screen", () => {
-      AboutUsBlock = render(
+     render(
         <Alert
           visible={false}
           setVisibleProfileModal={function(): void {

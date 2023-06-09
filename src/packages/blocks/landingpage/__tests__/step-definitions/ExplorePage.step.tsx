@@ -3,7 +3,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { ExplorePage } from "../../src/ExploreStore/ExplorePage";
 import { render, fireEvent } from "@testing-library/react-native";
-
+import RenderItems from "../../src/RenderItems/RenderItems";
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -15,6 +15,8 @@ const screenProps = {
   route: {},
 };
 
+const addtoFavMock = jest.fn();
+const addtoCartMock = jest.fn();
 const feature = loadFeature(
   "./__tests__/features/ExplorePage-scenario.feature"
 );
@@ -65,5 +67,16 @@ defineFeature(feature, (test) => {
         />
       );
     });
+    then("user can see products list",()=>{
+      const productList = render(<RenderItems rating={false} item={[{}]} onpressFav={addtoFavMock} onPressCart={addtoCartMock }/>)
+      const {getByTestId} = render(<RenderItems rating={true} item={[{},{}]} onpressFav={addtoFavMock} onPressCart={addtoCartMock }/>)
+      expect(productList).toBeTruthy();
+      
+      fireEvent.press(getByTestId("navigate_to_product_details_id_0"));
+      fireEvent.press(getByTestId("add_to_fav_id_0"));
+      fireEvent.press(getByTestId("add_to_cart_id_0"));
+      expect(addtoCartMock).toBeCalled();
+      expect(addtoFavMock).toBeCalled()
+       })
   });
 });
