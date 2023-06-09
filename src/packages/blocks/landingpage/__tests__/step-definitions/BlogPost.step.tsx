@@ -1,7 +1,8 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
 import React from "react";
 import BlogPost from "../../src/BlogPosts/BlogPost";
-import { render } from "@testing-library/react-native";
+import BlogPostCard from "../../src/BlogPostCard";
+import { render, fireEvent } from "@testing-library/react-native";
 
 const navigation = {
   navigate: jest.fn(),
@@ -10,13 +11,11 @@ const navigation = {
 
 const screenProps = {
   navigation: navigation,
-  id: "LandingPage",
+  id: "BlogPost",
   route: {},
 };
 
-const feature = loadFeature(
-  "./__tests__/features/BlogPost-scenario.feature"
-);
+const feature = loadFeature("./__tests__/features/BlogPost-scenario.feature");
 
 defineFeature(feature, (test) => {
   beforeEach(() => {
@@ -24,6 +23,9 @@ defineFeature(feature, (test) => {
     jest.doMock("react-native", () => ({
       Platform: { OS: "web" },
       nativeModule: {},
+    }));
+    jest.doMock("@react-navigation/native", () => ({
+      useNavigation: jest.fn(() => navigation),
     }));
   });
 
@@ -46,6 +48,11 @@ defineFeature(feature, (test) => {
           {...screenProps}
         />
       );
+    });
+    then("user able to see blog posts", () => {
+      const { getByTestId } = render(<BlogPostCard item={{}} />);
+
+      fireEvent.press(getByTestId("navigate_to_details_page_test_id"));
     });
   });
 });

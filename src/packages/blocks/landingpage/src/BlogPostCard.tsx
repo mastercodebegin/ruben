@@ -8,14 +8,13 @@ import {
   TouchableWithoutFeedback,
   Clipboard,
   Platform,
-  ToastAndroid,
 } from "react-native";
 import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
-import Toast from "react-native-simple-toast";
-import FastImage from 'react-native-fast-image'
-import {deepLinkingURL} from '../../../components/src/constants';
+import FastImage from "react-native-fast-image";
+import { deepLinkingURL } from "../../../components/src/constants";
+import { showToast } from "../../../components/src/ShowToast";
 interface Types {
   item: any;
   type?: string;
@@ -27,6 +26,7 @@ const BlogPostCard = ({ item, type }: Types) => {
   return (
     <View style={styles.card}>
       <TouchableWithoutFeedback
+        testID="navigate_to_details_page_test_id"
         onPress={() =>
           navigation.navigate("DetailsPage", {
             name: item?.attributes?.name,
@@ -37,7 +37,7 @@ const BlogPostCard = ({ item, type }: Types) => {
                 : item?.attributes?.videos[0]?.url,
             description: item?.attributes?.description,
             type: type,
-            id:item?.attributes?.id
+            id: item?.attributes?.id,
           })
         }
       >
@@ -55,15 +55,11 @@ const BlogPostCard = ({ item, type }: Types) => {
             <TouchableOpacity
               onPress={() => {
                 Clipboard.setString(
-                  type === "image"?
-                  `${deepLinkingURL}?/blogpost=${item?.attributes?.id}`:
-                  `${deepLinkingURL}?/video=${item?.attributes?.id}`
+                  type === "image"
+                    ? `${deepLinkingURL}?/blogpost=${item?.attributes?.id}`
+                    : `${deepLinkingURL}?/video=${item?.attributes?.id}`
                 );
-                if (Platform.OS === "ios") {
-                  Toast.show("Link copied");
-                  return;
-                }
-                ToastAndroid.show("Link copied", ToastAndroid.SHORT);
+                showToast("Link copied");
               }}
               style={{ padding: 5 }}
             >
@@ -85,21 +81,24 @@ const BlogPostCard = ({ item, type }: Types) => {
             />
           ) : (
             <View style={styles.videoView}>
-              {Platform.OS === 'ios'?
-              <Video
-              style={styles.video}
-              paused
-              resizeMode="stretch"
-              source={{
-                uri: item?.attributes?.videos[0]?.url,
-              }}
-            />:<FastImage
-                style={styles.video}
-                resizeMode="stretch"
-                source={{
-                  uri: item?.attributes?.videos[0]?.url,
-                }}
-              />}
+              {Platform.OS === "ios" ? (
+                <Video
+                  style={styles.video}
+                  paused
+                  resizeMode="stretch"
+                  source={{
+                    uri: item?.attributes?.videos[0]?.url,
+                  }}
+                />
+              ) : (
+                <FastImage
+                  style={styles.video}
+                  resizeMode="stretch"
+                  source={{
+                    uri: item?.attributes?.videos[0]?.url,
+                  }}
+                />
+              )}
               <View style={styles.videoContainer}>
                 <Image style={{ height: 40, width: 40 }} source={playIcon} />
               </View>
@@ -114,7 +113,7 @@ export default BlogPostCard;
 const styles = StyleSheet.create({
   blogImage: { width: "100%", borderRadius: 10, height: 200 },
   videoView: { borderRadius: 10, overflow: "hidden" },
-  video: { width: "100%", height: 200 },
+  video: { height: 200 },
   play: {
     height: 30,
     width: 30,
