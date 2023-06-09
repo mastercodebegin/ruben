@@ -1,8 +1,14 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { DARK_RED, MEAT_IMAGE3, PRIMARY, badge } from "../assets";
 import { sampleText, ImageData } from "./ProductDetails";
-import { FlatList } from "react-native-gesture-handler";
 const RenderAboutThisFarm = () => {
   return (
     <View style={styles.main}>
@@ -49,7 +55,7 @@ const RenderAboutThisFarm = () => {
 };
 export default RenderAboutThisFarm;
 const styles = StyleSheet.create({
-  main: { },
+  main: {},
   price: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
   productImage: { height: 220, width: "100%", borderRadius: 20 },
   productContainer: {

@@ -9,8 +9,6 @@ import {
   ScrollView,
   Dimensions,
   Clipboard,
-  Platform,
-  ToastAndroid,
   ActivityIndicator,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -18,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Header } from "./Header";
 import { sampleProfile, shareIcon, playIcon, pause } from "../assets";
 import Video from "react-native-video";
-import Toast from "react-native-simple-toast";
+import { showToast } from "../../../../components/src/ShowToast";
 
 const arrowLeft = require("../../../../components/src/arrow_left.png");
 
@@ -54,17 +52,14 @@ const DetailsPage = ({ route }: any) => {
                   <Text style={styles.time}>{created_at}</Text>
                 </View>
                 <TouchableOpacity
+                  testID="copy_url_test_id"
                   onPress={() => {
                     Clipboard.setString(
                       `https://ruebensftcapp.page.link/63fF?/${
                         type === "image" ? "blogpost" : "video"
                       }=${id}`
                     );
-                    if (Platform.OS === "ios") {
-                      Toast.show("Link copied");
-                      return;
-                    }
-                    ToastAndroid.show("Link copied", ToastAndroid.SHORT);
+                    showToast("Link copied");
                   }}
                   style={{ padding: 5 }}
                 >

@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  View,
-  Modal,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Image,
-} from "react-native";
-import LandingPageController from "../LandingPageController";
-import { DARK_RED, LIGHT_GREY, MID_PEACH, cow, } from "../assets";
+import { View, Modal, StyleSheet, ScrollView, Text, Image } from "react-native";
+import { DARK_RED, LIGHT_GREY, MID_PEACH, cow } from "../assets";
 import { BLACK } from "../colors";
 export default class MyCreditDetailsModal extends React.Component {
   constructor(props: any) {
@@ -16,7 +8,6 @@ export default class MyCreditDetailsModal extends React.Component {
   }
 
   render() {
-
     return (
       <Modal transparent>
         <View style={styles.blur} />
@@ -27,7 +18,7 @@ export default class MyCreditDetailsModal extends React.Component {
             contentContainerStyle={styles.contentContainer}
           >
             <View style={styles.mainContainer}>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <View style={{ flexDirection: "row", justifyContent: "center" }}>
                 <View style={styles.invImageContainer}>
                   <Image
                     resizeMode="contain"
@@ -40,16 +31,14 @@ export default class MyCreditDetailsModal extends React.Component {
                   <Text style={styles.invTotalText}>10</Text>
                 </View>
               </View>
-              <Text style={styles.pickHeading}>Pickup / Deliver Remaining Cuts</Text>
+              <Text style={styles.pickHeading}>
+                Pickup / Deliver Remaining Cuts
+              </Text>
               <View style={styles.optionContainer}>
-                <Text>
-                  Choose an option
-                </Text>
+                <Text>Choose an option</Text>
                 <View style={styles.optionContainerIn}>
                   <View style={styles.chooseOptionContainer}>
-                    <Text>
-                      Pickup
-                    </Text>
+                    <Text>Pickup</Text>
                   </View>
                 </View>
               </View>
@@ -61,8 +50,6 @@ export default class MyCreditDetailsModal extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-
-  //@ts-ignore
   blur: {
     //@ts-ignore
     ...StyleSheet.absoluteFill,
@@ -80,50 +67,50 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
   },
   mainContainer: {
-    padding: 0
+    padding: 0,
   },
   invImageContainer: {
-    width: '40%',
+    width: "40%",
     height: 120,
   },
   invImgStyle: {
-    width: '100%',
-    height: '100%'
+    width: "100%",
+    height: "100%",
   },
   invDesContainer: {
-    width: '60%',
+    width: "60%",
     backgroundColor: LIGHT_GREY,
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 5,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   invDesText: {
     color: MID_PEACH,
     fontSize: 14,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
   },
   invTotalText: {
     color: DARK_RED,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingTop: 8,
   },
   pickHeading: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: BLACK,
-    alignSelf: 'center',
-    paddingVertical: 25
+    alignSelf: "center",
+    paddingVertical: 25,
   },
-  optionContainer:{
-    padding:0
+  optionContainer: {
+    padding: 0,
   },
-  optionContainerIn:{
-    padding:20,
-    backgroundColor:LIGHT_GREY
+  optionContainerIn: {
+    padding: 20,
+    backgroundColor: LIGHT_GREY,
   },
-  chooseOptionContainer:{
-    padding:0
-  }
+  chooseOptionContainer: {
+    padding: 0,
+  },
 });

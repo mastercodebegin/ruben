@@ -128,6 +128,7 @@ export default class ProductDetailScreen extends LandingPageController {
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
+                  testID="copy_link_test_id"
                   onPress={() => {
                     Clipboard.setString(
                       `${deepLinkingURL}?/product=${this.props?.route?.params?.id}`
@@ -139,7 +140,9 @@ export default class ProductDetailScreen extends LandingPageController {
                   <Image style={style.shareImage} source={shareIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.addToCart.bind(this)(this.props?.route?.params?.id)}
+                  onPress={() =>
+                    this.addToCart.bind(this)(this.props?.route?.params?.id)
+                  }
                   style={style.cartButton}
                 >
                   <Text style={style.cartText}>Add to Cart</Text>

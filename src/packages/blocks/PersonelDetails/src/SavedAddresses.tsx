@@ -12,8 +12,9 @@ interface RenderAddressTypes {
   title: string;
   setChecked: () => void;
   checked: boolean;
+  address:string;
 }
-const RenderAddress = ({ title, setChecked, checked }: RenderAddressTypes) => (
+const RenderAddress = ({ title, setChecked, checked, address }: RenderAddressTypes) => (
   <View key={title}>
     <View style={styles.addressContainer}>
       <TouchableOpacity style={styles.padding} onPress={setChecked}>
@@ -27,7 +28,7 @@ const RenderAddress = ({ title, setChecked, checked }: RenderAddressTypes) => (
       <Text style={[styles.question, styles.addressText]}>{title}</Text>
     </View>
     <Text style={{ color: DARK_RED }}>
-      {"12 AB building near test road , Dallas"}
+      {address}
     </Text>
   </View>
 );
@@ -50,18 +51,30 @@ export default class SavedAddresses extends Component<Props, State> {
             {"CHOOSE FROM SAVED ADDRESSES"}
           </Text>
         </View>
-        {this.props.addressList.map((item, index) => {
+        {
+              (this.props.addressList.length === 0)?(
+                <Text style={{fontSize:17,paddingTop:20,textAlign:'center'}}>
+                  {'No address added'}
+                </Text>
+              ):
+              <>
+              {this.props.addressList.map((item, index) => {          
           return (
             <RenderAddress
               checked={this.props.selectedAddress === index}
               setChecked={() => {
                 this.props.setSelectedAddress(index);
               }}
-              key={item.name}
-              title={item.name}
+              key={item?.attributes?.id}
+              address={item?.attributes?.address}
+              title={item?.attributes?.address_type}
             />
           );
         })}
+              </>
+
+        }
+        
 
         <TouchableOpacity style={styles.delivery}>
           <Text style={{ color: PRIMARY }}>Delivery</Text>
