@@ -925,7 +925,7 @@ export default class LandingPageController extends BlockComponent<
     this.getProductId = getProductListMsg.messageId;
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.addProductEndpoint}${type ? "desc" : "asc"}`
+      `${configJSON.addProductEndpoint}${type ? "asc" : "desc"}`
       );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
