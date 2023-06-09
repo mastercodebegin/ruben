@@ -143,7 +143,10 @@ export default class PersonelDetails extends PersonelDetailsController {
             <DeliveryFeesModal
               visible={this.state.show_modal}
               onpressClose={() => this.setState({ show_modal: false })}
-              onpressContinue={() => {}}
+              onpressContinue={() => {
+                this.setState({show_modal: false})
+                this.props.navigation.navigate("OrderSummary")
+              }}
             />
           </View>
         </HeaderWithBackArrowTemplate>
