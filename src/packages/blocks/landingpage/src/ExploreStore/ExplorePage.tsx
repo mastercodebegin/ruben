@@ -25,7 +25,7 @@ import CommonLoader from "../../../../components/src/CommonLoader";
 import RenderCategories from './RenderCategories'
 import SortingDropdown from "../../../../components/src/SortingDropdown";
 
-class ExplorePage extends LandingPageController {
+export class ExplorePage extends LandingPageController {
     constructor(props: any) {
         super(props);
         this.receive = this.receive.bind(this);
@@ -81,6 +81,7 @@ class ExplorePage extends LandingPageController {
                                 horizontal
                                 style={{ marginLeft: 20 }}
                                 bounces={false}
+                                testID="termsCondsList"
                                 showsHorizontalScrollIndicator={false}
                                 onEndReached={() => {
                                     if (this.categoryPage === null) {
@@ -102,10 +103,11 @@ class ExplorePage extends LandingPageController {
                                 data={this.state.subcategories}
                                 horizontal
                                 bounces={false}
+                                testID="subcategoryList"
                                 style={{ marginLeft: 20 }}
                                 showsHorizontalScrollIndicator={false}
                                 renderItem={
-                                    ({ item }) => {
+                                    ({ item }: any ) => {
                                         const seleceted = this.state.selectedSub === item?.attributes?.id
                                         return <TouchableOpacity
                                             onPress={() => this.setState({ selectedSub: item?.attributes?.id })}
@@ -143,7 +145,7 @@ class ExplorePage extends LandingPageController {
                 </View>
                 <BottomTab navigation={this.props.navigation} tabName={'Explore'} />
                 {this.state.show_loader && <CommonLoader visible={this.state.show_loader} />}
-                {this.state.show_SortingDropdown && <SortingDropdown visible={this.state.show_SortingDropdown} data={[
+                {this.state.show_SortingDropdown && <SortingDropdown visible={this.state.show_SortingDropdown} testID={"sortingDropdown"} data={[
                         { label: 'Pricing Low to High', value: '1' },
                         { label: 'Pricing High to Low', value: '2' },
                                            

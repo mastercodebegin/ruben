@@ -7,6 +7,7 @@ interface Props {
     onItemPress?: () => void;
     data: Array<{ label: string; value: string }>;
     onSelect: (item: any) => void;
+    testID: any;
 }
 const SortingDropdown = ({
     visible = false,
@@ -15,23 +16,28 @@ const SortingDropdown = ({
     onpressButton = () => { },
     onSelect=(itme) => {},
     onItemPress = () => { },
+    testID = "sortingDropdown"
 
 }: Props) => {
-    const renderItem = ({ item }): ReactElement<any, any> => {
+    const renderItem = ({ item, index }: any): ReactElement<any, any> => {
         return (
-            <TouchableOpacity style={styles.item} onPress={() => onSelect(item)}>
+            <TouchableOpacity 
+            style={styles.item} 
+            testID={index + "selectFilter"}
+            onPress={() => onSelect(item)}>
                 <Text>{item.label}</Text>
             </TouchableOpacity>
         );
     };
       
     return (
-        <Modal visible={visible} transparent animationType="none">
+        <Modal visible={visible} transparent animationType="none" >
             <TouchableOpacity
                 style={styles.overlay}
+                testID="closeDropdown"
                 onPress={onpressButton}
             >
-                <View style={[styles.dropdown, { top: 140, right: 25 }]}>
+                <View style={[styles.dropdown, { top: 140, right: 25 }]} testID={testID}>
                     <FlatList
                         data={data}
                         renderItem={renderItem}
