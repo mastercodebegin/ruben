@@ -111,7 +111,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <MyDetails
                 header="MY DETAILS"
                 list={[
-                  { question: "name", ans: "Maria Tofimova" },
+                  { question: "name", ans: "Lerna Tofimova" },
                   { question: "email", ans: "test@gmail.com" },
                   { question: "phone", ans: "+ 121212122121" },
                   {
