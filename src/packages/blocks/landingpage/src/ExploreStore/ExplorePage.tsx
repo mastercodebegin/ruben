@@ -41,10 +41,12 @@ export class ExplorePage extends LandingPageController {
                 <View style={{ flex: 1 }}>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
+                        testID="scrollview"
                         contentContainerStyle={{ paddingBottom: 80 }}
                         refreshControl={
                             <RefreshControl
                                 refreshing={this.state.refresh}
+                                testID="refereshcontrol"
                                 onRefresh={() => {
                                     this.setState({ refresh: true })
                                     this.getCategory.bind(this)(1, false)
@@ -62,10 +64,16 @@ export class ExplorePage extends LandingPageController {
                                             style={styles.textInput}
                                             placeholder="Search any Product/Video"
                                             placeholderTextColor={"#8D7D75"}
+                                            value=""
+                                            testID="productSearch"
+                                            onChangeText={(text) =>{
+                                                console.log("on change text", text);
+                                            }}
                                         />
                                     </View>
                                     <View style={{ height: "100%" }}>
-                                        <TouchableOpacity style={styles.exploreBtn}
+                                        <TouchableOpacity style={styles.exploreBtn} 
+                                        testID="sortingDropShow"
                                             onPress={() => this.setState({ show_SortingDropdown: true })}
                                         >
                                             <Image
@@ -106,27 +114,39 @@ export class ExplorePage extends LandingPageController {
                                 testID="subcategoryList"
                                 style={{ marginLeft: 20 }}
                                 showsHorizontalScrollIndicator={false}
-                                renderItem={
-                                    ({ item }: any ) => {
-                                        const seleceted = this.state.selectedSub === item?.attributes?.id
-                                        return <TouchableOpacity
-                                            onPress={() => this.setState({ selectedSub: item?.attributes?.id })}
-                                            style={[styles.subcategory,
-                                            {
-                                                backgroundColor: seleceted ? '#A0272A' : WHITE,
-                                            }
-                                            ]}>
-                                            <Image
-                                                style={{ height: 25, width: 25, marginRight: 10, tintColor: seleceted ? 'white' : DARK_RED }}
-                                                source={CHICKEN} />
-                                            <Text numberOfLines={1} style={{
-                                                fontSize: 20,
-                                                color: seleceted ? 'white' : DARK_RED,
-                                                fontWeight: '500',
-                                            }}>{item?.attributes?.name}</Text>
+                                renderItem={({ item, index }: any) => (
+                                    <TouchableOpacity
+                                    testID={index + "selectedSubscategory"}
+                                      onPress={() => this.setState({ selectedSub: item?.attributes?.id })}
+                                      style={[styles.subcategory,
+                                      {
+                                        backgroundColor: this.state.selectedSub === item?.attributes?.id ? '#A0272A' : WHITE,
+                                      }
+                                      ]}>
                                         </TouchableOpacity>
-                                    }
-                                }
+                                  )}
+                                // renderItem={
+                                //     ({ item, index }: any ) => {
+                                //        // const seleceted = this.state.selectedSub === item?.attributes?.id
+                                       
+                                //         return <TouchableOpacity
+                                //             onPress={() => this.setState({ selectedSub: item?.attributes?.id })}
+                                //             style={[styles.subcategory,
+                                //             {
+                                //                 backgroundColor: this.state.selectedSub === item?.attributes?.id ? '#A0272A' : WHITE,
+                                //             }
+                                //             ]}>
+                                //             <Image
+                                //                 style={{ height: 25, width: 25, marginRight: 10, tintColor: this.state.selectedSub === item?.attributes?.id ? 'white' : DARK_RED }}
+                                //                 source={CHICKEN} />
+                                //             <Text numberOfLines={1} style={{
+                                //                 fontSize: 20,
+                                //                 color: this.state.selectedSub === item?.attributes?.id ? 'white' : DARK_RED,
+                                //                 fontWeight: '500',
+                                //             }}>{item?.attributes?.name}</Text>
+                                //         </TouchableOpacity>
+                                //     }
+                                // }
                             />
                             <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} rating={false} />
                             <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} header={true} rating={true} />
@@ -163,7 +183,7 @@ export class ExplorePage extends LandingPageController {
 
 
 
-const mapDispatchToProps = (dispatch: any) => {
+export const mapDispatchToProps = (dispatch: any) => {
     return {
         updateCartDetails: (payload: any) => {
             dispatch({ type: 'UPDATE_CART_DETAILS', payload: payload })
@@ -171,7 +191,7 @@ const mapDispatchToProps = (dispatch: any) => {
     };
 };
 
-const mapStateToProps = (reducer: any) => {
+export const mapStateToProps = (reducer: any) => {
     return {
         currentUser: reducer?.currentUser,
         cartDetails: reducer.cartDetails
