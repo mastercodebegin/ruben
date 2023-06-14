@@ -8,3 +8,9 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => ({
     OS: 'macos',
     select: () => null
 }));
+jest.mock('react-native-share',()=>({
+    open:jest.fn()
+}))
+jest.mock('../../components/src/utils',()=>({
+    downloadFiles:jest.fn()
+}))
