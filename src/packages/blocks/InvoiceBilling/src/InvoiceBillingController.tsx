@@ -8,6 +8,9 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
+import Share from 'react-native-share';
+import { downloadFiles } from "../../../components/src/utils";
+import { Alert } from "react-native";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -139,5 +142,35 @@ export default class InvoiceBillingController extends BlockComponent<
   };
 
   // Customizable Area Start
+  async downloadInvoice() {
+    let url;
+    try{
+     url = await downloadFiles(
+        "https://www.africau.edu/images/default/sample.pdf",
+        "invoice.pdf",
+        "test",
+        "",
+        "test",
+        false,
+        false
+      )
+    }catch(e:any){
+      Alert.alert('Error',e.message)
+    }
+    return url;
+   
+  }
+  async shareInvoice(filePath:string){
+      try {
+        const fileName = 'example.pdf';
+        const shareOptions = {
+          url: `file://${filePath}`,
+          fileName
+        };
+        await Share.open(shareOptions);
+      } catch (error:any) {
+        Alert.alert('Error',error.message)
+      }
+  }
   // Customizable Area End
 }

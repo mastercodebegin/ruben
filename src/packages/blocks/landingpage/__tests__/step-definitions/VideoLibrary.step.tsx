@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
 import React from "react";
-import Alert from "../../src/Alert/Alert";
-import { render } from "@testing-library/react-native";
+import Inventory from "../../src/BlogPosts/VideoLibrary";
+import { render, fireEvent } from "@testing-library/react-native";
 
 const navigation = {
   navigate: jest.fn(),
@@ -14,35 +14,32 @@ const screenProps = {
   route: {},
 };
 
-const feature = loadFeature("./__tests__/features/Orders-scenario.feature");
+const feature = loadFeature("./__tests__/features/VideoLibrary-scenario.feature");
 
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
-    jest.doMock("react-native", () => ({
-      Platform: { OS: "web" },
-      nativeModule: {},
-    }));
   });
 
-  test("User navigates to orders screen", ({ given, when, then }) => {
-
-    given("users loading orders screen", () => {
-     render(
-        <Alert
+  test("User navigates to Video Library screen", ({ given, when, then }) => {
+    let InventoryBlock: any;
+    given("I am a User loading Video Library screen", () => {
+      InventoryBlock = render(
+        <Inventory
           visible={false}
           setVisibleProfileModal={function(): void {
             throw new Error("Function not implemented.");
           }}
           setState={() => {}}
-          state={{ selectedSub: [{}, {}] }}
+          state={{videoLibrary:[{},{}]}}
           firstTime={false}
-          currentUser={""}
+          currentUser="user"
           updateCartDetails={() => {}}
           cartDetails={[]}
           {...screenProps}
         />
       );
+      expect(InventoryBlock).toBeTruthy();
     });
   });
 });
