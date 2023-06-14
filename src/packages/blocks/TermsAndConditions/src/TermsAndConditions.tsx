@@ -1,26 +1,16 @@
 import React from "react";
 
 // Customizable Area Start
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { Text, StyleSheet } from "react-native";
 import CommonLoader from "../../../components/src/CommonLoader";
-//@ts-ignore
 import { TERMS_AND_CONDITIONS } from "../../../components/src/constants";
-//@ts-ignore
 import {
   backArrow,
   DARK_RED,
   WHITE,
   LIGHT_GREY,
 } from "../../landingpage/src/assets";
-
+import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 // Customizable Area End
 
 import TermsAndConditionsController, {
@@ -46,24 +36,25 @@ export default class TermsAndConditions extends TermsAndConditionsController {
     // Customizable Area Start
     const { navigation } = this.props;
     return (
-      <SafeAreaView style={styles.flex}>
-        <View style={styles.main}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation?.goBack()}>
-              <Image style={styles.back} source={backArrow} />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>{TERMS_AND_CONDITIONS}</Text>
-          </View>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            contentContainerStyle={styles.contentContainer}
-          >
-            <Text style={styles.text}>{this.state.termsAndCondition}</Text>
-          </ScrollView>
+      <HeaderWithBackArrowTemplate
+        scrollView
+        showsVerticalScrollIndicator={false}
+        navigation={navigation}
+        headerText={TERMS_AND_CONDITIONS}
+        contentContainerStyle={styles.contentContainer}
+        refreshControl
+        bounces
+        scrollViewStyle={styles.scrollView}
+        onRefresh={() => {
+          this.setState({ refresh: true });
+          this.callGetTermsAndConditions(false);
+        }}
+      >
+        <>
+          <Text style={styles.text}>{this.state.termsAndCondition}</Text>
           <CommonLoader visible={this.state.showLoader} />
-        </View>
-      </SafeAreaView>
+        </>
+      </HeaderWithBackArrowTemplate>
     );
     // Customizable Area End
   }
@@ -80,8 +71,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: WHITE,
     paddingHorizontal: 20,
-    paddingVertical: 20,
-    borderRadius: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
   main: {
     flex: 1,
@@ -102,5 +93,10 @@ const styles = StyleSheet.create({
   },
   back: { height: 15, width: 15 },
   flex: { flex: 1 },
+  scrollView: {
+    borderRadius: 20,
+    marginHorizontal: 20,
+    backgroundColor: "white",
+  },
 });
 // Customizable Area End

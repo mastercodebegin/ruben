@@ -28,6 +28,7 @@ interface S {
   termsAndCondition: string;
   showLoader: boolean;
   aboutus: any;
+  refresh:boolean;
   // Customizable Area End
 }
 
@@ -68,6 +69,7 @@ export default class TermsAndConditionsController extends BlockComponent<
       termsAndCondition: "",
       showLoader: false,
       aboutus: null,
+      refresh:false,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -109,9 +111,10 @@ export default class TermsAndConditionsController extends BlockComponent<
           termsAndCondition:
             termsAndConditionResponse?.data[0]?.attributes?.description,
           showLoader: false,
+          refresh:false
         });
       } else {
-        this.setState({ showLoader: false });
+        this.setState({ showLoader: false,refresh:false });
       }
     }
     // Customizable Area End
@@ -173,8 +176,8 @@ export default class TermsAndConditionsController extends BlockComponent<
   };
 
   // Customizable Area Start
-  async callGetTermsAndConditions() {
-    this.setState({ showLoader: true });
+  async callGetTermsAndConditions(showLoader=true) {
+    this.setState({ showLoader: showLoader });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
