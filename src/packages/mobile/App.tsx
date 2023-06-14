@@ -36,6 +36,7 @@ import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
 import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
+import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
 import { customAlert } from '../framework/src/Utilities';
 import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
@@ -129,6 +130,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
         <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
+        <Stack.Screen name="OrderSummary" component={OrderSummary}/>
         <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
         <Stack.Screen name='InvoiceBilling' component={InvoiceBilling}/>
       </Stack.Navigator>
