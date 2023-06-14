@@ -15,13 +15,12 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN } from "../assets";
+import { SEARCH, EXPLORE_BTN } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
-//@ts-ignore
 import RenderCategories from './RenderCategories'
 import SortingDropdown from "../../../../components/src/SortingDropdown";
 
@@ -125,28 +124,6 @@ export class ExplorePage extends LandingPageController {
                                       ]}>
                                         </TouchableOpacity>
                                   )}
-                                // renderItem={
-                                //     ({ item, index }: any ) => {
-                                //        // const seleceted = this.state.selectedSub === item?.attributes?.id
-                                       
-                                //         return <TouchableOpacity
-                                //             onPress={() => this.setState({ selectedSub: item?.attributes?.id })}
-                                //             style={[styles.subcategory,
-                                //             {
-                                //                 backgroundColor: this.state.selectedSub === item?.attributes?.id ? '#A0272A' : WHITE,
-                                //             }
-                                //             ]}>
-                                //             <Image
-                                //                 style={{ height: 25, width: 25, marginRight: 10, tintColor: this.state.selectedSub === item?.attributes?.id ? 'white' : DARK_RED }}
-                                //                 source={CHICKEN} />
-                                //             <Text numberOfLines={1} style={{
-                                //                 fontSize: 20,
-                                //                 color: this.state.selectedSub === item?.attributes?.id ? 'white' : DARK_RED,
-                                //                 fontWeight: '500',
-                                //             }}>{item?.attributes?.name}</Text>
-                                //         </TouchableOpacity>
-                                //     }
-                                // }
                             />
                             <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} rating={false} />
                             <RenderItems onPressCart={this.addToCart.bind(this)} onpressFav={this.AddToFavorites.bind(this)} item={this.state.productList} header={true} rating={true} />
