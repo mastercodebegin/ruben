@@ -10,7 +10,7 @@ const RenderCategories = ({ item, index, onpress }: any) => {
       style={styles.scrollerItemContainer}
     >
       <Image style={styles.scrollerImg} source={CHICKEN} />
-      <Text style={styles.scrollerText}>{item?.attributes.name}</Text>
+      <Text style={styles.scrollerText}>{item?.attributes?.name}</Text>
     </TouchableOpacity>
   );
 };
