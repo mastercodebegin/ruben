@@ -2,12 +2,14 @@ import React from "react";
 
 // Customizable Area Start
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Alert } from "react-native";
 import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
 import RenderHeader from "./RenderHeader";
 import RenderPoducts from "./RenderProducts";
 import RenderFooter from "./RenderFooter";
 import Button from "../../../components/src/CustomButton";
+import Share from 'react-native-share';
+import { downloadFiles } from "../../../components/src/utils";
 // Customizable Area End
 
 import InvoiceBillingController, {
@@ -24,6 +26,36 @@ export default class InvoiceBilling extends InvoiceBillingController {
   }
 
   // Customizable Area Start
+  async downloadInvoice() {
+    let url;
+    try{
+      url = await downloadFiles(
+        "https://www.africau.edu/images/default/sample.pdf",
+        `${new Date().getTime()}invoice.pdf`,
+        "invoice",
+        "application/pdf",
+        "invoice",
+        true,
+        true
+      )
+    }catch(e:any){
+      Alert.alert('Error',e.message)
+    }
+    return url;
+   
+  }
+  async shareInvoice(filePath:string){
+      try {
+        const fileName = 'example.pdf';
+        const shareOptions = {
+          url: `file://${filePath}`,
+          fileName
+        };
+        await Share.open(shareOptions);
+      } catch (error:any) {
+        Alert.alert('Error',error.message)
+      }
+  }
   // Customizable Area End
 
   render() {

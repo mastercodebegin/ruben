@@ -9,6 +9,7 @@ import {
   ScrollView,
   StyleProp,
   ViewStyle,
+  RefreshControl,
 } from "react-native";
 import { LIGHT_GREY, DARK_RED } from "../../blocks/landingpage/src/colors";
 const arrowLeft = require("./arrow_left.png");
@@ -19,6 +20,11 @@ interface HeaderWithBackArrowTemplateTypes {
   scrollView?: boolean;
   showsVerticalScrollIndicator?: boolean;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  refreshing?: boolean;
+  onRefresh?: () => void;
+  refreshControl?: boolean;
+  bounces?: boolean;
+  scrollViewStyle?: StyleProp<ViewStyle>;
 }
 const HeaderWithBackArrowTemplate = ({
   children,
@@ -27,6 +33,11 @@ const HeaderWithBackArrowTemplate = ({
   scrollView = false,
   showsVerticalScrollIndicator,
   contentContainerStyle = {},
+  onRefresh,
+  refreshing = false,
+  refreshControl,
+  bounces = false,
+  scrollViewStyle,
 }: HeaderWithBackArrowTemplateTypes) => {
   return (
     <SafeAreaView style={styles.flex}>
@@ -42,6 +53,13 @@ const HeaderWithBackArrowTemplate = ({
         </View>
         {scrollView ? (
           <ScrollView
+            refreshControl={
+              refreshControl ? (
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              ) : (
+                undefined
+              )
+            }
             showsVerticalScrollIndicator={showsVerticalScrollIndicator}
             contentContainerStyle={[
               {
@@ -49,7 +67,8 @@ const HeaderWithBackArrowTemplate = ({
               },
               contentContainerStyle,
             ]}
-            bounces={false}
+            bounces={bounces}
+            style={scrollViewStyle}
           >
             {children}
           </ScrollView>
