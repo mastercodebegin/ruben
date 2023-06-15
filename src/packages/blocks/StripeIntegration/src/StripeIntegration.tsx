@@ -45,10 +45,13 @@ interface ImageBoxType {
   onpress: () => void;
 }
 
+
+
 import StripeIntegrationController, {
   Props,
   configJSON,
 } from "./StripeIntegrationController";
+import PaymentCustomeAlert from "./PaymentCustomeAlert";
 
 
 
@@ -151,13 +154,20 @@ export default class StripeIntegration extends StripeIntegrationController {
             </View>
             <DoubleButton
               button1Label="Pay"
-              button1_Onpress={() => { }}
+              button1_Onpress={() => { this.setState({showPaymentAlert : true})}}
               button2Label="Cancel"
               button2_Onpress={() => { }}
               containerStyle={{ paddingTop: 20 }}
             />
           </View>
         </HeaderWithBackArrowTemplate>
+        {this.state.showPaymentAlert && (
+          <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() =>{
+            this.setState({showPaymentAlert:  false})
+          } } onpressContinue={() => {
+            this.setState({showPaymentAlert:  false})
+          } } customeText={"Sample testing"} iconImage={require("../../OrderSummary/assets/cart.png")} isLoading={false} />
+        )}
       </SafeAreaView>
     );
     // Merge Engine - render - End

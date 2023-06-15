@@ -23,6 +23,7 @@ interface S {
   txtInputValue: string;
   txtSavedValue: string;
   enableField: boolean;
+  showPaymentAlert:boolean;
   // Customizable Area Start
   // Customizable Area End
 }
@@ -56,6 +57,7 @@ export default class StripeIntegrationController extends BlockComponent<
       txtInputValue: "",
       txtSavedValue: "A",
       enableField: false,
+      showPaymentAlert: false,
       // Customizable Area Start
       // Customizable Area End
     };

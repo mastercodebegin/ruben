@@ -40,7 +40,6 @@ import StripeIntegration from '../blocks/StripeIntegration/src/StripeIntegration
 import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
 import { customAlert } from '../framework/src/Utilities';
-import { StripeProvider } from '@stripe/stripe-react-native';
 
 if (!HomeScreen.instance) {
   const defaultProps = {
@@ -169,13 +168,7 @@ export function App() {
           <AppLauncher />
         ) : (
           <>
-            <StripeProvider
-              publishableKey={"sk_test_4eC39HqLyjWDarjtT1zdp7dc"}
-              merchantIdentifier="merchant.identifier" // required for Apple Pay
-              urlScheme="ruebensftcapp" // required for 3D Secure and bank redirects
-            >
               <RootNavigator initialScreen={initialScreen.initialRoute} />
-              </StripeProvider>
             </>
         )}
           </View>

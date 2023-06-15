@@ -71,7 +71,6 @@ target 'RuebensFTCApp' do
   pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
   pod 'Google-Maps-iOS-Utils' # Uncomment this line if you want to support GoogleMaps on iOS
   pod 'RNImageCropPicker', :path => '../../../node_modules/react-native-image-crop-picker'
-  pod 'stripe/stripe-react-native', :path => '../../../node_modules/@stripe/stripe-react-native/ios/stripe-react-native.podspec'
   pod 'RNCCheckbox', :path => '../../../node_modules/@react-native-community/checkbox'
 
   pod 'react-native-webview', :path => '../../../node_modules/react-native-webview'
