@@ -63,7 +63,7 @@ export default class Analytics extends AnalyticsController {
       color: () => `#ffffff`,
       labelColor: () => `black`,
       withShadow: false,
-      barRadius:15,
+      barRadius: 15,
       propsForBackgroundLines: {
         strokeWidth: 0,
       }
@@ -118,6 +118,7 @@ export default class Analytics extends AnalyticsController {
                       verticalLabelRotation={0}
                       style={{marginLeft: -60, backgroundColor: "transparent"}}
                     />
+                    <View style={[styles.overlay, { height: 20}]} />
                   </View>
                 </View>
                 <View style={styles.numberOfSent}>
@@ -232,5 +233,13 @@ const styles = StyleSheet.create({
     fontSize: 18, color: "#5C2221", paddingBottom: 5, fontWeight: "600",
   },
   flex: { flex: 1 },
+  overlay: {
+    flex: 1,
+    position: 'absolute',
+    left: 0,
+    bottom: 38,
+    backgroundColor: 'white',
+    width: SCREEN_WIDTH - 40
+  }  
 });
 // Customizable Area End
