@@ -57,7 +57,11 @@ defineFeature(feature, (test) => {
     });
     then("I can see the blog posts on landingPage", () => {
       instance.setState({ imageBlogList: [{}] });
+      instance.addToCart(20)
+      instance.addProduct()
       instance.forceUpdate();
+      instance.AddToFavorites(20);
+      instance.addProduct()
     });
 
     then("I can leave the screen with out errors", () => {

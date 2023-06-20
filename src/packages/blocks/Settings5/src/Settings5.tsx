@@ -3,7 +3,6 @@ import React from "react";
 // Customizable Area Start
 import {
   SafeAreaView,
-  Dimensions,
   View,
   Text,
   StyleSheet,
@@ -12,8 +11,6 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CommonStyle from '../../landingpage/src/commonStyles';
 import { DARK_RED, LIGHT_GREY, WHITE } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";

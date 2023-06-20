@@ -10,7 +10,6 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { store } from "../../../components/src/utils";
-import { Alert } from "react-native";
 import { showToast } from "../../../components/src/ShowToast";
 // Customizable Area End
 
