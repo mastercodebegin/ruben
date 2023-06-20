@@ -1,6 +1,5 @@
 import React from "react";
 // Customizable Area Start
-
 import {
   StyleSheet,
   Text,
@@ -35,6 +34,8 @@ export default class Analytics extends AnalyticsController {
   // Customizable Area End
 
   render() {
+      // Customizable Area Start
+
     const isUser = store.getState().currentUser === "user";
     const { navigation } = this.props;
 
@@ -74,7 +75,6 @@ export default class Analytics extends AnalyticsController {
       }
     };
     return (
-      // Customizable Area Start
       <HeaderWithBackArrowTemplate
         headerText="Analytics"
         navigation={navigation}
