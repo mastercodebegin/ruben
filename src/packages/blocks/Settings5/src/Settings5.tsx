@@ -4,46 +4,20 @@ import React from "react";
 import {
   SafeAreaView,
   Dimensions,
-  PixelRatio,
   View,
   Text,
-  FlatList,
-  SectionList,
   StyleSheet,
-  Button,
   TouchableOpacity,
-  CheckBox,
   Switch,
-  Platform,
-  Image,
-  TextInput,
-  Picker,
-  ActivityIndicator,
   Alert,
-  ImageBackground,
   ScrollView,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
 } from "react-native";
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-} from "react-native-responsive-dimensions";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-} from "react-native-simple-radio-button";
 import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
-
-//@ts-ignore
-import CustomCheckBox from "../../../components/src/CustomCheckBox";
-
-// Merge Engine - import assets - Start
-// Merge Engine - import assets - End
-
-// Merge Engine - Artboard Dimension  - Start
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CommonStyle from '../../landingpage/src/commonStyles';
+import { DARK_RED, LIGHT_GREY, WHITE } from "../../../components/src/constants";
+import { store } from "../../../components/src/utils";
+import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
 let artBoardHeightOrg = 667;
 let artBoardWidthOrg = 375;
 // Merge Engine - Artboard Dimension  - End
@@ -58,15 +32,7 @@ export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
-    Dimensions.addEventListener("change", (e) => {
-      MergeEngineUtilities.init(
-        artBoardHeightOrg,
-        artBoardWidthOrg,
-        Dimensions.get("window").height,
-        Dimensions.get("window").width
-      );
-      this.forceUpdate();
-    });
+
     // Customizable Area End
   }
 
@@ -76,67 +42,114 @@ export default class Settings5 extends Settings5Controller {
   render() {
     // Customizable Area Start
     // Merge Engine - render - Start
+    const isUser = store.getState().currentUser === "user";
+
+    const myOrders = () => {
+      this.props.navigation.navigate("MyOrdersScreen");
+    };
+    const onpressLogout = () => {
+      Alert.alert("Alert", "Are you sure to logout", [
+        { text: "YES", onPress: this.clearStorage },
+        { text: "CANCEL" },
+      ]);
+    };
+    const onpressDelete = () => {
+      Alert.alert("Alert", "Are you sure to delete account", [
+        { text: "YES", onPress: this.deleteAccount.bind(this) },
+        { text: "CANCEL" },
+      ]);
+    };
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          <View>
-            {this.isPlatformWeb() ? (
-              <Text
-                testID="labelTitle" //Merge Engine::From BDS
-                style={styles.title} //UI Engine::From Sketch
-              >
-                {configJSON.labelTitleText}
-              </Text> //UI Engine::From Sketch
-            ) : null}
-
-            <Text
-              testID="labelBody" //Merge Engine::From BDS
-              style={styles.body} //UI Engine::From Sketch
+      <SafeAreaView style={styles.main}>
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <View style={styles.innercontainer}>
+          <Text style={CommonStyle.header}>Settings</Text>
+          <View style={{ paddingTop: 20 }}>
+            <TouchableOpacity
+              testID="about_us_screen_test_id"
+              onPress={() => this.props.navigation.navigate("AboutUs")}
+              style={styles.button}
             >
-              {" "}
-              {/* UI Engine::From Sketch */}
-              {configJSON.labelBodyText} {/* UI Engine::From Sketch */}
-            </Text>
-
-            <Text testID="txtSaved">
-              This is the reviced value:
-              {this.state.txtSavedValue}{" "}
-              {/* Merge Engine::From BDS - {...this.testIDValue} */}
-            </Text>
-
-            <View style={styles.bgPasswordContainer}>
-              <TextInput
-                testID="txtInput" //Merge Engine::From BDS
-                style={styles.bgMobileInput} //UI Engine::From Sketch
-                placeholder={configJSON.txtInputPlaceholder} //UI Engine::From Sketch
-                {...this.txtInputProps} //Merge Engine::From BDS - {...this.testIDProps}
-              />
-
+              <Text style={styles.options}>About Us</Text>
+            </TouchableOpacity>
+            {isUser && (
               <TouchableOpacity
-                testID={"btnShowHide"} //Merge Engine::From BDS
-                style={styles.showHide} //UI Engine::From Sketch
-                {...this.btnShowHideProps} //Merge Engine::From BDS - {...this.testIDProps}
+                testID="my_order_test_id"
+                onPress={myOrders}
+                style={styles.button}
               >
-                <Image
-                  testID={"btnShowHideImage"} //Merge Engine::From BDS - testIDImage
-                  style={styles.imgShowhide} //UI Engine::From Sketch
-                  {...this.btnShowHideImageProps} //Merge Engine::From BDS - {...this.testIDProps}
-                />
+                <Text style={styles.options}>My Orders</Text>
               </TouchableOpacity>
-            </View>
-
-            <Button
-              testID={"btnExample"} //Merge Engine::From BDS
-              title={configJSON.btnExampleTitle} //UI Engine::From Sketch
-              {...this.btnExampleProps} //Merge Engine::From BDS - {...this.testIDProps}
-            />
+            )}
+            <TouchableOpacity
+              testID="analytics_screen_test_id"
+              onPress={() =>
+                this.props.navigation.navigate("AnalyticsScreen")
+              }
+              style={styles.button}
+            >
+              <Text style={styles.options}>Analytics</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              testID="terms_and_conditions_screen_test_id"
+              onPress={() =>
+                this.props.navigation.navigate("TermsAndCondition")
+              }
+              style={styles.button}
+            >
+              <Text style={styles.options}>Terms & conditions</Text>
+            </TouchableOpacity>
+            {isUser && (
+              <View style={styles.button}>
+                <View style={styles.triggerContainer}>
+                  <Text style={styles.options}>Lifetime Subscription</Text>
+                  <Switch
+                    testID="lifetime_subscription_test_id"
+                    value={this.state.lifeTimeSubscription}
+                    onValueChange={(value) => {
+                      this.setState({ lifeTimeSubscription: value });
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+            {isUser && (
+              <View style={styles.button}>
+                <View style={styles.triggerContainer}>
+                  <Text style={styles.options}>Cold Packaging Fee</Text>
+                  <Switch
+                    testID="cold_packaging_test_id"
+                    value={this.state.coldPackagingFee}
+                    onValueChange={(value) => {
+                      this.setState({ coldPackagingFee: value });
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+            <TouchableOpacity
+              testID="log_out_id"
+              onPress={onpressLogout}
+              style={styles.button}
+            >
+              <Text style={styles.options}>Log Out</Text>
+            </TouchableOpacity>
+            {isUser && (
+              <TouchableOpacity
+              onPress={onpressDelete}
+                testID="delete_account_id"
+                style={styles.button}
+              >
+                <Text style={[styles.options, { color: "#A0272A" }]}>
+                  Delete My Account
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </ScrollView>
+      <BottomTab navigation={this.props.navigation} tabName="Settings" />
+    </SafeAreaView>
     );
     // Merge Engine - render - End
     // Customizable Area End
@@ -145,43 +158,28 @@ export default class Settings5 extends Settings5Controller {
 
 // Customizable Area Start
 const styles = StyleSheet.create({
-  container: {
+  button: {
+    backgroundColor: WHITE,
+    paddingVertical: 25,
+    marginBottom: 10,
+    paddingLeft: 20,
+    borderRadius: 20,
+  },
+  main: {
     flex: 1,
-    padding: 16,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: Platform.OS === "web" ? "75%" : "100%",
-    maxWidth: 650,
-    backgroundColor: "#ffffffff",
+    backgroundColor: LIGHT_GREY,
   },
-  title: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8,
+  innercontainer: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
+  options: {
+    fontSize: 17,
+    color: DARK_RED,
+    fontWeight: "400",
   },
-  body: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8,
-  },
-  bgPasswordContainer: {
+  triggerContainer: {
     flexDirection: "row",
-    backgroundColor: "#00000000",
-    marginBottom: 16,
-    borderBottomWidth: 1,
-    borderColor: "#767676",
-    borderRadius: 2,
-    padding: 10,
-    borderWidth: Platform.OS === "web" ? 0 : 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 10,
   },
-  bgMobileInput: {
-    flex: 1,
-  },
-  showHide: {
-    alignSelf: "center",
-  },
-  imgShowhide: Platform.OS === "web" ? { height: 30, width: 30 } : {},
 });
 // Customizable Area End
