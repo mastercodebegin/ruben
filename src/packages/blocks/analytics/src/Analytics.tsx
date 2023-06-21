@@ -11,7 +11,7 @@ import {
   , TouchableOpacity,
   Image,
   SafeAreaView,
-  Dimensions
+  // Customizable Area End
 } from "react-native";
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
@@ -21,7 +21,6 @@ import { colors } from "react-native-elements";
 import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
 import { store } from "../../../components/src/utils";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-// Customizable Area End
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -34,8 +33,6 @@ export default class Analytics extends AnalyticsController {
   // Customizable Area End
 
   render() {
-      // Customizable Area Start
-
     const isUser = store.getState().currentUser === "user";
     const { navigation } = this.props;
 
@@ -75,6 +72,7 @@ export default class Analytics extends AnalyticsController {
       }
     };
     return (
+      // Customizable Area Start
       <HeaderWithBackArrowTemplate
         headerText="Analytics"
         navigation={navigation}
