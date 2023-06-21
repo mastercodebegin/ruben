@@ -12,17 +12,17 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
+import { BarChart } from "react-native-chart-kit";
+import { colors } from "react-native-elements";
+import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
+  // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
-import { BarChart } from "react-native-chart-kit";
 import { SCREEN_WIDTH } from "../../../components/src/constants";
-import { colors } from "react-native-elements";
 import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
 import { store } from "../../../components/src/utils";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 import Calendar from "../../../components/src/Calendar";
-  // Customizable Area End
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
