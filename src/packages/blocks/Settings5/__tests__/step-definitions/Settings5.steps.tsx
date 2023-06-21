@@ -7,6 +7,7 @@ import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
+const configJSON = require("../../src/config");
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -103,6 +104,10 @@ defineFeature(feature, (test) => {
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceDataMessage),
         msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        configJSON.deleteAccount
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),

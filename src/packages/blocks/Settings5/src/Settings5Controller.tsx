@@ -56,8 +56,6 @@ export default class Settings5Controller extends BlockComponent<
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
       getName(MessageEnum.RestAPIResponceMessage),
-        getName(MessageEnum.ReciveUserCredentials),
-        getName(MessageEnum.CountryCodeMessage),
       // Customizable Area End
     ];
 
