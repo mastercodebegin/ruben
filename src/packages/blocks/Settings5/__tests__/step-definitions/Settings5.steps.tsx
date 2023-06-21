@@ -7,7 +7,7 @@ import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
-const configJSON = require("../../src/config");
+const configJSON = require("./config");
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),

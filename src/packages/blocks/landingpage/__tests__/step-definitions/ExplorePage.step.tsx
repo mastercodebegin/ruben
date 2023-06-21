@@ -318,6 +318,7 @@ defineFeature(feature, (test) => {
       categoryPage = 4;
       onEndReachedHandler();
       //fireEvent.scroll(flatList, { nativeEvent: mockNativeEvent });
+      mapDispatchToProps(()=>{}).updateCartDetails('test')
       expect(getCategory).toHaveBeenCalled();
 
     })

@@ -15,6 +15,8 @@ import {
 import SearchBarWithFilter from "../../../components/src/SearchBarWithFilter";
 import Dropdown from "./DropDown";
 import { WHITE } from "../../landingpage/src/colors";
+//@ts-ignore
+// import ModalDropdownComp from "../../../components/src/ModalDropdownComp";
 export default class Inventory extends MyCartController {
   render() {
     return (
@@ -29,24 +31,18 @@ export default class Inventory extends MyCartController {
             </View>
             <SearchBarWithFilter />
             <View style={styles.filterContainer}>
-              <Dropdown label="Date" />
+              <Dropdown
+                onpress={()=>{}}
+                label="Date"
+              />
               <View style={styles.seperator} />
               <Dropdown label="Offers" />
               <View style={styles.seperator} />
               <Dropdown label="Status" />
             </View>
           </View>
-          <View style={{ flex: 1, backgroundColor: WHITE }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 20,
-                paddingVertical: 15,
-                borderBottomWidth: 0.5,
-                borderBottomColor: "grey",
-              }}
-            >
+          {/* <View style={{ flex: 1, backgroundColor: WHITE }}>
+            <View style={styles.statusContainer}>
               <View style={styles.containerHeader}>
                 <Text style={styles.headerList}>#Detail</Text>
               </View>
@@ -57,7 +53,7 @@ export default class Inventory extends MyCartController {
                 <Text style={styles.headerList}>Status</Text>
               </View>
             </View>
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
     );
@@ -89,4 +85,12 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   containerHeader: { flex: 1, alignItems: "center" },
+  statusContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "grey",
+  },
 });
