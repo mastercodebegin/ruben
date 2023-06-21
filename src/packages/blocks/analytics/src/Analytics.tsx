@@ -11,7 +11,6 @@ import {
   , TouchableOpacity,
   Image,
   SafeAreaView,
-  // Customizable Area End
 } from "react-native";
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
@@ -21,6 +20,9 @@ import { colors } from "react-native-elements";
 import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
 import { store } from "../../../components/src/utils";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
+import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
+import Calendar from "../../../components/src/Calendar";
+  // Customizable Area End
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -102,7 +104,7 @@ export default class Analytics extends AnalyticsController {
                           <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
                         </View>
                         <TouchableOpacity
-                          onPress={() => { console.log("Calendar Click") }}
+                          onPress={() => {this.setState({showCalendar: true}) }}
                         >
                           <View style={styles.calendarView}>
                             <Image
@@ -131,6 +133,13 @@ export default class Analytics extends AnalyticsController {
                         />
                         <View style={[styles.overlay, { height: 20 }]} />
                       </View>
+                      {this.state.showCalendar && (
+                          <TouchableWithoutFeedback>
+                            <View style={styles.calendarContainer}>
+                              <Calendar  />
+                            </View>
+                          </TouchableWithoutFeedback>
+                        )}
                     </View>
                     <View style={styles.numberOfSent}>
                       <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
@@ -274,6 +283,14 @@ const styles = StyleSheet.create({
     bottom: 38,
     backgroundColor: 'white',
     width: SCREEN_WIDTH - 40
-  }
+  },
+  calendarContainer: {
+    position: "absolute",
+    top: 40,
+    right: 0,
+    left: 0,
+    zIndex: 100,
+  },
+
 });
 // Customizable Area End

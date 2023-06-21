@@ -28,6 +28,9 @@ interface S {
 interface SS {
   id: any;
   // Customizable Area Start
+  showCalendar: boolean;
+  selectedDate: string;
+  markedDates: any;
   // Customizable Area End
 }
 
@@ -48,6 +51,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       // Customizable Area Start
+      showCalendar: false,
+      selectedDate: "",
+      markedDates: {}
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
