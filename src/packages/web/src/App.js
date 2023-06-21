@@ -43,7 +43,6 @@ import Posts from "../../blocks/postcreation/src/Posts";
 import PostDetails from "../../blocks/postcreation/src/PostDetails";
 import Trending from "../../blocks/Trending/src/Trending";
 import AdminConsole3 from "../../blocks/AdminConsole3/src/AdminConsole3";
-import Settings5 from "../../blocks/Settings5/src/Settings5";
 import UserProfileBasicBlock from "../../blocks/user-profile-basic/src/UserProfileBasicBlock";
 import BulkUploading from "../../blocks/BulkUploading/src/BulkUploading";
 import Categoriessubcategories from "../../blocks/categoriessubcategories/src/Categoriessubcategories";
@@ -163,9 +162,6 @@ path:"/Trending"},
 AdminConsole3:{
  component:AdminConsole3,
 path:"/AdminConsole3"},
-Settings5:{
- component:Settings5,
-path:"/Settings5"},
 UserProfileBasicBlock:{
  component:UserProfileBasicBlock,
 path:"/UserProfileBasicBlock"},

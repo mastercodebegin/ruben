@@ -96,6 +96,15 @@ export default class Settings5 extends Settings5Controller {
             >
               <Text style={styles.options}>Terms & conditions</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              testID="contact_us_id"
+              onPress={() =>
+                this.props.navigation.navigate("ContactUs")
+              }
+              style={styles.button}
+            >
+              <Text style={styles.options}>Contact</Text>
+            </TouchableOpacity>
             {isUser && (
               <View style={styles.button}>
                 <View style={styles.triggerContainer}>

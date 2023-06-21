@@ -116,10 +116,16 @@ defineFeature(feature, (test) => {
       instance.btnExampleProps.onPress()
       instance.btnShowHideProps.onPress()
       instance.btnShowHideProps.onPress()
+      instance.clearStorage();
       instance.txtInputWebProps.onChangeText('test')
     });
     then("User pressing logout button", () => {
       const touchableOpacity = SettingsBlock.find('[testID="log_out_id"]');
+      touchableOpacity.simulate("press");
+      expect(touchableOpacity).toBeTruthy();
+    });
+    then("User pressing contact us button", () => {
+      const touchableOpacity = SettingsBlock.find('[testID="contact_us_id"]');
       touchableOpacity.simulate("press");
       expect(touchableOpacity).toBeTruthy();
     });
