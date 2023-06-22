@@ -15,9 +15,9 @@ import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
 import MyCart from '../blocks/MyCart/src/MyCart'
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
 import Alert from '../blocks/landingpage/src/Alert/Alert';
-import Inventory from '../blocks/landingpage/src/Inventory/Inventory';
+import Inventory from '../blocks/Inventory/src/Inventory';
 import AppLauncher from '../blocks/splashscreen/src/AppLauncher';
-import Settings from '../blocks/landingpage/src/SettingsTab/Settings';
+import Settings from '../blocks/Settings5/src/Settings5'; 
 import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
 import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';

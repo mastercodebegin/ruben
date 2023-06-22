@@ -90,14 +90,6 @@ export default class Settings5 extends Settings5Controller {
                 }
               />
             </Box>
-            <Box
-              data-test-id="btnAddExample"
-              onClick={() => this.doButtonPressed()}
-              component="button"
-              sx={webStyle.buttonStyle}
-            >
-              <Button color={"primary"}>{configJSON.btnExampleTitle}</Button>
-            </Box>
           </Box>
         </Container>
       </ThemeProvider>

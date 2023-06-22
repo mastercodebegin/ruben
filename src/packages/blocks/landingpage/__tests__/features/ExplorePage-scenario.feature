@@ -14,3 +14,4 @@ Feature: ExplorePage
         Then mapStateToProps should return the right value
         Then mapDispatchToProps should return the right value
         Then user can see products list
+        Then user trying to add product on favorites
