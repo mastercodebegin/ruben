@@ -55,7 +55,7 @@ defineFeature(feature, (test) => {
       );
       instance = AboutUsBlock.instance() as ExplorePage;
 
-      instance.setState({show_SortingDropdown:true},()=>{
+      instance.setState({show_SortingDropdown:true,categories:[{},{}],subcategories:[{},{}]},()=>{
         const {getByTestId} =render(<ExplorePage  visible={false}
             setVisibleProfileModal={function(): void {
               throw new Error("Function not implemented.");
@@ -63,17 +63,40 @@ defineFeature(feature, (test) => {
             setState={() => {}}
             state={{}}
             firstTime={false}
-            currentUser={""}
+            currentUser={"user"}
             updateCartDetails={() => {}}
-            cartDetails={[]} {...screenProps}/>)
+            cartDetails={[{}]} {...screenProps}/>)
             const btn = getByTestId('0selectFilter')
             const closBtn = getByTestId('closeDropdown')
             fireEvent.press(btn);
             fireEvent.press(closBtn);
+            fireEvent(getByTestId('termsCondsList'), 'onEndReached');
       })
 
+      const wrapper= shallow(instance.renderItem({item:{},index:1}))
+      const touchableOpacity = wrapper.findWhere(
+       (node) => node.prop("testID") === "1selectedSubscategory")
+       touchableOpacity.simulate("press");
 
     });
+
+    then('user can see the categories and sub categories',()=>{
+   const {getByTestId}=  render( <ExplorePage
+        visible={false}
+        setVisibleProfileModal={function(): void {
+          throw new Error("Function not implemented.");
+        }}
+        setState={() => {}}
+        state={{show_SortingDropdown:true}}
+        firstTime={false}
+        currentUser={""}
+        updateCartDetails={() => {}}
+        cartDetails={[]}
+        {...screenProps}
+      />)
+      fireEvent.press(getByTestId('add_product_test_id'))
+    })
+
 
   });
 });
