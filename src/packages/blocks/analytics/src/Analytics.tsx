@@ -1,5 +1,4 @@
 import React from "react";
-// Customizable Area Start
 import {
   StyleSheet,
   Text,
@@ -8,15 +7,15 @@ import {
   TouchableWithoutFeedback,
   Button,
   Platform
+  // Customizable Area Start
   , TouchableOpacity,
   Image,
   SafeAreaView,
+    // Customizable Area End
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "react-native-elements";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
-  // Customizable Area End
-
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 import { SCREEN_WIDTH } from "../../../components/src/constants";
 import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
@@ -32,59 +31,60 @@ export default class Analytics extends AnalyticsController {
   }
 
   // Customizable Area Start
+  isUser = store.getState().currentUser === "user";
+  navigation = this.props.navigation;
+
+
+  data = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        data: [60, 45, 28, 80, 99, 43, 80],
+        colors: [
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#5C2221`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`]
+      }
+    ]
+  };
+   chartConfig = {
+    backgroundGradientFrom: 'white',
+    // // decimalPlaces: 0,
+    // // barPercentage: 1.0,
+    // // fillShadowGradientOpacity: 1,
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: 'white',
+    // spacingInner: 1.0,
+    backgroundColor: "transparent",
+    backgroundGradientToOpacity: 0.0,
+
+    color: () => `#ffffff`,
+    labelColor: () => `black`,
+    withShadow: false,
+    barRadius: 13,
+    propsForBackgroundLines: {
+      strokeWidth: 0,
+    }
+  };
   // Customizable Area End
 
   render() {
-    const isUser = store.getState().currentUser === "user";
-    const { navigation } = this.props;
-
-    const data = {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      datasets: [
-        {
-          data: [60, 45, 28, 80, 99, 43, 80],
-          colors: [
-            (opacity = 1) => `#F8F4F4`,
-            (opacity = 1) => `#F8F4F4`,
-            (opacity = 1) => `#F8F4F4`,
-            (opacity = 1) => `#F8F4F4`,
-            (opacity = 1) => `#5C2221`,
-            (opacity = 1) => `#F8F4F4`,
-            (opacity = 1) => `#F8F4F4`]
-        }
-      ]
-    };
-    const chartConfig = {
-      backgroundGradientFrom: 'white',
-      // // decimalPlaces: 0,
-      // // barPercentage: 1.0,
-      // // fillShadowGradientOpacity: 1,
-      backgroundGradientFromOpacity: 0,
-      backgroundGradientTo: 'white',
-      // spacingInner: 1.0,
-      backgroundColor: "transparent",
-      backgroundGradientToOpacity: 0.0,
-
-      color: () => `#ffffff`,
-      labelColor: () => `black`,
-      withShadow: false,
-      barRadius: 13,
-      propsForBackgroundLines: {
-        strokeWidth: 0,
-      }
-    };
     return (
       // Customizable Area Start
       <HeaderWithBackArrowTemplate
         headerText="Analytics"
-        navigation={navigation}
+        navigation={this.navigation}
       >
         <>
           <ScrollView keyboardShouldPersistTaps="always"
-            style={styles.container}
-            bouncesZoom={"No"}>
+            style={styles.container}>
             <TouchableWithoutFeedback
               onPress={() => {
+                this.setState({showCalendar: false})
                 this.hideKeyboard();
               }}
             >
@@ -92,7 +92,7 @@ export default class Analytics extends AnalyticsController {
               <SafeAreaView>
                 <View style={styles.main}>
                   <View style={styles.main}>
-                    {isUser}
+                    {this.isUser}
                     <View style={styles.chartView}>
                       <View
                         style={{
@@ -121,9 +121,9 @@ export default class Analytics extends AnalyticsController {
                         <BarChart
                           width={SCREEN_WIDTH}
                           height={250}
-                          data={data}
+                          data={this.data}
                           fromZero={true}
-                          chartConfig={chartConfig}
+                          chartConfig={this.chartConfig}
                           showBarTops={false}
                           withHorizontalLabels={false}
                           flatColor={true}
@@ -136,7 +136,8 @@ export default class Analytics extends AnalyticsController {
                       {this.state.showCalendar && (
                           <TouchableWithoutFeedback>
                             <View style={styles.calendarContainer}>
-                              <Calendar  />
+                              <Calendar/>
+                              {/* {this.Calendar()} */}
                             </View>
                           </TouchableWithoutFeedback>
                         )}
