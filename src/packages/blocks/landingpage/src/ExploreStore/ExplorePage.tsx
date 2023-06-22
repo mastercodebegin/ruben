@@ -164,12 +164,12 @@ export class ExplorePage extends LandingPageController {
                 </View>
                 <BottomTab navigation={this.props.navigation} tabName={'Explore'} />
                 {this.state.show_loader && <CommonLoader visible={this.state.show_loader} />}
-                {this.state.show_SortingDropdown && <SortingDropdown visible={this.state.show_SortingDropdown} testID={"sortingDropdown"} data={[
+                { <SortingDropdown visible={this.state.show_SortingDropdown} testID={"sortingDropdown"} data={[
                         { label: 'Pricing Low to High', value: '1' },
                         { label: 'Pricing High to Low', value: '2' },
                                            
                 ]} onSelect={(item) => {
-                    this.setState({sortAscending: item.value === '1'})
+                    this.setState({sortAscending: item.value === '1',show_SortingDropdown: false })
                     this.getProductList(item.value === '1')
                     this.setState({ show_SortingDropdown: false })
                 }} onpressButton={() => {
