@@ -12,6 +12,7 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 const navigation = {
   navigate: jest.fn(),
+  reset:jest.fn()
 };
 
 const screenProps = {
@@ -56,6 +57,10 @@ defineFeature(feature, (test) => {
 
     when("I navigate to the LandingPage", () => {
       instance = landingPageBlock.instance() as LandingPage;
+      instance.goToLandingPage()
+      instance.goToHome()
+      instance.goToMyCreditsScreen()
+      instance.aboutusCallback({},false)
     });
 
     then("LandingPage will load with out errors", () => {

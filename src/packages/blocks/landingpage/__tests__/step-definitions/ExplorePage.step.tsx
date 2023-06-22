@@ -6,6 +6,13 @@ import { FlatList } from 'react-native'
 import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
 import RenderItems from "../../src/RenderItems/RenderItems";
 import SortingDropdown from "../../../../components/src/SortingDropdown";
+import { Message } from "../../../../framework/src/Message";
+import MessageEnum, {
+  getName,
+} from "../../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../../framework/src/RunEngine";
+
+const configJSON = require("../../src/config");
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -34,7 +41,8 @@ defineFeature(feature, (test) => {
 
   test("User navigates to ExplorePage", ({ given, when, then }) => {
     let ExploreBlock: any;
-    let subCategoryArray = [{
+    let explorePageWrapper: ShallowWrapper;
+        let subCategoryArray = [{
       "id": "1",
       "type": "sub_category",
       "attributes": {
@@ -90,8 +98,9 @@ defineFeature(feature, (test) => {
         "icon": null
       }
     }]
+    let instance:ExplorePage ;
     given("I am a User loading ExplorePage", () => {
-      let explorePageWrapper: ShallowWrapper;
+     
       explorePageWrapper = shallow(
         <ExplorePage
           visible={false}
@@ -107,7 +116,63 @@ defineFeature(feature, (test) => {
           {...screenProps}
         />
       );
-      let instance = explorePageWrapper.instance() as ExplorePage;
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        configJSON.getAboutUs
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+          "data": [
+              {
+                  "id": "55",
+                  "type": "sub_category",
+                  "attributes": {
+                      "id": 55,
+                      "name": "Loin",
+                      "created_at": "2023-03-23T06:42:12.006Z",
+                      "updated_at": "2023-03-23T06:42:12.006Z",
+                      "category_id": {
+                          "data": {
+                              "id": "25",
+                              "type": "category",
+                              "attributes": {
+                                  "id": 25,
+                                  "name": "fruits chipssss",
+                                  "icon": "https://minio.b263982.dev.eastus.az.svc.builder.cafe/sbucket/oyttc70wn7qlqxlq8k52g8c6wrpe?response-content-disposition=inline%3B%20filename%3D%22icons8-image-50.png%22%3B%20filename%2A%3DUTF-8%27%27icons8-image-50.png&response-content-type=image%2Fpng&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=hello%2F20230622%2Fbuilder-1%2Fs3%2Faws4_request&X-Amz-Date=20230622T073401Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=4c843a8224c31e25eabdb77b1774014581b05aa6997c1f56e1226e1a38c478a6",
+                                  "enable": true,
+                                  "rank": 1,
+                                  "created_at": "2023-03-15T05:17:14.457Z",
+                                  "updated_at": "2023-03-15T05:17:14.572Z",
+                                  "statusDescription": null,
+                                  "categoryImage": null,
+                                  "description": null,
+                                  "categoryCode": null,
+                                  "categoryId": null,
+                                  "parentId": null,
+                                  "status": null,
+                                  "selected_sub_categories": null
+                              }
+                          }
+                      },
+                      "icon": null
+                  }
+              },
+
+          ]
+      }
+      );
+      instance = explorePageWrapper.instance() as ExplorePage;
+
+      instance.getSubCategoryId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
       const touchableOpacity = explorePageWrapper.find(
         '[testID="sortingDropShow"]'
       );
@@ -413,6 +478,64 @@ defineFeature(feature, (test) => {
       expect(addtoCartMock).toBeCalled();
       expect(addtoFavMock).toBeCalled()
     });
+    then("user trying to add product on favorites",()=>{
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        configJSON.getAboutUs
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+          "data": [
+              {
+                  "id": "55",
+                  "type": "sub_category",
+                  "attributes": {
+                      "id": 55,
+                      "name": "Loin",
+                      "created_at": "2023-03-23T06:42:12.006Z",
+                      "updated_at": "2023-03-23T06:42:12.006Z",
+                      "category_id": {
+                          "data": {
+                              "id": "25",
+                              "type": "category",
+                              "attributes": {
+                                  "id": 25,
+                                  "name": "fruits chipssss",
+                                  "icon": "https://minio.b263982.dev.eastus.az.svc.builder.cafe/sbucket/oyttc70wn7qlqxlq8k52g8c6wrpe?response-content-disposition=inline%3B%20filename%3D%22icons8-image-50.png%22%3B%20filename%2A%3DUTF-8%27%27icons8-image-50.png&response-content-type=image%2Fpng&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=hello%2F20230622%2Fbuilder-1%2Fs3%2Faws4_request&X-Amz-Date=20230622T073401Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=4c843a8224c31e25eabdb77b1774014581b05aa6997c1f56e1226e1a38c478a6",
+                                  "enable": true,
+                                  "rank": 1,
+                                  "created_at": "2023-03-15T05:17:14.457Z",
+                                  "updated_at": "2023-03-15T05:17:14.572Z",
+                                  "statusDescription": null,
+                                  "categoryImage": null,
+                                  "description": null,
+                                  "categoryCode": null,
+                                  "categoryId": null,
+                                  "parentId": null,
+                                  "status": null,
+                                  "selected_sub_categories": null
+                              }
+                          }
+                      },
+                      "icon": null
+                  }
+              },
+
+          ]
+      }
+      );
+      instance.addToFavId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+
+    })
   });
 });
 
