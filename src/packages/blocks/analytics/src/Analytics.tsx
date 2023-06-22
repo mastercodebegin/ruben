@@ -13,6 +13,7 @@ import {
   SafeAreaView,
     // Customizable Area End
 } from "react-native";
+    // Customizable Area Start
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "react-native-elements";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
@@ -22,6 +23,8 @@ import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
 import { store } from "../../../components/src/utils";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import Calendar from "../../../components/src/Calendar";
+import SortingDropdown from "../../../components/src/SortingDropdown";
+    // Customizable Area End
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -75,11 +78,6 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <HeaderWithBackArrowTemplate
-        headerText="Analytics"
-        navigation={this.navigation}
-      >
-        <>
           <ScrollView keyboardShouldPersistTaps="always"
             style={styles.container}>
             <TouchableWithoutFeedback
@@ -158,7 +156,7 @@ export default class Analytics extends AnalyticsController {
                         </Text>
                       </View>
                     </View>
-                    <TouchableOpacity onPress={() => { console.log("click on cow") }}>
+                    <TouchableOpacity onPress={() => {this.setState({showAnimalList : true}) }}>
                       <View style={[styles.numberOfSent, { flexDirection: "row", justifyContent: "space-between" }]}>
                         <Text style={{ color: "#5C2221", fontSize: 17, fontWeight: "600" }}>{"Cow"}</Text>
                         <Image
@@ -198,8 +196,6 @@ export default class Analytics extends AnalyticsController {
               {/* Customizable Area End */}
             </TouchableWithoutFeedback>
           </ScrollView>
-        </>
-      </HeaderWithBackArrowTemplate>
       // Customizable Area End
     );
   }
