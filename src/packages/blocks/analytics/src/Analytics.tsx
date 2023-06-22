@@ -11,20 +11,20 @@ import {
   , TouchableOpacity,
   Image,
   SafeAreaView,
-    // Customizable Area End
+  // Customizable Area End
 } from "react-native";
-    // Customizable Area Start
+// Customizable Area Start
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "react-native-elements";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
-import { SCREEN_WIDTH } from "../../../components/src/constants";
+import { DARK_RED, LIGHT_GREY, SCREEN_WIDTH } from "../../../components/src/constants";
 import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
 import { store } from "../../../components/src/utils";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import Calendar from "../../../components/src/Calendar";
-import SortingDropdown from "../../../components/src/SortingDropdown";
-    // Customizable Area End
+import { Dropdown } from "../../../components/src/DropDown/src";
+// Customizable Area End
+import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -36,8 +36,6 @@ export default class Analytics extends AnalyticsController {
   // Customizable Area Start
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
-
-
   data = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
@@ -54,7 +52,7 @@ export default class Analytics extends AnalyticsController {
       }
     ]
   };
-   chartConfig = {
+  chartConfig = {
     backgroundGradientFrom: 'white',
     // // decimalPlaces: 0,
     // // barPercentage: 1.0,
@@ -82,7 +80,6 @@ export default class Analytics extends AnalyticsController {
             style={styles.container}>
             <TouchableWithoutFeedback
               onPress={() => {
-                this.setState({showCalendar: false})
                 this.hideKeyboard();
               }}
             >
@@ -102,7 +99,7 @@ export default class Analytics extends AnalyticsController {
                           <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
                         </View>
                         <TouchableOpacity
-                          onPress={() => {this.setState({showCalendar: true}) }}
+                          onPress={() => { this.setState({ showCalendar: true }) }}
                         >
                           <View style={styles.calendarView}>
                             <Image
@@ -132,13 +129,13 @@ export default class Analytics extends AnalyticsController {
                         <View style={[styles.overlay, { height: 20 }]} />
                       </View>
                       {this.state.showCalendar && (
-                          <TouchableWithoutFeedback>
-                            <View style={styles.calendarContainer}>
-                              <Calendar/>
-                              {/* {this.Calendar()} */}
-                            </View>
-                          </TouchableWithoutFeedback>
-                        )}
+                        <TouchableWithoutFeedback>
+                          <View style={styles.calendarContainer}>
+                            <Calendar />
+                            {/* {this.Calendar()} */}
+                          </View>
+                        </TouchableWithoutFeedback>
+                      )}
                     </View>
                     <View style={styles.numberOfSent}>
                       <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
@@ -156,7 +153,7 @@ export default class Analytics extends AnalyticsController {
                         </Text>
                       </View>
                     </View>
-                    <TouchableOpacity onPress={() => {this.setState({showAnimalList : true}) }}>
+                    {/* <TouchableOpacity onPress={() => { this.setState({ showAnimalList: true }) }}>
                       <View style={[styles.numberOfSent, { flexDirection: "row", justifyContent: "space-between" }]}>
                         <Text style={{ color: "#5C2221", fontSize: 17, fontWeight: "600" }}>{"Cow"}</Text>
                         <Image
@@ -164,7 +161,38 @@ export default class Analytics extends AnalyticsController {
                           source={downArrow}
                         />
                       </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <View style={styles.dropdownContainer}>
+                      <Dropdown
+                        style={styles.dropdown}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        iconStyle={styles.iconStyle}
+                        containerStyle={styles.containerStyle}
+                        data={this.state.categoryList}
+                        maxHeight={400}
+                        labelField={"title"}
+                        valueField={'title'}
+                        placeholder="Select item"
+                        onChange={(item: any) => {
+                          // const list = this.state.productsList;
+                          // list[index] = {
+                          //   ...list[index],
+                          //   category_id: item?.id,
+                          // };
+                          // this.setState({ productsList: list })
+                        }}
+                        renderItem={(item: any) => {
+                          return (
+                            <View>
+                              <Text style={styles.textItem}>{item?.title}</Text>
+                            </View>
+                          )
+                        }}
+                        value={this.state.categoryItem}
+                      />
+
+                    </View>
                     <View style={[styles.chartView, { marginTop: 50 }]}>
                     </View>
 
@@ -288,6 +316,56 @@ const styles = StyleSheet.create({
     left: 0,
     zIndex: 100,
   },
+  dropdownContainer: {
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 10,
+    marginBottom: 0
+  },
+  dropdown: {
+    height: 50,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 10,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  itemListStyle: {
+    padding: 8,
+    marginBottom: 5,
+    borderBottomWidth: 1,
+    borderColor: LIGHT_GREY,
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+    color: DARK_RED
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: DARK_RED
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    color: DARK_RED,
+    fontWeight:"700",
+  },
+  iconStyle: {
+    width: 30,
+    height: 30,
+    tintColor: DARK_RED,
+  },
+  containerStyle: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    top: -38
+  }
+
 
 });
 // Customizable Area End
