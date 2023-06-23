@@ -9,8 +9,7 @@ interface DropDownTypes {
   onpress?: () => void;
 }
 const Dropdown = ({ label = "", onpress = () => {} }: DropDownTypes) => {
-   
-  const dropdownCategoryref:any = React.createRef();
+  const dropdownCategoryref: any = React.createRef();
   return (
     <ModalDropdownComp
       onSelect={() => {}}
@@ -19,28 +18,17 @@ const Dropdown = ({ label = "", onpress = () => {} }: DropDownTypes) => {
       ref={dropdownCategoryref}
       keySearchObject="name"
       renderRow={(props: any) => {
-        console.log("propsprops ", props);
-
-        return (
-          <Text
-            style={{
-              paddingVertical: 8,
-              paddingHorizontal: 15,
-              fontSize: 20,
-              color: "black",
-            }}
-          >
-            {props}
-          </Text>
-        );
+        return <Text style={styles.rendertext}>{props}</Text>;
       }}
-      dropdownStyle={{
-        elevation: 8,
-        borderRadius: 8,
-      }}
+      dropdownStyle={styles.dropDown}
       renderSeparator={(obj: any) => null}
     >
-      <TouchableOpacity onPress={()=>{dropdownCategoryref.current._onButtonPress()}} style={styles.container}>
+      <TouchableOpacity
+        onPress={() => {
+          dropdownCategoryref.current._onButtonPress();
+        }}
+        style={styles.container}
+      >
         <Text style={styles.text}>{label}</Text>
         <Image style={styles.image} source={arrowLeft} />
       </TouchableOpacity>
@@ -52,21 +40,32 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: DARK_RED,
     paddingVertical: 15,
+    paddingRight: 20,
   },
   container: {
-    backgroundColor: "white",
-    flex: 1,
+    flex:1,
+    backgroundColor:'white',
+    // backgroundColor: "white",
     borderRadius: 25,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
   },
   image: {
     height: 15,
     width: 15,
     transform: [{ rotate: "270deg" }],
     tintColor: "black",
+  },
+  rendertext: {
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    fontSize: 20,
+    color: "black",
+  },
+  dropDown: {
+    elevation: 8,
+    borderRadius: 8,
   },
 });
 export default Dropdown;

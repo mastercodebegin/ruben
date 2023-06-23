@@ -98,7 +98,7 @@ export default class ModalDropdownComp extends Component {
     defaultValue: "Please select...",
     animated: true,
     isFullWidth: false,
-    showsVerticalScrollIndicator: true,
+    showsVerticalScrollIndicator: false,
     keyboardShouldPersistTaps: "never",
     showSearch: false,
     searchPlaceholder: "Search....",
@@ -225,8 +225,8 @@ export default class ModalDropdownComp extends Component {
     }
   };
   _renderModal() {
-    const { animated, accessible, dropdownStyle, modalVisible } = this.props;
-    const { showDropdown, options } = this.state;
+    const { animated, accessible, dropdownStyle, modalVisible,popupHeight=0 } = this.props;
+    const { showDropdown } = this.state;
 
     if (showDropdown && this._buttonFrame) {
       const frameStyle = this._calcPosition();
@@ -252,10 +252,8 @@ export default class ModalDropdownComp extends Component {
             onPress={this._onModalPress}
           >
             <View style={styles.modal}>
-              <View style={[styles.dropdown, dropdownStyle, frameStyle]}>
-                {!options || (options && options.length == 0)
-                  ? this._renderNoRecords()
-                  : this._renderDropdown()}
+              <View style={[styles.dropdown,popupHeight && {  height: (popupHeight + StyleSheet.hairlineWidth) * 5,}, dropdownStyle, frameStyle]}>
+                {this._renderDropdown()}
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -265,13 +263,13 @@ export default class ModalDropdownComp extends Component {
   }
 
   _calcPosition() {
-    const { dropdownStyle, style, adjustFrame, isFullWidth } = this.props;
+    const { dropdownStyle, style, adjustFrame, isFullWidth ,popupHeight =0 } = this.props;
     const dimensions = Dimensions.get("window");
     const windowWidth = dimensions.width;
     const windowHeight = dimensions.height;
     const dropdownHeight =
       (dropdownStyle && StyleSheet.flatten(dropdownStyle).height) ||
-      StyleSheet.flatten(styles.dropdown).height;
+      popupHeight || StyleSheet.flatten(styles.dropdown).height;
     const bottomSpace =
       windowHeight - this._buttonFrame.y - this._buttonFrame.h;
     const rightSpace = windowWidth - this._buttonFrame.x;
@@ -343,7 +341,7 @@ export default class ModalDropdownComp extends Component {
       <>
         <FlatList
           {...dropdownListProps}
-          getItemLayout={(data, index) => {
+          getItemLayout={(_, index) => {
             return {
               length: 33 + StyleSheet.hairlineWidth,
               index,
@@ -354,11 +352,11 @@ export default class ModalDropdownComp extends Component {
           ref={(component) => (this.flatList = component)}
           scrollEnabled={scrollEnabled}
           style={styles.list}
-          keyExtractor={(item, i) => `key-${i}`}
+          keyExtractor={(_, i) => `key-${i}`}
           renderItem={this._renderItem}
           ItemSeparatorComponent={renderSeparator || this._renderSeparator}
           automaticallyAdjustContentInsets={false}
-          showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           onScrollToIndexFailed={(info) => {
             const wait = new Promise((resolve) => setTimeout(resolve, 500));
@@ -451,7 +449,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     position: "absolute",
-    height: (33 + StyleSheet.hairlineWidth) * 5,
+    height: (24 + StyleSheet.hairlineWidth) * 5,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "lightgray",
     borderRadius: 2,

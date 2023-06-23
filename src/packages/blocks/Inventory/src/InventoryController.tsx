@@ -14,6 +14,7 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
+  searchText:string;
 }
 
 interface SS {
@@ -33,6 +34,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       showLoader: false,
+      searchText:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

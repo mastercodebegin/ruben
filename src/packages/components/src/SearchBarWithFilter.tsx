@@ -6,11 +6,24 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Text,
 } from "react-native";
 import { WHITE } from "./constants";
 import { EXPLORE_BTN, SEARCH } from "../../blocks/landingpage/src/assets";
+//@ts-ignore
+import ModalDropdownComp from "./ModalDropdownComp";
+interface SearchBarWithFilterTyes {
+  onChangeText: (text: string) => void;
+  testID?: string;
+  searchText: string;
+}
+const SearchBarWithFilter = ({
+  onChangeText = () => {},
+  testID,
+  searchText,
+}: SearchBarWithFilterTyes) => {
+  const dropdownCategoryref: any = React.createRef();
 
-const SearchBarWithFilter = () => {
   return (
     <View style={styles.textInputContainer}>
       <View style={styles.searchContainer}>
@@ -19,21 +32,39 @@ const SearchBarWithFilter = () => {
           style={styles.textInput}
           placeholder="Search any Product/Video"
           placeholderTextColor={"#8D7D75"}
-          value=""
-          testID="productSearch"
-          onChangeText={(text) => {
-            console.log("on change text", text);
-          }}
+          value={searchText}
+          testID={testID}
+          onChangeText={onChangeText}
         />
       </View>
       <View style={{ height: "100%" }}>
-        <TouchableOpacity style={styles.exploreBtn} testID="sortingDropShow">
-          <Image
-            style={styles.explore}
-            resizeMode="contain"
-            source={EXPLORE_BTN}
-          />
-        </TouchableOpacity>
+        <ModalDropdownComp
+          onSelect={() => {}}
+          options={["High to low", "Low to high",]}
+          isFullWidth
+          ref={dropdownCategoryref}
+          keySearchObject="name"
+          popupHeight={80}
+          renderRow={(props: any) => {
+            return <Text style={styles.rendertext}>{props}</Text>;
+          }}
+          dropdownStyle={styles.dropDown}
+          renderSeparator={(obj: any) => null}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              dropdownCategoryref.current._onButtonPress();
+            }}
+            style={styles.exploreBtn}
+            testID="sortingDropShow"
+          >
+            <Image
+              style={styles.explore}
+              resizeMode="contain"
+              source={EXPLORE_BTN}
+            />
+          </TouchableOpacity>
+        </ModalDropdownComp>
       </View>
     </View>
   );
@@ -60,12 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
   },
   exploreBtn: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: WHITE,
-    paddingHorizontal: 12,
-    marginHorizontal: 10,
-    borderRadius: 25,
+    height:42,
+    width:42,
+    backgroundColor:WHITE,
+    marginLeft:15,justifyContent:'center',
+    alignItems:'center',
+    borderRadius:21
   },
   textInput: {
     backgroundColor: WHITE,
@@ -77,4 +108,14 @@ const styles = StyleSheet.create({
     paddingVertical: Platform.OS === "ios" ? 15 : undefined,
   },
   explore: { height: 25, width: 25 },
+  dropDown: {
+    elevation: 8,
+    borderRadius: 8,
+  },
+  rendertext: {
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    fontSize: 17,
+    color: "black",
+  },
 });
