@@ -210,10 +210,10 @@ export default class Analytics extends AnalyticsController {
                   </View>
                 </View>
               </View>
-            </View>
+              </View>
           </SafeAreaView>
           {/* Customizable Area End */}
-          </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
       </ScrollView>
       // Customizable Area End
     );
