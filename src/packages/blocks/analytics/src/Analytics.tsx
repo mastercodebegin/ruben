@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   StyleSheet,
   Text,
@@ -151,15 +152,6 @@ export default class Analytics extends AnalyticsController {
                     </Text>
                   </View>
                 </View>
-                {/* <TouchableOpacity onPress={() => { this.setState({ showAnimalList: true }) }}>
-                      <View style={[styles.numberOfSent, { flexDirection: "row", justifyContent: "space-between" }]}>
-                        <Text style={{ color: "#5C2221", fontSize: 17, fontWeight: "600" }}>{"Cow"}</Text>
-                        <Image
-                          style={styles.backImage}
-                          source={downArrow}
-                        />
-                      </View>
-                    </TouchableOpacity> */}
                 <View style={styles.dropdownContainer}>
                   <Dropdown
                     style={styles.dropdown}
@@ -167,18 +159,18 @@ export default class Analytics extends AnalyticsController {
                     selectedTextStyle={styles.selectedTextStyle}
                     iconStyle={styles.iconStyle}
                     containerStyle={styles.containerStyle}
-                    data={this.state.categoryList}
+                    data={this.state.animalList}
                     maxHeight={400}
                     labelField={"title"}
                     valueField={'title'}
-                    placeholder="Select item"
+                    placeholder="Cow"
                     onChange={(item: any) => {
-                      // const list = this.state.productsList;
+                      // const list = this.state.animalList;
                       // list[index] = {
                       //   ...list[index],
                       //   category_id: item?.id,
                       // };
-                      // this.setState({ productsList: list })
+                      //this.setState({ productsList: list })
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -187,7 +179,7 @@ export default class Analytics extends AnalyticsController {
                         </View>
                       )
                     }}
-                    value={this.state.categoryItem}
+                    value={this.state.animalList}
                   />
 
                 </View>
@@ -315,13 +307,13 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   dropdownContainer: {
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: "white",
     borderRadius: 10,
     marginBottom: 0
   },
   dropdown: {
     height: 50,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 12,
     shadowColor: '#000',
@@ -337,12 +329,15 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 5,
     borderBottomWidth: 1,
-    borderColor: LIGHT_GREY,
+    borderColor: "white",
   },
   textItem: {
     flex: 1,
     fontSize: 16,
-    color: DARK_RED
+    color: DARK_RED,
+    paddingVertical: 5,
+    marginLeft : 10,
+    
   },
   placeholderStyle: {
     fontSize: 16,
@@ -361,7 +356,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: -38
+    top: 0,    
   }
 
 
