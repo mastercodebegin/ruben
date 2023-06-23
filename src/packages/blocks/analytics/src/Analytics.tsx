@@ -33,7 +33,7 @@ export default class Analytics extends AnalyticsController {
     // Customizable Area Start
     // Customizable Area End
   }
-  
+
   // Customizable Area Start
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
@@ -112,7 +112,7 @@ export default class Analytics extends AnalyticsController {
                       </View>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ marginTop: 50 }}>
+                  {this.isUser === false && (< View style={{ marginTop: 50 }}>
                     <BarChart
                       width={SCREEN_WIDTH}
                       height={250}
@@ -127,7 +127,7 @@ export default class Analytics extends AnalyticsController {
                       style={{ marginLeft: -60, backgroundColor: "transparent" }}
                     />
                     <View style={[styles.overlay, { height: 20 }]} />
-                  </View>
+                  </View>)}
                   {this.state.showCalendar && (
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
@@ -214,7 +214,7 @@ export default class Analytics extends AnalyticsController {
           </SafeAreaView>
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
-      </ScrollView>
+      </ScrollView >
       // Customizable Area End
     );
   }
@@ -337,8 +337,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: DARK_RED,
     paddingVertical: 5,
-    marginLeft : 10,
-    
+    marginLeft: 10,
+
   },
   placeholderStyle: {
     fontSize: 16,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: 0,    
+    top: 0,
   }
 
 
