@@ -76,84 +76,83 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-          <ScrollView keyboardShouldPersistTaps="always"
-            style={styles.container}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                this.hideKeyboard();
-              }}
-            >
-              {/* Customizable Area Start */}
-              <SafeAreaView>
-                <View style={styles.main}>
-                  <View style={styles.main}>
-                    {this.isUser}
-                    <View style={styles.chartView}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                        }} >
-                        <View>
-                          <Text style={styles.totalIncome}>{"Total Income"}</Text>
-                          <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
-                        </View>
-                        <TouchableOpacity
-                          onPress={() => { this.setState({ showCalendar: true }) }}
-                        >
-                          <View style={styles.calendarView}>
-                            <Image
-                              style={[styles.backImage, { marginLeft: 10 }]}
-                              source={require("../assets/calendar_icon.png")}
-                            />
-                            <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
-                              {"March, 2022"}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={{ marginTop: 50 }}>
-                        <BarChart
-                          width={SCREEN_WIDTH}
-                          height={250}
-                          data={this.data}
-                          fromZero={true}
-                          chartConfig={this.chartConfig}
-                          showBarTops={false}
-                          withHorizontalLabels={false}
-                          flatColor={true}
-                          withCustomBarColorFromData={true}
-                          verticalLabelRotation={0}
-                          style={{ marginLeft: -60, backgroundColor: "transparent" }}
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.hideKeyboard();
+          }}
+        >
+          {/* Customizable Area Start */}
+          <SafeAreaView>
+            <View style={styles.main}>
+              <View style={styles.main}>
+                {this.isUser}
+                <View style={styles.chartView}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }} >
+                    <View>
+                      <Text style={styles.totalIncome}>{"Total Income"}</Text>
+                      <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => { this.setState({ showCalendar: true }) }}
+                    >
+                      <View style={styles.calendarView}>
+                        <Image
+                          style={[styles.backImage, { marginLeft: 10 }]}
+                          source={require("../assets/calendar_icon.png")}
                         />
-                        <View style={[styles.overlay, { height: 20 }]} />
-                      </View>
-                      {this.state.showCalendar && (
-                        <TouchableWithoutFeedback>
-                          <View style={styles.calendarContainer}>
-                            <Calendar />
-                            {/* {this.Calendar()} */}
-                          </View>
-                        </TouchableWithoutFeedback>
-                      )}
-                    </View>
-                    <View style={styles.numberOfSent}>
-                      <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Text style={{ fontSize: 20, color: "#5C2221", fontWeight: "600" }}>
-                          {"243201"}
-                        </Text>
-                        <Text style={{ fontSize: 20, color: "#A0272A" }}>
-                          {"$3344.56"}
+                        <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
+                          {"March, 2022"}
                         </Text>
                       </View>
-                    </View>
-                    {/* <TouchableOpacity onPress={() => { this.setState({ showAnimalList: true }) }}>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ marginTop: 50 }}>
+                    <BarChart
+                      width={SCREEN_WIDTH}
+                      height={250}
+                      data={this.data}
+                      fromZero={true}
+                      chartConfig={this.chartConfig}
+                      showBarTops={false}
+                      withHorizontalLabels={false}
+                      flatColor={true}
+                      withCustomBarColorFromData={true}
+                      verticalLabelRotation={0}
+                      style={{ marginLeft: -60, backgroundColor: "transparent" }}
+                    />
+                    <View style={[styles.overlay, { height: 20 }]} />
+                  </View>
+                  {this.state.showCalendar && (
+                    <TouchableWithoutFeedback>
+                      <View style={styles.calendarContainer}>
+                        <Calendar />
+                        {/* {this.Calendar()} */}
+                      </View>
+                    </TouchableWithoutFeedback>
+                  )}
+                </View>
+                <View style={styles.numberOfSent}>
+                  <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={{ fontSize: 20, color: "#5C2221", fontWeight: "600" }}>
+                      {"243201"}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: "#A0272A" }}>
+                      {"$3344.56"}
+                    </Text>
+                  </View>
+                </View>
+                {/* <TouchableOpacity onPress={() => { this.setState({ showAnimalList: true }) }}>
                       <View style={[styles.numberOfSent, { flexDirection: "row", justifyContent: "space-between" }]}>
                         <Text style={{ color: "#5C2221", fontSize: 17, fontWeight: "600" }}>{"Cow"}</Text>
                         <Image
@@ -162,68 +161,68 @@ export default class Analytics extends AnalyticsController {
                         />
                       </View>
                     </TouchableOpacity> */}
-                    <View style={styles.dropdownContainer}>
-                      <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        containerStyle={styles.containerStyle}
-                        data={this.state.categoryList}
-                        maxHeight={400}
-                        labelField={"title"}
-                        valueField={'title'}
-                        placeholder="Select item"
-                        onChange={(item: any) => {
-                          // const list = this.state.productsList;
-                          // list[index] = {
-                          //   ...list[index],
-                          //   category_id: item?.id,
-                          // };
-                          // this.setState({ productsList: list })
-                        }}
-                        renderItem={(item: any) => {
-                          return (
-                            <View>
-                              <Text style={styles.textItem}>{item?.title}</Text>
-                            </View>
-                          )
-                        }}
-                        value={this.state.categoryItem}
-                      />
+                <View style={styles.dropdownContainer}>
+                  <Dropdown
+                    style={styles.dropdown}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    iconStyle={styles.iconStyle}
+                    containerStyle={styles.containerStyle}
+                    data={this.state.categoryList}
+                    maxHeight={400}
+                    labelField={"title"}
+                    valueField={'title'}
+                    placeholder="Select item"
+                    onChange={(item: any) => {
+                      // const list = this.state.productsList;
+                      // list[index] = {
+                      //   ...list[index],
+                      //   category_id: item?.id,
+                      // };
+                      // this.setState({ productsList: list })
+                    }}
+                    renderItem={(item: any) => {
+                      return (
+                        <View>
+                          <Text style={styles.textItem}>{item?.title}</Text>
+                        </View>
+                      )
+                    }}
+                    value={this.state.categoryItem}
+                  />
 
-                    </View>
-                    <View style={[styles.chartView, { marginTop: 50 }]}>
-                    </View>
+                </View>
+                <View style={[styles.chartView, { marginTop: 50 }]}>
+                </View>
 
-                    <View style={styles.boxContainer}>
-                      <View style={styles.box}>
-                        <Text style={styles.boxHeader}>Current Animal purchased</Text>
-                        <Text style={styles.boxText}>Cow</Text>
-                      </View>
-                      <View style={styles.seperator} />
-                      <View style={styles.box}>
-                        <Text style={styles.boxHeader}>Total Cuts</Text>
-                        <Text style={styles.boxText}>10</Text>
-                      </View>
-                    </View>
-                    <View style={styles.boxContainer}>
-                      <View style={styles.box}>
-                        <Text style={styles.boxHeader}>Used cuts</Text>
-                        <Text style={styles.boxText}>7</Text>
-                      </View>
-                      <View style={styles.seperator} />
-                      <View style={styles.box}>
-                        <Text style={styles.boxHeader}>Remaining Cuts</Text>
-                        <Text style={styles.boxText}>{'3 (10%)'}</Text>
-                      </View>
-                    </View>
+                <View style={styles.boxContainer}>
+                  <View style={styles.box}>
+                    <Text style={styles.boxHeader}>Current Animal purchased</Text>
+                    <Text style={styles.boxText}>Cow</Text>
+                  </View>
+                  <View style={styles.seperator} />
+                  <View style={styles.box}>
+                    <Text style={styles.boxHeader}>Total Cuts</Text>
+                    <Text style={styles.boxText}>10</Text>
                   </View>
                 </View>
-              </SafeAreaView>
-              {/* Customizable Area End */}
-            </TouchableWithoutFeedback>
-          </ScrollView>
+                <View style={styles.boxContainer}>
+                  <View style={styles.box}>
+                    <Text style={styles.boxHeader}>Used cuts</Text>
+                    <Text style={styles.boxText}>7</Text>
+                  </View>
+                  <View style={styles.seperator} />
+                  <View style={styles.box}>
+                    <Text style={styles.boxHeader}>Remaining Cuts</Text>
+                    <Text style={styles.boxText}>{'3 (10%)'}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </SafeAreaView>
+          {/* Customizable Area End */}
+        </TouchableWithoutFeedback>
+      </ScrollView>
       // Customizable Area End
     );
   }
@@ -353,7 +352,7 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
     color: DARK_RED,
-    fontWeight:"700",
+    fontWeight: "700",
   },
   iconStyle: {
     width: 30,
