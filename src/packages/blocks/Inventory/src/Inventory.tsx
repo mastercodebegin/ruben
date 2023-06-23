@@ -1,65 +1,37 @@
 import React from "react";
-import {
-  View,
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import MyCartController from "./InventoryController";
 import {
   LIGHT_GREY,
   DARK_RED,
   PRIMARY,
 } from "../../../components/src/constants";
-import SearchBarWithFilter from "../../../components/src/SearchBarWithFilter";
-import Dropdown from "./DropDown";
-import { WHITE } from "../../landingpage/src/colors";
-//@ts-ignore
-// import ModalDropdownComp from "../../../components/src/ModalDropdownComp";
+import RenderItem from "./RenderItem";
+import FlatListHeader from "./FlatlistHeader";
 export default class Inventory extends MyCartController {
   render() {
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <View style={styles.headerTextContainer}>
-              <Text style={styles.header}>Inventory</Text>
-              <TouchableOpacity>
-                <Text style={styles.newOrder}>{"+ New Order"}</Text>
-              </TouchableOpacity>
-            </View>
-            <SearchBarWithFilter />
-            <View style={styles.filterContainer}>
-              <Dropdown
-                onpress={()=>{}}
-                label="Date"
+          <FlatList
+            data={[{}, {}, {}, {}]}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            renderItem={() => <RenderItem />}
+            ListHeaderComponent={
+              <FlatListHeader
+              searchText={this.state.searchText}
+                onChangeText={(text) => this.setState({ searchText: text })}
               />
-              <View style={styles.seperator} />
-              <Dropdown label="Offers" />
-              <View style={styles.seperator} />
-              <Dropdown label="Status" />
-            </View>
-          </View>
-          {/* <View style={{ flex: 1, backgroundColor: WHITE }}>
-            <View style={styles.statusContainer}>
-              <View style={styles.containerHeader}>
-                <Text style={styles.headerList}>#Detail</Text>
-              </View>
-              <View style={styles.containerHeader}>
-                <Text style={styles.headerList}>Destination</Text>
-              </View>
-              <View style={styles.containerHeader}>
-                <Text style={styles.headerList}>Status</Text>
-              </View>
-            </View>
-          </View> */}
+            }
+            keyExtractor={(_, i) => `key${i}`}
+          />
         </View>
       </SafeAreaView>
     );
   }
 }
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   main: { flex: 1, backgroundColor: LIGHT_GREY },
   container: {
     flex: 1,
@@ -72,6 +44,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     paddingHorizontal: 20,
     paddingBottom: 20,
+    paddingTop: 10,
   },
   headerTextContainer: {
     flexDirection: "row",
