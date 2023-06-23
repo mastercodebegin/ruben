@@ -33,6 +33,7 @@ export default class Analytics extends AnalyticsController {
     // Customizable Area Start
     // Customizable Area End
   }
+  
   // Customizable Area Start
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
