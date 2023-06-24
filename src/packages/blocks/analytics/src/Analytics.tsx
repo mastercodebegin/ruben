@@ -36,6 +36,43 @@ export default class Analytics extends AnalyticsController {
   }
 
   // Customizable Area Start
+  isUser = store.getState().currentUser === "user";
+  navigation = this.props.navigation;
+  data = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        data: [60, 45, 28, 80, 99, 43, 80],
+        colors: [
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#5C2221`,
+          (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`]
+      }
+    ]
+  };
+  chartConfig = {
+    backgroundGradientFrom: 'white',
+    // // decimalPlaces: 0,
+    // // barPercentage: 1.0,
+    // // fillShadowGradientOpacity: 1,
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: 'white',
+    // spacingInner: 1.0,
+    backgroundColor: "transparent",
+    backgroundGradientToOpacity: 0.0,
+
+    color: () => `#ffffff`,
+    labelColor: () => `black`,
+    withShadow: false,
+    barRadius: 13,
+    propsForBackgroundLines: {
+      strokeWidth: 0,
+    }
+  };
   // Customizable Area End
 
   render() {
