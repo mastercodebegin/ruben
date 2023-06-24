@@ -14,7 +14,6 @@ import {
   SafeAreaView
   // Customizable Area End
 } from "react-native";
-
 // Customizable Area Start
 import { BarChart } from "react-native-chart-kit";
 import { colors } from "react-native-elements";
