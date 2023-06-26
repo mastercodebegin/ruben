@@ -16,12 +16,8 @@ import {
 } from "react-native";
 // Customizable Area Start
 import { BarChart } from "react-native-chart-kit";
-import { colors } from "react-native-elements";
-import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
-import { DARK_RED, LIGHT_GREY, SCREEN_WIDTH } from "../../../components/src/constants";
-import { upArrow, downArrow } from "../../categoriessubcategories/src/assets";
+import { DARK_RED, SCREEN_WIDTH } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
-import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import Calendar from "../../../components/src/Calendar";
 import { Dropdown } from "../../../components/src/DropDown/src";
 // Customizable Area End
