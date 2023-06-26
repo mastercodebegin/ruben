@@ -29,6 +29,10 @@ const RenderItem = () => {
           isFullWidth
           ref={dropdownCategoryref}
           keySearchObject="name"
+          _renderCustomModal
+          customModal={()=>(
+            <View style={{height:300,width:300,backgroundColor:'red'}}/>
+          )}
           renderRow={(props: any) => {
             return (
               <Text

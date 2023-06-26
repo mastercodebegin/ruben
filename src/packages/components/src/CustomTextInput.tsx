@@ -54,6 +54,7 @@ const TextInput = ({
           testID={testID}
           numberOfLines={numberOfLines}
           onChangeText={onchangeText}
+          autoCapitalize="none"
           placeholder={placeholder}
         />
         {secureTextEntry && (
