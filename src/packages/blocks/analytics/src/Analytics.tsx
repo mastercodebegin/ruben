@@ -88,7 +88,7 @@ export default class Analytics extends AnalyticsController {
           <SafeAreaView>
           <View style={styles.main}>
           <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
               <Image
                 style={styles.backImage}
                 source={require("../../../components/src/arrow_left.png")}
@@ -109,6 +109,7 @@ export default class Analytics extends AnalyticsController {
                     </View>
                     <TouchableOpacity
                       onPress={() => { this.setState({ showCalendar: true }) }}
+                      testID="show_calendar"
                     >
                       <View style={styles.calendarView}>
                         <Image
@@ -121,19 +122,21 @@ export default class Analytics extends AnalyticsController {
                       </View>
                     </TouchableOpacity>
                   </View>
-                 < View style={{ marginTop: 50 }}>
+                 < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
                     <BarChart
                       width={SCREEN_WIDTH}
                       height={250}
                       data={this.data}
+                      withCustomBarColorFromData={true}
+                      flatColor={true}
                       fromZero={true}
                       chartConfig={this.chartConfig}
                       showBarTops={false}
                       withHorizontalLabels={false}
-                      flatColor={true}
-                      withCustomBarColorFromData={true}
                       verticalLabelRotation={0}
                       style={{ marginLeft: -60, backgroundColor: "transparent" }}
+                      yAxisLabel={""}
+                      yAxisSuffix=""
                     />
                     <View style={[styles.overlay, { height: 20 }]} />
                   </View>
@@ -141,7 +144,6 @@ export default class Analytics extends AnalyticsController {
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
                         <Calendar />
-                        {/* {this.Calendar()} */}
                       </View>
                     </TouchableWithoutFeedback>
                   )}
@@ -162,7 +164,7 @@ export default class Analytics extends AnalyticsController {
                     </Text>
                   </View>
                 </View>
-                <View style={styles.dropdownContainer}>
+                <View style={styles.dropdownContainer} testID="dropdown-wrapper">
                   <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
@@ -171,16 +173,8 @@ export default class Analytics extends AnalyticsController {
                     containerStyle={styles.containerStyle}
                     data={this.state.animalList}
                     maxHeight={400}
-                    labelField={"title"}
-                    valueField={'title'}
                     placeholder="Cow"
                     onChange={(item: any) => {
-                      // const list = this.state.animalList;
-                      // list[index] = {
-                      //   ...list[index],
-                      //   category_id: item?.id,
-                      // };
-                      //this.setState({ productsList: list })
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -191,7 +185,6 @@ export default class Analytics extends AnalyticsController {
                     }}
                     value={this.state.animalList}
                   />
-
                 </View>
                 <View style={[styles.chartView, { marginTop: 50 }]}>
                 </View>
