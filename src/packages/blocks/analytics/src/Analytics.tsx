@@ -137,7 +137,6 @@ export default class Analytics extends AnalyticsController {
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
                         <Calendar />
-                        {/* {this.Calendar()} */}
                       </View>
                     </TouchableWithoutFeedback>
                   )}
@@ -171,12 +170,6 @@ export default class Analytics extends AnalyticsController {
                     valueField={'title'}
                     placeholder="Cow"
                     onChange={(item: any) => {
-                      // const list = this.state.animalList;
-                      // list[index] = {
-                      //   ...list[index],
-                      //   category_id: item?.id,
-                      // };
-                      //this.setState({ productsList: list })
                     }}
                     renderItem={(item: any) => {
                       return (
