@@ -22,17 +22,17 @@ export interface Props {
 
 interface S {
   // Customizable Area Start
+  showCalendar: boolean;
+  selectedDate: string;
+  markedDates: any;
+  showAnimalList:boolean;
+  animalList: Array<object>;
   // Customizable Area End
 }
 
 interface SS {
   id: any;
   // Customizable Area Start
-  showCalendar: boolean;
-  selectedDate: string;
-  markedDates: any;
-  showAnimalList:boolean;
-  animalList: Array<object>;
   // Customizable Area End
 }
 

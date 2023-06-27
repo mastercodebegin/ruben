@@ -53,8 +53,8 @@ const Calendar = () => {
   });
 
   const today = moment();
-  const getSelectedDayEvents = (date: Date) => {
-    var dict = {}
+  const getSelectedDayEvents = (date: any) => {
+    var dict: any = {}
     var dateObj = new Date(date.dateString);
     var newDate = new Date(date.dateString);
     var  counter = 0;
@@ -66,14 +66,10 @@ const Calendar = () => {
         color:  counter == 0 || counter == 6 ? PRIMARY : LIGHT_GREY, 
         textColor: counter == 0 || counter == 6 ? "white"  : DARK_RED, 
         endingDay : counter == 6 ? true : false},
-      // dates.push(momentObj.format('YYYY-MM-DD'));
       counter = counter + 1
-      dateObj = moment(dateObj).add(1, 'days'); // you are updating the same object again and again, so here I am creating new object
+      let addOneMoreDay = moment(dateObj).add(1, 'days').toDate();
+      dateObj =  addOneMoreDay // you are updating the same object again and again, so here I am creating new object
   }
-
-    var serviceDate = moment(date);
-    serviceDate = serviceDate.format("DD.MM.YYYY");
-    setSelectedDate(serviceDate);
     setMarkDate(dict);
   };
 
@@ -182,7 +178,7 @@ const Calendar = () => {
   };
   LocaleConfig.defaultLocale = "fr";
   return (
-    <View style={styles.main}>
+    <View style={styles.main} testID="calendar">
       <View style={styles.overFlow}>
         <View style={styles.headerContainer}>
           <View>
