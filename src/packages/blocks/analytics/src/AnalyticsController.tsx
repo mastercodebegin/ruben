@@ -28,6 +28,11 @@ interface S {
 interface SS {
   id: any;
   // Customizable Area Start
+  showCalendar: boolean;
+  selectedDate: string;
+  markedDates: any;
+  showAnimalList:boolean;
+  animalList: Array<object>;
   // Customizable Area End
 }
 
@@ -48,6 +53,26 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       // Customizable Area Start
+      showCalendar: false,
+      selectedDate: "",
+      markedDates: {},
+      showAnimalList: false,
+      animalList: [{
+        title: 'Cow',
+        id: 0
+      },
+      {
+        title: 'Fish',
+        id: 1
+      },
+      {
+        title: 'Beer',
+        id: 2
+      },
+      {
+        title: 'Dog',
+        id: 3,
+      },],
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
