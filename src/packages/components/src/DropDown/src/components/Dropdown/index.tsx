@@ -592,6 +592,7 @@ const DropdownComponent: <T>(
             >
               <TouchableWithoutFeedback onPress={showOrClose}>
                 <View
+                  //@ts-ignore
                   style={StyleSheet.flatten([
                     styles.flex1,
                     isFull && styleContainerVertical,

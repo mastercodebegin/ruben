@@ -15,7 +15,7 @@ const screenProps = {
     id: "Analytics"
   }
 
-const feature = loadFeature('./__tests__/features/Analytics-scenario.feature');
+const feature = loadFeature('./__tests__/features/Analytics.web-scenario.feature');
 
 defineFeature(feature, (test) => {
 

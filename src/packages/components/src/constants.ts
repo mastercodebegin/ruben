@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native"
+
 export const ADD_MORE = 'Add More'
 export const ADD_PRODUCTS = 'Add Products'
 export const PRODUCT = 'Products'
@@ -20,3 +22,5 @@ export const TERTIERY = "#B7DEEC";
 export const WHITE = "#FFFFFF";
 export const deepLinkingURL='https://ruebensftcapp.page.link/63fF';
 export const removeImage = require('./remove.png');
+const SCREEN = Dimensions.get("screen");
+export const SCREEN_WIDTH = SCREEN.width;
