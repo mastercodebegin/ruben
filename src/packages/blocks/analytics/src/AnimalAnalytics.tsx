@@ -29,6 +29,12 @@ export default class AnimalAnalytics extends AnalyticsController {
       // Customizable Area Start
       <View style={styles.container}>
         <View style={styles.animalImgContainer}>
+          <View style={styles.hoverView}>
+            <View style={styles.graphContainer}>
+            </View>
+            <View style={styles.linebottom}>
+            </View>
+          </View>
           <View style={styles.animalImgCont} >
             <Image
               style={styles.animalImg}
@@ -36,7 +42,7 @@ export default class AnimalAnalytics extends AnalyticsController {
               source={cow_head}
             />
           </View>
-
+          
           <View style={styles.bottomContainer}>
             <View style={styles.rowContainer}>
               <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>

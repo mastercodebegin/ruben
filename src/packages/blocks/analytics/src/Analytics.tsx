@@ -16,6 +16,7 @@ import {
 } from "react-native";
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
+import AnimalAnalytics from "./AnimalAnalytics";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -68,6 +69,7 @@ export default class Analytics extends AnalyticsController {
             <View style={styles.numberOfSent}>
               <Text style={{ color: "#5C2221", fontSize: 17 }}>{"Cow"}</Text>
             </View>
+            <AnimalAnalytics navigation={undefined} id={""}/>
 
             <View style={styles.boxContainer}>
               <View style={styles.box}>
