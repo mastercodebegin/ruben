@@ -103,7 +103,7 @@ export default class Settings5 extends Settings5Controller {
               }
               style={styles.button}
             >
-              <Text style={styles.options}>Contact</Text>
+              <Text style={styles.options}>Contact Us</Text>
             </TouchableOpacity>
             {isUser && (
               <View style={styles.button}>

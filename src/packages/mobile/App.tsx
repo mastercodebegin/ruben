@@ -40,6 +40,7 @@ import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
 import { customAlert } from '../framework/src/Utilities';
 import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
+import ContactUs from '../blocks/contactus/src/ContactusScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -133,6 +134,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="OrderSummary" component={OrderSummary}/>
         <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
         <Stack.Screen name='InvoiceBilling' component={InvoiceBilling}/>
+        <Stack.Screen name="ContactUs" component={ContactUs}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
