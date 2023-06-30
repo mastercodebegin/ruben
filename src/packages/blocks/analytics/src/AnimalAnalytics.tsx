@@ -7,9 +7,10 @@ import {
   // Customizable Area Start
   TouchableOpacity,
   Image,
+  FlatList,
   // Customizable Area End
 } from "react-native";
-import { cow_head } from "./assets";
+import { cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
@@ -21,7 +22,7 @@ export default class AnimalAnalytics extends AnalyticsController {
   }
 
   // Customizable Area Start
-  
+
   // Customizable Area End
 
   render() {
@@ -29,20 +30,122 @@ export default class AnimalAnalytics extends AnalyticsController {
       // Customizable Area Start
       <View style={styles.container}>
         <View style={styles.animalImgContainer}>
-          <View style={styles.hoverView}>
-            <View style={styles.graphContainer}>
+          {this.state.chuck &&
+            <View style={styles.hoverView}>
+              <View style={styles.graphContainer}>
+              </View>
+              <View style={styles.linebottom}>
+              </View>
             </View>
-            <View style={styles.linebottom}>
-            </View>
+          }
+          <View style={styles.animalImgCont}>
+            {this.state.cow_Defult &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_head}
+              />
+            }
+            {this.state.cowHead &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_head}
+              />
+            }
+            {this.state.chuck &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_chuch}
+              />
+            }
+            {this.state.cow_Rib &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_rib}
+              />
+            }
+            {this.state.cow_Short_lion &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_shortlion}
+              />
+            }
+            {this.state.cow_Sirllion &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_sirlion}
+              />
+            } 
+            {this.state.cow_Round &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_round}
+              />
+            }
+            {this.state.cow_shank &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_shank}
+              />
+            }
+            {this.state.cow_Flank &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_flank}
+              />
+            }
+            {this.state.cow_Short_plate &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_shortlion}
+              />
+            }
+            {this.state.cow_Brisket &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_brisket}
+              />
+            }
+            {this.state.cow_Fore_Shank &&
+              <Image
+                style={styles.animalImg}
+                resizeMode="contain"
+                source={cow_foreshank}
+              />
+            }
+            <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnCowhead() }} style={styles.clickOnHead}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnCowRib() }} style={styles.clickOnRib}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnShortlion() }} style={styles.clickOnShortlionStyle}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnSirlion() }} style={styles.clickOnSirlion}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnRound() }} style={styles.clickOnRound}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnShank() }} style={styles.clickOnshank}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnFlank() }} style={styles.clickOnFlank}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnShortPlate() }} style={styles.clickOnShortPlate}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnForeShank() }} style={styles.clickOnForeShank}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket}>
+            </TouchableOpacity>
           </View>
-          <View style={styles.animalImgCont} >
-            <Image
-              style={styles.animalImg}
-              resizeMode="contain"
-              source={cow_head}
-            />
-          </View>
-          
           <View style={styles.bottomContainer}>
             <View style={styles.rowContainer}>
               <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
@@ -71,24 +174,24 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 15,
-    marginTop:40
+    marginTop: 40
   },
   animalImgContainer: {
-    padding:1,
+    padding: 1,
   },
   hoverView: {
     alignItems: 'center',
     position: 'absolute',
-    top:-50,
-    right:20,
-    zIndex:1
+    top: -50,
+    right: 20,
+    zIndex: 1
 
   },
-  animalImgCont:{
-    width:250,
-    height:200,
-    alignSelf:'center',
-    marginTop:40
+  animalImgCont: {
+    width: 250,
+    height: 200,
+    alignSelf: 'center',
+    marginTop: 40
   },
   animalImg: {
     paddingTop: 1,
@@ -124,8 +227,106 @@ const styles = StyleSheet.create({
   },
   linebottom: {
     width: 2,
-    height:40,
+    height: 40,
     backgroundColor: 'red',
+  },
+  touchableList: {
+    width: '100%',
+    height: 300
+  },
+  clickOnChuck: {
+    width: 39,
+    height: 35,
+    position: 'absolute',
+    top: 35,
+    right: 63
+  },
+  clickOnHead: {
+    width: 45,
+    height: 40,
+    position: 'absolute',
+    top: 42,
+    right: 10,
+    borderBottomLeftRadius: 20
+  },
+  clickOnRib:{
+    width: 25,
+    height: 35,
+    position: 'absolute',
+    top: 30,
+    left: 120,
+    borderBottomLeftRadius: 20,
+    transform: [{rotate: '10deg'}],
+  },
+  clickOnShortlionStyle:{
+    width: 25,
+    height: 38,
+    position: 'absolute',
+    top: 30,
+    left: 93
+  },
+  clickOnSirlion:{
+    width: 25,
+    height: 38,
+    position: 'absolute',
+    top: 30,
+    left: 70,
+  },
+  clickOnRound:{
+    width: 53,
+    height: 45,
+    position: 'absolute',
+    top: 30,
+    left: 15,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  },
+  clickOnshank:{
+    width: 53,
+    height: 40,
+    position: 'absolute',
+    top: 80,
+    left: 10,
+    borderBottomEndRadius:30,
+  },
+  clickOnFlank:{
+    width: 33,
+    height: 40,
+    position: 'absolute',
+    top: 75,
+    left: 65,
+    borderTopLeftRadius:20,
+  },
+  clickOnShortPlate:{
+    width: 37,
+    height: 45,
+    position: 'absolute',
+    top: 70,
+    left: 100,
+    borderTopLeftRadius:10,
+  },
+  clickOnForeShank:{
+    width: 30,
+    height: 43,
+    position: 'absolute',
+    top: 72,
+    right:82,
+    borderTopLeftRadius:10,
+    borderTopRightRadius:10
+  },
+  clickOnBrisket:{
+    width: 30,
+    height: 40,
+    position: 'absolute',
+    top: 72,
+    right:52,
+    borderTopLeftRadius:5,
+    borderTopRightRadius:5,
+    borderBottomLeftRadius:15,
+    borderBottomRightRadius:20,
   }
+
+
+
 });
 // Customizable Area End
