@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   Platform,
   RefreshControl,
-  FlatList
+  FlatList,
 } from "react-native";
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import RenderCategories from "./RenderCategories";
+import SortingDropdown from "../../../../components/src/SortingDropdown";
 
 export class ExplorePage extends LandingPageController {
   constructor(props: any) {
@@ -30,19 +31,63 @@ export class ExplorePage extends LandingPageController {
   }
   async componentDidMount() {
     this.getCategory.bind(this)(1);
-    this.getProductList();
+    this.getProductList(this.state.sortAscending);
     this.getCart();
   }
+   renderItem = ({ item, index }: any) => {
+    const seleceted =
+      this.state.selectedSub === item?.attributes?.id;
+    return (
+      <TouchableOpacity
+        testID={index + "selectedSubscategory"}
+        onPress={() =>
+          this.setState({ selectedSub: item?.attributes?.id })
+        }
+        style={[
+          styles.subcategory,
+          {
+            backgroundColor:
+              this.state.selectedSub === item?.attributes?.id
+                ? "#A0272A"
+                : WHITE,
+          },
+        ]}
+      >
+        <Image
+          style={{
+            height: 25,
+            width: 25,
+            marginRight: 10,
+            tintColor: seleceted ? "white" : DARK_RED,
+          }}
+          source={CHICKEN}
+        />
+        <Text
+          numberOfLines={1}
+          style={{
+            fontSize: 20,
+            color: seleceted ? "white" : DARK_RED,
+            fontWeight: "500",
+          }}
+        >
+          {item?.attributes?.name}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
   render() {
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
+            testID="scrollview"
             contentContainerStyle={{ paddingBottom: 80 }}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refresh}
+                testID="refereshcontrol"
                 onRefresh={() => {
                   this.setState({ refresh: true });
                   this.getCategory.bind(this)(1, false);
@@ -65,10 +110,21 @@ export class ExplorePage extends LandingPageController {
                       style={styles.textInput}
                       placeholder="Search any Product/Video"
                       placeholderTextColor={"#8D7D75"}
+                      value=""
+                      testID="productSearch"
+                      onChangeText={(text) => {
+                        console.log("on change text", text);
+                      }}
                     />
                   </View>
                   <View style={{ height: "100%" }}>
-                    <TouchableOpacity style={styles.exploreBtn}>
+                    <TouchableOpacity
+                      style={styles.exploreBtn}
+                      testID="sortingDropShow"
+                      onPress={() =>
+                        this.setState({ show_SortingDropdown: true })
+                      }
+                    >
                       <Image
                         style={styles.explore}
                         resizeMode="contain"
@@ -83,7 +139,7 @@ export class ExplorePage extends LandingPageController {
                 horizontal
                 style={{ marginLeft: 20 }}
                 bounces={false}
-                testID="myFlatList"
+                testID="termsCondsList"
                 showsHorizontalScrollIndicator={false}
                 onEndReached={() => {
                   if (this.categoryPage === null) {
@@ -106,45 +162,10 @@ export class ExplorePage extends LandingPageController {
                 data={this.state.subcategories}
                 horizontal
                 bounces={false}
+                testID="subcategoryList"
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({ item }:any) => {
-                  const seleceted =
-                    this.state.selectedSub === item?.attributes?.id;
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState({ selectedSub: item?.attributes?.id })
-                      }
-                      style={[
-                        styles.subcategory,
-                        {
-                          backgroundColor: seleceted ? "#A0272A" : WHITE,
-                        },
-                      ]}
-                    >
-                      <Image
-                        style={{
-                          height: 25,
-                          width: 25,
-                          marginRight: 10,
-                          tintColor: seleceted ? "white" : DARK_RED,
-                        }}
-                        source={CHICKEN}
-                      />
-                      <Text
-                        numberOfLines={1}
-                        style={{
-                          fontSize: 20,
-                          color: seleceted ? "white" : DARK_RED,
-                          fontWeight: "500",
-                        }}
-                      >
-                        {item?.attributes?.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                }}
+                renderItem={this.renderItem}
               />
               <RenderItems
                 onPressCart={this.addToCart.bind(this)}
@@ -173,8 +194,7 @@ export class ExplorePage extends LandingPageController {
               button2Onpress={() =>
                 this.props.navigation.navigate("AddProducts")
               }
-              buttn1TestID="inventory_id"
-              buttn2TestID="addproduct_test_id"
+              buttn2TestID="add_product_test_id"
               button1Label="Inventory"
               button2label="+ Add products"
             />
@@ -184,10 +204,32 @@ export class ExplorePage extends LandingPageController {
         {this.state.show_loader && (
           <CommonLoader visible={this.state.show_loader} />
         )}
+        {
+          <SortingDropdown
+            visible={this.state.show_SortingDropdown}
+            testID={"sortingDropdown"}
+            data={[
+              { label: "Pricing Low to High", value: "1" },
+              { label: "Pricing High to Low", value: "2" },
+            ]}
+            onSelect={(item) => {
+              this.setState({
+                sortAscending: item.value === "1",
+                show_SortingDropdown: false,
+              });
+              this.getProductList(item.value === "1");
+              this.setState({ show_SortingDropdown: false });
+            }}
+            onpressButton={() => {
+              this.setState({ show_SortingDropdown: false });
+            }}
+          />
+        }
       </SafeAreaView>
     );
   }
 }
+
 export const mapDispatchToProps = (dispatch: any) => {
   return {
     updateCartDetails: (payload: any) => {
@@ -286,5 +328,23 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
+  },
+  dropdown: {
+    position: "absolute",
+    backgroundColor: "#fff",
+    width: "50%",
+    shadowColor: "#000000",
+    shadowRadius: 4,
+    shadowOffset: { height: 4, width: 0 },
+    shadowOpacity: 0.5,
+  },
+  overlay: {
+    width: "50%",
+    height: "50%",
+  },
+  item: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
   },
 });

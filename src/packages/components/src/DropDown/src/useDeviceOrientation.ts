@@ -27,7 +27,9 @@ export function useDeviceOrientation() {
     const subscription = Dimensions.addEventListener('change', onChange);
 
     return () => {
+      //@ts-ignore
       if (typeof subscription?.remove === 'function') {
+        //@ts-ignore
         subscription.remove();
       }
     };

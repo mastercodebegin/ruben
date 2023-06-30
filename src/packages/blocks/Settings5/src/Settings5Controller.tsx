@@ -8,6 +8,9 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { store } from "../../../components/src/utils";
+import { showToast } from "../../../components/src/ShowToast";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -24,6 +27,8 @@ interface S {
   txtSavedValue: string;
   enableField: boolean;
   // Customizable Area Start
+  lifeTimeSubscription:boolean;
+  coldPackagingFee:boolean;
   // Customizable Area End
 }
 
@@ -39,6 +44,7 @@ export default class Settings5Controller extends BlockComponent<
   SS
 > {
   // Customizable Area Start
+  deleteAccountId:any;
   // Customizable Area End
 
   constructor(props: Props) {
@@ -49,6 +55,7 @@ export default class Settings5Controller extends BlockComponent<
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
+      getName(MessageEnum.RestAPIResponceMessage),
       // Customizable Area End
     ];
 
@@ -57,6 +64,8 @@ export default class Settings5Controller extends BlockComponent<
       txtSavedValue: "A",
       enableField: false,
       // Customizable Area Start
+      coldPackagingFee:false,
+      lifeTimeSubscription:false
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -80,6 +89,22 @@ export default class Settings5Controller extends BlockComponent<
     }
 
     // Customizable Area Start
+    else if( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.deleteAccountId != null &&
+    this.deleteAccountId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
+
+        let profileDetails = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        if(!error && profileDetails){
+          showToast('Account deleted successfully');
+          this.clearStorage()
+        }
+    }
     // Customizable Area End
   }
 
@@ -139,5 +164,40 @@ export default class Settings5Controller extends BlockComponent<
   };
 
   // Customizable Area Start
+   clearStorage = () => {
+    store.dispatch({ type: "UPDATE_USER", payload: "user" });
+    store.dispatch({ type: "UPDATE_CART_DETAILS", payload: [] });
+    AsyncStorage.removeItem("userDetails")
+      .then(() => {
+        this.props.navigation.reset({
+          index: 0,
+          routes: [{ name: "AuthenticationStack" }],
+        });
+      })
+  };
+  async deleteAccount(){
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const getOrderListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.deleteAccountId = getOrderListMsg.messageId;
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.deleteAccount
+    );
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getOrderListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getOrderListMsg.id, getOrderListMsg);
+  }
   // Customizable Area End
 }

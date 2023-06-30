@@ -37,6 +37,11 @@ interface S {
   cow_Short_plate: boolean;
   cow_Fore_Shank: boolean;
   cow_Brisket: boolean;
+  showCalendar: boolean;
+  selectedDate: string;
+  markedDates: any;
+  showAnimalList:boolean;
+  animalList: Array<object>;
   // Customizable Area End
 }
 
@@ -85,6 +90,26 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Short_plate: false,
       cow_Fore_Shank: false,
       cow_Brisket: false,
+      showCalendar: false,
+      selectedDate: "",
+      markedDates: {},
+      showAnimalList: false,
+      animalList: [{
+        title: 'Cow',
+        id: 0
+      },
+      {
+        title: 'Fish',
+        id: 1
+      },
+      {
+        title: 'Beer',
+        id: 2
+      },
+      {
+        title: 'Dog',
+        id: 3,
+      },],
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

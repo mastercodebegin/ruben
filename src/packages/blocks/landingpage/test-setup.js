@@ -16,7 +16,11 @@ jest.mock("../../components/src/utils", () => ({
 }));
 jest.mock("react-native-simple-toast", () => {});
 jest.mock("@react-native-async-storage/async-storage", () => ({
-  getItem: jest.fn(() => ({ meta: { token: "rtretwftyweyfwtfeytwf" } })),
+  getItem: jest.fn((key) => {
+    return new Promise((resolve) => {
+      resolve(JSON.stringify({ meta: { token: "rtretwftyweyfwtfeytwf" } }));
+    });
+  }),
   setItem: jest.fn(),
 }));
 jest.mock("../../components/src/ShowToast", () => ({ showToast: jest.fn() }));

@@ -73,6 +73,8 @@ interface S {
   aboutus:any;
   orderList: Array<any>;
   cartList:Array<any>;
+  show_SortingDropdown: boolean,
+  sortAscending: boolean,
   // Customizable Area End
 }
 
@@ -103,6 +105,8 @@ export default class LandingPageController extends BlockComponent<
       name:'',
       email:'',
       instagram_link:'',
+      show_SortingDropdown: false,
+      sortAscending: false,
       facebook_link:'',
       whatsapp_link:'',
       about_me:'',
@@ -284,9 +288,10 @@ export default class LandingPageController extends BlockComponent<
       );
       const subCategories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
-      store.dispatch({type:'UPDATE_CART_DETAILS',payload:subCategories?.data?.attributes?.order_items?.data})
-      this.addToCartCallBack(error)
+      );
+      
+        this.addToCartCallBack(subCategories,error)
+      
       
     }
   else{
@@ -428,11 +433,12 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  addToCartCallBack(error:any){    
-    if(error){      
-      showToast('Something went wrong')
-    }else{
+  addToCartCallBack(cart:any,error:any){    
+    if(cart ?.data){
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:cart?.data?.attributes?.order_items?.data});
       showToast('Product Added to the cart')
+    }else{
+      showToast('Something went wrong')
     }
   }
   addToFavCallBack(AddToFavRes:any,error:any){
@@ -908,23 +914,21 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getProductList() {
+  async getProductList(type:boolean) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
       'token': data?.meta?.token
     };
-    const formdata = new FormData();
-    console.log('formData ', formdata)
     const getProductListMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
     this.getProductId = getProductListMsg.messageId;
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.addProductEndpoint
-    );
+      `${configJSON.addProductEndpoint}${type ? "asc" : "desc"}`
+      );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -983,14 +987,14 @@ export default class LandingPageController extends BlockComponent<
     };
 
     const httpBody = {
-      order_items:{
-          catalogue_id:id,
-          quantity:1,
-          taxable:true,
-          taxable_value:0.1233,
-          order_charges:0.124,
-          delivered_at:"2023-04-23T12:23:44.754Z"
-      }
+      "order_items": {
+        "catalogue_id": id,
+        "quantity": 1,
+        "taxable": "true",
+        "taxable_value": 0.1233,
+        "other_charges": 0.124,
+        "delivered_at": "2023-04-21T12:27:59.395Z"
+    }
   }
 
     const requestMessage = new Message(
