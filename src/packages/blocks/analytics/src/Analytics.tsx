@@ -14,9 +14,8 @@ import {
   SafeAreaView
   // Customizable Area End
 } from "react-native";
-
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 import AnimalAnalytics from "./AnimalAnalytics";
+import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
