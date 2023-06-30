@@ -5,7 +5,8 @@ import {
     Dimensions, 
     Modal, 
     TouchableWithoutFeedback,
-    TouchableHighlight
+    TouchableHighlight,
+    TouchableOpacity
      } from "react-native";
 import Calendar from "./Calendar";
 
@@ -94,12 +95,10 @@ export default class DisplayCalendar extends Component<Props, State> {
   render() {
     
     return (<>
-    <View
-    ref={(button) => (this._button = button)}
-
-    >
+    <TouchableOpacity
+    ref={(button) => (this._button = button)}>
         {this.props.children}
-    </View>
+    </TouchableOpacity>
     {this.state.showDropdown && this._renderModal()}
     </>)
   }

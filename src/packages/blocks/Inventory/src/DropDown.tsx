@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState}from "react";
 import { Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { DARK_RED } from "../../landingpage/assets/constants";
 import { arrowLeft } from "../../landingpage/src/assets";
@@ -9,14 +9,17 @@ interface DropDownTypes {
   label: string;
   onpress?: () => void;
   type?: "dropdown" | "calendar";
+  data?:Array<any>;
 }
 
 const Dropdown = ({
   label = "",
   onpress = () => {},
   type = "dropdown",
+  data=[]
 }: DropDownTypes) => {
   const dropdownCategoryref: any = React.createRef();
+  const [selected,setSelected]=useState(label)
   const RenderIcon = () => (
     <TouchableOpacity
       onPress={() => {
@@ -24,7 +27,7 @@ const Dropdown = ({
       }}
       style={styles.container}
     >
-      <Text style={styles.text}>{label}</Text>
+      <Text style={styles.text}>{selected}</Text>
       <Image style={styles.image} source={arrowLeft} />
     </TouchableOpacity>
   );
@@ -39,13 +42,15 @@ const Dropdown = ({
         </DisplayCalendar>
       ) : (
         <ModalDropdownComp
-          onSelect={() => {}}
-          options={["1", "2", "3"]}
+          onSelect={(_:any,res2:string) => {
+            setSelected(res2)
+          }}
+          options={data}
           isFullWidth
           ref={dropdownCategoryref}
           keySearchObject="name"
           renderRow={(props: any) => {
-            return <Text style={styles.rendertext}>{props}</Text>;
+            return <Text style={[styles.rendertext,{fontWeight:selected=== props ?'bold':'normal'}]}>{props}</Text>;
           }}
           dropdownStyle={styles.dropDown}
           renderSeparator={(obj: any) => null}

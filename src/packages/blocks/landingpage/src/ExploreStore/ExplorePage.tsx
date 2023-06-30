@@ -194,7 +194,9 @@ export class ExplorePage extends LandingPageController {
               button2Onpress={() =>
                 this.props.navigation.navigate("AddProducts")
               }
+              button1Onpress={()=>this.props.navigation.navigate("Inventory")}
               buttn2TestID="add_product_test_id"
+              buttn1TestID="inventory_test_id"
               button1Label="Inventory"
               button2label="+ Add products"
             />

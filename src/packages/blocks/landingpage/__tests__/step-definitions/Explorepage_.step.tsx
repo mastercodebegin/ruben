@@ -95,6 +95,10 @@ defineFeature(feature, (test) => {
         {...screenProps}
       />)
       fireEvent.press(getByTestId('add_product_test_id'))
+      expect(screenProps
+        .navigation.navigate).toBeCalledWith('AddProducts')
+      fireEvent.press(getByTestId('inventory_test_id'))
+      expect(screenProps.navigation.navigate).toBeCalledWith('Inventory');
     })
 
 

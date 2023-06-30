@@ -21,8 +21,8 @@ const FlatListHeader = ({ onChangeText,searchText='' }: HeaderTypes) => {
         <SearchBarWithFilter searchText={searchText} onChangeText={onChangeText} />
         <View style={styles.filterContainer}>
           <Dropdown type="calendar" onpress={() => {}} label="Date" />
-          <Dropdown label="Offers" />
-          <Dropdown label="Status" />
+          <Dropdown data={[1,2,3,4,5]} label="Offers" />
+          <Dropdown data={['success','pending','canceled']} label="Status" />
         </View>
       </View>
       <View style={{ backgroundColor: WHITE }}>
