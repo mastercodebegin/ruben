@@ -239,6 +239,17 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
     }
   };
 
+  onSubmit() {
+    if (!(this.state.name && this.state.query && this.state.email)) {
+      this.showAlert(
+        configJSON.errorTitle,
+        configJSON.errorAllFieldsAreMandatory
+      );
+    } else if (!this.isValidEmail(this.state.email)) {
+      this.showAlert(configJSON.errorTitle, configJSON.errorEmailNotValid);
+    }
+  }
+
   addQueryApi = () => {
     if (
       this.isStringNullOrBlank(this.state.name) ||

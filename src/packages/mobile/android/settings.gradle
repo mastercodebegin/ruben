@@ -74,3 +74,5 @@ project(':react-native-localize').projectDir = new File(rootProject.projectDir, 
 
 include ':react-native-radar'
 project(':react-native-radar').projectDir = new File(rootProject.projectDir, '../../../node_modules/react-native-radar/android')
+include ':react-native-firebase-message'
+project(':react-native-firebase-message').projectDir = new File(rootProject.projectDir, '../../../node_modules/@react-native-firebase/messaging/android')

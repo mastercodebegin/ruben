@@ -52,8 +52,9 @@ export default class Contactus extends ContactusController {
             />
             <Button
               label="Submit"
+              testID="submit_query_test_id"
               containerStyle={{ marginTop: 20 }}
-              onPress={() => {}}
+              onPress={() => this.onSubmit()}
             />
             <Button
               label="cancel"
