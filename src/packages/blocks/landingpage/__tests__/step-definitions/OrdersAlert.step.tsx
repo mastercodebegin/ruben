@@ -14,7 +14,7 @@ const screenProps = {
   route: {},
 };
 
-const feature = loadFeature("./__tests__/features/BlogPost-scenario.feature");
+const feature = loadFeature("./__tests__/features/Orders-scenario.feature");
 
 defineFeature(feature, (test) => {
   beforeEach(() => {
@@ -25,11 +25,10 @@ defineFeature(feature, (test) => {
     }));
   });
 
-  test("User navigates to Blog post screen", ({ given, when, then }) => {
-    let AboutUsBlock;
+  test("User navigates to orders screen", ({ given, when, then }) => {
 
-    given("I am a User loading Blog posts", () => {
-      AboutUsBlock = render(
+    given("users loading orders screen", () => {
+     render(
         <Alert
           visible={false}
           setVisibleProfileModal={function(): void {

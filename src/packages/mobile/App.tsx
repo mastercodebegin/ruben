@@ -15,9 +15,9 @@ import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
 import MyCart from '../blocks/MyCart/src/MyCart'
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
 import Alert from '../blocks/landingpage/src/Alert/Alert';
-import Inventory from '../blocks/landingpage/src/Inventory/Inventory';
+import Inventory from '../blocks/Inventory/src/Inventory';
 import AppLauncher from '../blocks/splashscreen/src/AppLauncher';
-import Settings from '../blocks/landingpage/src/SettingsTab/Settings';
+import Settings from '../blocks/Settings5/src/Settings5'; 
 import BlogPost from '../blocks/landingpage/src/BlogPosts/BlogPost';
 import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
@@ -40,7 +40,8 @@ import StripeIntegration from '../blocks/StripeIntegration/src/StripeIntegration
 import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
 import { customAlert } from '../framework/src/Utilities';
-
+import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
+import ContactUs from '../blocks/contactus/src/ContactusScreen';
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -133,7 +134,9 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="PersonelDetails" component={PersonelDetails} />
         <Stack.Screen name="StripeIntegration" component={StripeIntegration} />
         <Stack.Screen name="OrderSummary" component={OrderSummary}/>
-        <Stack.Screen name="AuthenticationStack" component={AuthenticationStack} />
+        <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
+        <Stack.Screen name='InvoiceBilling' component={InvoiceBilling}/>
+        <Stack.Screen name="ContactUs" component={ContactUs}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

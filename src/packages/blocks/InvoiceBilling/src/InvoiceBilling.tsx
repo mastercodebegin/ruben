@@ -1,52 +1,15 @@
 import React from "react";
 
 // Customizable Area Start
-import {
-  SafeAreaView,
-  Dimensions,
-  PixelRatio,
-  View,
-  Text,
-  FlatList,
-  SectionList,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  CheckBox,
-  Switch,
-  Platform,
-  Image,
-  TextInput,
-  Picker,
-  ActivityIndicator,
-  Alert,
-  ImageBackground,
-  ScrollView,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-} from "react-native";
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-} from "react-native-responsive-dimensions";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-} from "react-native-simple-radio-button";
-import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
-
-//@ts-ignore
-import CustomCheckBox from "../../../components/src/CustomCheckBox";
-
-// Merge Engine - import assets - Start
-// Merge Engine - import assets - End
-
-// Merge Engine - Artboard Dimension  - Start
-let artBoardHeightOrg = 667;
-let artBoardWidthOrg = 375;
-// Merge Engine - Artboard Dimension  - End
+import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
+import { View, StyleSheet, FlatList, Alert } from "react-native";
+import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
+import RenderHeader from "./RenderHeader";
+import RenderPoducts from "./RenderProducts";
+import RenderFooter from "./RenderFooter";
+import Button from "../../../components/src/CustomButton";
+import Share from 'react-native-share';
+import { downloadFiles } from "../../../components/src/utils";
 // Customizable Area End
 
 import InvoiceBillingController, {
@@ -58,130 +21,106 @@ export default class InvoiceBilling extends InvoiceBillingController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
-    Dimensions.addEventListener("change", (e) => {
-      MergeEngineUtilities.init(
-        artBoardHeightOrg,
-        artBoardWidthOrg,
-        Dimensions.get("window").height,
-        Dimensions.get("window").width
-      );
-      this.forceUpdate();
-    });
+
     // Customizable Area End
   }
 
   // Customizable Area Start
+  async downloadInvoice() {
+    let url;
+    try{
+      url = await downloadFiles(
+        "https://www.africau.edu/images/default/sample.pdf",
+        `${new Date().getTime()}invoice.pdf`,
+        "invoice",
+        "application/pdf",
+        "invoice",
+        true,
+        true
+      )
+    }catch(e:any){
+      Alert.alert('Error',e.message)
+    }
+    return url;
+   
+  }
+  async shareInvoice(filePath:string){
+      try {
+        const fileName = 'example.pdf';
+        const shareOptions = {
+          url: `file://${filePath}`,
+          fileName
+        };
+        await Share.open(shareOptions);
+      } catch (error:any) {
+        Alert.alert('Error',error.message)
+      }
+  }
   // Customizable Area End
 
   render() {
     // Customizable Area Start
-    // Merge Engine - render - Start
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          <View>
-            {this.isPlatformWeb() ? (
-              <Text
-                testID="labelTitle" //Merge Engine::From BDS
-                style={styles.title} //UI Engine::From Sketch
-              >
-                {configJSON.labelTitleText}
-              </Text> //UI Engine::From Sketch
-            ) : null}
-
-            <Text
-              testID="labelBody" //Merge Engine::From BDS
-              style={styles.body} //UI Engine::From Sketch
-            >
-              {" "}
-              {/* UI Engine::From Sketch */}
-              {configJSON.labelBodyText} {/* UI Engine::From Sketch */}
-            </Text>
-
-            <Text testID="txtSaved">
-              This is the reviced value:
-              {this.state.txtSavedValue}{" "}
-              {/* Merge Engine::From BDS - {...this.testIDValue} */}
-            </Text>
-
-            <View style={styles.bgPasswordContainer}>
-              <TextInput
-                testID="txtInput" //Merge Engine::From BDS
-                style={styles.bgMobileInput} //UI Engine::From Sketch
-                placeholder={configJSON.txtInputPlaceholder} //UI Engine::From Sketch
-                {...this.txtInputProps} //Merge Engine::From BDS - {...this.testIDProps}
-              />
-
-              <TouchableOpacity
-                testID={"btnShowHide"} //Merge Engine::From BDS
-                style={styles.showHide} //UI Engine::From Sketch
-                {...this.btnShowHideProps} //Merge Engine::From BDS - {...this.testIDProps}
-              >
-                <Image
-                  testID={"btnShowHideImage"} //Merge Engine::From BDS - testIDImage
-                  style={styles.imgShowhide} //UI Engine::From Sketch
-                  {...this.btnShowHideImageProps} //Merge Engine::From BDS - {...this.testIDProps}
+      <HeaderWithBackArrowTemplate
+        navigation={this.props.navigation}
+        headerText="Invoice"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{ flex: 1, padding: 20 }}>
+          <View style={styles.innerContainer}>
+            <FlatList
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+              data={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]}
+              renderItem={({ index }) => <RenderPoducts index={index} />}
+              keyExtractor={(item, index) => item + "" + index}
+              contentContainerStyle={{ paddingTop: 30 }}
+              ItemSeparatorComponent={() => (
+                <View
+                  style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
-              </TouchableOpacity>
-            </View>
-
-            <Button
-              testID={"btnExample"} //Merge Engine::From BDS
-              title={configJSON.btnExampleTitle} //UI Engine::From Sketch
-              {...this.btnExampleProps} //Merge Engine::From BDS - {...this.testIDProps}
+              )}
+              ListFooterComponent={<RenderFooter />}
+              ListHeaderComponent={<RenderHeader />}
             />
           </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+          <View style={{ paddingTop: 20 }}>
+            <Button
+              testID="share_invoice_id"
+              label="Share Invoice"
+              onPress={async () => {
+                this.downloadInvoice().then((res: any) => {
+                  this.shareInvoice(res);
+                });
+              }}
+            />
+            <Button testID="download_invoice_id" label="Download Invoice" onPress={() => {}} />
+          </View>
+        </View>
+      </HeaderWithBackArrowTemplate>
     );
-    // Merge Engine - render - End
     // Customizable Area End
   }
 }
 
 // Customizable Area Start
-const styles = StyleSheet.create({
-  container: {
+export const styles = StyleSheet.create({
+  innerContainer: {
     flex: 1,
-    padding: 16,
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: Platform.OS === "web" ? "75%" : "100%",
-    maxWidth: 650,
-    backgroundColor: "#ffffffff",
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
-  title: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8,
+  date: { color: DARK_RED, fontSize: 17, paddingVertical: 5 },
+  boldDate: { fontWeight: "bold" },
+  text: { color: "grey", fontSize: 17, paddingVertical: 3 },
+  greyContainer: {
+    backgroundColor: LIGHT_GREY,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 20,
   },
-  body: {
-    marginBottom: 32,
-    fontSize: 16,
-    textAlign: "left",
-    marginVertical: 8,
-  },
-  bgPasswordContainer: {
-    flexDirection: "row",
-    backgroundColor: "#00000000",
-    marginBottom: 16,
-    borderBottomWidth: 1,
-    borderColor: "#767676",
-    borderRadius: 2,
-    padding: 10,
-    borderWidth: Platform.OS === "web" ? 0 : 1,
-  },
-  bgMobileInput: {
-    flex: 1,
-  },
-  showHide: {
-    alignSelf: "center",
-  },
-  imgShowhide: Platform.OS === "web" ? { height: 30, width: 30 } : {},
 });
 // Customizable Area End

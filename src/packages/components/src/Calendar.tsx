@@ -10,6 +10,9 @@ import {
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 //@ts-ignore
 import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
+import moment from "moment";
+import { addDays } from 'date-fns';
+
 const backArrow = require("./arrow_left.png");
 const monthNames = [
   "January",
@@ -31,8 +34,45 @@ const getMonthName = (timestamp: number) => {
   const month = monthNames[date.getMonth()];
   return `${month} ${year}`;
 };
+
 const Calendar = () => {
   const [month, setMonth] = useState(new Date().getTime());
+  const [selectedDate, setSelectedDate] = useState("");
+  const [markDate, setMarkDate] = useState({
+    "2023-05-19": { startingDay: true, color: PRIMARY, textColor: "white" },
+    "2023-05-20": { color: LIGHT_GREY, textColor: DARK_RED },
+    "2023-05-21": { color: LIGHT_GREY, textColor: DARK_RED },
+    "2023-05-22": { color: LIGHT_GREY, textColor: DARK_RED },
+    "2023-05-23": {
+      color: LIGHT_GREY,
+      textColor: DARK_RED,
+      dotColor: "white",
+    },
+    "2023-05-24": { color: LIGHT_GREY, textColor: DARK_RED },
+    "2023-05-25": { endingDay: true, color: PRIMARY, textColor: "white" },
+  });
+
+  const today = moment();
+  const getSelectedDayEvents = (date: any) => {
+    var dict: any = {}
+    var dateObj = new Date(date.dateString);
+    var newDate = new Date(date.dateString);
+    var  counter = 0;
+    newDate.setDate(dateObj.getDate()+7);
+    while (dateObj < newDate){
+      let momentObj = moment(dateObj, 'MM-DD-YYYY');
+      let date = momentObj.format('YYYY-MM-DD')
+      dict[date] = {  startingDay: counter == 0 ? true : false, 
+        color:  counter == 0 || counter == 6 ? PRIMARY : LIGHT_GREY, 
+        textColor: counter == 0 || counter == 6 ? "white"  : DARK_RED, 
+        endingDay : counter == 6 ? true : false},
+      counter = counter + 1
+      let addOneMoreDay = moment(dateObj).add(1, 'days').toDate();
+      dateObj =  addOneMoreDay // you are updating the same object again and again, so here I am creating new object
+  }
+    setMarkDate(dict);
+  };
+
   const theme = {
     "stylesheet.calendar.header": {
       header: styles.header,
@@ -105,26 +145,17 @@ const Calendar = () => {
       setMonth(month.timestamp);
     },
     markingType: "period",
-    markedDates: {
-      "2023-05-19": { startingDay: true, color: PRIMARY, textColor: "white" },
-      "2023-05-20": { color: LIGHT_GREY, textColor: DARK_RED },
-      "2023-05-21": { color: LIGHT_GREY, textColor: DARK_RED },
-      "2023-05-22": { color: LIGHT_GREY, textColor: DARK_RED },
-      "2023-05-23": {
-        color: LIGHT_GREY,
-        textColor: DARK_RED,
-        dotColor: "white",
-      },
-      "2023-05-24": { color: LIGHT_GREY, textColor: DARK_RED },
-      "2023-05-25": { endingDay: true, color: PRIMARY, textColor: "white" },
-    },
+    markedDates: markDate,
     firstDay: 0,
+    onDayPress: (day: any) => {
+      getSelectedDayEvents(day);
+    },
   };
   const changeMonth = (duration: number) => {
     //@ts-ignore
     calendarRef.current.addMonth(duration);
     console.log(calendarRef.current);
-    
+
   };
   LocaleConfig.locales["fr"] = {
     monthNames,
@@ -147,13 +178,13 @@ const Calendar = () => {
   };
   LocaleConfig.defaultLocale = "fr";
   return (
-    <View style={styles.main}>
+    <View style={styles.main} testID="calendar">
       <View style={styles.overFlow}>
         <View style={styles.headerContainer}>
           <View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={styles.month}>{getMonthName(month)}</Text>
-              <TouchableOpacity onPress={()=>changeMonth(12)} style={{ paddingLeft: 10 }}>
+              <TouchableOpacity onPress={() => changeMonth(12)} style={{ paddingLeft: 10 }}>
                 <Image style={styles.back} source={backArrow} />
               </TouchableOpacity>
             </View>

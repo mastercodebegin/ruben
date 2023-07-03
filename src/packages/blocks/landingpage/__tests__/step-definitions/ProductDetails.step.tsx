@@ -2,7 +2,9 @@ import { defineFeature, loadFeature } from "jest-cucumber";
 import { shallow, ShallowWrapper } from "enzyme";
 import React from "react";
 import ProductDetails from "../../src/ProductDetails/ProductDetails";
-
+import  RenderAboutThisFarm from "../../src/ProductDetails/RenderAboutThisFarm";
+import RenderSteps from "../../src/ProductDetails/RenderSteps";
+import { render } from "@testing-library/react-native";
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -14,7 +16,9 @@ const screenProps = {
   route: {},
 };
 
-const feature = loadFeature("./__tests__/features/ProductDetails-scenario.feature");
+const feature = loadFeature(
+  "./__tests__/features/ProductDetails-scenario.feature"
+);
 
 defineFeature(feature, (test) => {
   beforeEach(() => {
@@ -64,5 +68,10 @@ defineFeature(feature, (test) => {
       );
       touchableOpacity.simulate("press");
     });
+
+    then("user can see about this farm",()=>{
+      render(<RenderAboutThisFarm/>);
+      render(<RenderSteps header={""} description={""} images={[]}/>);
+    })
   });
 });

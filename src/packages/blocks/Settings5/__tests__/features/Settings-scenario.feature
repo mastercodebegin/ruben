@@ -8,6 +8,7 @@ Feature: Settings
         Then User pressing my orders Screen button to navigate to  my orders screen
         Then User pressing delete account button
         Then User pressing logout button
+        Then User pressing contact us button
         Then User pressing cold packaging trigget
         Then User pressing lifetime subscribing trigger
         Then I can leave the screen with out errors

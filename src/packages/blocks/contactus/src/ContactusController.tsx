@@ -34,6 +34,7 @@ interface S {
   activeDescription: string;
   activeCreatedAt: string;
   isVisible: boolean;
+  query: string;
   // Customizable Area End
 }
 
@@ -76,6 +77,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
       activeDescription: "",
       activeCreatedAt: "",
       isVisible: false,
+      query: "",
     };
 
     // Customizable Area End
@@ -103,7 +105,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
 
   async receive(from: string, message: Message) {
     // Customizable Area Start
-     if (getName(MessageEnum.SessionResponseMessage) === message.id) {
+    if (getName(MessageEnum.SessionResponseMessage) === message.id) {
       let token = message.getData(getName(MessageEnum.SessionResponseToken));
       runEngine.debugLog("TOKEN", token);
       this.setState({ token: token });
