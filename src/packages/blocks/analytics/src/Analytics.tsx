@@ -32,6 +32,9 @@ export default class Analytics extends AnalyticsController {
   }
 
   // Customizable Area Start
+  async componentDidMount() {
+    this.getCategoryList()
+  }
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
   data = {
@@ -167,19 +170,23 @@ export default class Analytics extends AnalyticsController {
                     selectedTextStyle={styles.selectedTextStyle}
                     iconStyle={styles.iconStyle}
                     containerStyle={styles.containerStyle}
-                    data={this.state.animalList}
+                    data={this.state.categoryList}
                     maxHeight={400}
-                    placeholder="Cow"
+                    placeholder={this.state.category_title}
                     onChange={(item: any) => {
+                      this.setState({category_id: item?.id})
+                      this.setState({category_title:  item?.attributes?.name})
                     }}
                     renderItem={(item: any) => {
                       return (
                         <View>
-                          <Text style={styles.textItem}>{item?.title}</Text>
+                          <Text style={styles.textItem}>{item?.attributes?.name}</Text>
                         </View>
                       )
                     }}
-                    value={this.state.animalList}
+                    value={this.state.category_title}
+                    // value={() => this.setValue()}
+                    // {...this.DropDownProps}
                   />
                 </View>
                 <View style={[styles.chartView, { marginTop: 50 }]}>
