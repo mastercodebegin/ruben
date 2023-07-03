@@ -13,5 +13,4 @@ exports.labelTitleText = "Analytics";
 exports.labelBodyText = "Analytics Body";
 
 exports.btnExampleTitle = "CLICK ME";
-exports.getCategories = "bx_block_categories/categories";
 // Customizable Area End
