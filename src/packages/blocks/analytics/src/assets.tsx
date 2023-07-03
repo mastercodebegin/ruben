@@ -8,4 +8,5 @@ export const cow_shank = require("../assets/cow_shank.png");
 export const cow_chuch = require("../assets/cow_chuck.png");
 export const cow_shortlion = require("../assets/cow_shortlion.png");
 export const cow_sirlion = require("../assets/cow_sirlion.png");
+export const chicken = require('../assets/chicken.png')
 
