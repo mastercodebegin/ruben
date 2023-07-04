@@ -184,9 +184,7 @@ export default class Analytics extends AnalyticsController {
                     value={this.state.animalList}
                   />
                 </View>
-               <View style={{padding:0}} testID="AnimalImage_View">
                 <AnimalAnalytics />
-               </View>
 
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
