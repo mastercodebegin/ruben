@@ -9,6 +9,7 @@ exports.httpDeleteMethod = "DELETE";
 
 exports.contactUsApiContentType = "application/json";
 exports.getContactUsAPiEndPoint = "contact_us/contacts";
+exports.submitQueryEndPoint = "bx_block_contact_us/contacts";
 
 exports.errorTitle = "Error";
 exports.errorAllFieldsAreMandatory = "All fields are mandatory.";
