@@ -131,27 +131,27 @@ export default class AnimalAnalytics extends AnalyticsController {
                   source={cow_foreshank}
                 />
               }
-              <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck}>
+              <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck} testID="cowChuck">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnCowhead() }} style={styles.clickOnHead}>
+              <TouchableOpacity onPress={() => { this.clickOnCowhead() }} style={styles.clickOnHead} testID="cowHead">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnCowRib() }} style={styles.clickOnRib}>
+              <TouchableOpacity onPress={() => { this.clickOnCowRib() }} style={styles.clickOnRib} testID="cowRib">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnShortlion() }} style={styles.clickOnShortlionStyle}>
+              <TouchableOpacity onPress={() => { this.clickOnShortlion() }} style={styles.clickOnShortlionStyle} testID="cowShortlion">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnSirlion() }} style={styles.clickOnSirlion}>
+              <TouchableOpacity onPress={() => { this.clickOnSirlion() }} style={styles.clickOnSirlion} testID="cowSirLion">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnRound() }} style={styles.clickOnRound}>
+              <TouchableOpacity onPress={() => { this.clickOnRound() }} style={styles.clickOnRound} testID="cowRound">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnShank() }} style={styles.clickOnshank}>
+              <TouchableOpacity onPress={() => { this.clickOnShank() }} style={styles.clickOnshank} testID="cowShank">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnFlank() }} style={styles.clickOnFlank}>
+              <TouchableOpacity onPress={() => { this.clickOnFlank() }} style={styles.clickOnFlank} testID="cowFlank">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnShortPlate() }} style={styles.clickOnShortPlate}>
+              <TouchableOpacity onPress={() => { this.clickOnShortPlate() }} style={styles.clickOnShortPlate} testID="cowShortplate">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnForeShank() }} style={styles.clickOnForeShank}>
+              <TouchableOpacity onPress={() => { this.clickOnForeShank() }} style={styles.clickOnForeShank} testID="cowForeShank">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket}>
+              <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket} testID="cowBrisket">
               </TouchableOpacity>
             </View> 
           }

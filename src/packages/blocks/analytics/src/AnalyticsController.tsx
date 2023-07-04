@@ -109,7 +109,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         title: 'Dog',
         id: 3,
       },],
-      animalSelectedValue:'',
+      animalSelectedValue:'Cow',
       chicken_Defult:true,
       chicken_Breast:false,
       chicken_Back:false,
