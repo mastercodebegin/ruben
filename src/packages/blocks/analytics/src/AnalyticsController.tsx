@@ -42,6 +42,15 @@ interface S {
   showAnimalList:boolean;
   animalList: Array<object>;
   animalSelectedValue:string;
+  chicken_Defult:boolean;
+  chicken_Breast:boolean;
+  chicken_leg:boolean;
+  chicken_Neck:boolean;
+  chicken_Back:boolean;
+  chicken_Wing:boolean;
+  chicken_Thigh:boolean;
+
+
   // Customizable Area End
 }
 
@@ -89,7 +98,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         id: 0
       },
       {
-        title: 'Fish',
+        title: 'Chicken',
         id: 1
       },
       {
@@ -100,7 +109,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         title: 'Dog',
         id: 3,
       },],
-      animalSelectedValue:'Cow'
+      animalSelectedValue:'',
+      chicken_Defult:true,
+      chicken_Breast:false,
+      chicken_Back:false,
+      chicken_leg:false,
+      chicken_Neck:false,
+      chicken_Thigh:false,
+      chicken_Wing:false
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -302,6 +318,73 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Short_lion: false,
       cow_Rib: false,
       cow_Brisket:true 
+    })
+  }
+  // Chicken
+  clickOnChickenNeck(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:false,
+      chicken_Back:false,
+      chicken_leg:false,
+      chicken_Neck:true,
+      chicken_Thigh:false,
+      chicken_Wing:false
+    })
+  }
+  clickOnChickenBack(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:false,
+      chicken_Back:true,
+      chicken_leg:false,
+      chicken_Neck:false,
+      chicken_Thigh:false,
+      chicken_Wing:false
+    })
+  }
+  clickOnChickenBreast(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:true,
+      chicken_Back:false,
+      chicken_leg:false,
+      chicken_Neck:false,
+      chicken_Thigh:false,
+      chicken_Wing:false
+    })
+  }
+  clickOnChickenWing(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:false,
+      chicken_Back:false,
+      chicken_leg:false,
+      chicken_Neck:false,
+      chicken_Thigh:false,
+      chicken_Wing:true
+    })
+  }
+  clickOnChickenLeg(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:false,
+      chicken_Back:false,
+      chicken_leg:true,
+      chicken_Neck:false,
+      chicken_Thigh:false,
+      chicken_Wing:false
+    })
+  }
+  clickOnChickenThigh(){
+    this.setState({
+      chicken_Defult:false,
+      chicken_Breast:false,
+      chicken_Back:false,
+      chicken_leg:false,
+      chicken_Neck:false,
+      chicken_Thigh:true,
+      chicken_Wing:false
     })
   }
   // Customizable Area End

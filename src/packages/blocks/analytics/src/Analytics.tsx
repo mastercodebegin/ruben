@@ -73,7 +73,6 @@ export default class Analytics extends AnalyticsController {
   // Customizable Area End
 
   render() {
-    console.log("item list", this.state.animalList)
     return (
       // Customizable Area Start
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
@@ -171,9 +170,8 @@ export default class Analytics extends AnalyticsController {
                     containerStyle={styles.containerStyle}
                     data={this.state.animalList}
                     maxHeight={400}
-                    placeholder="Cow"
+                    placeholder={this.state.animalSelectedValue}
                     onChange={(item:any) => {
-                      console.log("selected value",this.state.animalSelectedValue)
                       this.setState({animalSelectedValue : item?.title})
                     }}
                     renderItem={(item: any) => {
