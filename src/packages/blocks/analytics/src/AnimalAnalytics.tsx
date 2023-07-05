@@ -6,13 +6,12 @@ import {
   Text,
   // Customizable Area Start
   TouchableOpacity,
-  Image,
-  FlatList,
+  Image
   // Customizable Area End
 } from "react-native";
 import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg, cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
+import AnalyticsController, { Props } from "./AnalyticsController";
 
 export default class AnimalAnalytics extends AnalyticsController {
   constructor(props: Props) {
@@ -30,14 +29,6 @@ export default class AnimalAnalytics extends AnalyticsController {
       // Customizable Area Start
       <View style={styles.container}>
         <View style={styles.animalImgContainer}>
-          {/* {this.state.chuck &&
-            <View style={styles.hoverView}>
-              <View style={styles.graphContainer}>
-              </View>
-              <View style={styles.linebottom}>
-              </View>
-            </View>
-          } */}
           {this.state.animalSelectedValue == 'Cow' &&
             <View style={styles.animalImgCont}>
               {this.state.cow_Defult &&
