@@ -29,23 +29,24 @@ export default class AnimalAnalytics extends AnalyticsController {
       // Customizable Area Start
       <View style={styles.container}>
         <View style={styles.animalImgContainer}>
-          {this.state.animalSelectedValue == 'Cow' &&
+          {this.state.animalSelectedValue == 'Cow' ?
             <View style={styles.animalImgCont}>
-              {this.state.cow_Defult &&
+              {this.state.cow_Defult ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_head}
                 />
+                : null
               }
-              {this.state.cowHead &&
+              {this.state.cowHead ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_head}
-                />
+                /> : null
               }
-              {this.state.chuck &&
+              {this.state.chuck ?
                 <>
                   <View style={styles.hoverView}>
                     <View style={styles.graphContainer}>
@@ -58,69 +59,79 @@ export default class AnimalAnalytics extends AnalyticsController {
                     resizeMode="contain"
                     source={cow_chuch} />
                 </>
+                : null
               }
-              {this.state.cow_Rib &&
+              {this.state.cow_Rib ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_rib}
                 />
+                : null
               }
-              {this.state.cow_Short_lion &&
+              {this.state.cow_Short_lion ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_shortlion}
                 />
+                : null
               }
-              {this.state.cow_Sirllion &&
+              {this.state.cow_Sirllion ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_sirlion}
                 />
+                : null
               }
-              {this.state.cow_Round &&
+              {this.state.cow_Round ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_round}
                 />
+                : null
               }
-              {this.state.cow_shank &&
+              {this.state.cow_shank ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_shank}
                 />
+                : null
               }
-              {this.state.cow_Flank &&
+              {this.state.cow_Flank ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_flank}
                 />
+                : null
               }
-              {this.state.cow_Short_plate &&
+              {this.state.cow_Short_plate ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_shortlion}
                 />
+                : null
               }
-              {this.state.cow_Brisket &&
+              {this.state.cow_Brisket ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_brisket}
                 />
+                : null
               }
-              {this.state.cow_Fore_Shank &&
+              {this.state.cow_Fore_Shank ?
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
                   source={cow_foreshank}
                 />
+                : null
               }
               <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck} testID="cowChuck">
               </TouchableOpacity>
@@ -144,59 +155,67 @@ export default class AnimalAnalytics extends AnalyticsController {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket} testID="cowBrisket">
               </TouchableOpacity>
-            </View> 
+            </View> :
+            null
           }
-         {this.state.animalSelectedValue == 'Chicken' &&
+         {this.state.animalSelectedValue == 'Chicken' ?
            <View style={styles.animalImgCont}>
     
-           {this.state.chicken_Defult &&
+           {this.state.chicken_Defult ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken}
              />
+             : null
            }
-           {this.state.chicken_Neck &&
+           {this.state.chicken_Neck ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_Neck}
              />
+             : null
            }
-            {this.state.chicken_Back &&
+            {this.state.chicken_Back ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_Back}
              />
+             : null
            }
-           {this.state.chicken_Breast &&
+           {this.state.chicken_Breast ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_Breast}
              />
+             : null
            }
-           {this.state.chicken_Wing &&
+           {this.state.chicken_Wing ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_Wing}
              />
+             : null
            }
-           {this.state.chicken_leg &&
+           {this.state.chicken_leg ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_leg}
              />
+             : null
            }
-           {this.state.chicken_Thigh &&
+           {this.state.chicken_Thigh ?
              <Image
                style={styles.animalImg}
                resizeMode="contain"
                source={chicken_Thigh}
              />
+             : null
            }
            <TouchableOpacity onPress={() => { this.clickOnChickenNeck() }} style={styles.clickOnChickenNeck}>
            </TouchableOpacity>
@@ -212,7 +231,8 @@ export default class AnimalAnalytics extends AnalyticsController {
            </TouchableOpacity>
            
 
-         </View>
+         </View> :
+         null
          }
           <View style={styles.bottomContainer}>
             <View style={styles.rowContainer}>
