@@ -10,7 +10,7 @@ jest.mock("../../components/src/ShowToast", () => ({
   jest.mock("../../framework/src/Utilities", () => ({
     getStorageData:jest.fn((_,key) => {
       return new Promise((resolve) => {
-        resolve(JSON.stringify({ meta: { token: "rtretwftyweyfwtfeytwf" } }));
+        resolve({ meta: { token: "rtretwftyweyfwtfeytwf" } });
       });
     })
   }));
