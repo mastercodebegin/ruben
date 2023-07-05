@@ -44,16 +44,17 @@ export default class Contactus extends ContactusController {
             <TextInput
               textInputStyle={[styles.textinput, { height: 120 }]}
               labeStyle={styles.label}
-              value={this.state.query}
+              value={this.state.comments}
               testID="query_test_id"
-              onchangeText={(query) => this.setState({ query })}
+              onchangeText={(comments) => this.setState({ comments })}
               label="Enter Query"
               multiline
             />
             <Button
               label="Submit"
+              testID="submit_query_test_id"
               containerStyle={{ marginTop: 20 }}
-              onPress={() => {}}
+              onPress={() => this.addQueryApi()}
             />
             <Button
               label="cancel"
