@@ -9,7 +9,7 @@ import {
   Image
   // Customizable Area End
 } from "react-native";
-import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg, cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
+import {cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
 import AnimalChicken from "./AnimalChicken";

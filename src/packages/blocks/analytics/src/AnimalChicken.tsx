@@ -3,7 +3,6 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Text,
   // Customizable Area Start
   TouchableOpacity,
   Image
