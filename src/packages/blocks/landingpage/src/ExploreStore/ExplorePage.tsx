@@ -98,7 +98,7 @@ export class ExplorePage extends LandingPageController {
           >
             <View style={styles.innerContainer}>
               <View style={{ paddingHorizontal: 20 }}>
-                <Text style={styles.header}>Store</Text>
+                <Text style={styles.header}>Store </Text>
                 <View style={styles.textInputContainer}>
                   <View style={styles.searchContainer}>
                     <Image
@@ -170,12 +170,14 @@ export class ExplorePage extends LandingPageController {
               <RenderItems
                 onPressCart={this.addToCart.bind(this)}
                 onpressFav={this.AddToFavorites.bind(this)}
+                handleLoadMore={() => { this.handleLoadMore() }}
                 item={this.state.productList}
                 rating={false}
               />
               <RenderItems
                 onPressCart={this.addToCart.bind(this)}
                 onpressFav={this.AddToFavorites.bind(this)}
+                handleLoadMore={() => { this.handleLoadMore() }}
                 item={this.state.productList}
                 header={true}
                 rating={true}
