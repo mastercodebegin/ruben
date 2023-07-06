@@ -12,6 +12,7 @@ import {
 import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg, cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
+import AnimalChicken from "./AnimalChicken";
 
 export default class AnimalAnalytics extends AnalyticsController {
   constructor(props: Props) {
@@ -148,69 +149,7 @@ export default class AnimalAnalytics extends AnalyticsController {
               </View>
             }
             {this.state.animalSelectedValue == 'Chicken' &&
-              <View style={styles.animalImgCont}>
-                {this.state.chicken_Defult &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken}
-                  />
-                }
-                {this.state.chicken_Neck &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_Neck}
-                  />
-                }
-                {this.state.chicken_Back &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_Back}
-                  />
-                }
-                {this.state.chicken_Breast &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_Breast}
-                  />
-                }
-                {this.state.chicken_Wing &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_Wing}
-                  />
-                }
-                {this.state.chicken_leg &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_leg}
-                  />
-                }
-                {this.state.chicken_Thigh &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={chicken_Thigh}
-                  />
-                }
-                <TouchableOpacity onPress={() => { this.clickOnChickenNeck() }} style={styles.clickOnChickenNeck}>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnChickenBack() }} style={styles.clickOnChickenBack}>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnChickenBreast() }} style={styles.clickOnChickenBreast}>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnChickenWing() }} style={styles.clickOnChickenWing}>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnChickenLeg() }} style={styles.clickOnChickenLeg}>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnChickenThigh() }} style={styles.clickOnChickenThigh}>
-                </TouchableOpacity>
-              </View>
+              <AnimalChicken navigation={undefined} id={""} setState={undefined} state={undefined} />
             }
           </>
           <View style={styles.bottomContainer}>
@@ -390,70 +329,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 20,
-  },
-  // chicken
-  clickOnChickenNeck: {
-    width: 40,
-    height: 65,
-    position: 'absolute',
-    top: 2,
-    left: 40,
-    borderTopRightRadius: 40,
-    borderBottomRightRadius: 20,
-    transform: [{ rotate: '-15deg' }],
-  },
-  clickOnChickenBack: {
-    width: 82,
-    height: 23,
-    position: 'absolute',
-    top: 58,
-    left: 80,
-    borderBottomLeftRadius: 15,
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 10,
-  },
-  clickOnChickenBreast: {
-    width: 35,
-    height: 72,
-    position: 'absolute',
-    top: 68,
-    left: 55,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 20,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 0,
-    transform: [{ rotate: '-15deg' }],
-  },
-  clickOnChickenWing: {
-    width: 73,
-    height: 32,
-    position: 'absolute',
-    top: 83,
-    left: 95,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 40,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 20,
-    transform: [{ rotate: '10deg' }],
-  },
-  clickOnChickenLeg: {
-    width: 40,
-    height: 52,
-    position: 'absolute',
-    bottom: 20,
-    left: 105,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  clickOnChickenThigh: {
-    width: 55,
-    height: 38,
-    position: 'absolute',
-    bottom: 58,
-    right: 55,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 0,
-    transform: [{ rotate: '-35deg' }],
   }
 });
 // Customizable Area End
