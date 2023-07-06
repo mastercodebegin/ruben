@@ -149,7 +149,6 @@ export default class AnimalAnalytics extends AnalyticsController {
             }
             {this.state.animalSelectedValue == 'Chicken' &&
               <View style={styles.animalImgCont}>
-
                 {this.state.chicken_Defult &&
                   <Image
                     style={styles.animalImg}
