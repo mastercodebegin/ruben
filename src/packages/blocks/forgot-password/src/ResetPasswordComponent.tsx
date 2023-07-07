@@ -124,7 +124,7 @@ export default class ResetComponent extends  BlockComponent<Props, S, SS>  {
             <Image style={styles.back} source={backArrow} />
           </TouchableOpacity>
           <Text style={styles.header}>
-            Confirm E-Mail to get the link
+            Confirm E-Mail to Get the Link
           </Text>
           <Text style={styles.label}>
             Enter your E-Mail ID to get the link
