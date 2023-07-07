@@ -187,6 +187,7 @@ export default class Myprofile extends LandingPageController {
               showsHorizontalScrollIndicator={false}
             >
               <TouchableOpacity
+                testID="go_to_favorites_id"
                 onPress={() =>
                   this.setState({ selectedTab: "MyFavoritesScreen" })
                 }
@@ -202,6 +203,7 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                testID="go_to_recomendations_id"
                 onPress={() => this.setState({ selectedTab: "Recomendations" })}
               >
                 <Text
