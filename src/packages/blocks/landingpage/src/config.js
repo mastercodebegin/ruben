@@ -25,4 +25,5 @@ exports.getAboutUs="bx_block_content_management/contents";
 exports.getOrderDetails="bx_block_shopping_cart/orders/order_alerts";
 exports.addToCart='bx_block_shopping_cart/order_items';
 exports.favoritesEndPoint="bx_block_favourites/favourites";
+exports.getProductListEndpoint="bx_block_catalogue/catalogues"
 // Customizable Area End
