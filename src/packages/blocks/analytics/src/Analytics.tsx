@@ -15,6 +15,7 @@ import {
   // Customizable Area End
 } from "react-native";
 // Customizable Area Start
+import AnimalAnalytics from "./AnimalAnalytics";
 import { BarChart } from "react-native-chart-kit";
 import { DARK_RED, SCREEN_WIDTH } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
@@ -169,8 +170,9 @@ export default class Analytics extends AnalyticsController {
                     containerStyle={styles.containerStyle}
                     data={this.state.animalList}
                     maxHeight={400}
-                    placeholder="Cow"
-                    onChange={(item: any) => {
+                    placeholder={this.state.animalSelectedValue}
+                    onChange={(item:any) => {
+                      this.setState({animalSelectedValue : item?.title})
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -182,8 +184,7 @@ export default class Analytics extends AnalyticsController {
                     value={this.state.animalList}
                   />
                 </View>
-                <View style={[styles.chartView, { marginTop: 50 }]}>
-                </View>
+                <AnimalAnalytics />
 
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
