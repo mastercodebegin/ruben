@@ -42,7 +42,7 @@ target 'RuebensFTCApp' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'FBSDKPlacesKit'
-
+  pod 'GoogleUtilities', :modular_headers => true
   pod 'GoogleSignIn', '~> 5.0.2'
   pod 'Firebase/Analytics'
 
@@ -110,7 +110,10 @@ target 'RuebensFTCApp' do
   pod 'react-native-simple-toast', :path => '../../../node_modules/react-native-simple-toast'
 
   pod 'react-native-encrypted-storage', :path => '../../../node_modules/react-native-encrypted-storage'
+  
+  pod 'FirebaseCore', :modular_headers => true
 
+  pod 'RNFBMessaging', :path => '../../../node_modules/@react-native-firebase/messaging'
   target 'RuebensFTCAppTests' do
     inherit! :search_paths
     # Pods for testing

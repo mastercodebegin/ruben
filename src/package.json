@@ -24,6 +24,7 @@
     "@react-native-community/checkbox": "file:./packages/blocks/core/node_modules/@react-native-community/checkbox",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "file:./packages/blocks/core/node_modules/@react-native-community/netinfo",
+    "@react-native-firebase/messaging": "file:./packages/blocks/core/node_modules/@react-native-firebase/messaging",
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-navigation/native": "file:./packages/blocks/core/node_modules/@react-navigation/native",
     "@react-navigation/native-stack": "^6.9.10",

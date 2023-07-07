@@ -2,6 +2,8 @@ import { Share ,Platform} from "react-native";
 import RNFetchBlob from "rn-fetch-blob";
 export const isIOs = Platform.OS === 'ios';
 import { createStore } from 'redux';
+import messaging from '@react-native-firebase/messaging';
+
 const imagePath = isIOs ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
 export const downloadFiles = (
   url: string,
@@ -126,3 +128,9 @@ const reducer = (state = initialState, action: any) => {
       }
     },
   };
+
+  export const getFCMToken= async ()=>{
+      await messaging().registerDeviceForRemoteMessages()
+      const token = await messaging().getToken()
+      return token;
+  }
