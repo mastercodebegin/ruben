@@ -78,8 +78,8 @@ export default class StripeIntegration extends StripeIntegrationController {
   // Customizable Area Start
   handleExpiryDate = (text: string) => {
     console.log("change-->", text)
-    let year = moment().format("YY");
-    let textTemp = text;
+    let year: string = moment().format("YY");
+    let textTemp: any = text;
     if (textTemp[0] !== "1" && textTemp[0] !== "0") {
       textTemp = "";
     }
@@ -100,10 +100,11 @@ export default class StripeIntegration extends StripeIntegrationController {
       }
     }
     if (textTemp.length > 3) {
-      if (parseInt(textTemp[3]) < parseInt(year / 10)) {
+      let yearN = Number(year)
+      if (parseInt(textTemp[3]) < ( yearN / 10)) {
         textTemp = textTemp.slice(0, 3);
       }
-      if (parseInt(textTemp[4]) < year % 10) {
+      if (parseInt(textTemp[4]) < yearN % 10) {
         textTemp[4] = "";
         textTemp = textTemp.slice(0, 4);
       }

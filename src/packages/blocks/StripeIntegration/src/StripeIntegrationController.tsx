@@ -216,7 +216,7 @@ export default class StripeIntegrationController extends BlockComponent<
     myHeaders.append("Content-Type", "text/plain");
     var raw = "\n";
     
-    var requestOptions = {
+    var requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
@@ -269,7 +269,7 @@ export default class StripeIntegrationController extends BlockComponent<
       }
     });
 
-    var requestOptions = {
+    var requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
