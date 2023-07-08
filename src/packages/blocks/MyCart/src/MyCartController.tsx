@@ -8,6 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import { showToast } from "../../../components/src/ShowToast";
+import { store } from "../../../components/src/utils";
 const configJSON = require('../config.js')
 export interface Props {
   navigation: any;
@@ -65,18 +66,14 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       this.removeItemCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      let increaseCartResponse = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      console.log('increaseCartResponse ',increaseCartResponse);
-      
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
-        showToast('success')
+        showToast('success');
+        this.getCart();
       }
     }else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -125,6 +122,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if(error){
       this.showAlert()
     }else{
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
       this.setState({
         productsList:prodList?.attributes?.order_items?.data,
         order_id:prodList?.id,showLoader:false

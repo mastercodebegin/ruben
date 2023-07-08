@@ -24,7 +24,7 @@ const ProductDetailComponent = ({
             <View style={styles.counterContainer}>
               <TouchableOpacity
                 onPress={() => onpressIncrease(false)}
-                style={styles.button}
+                style={[styles.button,quantity === 1 && {display:"none"}]}
               >
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
