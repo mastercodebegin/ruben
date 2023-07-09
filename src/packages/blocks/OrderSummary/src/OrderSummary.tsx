@@ -160,11 +160,11 @@ export default class OrderSummary extends OrderSummaryController {
               <PaymentDetails
                 header="PAYMENT DETAILS"
                 list={[
-                  { question: "Subtotal", ans: "$455.00"  },
-                  { question: "Discount", ans: "- $60.00 (10%)" },
-                  { question: "Shipping Charges", ans: "$12.00"  },
+                  { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
+                  { question: "Discount", ans: `- $${this.state.discount.toFixed(2)} (${(this.state.discount / this.state.subtotal * 100).toFixed(2)}%)` },
+                  { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
-                footer={{question: "Total", ans: "$407.00"}}
+                footer={{question: "Total", ans: `$${(this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2)}`}}
               />
             </View>
             {this.state.selectedTab === "pickup" ? (

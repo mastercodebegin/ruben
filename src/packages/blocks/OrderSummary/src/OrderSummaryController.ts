@@ -22,6 +22,9 @@ interface S {
   addressList: Array<any>;
   productsList:Array<any>;
   currentStorageClass: string;
+  subtotal: number;
+  discount: number;
+  shipping: number;
 }
 
 interface SS {
@@ -29,9 +32,9 @@ interface SS {
 }
 
 export default class OrderSummaryController extends BlockComponent<
-  Props,
-  S,
-  SS
+Props,
+S,
+SS
 > {
   constructor(props: Props) {
     super(props);
@@ -50,7 +53,10 @@ export default class OrderSummaryController extends BlockComponent<
       show_modal: false,
       addressList: [],
       productsList: [],
-      currentStorageClass: ''
+      currentStorageClass: '',
+      subtotal: 0,
+      discount: 60,
+      shipping: 12
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -62,8 +68,8 @@ export default class OrderSummaryController extends BlockComponent<
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getPersonelDetails != null &&
-      this.getPersonelDetails ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    this.getPersonelDetails ===
+  message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let PersonelDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -74,16 +80,16 @@ export default class OrderSummaryController extends BlockComponent<
       if (
         !error &&
         PersonelDetails.data &&
-        PersonelDetails.data.length &&
-        PersonelDetails.data.length > 0
+      PersonelDetails.data.length &&
+    PersonelDetails.data.length > 0
       ) {
         this.setState({ addressList: PersonelDetails.data });
       }
     }else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getCartId != null &&
-      this.getCartId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    this.getCartId ===
+  message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let productsList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -93,7 +99,7 @@ export default class OrderSummaryController extends BlockComponent<
       );
       const prodList = productsList?.data[0]
       this.getCartCallBack(prodList,error)
-      
+
     }
   }
   async getAddressList() {
@@ -145,7 +151,7 @@ export default class OrderSummaryController extends BlockComponent<
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpGetMethod
+      configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
@@ -155,11 +161,16 @@ export default class OrderSummaryController extends BlockComponent<
       this.setState({showLoader: false})
       alert('Error getting items in cart!')
     }else{
+      let subtotal = 0;
+      for (const item of prodList?.attributes?.order_items?.data) {
+        subtotal += +item.attributes?.catalogue?.data?.attributes?.price
+      }
+
       this.setState({
         showLoader: false,
         productsList:prodList?.attributes?.order_items?.data,
+        subtotal
       })
     }
   }
 }
-
