@@ -223,7 +223,8 @@ export default class OrderSummary extends OrderSummaryController {
                   zip_code,
                   subtotal: this.state.subtotal,
                   shipping: this.state.shipping,
-                  discount: this.state.discount
+                  discount: this.state.discount,
+                  storageClass: this.state.currentStorageClass
                 })}
               }
               button2Label="Cancel"
