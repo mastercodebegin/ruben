@@ -150,12 +150,14 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-            <View style={styles.deliverContainer}>
-              <Text style={styles.deliverText}>Deliver in 24hrs</Text>
-              <TouchableOpacity style={styles.deliverPrice}>
-                <Text style={styles.deliverPriceText}>{"+ $25.99"}</Text>
-              </TouchableOpacity>
-            </View>
+            {!this.state.deliverWithinADay &&
+              <View style={styles.deliverContainer}>
+                <Text style={styles.deliverText}>Deliver in 24hrs</Text>
+                <TouchableOpacity style={styles.deliverPrice} onPress={this.deliverWithinADayClicked}>
+                  <Text style={styles.deliverPriceText}>{"+ $25.99"}</Text>
+                </TouchableOpacity>
+              </View>
+            }
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"

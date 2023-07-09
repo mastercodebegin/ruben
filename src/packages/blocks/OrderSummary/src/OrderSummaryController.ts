@@ -25,6 +25,7 @@ interface S {
   subtotal: number;
   discount: number;
   shipping: number;
+  deliverWithinADay: boolean;
 }
 
 interface SS {
@@ -56,7 +57,8 @@ SS
       currentStorageClass: '',
       subtotal: 0,
       discount: 60,
-      shipping: 12
+      shipping: 12,
+      deliverWithinADay: false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -172,5 +174,10 @@ SS
         subtotal
       })
     }
+  }
+
+  deliverWithinADayClicked = () => {
+    const shipping = this.state.shipping + 25.99
+    this.setState({deliverWithinADay: true, shipping})
   }
 }
