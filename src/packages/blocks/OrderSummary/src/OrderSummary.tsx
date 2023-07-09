@@ -215,7 +215,17 @@ export default class OrderSummary extends OrderSummaryController {
             }
             <DoubleButton
               button1Label="Continue to Payment"
-              button1_Onpress={() => this.setState({ show_modal: true })}
+              button1_Onpress={() => {
+                this.props.navigation.navigate('', {
+                  name,
+                  address,
+                  phone_number,
+                  zip_code,
+                  subtotal: this.state.subtotal,
+                  shipping: this.state.shipping,
+                  discount: this.state.discount
+                })}
+              }
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
