@@ -1,41 +1,42 @@
-import { defineFeature, loadFeature} from "jest-cucumber"
+import { defineFeature, loadFeature } from "jest-cucumber"
+import React from "react";
 import { shallow, ShallowWrapper } from 'enzyme'
+import { render, fireEvent } from "@testing-library/react-native";
 
 import * as helpers from '../../../../framework/src/Helpers'
-import {runEngine} from '../../../../framework/src/RunEngine'
-import {Message} from "../../../../framework/src/Message"
+import { runEngine } from '../../../../framework/src/RunEngine'
+import { Message } from "../../../../framework/src/Message"
 
-import MessageEnum, {getName} from "../../../../framework/src/Messages/MessageEnum"; 
-import React from "react";
+import MessageEnum, { getName } from "../../../../framework/src/Messages/MessageEnum";
 import StripeIntegration from "../../src/StripeIntegration"
 const navigation = require("react-navigation")
 
 const screenProps = {
     navigation: navigation,
     id: "StripeIntegration"
-  }
+}
 
 const feature = loadFeature('./__tests__/features/StripeIntegration-scenario.feature');
 
 defineFeature(feature, (test) => {
-
-
     beforeEach(() => {
         jest.resetModules();
-        jest.doMock('react-native', () => ({ Platform: { OS: 'web' }}));
-        jest.spyOn(helpers, 'getOS').mockImplementation(() => 'web');
+        jest.doMock("react-native", () => ({
+            Platform: { OS: "web" },
+            nativeModule: {},
+        }));
     });
 
     test('User navigates to StripeIntegration', ({ given, when, then }) => {
-        let exampleBlockA:ShallowWrapper;
-        let instance:StripeIntegration; 
+        let exampleBlockA: ShallowWrapper;
+        let instance: StripeIntegration;
 
         given('I am a User loading StripeIntegration', () => {
-            exampleBlockA = shallow(<StripeIntegration {...screenProps}/>);
+            exampleBlockA = shallow(<StripeIntegration {...screenProps} />);
         });
 
         when('I navigate to the StripeIntegration', () => {
-             instance = exampleBlockA.instance() as StripeIntegration
+            instance = exampleBlockA.instance() as StripeIntegration
         });
 
         then('StripeIntegration will load with out errors', () => {
@@ -43,14 +44,32 @@ defineFeature(feature, (test) => {
         });
 
         then('I can enter text with out errors', () => {
-            // let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'txtInput');
-            // textInputComponent.simulate('changeText', 'hello@aol.com');
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const input = getByTestId('cardNameInput');
+            fireEvent.changeText(input, '123');
+            expect(input.props.value).toBe('123');
+        });
+        then('I can enter card number', () => {
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const input = getByTestId('cardNumber');
+            fireEvent.changeText(input, '123');
+            expect(input.props.value).toBe('123');
+        });
+        then('I can enter card expirtydate', () => {
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const input = getByTestId('cardExpiry');
+            fireEvent.changeText(input, '123');
+            expect(input.props.value).toBe('123');
+        });
+        then('I can enter cvv', () => {
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const input = getByTestId('cardCVV');
+            fireEvent.changeText(input, '123');
+            expect(input.props.value).toBe('123');
         });
 
         then('I can select the button with with out errors', () => {
-            // let buttonComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'btnExample');
-            // buttonComponent.simulate('press');
-            // expect(instance.state.txtSavedValue).toEqual("hello@aol.com");
+
         });
 
         then('I can leave the screen with out errors', () => {

@@ -77,7 +77,6 @@ export default class StripeIntegration extends StripeIntegrationController {
 
   // Customizable Area Start
   handleExpiryDate = (text: string) => {
-    console.log("change-->", text)
     let year: string = moment().format("YY");
     let textTemp: any = text;
     if (textTemp[0] !== "1" && textTemp[0] !== "0") {
@@ -173,7 +172,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     textInputStyle={styles.cardTextinput}
                     labeStyle={styles.label}
                     value={this.state.cardName}
-                    testID="name_test_id"
+                    testID="cardNameInput"
                     onchangeText={(text) => {
                       this.setState({ cardName: text })
                     }
@@ -186,7 +185,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     labeStyle={styles.label}
                     keyBoardtype="number-pad"
                     value={this.state.cardNumber}
-                    testID="name_test_id"
+                    testID="cardNumber"
                     onchangeText={(text) => {
                       let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
                       this.setState({ cardNumber: formattedCard })
@@ -206,7 +205,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       labeStyle={styles.label}
                       value={this.state.expirtyDate}
                       keyBoardtype="number-pad"
-                      testID="name_test_id"
+                      testID="cardExpiry"
                       maxLenth={5}
                       onchangeText={(text) => {
                         this.handleExpiryDate(text);
@@ -221,7 +220,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       labeStyle={styles.label}
                       value={this.state.cvv}
                       keyBoardtype="number-pad"
-                      testID="name_test_id"
+                      testID="cardCVV"
                       maxLenth={3}
                       onchangeText={(text) => {
                         this.handleCVVTextInput(text)
