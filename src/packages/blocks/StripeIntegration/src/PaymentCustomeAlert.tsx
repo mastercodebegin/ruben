@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { DARK_RED, LIGHT_GREY } from "../../landingpage/assets/constants";
@@ -17,6 +18,7 @@ interface PaymentModalTypes {
   onpressContinue: () => void;
   visible: boolean;
   customeText: string;
+  customeDescription: string;
   iconImage: any;
   isLoading: boolean
 }
@@ -25,6 +27,7 @@ const PaymentCustomeAlert = ({
   onpressContinue,
   visible,
   customeText,
+  customeDescription,
   iconImage,
   isLoading,
 }: PaymentModalTypes) => {
@@ -42,6 +45,7 @@ const PaymentCustomeAlert = ({
           </TouchableOpacity>
           {isLoading ? (
             <>
+            <View><ActivityIndicator size="large"/></View>
             </>
           ) : (
             <Image
@@ -50,11 +54,13 @@ const PaymentCustomeAlert = ({
             source={iconImage}
           />
           )}
-          <Text style={styles.headerText}>Delivery Fees</Text>
+          <Text style={styles.headerText}>{customeText}</Text>
           <Text style={styles.description}>
-            {customeText}
+            {customeDescription}
           </Text>
-          <Button label="Continue" onPress={onpressContinue}/>
+          {isLoading === false && (
+               <Button label="Continue" onPress={onpressContinue}/>
+          )}
           <Text>{}</Text>
         </View>
       </View>

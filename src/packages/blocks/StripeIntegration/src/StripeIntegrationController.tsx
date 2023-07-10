@@ -27,11 +27,15 @@ interface S {
   txtSavedValue: string;
   enableField: boolean;
   showPaymentAlert: boolean;
+  showPaymentLoading: boolean;
+  customAlertText: string;
+  customAlertDesc: string;
   cardName: string;
   cardNumber: string;
   backspaceFlag: boolean;
   expirtyDate: string;
   cvv: string;
+  isOrderSuccess: boolean;
   // Customizable Area Start
   // Customizable Area End
 }
@@ -67,11 +71,15 @@ export default class StripeIntegrationController extends BlockComponent<
       txtSavedValue: "A",
       enableField: false,
       showPaymentAlert: false,
+      showPaymentLoading: false,
       cardName: "",
       cardNumber: "",
       backspaceFlag: false,
       expirtyDate: "",
       cvv: "",
+      isOrderSuccess: false,
+      customAlertText: "",
+      customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!",
       // Customizable Area Start
       // Customizable Area End
     };
@@ -180,7 +188,6 @@ export default class StripeIntegrationController extends BlockComponent<
 
   // Customizable Area Start
   async paymentApi(payment_methods: string, order_id: string) {
-    // this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -209,6 +216,13 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getPaymentMethod() {
+    this.setState({showPaymentLoading: true})
+    this.setState({ showPaymentAlert: true })
+    let card =  this.state.cardNumber.replace(' ','').replace(' ','').replace(' ','');
+    let cvv =  this.state.cvv
+    let month =  this.state.expirtyDate.slice(0, 2);;
+    let year =  "20" + this.state.expirtyDate.slice(-2);;
+
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     var myHeaders = new Headers();
@@ -222,38 +236,35 @@ export default class StripeIntegrationController extends BlockComponent<
       body: raw,
       redirect: 'follow'
     };
-    
-    fetch("https://api.stripe.com/v1/payment_methods?card[number]=4242424242424242&card[exp_month]=10&card[exp_year]=2024&card[cvc]=314&type=card", requestOptions)
+    let url = `https://api.stripe.com/v1/payment_methods?card[number]=${card}&card[exp_month]=${month}&card[exp_year]=${year}&card[cvc]=${cvv}&type=card`
+    console.log("checking payment url--->",url);
+    fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => {
         let json = JSON.parse(result)
         console.log("json-->", json.id)
         this.paymentApiCalled(json.id, 4)
       })
-      .catch(error => console.log('error', error));    
-    // fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_stripe_integration/payment_methods", requestOptions)
-    //   .then(response => response.text())
-    //   .then(result => {
-    //     let json = JSON.parse(result)
-    //     console.log("check result-->", json.data.id)
-    //     console.log("check result-->", result)
-    //     this.paymentApiCalled(json.data.id, 4)
-    //   })
-    //   .catch(error => console.log('error', error));
-    // fetch("https://api.stripe.com/v1/payment_methods?card[number]=4242424242424242&card[exp_month]=10&card[exp_year]=2024&card[cvc]=314&type=card", {
-    //   headers: {
-    //     "Content-Type": "text/plain",
-    //     "Authorization": "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc"
-    //   },
-    //   method: "POST",
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseData) => {
-    //     let paymentMethod = JSON.stringify(responseData.id)
-    //     this.paymentApiCalled(paymentMethod, 4)
-    //     console.log(JSON.stringify(responseData.id));
-    //   })
+      .catch(error => {
+        this.setState({ customAlertText: "Payment Failed" });
+        this.setState({showPaymentLoading: false})
+        this.setState ({showPaymentAlert : false})
+      });    
   }
+
+  handlePaymentFailed = () => {
+    this.setState({ customAlertText: "Payment Failed" });
+    this.setState({showPaymentLoading: false})
+   }
+
+   handlePaymentSuccess = () => {
+    this.setState({isOrderSuccess : true})
+    this.setState({ customAlertText: "Thank you for your order" });
+    this.setState({ customAlertDesc: "Your order number is 222222423232232" });
+    this.setState({showPaymentLoading: false})
+   }
+
+
   async paymentApiCalled(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -278,29 +289,20 @@ export default class StripeIntegrationController extends BlockComponent<
 
     fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_stripe_integration/payments", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .then(result => {
+        let json = JSON.parse(result)
+        if (json.errors) {
+          this.handlePaymentFailed()
+        } else {
+          console.log("result-->",result);
+          this.handlePaymentSuccess()
+        }
+      })
+      .catch(error => {
+        console.log("error par --->",error);
+        this.handlePaymentFailed()
+      });
 
-
-    // fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_stripe_integration/payments", {
-    //   headers: {
-    //     token: data?.meta?.token,
-    //     "Content-Type": "application/json"
-    //   },
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     "payment": {
-    //       "order_id": order_id,
-    //       "payment_method_id": payment_methods
-    //     }
-    //   })
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseData) => {
-    //     let paymentMethod = JSON.stringify(responseData.id)
-    //     this.paymentApi(paymentMethod, "4")
-    //     console.log(JSON.stringify(responseData.id));
-    //   })
   }
   // Customizable Area End
 }

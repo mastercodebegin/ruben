@@ -100,7 +100,8 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     if (textTemp.length > 3) {
       let yearN = Number(year)
-      if (parseInt(textTemp[3]) < ( yearN / 10)) {
+      console.log("check year-->",yearN / 10, parseInt(textTemp[3]))
+      if (parseInt(textTemp[3]) < ( ~~(yearN / 10))) {
         textTemp = textTemp.slice(0, 3);
       }
       if (parseInt(textTemp[4]) < yearN % 10) {
@@ -117,8 +118,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     this.setState({ cvv: text });
   };
-
-
   // Customizable Area End
 
   render() {
@@ -278,7 +277,11 @@ export default class StripeIntegration extends StripeIntegrationController {
             <DoubleButton
               button1Label="Pay"
               //this.setState({ showPaymentAlert: true })
-              button1_Onpress={() => {this.getPaymentMethod()}}
+              button1_Onpress={() => {
+                this.setState({showPaymentLoading: true})
+                this.setState({ customAlertText: "Payment In Process.." });
+                this.getPaymentMethod()
+              }}
               button2Label="Cancel"
               button2_Onpress={() => { }}
               containerStyle={{ paddingTop: 20 }}
@@ -287,10 +290,14 @@ export default class StripeIntegration extends StripeIntegrationController {
         </HeaderWithBackArrowTemplate>
         {this.state.showPaymentAlert && (
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
-            this.setState({ showPaymentAlert: false })
-          }} onpressContinue={() => {
-            this.setState({ showPaymentAlert: false })
-          }} customeText={"Sample testing"} iconImage={require("../../OrderSummary/assets/cart.png")} isLoading={false} />
+            this.setState({ showPaymentAlert: false });
+          } } onpressContinue={() => {
+            this.setState({ showPaymentAlert: false });
+            if (this.state.isOrderSuccess) {
+              this.props.navigation.navigate('InvoiceBilling')
+            }
+          } } customeText={this.state.customAlertText} iconImage={require("../../OrderSummary/assets/cart.png")} 
+          isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
         )}
       </SafeAreaView>
     );
@@ -329,7 +336,7 @@ export const cardNumberFormatter = (value: string, previousValue: string) => {
     return `${currentValue.slice(0, 4)} ${currentValue.slice(
       4,
       8
-    )}-${currentValue.slice(8, 12)} ${currentValue.slice(12, 16)}`;
+    )} ${currentValue.slice(8, 12)} ${currentValue.slice(12, 16)}`;
   } else {
     return value;
   }
