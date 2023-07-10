@@ -155,7 +155,7 @@ export default class Myprofile extends LandingPageController {
                   <Text numberOfLines={3} style={styles.description}>
                     {this.state.about_me}
                   </Text>
-                  <Text style={styles.headerText}>MY CONTACT</Text>
+                  <Text style={styles.headerText}>MY CONTACTS</Text>
                   <View style={styles.contact}>
                     <Image
                       resizeMode="contain"
@@ -187,6 +187,7 @@ export default class Myprofile extends LandingPageController {
               showsHorizontalScrollIndicator={false}
             >
               <TouchableOpacity
+                testID="go_to_favorites_id"
                 onPress={() =>
                   this.setState({ selectedTab: "MyFavoritesScreen" })
                 }
@@ -202,16 +203,17 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.setState({ selectedTab: "Recomentations" })}
+                testID="go_to_recomendations_id"
+                onPress={() => this.setState({ selectedTab: "Recomendations" })}
               >
                 <Text
                   style={[
                     styles.selections,
-                    this.state.selectedTab === "Recomentations" &&
+                    this.state.selectedTab === "Recomendations" &&
                       styles.selected,
                   ]}
                 >
-                  Recomentation
+                  Recomendation
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -223,7 +225,7 @@ export default class Myprofile extends LandingPageController {
                     this.state.selectedTab === "remaining" && styles.selected,
                   ]}
                 >
-                  Remaning Inventory
+                  Remaining inventory
                 </Text>
               </TouchableOpacity>
             </ScrollView>
@@ -286,7 +288,7 @@ export default class Myprofile extends LandingPageController {
                   }
                   style={styles.seeBtn}
                 >
-                  <Text style={styles.seeText}>see All</Text>
+                  <Text style={styles.seeText}>See All</Text>
                 </TouchableOpacity>
               </>
             )}

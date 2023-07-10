@@ -50,7 +50,7 @@ const BlogPostCard = ({ item, type }: Types) => {
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{item?.attributes?.name}</Text>
-              <Text style={styles.time}>{item?.attributes?.created_at}</Text>
+              <Text style={styles.time}>{item?.attributes?.created_at?.replace(/\babout\b/g, "")}</Text>
             </View>
             <TouchableOpacity
               onPress={() => {

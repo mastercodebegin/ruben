@@ -75,6 +75,7 @@ interface S {
   cartList:Array<any>;
   show_SortingDropdown: boolean,
   sortAscending: boolean,
+  setProductPage:number,
   // Customizable Area End
 }
 
@@ -176,7 +177,8 @@ export default class LandingPageController extends BlockComponent<
         },
       ],
       aboutus:null,
-      cartList:[]
+      cartList:[],
+      setProductPage:1
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -347,7 +349,14 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(" error == == ", error);
-      this.setState({ productList: productListData?.data, show_loader: false })
+      const productList1 = [...this.state.productList];
+      const productList2 = productListData?.data;
+      const finalproductList = productList1.concat(productList2)
+      console.log("productList1 :", productList2);
+      console.log("productList2 :", productList2);
+      console.log("finalArray :", finalproductList);
+      this.setState({ productList: finalproductList, show_loader: false })
+      console.log("product list === === == ", this.state.productList)
       }else if (
         getName(MessageEnum.RestAPIResponceMessage) === message.id &&
         this.getAddProductId != null &&
@@ -927,7 +936,7 @@ export default class LandingPageController extends BlockComponent<
     this.getProductId = getProductListMsg.messageId;
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.addProductEndpoint}${type ? "asc" : "desc"}`
+      `${configJSON.getProductListEndpoint}?page=${this.state.setProductPage}&type=${type ? "asc" : "desc"}`
       );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1078,6 +1087,13 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getOrderListMsg.id, getOrderListMsg);
+  }
+
+  handleLoadMore() {
+    console.log("loadMore called");
+    this.setState({ setProductPage: this.state.setProductPage + 1 }, () => {
+      this.getProductList(true)
+    });
   }
   // Customizable Area End
 }
