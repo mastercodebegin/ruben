@@ -56,6 +56,15 @@ interface S {
   chicken_Back:boolean;
   chicken_Wing:boolean;
   chicken_Thigh:boolean;
+  totalCuts: number;
+  usedCuts: number;
+  remianingCuts: number;
+  totaAmount: number;
+  numberOfSpendCount: number;
+  numberOfSpend: number;
+  startDate: string;
+  endDate: string;
+  chartArray:Array<object>;
   // Customizable Area End
 }
 
@@ -103,11 +112,20 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       showCalendar: false,
       selectedDate: "",
       markedDates: {},
+      startDate: "",
+      endDate: "",
       showAnimalList: false,
       showLoader: false,
       category_id: 0,
       category_title: "",
       categoryList:[],
+      chartArray: [],
+      numberOfSpend: 0,
+      numberOfSpendCount:  0,
+      usedCuts: 0,
+      totaAmount: 0,
+      totalCuts: 0,
+      remianingCuts:0,
       animalList: [{
         title: 'Cow',
         id: 0
@@ -152,10 +170,34 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let list = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.setState({categoryList: list.data});
-      console.log("checking list---->", list.data);
-      this.setState({category_id: 0})
-      this.setState({category_title: list.data[0]?.attributes?.name})
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        console.log("error===>",error);
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+      } else {
+        this.setState({categoryList: list.data});
+        this.setState({category_id: 0})
+        this.setState({category_title: list.data[0]?.attributes?.name})
+        this.getAnalyticData()  
+        //showToast('success')
+      }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.myCreditCallId != null &&
+      this.myCreditCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let list = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.setState({usedCuts: list.used_cuts});
+      this.setState({remianingCuts: list.remaining_cuts});
+      this.setState({totalCuts: list.total_cuts});
+      this.setState({totaAmount: list.tota_amount});
+      this.setState({numberOfSpendCount: list.no_of_spend_count});
+      this.setState({numberOfSpend: list.no_of_spend});
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -166,6 +208,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         //showToast('success')
       }
     }
+
     // Customizable Area End
   }
 
@@ -182,15 +225,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   // Customizable Area Start
-  DropDownProps = {
-    onChangeText: (text: string) => {
-      console.log("check that text", text)
-      this.setState({ category_id: text });
-      //@ts-ignore
-      this.DropDownProps.value = text;
-    }
-  };
-
   async getCategoryList() {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -234,7 +268,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.getCategories
+      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${this.state.category_id}&start_date=${this.state.startDate}&end_date=${this.state.endDate}`
     );
 
     category.addData(

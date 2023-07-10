@@ -9,7 +9,7 @@ import {
   Button,
   Platform
   // Customizable Area Start
-  ,TouchableOpacity,
+  , TouchableOpacity,
   Image,
   SafeAreaView
   // Customizable Area End
@@ -20,6 +20,7 @@ import { BarChart } from "react-native-chart-kit";
 import { DARK_RED, SCREEN_WIDTH } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
 import Calendar from "../../../components/src/Calendar";
+import moment from "moment";
 import { Dropdown } from "../../../components/src/DropDown/src";
 // Customizable Area End
 
@@ -86,18 +87,18 @@ export default class Analytics extends AnalyticsController {
         >
           {/* Customizable Area Start */}
           <SafeAreaView>
-          <View style={styles.main}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
-              <Image
-                style={styles.backImage}
-                source={require("../../../components/src/arrow_left.png")}
-              />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>{"Analytics"}</Text>
-          </View>
-          <View style={styles.main}>
-          <View style={styles.chartView}>
+            <View style={styles.main}>
+              <View style={styles.headerContainer}>
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
+                  <Image
+                    style={styles.backImage}
+                    source={require("../../../components/src/arrow_left.png")}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>{"Analytics"}</Text>
+              </View>
+              <View style={styles.main}>
+                <View style={styles.chartView}>
                   <View
                     style={{
                       flexDirection: "row",
@@ -122,7 +123,7 @@ export default class Analytics extends AnalyticsController {
                       </View>
                     </TouchableOpacity>
                   </View>
-                 < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
+                  < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
                     <BarChart
                       width={SCREEN_WIDTH}
                       height={250}
@@ -143,7 +144,16 @@ export default class Analytics extends AnalyticsController {
                   {this.state.showCalendar && (
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
-                        <Calendar />
+                        <Calendar dateSelected={(data: string) => {
+                          console.log("check --->", data)
+                          var newDate = new Date(data);
+                          newDate.setDate(newDate.getDate() + 7);
+                          let momentObj = moment(newDate, 'MM-DD-YYYY');
+                          let date = momentObj.format('YYYY-MM-DD')
+                          this.setState({ startDate: data })
+                          this.setState({ endDate: date })
+                        }
+                        } />
                       </View>
                     </TouchableWithoutFeedback>
                   )}
@@ -173,9 +183,11 @@ export default class Analytics extends AnalyticsController {
                     containerStyle={styles.containerStyle}
                     data={this.state.categoryList}
                     maxHeight={400}
-                    placeholder={this.state.animalSelectedValue}
-                    onChange={(item:any) => {
-                      this.setState({animalSelectedValue : item?.title})
+                    placeholder={this.state.category_title}
+                    onChange={(item: any) => {
+                      this.setState({ category_id: item?.id })
+                      this.setState({ category_title: item?.attributes?.name })
+                      this.setState({ animalSelectedValue: item?.title })
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -185,11 +197,11 @@ export default class Analytics extends AnalyticsController {
                       )
                     }}
                     value={this.state.category_title}
-                    // value={() => this.setValue()}
-                    // {...this.DropDownProps}
+                  // value={() => this.setValue()}
+                  // {...this.DropDownProps}
                   />
                 </View>
-                <AnimalAnalytics />
+                <AnimalAnalytics navigation={undefined} id={""} setState={undefined} state={undefined} />
 
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
@@ -213,8 +225,8 @@ export default class Analytics extends AnalyticsController {
                     <Text style={styles.boxText}>{'3 (10%)'}</Text>
                   </View>
                 </View>
-          </View>
-        </View>
+              </View>
+            </View>
           </SafeAreaView>
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
