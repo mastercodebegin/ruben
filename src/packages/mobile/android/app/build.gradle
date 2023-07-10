@@ -262,6 +262,8 @@ dependencies {
     implementation project(':react-native-compass-heading')
 
     implementation project(':react-native-reanimated')
+
+    implementation project(':react-native-firebase-message')
     
     implementation project(':react-native-document-picker')
 

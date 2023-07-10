@@ -29,6 +29,7 @@ interface Types {
   onpressFav: (id: number) => Promise<void>;
   onPressCart: (id: number) => Promise<void>;
   index?: number;
+  handleLoadMore:(any)
 }
 const RenderItem = ({
   item,
@@ -109,6 +110,7 @@ const RenderItems = ({
   item,
   onpressFav,
   onPressCart,
+  handleLoadMore,
 }: Types) => {
   return (
     <View>
@@ -134,6 +136,9 @@ const RenderItems = ({
             index={index}
           />
         )}
+        onEndReachedThreshold={1}
+        onEndReached={handleLoadMore}
+        pagingEnabled={false}
         data={item}
       />
     </View>

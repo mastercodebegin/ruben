@@ -48,7 +48,7 @@ export default class MyCart extends MyCartController {
             ListHeaderComponent={() => (
               <View>
                 <MileStone
-                  list={["My Cart", "Personel Details", "Summary", "Payment"]}
+                  list={["My Cart", "Personal Details", "Summary", "Payment"]}
                   selected="My Cart"
                 />
                 <View style={styles.headerContainer}>
@@ -106,7 +106,7 @@ export default class MyCart extends MyCartController {
                 </Text>
                 <Button
                   onPress={() => this.props.navigation.navigate('PersonelDetails')}
-                  label="Continue to Personel Details"
+                  label="Continue to Personal Details"
                 />
                 <TouchableOpacity style={styles.button}>
                   <Text style={styles.buttonText}>{"Cancel"}</Text>

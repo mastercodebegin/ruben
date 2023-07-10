@@ -72,8 +72,8 @@ export default class PersonelDetails extends PersonelDetailsController {
         >
           <View style={styles.main}>
             <MileStone
-              list={["My Cart", "Personel Details", "Summary", "Payment"]}
-              selected="Personel Details"
+              list={["My Cart", "Personal Details", "Summary", "Payment"]}
+              selected="Personal Details"
             />
             <View style={styles.imageContainer}>
               <ImageBox
@@ -93,7 +93,7 @@ export default class PersonelDetails extends PersonelDetailsController {
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
                 onpress={() => this.setState({ selectedTab: "pickup" })}
-                text="Pickup"
+                text="Pick Up"
                 image={removeImage}
               />
             </View>
@@ -103,9 +103,9 @@ export default class PersonelDetails extends PersonelDetailsController {
                   <MyDetails
                     header="MY DETAILS"
                     list={[
-                      { question: "name", ans: name  },
-                      { question: "email", ans: "test@gmail.com" },
-                      { question: "phone",ans:phone_number  },
+                      { question: "Name", ans: name  },
+                      { question: "Email", ans: "test@gmail.com" },
+                      { question: "Phone",ans:phone_number  },
                       {
                         question: "Shipping Add.",
                         ans: address,
@@ -128,7 +128,7 @@ export default class PersonelDetails extends PersonelDetailsController {
               <AvailableSlots />
             )}
             <View style={{ paddingTop: 20 }}>
-              <Text style={styles.estimation}>{"* Estimated delivery:"}</Text>
+              <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
               <Text style={styles.estimation}>
                 {"Within 3 days, 21st Oct,Friday- 9:00 AM to 6:00 PM"}
               </Text>

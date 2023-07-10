@@ -10,7 +10,6 @@ import {ReduxLandingPage} from '../blocks/landingpage/src/LandingPage';
 import AddProductScreen from '../blocks/landingpage/src/AddProducts/AddProduct'
 import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Myprofile from '../blocks/landingpage/src/MyProfile/Myprofile';
 import MyCart from '../blocks/MyCart/src/MyCart'
 import AboutUs from '../blocks/landingpage/src/AboutUs/AboutUs';
@@ -38,7 +37,7 @@ import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/Produc
 import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
 import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
-import { customAlert } from '../framework/src/Utilities';
+import { getStorageData } from '../framework/src/Utilities';
 import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
 import ContactUs from '../blocks/contactus/src/ContactusScreen';
 if (!HomeScreen.instance) {
@@ -145,19 +144,17 @@ export function App() {
     show: true,
     initialRoute: '',
   });
-  const getUserDetails = () => {
-    AsyncStorage.getItem('userDetails').then((res:any) => {
-      const usr_details= JSON.parse(res);
+  const getUserDetails = async () => {
+      const usr_details=  await getStorageData('userDetails',true);
       if(usr_details?.meta?.user_type === 'merchant'){
         store.dispatch({type:'UPDATE_USER',payload:'merchant'})
-      }
+      }      
       setTimeout(() => {
-        if (res) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
+        if (usr_details?.meta?.token) setInitialScreen({ show: false, initialRoute: 'LandingPage' });
         else {
           setInitialScreen({ show: false, initialRoute: 'Splashscreen' });
         }
       }, 2000);
-    }).catch(()=>customAlert('Error','Something went wrong'));
   };
   useEffect(() => {
     getUserDetails()
