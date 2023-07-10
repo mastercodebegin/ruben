@@ -145,13 +145,13 @@ export default class Analytics extends AnalyticsController {
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
                         <Calendar dateSelected={(data: string) => {
-                          console.log("check --->", data)
                           var newDate = new Date(data);
                           newDate.setDate(newDate.getDate() + 7);
                           let momentObj = moment(newDate, 'MM-DD-YYYY');
                           let date = momentObj.format('YYYY-MM-DD')
                           this.setState({ startDate: data })
                           this.setState({ endDate: date })
+                          this.getAnalyticData()
                         }
                         } />
                       </View>
@@ -188,6 +188,7 @@ export default class Analytics extends AnalyticsController {
                       this.setState({ category_id: item?.id })
                       this.setState({ category_title: item?.attributes?.name })
                       this.setState({ animalSelectedValue: item?.title })
+                      this.getAnalyticData()
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -206,18 +207,18 @@ export default class Analytics extends AnalyticsController {
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Current Animal purchased</Text>
-                    <Text style={styles.boxText}>Cow</Text>
+                    <Text style={styles.boxText}>{this.state.category_title}</Text>
                   </View>
                   <View style={styles.seperator} />
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Total Cuts</Text>
-                    <Text style={styles.boxText}>10</Text>
+                    <Text style={styles.boxText}>{this.state.totalCuts}</Text>
                   </View>
                 </View>
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Used cuts</Text>
-                    <Text style={styles.boxText}>7</Text>
+                    <Text style={styles.boxText}>{this.state.usedCuts}</Text>
                   </View>
                   <View style={styles.seperator} />
                   <View style={styles.box}>
