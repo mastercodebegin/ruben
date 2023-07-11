@@ -11,7 +11,6 @@ import analytics from "@react-native-firebase/analytics";
 // Customizable Area Start
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { number } from "yup";
 // Customizable Area End
 
 export const configJSON = require("./config");

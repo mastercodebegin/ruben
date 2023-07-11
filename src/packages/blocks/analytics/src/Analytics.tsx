@@ -145,7 +145,7 @@ export default class Analytics extends AnalyticsController {
                     <TouchableWithoutFeedback>
                       <View style={styles.calendarContainer}>
                         <Calendar dateSelected={(data: string) => {
-                          var newDate = new Date(data);
+                          let newDate = new Date(data);
                           newDate.setDate(newDate.getDate() + 7);
                           let momentObj = moment(newDate, 'MM-DD-YYYY');
                           let date = momentObj.format('YYYY-MM-DD')
