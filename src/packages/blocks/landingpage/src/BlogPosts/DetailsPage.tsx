@@ -84,6 +84,7 @@ const DetailsPage = ({ route }: any) => {
                     {/* @ts-ignore */}
                   <Video
                       paused={!play}
+                      //@ts-ignore
                       ref={videRef}
                     resizeMode="stretch"
                     onLoad={() => {

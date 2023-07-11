@@ -53,7 +53,12 @@ export default class ProductDetailScreen extends LandingPageController {
     this.getCategory(1);
   }
   render() {
-    const {id='',description='',name='',price=''}=this.props?.route?.params
+    const { id = '', description = '', name = '', price = '' } = {
+      id: this.props?.route?.params?.id,
+      description: this.props?.route?.params?.description,
+      name: this.props?.route?.params?.name,
+      price:this.props?.route?.params?.price
+    }
     return (
       <SafeAreaView style={style.flex}>
         <HeaderWithBackArrowTemplate
