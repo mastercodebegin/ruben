@@ -135,7 +135,7 @@ export default class PersonelDetails extends PersonelDetailsController {
             </View>
             <DoubleButton
               button1Label="Continue to Summary"
-              button1_Onpress={() => this.setState({ show_modal: true })}
+              button1_Onpress={() => this.props.navigation.navigate('StripeIntegration')}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}

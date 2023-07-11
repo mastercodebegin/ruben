@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { View , SafeAreaView } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import SocialMediaAccountLoginScreen from '../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen';
 import Splashscreen from '../blocks/splashscreen/src/Splashscreen';
 import EmailAccountLoginBlock from '../blocks/email-account-login/src/EmailAccountLoginBlock';
 import EmailAccountSignuplock from '../blocks/email-account-login/src/EmailAccountSignupBlock';
-import {ReduxLandingPage} from '../blocks/landingpage/src/LandingPage';
+import { ReduxLandingPage } from '../blocks/landingpage/src/LandingPage';
 import AddProductScreen from '../blocks/landingpage/src/AddProducts/AddProduct'
 import MeatLocker from '../components/src/MeatLocker';
 import ExplorePage from '../blocks/landingpage/src/ExploreStore/ExplorePage';
@@ -35,6 +35,7 @@ import DetailsPage from '../blocks/landingpage/src/BlogPosts/DetailsPage';
 import LoadingScreen from '../blocks/landingpage/src/LoadingScreen';
 import ProductDetailScreen from '../blocks/landingpage/src/ProductDetails/ProductDetails';
 import PersonelDetails from '../blocks/PersonelDetails/src/PersonelDetails';
+import StripeIntegration from '../blocks/StripeIntegration/src/StripeIntegration';
 import OrderSummary from '../blocks/OrderSummary/src/OrderSummary';
 import { linking, store } from '../components/src/utils';
 import { getStorageData } from '../framework/src/Utilities';
@@ -52,44 +53,44 @@ if (!HomeScreen.instance) {
 interface NavigatorType {
   initialScreen: string;
 }
-const BlogPostStack= ()=>{
+const BlogPostStack = () => {
   const Stack = createStackNavigator();
 
-    return (
-      <SafeAreaView style={{flex:1}}>
-      <Header navigation={navigationRef.current}/>
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Header navigation={navigationRef.current} />
       <Stack.Navigator screenOptions={{
         gestureEnabled: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        gestureDirection:'horizontal',
-        headerShown:false
+        gestureDirection: 'horizontal',
+        headerShown: false
       }}>
-       <Stack.Screen name="BlogPost" component={BlogPost} />
-       <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
+        <Stack.Screen name="BlogPost" component={BlogPost} />
+        <Stack.Screen name="VideoLibrary" component={VideoLibrary} />
       </Stack.Navigator>
-      </SafeAreaView>
-    );
-  
+    </SafeAreaView>
+  );
+
 }
-const AuthenticationStack= ()=>{
+const AuthenticationStack = () => {
   const Stack = createStackNavigator();
 
-    return (
-      <Stack.Navigator screenOptions={{
-        gestureEnabled: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        gestureDirection:'horizontal',
-        headerShown:false
-      }}>
-       <Stack.Screen name="EmailAccountLoginBlock" component={EmailAccountLoginBlock} />
-       <Stack.Screen name="EmailAccountSignupBlock" component={EmailAccountSignuplock} />
-      </Stack.Navigator>
-    );
-  
+  return (
+    <Stack.Navigator screenOptions={{
+      gestureEnabled: false,
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      gestureDirection: 'horizontal',
+      headerShown: false
+    }}>
+      <Stack.Screen name="EmailAccountLoginBlock" component={EmailAccountLoginBlock} />
+      <Stack.Screen name="EmailAccountSignupBlock" component={EmailAccountSignuplock} />
+    </Stack.Navigator>
+  );
+
 }
 const Stack = createStackNavigator();
 
-export const navigationRef:any = React.createRef();
+export const navigationRef: any = React.createRef();
 
 const RootNavigator = ({ initialScreen }: NavigatorType) => {
 
@@ -117,19 +118,20 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="LandingPage" component={ReduxLandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />
-        <Stack.Screen name='TermsAndCondition' component={TermsAndConditions}/>
-        <Stack.Screen name='MyFavoritesScreen' component={Favourites}/>
-        <Stack.Screen name='OrdersScreen' component={OrdersScreen}/>
-        <Stack.Screen name='AddProducts' component={AddProductScreen}/>
+        <Stack.Screen name='TermsAndCondition' component={TermsAndConditions} />
+        <Stack.Screen name='MyFavoritesScreen' component={Favourites} />
+        <Stack.Screen name='OrdersScreen' component={OrdersScreen} />
+        <Stack.Screen name='AddProducts' component={AddProductScreen} />
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
-        <Stack.Screen name='BlogPostStack' component={BlogPostStack}/>
-        <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen}/>
-        <Stack.Screen name='AnalyticsScreen' component={Analytics}/>
-        <Stack.Screen name='Recomentations' component={Recomentations}/>
-        <Stack.Screen name='DetailsPage' component={DetailsPage}/>
-        <Stack.Screen name='LoadingScreen' component={LoadingScreen}/>
-        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
-        <Stack.Screen name="PersonelDetails" component={PersonelDetails}/>
+        <Stack.Screen name='BlogPostStack' component={BlogPostStack} />
+        <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen} />
+        <Stack.Screen name='AnalyticsScreen' component={Analytics} />
+        <Stack.Screen name='Recomentations' component={Recomentations} />
+        <Stack.Screen name='DetailsPage' component={DetailsPage} />
+        <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
+        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} />
+        <Stack.Screen name="PersonelDetails" component={PersonelDetails} />
+        <Stack.Screen name="StripeIntegration" component={StripeIntegration} />
         <Stack.Screen name="OrderSummary" component={OrderSummary}/>
         <Stack.Screen name="AuthenticationStack" component={AuthenticationStack}/>
         <Stack.Screen name='InvoiceBilling' component={InvoiceBilling}/>
@@ -144,6 +146,7 @@ export function App() {
     show: true,
     initialRoute: '',
   });
+
   const getUserDetails = async () => {
       const usr_details=  await getStorageData('userDetails',true);
       if(usr_details?.meta?.user_type === 'merchant'){
@@ -165,9 +168,11 @@ export function App() {
         {initialScreen.show ? (
           <AppLauncher />
         ) : (
-          <RootNavigator initialScreen={initialScreen.initialRoute} />
+          <>
+              <RootNavigator initialScreen={initialScreen.initialRoute} />
+            </>
         )}
-      </View>
+          </View>
     </Provider>
   );
 }
