@@ -81,7 +81,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     if (textTemp[0] !== "1" && textTemp[0] !== "0") {
       textTemp = "";
     }
-    else if (textTemp.length === 2) {
+    if (textTemp.length === 2) {
       if (
         parseInt(textTemp.substring(0, 2)) > 12 ||
         parseInt(textTemp.substring(0, 2)) == 0
@@ -97,18 +97,24 @@ export default class StripeIntegration extends StripeIntegrationController {
         textTemp = textTemp[0];
       }
     }
-    else if (textTemp.length > 3) {
-      let yearN = Number(year)
-      if (parseInt(textTemp[3]) < ( ~~(yearN / 10))) {
-        textTemp = textTemp.slice(0, 3);
-      }
-      if (parseInt(textTemp[4]) < yearN % 10) {
-        textTemp[4] = "";
-        textTemp = textTemp.slice(0, 4);
-      }
-    }
     this.setState({ expirtyDate: textTemp })
+    if (textTemp.length > 3) {
+      this.handleExpirtyMorethan3(textTemp, year)
+    }
   };
+
+  handleExpirtyMorethan3 = (textTemp: any, year: any) => {
+    let yearN = Number(year)
+    if (parseInt(textTemp[3]) < (~~(yearN / 10))) {
+      textTemp = textTemp.slice(0, 3);
+    }
+    if (parseInt(textTemp[4]) < yearN % 10) {
+      textTemp[4] = "";
+      textTemp = textTemp.slice(0, 4);
+
+    }
+    this.setState({ expirtyDate: textTemp });
+  }
 
   handleCVVTextInput = (text: string) => {
     if (text === undefined) {
@@ -130,11 +136,11 @@ export default class StripeIntegration extends StripeIntegrationController {
           scrollView
           showsVerticalScrollIndicator={false}
         >
-          <KeyboardAwareScrollView 
-          contentContainerStyle={{flexGrow: 1}} 
-          keyboardShouldPersistTaps='handled'
-          style={{marginBottom:150}}
-          extraScrollHeight={100}
+          <KeyboardAwareScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps='handled'
+            style={{ marginBottom: 150 }}
+            extraScrollHeight={100}
           >
             <MileStone
               list={["My Cart", "Personel Details", "Summary", "Payment"]}
@@ -205,6 +211,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       testID="cardExpiry"
                       maxLenth={5}
                       onchangeText={(text) => {
+
                         this.handleExpiryDate(text);
                       }
                       }
@@ -276,7 +283,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               button1Label="Pay"
               //this.setState({ showPaymentAlert: true })
               button1_Onpress={() => {
-                this.setState({showPaymentLoading: true})
+                this.setState({ showPaymentLoading: true })
                 this.setState({ customAlertText: "Payment In Process.." });
                 this.getPaymentMethod()
               }}
@@ -289,13 +296,13 @@ export default class StripeIntegration extends StripeIntegrationController {
         {this.state.showPaymentAlert && (
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
-          } } onpressContinue={() => {
+          }} onpressContinue={() => {
             this.setState({ showPaymentAlert: false });
             if (this.state.isOrderSuccess) {
               this.props.navigation.navigate('InvoiceBilling')
             }
-          } } customeText={this.state.customAlertText} iconImage={require("../../OrderSummary/assets/cart.png")} 
-          isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
+          }} customeText={this.state.customAlertText} iconImage={require("../../OrderSummary/assets/cart.png")}
+            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
         )}
       </SafeAreaView>
     );
