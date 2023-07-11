@@ -265,18 +265,18 @@ export default class StripeIntegrationController extends BlockComponent<
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("token", data?.meta?.token);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "payment": {
         "order_id": order_id,
         "payment_method_id": payment_methods
       }
     });
 
-    var requestOptions: any = {
+    let requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
