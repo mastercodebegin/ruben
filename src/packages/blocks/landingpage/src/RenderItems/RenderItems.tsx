@@ -29,7 +29,7 @@ interface Types {
   onpressFav: (id: number) => Promise<void>;
   onPressCart: (id: number) => Promise<void>;
   index?: number;
-  handleLoadMore:(any)
+  handleLoadMore?:(any)
 }
 const RenderItem = ({
   item,
