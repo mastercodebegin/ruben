@@ -24,10 +24,9 @@ import MyDetails from "./../../PersonelDetails/src/MyDetails";
 import DoubleButton from "../../../components/src/DoubleButton";
 import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
 import MileStone from "../../../components/src/MilestoneComponent";
-import { LIGHT_GREY, PRIMARY, WHITE } from "../../../components/src/constants";
+import { LIGHT_GREY, PRIMARY, WHITE, SCREEN_WIDTH } from "../../../components/src/constants";
 import { DARK_RED } from "../../landingpage/src/colors";
 import CheckBox from "../../../components/src/CustomRadioBtn";
-import { SCREEN_WIDTH } from "../../../components/src/constants";
 import moment from "moment";
 
 //@ts-ignore
@@ -82,7 +81,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     if (textTemp[0] !== "1" && textTemp[0] !== "0") {
       textTemp = "";
     }
-    if (textTemp.length === 2) {
+    else if (textTemp.length === 2) {
       if (
         parseInt(textTemp.substring(0, 2)) > 12 ||
         parseInt(textTemp.substring(0, 2)) == 0
@@ -98,9 +97,8 @@ export default class StripeIntegration extends StripeIntegrationController {
         textTemp = textTemp[0];
       }
     }
-    if (textTemp.length > 3) {
+    else if (textTemp.length > 3) {
       let yearN = Number(year)
-      console.log("check year-->",yearN / 10, parseInt(textTemp[3]))
       if (parseInt(textTemp[3]) < ( ~~(yearN / 10))) {
         textTemp = textTemp.slice(0, 3);
       }

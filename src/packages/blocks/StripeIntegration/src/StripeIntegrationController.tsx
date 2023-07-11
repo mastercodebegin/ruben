@@ -220,29 +220,25 @@ export default class StripeIntegrationController extends BlockComponent<
     this.setState({ showPaymentAlert: true })
     let card =  this.state.cardNumber.replace(' ','').replace(' ','').replace(' ','');
     let cvv =  this.state.cvv
-    let month =  this.state.expirtyDate.slice(0, 2);;
-    let year =  "20" + this.state.expirtyDate.slice(-2);;
+    let month =  this.state.expirtyDate.slice(0, 2);
+    let year =  "20" + this.state.expirtyDate.slice(-2);
 
-    const userDetails: any = await AsyncStorage.getItem("userDetails");
-    const data: any = JSON.parse(userDetails);
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
     myHeaders.append("Content-Type", "text/plain");
-    var raw = "\n";
+    let raw = "\n";
     
-    var requestOptions: any = {
+    let requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
     let url = `https://api.stripe.com/v1/payment_methods?card[number]=${card}&card[exp_month]=${month}&card[exp_year]=${year}&card[cvc]=${cvv}&type=card`
-    console.log("checking payment url--->",url);
     fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => {
         let json = JSON.parse(result)
-        console.log("json-->", json.id)
         this.paymentApiCalled(json.id, 4)
       })
       .catch(error => {
