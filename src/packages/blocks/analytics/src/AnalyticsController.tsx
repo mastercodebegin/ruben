@@ -9,6 +9,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import analytics from "@react-native-firebase/analytics";
 
 // Customizable Area Start
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -41,6 +43,10 @@ interface S {
   markedDates: any;
   showAnimalList:boolean;
   animalList: Array<object>;
+  category_id: number;
+  category_title: string;
+  showLoader: boolean;
+  categoryList:Array<object>;
   animalSelectedValue:string;
   chicken_Defult:boolean;
   chicken_Breast:boolean;
@@ -49,8 +55,15 @@ interface S {
   chicken_Back:boolean;
   chicken_Wing:boolean;
   chicken_Thigh:boolean;
-
-
+  totalCuts: number;
+  usedCuts: number;
+  remianingCuts: number;
+  totaAmount: number;
+  numberOfSpendCount: number;
+  numberOfSpend: number;
+  startDate: string;
+  endDate: string;
+  chartArray:Array<object>;
   // Customizable Area End
 }
 
@@ -62,6 +75,11 @@ interface SS {
 
 export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   // Customizable Area Start
+  categoaryCallId:string ='';
+  myCreditCallId:string='';
+  showAlert(){
+    Alert.alert('Alert',"something went wrong please try again",[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+  }
   // Customizable Area End
 
   constructor(props: Props) {
@@ -70,8 +88,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     // Customizable Area Start
     this.subScribedMessages = [
-      getName(MessageEnum.AccoutLoginSuccess)
+      getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
+      getName(MessageEnum.RestAPIResponceMessage),
       // Customizable Area End
     ];
 
@@ -92,7 +111,20 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       showCalendar: false,
       selectedDate: "",
       markedDates: {},
+      startDate: "",
+      endDate: "",
       showAnimalList: false,
+      showLoader: false,
+      category_id: 0,
+      category_title: "",
+      categoryList:[],
+      chartArray: [],
+      numberOfSpend: 0,
+      numberOfSpendCount:  0,
+      usedCuts: 0,
+      totaAmount: 0,
+      totalCuts: 0,
+      remianingCuts:0,
       animalList: [{
         title: 'Cow',
         id: 0
@@ -128,6 +160,54 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   async receive(from: string, message: Message) {
     runEngine.debugLog("Message Recived", message);
     // Customizable Area Start
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.categoaryCallId != null &&
+      this.categoaryCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let list = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        console.log("error===>",error);
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+      } else {
+        this.setState({categoryList: list.data});
+        this.setState({category_id: 0})
+        this.setState({category_title: list.data[0]?.attributes?.name})
+        this.getAnalyticData()  
+        //showToast('success')
+      }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.myCreditCallId != null &&
+      this.myCreditCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let list = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.setState({usedCuts: list.used_cuts});
+      this.setState({remianingCuts: list.remaining_cuts});
+      this.setState({totalCuts: list.total_cuts});
+      this.setState({totaAmount: list.tota_amount});
+      this.setState({numberOfSpendCount: list.no_of_spend_count});
+      this.setState({numberOfSpend: list.no_of_spend});
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        console.log("error===>",error);
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+      } else {
+        //showToast('success')
+      }
+    }
+
     // Customizable Area End
   }
 
@@ -144,6 +224,64 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   // Customizable Area Start
+  async getCategoryList() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      token: data?.meta?.token,
+    };
+
+    const category = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.categoaryCallId = category.messageId;
+
+    category.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getCategories
+    );
+
+    category.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    category.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(category.id, category);    
+  }
+
+  async getAnalyticData() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      token: data?.meta?.token,
+    };
+
+    const category = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.myCreditCallId = category.messageId;
+
+    category.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${this.state.category_id}&start_date=${this.state.startDate}&end_date=${this.state.endDate}`
+    );
+
+    category.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    category.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(category.id, category);    
+  }
+
   clickOnChuck() {
     this.setState({ 
       chuck: true,

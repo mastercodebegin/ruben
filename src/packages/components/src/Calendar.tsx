@@ -12,7 +12,9 @@ import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
 import moment from "moment";
 import { addDays } from 'date-fns';
-
+interface Props {
+  dateSelected?: () => void
+}
 const backArrow = require("./arrow_left.png");
 const monthNames = [
   "January",
@@ -35,7 +37,9 @@ const getMonthName = (timestamp: number) => {
   return `${month} ${year}`;
 };
 
-const Calendar = () => {
+const Calendar = ({
+  dateSelected=(date: string) => {},
+}: Props): JSX.Element => {
   const [month, setMonth] = useState(new Date().getTime());
   const [selectedDate, setSelectedDate] = useState("");
   const [markDate, setMarkDate] = useState({
@@ -68,7 +72,7 @@ const Calendar = () => {
         endingDay : counter == 6 ? true : false},
       counter = counter + 1
       let addOneMoreDay = moment(dateObj).add(1, 'days').toDate();
-      dateObj =  addOneMoreDay // you are updating the same object again and again, so here I am creating new object
+      dateObj =  addOneMoreDay
   }
     setMarkDate(dict);
   };
@@ -148,6 +152,8 @@ const Calendar = () => {
     markedDates: markDate,
     firstDay: 0,
     onDayPress: (day: any) => {
+      console.log("check the day click:--->", day);
+      dateSelected(day.dateString)
       getSelectedDayEvents(day);
     },
   };
