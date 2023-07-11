@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import LandingPageController from "../LandingPageController";
-import { DARK_RED, MEAT_IMAGE3, MEAT_IMAGE2, badge } from "../assets";
+import { DARK_RED, MEAT_IMAGE2, badge, MID_PEACH } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 const ImageData = [
@@ -33,6 +33,7 @@ const ImageData = [
 export default class AboutUs extends LandingPageController {
   async componentDidMount(): Promise<void> {
     this.getAboutUs.bind(this)();
+    this.getProductList(false)
   }
   renderItem = (item: any) => {
     return (
@@ -110,19 +111,17 @@ export default class AboutUs extends LandingPageController {
                   </View>
                   <View style={{ marginVertical: 5 }}>
                     <Image
-                      source={MEAT_IMAGE3}
-                      style={styles.productImageStyle}
+                      source={this.state.productList[0]?.attributes?.images[0]?.url}
+                      style={[styles.productImageStyle,!this.state.productList[0]?.attributes?.images[0]?.url && {backgroundColor:MID_PEACH}]}
                     />
                   </View>
                   <View style={styles.priceContainer}>
-                    <Text style={styles.productName}>Meat</Text>
-                    <Text style={styles.price}>$ 22.99/kg</Text>
+                    <Text style={styles.productName}>{this.state.productList[0]?.attributes?.name}</Text>
+                    <Text style={styles.price}>{`$ ${this.state.productList[0]?.attributes?.price}`}</Text>
                   </View>
                   <View style={styles.descriptionContainer}>
                     <Text style={styles.description}>
-                      Filter text is the text tht shares some characteristics of
-                      a real written text , but is a random or otherwise
-                      generated .
+                      {this.state.productList[0]?.attributes?.name}
                     </Text>
                     <View style={styles.badgeContainer}>
                       <Image source={badge} style={styles.badge} />

@@ -69,7 +69,7 @@ interface S {
   subCategoryItem: string;
   categoryList: Array<object>;
   subCategoryList: Array<object>;
-  productList: Array<object>;
+  productList: Array<any>;
   aboutus:any;
   orderList: Array<any>;
   cartList:Array<any>;

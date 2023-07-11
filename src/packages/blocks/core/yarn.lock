@@ -1438,6 +1438,8 @@
 
 "@date-io/moment@1.1.0":
   version "1.1.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@date-io%2fmoment/-/moment-1.1.0.tgz#993c71b77f52f078de6a28e61ddfae757d39dc64"
+  integrity sha512-U7Vrhk7nlrKMtlLuNs7DAWmMsMBTgWFAvgpKg6Z5Opo/U7ab5DvI8nLks5dqJbeEFQDSlO+KCmJWfsL9hVI3Jw==
   dependencies:
     "@date-io/core" "^1.1.0"
 
@@ -1477,6 +1479,8 @@
 
 "@firebase/analytics@^0.2.15":
   version "0.2.18"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@firebase%2fanalytics/-/analytics-0.2.18.tgz#c6b8b3c5684237b0d8b08a8047cb18e18a671a54"
+  integrity sha512-sw8TO7YYRnrcqQGYWjWHw6PTNpwWPSZzMaFgLp5oJKsKM7CoOz5K/fxEIfZIF36Zzf0Xky3oU8msek/Zjc5Phg==
   dependencies:
     "@firebase/analytics-types" "0.2.8"
     "@firebase/component" "0.1.8"
@@ -2193,6 +2197,8 @@
 
 "@material-ui/core@4.12.4":
   version "4.12.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@material-ui%2fcore/-/core-4.12.4.tgz#4ac17488e8fcaf55eb6a7f5efb2a131e10138a73"
+  integrity sha512-tr7xekNlM9LjA6pagJmL8QCgZXaubWUwkJnoYcMKd4gw/t4XiyvnTkjdGrUVicyB2BsdaAv1tvow45bPM4sSwQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.11.5"
@@ -2209,11 +2215,15 @@
 
 "@material-ui/icons@4.11.2":
   version "4.11.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@material-ui%2ficons/-/icons-4.11.2.tgz#b3a7353266519cd743b6461ae9fdfcb1b25eb4c5"
+  integrity sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
 
 "@material-ui/lab@^4.0.0-alpha.60":
   version "4.0.0-alpha.61"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@material-ui%2flab/-/lab-4.0.0-alpha.61.tgz#9bf8eb389c0c26c15e40933cc114d4ad85e3d978"
+  integrity sha512-rSzm+XKiNUjKegj8bzt5+pygZeckNLOr+IjykH8sYdVk7dE9y2ZuUSofiMV2bJk3qU+JHwexmw+q0RyNZB9ugg==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/utils" "^4.11.3"
@@ -2223,6 +2233,8 @@
 
 "@material-ui/pickers@^3.3.10":
   version "3.3.10"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@material-ui%2fpickers/-/pickers-3.3.10.tgz#f1b0f963348cc191645ef0bdeff7a67c6aa25485"
+  integrity sha512-hS4pxwn1ZGXVkmgD4tpFpaumUaAg2ZzbTrxltfC5yPw4BJV+mGkfnQOB4VpWEYZw2jv65Z0wLwDE/piQiPPZ3w==
   dependencies:
     "@babel/runtime" "^7.6.0"
     "@date-io/core" "1.x"
@@ -2297,6 +2309,8 @@
 
 "@pdftron/webviewer@8.3.0":
   version "8.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@pdftron%2fwebviewer/-/webviewer-8.3.0.tgz#94be7a0387923e3be6b7f08737a281fd0c55e3a1"
+  integrity sha512-nrWNOgT0uEejARpgle9YT/K+pyHwHLk3wTtyOGk6cRTcA+lAlBZZQ2bzvzvChodQJRWuBHEb/+J7PUoe2HxqRg==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -2353,11 +2367,15 @@
 
 "@react-native-community/async-storage-backend-legacy@^2.0.0-rc.2":
   version "2.0.0-rc.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fasync-storage-backend-legacy/-/async-storage-backend-legacy-2.0.0-rc.3.tgz#4f905bcfa4168918b61835bcd80ab16c68e2f5a5"
+  integrity sha512-nWH8GDMxQ93Ayx1ZhQWZkH70yz8e2mGOeiF7xY7h1/GNxl0taWJrjaWRaHb9FNcC7xe42c33hIjJBRZe0cMlFQ==
   dependencies:
     "@react-native-community/async-storage" "^2.0.0-rc.3"
 
 "@react-native-community/async-storage-backend-web@^2.0.0-rc.0":
   version "2.0.0-rc.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fasync-storage-backend-web/-/async-storage-backend-web-2.0.0-rc.0.tgz#14bf76fd688ef0ea00297017399cd6550be844a8"
+  integrity sha512-9+sWZu82p2LWhLEkgzvk8kabOIiYEUM5ym+8IkdmO9gWpEnV1J4/SQ6btzM6tzFgXEPvCfaPBxRHqwaoX9c1oA==
   dependencies:
     "@react-native-community/async-storage" "^2.0.0-rc.0"
 
@@ -2367,7 +2385,9 @@
   integrity sha512-inAIetMy5HwKA9vZGKrVzXA+Uxr7EzKy/IG+DsWTISEqQMwl0b3JWufRZHk3Xj7MqMSn8PdBDM/mmk5tY15qLg==
 
 "@react-native-community/checkbox@^0.5.5":
-  version "0.5.15"
+  version "0.5.16"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fcheckbox/-/checkbox-0.5.16.tgz#3265260e5fd961a4f032d0c088bbfbdfa96ee44e"
+  integrity sha512-j4fmWe77EAayGnKJ52BljlN8apLT3xjxG/pJOA6HZ4ew63FiXmnY7VtxTzmvDKgSPrETdQc2lmx5mdXTAufJnw==
 
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
@@ -2462,11 +2482,15 @@
 
 "@react-native-community/datetimepicker@6.1.2":
   version "6.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fdatetimepicker/-/datetimepicker-6.1.2.tgz#a897291bc8ff2394f922721f40692c812f9145a0"
+  integrity sha512-4D21x4eywCY2Ex4BI6tQhUEOOKSruz9uPbGK0azGKZap/etoiPtH3nuG56ACtpmUlu5d1R9zzTlumr02dp39hA==
   dependencies:
     invariant "^2.2.4"
 
 "@react-native-community/eslint-config@0.0.5":
   version "0.0.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2feslint-config/-/eslint-config-0.0.5.tgz#584f6493258202a57efc22e7be66966e43832795"
+  integrity sha512-jwO2tnKaTPTLX5XYXMHGEnFdf543SU7jz98/OF5mDH3b7lP+BOaCD+jVfqqHoDRkcqyPlYiR1CgwVGWpi0vMWg==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^1.5.0"
     "@typescript-eslint/parser" "^1.5.0"
@@ -2482,12 +2506,18 @@
 
 "@react-native-community/eslint-plugin@^1.0.0":
   version "1.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2feslint-plugin/-/eslint-plugin-1.3.0.tgz#9e558170c106bbafaa1ef502bd8e6d4651012bf9"
+  integrity sha512-+zDZ20NUnSWghj7Ku5aFphMzuM9JulqCW+aPXT6IfIXFbb8tzYTTOSeRFOtuekJ99ibW2fUCSsjuKNlwDIbHFg==
 
 "@react-native-community/google-signin@^5.0.0":
   version "5.0.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fgoogle-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
+  integrity sha512-MvFHImmtlmE1kJZgZ9XaULm/OBuQ/AQWOCPr3NzYTUv2cCqyGwfFrealo5PS/fuL/InCGcfqK1k/1dZ+67Hjmg==
 
 "@react-native-community/netinfo@^5.3.3":
   version "5.9.10"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fnetinfo/-/netinfo-5.9.10.tgz#97d3a9fa62a3a4838ec7a6ec91cfec5a26e365b6"
+  integrity sha512-1NPlBA2Hu/KWc3EnQcDRPRX0x8Dg9tuQlQQVWVQjlg+u+PjCq7ANEtbikOFKp5yQqfF8tqzU5+84/IfDO8zpiA==
 
 "@react-native-community/netinfo@^7.1.3":
   version "7.1.12"
@@ -2496,9 +2526,13 @@
 
 "@react-native-community/slider@4.2.1":
   version "4.2.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-community%2fslider/-/slider-4.2.1.tgz#8f1c8cf62de1bd91ce1e32585f7eb666f21e5025"
+  integrity sha512-6HUS5HbB9bvEN4GiwBlxECgPWQIugHE+kfnxqX2jHUl1SE57MRpw00m1qVs4hXtEPQndBl6mAQiGbKCOtLPVbg==
 
 "@react-native-firebase/analytics@^13.0.1":
   version "13.1.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-native-firebase%2fanalytics/-/analytics-13.1.1.tgz#f0d2e943903e745b0ed0004c2588983ad5dc5543"
+  integrity sha512-6FachaeuBlI0jiZDktQBsk7KKsJyzEYxylFcgDv1Z4DBsbut0Dl4+7TlPJAlrXxqjlnU8W/2PsAv0j6U85JLmA==
 
 "@react-native-firebase/app@^17.4.2":
   version "17.5.0"
@@ -2557,6 +2591,8 @@
 
 "@react-navigation/native@^5.9.3":
   version "5.9.8"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@react-navigation%2fnative/-/native-5.9.8.tgz#ac76ee6390ea7ce807486ca5c38d903e23433a97"
+  integrity sha512-DNbcDHXQPSFDLn51kkVVJjT3V7jJy2GztNYZe/2bEg29mi5QEcHHcpifjMCtyFKntAOWzKlG88UicIQ17UEghg==
   dependencies:
     "@react-navigation/core" "^5.16.1"
     escape-string-regexp "^4.0.0"
@@ -2748,11 +2784,15 @@
 
 "@types/enzyme-adapter-react-16@^1.0.2":
   version "1.0.6"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fenzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.6.tgz#8aca7ae2fd6c7137d869b6616e696d21bb8b0cec"
+  integrity sha512-VonDkZ15jzqDWL8mPFIQnnLtjwebuL9YnDkqeCDYnB4IVgwUm0mwKkqhrxLL6mb05xm7qqa3IE95m8CZE9imCg==
   dependencies:
     "@types/enzyme" "*"
 
 "@types/enzyme@*", "@types/enzyme@^3.1.12":
   version "3.10.13"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fenzyme/-/enzyme-3.10.13.tgz#332c0ed59b01f7b1c398c532a1c21a5feefabeb1"
+  integrity sha512-FCtoUhmFsud0Yx9fmZk179GkdZ4U9B0GFte64/Md+W/agx0L5SxsIIbhLBOxIb9y2UfBA4WQnaG1Od/UsUQs9Q==
   dependencies:
     "@types/cheerio" "*"
     "@types/react" "^16"
@@ -2764,6 +2804,8 @@
 
 "@types/gapi.auth2@0.0.51":
   version "0.0.51"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fgapi.auth2/-/gapi.auth2-0.0.51.tgz#01410ccff41ec0eb744635d806557de9393c76a7"
+  integrity sha512-j66GKDjxM01HLBpwFlii0E3Bsn7+dn1qabgosGSWhuM0/waHZ8ooT/T3M5U9mdx6BQ4sk+gzW1HDux00yZVWRw==
   dependencies:
     "@types/gapi" "*"
 
@@ -2774,6 +2816,8 @@
 
 "@types/gapi@0.0.39":
   version "0.0.39"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fgapi/-/gapi-0.0.39.tgz#bc7fa8cd0cb175b36e3609790fb2ed73a33f6881"
+  integrity sha512-R1TZeZbvvbIC60DBJMhuOEivQHzOQtzl3uMDOOENTYQTSSDB6oEMpJo8HVPOTWivdUTbyEcB5qQOVr/JCKRlCQ==
 
 "@types/geojson@^7946.0.7":
   version "7946.0.10"
@@ -2833,6 +2877,8 @@
 
 "@types/jest@^25.1.0":
   version "25.2.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fjest/-/jest-25.2.3.tgz#33d27e4c4716caae4eced355097a47ad363fdcaf"
+  integrity sha512-JXc1nK/tXHiDhV55dvfzqtmP4S3sy3T3ouV2tkViZgxY/zeUkcpQcQPGRlgF4KmWzWW5oiWYSZwtCB+2RsE4Fw==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
@@ -2864,6 +2910,8 @@
 
 "@types/node@^13.7.2":
   version "13.13.52"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fnode/-/node-13.13.52.tgz#03c13be70b9031baaed79481c0c0cfb0045e53f7"
+  integrity sha512-s3nugnZumCC//n4moGGe6tkNMyYEdaDBitVjwPxXmR5lnMG5dHePinH2EdxkG3Rh1ghFHHixAG4NJhpJW1rthQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2899,11 +2947,15 @@
 
 "@types/react-facebook-login@^4.1.1":
   version "4.1.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-facebook-login/-/react-facebook-login-4.1.5.tgz#a27c7c54e9d4b53f098dc4cb0fd84c0fb4d4e12c"
+  integrity sha512-adYUfzgeOa0I0dtgFsG/KzigvslSEY8KWXyAp9RjjPp7aWzbpNbkw8KR1RaGb98m+xO0udf9OnjDlpGsPcfCvA==
   dependencies:
     "@types/react" "*"
 
 "@types/react-native-calendars@1.20.11":
   version "1.20.11"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-calendars/-/react-native-calendars-1.20.11.tgz#d482390ef2391b6d6d711a6e6c101caf9119adc8"
+  integrity sha512-LwYXbNy5+zY08tDRIbvFzE9uCLQwQNL+PUDDGhmyjwx7BOY+leVGUdJovH/Bm0W09PBuUE6D0bfm4JDiq1zkVQ==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -2911,29 +2963,39 @@
 
 "@types/react-native-check-box@^2.1.0":
   version "2.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-check-box/-/react-native-check-box-2.1.2.tgz#01efc3345fb2e4201e5e587f6c33f15a7180cf7a"
+  integrity sha512-FQJg++wp/zYEM/eyAy71SYKmQuHhITJjNHqNuCMmJI13y6uscC/YvCYjBEvOCdul7xkMhC2XuMuqE040ei1e6Q==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
 
 "@types/react-native-document-picker@^3.1.1":
   version "3.1.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-document-picker/-/react-native-document-picker-3.1.1.tgz#f3a1973722b19f9b5d701500a7ef02e87c9a7522"
+  integrity sha512-xajdAyZkGc2xsZOxfcSg1+MOwrsRhFAU5CkQrPUueIM4Z6qLlKNtJfwk1Tg6xX4oK9tnxrUkkWrvNmOFGspizQ==
   dependencies:
     react-native-document-picker "*"
 
 "@types/react-native-fbsdk@^1.0.0":
   version "1.1.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-fbsdk/-/react-native-fbsdk-1.1.3.tgz#552029a0231565c8247354875f8853c97e62e6f0"
+  integrity sha512-a4LfLYBR8V8vo9pPOoS86Nq7TyLRzPiuVUu+hOuaaDUx0X22jqVpG1OmfiZAdMN7PkFEdqPVq7CUFqji9mWMeQ==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
 
 "@types/react-native-simple-radio-button@2.7.2":
   version "2.7.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-simple-radio-button/-/react-native-simple-radio-button-2.7.2.tgz#f2f4f218b61514aa9a71f1d268a1e1df33fd3fd2"
+  integrity sha512-iH/EBAtH2XznNvh+eCNeIl2c1fW5ZGGe6XC4qcNCiqO7oBHVQuyCTrtg+xEN3uxwxxYFb8EXa0hez1UqOKSJiw==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
 
 "@types/react-native-tab-view@2.3.0":
   version "2.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-tab-view/-/react-native-tab-view-2.3.0.tgz#1511e0f0f85056ee4476bff326464cea455b4078"
+  integrity sha512-gBO5Lj1BarOFBmsVxAYvvl0aiox4c3K0utwOtCslboyKI5aseqQ0S80GqRILPfEvQpkpI0TD6f8TWrtgkVQZmw==
   dependencies:
     react-native-tab-view "*"
 
@@ -2947,6 +3009,8 @@
 
 "@types/react-native-video-player@^0.10.2":
   version "0.10.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native-video-player/-/react-native-video-player-0.10.3.tgz#bedfa478eb69e5f1e513aa555c789bb5f0f8dec7"
+  integrity sha512-7ME/pS1uKq+zu3jELgriweYJi83c6nZZvKojLRDvabOPuJNDC2AtQom8UwwRrbnZt9tRFpQcQ6DX9R7Hj+f3pw==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -2970,6 +3034,8 @@
 
 "@types/react-native@0.60.22":
   version "0.60.22"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-native/-/react-native-0.60.22.tgz#ba199a441cb0612514244ffb1d0fe6f04c878575"
+  integrity sha512-LTXMKEyGA+x4kadmjujX6yAgpcaZutJ01lC7zLJWCULaZg7Qw5/3iOQpwIJRUcOc+a8A2RR7rSxplehVf9IuhA==
   dependencies:
     "@types/prop-types" "*"
     "@types/react" "*"
@@ -2983,11 +3049,15 @@
 
 "@types/react-navigation@^3.4.0":
   version "3.4.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-navigation/-/react-navigation-3.4.0.tgz#d610d13c9162312079a8ca102660143f07432cbf"
+  integrity sha512-Y7F5zU8BTBK8tEOvUqgvwvPZ7+9vnc2UI1vHwJ/9ZJG98TntNv04GWa6lrn4MA4149pqw6cyNw/V49Yd2osAFQ==
   dependencies:
     react-navigation "*"
 
 "@types/react-router-dom@^5.1.3":
   version "5.3.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
+  integrity sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==
   dependencies:
     "@types/history" "^4.7.11"
     "@types/react" "*"
@@ -3003,12 +3073,16 @@
 
 "@types/react-rte@^0.16.1":
   version "0.16.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-rte/-/react-rte-0.16.5.tgz#df6e758c9dcf8a237b3a82e5cbae31d37481f4e9"
+  integrity sha512-BD3+c2d5gLPToD9urec1oWOBFh9QTfHvgkuD7uwomdEHUNGPimSIh6V/PpFrRbbyFJRzioWaohVbRdMu1PRKsw==
   dependencies:
     "@types/draft-js" "*"
     "@types/react" "*"
 
 "@types/react-select@^3.0.10":
   version "3.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact-select/-/react-select-3.1.2.tgz#38627df4b49be9b28f800ed72b35d830369a624b"
+  integrity sha512-ygvR/2FL87R2OLObEWFootYzkvm67LRA+URYEAcBuvKk7IXmdsnIwSGm60cVXGaqkJQHozb2Cy1t94tCYb6rJA==
   dependencies:
     "@types/react" "*"
     "@types/react-dom" "*"
@@ -3030,12 +3104,16 @@
 
 "@types/react@*", "@types/react@16.9.11", "@types/react@^16":
   version "16.9.11"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2freact/-/react-16.9.11.tgz#70e0b7ad79058a7842f25ccf2999807076ada120"
+  integrity sha512-UBT4GZ3PokTXSWmdgC/GeCGEJXE5ofWyibCcecRLUVN2ZBpXQGVgQGtG2foS7CrTKFKlQVVswLvf7Js6XA/CVQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
 "@types/recompose@^0.30.7":
   version "0.30.10"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2frecompose/-/recompose-0.30.10.tgz#b6ab1743c279f463f2b62ccb90b82433dcea63c5"
+  integrity sha512-oF1ulwi5Tz7L9jZE870CCyD6n/nvCLNaGMp/oMEnm4gd7doc67rSHtypM6MFDiI6BKjTXoR87CwhET5JJInDFQ==
   dependencies:
     "@types/react" "*"
 
@@ -3058,6 +3136,8 @@
 
 "@types/uuid@^7.0.0":
   version "7.0.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fuuid/-/uuid-7.0.5.tgz#b1d2f772142a301538fae9bdf9cf15b9f2573a29"
+  integrity sha512-hKB88y3YHL8oPOs/CNlaXtjWn93+Bs48sDQR37ZUqG2tLeCS7EA1cmnkKsuQsub9OKEB/y/Rw9zqJqqNSbqVlQ==
 
 "@types/xdate@*":
   version "0.8.32"
@@ -3085,6 +3165,8 @@
 
 "@types/yup@^0.26.30":
   version "0.26.37"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@types%2fyup/-/yup-0.26.37.tgz#7a52854ac602ba0dc969bebc960559f7464a1686"
+  integrity sha512-cDqR/ez4+iAVQYOwadXjKX4Dq1frtnDGV2GNVKj3aUVKVCKRvsr8esFk66j+LgeeJGmrMcBkkfCf3zk13MjV7A==
 
 "@typescript-eslint/eslint-plugin@1.13.0", "@typescript-eslint/eslint-plugin@^1.5.0":
   version "1.13.0"
@@ -3099,6 +3181,8 @@
 
 "@typescript-eslint/eslint-plugin@2.20.0":
   version "2.20.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@typescript-eslint%2feslint-plugin/-/eslint-plugin-2.20.0.tgz#a522d0e1e4898f7c9c6a8e1ed3579b60867693fa"
+  integrity sha512-cimIdVDV3MakiGJqMXw51Xci6oEDEoPkvh8ggJe2IIzcc0fYqAxOXN6Vbeanahz6dLZq64W+40iUEc9g32FLDQ==
   dependencies:
     "@typescript-eslint/experimental-utils" "2.20.0"
     eslint-utils "^1.4.3"
@@ -3146,6 +3230,8 @@
 
 "@typescript-eslint/parser@2.20.0":
   version "2.20.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@typescript-eslint%2fparser/-/parser-2.20.0.tgz#608e5bb06ba98a415b64ace994c79ab20f9772a9"
+  integrity sha512-o8qsKaosLh2qhMZiHNtaHKTHyCHc3Triq6aMnwnWj7budm3xAY9owSZzV1uon5T9cWmJRJGzTFa90aex4m77Lw==
   dependencies:
     "@types/eslint-visitor-keys" "^1.0.0"
     "@typescript-eslint/experimental-utils" "2.20.0"
@@ -3188,11 +3274,15 @@
 
 "@unimodules/core@^5.0.0":
   version "5.5.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@unimodules%2fcore/-/core-5.5.1.tgz#82afe960568c58da62c76ea45ca77aa43a31ce13"
+  integrity sha512-4OADQJqQ52TsCzfK+xUGWjt3zZADYxRvBZe8JXrnx2qGMXhFFUUn2JMEZT3nDt4QwtM+rIp9BsrQCMIPlXCOHg==
   dependencies:
     compare-versions "^3.4.0"
 
 "@unimodules/react-native-adapter@^5.0.0":
   version "5.7.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/@unimodules%2freact-native-adapter/-/react-native-adapter-5.7.0.tgz#c5b7c660c5c69e77a7baeaed62be73cfe18dd7b0"
+  integrity sha512-L557/+sc8ZKJVgo1734HF1QNCxrt/fpqdmdNgySJT+kErux/AJNfPq3flsK0fyJduVmniTutYIMyW48cFoPKDA==
   dependencies:
     invariant "^2.2.4"
     lodash "^4.5.0"
@@ -4038,6 +4128,8 @@ babel-eslint@10.0.2:
 
 babel-eslint@10.0.3:
   version "10.0.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/babel-eslint/-/babel-eslint-10.0.3.tgz#81a2c669be0f205e19462fed2482d33e4687a88a"
+  integrity sha512-z3U7eMY6r/3f3/JB9mTsLjyxrv0Yb1zb8PCWCLpguxfCzBIZUwy23R1t/XKewP+8mEN2Ck8Dtr4q20z6ce6SoA==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/parser" "^7.0.0"
@@ -4131,6 +4223,8 @@ babel-helper-replace-supers@^6.24.1:
 
 babel-jest@25.0.0:
   version "25.0.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/babel-jest/-/babel-jest-25.0.0.tgz#8ce44972e236891df9f468b46299ba98c169959f"
+  integrity sha512-DUSRasWhUmc3lleq+CyLvUNaotWntnkxArLvteyxVmLPHSZ0k8maB3Ng1SzIqjX6Xh+PERuZ7HCRi4h4XbcOmA==
   dependencies:
     "@jest/transform" "^25.0.0"
     "@jest/types" "^25.0.0"
@@ -4278,6 +4372,8 @@ babel-plugin-polyfill-regenerator@^0.5.1:
 
 babel-plugin-react-native-web@0.11.7:
   version "0.11.7"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/babel-plugin-react-native-web/-/babel-plugin-react-native-web-0.11.7.tgz#15b578c0731bd7d65d334f9c759d95e8e4a602e2"
+  integrity sha512-CxE7uhhqkzAFkwV2X7+Mc/UVPujQQDtja/EGxCXRJvdYRi72QTmaJYKbK1lV9qgTZuB+TDguU89coaA9Z1BNbg==
 
 babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
@@ -4549,6 +4645,8 @@ babel-preset-current-node-syntax@^1.0.0:
 
 babel-preset-es2015@^6.24.1:
   version "6.24.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/babel-preset-es2015/-/babel-preset-es2015-6.24.1.tgz#d44050d6bc2c9feea702aaf38d727a0210538939"
+  integrity sha512-XfwUqG1Ry6R43m4Wfob+vHbIVBIqTg/TJY4Snku1iIzeH7mUnwHA8Vagmv+ZQbPwhS8HgsdQvy28Py3k5zpoFQ==
   dependencies:
     babel-plugin-check-es2015-constants "^6.22.0"
     babel-plugin-transform-es2015-arrow-functions "^6.22.0"
@@ -4907,6 +5005,8 @@ brorand@^1.0.1, brorand@^1.1.0:
 
 brotli-webpack-plugin@^1.1.0:
   version "1.1.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/brotli-webpack-plugin/-/brotli-webpack-plugin-1.1.0.tgz#57168f1f109c07d45b412f52b287fc9dab50103c"
+  integrity sha512-byxKhV7L/OsN9urBgcD8Gkgq0OW61KYdSBwN249vT77VRl+9iz6TlWDXhg45rwYynZYetr+WRVuUvQ5WzwcYDQ==
   dependencies:
     async "~2.6.0"
     webpack-sources "^1.0.2"
@@ -5740,6 +5840,8 @@ compressible@~2.0.16:
 
 compression-webpack-plugin@^3.0.0:
   version "3.1.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/compression-webpack-plugin/-/compression-webpack-plugin-3.1.0.tgz#9f510172a7b5fae5aad3b670652e8bd7997aeeca"
+  integrity sha512-iqTHj3rADN4yHwXMBrQa/xrncex/uEQy8QHlaTKxGchT/hC0SdlJlmL/5eRqffmWq2ep0/Romw6Ld39JjTR/ug==
   dependencies:
     cacache "^13.0.1"
     find-cache-dir "^3.0.0"
@@ -5778,6 +5880,8 @@ concat-stream@^1.5.0, concat-stream@^1.5.2, concat-stream@^1.6.0:
 
 concurrently@5.0.0:
   version "5.0.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/concurrently/-/concurrently-5.0.0.tgz#99c7567d009411fbdc98299d553c4b99a978612c"
+  integrity sha512-1yDvK8mduTIdxIxV9C60KoiOySUl/lfekpdbI+U5GXaPrgdffEavFa9QZB3vh68oWOpbCC+TuvxXV9YRPMvUrA==
   dependencies:
     chalk "^2.4.2"
     date-fns "^2.0.1"
@@ -7037,6 +7141,8 @@ envinfo@^7.1.0:
 
 enzyme-adapter-react-16@^1.15.2:
   version "1.15.7"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.7.tgz#a737e6d8e2c147e9da5acf957755be7634f76201"
+  integrity sha512-LtjKgvlTc/H7adyQcj+aq0P0H07LDL480WQl1gU512IUyaDo/sbOaNDdZsJXYW2XaoPqrLLE9KbZS+X2z6BASw==
   dependencies:
     enzyme-adapter-utils "^1.14.1"
     enzyme-shallow-equal "^1.0.5"
@@ -7079,6 +7185,8 @@ enzyme-shallow-equal@^1.0.1, enzyme-shallow-equal@^1.0.5:
 
 enzyme-to-json@^3.3.0, enzyme-to-json@^3.3.4:
   version "3.6.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/enzyme-to-json/-/enzyme-to-json-3.6.2.tgz#94f85c413bcae8ab67be53b0a94b69a560e27823"
+  integrity sha512-Ynm6Z6R6iwQ0g2g1YToz6DWhxVnt8Dy1ijR2zynRKxTyBGA8rCDXU3rs2Qc4OKvUvc2Qoe1bcFK6bnPs20TrTg==
   dependencies:
     "@types/cheerio" "^0.22.22"
     lodash "^4.17.21"
@@ -7086,6 +7194,8 @@ enzyme-to-json@^3.3.0, enzyme-to-json@^3.3.4:
 
 enzyme@^3.3.0:
   version "3.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/enzyme/-/enzyme-3.11.0.tgz#71d680c580fe9349f6f5ac6c775bc3e6b7a79c28"
+  integrity sha512-Dw8/Gs4vRjxY6/6i9wU0V+utmQO9kvh9XLnz3LIudviOnVYDEe2ec+0k+NQoMamn1VrjKgCUOWj5jG/5M5M0Qw==
   dependencies:
     array.prototype.flat "^1.2.3"
     cheerio "^1.0.0-rc.3"
@@ -7287,6 +7397,8 @@ eslint-config-airbnb-base@^14.0.0:
 
 eslint-config-airbnb@18.0.1:
   version "18.0.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-config-airbnb/-/eslint-config-airbnb-18.0.1.tgz#a3a74cc29b46413b6096965025381df8fb908559"
+  integrity sha512-hLb/ccvW4grVhvd6CT83bECacc+s4Z3/AEyWQdIT2KeTsG9dR7nx1gs7Iw4tDmGKozCNHFn4yZmRm3Tgy+XxyQ==
   dependencies:
     eslint-config-airbnb-base "^14.0.0"
     object.assign "^4.1.0"
@@ -7294,11 +7406,15 @@ eslint-config-airbnb@18.0.1:
 
 eslint-config-prettier@6.10.0:
   version "6.10.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-config-prettier/-/eslint-config-prettier-6.10.0.tgz#7b15e303bf9c956875c948f6b21500e48ded6a7f"
+  integrity sha512-AtndijGte1rPILInUdHjvKEGbIV06NuvPrqlIEaEaWtbtvJh464mDeyGMdZEQMsGvC0ZVkiex1fSNcC4HAbRGg==
   dependencies:
     get-stdin "^6.0.0"
 
 eslint-config-react-app@^5.0.1, eslint-config-react-app@^5.2.0:
   version "5.2.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-config-react-app/-/eslint-config-react-app-5.2.1.tgz#698bf7aeee27f0cea0139eaef261c7bf7dd623df"
+  integrity sha512-pGIZ8t0mFLcV+6ZirRgYK6RVqUIKRIi9MmgzUEmrIknsn3AdO0I32asO86dJgloHq+9ZPl8UIg8mYrvgP5u2wQ==
   dependencies:
     confusing-browser-globals "^1.0.9"
 
@@ -7331,11 +7447,15 @@ eslint-module-utils@^2.4.0, eslint-module-utils@^2.7.4:
 
 eslint-plugin-babel@5.3.0:
   version "5.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-babel/-/eslint-plugin-babel-5.3.0.tgz#2e7f251ccc249326da760c1a4c948a91c32d0023"
+  integrity sha512-HPuNzSPE75O+SnxHIafbW5QB45r2w78fxqwK3HmjqIUoPfPzVrq6rD+CINU3yzoDSzEhUkX07VUphbF73Lth/w==
   dependencies:
     eslint-rule-composer "^0.3.0"
 
 eslint-plugin-eslint-comments@3.1.2:
   version "3.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.1.2.tgz#4ef6c488dbe06aa1627fea107b3e5d059fc8a395"
+  integrity sha512-QexaqrNeteFfRTad96W+Vi4Zj1KFbkHHNMMaHZEYcovKav6gdomyGzaxSDSL3GoIyUOo078wRAdYlu1caiauIQ==
   dependencies:
     escape-string-regexp "^1.0.5"
     ignore "^5.0.5"
@@ -7381,6 +7501,8 @@ eslint-plugin-import@2.18.2:
 
 eslint-plugin-import@^2.20.0:
   version "2.27.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-import/-/eslint-plugin-import-2.27.5.tgz#876a6d03f52608a3e5bb439c2550588e51dd6c65"
+  integrity sha512-LmEt3GVofgiGuiE+ORpnvP+kAm3h6MLZJ4Q5HCyHADofsb4VzXFsRiWj3c0OFiV+3DWFh0qg3v9gcPlfc3zRow==
   dependencies:
     array-includes "^3.1.6"
     array.prototype.flat "^1.3.1"
@@ -7405,11 +7527,15 @@ eslint-plugin-jest@22.4.1:
 
 eslint-plugin-jest@23.7.0:
   version "23.7.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-jest/-/eslint-plugin-jest-23.7.0.tgz#84d5603b6e745b59898cb6750df6a44782a39b04"
+  integrity sha512-zkiyGlvJeHNjAEz8FaIxTXNblJJ/zj3waNbYbgflK7K6uy0cpE5zJBt/JpJtOBGM/UGkC6BqsQ4n0y7kQ2HA8w==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
 eslint-plugin-jsx-a11y@6.2.3:
   version "6.2.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.2.3.tgz#b872a09d5de51af70a97db1eea7dc933043708aa"
+  integrity sha512-CawzfGt9w83tyuVekn0GDPU9ytYtxyxyFZ3aSWROmnRRFQFT2BiPJd7jvRdzNDi6oLWaS2asMeYSNMjWTV4eNg==
   dependencies:
     "@babel/runtime" "^7.4.5"
     aria-query "^3.0.0"
@@ -7470,6 +7596,8 @@ eslint-plugin-react-native@3.6.0:
 
 eslint-plugin-react-native@^3.8.1:
   version "3.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-react-native/-/eslint-plugin-react-native-3.11.0.tgz#c73b0886abb397867e5e6689d3a6a418682e6bac"
+  integrity sha512-7F3OTwrtQPfPFd+VygqKA2VZ0f2fz0M4gJmry/TRE18JBb94/OtMxwbL7Oqwu7FGyrdeIOWnXQbBAveMcSTZIA==
   dependencies:
     "@babel/traverse" "^7.7.4"
     eslint-plugin-react-native-globals "^0.1.1"
@@ -7504,6 +7632,8 @@ eslint-plugin-react@7.14.3:
 
 eslint-plugin-react@7.18.3:
   version "7.18.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-react/-/eslint-plugin-react-7.18.3.tgz#8be671b7f6be095098e79d27ac32f9580f599bc8"
+  integrity sha512-Bt56LNHAQCoou88s8ViKRjMB2+36XRejCQ1VoLj716KI1MoE99HpTVvIThJ0rvFmG4E4Gsq+UgToEjn+j044Bg==
   dependencies:
     array-includes "^3.1.1"
     doctrine "^2.1.0"
@@ -7518,6 +7648,8 @@ eslint-plugin-react@7.18.3:
 
 eslint-plugin-sonarjs@^0.5.0:
   version "0.5.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.5.0.tgz#ce17b2daba65a874c2862213a9e38e8986ad7d7d"
+  integrity sha512-XW5MnzlRjhXpIdbULC/qAdJYHWw3rRLws/DyawdlPU/IdVr9AmRK1r2LaCvabwKOAW2XYYSo3kDX58E4MrB7PQ==
 
 eslint-rule-composer@^0.3.0:
   version "0.3.0"
@@ -7577,6 +7709,8 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0:
 
 eslint@6.6.0:
   version "6.6.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/eslint/-/eslint-6.6.0.tgz#4a01a2fb48d32aacef5530ee9c5a78f11a8afd04"
+  integrity sha512-PpEBq7b6qY/qrOmpYQ/jTMDYfuQMELR4g4WI1M/NaSDDD/bdcMb+dj4Hgks7p41kW2caXsPsEZAEAyAgjVVC0g==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     ajv "^6.10.0"
@@ -8362,6 +8496,8 @@ find-up@^4.0.0, find-up@^4.1.0:
 
 firebase@^7.9.3:
   version "7.24.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/firebase/-/firebase-7.24.0.tgz#dab53b9c0f1c9538d2d6f4f51769897b0b6d60d8"
+  integrity sha512-j6jIyGFFBlwWAmrlUg9HyQ/x+YpsPkc/TTkbTyeLwwAJrpAmmEHNPT6O9xtAnMV4g7d3RqLL/u9//aZlbY4rQA==
   dependencies:
     "@firebase/analytics" "0.6.0"
     "@firebase/app" "0.6.11"
@@ -8634,6 +8770,8 @@ functions-have-names@^1.2.2, functions-have-names@^1.2.3:
 
 gapi-script@^1.0.1:
   version "1.2.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/gapi-script/-/gapi-script-1.2.0.tgz#8106ad0abb36661ce4fab62ef6efada288d7169e"
+  integrity sha512-NKTVKiIwFdkO1j1EzcrWu/Pz7gsl1GmBmgh+qhuV2Ytls04W/Eg5aiBL91SCiBM9lU0PMu7p1hTVxhh1rPT5Lw==
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -9136,6 +9274,8 @@ html-minifier@^3.5.20:
 
 html-react-parser@^1.2.4:
   version "1.4.14"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/html-react-parser/-/html-react-parser-1.4.14.tgz#577b7a90be0c61eebbbc488d914ad08398c79ef5"
+  integrity sha512-pxhNWGie8Y+DGDpSh8cTa0k3g8PsDcwlfolA+XxYo1AGDeB6e2rdlyv4ptU9bOTiZ2i3fID+6kyqs86MN0FYZQ==
   dependencies:
     domhandler "4.3.1"
     html-dom-parser "1.2.0"
@@ -9277,6 +9417,8 @@ hyphenate-style-name@^1.0.2, hyphenate-style-name@^1.0.3:
 
 i18n-js@^3.7.1:
   version "3.9.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/i18n-js/-/i18n-js-3.9.2.tgz#4a015dcfabd4c9fc73115fc2d02d2627e4c15ca5"
+  integrity sha512-+Gm8h5HL0emzKhRx2avMKX+nKiVPXeaOZm7Euf2/pbbFcLQoJ3zZYiUykAzoRasijCoWos2Kl1tslmScTgAQKw==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.17, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -9591,6 +9733,8 @@ invariant@*, invariant@2.2.4, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2
 
 invert-color@2.0.0:
   version "2.0.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/invert-color/-/invert-color-2.0.0.tgz#894ab1f7494a6e45f5e74c2f99ec042cd67dd23e"
+  integrity sha512-9s6IATlhOAr0/0MPUpLdMpk81ixIu8IqwPwORssXBauFT/4ff/iyEOcojd0UYuPwkDbJvL1+blIZGhqVIaAm5Q==
 
 invert-kv@^1.0.0:
   version "1.0.0"
@@ -10258,6 +10402,8 @@ jest-config@^26.6.3:
 
 jest-cucumber@^2.0.11:
   version "2.0.13"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/jest-cucumber/-/jest-cucumber-2.0.13.tgz#5693c61f75f4cc0fe9d9dfee613c67b811e02713"
+  integrity sha512-GBlS6OtUIU1E7SBYryN6m4pEl4jy/Fga6dpvXt5nehg3ItnxTRINK6CcYwJq9ToJMV0pkdHd0AhvBwBOiJ19Zw==
   dependencies:
     "@types/jest" "^24.0.7"
     "@types/node" "^11.9.4"
@@ -10402,6 +10548,8 @@ jest-environment-node@^26.6.2:
 
 jest-enzyme@^7.1.2:
   version "7.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/jest-enzyme/-/jest-enzyme-7.1.2.tgz#91a10b2d3be1b56c0d65b34286e5bdc41ab4ba3d"
+  integrity sha512-j+jkph3t5hGBS12eOldpfsnERYRCHi4c/0KWPMnqRPoJJXvCpLIc5th1MHl0xDznQDXVU0AHUXg3rqMrf8vGpA==
   dependencies:
     enzyme-matchers "^7.1.2"
     enzyme-to-json "^3.3.0"
@@ -11009,6 +11157,8 @@ jest@^24.1.0:
 
 jest@^26.6.3:
   version "26.6.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/jest/-/jest-26.6.3.tgz#40e8fdbe48f00dfa1f0ce8121ca74b88ac9148ef"
+  integrity sha512-lGS5PXGAzR4RF7V5+XObhqz2KZIDUA1yD0DG6pBVmy10eh0ZIXQImRuzocsI/N2XZ1GrLFwTS27In2i2jlpq1Q==
   dependencies:
     "@jest/core" "^26.6.3"
     import-local "^3.0.2"
@@ -11466,6 +11616,8 @@ lines-and-columns@^1.1.6:
 
 lint-staged@10.0.7:
   version "10.0.7"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/lint-staged/-/lint-staged-10.0.7.tgz#d205f92d9359419a23bc6aa3b6f8546b1998da64"
+  integrity sha512-Byj0F4l7GYUpYYHEqyFH69NiI6ICTg0CeCKbhRorL+ickbzILKUlZLiyCkljZV02wnoh7yH7PmFyYm9PRNwk9g==
   dependencies:
     chalk "^3.0.0"
     commander "^4.0.1"
@@ -12103,6 +12255,8 @@ metro-minify-uglify@^0.56.4:
 
 metro-react-native-babel-preset@0.61.0:
   version "0.61.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.61.0.tgz#4276f6a300daba5f43d6b35f30a8354f8aa093a1"
+  integrity sha512-k0j2K70YadKFFayFOtw9sbaB38LdkkJLluwqHvyl9CRAa3m7cWQ6pZbakCPrp3OWyo7dJWbP70ybOvjoDv2jwQ==
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/plugin-proposal-class-properties" "^7.0.0"
@@ -12487,6 +12641,8 @@ mkdirp@0.x, mkdirp@^0.5.1, mkdirp@^0.5.4, mkdirp@^0.5.6, mkdirp@~0.5.1:
 
 moment@^2.24.0, moment@^2.29.1:
   version "2.29.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 moo@^0.5.0:
   version "0.5.2"
@@ -13466,6 +13622,8 @@ pixelmatch@^5.2.0:
 
 pixels-catcher@^0.7.0:
   version "0.7.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/pixels-catcher/-/pixels-catcher-0.7.0.tgz#4e3101430b227f66b944ecf14283ac22ed6d8ab5"
+  integrity sha512-U8J3n6CixQ471KEPhBKu06l+GXGtRLUpgLcWYcTDOARUNqUTw2MsYBXleQeni/wplVPh5IUKKmiaxjgynPHreQ==
   dependencies:
     formidable "^1.2.2"
     multer "^1.4.2"
@@ -14252,6 +14410,8 @@ prelude-ls@~1.1.2:
 
 prettier-eslint-cli@5.0.0:
   version "5.0.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/prettier-eslint-cli/-/prettier-eslint-cli-5.0.0.tgz#3d2334053f87413842c1729ecfb7886377bef89f"
+  integrity sha512-cei9UbN1aTrz3sQs88CWpvY/10PYTevzd76zoG1tdJ164OhmNTFRKPTOZrutVvscoQWzbnLKkviS3gu5JXwvZg==
   dependencies:
     arrify "^2.0.1"
     boolify "^1.0.0"
@@ -14656,11 +14816,15 @@ react-app-polyfill@^1.0.2:
 
 react-app-rewired@2.1.4:
   version "2.1.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-app-rewired/-/react-app-rewired-2.1.4.tgz#7d8bb1f6559693f893cadc890d40b540402400cc"
+  integrity sha512-OEd3xWIqk+6HJyi4/uogBphbZqaZXOIv+Mz/DWLZKdzmWdYpXJgeatHcFUjWfj/vsJIDLMI2KaS/FwdAwlkTGw==
   dependencies:
     semver "^5.6.0"
 
 react-art@16.11.0:
   version "16.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-art/-/react-art-16.11.0.tgz#8bef960bb25e882d27855879f5e1f497516900fb"
+  integrity sha512-SKqYfYZVM2igrX52gs1JSm7sVeEQLTcKH2fvdya0MwBxxoFQlWQ5b03LtAKR3bGpajbBbpElap0UfUcOrxa+Fg==
   dependencies:
     art "^0.10.1"
     create-react-class "^15.6.2"
@@ -14710,6 +14874,8 @@ react-devtools-core@^3.6.3:
 
 react-dom@16.11.0:
   version "16.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-dom/-/react-dom-16.11.0.tgz#7e7c4a5a85a569d565c2462f5d345da2dd849af5"
+  integrity sha512-nrRyIUE1e7j8PaXSPtyRKtz+2y9ubW/ghNgqKFHHAHaeP0fpF5uXR+sq8IMRHC+ZUxw7W9NyCDTBtwWxvkb0iA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -14723,6 +14889,8 @@ react-error-overlay@^6.0.3:
 
 react-facebook-login@^4.1.1:
   version "4.1.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+  integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
@@ -14731,6 +14899,8 @@ react-fast-compare@^2.0.1:
 
 react-firebase@^2.2.8:
   version "2.2.8"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-firebase/-/react-firebase-2.2.8.tgz#415a45c3d59c9b75dc25c09ebb98bea09e47c5f7"
+  integrity sha512-OHvGL8Jvy1/k8o95XqGostBnz142t0nQhNMnRY6YThkeCXnquVIqlHJr1t6EIEu1fpaV++InV/j2s6E7oVkNPw==
   dependencies:
     prop-types "^15.5.8"
     shallowequal "^1.0.2"
@@ -14747,6 +14917,8 @@ react-freeze@^1.0.0:
 
 react-geocode@^0.2.1:
   version "0.2.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-geocode/-/react-geocode-0.2.3.tgz#e27fa3f212a2629b2b2bb2a3a325a12b802b2dae"
+  integrity sha512-sIpbgmn1IUzAxO4haOZ6jeeFnMD8ya9PC38yiNrmJ9vPWbvAO2D/2yfCBzZjGZVUm4PRzKAc0KghXfaEnug0TQ==
   dependencies:
     regenerator-runtime "^0.13.3"
 
@@ -14769,6 +14941,8 @@ react-google-maps@^9.4.5:
 
 react-images-upload@^1.2.7:
   version "1.2.8"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-images-upload/-/react-images-upload-1.2.8.tgz#d1e993c50a0ca266aa7a9c7b7456167d80e9e6ab"
+  integrity sha512-d5mhAE0BfkLTlG5MLvKVw+q76LL8r5easgWW0TTBvXD8n6HXeLMZLwCuPiOibY1a3NRMXI4AnM1r34dqLOBjng==
   dependencies:
     react "^16.12.0"
     react-flip-move "^3.0.4"
@@ -14790,12 +14964,18 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.2, react-lifecycles-com
 
 react-native-add-calendar-event@3.0.2:
   version "3.0.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-add-calendar-event/-/react-native-add-calendar-event-3.0.2.tgz#b6b0ec42f753905af0022ea620604af45a35982d"
+  integrity sha512-uRT4VdBbyBtAMt8lJn8kfj6agpyMIIgUZLbECcRLU2wjaIv8tz5gvBqOyNtMWIv0v+q38OsdjLDpGD4i67uE1A==
 
 react-native-android-location-enabler@^1.2.2:
   version "1.2.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-android-location-enabler/-/react-native-android-location-enabler-1.2.2.tgz#84b8dbbda0d5198d99cf264e6be4edaa7f256ba1"
+  integrity sha512-CC5ghRoK3jkGNK8jdIiYIc3l0XZuQuMt2KEfldDpnMCkNz2aAfUWyLCoOniFLqtdD9poA3az+kCmUzTvLAyTiA==
 
 react-native-appearance@^0.3.4:
   version "0.3.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-appearance/-/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"
+  integrity sha512-Vz3zdJbAEiMDwuw6wH98TT1WVfBvWjvANutYtkIbl16KGRCigtSgt6IIiLsF3/TSS3y3FtHhWDelFeGw/rtuig==
   dependencies:
     fbemitter "^2.1.1"
     invariant "^2.2.4"
@@ -14803,12 +14983,18 @@ react-native-appearance@^0.3.4:
 
 react-native-ble-manager@8.0.2:
   version "8.0.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-ble-manager/-/react-native-ble-manager-8.0.2.tgz#1fb7f00fabb412e563b903ee2c12df1736d52c3b"
+  integrity sha512-SCtuLFkBwKyPY0er3uKPcZaWUdSjJ3koDUlBvO/nS/WPbBBa2CJn+at/IXPolnxlV++jZqrOGV2qmENrq7ppZA==
 
 react-native-calendar-events@2.2.0:
   version "2.2.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-calendar-events/-/react-native-calendar-events-2.2.0.tgz#6cb78bf712457ca9928dae95b428c91e7b895ae0"
+  integrity sha512-tNUbhT6Ief0JM4OQzQAaz1ri0+MCcAoHptBcEXCz2g7q3A05pg62PR2Dio4F9t2fCAD7Y2+QggdY1ycAsF3Tsg==
 
 react-native-calendars@1.1128.0:
   version "1.1128.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-calendars/-/react-native-calendars-1.1128.0.tgz#1b8f07d85f020c2d39012633cebd4adeb657bed9"
+  integrity sha512-EmyToBfmJNnYoc7g9sO3+TvOTKp0FMsRmsc5RKyD1CzdJY+AyfJABtsiDedQFCeIWPQZx9062fbdbEo9S/Yq/A==
   dependencies:
     hoist-non-react-statics "^3.3.1"
     immutable "^4.0.0-rc.12"
@@ -14820,6 +15006,8 @@ react-native-calendars@1.1128.0:
 
 react-native-canvas@^0.1.38:
   version "0.1.39"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-canvas/-/react-native-canvas-0.1.39.tgz#2f9d14d7cda77cdc0c9cc13d3b6d12d4ce777c9c"
+  integrity sha512-UYAMoNvmGgBU+gk2WVg+GVDotMH+tujlsw9TR8FFLlcCqAzhdEnh5tQRA0G12DkusjwfJNiEiDagRX/MhKLLMA==
   dependencies:
     ctx-polyfill "^1.1.4"
 
@@ -14841,6 +15029,8 @@ react-native-color@0.0.10:
 
 react-native-compass-heading@1.4.0:
   version "1.4.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-compass-heading/-/react-native-compass-heading-1.4.0.tgz#979868655a878fee5f5bd7db30da94ba8a7abf52"
+  integrity sha512-naesy0kBAKViEm3AQJ1AvzAaS/bEEG4yRK4NL0RVfYm2ZUS7nziXeqc/3uxtdH+zRnSBVrklu2IG5OJs7XBs3A==
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -14877,6 +15067,8 @@ react-native-drawer-layout@1.3.2:
 
 react-native-elements@^1.2.7:
   version "1.2.7"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-elements/-/react-native-elements-1.2.7.tgz#1eca2db715c41722aeb67aea62bd2a4621adb134"
+  integrity sha512-0S+0R1cbItl15i64qrkWnyMztwpw60d0SUsZGVDKRAMf0Jvq9Clgyh/MzxJx2sr42mbedQP1sg5Et4fZM7Fp1w==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.4"
     color "^3.1.0"
@@ -14889,24 +15081,36 @@ react-native-elements@^1.2.7:
 
 react-native-fast-image@^7.0.2:
   version "7.0.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-fast-image/-/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
+  integrity sha512-MfuzJbC0RjYobR2gFCdqe1I7jvNOCfDkjQ7VGOHXniqjohhULMkcWNBE9Umovi9Dx93lJ6t5utcE2wf/09zvlg==
 
 react-native-fbsdk@^1.1.2:
   version "1.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-fbsdk/-/react-native-fbsdk-1.1.2.tgz#4264903add869d05b84ef55ade9ff720c2957781"
+  integrity sha512-Sp+oja868QVsB5vpEFbwZkEcCJOSBuZgh7UGJzUhaoTCs/zwSUHA6b4QichM7GiTxtQyKfT/F31DtvLj2N/qAQ==
 
 react-native-file-viewer@2.1.5:
   version "2.1.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-file-viewer/-/react-native-file-viewer-2.1.5.tgz#cd4544f573108e79002b5c7e1ebfce4371885250"
+  integrity sha512-MGC6sx9jsqHdefhVQ6o0akdsPGpkXgiIbpygb2Sg4g4bh7v6K1cardLV1NwGB9A6u1yICOSDT/MOC//9Ez6EUg==
 
 react-native-fs@2.18.0:
   version "2.18.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-fs/-/react-native-fs-2.18.0.tgz#987b99cc90518ef26663a8d60e62104694b41c21"
+  integrity sha512-9iQhkUNnN2JNED0in06JwZy88YEVyIGKWz4KLlQYxa5Y2U0U2AZh9FUHtA04oWj+xt2LlHh0LFPCzhmNsAsUDg==
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
 react-native-geolocation-service@5.3.0:
   version "5.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0.tgz#2f361ce003457651b656266d5e1328f3e335e693"
+  integrity sha512-imK/yjxqPMIydSjZLpqPh7U073Fpe1JAaZHiIzLzWnzv89OGey6t4Zj/POg3+xtmGcbDoMcEOx8hbNY/fXaD9Q==
 
 react-native-gesture-handler@^1.10.3:
   version "1.10.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz#942bbf2963bbf49fa79593600ee9d7b5dab3cfc0"
+  integrity sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw==
   dependencies:
     "@egjs/hammerjs" "^2.0.17"
     fbjs "^3.0.0"
@@ -14931,9 +15135,13 @@ react-native-image-marker@^0.6.3:
 
 react-native-image-picker@2.3.0:
   version "2.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-image-picker/-/react-native-image-picker-2.3.0.tgz#cd8941261c03df999e8abcd4ad1ce99785cfef44"
+  integrity sha512-6B4OBkBjyyYs+LGJWAe+6bzfBHB4Np/rbdIPgN/WpK8sGNJ1FiabZ9GCH4TI71Nlg+xncKCgDL1P9InMoXBd1w==
 
 react-native-image-to-pdf@1.2.0:
   version "1.2.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-image-to-pdf/-/react-native-image-to-pdf-1.2.0.tgz#b672603e43e1978f2a3b0b3ecf0e9fe20525170b"
+  integrity sha512-EgrdcrHHBrL6gwDFwL9S7Ztd211RZuC1csLnXNpz2pBN385OR33fODzmNwlrpZwwviLVEIURO0vCjxCXyyjdcQ==
 
 react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
@@ -14942,9 +15150,13 @@ react-native-iphone-x-helper@^1.3.0:
 
 react-native-localize@^1.4.1:
   version "1.4.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-localize/-/react-native-localize-1.4.3.tgz#6fde2fb1e73a7205910419a680cb4734187d556f"
+  integrity sha512-n3pi89LBeSzB825CBagyaYRtBS93LdvNz3sI386iXwLSg1ONjEGR1Ez36JBuxZalZgORjrKzV2Pun6MO7iwD6w==
 
 react-native-maps@^0.29.3:
   version "0.29.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-maps/-/react-native-maps-0.29.4.tgz#eb4a446104ed2aca5361422d06712f26d4c0d562"
+  integrity sha512-Td2KE8+KODcHOxfB1GBNnzFo4/89rlLiC7yTvqQZh0tGVrEzIcgSleUZRrjtq/WvSWSR4rql4AS+0VsBgDkYrw==
   dependencies:
     "@types/geojson" "^7946.0.7"
 
@@ -14958,6 +15170,8 @@ react-native-material-buttons@^0.5.0:
 
 react-native-material-dropdown@^0.11.1:
   version "0.11.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-material-dropdown/-/react-native-material-dropdown-0.11.1.tgz#c0fe434a8e617941ef910ba44d2f07c8f37584fe"
+  integrity sha512-GoY3bHUzLnHM2OWM2jWeFssJCU8Uwml7z6OpVeC/RqUPhRwvPCd0UeEZKI6QU5/U8SoS6VJWdWA1Vp1WB1ze7Q==
   dependencies:
     prop-types "^15.5.9"
     react-native-material-buttons "^0.5.0"
@@ -14987,25 +15201,37 @@ react-native-material-textfield@^0.12.0:
 
 react-native-material-textfield@^0.16.1:
   version "0.16.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-material-textfield/-/react-native-material-textfield-0.16.1.tgz#649e71344bb8a7225d5cea7c7b51cd38bcb2bbfc"
+  integrity sha512-pcV/ic3i6vYEODS7pvAMUYJ+evkzIB8cjXtSzkab9rBtYNGRpAlM0Yp8QNnjZ7foZqkj9Ynav0nguWcuJST10A==
   dependencies:
     prop-types "^15.5.9"
 
 react-native-modal-activityindicator@0.0.1:
   version "0.0.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-modal-activityindicator/-/react-native-modal-activityindicator-0.0.1.tgz#eea1ea1aec02af17f74122d8b611cf8267ec7b1a"
+  integrity sha512-c1MqFKxQk2KqVQaxueWGXWEIbfG2y3PsiRjoZJC4EXsL52D97NVHNoCXAdd6MlMQCQ7/c+fJyJyKmRWKZcuSvg==
 
 react-native-modal-datetime-picker@13.1.2:
   version "13.1.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-13.1.2.tgz#7c8bd3402acb4dcfbca49c926a7f18dd108c69c4"
+  integrity sha512-PZDkuY7HayRX1KE2X2dm29CvCLzwj/vn6B6QdPbjZea/GEKvHBMOLGdhFCcA9+gD64Y41+VqfytUh2fdvUvQ1g==
   dependencies:
     prop-types "^15.7.2"
 
 react-native-permissions@^2.2.0:
   version "2.2.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-permissions/-/react-native-permissions-2.2.2.tgz#3d2a63f6b7d6be52fc86e30f77412a9566283028"
+  integrity sha512-ihf4shQDSX5Oo9ChQXb9kr13mmyyNem5MaEvOpr3dCjhBOBWyEMztXm9/uPK1Qg5PsNpaYLa1KpcPZDCw87LXg==
 
 react-native-print@0.10.0:
   version "0.10.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-print/-/react-native-print-0.10.0.tgz#803b28592c1605d2bdba80fc909fcdbced0d069f"
+  integrity sha512-jXFIeTLiQeC9rTduRjMGXWzGEaslx69U64tsw851+v2fbfNwn4SP53uEIhCCc0ly3VxGCFxseafrZjfuMyVXNg==
 
 react-native-radar@3.2.3:
   version "3.2.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-radar/-/react-native-radar-3.2.3.tgz#f18db236f26d78f4b3ca6b4a25e25db72dabe078"
+  integrity sha512-z38H38bV6hU+YxAakeUz6tFg0bwdhn+gGvX1/irvCTtb/zw1f7quz8dbeLYzMhe46Udo4NL7rBICSZWyF0IgbA==
   dependencies:
     "@react-native-community/netinfo" "^7.1.3"
 
@@ -15019,6 +15245,8 @@ react-native-ratings@^6.3.0:
 
 react-native-reanimated@1.13.1:
   version "1.13.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-reanimated/-/react-native-reanimated-1.13.1.tgz#c370c32cc4d447ae896cb029bb9c6a2f7608c5b4"
+  integrity sha512-3sF46jts9MbktgIasf0sTM8uhOYO5a5Q3YyQ4X1jjSE82n/fY2nW3XTFsLGfLEpK2ir4XSDhQWVgFHazaXZTww==
   dependencies:
     fbjs "^1.0.0"
 
@@ -15034,6 +15262,8 @@ react-native-redash@^12.0.3:
 
 react-native-responsive-dimensions@^3.1.1:
   version "3.1.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-responsive-dimensions/-/react-native-responsive-dimensions-3.1.1.tgz#c4daf977b30a909f21164de53a8ba4c9451efefc"
+  integrity sha512-Vo2OhWsphq0HgKsmeZOeyW+c+vsFn1ZaCFkGDgdeCEEiLriT76jGA1JlUjtrj27hvyo/xzeTlBZ+vBso1A84fw==
 
 react-native-safe-area-context@^3.2.0:
   version "3.4.1"
@@ -15056,6 +15286,8 @@ react-native-safe-area-view@^0.14.9:
 
 react-native-save-view@^0.2.3:
   version "0.2.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-save-view/-/react-native-save-view-0.2.3.tgz#4fcebd4d4e878489eefb3f43fefa1998a2683d88"
+  integrity sha512-SuL9u3MOZJxLI6MHxgPvR2TpJFRKbCsVTXHRco63qZsgXTUOJE5cMMjCW6QAaz2X0fHJfhGibMdhTE5sKrz0YA==
 
 react-native-screens@^1.0.0-alpha.11:
   version "1.0.0-alpha.23"
@@ -15066,9 +15298,13 @@ react-native-screens@^1.0.0-alpha.11:
 
 react-native-share@^7.3.0:
   version "7.9.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-share/-/react-native-share-7.9.1.tgz#36d1cb9786c58ba14ae31cc72f10b3179a045953"
+  integrity sha512-v4b6lD4YsiCJB14kjXons+d5cvvxgLv8OdBF0aP58X8Qqbcj81QNv1icAxiNmhxFx5OFYsu/E6v+o8S0GSaneQ==
 
 react-native-simple-radio-button@2.7.4:
   version "2.7.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.4.tgz#86e2dbe8af9e6bf60eee088f60466f7a975e7758"
+  integrity sha512-QOZNmJUn0ViBGU+at7wAG/uGzd5PfXi0kMHr9lfTCLXknW/f9f2fOVjxjdHvOCdf/zA/eMJBjGjtusSDzQf1+w==
 
 react-native-slider@^0.11.0:
   version "0.11.0"
@@ -15079,6 +15315,8 @@ react-native-slider@^0.11.0:
 
 react-native-sound@^0.11.2:
   version "0.11.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-sound/-/react-native-sound-0.11.2.tgz#e542dc5b9e16ab4b3ac7e6eaddb1fc8d98da9038"
+  integrity sha512-LmGc8lgOK3qecYMVQpyHvww/C+wgT6sWeMpVbOe4NCRGC2yKd4fo4U0KBUo9PO7AqKESO3I/2GZg1/C0+bwiiA==
 
 react-native-status-bar-height@^2.2.0:
   version "2.6.0"
@@ -15087,6 +15325,8 @@ react-native-status-bar-height@^2.2.0:
 
 react-native-svg@12.2.0:
   version "12.2.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-svg/-/react-native-svg-12.2.0.tgz#42273c7a1af804224b8ef97d936fab7df6a5e949"
+  integrity sha512-gtmdnH0XwCJk6x8lD6VvqQQI5B/fS2qG/GTpAZzSGZqEYLnY9NzWpPbzD4lJGCacVUDUxkZgwiiqqSE3JTi7WQ==
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
@@ -15098,6 +15338,8 @@ react-native-swipe-gestures@^1.0.5:
 
 react-native-system-setting@1.7.6:
   version "1.7.6"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-system-setting/-/react-native-system-setting-1.7.6.tgz#43633604ac1bd5fd906acdbffa627a1998d2345a"
+  integrity sha512-nBnIK5Xnyu8XRRA3BMzRI54oYlSBKc0oOTQdZOCEeOvn4ltS1nk2shj/vtMQe6khXvuhai3vIc+g7DcsOcr5+w==
 
 react-native-tab-view@*:
   version "3.5.2"
@@ -15108,6 +15350,8 @@ react-native-tab-view@*:
 
 react-native-tab-view@2.15.0:
   version "2.15.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-tab-view/-/react-native-tab-view-2.15.0.tgz#71b0c87f7cb2cde1d740f7130c17f213f2cbcaa0"
+  integrity sha512-rCQPNp0N4t2IZHTVpdb/eddJ9kTLC8QlD/8Ce1+z2Fk3Evk0HPhuhTAW3mfa+thzRXkXYxxsS7QcIjJKs2Wu3w==
 
 react-native-tab-view@^0.0.77:
   version "0.0.77"
@@ -15130,6 +15374,8 @@ react-native-text-size@4.0.0-rc.1:
 
 react-native-ui-lib@6.11.2:
   version "6.11.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-ui-lib/-/react-native-ui-lib-6.11.2.tgz#11e1091749c6a7c42cec079237391c8c965c97a6"
+  integrity sha512-Onixwfi75iLWnp7ZD5Shn/B3EnYJ/UqpUlPcEb311OtMOJxo3XkZIaha2Y1oAGwCKto3PGcFCGvE4gPnMvsH/w==
   dependencies:
     babel-plugin-transform-inline-environment-variables "^0.0.2"
     color "^3.1.0"
@@ -15148,6 +15394,8 @@ react-native-ui-lib@6.11.2:
 
 react-native-vector-icons@6.6.0:
   version "6.6.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-vector-icons/-/react-native-vector-icons-6.6.0.tgz#66cf004918eb05d90778d64bd42077c1800d481b"
+  integrity sha512-MImKVx8JEvVVBnaShMr7/yTX4Y062JZMupht1T+IEgbqBj4aQeQ1z2SH4VHWKNtWtppk4kz9gYyUiMWqx6tNSw==
   dependencies:
     lodash "^4.0.0"
     prop-types "^15.6.2"
@@ -15155,9 +15403,13 @@ react-native-vector-icons@6.6.0:
 
 react-native-video-player@^0.12.0:
   version "0.12.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-video-player/-/react-native-video-player-0.12.0.tgz#4e4d8a27c99b906da0f2b414be88eaab449be6a2"
+  integrity sha512-7h288hwlvjxxBOJ1UOoUctW8auPyq22Lxltc1FIxSJAF/tYyPcnBxAtaWOxI7CGflRn51BLVlUTclXC4CB3BZA==
 
 react-native-video@^5.2.0:
   version "5.2.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-video/-/react-native-video-5.2.1.tgz#a17e856759d7e17eee9cbd9df0d05ba22e88d457"
+  integrity sha512-aJlr9MeTuQ0LpZ4n+EC9RvhoKeiPbLtI2Rxy8u7zo/wzGevbRpWHSBj9xZ5YDBXnAVXzuqyNIkGhdw7bfdIBZw==
   dependencies:
     deprecated-react-native-prop-types "^2.2.0"
     keymirror "^0.1.1"
@@ -15166,17 +15418,25 @@ react-native-video@^5.2.0:
 
 react-native-view-shot@3.0.2:
   version "3.0.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-view-shot/-/react-native-view-shot-3.0.2.tgz#daccaec5b8038a680b17533ff7e72876e68c7d0d"
+  integrity sha512-JZOkGo2jzSX2b7N6N2uDr0wQjSz+QmBtY8jzeo0XJY6bLOfaY5nmWyYxDmDRoSpKiFkGTCkyhUqNnjo6lXOtEw==
 
 react-native-watermark@^0.0.1:
   version "0.0.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-watermark/-/react-native-watermark-0.0.1.tgz#baee07c737cc6859a55063775e6a780aa3ba3663"
+  integrity sha512-Oa/vgG3mtzV9Cta1Ic3z9oWvvryUq/ULKGYtshWBCb5AOXCi7cWuoGbclu1/rIpDC3UkwpQp/WCCBDlrnVb75g==
 
 react-native-web-maps@^0.3.0:
   version "0.3.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-web-maps/-/react-native-web-maps-0.3.0.tgz#6235a43bf7b32b757a0572798134b0d928a776e2"
+  integrity sha512-OnHACtgvjFNWGFS0bxoXbzi6sxOoAhHq9+hYtQEuYTkrWNtepCtCEbsiHRvDiSjHUNv6g7NTKxfrnrYqJbhaiA==
   dependencies:
     react-google-maps "^9.4.5"
 
 react-native-web@0.11.7:
   version "0.11.7"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-web/-/react-native-web-0.11.7.tgz#d173d5a9b58db23b6d442c4bc4c81e9939adac23"
+  integrity sha512-w1KAxX2FYLS2GAi3w3BnEZg/IUu7FdgHnLmFKHplRnHMV3u1OPB2EVA7ndNdfu7ds4Rn2OZjSXoNh6F61g3gkA==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"
@@ -15191,12 +15451,16 @@ react-native-web@0.11.7:
 
 react-native-webview@^10.9.2:
   version "10.10.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native-webview/-/react-native-webview-10.10.2.tgz#13208aef17c9ccfd28355363688f4cbe2143f10a"
+  integrity sha512-98Dh7q1gEflicFZ8KNL3nK5XRjx50OZXqw87jHofVjKfjbK0LKmvI5X8ymgUMGg61JVgI3AF+g8qpDvqjgQsfg==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
 react-native@0.61.3:
   version "0.61.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-native/-/react-native-0.61.3.tgz#0c7e299ccfa3a5efc6e87e88563f9dc444389aca"
+  integrity sha512-7p89m62+Wsc93tYEy010LZMZtQMOQjUC8nOiVF+XPBn4Fa3WUt7IlQjKs9tO9rcByZ4ilzeMp+W2kr1/U2lPLw==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^3.0.0-alpha.1"
@@ -15249,6 +15513,8 @@ react-navigation-stack@0.7.0:
 
 react-navigation-stack@^2.1.1:
   version "2.10.4"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-navigation-stack/-/react-navigation-stack-2.10.4.tgz#377fd6533f8ae0cf5ca5a435a0115851f010306a"
+  integrity sha512-3LE1PFsFV9v4PUlZRATMotqs6H7MOOpIKtjyP+l8D1cyzYmsMQh3EFikeDfzGQUXIvy8VyLAMtcEssicQPYvFA==
   dependencies:
     color "^3.1.3"
     react-native-iphone-x-helper "^1.3.0"
@@ -15273,6 +15539,8 @@ react-navigation@*:
 
 react-navigation@^2.17.0:
   version "2.18.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-navigation/-/react-navigation-2.18.3.tgz#de9a24dc37dfc33f3e4779a9f13f45ea97dfe19e"
+  integrity sha512-/5KGMG1Oj5LN/x/7AKF0MWrpX9Qe29307RxEsMCiRT/A4jCYT0DPY99Bl7ZAGtROxExEy3rwTfTrtvpIT+CU7A==
   dependencies:
     clamp "^1.0.1"
     create-react-context "0.2.2"
@@ -15300,6 +15568,8 @@ react-refresh@^0.4.0:
 
 react-router-dom@^4.3.1:
   version "4.3.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
+  integrity sha512-c/MlywfxDdCp7EnB7YfPMOfMD3tOtIjrQlj/CKfNMBxdmpJP8xcz5P/UAFn3JbnQCNUxsHyVVqllF9LhgVyFCA==
   dependencies:
     history "^4.7.2"
     invariant "^2.2.4"
@@ -15310,6 +15580,8 @@ react-router-dom@^4.3.1:
 
 react-router-modal@^1.4.2:
   version "1.5.2"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-router-modal/-/react-router-modal-1.5.2.tgz#64fa736b0457339415785e086cf3498d5bf61536"
+  integrity sha512-q1a0KJaDI7pJbmMZV/bJYcr2BqsePOAyCgCl8xN7t5IA+3LFQyqFJwvLrMvmPnsjVKR0vaUSrqgObOslgpxs7A==
 
 react-router@^4.3.1:
   version "4.3.1"
@@ -15326,6 +15598,8 @@ react-router@^4.3.1:
 
 react-rte@^0.16.3:
   version "0.16.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-rte/-/react-rte-0.16.5.tgz#13c230060bc82d5f0465f903cd36f53dd2fa4469"
+  integrity sha512-KoUBbl8jgAaxQIRpAfnDYjcx7Xlc/4EsgASxYKPIj/HzPuSgBxOlkPAK73V5fe7aHVhq0IfvNvhmNNpoDLQX4A==
   dependencies:
     babel-runtime "^6.23.0"
     class-autobind "^0.1.4"
@@ -15340,6 +15614,8 @@ react-rte@^0.16.3:
 
 react-scripts@3.1.1:
   version "3.1.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-scripts/-/react-scripts-3.1.1.tgz#1796bc92447f3a2d3072c3b71ca99f88d099c48d"
+  integrity sha512-dbjTG9vJC61OI62hIswQYg5xHvwlxDTH6QXz6ICEuA5AqkFQWk1LKl76sk8fVL2WsyumbBc4FErALwKcEV2vNA==
   dependencies:
     "@babel/core" "7.5.5"
     "@svgr/webpack" "4.3.2"
@@ -15399,12 +15675,16 @@ react-scripts@3.1.1:
 
 react-share@^4.4.0:
   version "4.4.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-share/-/react-share-4.4.1.tgz#4bfb0b512e26afedfea2fb66eb13c95c28fb216a"
+  integrity sha512-AJ9m9RiJssqvYg7MoJUc9J0D7b/liWrsfQ99ndKc5vJ4oVHHd4Fy87jBlKEQPibT40oYA3AQ/a9/oQY6/yaigw==
   dependencies:
     classnames "^2.3.2"
     jsonp "^0.2.1"
 
 react-test-renderer@16.11.0:
   version "16.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-test-renderer/-/react-test-renderer-16.11.0.tgz#72574566496462c808ac449b0287a4c0a1a7d8f8"
+  integrity sha512-nh9gDl8R4ut+ZNNb2EeKO5VMvTKxwzurbSMuGBoKtjpjbg8JK/u3eVPVNi1h1Ue+eYK9oSzJjb+K3lzLxyA4ag==
   dependencies:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
@@ -15428,6 +15708,8 @@ react-timer-mixin@^0.13.4:
 
 react-to-print@2.14.6:
   version "2.14.6"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react-to-print/-/react-to-print-2.14.6.tgz#a6fddfaee207e1093e87b5eceb5dfca46b5922cf"
+  integrity sha512-LlhbfNAzPm6AOGmCcsVzgyDIBFs5lTXOMpRL+IUmZRZU04i79rujEj5nXKmbRTPTZV8ezLIHSY6ecj4y0lD5iA==
   dependencies:
     prop-types "^15.8.1"
 
@@ -15443,6 +15725,8 @@ react-transition-group@^4.0.0, react-transition-group@^4.4.0:
 
 react@16.11.0:
   version "16.11.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/react/-/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
+  integrity sha512-M5Y8yITaLmU0ynd0r1Yvfq98Rmll6q8AxaEe88c8e7LxO8fZ2cNgmFt0aGAS9wzf1Ao32NKXtCl+/tVVtkxq6g==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -15591,6 +15875,8 @@ recompose@^0.26.0:
 
 recompose@^0.30.0:
   version "0.30.0"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
+  integrity sha512-ZTrzzUDa9AqUIhRk4KmVFihH0rapdCSMFXjhHbNrjAWxBuUD/guYlyysMnuHjlZC/KRiOKRtB4jf96yYSkKE8w==
   dependencies:
     "@babel/runtime" "^7.0.0"
     change-emitter "^0.1.2"
@@ -17409,6 +17695,8 @@ tree-kill@^1.2.1:
 
 ts-jest@^25.0.0:
   version "25.5.1"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/ts-jest/-/ts-jest-25.5.1.tgz#2913afd08f28385d54f2f4e828be4d261f4337c7"
+  integrity sha512-kHEUlZMK8fn8vkxDjwbHlxXRB9dHYpyzqKIGDNxbzs+Rz+ssNDSDNusEK8Fk/sDd4xE6iKoQLfFkFVaskmTJyw==
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"
@@ -17548,6 +17836,8 @@ typedarray@^0.0.6:
 
 typescript@4.1.3:
   version "4.1.3"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/typescript/-/typescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
+  integrity sha512-B3ZIOf1IKeH2ixgHhj6la6xdwR9QrLC5d1VKeCSY4tvkqhF2eqd9O7txNlS0PO3GrBAFIdr3L1ndNwteUbZLYg==
 
 typescript@^3.2.1:
   version "3.9.10"
@@ -18767,6 +19057,8 @@ yargs@^9.0.0:
 
 yup@^0.28.1:
   version "0.28.5"
+  resolved "http://npm-verdaccio.npm-cache.svc.cluster.local:4873/yup/-/yup-0.28.5.tgz#85cabb4000d3623ef69be81551190692e631a8a5"
+  integrity sha512-7JZcvpUGUxMKoaEtcoMEM8lCWRaueGNH/A3EhL/UWqfbFm3uloiI+x59Yq4nzhbbYWUTwAsCteaZOJ+VbqI1uw==
   dependencies:
     "@babel/runtime" "^7.9.6"
     fn-name "~3.0.0"

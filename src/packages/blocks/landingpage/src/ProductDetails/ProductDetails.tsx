@@ -50,11 +50,10 @@ export const sampleText =
   "Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text that shares some characteristics of a real written text , but is a random or otherwise generated.";
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
-    console.log("propsprops ", this.props.route?.params);
-
     this.getCategory(1);
   }
   render() {
+    const {id='',description='',name='',price=''}=this.props?.route?.params
     return (
       <SafeAreaView style={style.flex}>
         <HeaderWithBackArrowTemplate
@@ -118,13 +117,13 @@ export default class ProductDetailScreen extends LandingPageController {
               </View>
             </View>
             <Text style={style.headerText}>
-              All you know about the cow's head
+              {`All you know about the ${name}`}
             </Text>
-            <Text style={style.desc}>{sampleText}</Text>
+            <Text style={style.desc}>{description}</Text>
             <View style={style.priceContainer}>
               <Text style={style.text}>
                 <Text style={style.text}>$</Text>
-                <Text style={style.price}>22.99</Text>/kg
+                <Text style={style.price}>{ price }</Text>/kg
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity

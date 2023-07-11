@@ -76,6 +76,31 @@ export default class PersonelDetailsController extends BlockComponent<
       }
     }
   }
+  getExpectedDeliveryDate() {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 3);
+    const date = new Date(currentDate);
+    var months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    var day = date.getDate();
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var dayName = days[date.getDay()];
+    var month = months[date.getMonth()];
+
+    var suffix;
+    if (day === 1 || day === 21 || day === 31) {
+      suffix = "st";
+    } else if (day === 2 || day === 22) {
+    suffix = "nd";
+    } else if (day === 3 || day === 23) {
+    suffix = "rd";
+    } else {
+    suffix = "th";
+    }
+    return (day + suffix + " " + month + ", " + dayName);
+  }
   async getAddressList() {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
