@@ -12,6 +12,8 @@ import {
   Platform,
 } from "react-native";
 import { ShowPassword } from "../../blocks/email-account-login/src/assets";
+import { hidePassword } from "../../blocks/email-account-login/src/assets";
+
 interface TextInputType {
   label: string;
   placeholder?: string;
@@ -66,7 +68,7 @@ const TextInput = ({
               <Image
                 style={{ height: 20, width: 20 }}
                 resizeMode="contain"
-                source={ShowPassword}
+                source={secureEntry ? hidePassword : ShowPassword}
               />
             </TouchableOpacity>
           </View>

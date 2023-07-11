@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, Alert } from "react-native";
 import CommonModal from "../../../components/src/CommonModal";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
@@ -220,9 +220,11 @@ const SignupComponent = ({
         <Button
           label={isMerchant === "user" ? "Sign Up" : "Submit Farm"}
           onPress={
+            checked ? 
             isMerchant === "user"
               ? onpressSignup
-              : () => doMerchantSignup(mPassword)
+              : () => doMerchantSignup(mPassword) 
+              : () => Alert.alert('Please accept terms & condition')
           }
         />
         <View style={styles.createAcc}>
