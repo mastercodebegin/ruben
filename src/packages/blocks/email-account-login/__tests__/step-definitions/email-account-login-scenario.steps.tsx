@@ -13,45 +13,48 @@ import EmailAccountLoginBlock from "../../src/EmailAccountLoginBlock";
 import LoginComponent from "../../src/LoginComponent";
 import SuccessModal from "../../src/SuccessModal";
 import SignupComponent from "../../src/SignupComponent";
-const navigation = require("react-navigation");
+import { fireEvent, render } from "@testing-library/react-native";
+const navigation = {
+  navigate: jest.fn(),
+};
 
 const screenProps = {
   navigation: navigation,
   id: "EmailAccountLoginBlock",
 };
-export const signupProps={
-    onPressLogin:jest.fn(),
-          onchangePassword:jest.fn(),
-          onchangeEmail:jest.fn(),
-          onpressSignup:jest.fn(),
-          email:"test@test.com",
-          password:"QWEqwe123!",
-          setShowModal:jest.fn(),
-          setShowMerchantModal:jest.fn(),
-          showModal:true,
-          showMerchantModal:true,
-          resetStack:jest.fn(),
-          couponCode:"testCode",
-          doMerchantSignup:jest.fn(),
-          mEmail:"test@test.com",
-          onChangeMEmail:jest.fn(),
-          mPassword:"QWEqwe123!",
-          onChangeMPassword:jest.fn(),
-          farmName:"test farm name",
-          onChangeFarmName:jest.fn(),
-          product:"test product",
-          onChangeProduct:jest.fn(),
-          location:"test location",
-          onChangeLocation:jest.fn(),
-          contact:"test contact",
-          onChangeContact:jest.fn(),
-          description:"test decription",
-          onChangeDescription:jest.fn(),
-          website:"www.test.com",
-          onChangeWebsite:jest.fn(),
-          social:"www.test.com",
-          onChnageSocial:jest.fn()
-}
+export const signupProps = {
+  onPressLogin: jest.fn(),
+  onchangePassword: jest.fn(),
+  onchangeEmail: jest.fn(),
+  onpressSignup: jest.fn(),
+  email: "test@test.com",
+  password: "QWEqwe123!",
+  setShowModal: jest.fn(),
+  setShowMerchantModal: jest.fn(),
+  showModal: true,
+  showMerchantModal: true,
+  resetStack: jest.fn(),
+  couponCode: "testCode",
+  doMerchantSignup: jest.fn(),
+  mEmail: "test@test.com",
+  onChangeMEmail: jest.fn(),
+  mPassword: "QWEqwe123!",
+  onChangeMPassword: jest.fn(),
+  farmName: "test farm name",
+  onChangeFarmName: jest.fn(),
+  product: "test product",
+  onChangeProduct: jest.fn(),
+  location: "test location",
+  onChangeLocation: jest.fn(),
+  contact: "test contact",
+  onChangeContact: jest.fn(),
+  description: "test decription",
+  onChangeDescription: jest.fn(),
+  website: "www.test.com",
+  onChangeWebsite: jest.fn(),
+  social: "www.test.com",
+  onChnageSocial: jest.fn(),
+};
 
 const feature = loadFeature(
   "./__tests__/features/email-account-login-scenario.feature"
@@ -120,32 +123,48 @@ defineFeature(feature, (test) => {
       );
       expect(wrapper).toBeTruthy();
     });
+    then("user trying to go login screen using header", () => {
+      const { getByTestId } = render(
+        <EmailAccountLoginBlock {...screenProps} />
+      );
+      fireEvent.press(getByTestId("go_to_login_test_id"));
+      expect(navigation.navigate).toBeCalledWith("AuthenticationStack", {
+        screen: "EmailAccountLoginBlock",
+      });
+    });
+    then("user pressing signup in the header header", () => {
+      const { getByTestId } = render(
+        <EmailAccountLoginBlock {...screenProps} />
+      );
+      fireEvent.press(getByTestId("go_to_sign_up_test_id"));
+      expect(navigation.navigate).toBeCalledWith("AuthenticationStack", {
+        screen: "EmailAccountSignupBlock",
+      });
+    });
     then("Login with empty email", () => {
-      instance.setState({email:'',password:'Qweqwe123!'})
-      const loginResponse = instance.onpressLoginButton()
-      expect(loginResponse).toBeFalsy()
+      instance.setState({ email: "", password: "Qweqwe123!" });
+      const loginResponse = instance.onpressLoginButton();
+      expect(loginResponse).toBeFalsy();
     });
     then("Login with empty password", () => {
-        instance.onchangeEmail('test@test.com')
-        instance.setState({password:''})
-        const loginResponse = instance.onpressLoginButton()
-      expect(loginResponse).toBeFalsy()
-      });
-      then("Login with invalid Email", () => {
-        instance.setState({email:'testtest.com',password:'Qweqwe123!'})
-        const loginResponse = instance.onpressLoginButton()
-      expect(loginResponse).toBeFalsy()
-      });
-      then("Login with valid Email and password", () => {
-        instance.setState({email:'test@test.com',password:'Qweqwe123!'})
-        const loginResponse = instance.onpressLoginButton()
-      expect(loginResponse).toBeTruthy()
-      });
+      instance.onchangeEmail("test@test.com");
+      instance.setState({ password: "" });
+      const loginResponse = instance.onpressLoginButton();
+      expect(loginResponse).toBeFalsy();
+    });
+    then("Login with invalid Email", () => {
+      instance.setState({ email: "testtest.com", password: "Qweqwe123!" });
+      const loginResponse = instance.onpressLoginButton();
+      expect(loginResponse).toBeFalsy();
+    });
+    then("Login with valid Email and password", () => {
+      instance.setState({ email: "test@test.com", password: "Qweqwe123!" });
+      const loginResponse = instance.onpressLoginButton();
+      expect(loginResponse).toBeTruthy();
+    });
     then("user moving to signup tab", () => {
-        instance.setState({selectedTab:false})
-      const wrapper = shallow(
-        <SignupComponent {...signupProps}/>
-      );
+      instance.setState({ selectedTab: false });
+      const wrapper = shallow(<SignupComponent {...signupProps} />);
       const touchableOpacity = wrapper.findWhere(
         (node) => node.prop("testID") === "merchant_check_box_id"
       );
@@ -177,21 +196,21 @@ defineFeature(feature, (test) => {
       let response = instance.doEmailSignup();
       expect(response).toBeTruthy();
     });
-    then("user trying to signup as a merchant",()=>{
-        instance.setState({
-            mEmail: "test@test.com",
-            mPassword: "Qweqwe123!",
-            farmName:'test farm',
-            description:'test description',
-            product:'test product',
-            location:'test location',
-            contact:'test contact',
-            website:'www.test.com',
-            social:'www.facebook.com'
-          });
-          const merchantSignupResponse = instance.doMerchantSignup()
-          expect(merchantSignupResponse).toBeTruthy()
-    })
+    then("user trying to signup as a merchant", () => {
+      instance.setState({
+        mEmail: "test@test.com",
+        mPassword: "Qweqwe123!",
+        farmName: "test farm",
+        description: "test description",
+        product: "test product",
+        location: "test location",
+        contact: "test contact",
+        website: "www.test.com",
+        social: "www.facebook.com",
+      });
+      const merchantSignupResponse = instance.doMerchantSignup();
+      expect(merchantSignupResponse).toBeTruthy();
+    });
     then("user can see the welcome modal", () => {
       const wrapper = shallow(
         <SuccessModal

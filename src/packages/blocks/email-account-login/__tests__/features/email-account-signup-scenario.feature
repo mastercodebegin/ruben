@@ -10,5 +10,6 @@ Feature: User navigates to signup screen
         And user trying to copy coupon code
         And user trying to enter email id and password
         And user trying to signup us a user
+        Then user signup success user can see welcome modal
         And I can leave the screen with out errors
     

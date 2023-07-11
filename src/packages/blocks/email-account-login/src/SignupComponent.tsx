@@ -83,6 +83,7 @@ const SignupComponent = ({
             <CheckBox
               checked={isMerchant === "user"}
               testID="user_checkBox"
+              selectorTestID="user_selector_test_id"
               setChecked={(usr) => setIsMerchant(usr ? "user" : "merchant")}
             />
             <Text style={styles.rememberText}>User</Text>
@@ -91,7 +92,9 @@ const SignupComponent = ({
             <CheckBox
               testID="merchant_check_box_id"
               checked={isMerchant === "merchant"}
-              setChecked={(usr) =>{ setIsMerchant(!usr ? "user" : "merchant")}}
+              setChecked={(usr) => {
+                setIsMerchant(!usr ? "user" : "merchant");
+              }}
             />
             <Text style={styles.rememberText}>Merchant</Text>
           </View>
@@ -104,7 +107,7 @@ const SignupComponent = ({
               label="Email ID"
               value={email}
               labeStyle={styles.label}
-              testID='user-email'
+              testID="user-email"
               placeholder="Email ID"
             />
             <TextInput
@@ -138,6 +141,7 @@ const SignupComponent = ({
               label="Password"
               value={mPassword}
               labeStyle={styles.label}
+              testID="merchant_password_text_input_id"
               containerStyle={styles.containerStyle}
               placeholder="Passsword"
             />
@@ -146,6 +150,7 @@ const SignupComponent = ({
               onchangeText={onChangeFarmName}
               label="Name of Farm"
               value={farmName}
+              testID="name_of_farm_test_id"
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
               placeholder="Name of Farm"
@@ -156,6 +161,7 @@ const SignupComponent = ({
               label="Products of Farm"
               value={product}
               labeStyle={styles.label}
+              testID="product_of_farm_test_id"
               containerStyle={styles.containerStyle}
               placeholder="Products of Farm"
             />
@@ -165,6 +171,7 @@ const SignupComponent = ({
               value={location}
               onchangeText={onChangeLocation}
               labeStyle={styles.label}
+              testID="farm_location_test_id"
               placeholder="Location of Farm"
               containerStyle={styles.containerStyle}
             />
@@ -173,6 +180,7 @@ const SignupComponent = ({
               keyBoardtype="default"
               value={contact}
               onchangeText={onChangeContact}
+              testID="farm_contact_info_id"
               placeholder="Contact Information"
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
@@ -182,6 +190,7 @@ const SignupComponent = ({
               onchangeText={onChangeDescription}
               label="Description of the Farm"
               value={description}
+              testID="farm_desc_id"
               labeStyle={{ ...styles.label, paddingBottom: 10 }}
               multiline
               containerStyle={styles.containerStyle}
@@ -191,6 +200,7 @@ const SignupComponent = ({
               label="Farm Website"
               keyBoardtype="default"
               value={website}
+              testID="farm_website_id"
               onchangeText={onChangeWebsite}
               labeStyle={styles.label}
               placeholder="Farm Website"
@@ -200,6 +210,7 @@ const SignupComponent = ({
               keyBoardtype="default"
               onchangeText={onChnageSocial}
               label="Farm Social Media"
+              testID="farm_social_id"
               value={social}
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
@@ -252,17 +263,16 @@ const SignupComponent = ({
           </Text>
         </CommonModal>
       )}
-      {showModal && (
-        <SuccessModal
-          onpressClose={() => {
-            setShowModal(false);
-            resetStack("MeatLocker", { email: email });
-          }}
-          couponCode={couponCode}
-          onpressContinue={() => resetStack("MeatLocker", { email: email })}
-          visible={showModal}
-        />
-      )}
+      <SuccessModal
+        onpressClose={() => {
+          setShowModal(false);
+          resetStack("MeatLocker", { email: email });
+        }}
+        onCloseTestID="close_modal_test_id"
+        couponCode={couponCode}
+        onpressContinue={() => resetStack("MeatLocker", { email: email })}
+        visible={showModal}
+      />
     </View>
   );
 };

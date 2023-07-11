@@ -15,6 +15,7 @@ const Header = ({ navigation, selected }: HeaderTypes) => (
     <Image style={styles.logo} source={Logo} />
     <View style={{ flexDirection: "row" }}>
       <TouchableOpacity
+        testID="go_to_login_test_id"
         onPress={() =>
           navigation.navigate("AuthenticationStack", {
             screen: "EmailAccountLoginBlock",
@@ -26,6 +27,7 @@ const Header = ({ navigation, selected }: HeaderTypes) => (
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        testID="go_to_sign_up_test_id"
         onPress={() =>
           navigation.navigate("AuthenticationStack", {
             screen: "EmailAccountSignupBlock",
