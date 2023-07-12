@@ -8,5 +8,6 @@ Feature: StripeIntegration
         Then I can enter card number
         Then I can enter card expirtydate
         Then I can enter cvv
-        And I can select the button with with out errors
+        Then Payment alert
+        Then Double button
         And I can leave the screen with out errors

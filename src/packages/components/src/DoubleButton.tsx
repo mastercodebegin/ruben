@@ -23,7 +23,7 @@ const DoubleButton = ({
   containerStyle,
 }: ButtonTypes) => {
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container, containerStyle]} testID="doubleButton">
       <TouchableOpacity
         onPress={button1_Onpress}
         style={[styles.button, styles.button1Style]}

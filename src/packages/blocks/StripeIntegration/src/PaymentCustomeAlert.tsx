@@ -33,7 +33,7 @@ const PaymentCustomeAlert = ({
 }: PaymentModalTypes) => {
   return (
     <Modal visible={visible} transparent>
-      <View style={styles.blur} />
+      <View style={styles.blur} testID="paymentAlert" />
       <View style={styles.main}>
         <View style={styles.innerContainer}>
           <TouchableOpacity onPress={onpressClose} style={styles.closeButton}>
