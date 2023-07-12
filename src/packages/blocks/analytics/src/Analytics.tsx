@@ -98,66 +98,69 @@ export default class Analytics extends AnalyticsController {
                 <Text style={styles.headerText}>{"Analytics"}</Text>
               </View>
               <View style={styles.main}>
-                <View style={styles.chartView}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }} >
-                    <View>
-                      <Text style={styles.totalIncome}>{"Total Income"}</Text>
-                      <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
+                {this.isUser === false && (
+                  <View style={styles.chartView}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }} >
+                      <View>
+                        <Text style={styles.totalIncome}>{"Total Income"}</Text>
+                        <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => { this.setState({ showCalendar: true }) }}
+                        testID="show_calendar"
+                      >
+                        <View style={styles.calendarView}>
+                          <Image
+                            style={[styles.backImage, { marginLeft: 10 }]}
+                            source={require("../assets/calendar_icon.png")}
+                          />
+                          <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
+                            {"March, 2022"}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                      onPress={() => { this.setState({ showCalendar: true }) }}
-                      testID="show_calendar"
-                    >
-                      <View style={styles.calendarView}>
-                        <Image
-                          style={[styles.backImage, { marginLeft: 10 }]}
-                          source={require("../assets/calendar_icon.png")}
-                        />
-                        <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
-                          {"March, 2022"}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
+                      <BarChart
+                        width={SCREEN_WIDTH}
+                        height={250}
+                        data={this.data}
+                        withCustomBarColorFromData={true}
+                        flatColor={true}
+                        fromZero={true}
+                        chartConfig={this.chartConfig}
+                        showBarTops={false}
+                        withHorizontalLabels={false}
+                        verticalLabelRotation={0}
+                        style={{ marginLeft: -60, backgroundColor: "transparent" }}
+                        yAxisLabel={""}
+                        yAxisSuffix=""
+                      />
+                      <View style={[styles.overlay, { height: 20 }]} />
+                    </View>
+                    {this.state.showCalendar && (
+                      <TouchableWithoutFeedback>
+                        <View style={styles.calendarContainer}>
+                          <Calendar dateSelected={(data: string) => {
+                            let newDate = new Date(data);
+                            newDate.setDate(newDate.getDate() + 7);
+                            let momentObj = moment(newDate, 'MM-DD-YYYY');
+                            let date = momentObj.format('YYYY-MM-DD')
+                            this.setState({ startDate: data })
+                            this.setState({ endDate: date })
+                            this.getAnalyticData()
+                          }
+                          } />
+                        </View>
+                      </TouchableWithoutFeedback>
+                    )}
                   </View>
-                  < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
-                    <BarChart
-                      width={SCREEN_WIDTH}
-                      height={250}
-                      data={this.data}
-                      withCustomBarColorFromData={true}
-                      flatColor={true}
-                      fromZero={true}
-                      chartConfig={this.chartConfig}
-                      showBarTops={false}
-                      withHorizontalLabels={false}
-                      verticalLabelRotation={0}
-                      style={{ marginLeft: -60, backgroundColor: "transparent" }}
-                      yAxisLabel={""}
-                      yAxisSuffix=""
-                    />
-                    <View style={[styles.overlay, { height: 20 }]} />
-                  </View>
-                  {this.state.showCalendar && (
-                    <TouchableWithoutFeedback>
-                      <View style={styles.calendarContainer}>
-                        <Calendar dateSelected={(data: string) => {
-                          let newDate = new Date(data);
-                          newDate.setDate(newDate.getDate() + 7);
-                          let momentObj = moment(newDate, 'MM-DD-YYYY');
-                          let date = momentObj.format('YYYY-MM-DD')
-                          this.setState({ startDate: data })
-                          this.setState({ endDate: date })
-                          this.getAnalyticData()
-                        }
-                        } />
-                      </View>
-                    </TouchableWithoutFeedback>
-                  )}
-                </View>
+                )}
+
                 <View style={styles.numberOfSent}>
                   <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
                   <View
