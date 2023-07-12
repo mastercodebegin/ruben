@@ -191,12 +191,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let list = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.setState({usedCuts: list.used_cuts});
-      this.setState({remianingCuts: list.remaining_cuts});
-      this.setState({totalCuts: list.total_cuts});
-      this.setState({totaAmount: list.tota_amount});
-      this.setState({numberOfSpendCount: list.no_of_spend_count});
-      this.setState({numberOfSpend: list.no_of_spend});
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -204,6 +198,13 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         console.log("error===>",error);
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
+        console.log("api successfully called---->")
+        this.setState({usedCuts: list.used_cuts});
+        this.setState({remianingCuts: list.remaining_cuts});
+        this.setState({totalCuts: list.total_cuts});
+        this.setState({totaAmount: list.tota_amount});
+        this.setState({numberOfSpendCount: list.no_of_spend_count});
+        this.setState({numberOfSpend: list.no_of_spend});  
         //showToast('success')
       }
     }

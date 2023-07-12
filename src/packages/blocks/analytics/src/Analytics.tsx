@@ -37,6 +37,10 @@ export default class Analytics extends AnalyticsController {
   async componentDidMount() {
     this.getCategoryList()
   }
+  numberWithCommas = (x: string) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
   data = {
@@ -107,7 +111,7 @@ export default class Analytics extends AnalyticsController {
                       }} >
                       <View>
                         <Text style={styles.totalIncome}>{"Total Income"}</Text>
-                        <Text style={styles.incomeValue}> {"$42,734,00"} </Text>
+                        <Text style={styles.incomeValue}> {`$${this.state.totaAmount}`} </Text>
                       </View>
                       <TouchableOpacity
                         onPress={() => { this.setState({ showCalendar: true }) }}
@@ -170,10 +174,10 @@ export default class Analytics extends AnalyticsController {
                     }}
                   >
                     <Text style={{ fontSize: 20, color: "#5C2221", fontWeight: "600" }}>
-                      {"243201"}
+                      {`${this.state.numberOfSpend}`}
                     </Text>
                     <Text style={{ fontSize: 20, color: "#A0272A" }}>
-                      {"$3344.56"}
+                      {`$${this.state.numberOfSpendCount}`}
                     </Text>
                   </View>
                 </View>
@@ -252,6 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingTop: 20,
     fontWeight: "bold",
+    textTransform: 'capitalize'
   },
   boxHeader: { fontSize: 17, color: "grey" },
   box: {
