@@ -6,6 +6,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showToast } from "../../../components/src/ShowToast";
 
 const configJSON = require("../config.js");
 export interface Props {
@@ -20,6 +21,7 @@ interface S {
   selectedTab: "delivery" | "shipping" | "pickup";
   show_modal: boolean;
   addressList: Array<any>;
+  availableSlotsList: Array<string>;
 }
 
 interface SS {
@@ -47,12 +49,14 @@ export default class PersonelDetailsController extends BlockComponent<
       selectedTab: "delivery",
       show_modal: false,
       addressList: [],
+      availableSlotsList:[]
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
 
   getPersonelDetails: string = "";
+  getAvailableSlotsCallId: string ;
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -73,6 +77,23 @@ export default class PersonelDetailsController extends BlockComponent<
         PersonelDetails.data.length > 0
       ) {
         this.setState({ addressList: PersonelDetails.data });
+      }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getAvailableSlotsCallId != null &&
+      this.getAvailableSlotsCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const availableSlots = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && availableSlots) {
+        this.setState({availableSlotsList:availableSlots?.avilable_sloat})
+      } else {
+        showToast("Something went wrong")
       }
     }
   }
@@ -116,6 +137,33 @@ export default class PersonelDetailsController extends BlockComponent<
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.getPersonelDetails
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async getAvailableSlots() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getAvailableSlotsCallId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.availableSlots
     );
 
     PersonalDetails.addData(

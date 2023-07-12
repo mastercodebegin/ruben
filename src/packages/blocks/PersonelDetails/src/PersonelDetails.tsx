@@ -46,7 +46,8 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 );
 export default class PersonelDetails extends PersonelDetailsController {
   async componentDidMount(){
-     await this.getAddressList()
+    await this.getAddressList()
+    await this.getAvailableSlots()
   }
   render() {
     const {address,phone_number, zip_code,name} = {
