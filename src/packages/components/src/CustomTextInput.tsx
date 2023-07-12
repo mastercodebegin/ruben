@@ -12,6 +12,8 @@ import {
   Platform,
 } from "react-native";
 import { ShowPassword } from "../../blocks/email-account-login/src/assets";
+import { hidePassword } from "../../blocks/email-account-login/src/assets";
+
 interface TextInputType {
   label: string;
   placeholder?: string;
@@ -25,6 +27,7 @@ interface TextInputType {
   labeStyle?: StyleProp<TextStyle>;
   numberOfLines?: number;
   testID?:string;
+  maxLenth?: number;
 }
 const TextInput = ({
   label,
@@ -38,7 +41,8 @@ const TextInput = ({
   textInputStyle,
   numberOfLines,
   labeStyle,
-  testID
+  testID,
+  maxLenth = 400,
 }: TextInputType) => {
   const [secureEntry, setSecureEntry] = React.useState(secureTextEntry);
   return (
@@ -54,6 +58,8 @@ const TextInput = ({
           testID={testID}
           numberOfLines={numberOfLines}
           onChangeText={onchangeText}
+          autoCapitalize="none"
+          maxLength={maxLenth}
           placeholder={placeholder}
         />
         {secureTextEntry && (
@@ -62,7 +68,7 @@ const TextInput = ({
               <Image
                 style={{ height: 20, width: 20 }}
                 resizeMode="contain"
-                source={ShowPassword}
+                source={secureEntry ? hidePassword : ShowPassword}
               />
             </TouchableOpacity>
           </View>

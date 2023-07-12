@@ -69,12 +69,13 @@ interface S {
   subCategoryItem: string;
   categoryList: Array<object>;
   subCategoryList: Array<object>;
-  productList: Array<object>;
+  productList: Array<any>;
   aboutus:any;
   orderList: Array<any>;
   cartList:Array<any>;
   show_SortingDropdown: boolean,
   sortAscending: boolean,
+  setProductPage:number,
   // Customizable Area End
 }
 
@@ -176,7 +177,8 @@ export default class LandingPageController extends BlockComponent<
         },
       ],
       aboutus:null,
-      cartList:[]
+      cartList:[],
+      setProductPage:1
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -288,9 +290,10 @@ export default class LandingPageController extends BlockComponent<
       );
       const subCategories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
-      store.dispatch({type:'UPDATE_CART_DETAILS',payload:subCategories?.data?.attributes?.order_items?.data})
-      this.addToCartCallBack(error)
+      );
+      
+        this.addToCartCallBack(subCategories,error)
+      
       
     }
   else{
@@ -346,7 +349,14 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(" error == == ", error);
-      this.setState({ productList: productListData?.data, show_loader: false })
+      const productList1 = [...this.state.productList];
+      const productList2 = productListData?.data;
+      const finalproductList = productList1.concat(productList2)
+      console.log("productList1 :", productList2);
+      console.log("productList2 :", productList2);
+      console.log("finalArray :", finalproductList);
+      this.setState({ productList: finalproductList, show_loader: false })
+      console.log("product list === === == ", this.state.productList)
       }else if (
         getName(MessageEnum.RestAPIResponceMessage) === message.id &&
         this.getAddProductId != null &&
@@ -432,11 +442,12 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  addToCartCallBack(error:any){    
-    if(error){      
-      showToast('Something went wrong')
-    }else{
+  addToCartCallBack(cart:any,error:any){    
+    if(cart ?.data){
+      store.dispatch({type:'UPDATE_CART_DETAILS',payload:cart?.data?.attributes?.order_items?.data});
       showToast('Product Added to the cart')
+    }else{
+      showToast('Something went wrong')
     }
   }
   addToFavCallBack(AddToFavRes:any,error:any){
@@ -919,15 +930,13 @@ export default class LandingPageController extends BlockComponent<
     const headers = {
       'token': data?.meta?.token
     };
-    const formdata = new FormData();
-    console.log('formData ', formdata)
     const getProductListMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
     this.getProductId = getProductListMsg.messageId;
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.addProductEndpoint}${type ? "asc" : "desc"}`
+      `${configJSON.getProductListEndpoint}?page=${this.state.setProductPage}&type=${type ? "asc" : "desc"}`
       );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -987,14 +996,14 @@ export default class LandingPageController extends BlockComponent<
     };
 
     const httpBody = {
-      order_items:{
-          catalogue_id:id,
-          quantity:1,
-          taxable:true,
-          taxable_value:0.1233,
-          order_charges:0.124,
-          delivered_at:"2023-04-23T12:23:44.754Z"
-      }
+      "order_items": {
+        "catalogue_id": id,
+        "quantity": 1,
+        "taxable": "true",
+        "taxable_value": 0.1233,
+        "other_charges": 0.124,
+        "delivered_at": "2023-04-21T12:27:59.395Z"
+    }
   }
 
     const requestMessage = new Message(
@@ -1078,6 +1087,13 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getOrderListMsg.id, getOrderListMsg);
+  }
+
+  handleLoadMore() {
+    console.log("loadMore called");
+    this.setState({ setProductPage: this.state.setProductPage + 1 }, () => {
+      this.getProductList(true)
+    });
   }
   // Customizable Area End
 }

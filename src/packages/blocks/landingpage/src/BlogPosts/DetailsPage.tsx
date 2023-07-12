@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   SafeAreaView,
@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Header } from "./Header";
-import { sampleProfile, shareIcon, playIcon, pause } from "../assets";
+import { sampleProfile, shareIcon, playIcon, pause ,replay} from "../assets";
 import Video from "react-native-video";
 import { showToast } from "../../../../components/src/ShowToast";
 
@@ -25,7 +25,18 @@ const DetailsPage = ({ route }: any) => {
   const [play, setPlay] = useState(false);
   const [loading, setLoading] = useState(false);
   const [displayButton, setDisplayButton] = useState(true);
+  const [videoEnded, setVideoEnded] = useState(false);
   const navigation = useNavigation();
+  const videRef = useRef();
+  const showIcon = () => {
+    if (videoEnded) {
+      return replay
+    }
+    if (!play) {
+      return playIcon
+    } 
+      return pause
+  }
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.container}>
@@ -78,19 +89,23 @@ const DetailsPage = ({ route }: any) => {
                   source={{ uri: url }}
                 />
               ) : (
-                <View style={styles.videoView}>
+                  <View style={styles.videoView}>
+                    {/* @ts-ignore */}
                   <Video
-                    paused={!play}
+                      paused={!play}
+                      //@ts-ignore
+                      ref={videRef}
                     resizeMode="stretch"
                     onLoad={() => {
-                      console.log("onload");
                       setLoading(false);
                     }}
+                      onEnd={() => {
+                        setDisplayButton(true)
+                        setVideoEnded(true)
+                      }}
                     onLoadStart={() => {
                       setLoading(true);
-                      console.log("loading stoped");
                     }}
-                    repeat
                     style={styles.video}
                     source={{ uri: url }}
                   />
@@ -99,7 +114,7 @@ const DetailsPage = ({ route }: any) => {
                       onPress={() => {
                         if (displayButton) {
                           setDisplayButton(false);
-                        }
+                        }                          
                         setDisplayButton(!displayButton);
                       }}
                     >
@@ -113,8 +128,16 @@ const DetailsPage = ({ route }: any) => {
                         {loading ? (
                           <ActivityIndicator size={"large"} />
                         ) : (
-                          <TouchableOpacity
-                            onPress={() => {
+                              <TouchableOpacity
+                                testID="play_video_id"
+                                onPress={() => {
+                                  if (videoEnded) {
+                                    //@ts-ignore
+                                    videRef?.current?.seek(0);
+                                    setDisplayButton(false);
+                                    setVideoEnded(false)
+                                    return
+                                  }
                               setPlay(!play);
                               if (!play) {
                                 setTimeout(() => {
@@ -125,10 +148,10 @@ const DetailsPage = ({ route }: any) => {
                           >
                             <Image
                               style={[
-                                { height: 40, width: 40 },
+                                { height: 40, width: 40,tintColor:"white" },
                                 !displayButton && { display: "none" },
                               ]}
-                              source={!play ? playIcon : pause}
+                              source={showIcon()}
                             />
                           </TouchableOpacity>
                         )}

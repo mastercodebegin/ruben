@@ -43,35 +43,12 @@ defineFeature(feature, (test) => {
           state={undefined}
           firstTime={false}
           currentUser={"user"}
-          route={{}}
+          route={{params:{firstTime:true}}}
           {...screenProps}
         />
       );
-    });
-    given("I am a User entering MyProfileScreen after signup", () => {
-      landingPageBlock = shallow(
-        <MyProfile
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={undefined}
-          firstTime={false}
-          route={{
-            params: {
-              firstTime: true,
-              email: "test@gmail.com",
-            },
-          }}
-          currentUser={"user"}
-          {...screenProps}
-        />
-      );
-    });
-
-    when("I navigate to the My profile screen", () => {
       instance = landingPageBlock.instance() as MyProfile;
+      instance.componentDidMount()
     });
     when(
       "I navigate to the My profile screen I can open facebook profile",
@@ -106,20 +83,6 @@ defineFeature(feature, (test) => {
       expect(landingPageBlock).toBeTruthy();
     });
     then("user trying to update profile details", () => {
-      landingPageBlock = shallow(
-        <MyProfile
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={undefined}
-          firstTime={false}
-          currentUser={"user"}
-          route={{}}
-          {...screenProps}
-        />
-      );
       const touchableOpacity = landingPageBlock.find(
         '[testID="edit_profile_test_id"]'
       );
@@ -128,20 +91,6 @@ defineFeature(feature, (test) => {
       expect(instance.state.showProfileModal).toBeTruthy();
     });
     then("user updating profile picture", () => {
-      landingPageBlock = shallow(
-        <MyProfile
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={undefined}
-          firstTime={false}
-          currentUser={"user"}
-          route={{}}
-          {...screenProps}
-        />
-      );
       let instance = landingPageBlock.instance() as MyProfile;
       instance.setState({ profileImage: { path: "www.test.com" } });
       instance.forceUpdate();
@@ -155,21 +104,6 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     });
     then("user naviagating to my credit screen", () => {
-      landingPageBlock = shallow(
-        <MyProfile
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={undefined}
-          firstTime={false}
-          currentUser={"user"}
-          route={{}}
-          {...screenProps}
-        />
-      );
-      let instance = landingPageBlock.instance() as MyProfile;
       instance.setState({ selectedTab: "remaining" });
       instance.forceUpdate();
 
@@ -179,21 +113,6 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     });
     then("user pressing see all button to navigate selected tab", () => {
-      landingPageBlock = shallow(
-        <MyProfile
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={undefined}
-          firstTime={false}
-          currentUser={"user"}
-          route={{}}
-          {...screenProps}
-        />
-      );
-      let instance = landingPageBlock.instance() as MyProfile;
       instance.setState({ selectedTab: "Recomentations" });
       instance.forceUpdate();
 
@@ -206,6 +125,23 @@ defineFeature(feature, (test) => {
       instance.setState({ imageBlogList: [{}] });
       instance.forceUpdate();
     });
+
+    then("user pressing recomentations button", async () => {
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="go_to_recomendations_id"]'
+      );
+      touchableOpacity.simulate("press");
+      expect(instance.state.selectedTab).toBe('Recomendations')
+      
+    })
+
+    then("user pressing my favorites button to go favorites screen", () => {
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="go_to_favorites_id"]'
+      );
+      touchableOpacity.simulate("press");
+      expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
+    })
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

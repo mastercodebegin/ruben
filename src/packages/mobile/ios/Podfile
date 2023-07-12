@@ -42,12 +42,11 @@ target 'RuebensFTCApp' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'FBSDKPlacesKit'
-
+  pod 'GoogleUtilities', :modular_headers => true
   pod 'GoogleSignIn', '~> 5.0.2'
   pod 'Firebase/Analytics'
 
   pod 'RNLocalize', :path => '../../../node_modules/react-native-localize/RNLocalize.podspec'
-
   pod 'RNPermissions', :path => '../../../node_modules/react-native-permissions'
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency.podspec"
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
@@ -72,7 +71,6 @@ target 'RuebensFTCApp' do
   pod 'GoogleMaps'  # Uncomment this line if you want to support GoogleMaps on iOS
   pod 'Google-Maps-iOS-Utils' # Uncomment this line if you want to support GoogleMaps on iOS
   pod 'RNImageCropPicker', :path => '../../../node_modules/react-native-image-crop-picker'
-
   pod 'RNCCheckbox', :path => '../../../node_modules/@react-native-community/checkbox'
 
   pod 'react-native-webview', :path => '../../../node_modules/react-native-webview'
@@ -112,7 +110,10 @@ target 'RuebensFTCApp' do
   pod 'react-native-simple-toast', :path => '../../../node_modules/react-native-simple-toast'
 
   pod 'react-native-encrypted-storage', :path => '../../../node_modules/react-native-encrypted-storage'
+  
+  pod 'FirebaseCore', :modular_headers => true
 
+  pod 'RNFBMessaging', :path => '../../../node_modules/@react-native-firebase/messaging'
   target 'RuebensFTCAppTests' do
     inherit! :search_paths
     # Pods for testing

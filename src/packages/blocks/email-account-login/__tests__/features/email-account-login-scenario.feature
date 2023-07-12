@@ -3,6 +3,8 @@ Feature: Email Address Account Log In
     Scenario: User navigates to Email Log In
         Given I am a User attempting to Log In with a Email
         When I navigate to the Log In Screen
+        Then user trying to go login screen using header
+        Then user pressing signup in the header header
         And Login with empty email
         And Login with empty password
         And Login with invalid Email

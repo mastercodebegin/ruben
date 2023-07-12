@@ -7,6 +7,8 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
+import { showToast } from "../../../components/src/ShowToast";
+import { getStorageData } from "../../../framework/src/Utilities";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -34,6 +36,7 @@ interface S {
   activeDescription: string;
   activeCreatedAt: string;
   isVisible: boolean;
+  query: string;
   // Customizable Area End
 }
 
@@ -76,6 +79,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
       activeDescription: "",
       activeCreatedAt: "",
       isVisible: false,
+      query: "",
     };
 
     // Customizable Area End
@@ -103,7 +107,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
 
   async receive(from: string, message: Message) {
     // Customizable Area Start
-     if (getName(MessageEnum.SessionResponseMessage) === message.id) {
+    if (getName(MessageEnum.SessionResponseMessage) === message.id) {
       let token = message.getData(getName(MessageEnum.SessionResponseToken));
       runEngine.debugLog("TOKEN", token);
       this.setState({ token: token });
@@ -112,40 +116,22 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
       const apiRequestCallId = message.getData(
         getName(MessageEnum.RestAPIResponceDataMessage)
       );
-
-      var responseJson = message.getData(
+      let responseJson = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
 
-      var errorReponse = message.getData(
+      let errorReponse = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       runEngine.debugLog("API Message Recived", message);
 
-      if (responseJson && responseJson.data) {
-        if (apiRequestCallId === this.contactUsApiCallId) {
-          this.setState({ contactUsList: responseJson.data });
-        }
+      if (responseJson?.data) {
         if (apiRequestCallId === this.addContactApiCallId) {
+          showToast("Query Submitted");
           this.props.navigation.goBack();
         }
-      } else if (
-        responseJson &&
-        responseJson.message &&
-        apiRequestCallId === this.deleteContactApiCallId
-      ) {
-        this.setState({ isVisible: false });
-        this.getContactUsList(this.state.token);
-      } else if (responseJson && responseJson.errors) {
-        if (responseJson.errors) {
-          if (apiRequestCallId === this.addContactApiCallId) {
-            responseJson.errors.forEach((error: any) => {
-              if (error.contact) {
-                this.showAlert(configJSON.errorTitle, error.contact.join("."));
-              }
-            });
-          }
-        }
+      } else if (errorReponse) {
+        showToast("Something went wrong");
       }
     }
     // Customizable Area End
@@ -237,11 +223,10 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
     }
   };
 
-  addQueryApi = () => {
+  addQueryApi = async () => {
     if (
       this.isStringNullOrBlank(this.state.name) ||
       this.isStringNullOrBlank(this.state.email) ||
-      this.isStringNullOrBlank(this.state.phoneNumber) ||
       this.isStringNullOrBlank(this.state.comments)
     ) {
       this.showAlert(
@@ -255,16 +240,17 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
     } else {
       let data = {
         data: {
-          name: this.state.name.trim(),
-          email: this.state.email.trim(),
-          phone_number: this.state.phoneNumber.trim(),
-          description: this.state.comments.trim(),
+          name: this.state.name,
+          email: this.state.email,
+          phone_number: "",
+          description: this.state.comments,
         },
       };
+      const usr_details = await getStorageData("userDetails", true);
 
       const header = {
         "Content-Type": configJSON.contactUsApiContentType,
-        token: this.state.token,
+        token: usr_details.meta.token,
       };
       const requestMessage = new Message(
         getName(MessageEnum.RestAPIRequestMessage)
@@ -274,7 +260,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
 
       requestMessage.addData(
         getName(MessageEnum.RestAPIResponceEndPointMessage),
-        configJSON.getContactUsAPiEndPoint
+        configJSON.submitQueryEndPoint
       );
       requestMessage.addData(
         getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -346,14 +332,6 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
     );
 
     runEngine.sendMessage(requestMessage.id, requestMessage);
-  };
-
-  btnSubmitProps = {
-    onPress: () => this.addQueryApi(),
-  };
-
-  btnBackProps = {
-    onPress: () => this.props.navigation.goBack(),
   };
   // Customizable Area End
 }

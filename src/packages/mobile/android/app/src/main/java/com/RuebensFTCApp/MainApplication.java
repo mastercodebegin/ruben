@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactnative.ivpusic.imagepicker.*;
 import com.dylanvann.fastimage.FastImageViewPackage;
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 //import com.imagepicker.ImagePickerPackage;
 // import com.reactnativecommunity.webview.RNCWebViewPackage;
 
@@ -58,6 +59,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           packages.add(new SafeAreaContextPackage());
           packages.add(new FastImageViewPackage());
           packages.add(new RNFetchBlobPackage());
+          packages.add(new ReactNativeFirebaseMessagingPackage());
           // packages.add(new RNFSPackage());
           return packages;
         }

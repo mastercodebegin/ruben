@@ -16,7 +16,11 @@ jest.mock("../../components/src/utils", () => ({
 }));
 jest.mock("react-native-simple-toast", () => {});
 jest.mock("@react-native-async-storage/async-storage", () => ({
-  getItem: jest.fn(() => ({ meta: { token: "rtretwftyweyfwtfeytwf" } })),
+  getItem: jest.fn((key) => {
+    return new Promise((resolve) => {
+      resolve(JSON.stringify({ meta: { token: "rtretwftyweyfwtfeytwf" } }));
+    });
+  }),
   setItem: jest.fn(),
 }));
 jest.mock("../../components/src/ShowToast", () => ({ showToast: jest.fn() }));
@@ -25,6 +29,16 @@ jest.mock("react-native-image-crop-picker", () => ({
   openPicker: jest.fn(),
 }));
 jest.mock("@react-navigation/native", () => ({
-  useNavigation: jest.fn(() => ({ goBack: jest.fn(),navigate:jest.fn() })),
+  useNavigation: jest.fn(() => ({ goBack: jest.fn(), navigate: jest.fn() })),
 }));
-jest.mock("react-native-video", () => jest.fn(() => <></>));
+
+jest.mock("react-native-video", () =>
+  jest.fn((props) => {
+    if (props.onEnd && props.onLoad && props.onLoadStart) {
+      props.onEnd();
+      props.onLoadStart();
+      props.onLoad();
+    }
+    return <></>;
+  })
+);

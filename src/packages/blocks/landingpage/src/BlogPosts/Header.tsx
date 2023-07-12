@@ -10,6 +10,7 @@ export const Header = (props: any) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
+      testID="navigate_to_blogpost_id"
         onPress={() => {
           setSelected("blog");
           props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
@@ -26,6 +27,7 @@ export const Header = (props: any) => {
         </Text>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
+      testID="navigate_to_video_library_id"
         onPress={() => {
           setSelected("video");
           props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});

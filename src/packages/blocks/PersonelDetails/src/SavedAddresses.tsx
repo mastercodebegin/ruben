@@ -48,7 +48,7 @@ export default class SavedAddresses extends Component<Props, State> {
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
           <Text style={[styles.headerText, { textAlign: "center" }]}>
-            {"CHOOSE FROM SAVED ADDRESSES"}
+            {"CHOOSE FROM SAVED ADDRESS"}
           </Text>
         </View>
         {

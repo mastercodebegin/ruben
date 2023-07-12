@@ -29,6 +29,7 @@ interface Types {
   onpressFav: (id: number) => Promise<void>;
   onPressCart: (id: number) => Promise<void>;
   index?: number;
+  handleLoadMore?:(any)
 }
 const RenderItem = ({
   item,
@@ -45,7 +46,12 @@ const RenderItem = ({
     <TouchableOpacity
       testID={`navigate_to_product_details_id_${index}`}
       onPress={() =>
-        navigation.navigate("ProductDetailScreen", { id: item?.id })
+        navigation.navigate("ProductDetailScreen", {
+          id: item?.id,
+          description: item?.attributes?.description,
+          name: item?.attributes?.name,
+          price:item?.attributes?.price
+        })
       }
       style={styles.renderContainer}
     >
@@ -74,7 +80,7 @@ const RenderItem = ({
             </Text>
           )}
           <TouchableOpacity
-            testID={"add_to_fav_id_"+index}
+            testID={"add_to_fav_id_" + index}
             onPress={() => onpressFav(item?.id)}
             style={styles.badgeContainer}
           >
@@ -92,7 +98,7 @@ const RenderItem = ({
             {`$ ${item?.attributes?.price}` + "/Kg"}
           </Text>
           <TouchableOpacity
-            testID={"add_to_cart_id_"+index}
+            testID={"add_to_cart_id_" + index}
             onPress={() => onPressCart(item?.id)}
             style={styles.cartContainer}
           >
@@ -109,6 +115,7 @@ const RenderItems = ({
   item,
   onpressFav,
   onPressCart,
+  handleLoadMore,
 }: Types) => {
   return (
     <View>
@@ -134,6 +141,9 @@ const RenderItems = ({
             index={index}
           />
         )}
+        onEndReachedThreshold={1}
+        onEndReached={handleLoadMore}
+        pagingEnabled={false}
         data={item}
       />
     </View>

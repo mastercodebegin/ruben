@@ -19,7 +19,7 @@ const SortingDropdown = ({
     testID = "sortingDropdown"
 
 }: Props) => {
-    const renderItem = ({ item, index }: any): ReactElement<any, any> => {
+    const RenderItem = ({ item, index }: any): ReactElement<any, any> => {
         return (
             <TouchableOpacity 
             style={styles.item} 
@@ -40,7 +40,7 @@ const SortingDropdown = ({
                 <View style={[styles.dropdown, { top: 140, right: 25 }]} testID={testID}>
                     <FlatList
                         data={data}
-                        renderItem={renderItem}
+                        renderItem={({ item, index }: any)=><RenderItem item={item} index={index}/>}
                         keyExtractor={(item, index) => index.toString()} />
                 </View>
             </TouchableOpacity>

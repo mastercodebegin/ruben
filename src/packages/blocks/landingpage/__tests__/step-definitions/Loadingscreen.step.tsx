@@ -1,6 +1,5 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { shallow, ShallowWrapper } from "enzyme";
-import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import LoadingScreen from "../../src/LoadingScreen";
 import { Message } from "../../../../framework/src/Message";
@@ -11,7 +10,7 @@ import { runEngine } from "../../../../framework/src/RunEngine";
 
 const navigation = {
   navigate: jest.fn(),
-  reset:jest.fn()
+  reset: jest.fn(),
 };
 
 const screenProps = {
@@ -110,7 +109,7 @@ defineFeature(feature, (test) => {
       expect(mobileAccountLogInWrapper).toBeTruthy();
 
       instance = mobileAccountLogInWrapper.instance() as LoadingScreen;
-    instance.getProductDetails(27)
+      instance.getProductDetails(27);
       const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
@@ -180,7 +179,17 @@ defineFeature(feature, (test) => {
         }
       );
       instance.getProductDetailsId = msgValidationAPI.messageId;
+      instance.getVideoLibrary();
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+    });
+    then("user opening blog post link", () => {
+      landingPageBlock.setProps({
+        params: { product: true, id: 21 },
+        ...screenProps,
+      });
+      instance.forceUpdate();
+      instance.componentDidMount();
+      instance.videoLibraryCallback({},false)
     });
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
