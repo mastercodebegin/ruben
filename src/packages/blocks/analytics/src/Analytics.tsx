@@ -38,7 +38,7 @@ export default class Analytics extends AnalyticsController {
     this.getCategoryList()
   }
   numberWithCommas = (x: string) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toLocaleString();
   };
 
   isUser = store.getState().currentUser === "user";
