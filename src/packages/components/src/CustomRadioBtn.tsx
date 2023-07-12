@@ -6,6 +6,7 @@ interface CheckBoxTypes {
   testID?: string;
   backgroundColor?: string;
   disabled?: boolean;
+  selectorTestID?: string;
 }
 const CheckBox = ({
   checked,
@@ -13,6 +14,7 @@ const CheckBox = ({
   testID,
   backgroundColor = "white",
   disabled,
+  selectorTestID
 }: CheckBoxTypes) => {
   return (
     <TouchableOpacity
@@ -21,7 +23,7 @@ const CheckBox = ({
       onPress={() => setChecked(!checked)}
       style={{ ...styles.checkBox, backgroundColor: backgroundColor }}
     >
-      {checked && <View style={styles.dot} />}
+      {checked && <View testID={selectorTestID} style={styles.dot} />}
     </TouchableOpacity>
   );
 };

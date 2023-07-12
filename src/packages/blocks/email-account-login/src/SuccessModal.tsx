@@ -19,12 +19,14 @@ interface ModalTypes {
   onpressClose: () => void;
   onpressContinue: () => void;
   couponCode: string;
+  onCloseTestID?: string;
 }
 const SuccessModal = ({
   visible = false,
   onpressClose,
   onpressContinue,
   couponCode,
+  onCloseTestID,
 }: ModalTypes) => {
   const onpressCopy = () => {
     Clipboard.setString(couponCode);
@@ -39,7 +41,11 @@ const SuccessModal = ({
       <View style={styles.container}>
         <View style={styles.blur} />
         <View style={styles.innerView}>
-          <TouchableOpacity onPress={onpressClose} style={styles.close}>
+          <TouchableOpacity
+            testID={onCloseTestID}
+            onPress={onpressClose}
+            style={styles.close}
+          >
             <Image
               resizeMode="contain"
               style={styles.closeIcon}
@@ -57,7 +63,11 @@ const SuccessModal = ({
           <Text style={styles.discount}>
             To get instant 10% discount on first order
           </Text>
-          <TouchableOpacity testID="copy_code_id" onPress={onpressCopy} style={styles.copyContainer}>
+          <TouchableOpacity
+            testID="copy_code_id"
+            onPress={onpressCopy}
+            style={styles.copyContainer}
+          >
             <Text style={styles.copy}>COPY COUPON CODE</Text>
             <Image style={styles.copyImg} source={copy} />
           </TouchableOpacity>

@@ -126,9 +126,7 @@ export default class MyCart extends MyCartController {
                 index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
                 onpressRemove={(index:number)=>{
-                  const array = [...this.state.productsList]                  
-                    array.splice(index, 1);
-                    this.setState({productsList:array})
+                  this.removeItemFromCart(item?.id)
                 }}
                 onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
               />

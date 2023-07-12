@@ -13,7 +13,11 @@ import EmailAccountSignupBlock from "../../src/EmailAccountSignupBlock";
 import SuccessModal from "../../src/SuccessModal";
 import { render, fireEvent } from "@testing-library/react-native";
 
-const navigation = require("react-navigation");
+const navigation = {
+  navigate: jest.fn(),
+  reset: jest.fn(),
+  goBack: jest.fn(),
+};
 
 const screenProps = {
   navigation: navigation,
@@ -182,11 +186,25 @@ defineFeature(feature, (test) => {
       simulateTextInput("user_password", "QWEqwe123!");
     });
     then("user trying to signup us a user", () => {
+      const { getByTestId, queryByTestId } = render(
+        <EmailAccountSignupBlock {...screenProps} />
+      );
+      fireEvent.press(getByTestId("user_checkBox"));
+      fireEvent.press(getByTestId("merchant_check_box_id"));
+      fireEvent.press(getByTestId("close_modal_test_id"));
+
+      expect(queryByTestId("user_selector_test_id")).toBeTruthy();
+    });
+
+    then("user signup success user can see welcome modal", () => {
       const { getByTestId } = render(
         <EmailAccountSignupBlock {...screenProps} />
       );
-
-      fireEvent.press(getByTestId("user_checkBox"));
+      fireEvent.press(getByTestId("close_modal_test_id"));
+      expect(navigation.reset).toBeCalledWith({
+        index: 0,
+        routes: [{ name: "MeatLocker", params: { email: "" } }],
+      });
     });
 
     then("I can leave the screen with out errors", () => {

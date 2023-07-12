@@ -29,6 +29,16 @@ jest.mock("react-native-image-crop-picker", () => ({
   openPicker: jest.fn(),
 }));
 jest.mock("@react-navigation/native", () => ({
-  useNavigation: jest.fn(() => ({ goBack: jest.fn(),navigate:jest.fn() })),
+  useNavigation: jest.fn(() => ({ goBack: jest.fn(), navigate: jest.fn() })),
 }));
-jest.mock("react-native-video", () => jest.fn(() => <></>));
+
+jest.mock("react-native-video", () =>
+  jest.fn((props) => {
+    if (props.onEnd && props.onLoad && props.onLoadStart) {
+      props.onEnd();
+      props.onLoadStart();
+      props.onLoad();
+    }
+    return <></>;
+  })
+);

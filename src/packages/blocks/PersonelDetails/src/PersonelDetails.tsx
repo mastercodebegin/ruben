@@ -130,7 +130,7 @@ export default class PersonelDetails extends PersonelDetailsController {
             <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
               <Text style={styles.estimation}>
-                {"Within 3 days, 21st Oct,Friday- 9:00 AM to 6:00 PM"}
+                {`Within 3 days, ${this.getExpectedDeliveryDate()}- 9:00 AM to 6:00 PM`}
               </Text>
             </View>
             <DoubleButton
