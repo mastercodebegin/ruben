@@ -9,6 +9,7 @@ import { Message } from "../../../../framework/src/Message"
 
 import MessageEnum, { getName } from "../../../../framework/src/Messages/MessageEnum";
 import StripeIntegration from "../../src/StripeIntegration"
+import { cardNumberFormatter } from "../../src/StripeIntegration";
 const navigation = require("react-navigation")
 
 const screenProps = {
@@ -44,28 +45,41 @@ defineFeature(feature, (test) => {
         });
 
         then('I can enter text with out errors', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
             const input = getByTestId('cardNameInput');
-            fireEvent.changeText(input, '123');
-            expect(input.props.value).toBe('123');
+            fireEvent.changeText(input, 'Card Holder name');
+            expect(input.props.value).toBe('Card Holder name');
         });
         then('I can enter card number', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
             const input = getByTestId('cardNumber');
-            fireEvent.changeText(input, '123');
-            expect(input.props.value).toBe('123');
+            instance = exampleBlockA.instance() as StripeIntegration
+            fireEvent.changeText(input, '4242');
+            let formattedCard = cardNumberFormatter("4242", instance.state.cardNumber);
+            instance.setState({cardNumber: formattedCard})
+            expect(input.props.value).toBe('4242');
+            expect(instance.state.cardNumber).toEqual("4242");
+
         });
         then('I can enter card expirtydate', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
             const input = getByTestId('cardExpiry');
-            fireEvent.changeText(input, '123');
-            expect(input.props.value).toBe('123');
+            instance = exampleBlockA.instance() as StripeIntegration
+            fireEvent.changeText(input, '12/');
+            instance.handleExpiryDate("12")
+            expect(input.props.value).toBe('12/');
+            expect(instance.state.expirtyDate).toEqual("12/");
+
         });
         then('I can enter cvv', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={""} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
             const input = getByTestId('cardCVV');
+            instance = exampleBlockA.instance() as StripeIntegration
             fireEvent.changeText(input, '123');
+            instance.handleCVVTextInput("123")
             expect(input.props.value).toBe('123');
+            expect(instance.state.cvv).toEqual("123");
+
         });
 
         then('I can select the button with with out errors', () => {
