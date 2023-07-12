@@ -36,8 +36,8 @@ jest.mock("react-native-video", () =>
   jest.fn((props) => {
     if (props.onEnd && props.onLoad && props.onLoadStart) {
       props.onEnd();
-      props.onLoad();
       props.onLoadStart();
+      props.onLoad();
     }
     return <></>;
   })

@@ -28,6 +28,15 @@ const DetailsPage = ({ route }: any) => {
   const [videoEnded, setVideoEnded] = useState(false);
   const navigation = useNavigation();
   const videRef = useRef();
+  const showIcon = () => {
+    if (videoEnded) {
+      return replay
+    }
+    if (!play) {
+      return playIcon
+    } 
+      return pause
+  }
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.container}>
@@ -88,7 +97,6 @@ const DetailsPage = ({ route }: any) => {
                       ref={videRef}
                     resizeMode="stretch"
                     onLoad={() => {
-                      console.log("onload");
                       setLoading(false);
                     }}
                       onEnd={() => {
@@ -143,7 +151,7 @@ const DetailsPage = ({ route }: any) => {
                                 { height: 40, width: 40,tintColor:"white" },
                                 !displayButton && { display: "none" },
                               ]}
-                              source={videoEnded ? replay : !play ? playIcon : pause}
+                              source={showIcon()}
                             />
                           </TouchableOpacity>
                         )}

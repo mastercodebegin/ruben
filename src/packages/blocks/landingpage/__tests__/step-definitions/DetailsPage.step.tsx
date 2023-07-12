@@ -37,7 +37,7 @@ defineFeature(feature, (test) => {
       const { getByTestId }= render(<DetailsPage
         route={{ params: { type: "video", url: "https://www.test.com" } }}
       />)
-      const TouchableOpacity: any = getByTestId("copy_url_test_id");
+      const TouchableOpacity: any = getByTestId("play_video_id");
       expect(TouchableOpacity).toBeTruthy();
       fireEvent.press(TouchableOpacity);
     })
