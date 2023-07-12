@@ -33,5 +33,13 @@ defineFeature(feature, (test) => {
       expect(TouchableOpacity).toBeTruthy();
       fireEvent.press(TouchableOpacity);
     });
+    then("user trying to access video library", () => {
+      const { getByTestId }= render(<DetailsPage
+        route={{ params: { type: "video", url: "https://www.test.com" } }}
+      />)
+      const TouchableOpacity: any = getByTestId("copy_url_test_id");
+      expect(TouchableOpacity).toBeTruthy();
+      fireEvent.press(TouchableOpacity);
+    })
   });
 });

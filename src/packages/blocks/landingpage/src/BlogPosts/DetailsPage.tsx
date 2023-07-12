@@ -120,11 +120,12 @@ const DetailsPage = ({ route }: any) => {
                         {loading ? (
                           <ActivityIndicator size={"large"} />
                         ) : (
-                          <TouchableOpacity
+                              <TouchableOpacity
+                                testID="play_video_id"
                                 onPress={() => {
                                   if (videoEnded) {
                                     //@ts-ignore
-                                    videRef.current.seek(0);
+                                    videRef?.current?.seek(0);
                                     setDisplayButton(false);
                                     setVideoEnded(false)
                                     return
