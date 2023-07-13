@@ -29,7 +29,7 @@ interface Types {
   onpressFav: (id: number) => Promise<void>;
   onPressCart: (id: number) => Promise<void>;
   index?: number;
-  handleLoadMore?:(any)
+  handleLoadMore?: (any)
 }
 const RenderItem = ({
   item,
@@ -50,7 +50,7 @@ const RenderItem = ({
           id: item?.id,
           description: item?.attributes?.description,
           name: item?.attributes?.name,
-          price:item?.attributes?.price
+          price: item?.attributes?.price
         })
       }
       style={styles.renderContainer}
