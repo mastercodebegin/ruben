@@ -57,7 +57,7 @@ export default class ProductDetailScreen extends LandingPageController {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
-      price:this.props?.route?.params?.price
+      price: this.props?.route?.params?.price
     }
     return (
       <SafeAreaView style={style.flex}>
@@ -128,7 +128,7 @@ export default class ProductDetailScreen extends LandingPageController {
             <View style={style.priceContainer}>
               <Text style={style.text}>
                 <Text style={style.text}>$</Text>
-                <Text style={style.price}>{ price }</Text>/kg
+                <Text style={style.price}>{price}</Text>/kg
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
