@@ -126,7 +126,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                 </View>
               </>
             ) : (
-              <AvailableSlots />
+              <AvailableSlots list={this.state.availableSlotsList}/>
             )}
             <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>

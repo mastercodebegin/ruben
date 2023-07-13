@@ -89,9 +89,9 @@ export default class PersonelDetailsController extends BlockComponent<
       );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+      );      
       if (!error && availableSlots) {
-        this.setState({availableSlotsList:availableSlots?.avilable_sloat})
+        this.setState({availableSlotsList:availableSlots?.avilable_sloat[0]?.available_slot})
       } else {
         showToast("Something went wrong")
       }
@@ -101,16 +101,16 @@ export default class PersonelDetailsController extends BlockComponent<
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 3);
     const date = new Date(currentDate);
-    var months = [
+    const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-    var day = date.getDate();
-    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var dayName = days[date.getDay()];
-    var month = months[date.getMonth()];
+    const day = date.getDate();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayName = days[date.getDay()];
+    const month = months[date.getMonth()];
 
-    var suffix;
+    let suffix;
     if (day === 1 || day === 21 || day === 31) {
       suffix = "st";
     } else if (day === 2 || day === 22) {

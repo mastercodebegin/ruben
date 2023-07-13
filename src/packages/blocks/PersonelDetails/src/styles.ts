@@ -15,6 +15,21 @@ export const styles = StyleSheet.create({
   },
   safearea: { flex: 1, backgroundColor: LIGHT_GREY },
   seperator: { width: responsiveWidth(3) },
+  slot: {
+    
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    marginVertical: 5,
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
   boxContainer: {
     flex: 1,
     backgroundColor: WHITE,
