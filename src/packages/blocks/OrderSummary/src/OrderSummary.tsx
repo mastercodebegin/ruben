@@ -125,7 +125,7 @@ export default class OrderSummary extends OrderSummaryController {
                       index={index}
                       image={item.attributes?.catalogue?.data?.attributes?.images[0]}
                       onpressRemove={(index:number)=>{
-                        const array = [...this.state.productsList]                  
+                        const array = [...this.state.productsList]
                           array.splice(index, 1);
                           this.setState({productsList:array})
                       }}
