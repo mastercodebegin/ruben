@@ -90,7 +90,7 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getFavoritesId != null &&
       this.getFavoritesId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let Favorites = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
