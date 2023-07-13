@@ -121,6 +121,8 @@ export default class PersonelDetails extends PersonelDetailsController {
                     setSelectedAddress={(index) =>
                       this.setState({ selectedAddress: index })
                     }
+                    isLoading={this.state.showLoader}
+                    addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
                   />
                 </View>

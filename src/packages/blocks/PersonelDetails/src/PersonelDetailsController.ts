@@ -22,6 +22,16 @@ interface S {
   show_modal: boolean;
   addressList: Array<any>;
   availableSlotsList: Array<string>;
+  name: string;
+  addressType: string;
+  flatNo: string;
+  address: string;
+  zipCode: string;
+  phoneNumber: string;
+  state: string;
+  country: string;
+  keyboardHeight: number;
+  showAddressModal: boolean;
 }
 
 interface SS {
@@ -49,7 +59,17 @@ export default class PersonelDetailsController extends BlockComponent<
       selectedTab: "delivery",
       show_modal: false,
       addressList: [],
-      availableSlotsList:[]
+      availableSlotsList: [],
+      address: '',
+      addressType: '',
+      country: '',
+      flatNo: "",
+      name: '',
+      phoneNumber: '',
+      state: '',
+      zipCode: '',
+      keyboardHeight: 0,
+      showAddressModal:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -57,6 +77,7 @@ export default class PersonelDetailsController extends BlockComponent<
 
   getPersonelDetails: string = "";
   getAvailableSlotsCallId: string ;
+  addAddressCallId: string = "";
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -76,25 +97,37 @@ export default class PersonelDetailsController extends BlockComponent<
         PersonelDetails.data.length &&
         PersonelDetails.data.length > 0
       ) {
-        this.setState({ addressList: PersonelDetails.data });
+        this.setState({ addressList: PersonelDetails.data,showLoader:false });
+      } else {
+        this.setState({ showLoader: false });
+        showToast("something went wrong");
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getAvailableSlotsCallId != null &&
-      this.getAvailableSlotsCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const availableSlots = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );      
-      if (!error && availableSlots) {
-        this.setState({availableSlotsList:availableSlots?.avilable_sloat[0]?.available_slot})
-      } else {
-        showToast("Something went wrong")
-      }
+    this.addAddressCallId != null &&
+    this.addAddressCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        let PersonelDetails = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      console.log('PersonelDetailsPersonelDetails ',PersonelDetails);
+      
+        if (
+          !error &&
+          PersonelDetails.data &&
+          PersonelDetails.data.length &&
+          PersonelDetails.data.length > 0
+        ) {
+          this.setState({ addressList: PersonelDetails.data,showLoader:false });
+        } else {
+          console.log("errorerror ",error);
+          
+          this.setState({ showLoader: false });
+          showToast("something went wrong");
+        }
     }
   }
   getExpectedDeliveryDate() {
@@ -121,6 +154,38 @@ export default class PersonelDetailsController extends BlockComponent<
     suffix = "th";
     }
     return (day + suffix + " " + month + ", " + dayName);
+  }
+  async addAddress(attrs:any) {
+    this.setState({ showLoader: true })
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const usr_data: any = JSON.parse(userDetails);
+
+      const header = {
+        token: usr_data?.meta?.token,
+      }
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+      this.addAddressCallId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+       configJSON.getPersonelDetails
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(header)
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        JSON.stringify(attrs)
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+     'POST'
+      );
+      runEngine.sendMessage(requestMessage.id, requestMessage);
+  
+    
   }
   async getAddressList() {
     this.setState({ showLoader: true });

@@ -7,7 +7,7 @@ import {
   LIGHT_GREY,
   PRIMARY,
 } from "../../../components/src/constants";
-
+import AddAddressModal from './AddAddressModal'
 interface RenderAddressTypes {
   title: string;
   setChecked: () => void;
@@ -36,12 +36,18 @@ interface Props {
   setSelectedAddress: (address: number) => void;
   selectedAddress: number;
   addressList: Array<any>;
+  addAddress: (attrs: any) => void;
+  isLoading: boolean;
 }
-interface State {}
+interface State {
+  showModal: boolean;
+}
 export default class SavedAddresses extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showModal:false
+    };
   }
   render() {
     return (
@@ -76,9 +82,14 @@ export default class SavedAddresses extends Component<Props, State> {
         }
         
 
-        <TouchableOpacity style={styles.delivery}>
-          <Text style={{ color: PRIMARY }}>Delivery</Text>
+        <TouchableOpacity onPress={() => {
+          if (!this.props.addressList.length) {
+            this.setState({showModal:true})
+          }
+        }} style={styles.delivery}>
+          <Text style={{ color: PRIMARY }}>{this.props.addressList.length ? 'Delivery' : "Add Address"}</Text>
         </TouchableOpacity>
+        <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.setState({showModal:false})} visible={this.state.showModal}  />
       </View>
     );
   }
