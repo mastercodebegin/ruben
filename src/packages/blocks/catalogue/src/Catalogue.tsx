@@ -23,7 +23,7 @@ export default class Catalogue extends CatalogueController {
 
   // Customizable Area Start
   // Customizable Area End
-  
+
   getList(item: any) {
     let value = item.item.attributes;
     return (
