@@ -8,8 +8,7 @@ import RenderHeader from "./RenderHeader";
 import RenderPoducts from "./RenderProducts";
 import RenderFooter from "./RenderFooter";
 import Button from "../../../components/src/CustomButton";
-import Share from 'react-native-share';
-import { downloadFiles } from "../../../components/src/utils";
+import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
 import InvoiceBillingController, {
@@ -26,36 +25,6 @@ export default class InvoiceBilling extends InvoiceBillingController {
   }
 
   // Customizable Area Start
-  async downloadInvoice() {
-    let url;
-    try{
-      url = await downloadFiles(
-        "https://www.africau.edu/images/default/sample.pdf",
-        `${new Date().getTime()}invoice.pdf`,
-        "invoice",
-        "application/pdf",
-        "invoice",
-        true,
-        true
-      )
-    }catch(e:any){
-      Alert.alert('Error',e.message)
-    }
-    return url;
-   
-  }
-  async shareInvoice(filePath:string){
-      try {
-        const fileName = 'example.pdf';
-        const shareOptions = {
-          url: `file://${filePath}`,
-          fileName
-        };
-        await Share.open(shareOptions);
-      } catch (error:any) {
-        Alert.alert('Error',error.message)
-      }
-  }
   // Customizable Area End
 
   render() {
@@ -90,12 +59,14 @@ export default class InvoiceBilling extends InvoiceBillingController {
               label="Share Invoice"
               onPress={async () => {
                 this.downloadInvoice().then((res: any) => {
+                  this.setState({showLoader:false})
                   this.shareInvoice(res);
                 });
               }}
             />
-            <Button testID="download_invoice_id" label="Download Invoice" onPress={() => {}} />
+            <Button testID="download_invoice_id" label="Download Invoice" onPress={()=>this.downloadInvoice.bind(this)(true)} />
           </View>
+          <CommonLoader visible={ this.state.showLoader } />
         </View>
       </HeaderWithBackArrowTemplate>
     );
