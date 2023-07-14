@@ -26,7 +26,6 @@ import Favourites from "../../blocks/favourites/src/Favourites";
 import AddFavourites from "../../blocks/favourites/src/AddFavourites";
 import OTPInputAuth from "../../blocks/otp-input-confirmation/src/OTPInputAuth";
 import RolesPermissions2 from "../../blocks/RolesPermissions2/src/RolesPermissions2";
-import InvoiceBilling from "../../blocks/InvoiceBilling/src/InvoiceBilling";
 import Videos from "../../blocks/videos/src/Videos";
 import NavigationMenu from "../../blocks/navigationmenu/src/NavigationMenu";
 import Pushnotifications from "../../blocks/pushnotifications/src/Pushnotifications";
@@ -111,9 +110,6 @@ path:"/OTPInputAuth"},
 RolesPermissions2:{
  component:RolesPermissions2,
 path:"/RolesPermissions2"},
-InvoiceBilling:{
- component:InvoiceBilling,
-path:"/InvoiceBilling"},
 Videos:{
  component:Videos,
 path:"/Videos"},
