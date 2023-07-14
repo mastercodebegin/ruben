@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   View,
   Modal,
   StyleSheet,
@@ -99,7 +100,9 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 textInputStyle={styles.textInput}
                 labeStyle={styles.label}
                 value={this.state.addressType}
-                onchangeText={(addressType) => this.setState({ addressType })}
+                onchangeText={(addressType) =>
+                  this.setState({ addressType })
+                }
                 placeholder="eg : Office"
                 label="Address Type"
               />
@@ -129,7 +132,9 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 textInputStyle={styles.textInput}
                 labeStyle={styles.label}
                 value={this.state.phoneNumber}
-                onchangeText={(phoneNumber) => this.setState({ phoneNumber })}
+                onchangeText={(phoneNumber) =>
+                  this.setState({ phoneNumber })
+                }
                 label="Phone Number"
               />
               <TextInput
@@ -151,27 +156,41 @@ export default class UpdateProfileModal extends React.Component<P, S> {
             <Button
               style={{ marginTop: 20 }}
               testID="save_details_id"
-              onPress={() =>
-                this.props.addAddress({
-                  // name:this.state.name,
-                  // address_type: this.state.addressType,
-                  // flat_no: this.state.flatNo,
-                  // address: this.state.address,
-                  // zip_code: this.state.zipCode,
-                  // phone_number:this.state.phoneNumber,
-                  // state: this.state.state,
-                  // country:this.state.country,
-                  name: "Rakesh",
-                  address_type: "Office address",
-                  flat_no: "45",
-                  address: "test Office address",
-                  zip_code: "611112",
-                  phone_number: "+91 9376889933",
-                  state: "TN",
-                  country: "india",
-                  email: "test@gmail.com",
-                })
-              }
+              onPress={() => {
+                const {
+                  name,
+                  address,
+                  addressType,
+                  state,
+                  country,
+                  zipCode,
+                  flatNo,
+                  phoneNumber,
+                } = this.state;
+                if (
+                  name &&
+                  address &&
+                  addressType &&
+                  state &&
+                  country &&
+                  zipCode &&
+                  flatNo &&
+                  phoneNumber
+                ) {
+                  this.props.addAddress({
+                    name: name,
+                    address_type: addressType,
+                    flat_no: flatNo,
+                    address: address,
+                    zip_code: zipCode,
+                    phone_number: phoneNumber,
+                    state: state,
+                    country: country,
+                  });
+                } else {
+                  Alert.alert("Alert", "Please enter all details");
+                }
+              }}
               label={"Save Details"}
             />
           </ScrollView>

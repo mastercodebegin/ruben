@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { styles } from "./styles";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import {
@@ -8,6 +8,7 @@ import {
   PRIMARY,
 } from "../../../components/src/constants";
 import AddAddressModal from './AddAddressModal'
+const closeIcon =  require("../assets/add.png")
 interface RenderAddressTypes {
   title: string;
   setChecked: () => void;
@@ -38,24 +39,31 @@ interface Props {
   addressList: Array<any>;
   addAddress: (attrs: any) => void;
   isLoading: boolean;
+  showModal: boolean;
+  setShowModal: (va:boolean) => void;
 }
 interface State {
-  showModal: boolean;
 }
 export default class SavedAddresses extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      showModal:false
     };
   }
   render() {
     return (
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
+          <View style={{flexDirection:"row",alignItems:"center"}}>
           <Text style={[styles.headerText, { textAlign: "center" }]}>
             {"CHOOSE FROM SAVED ADDRESS"}
-          </Text>
+            </Text>
+            <TouchableOpacity onPress={() => {
+              this.props.setShowModal(true)
+            }} style={{marginLeft:10}}>
+            <Image style={{height:25,width:25, tintColor:PRIMARY}} source={closeIcon}/>
+            </TouchableOpacity>
+          </View>
         </View>
         {
               (this.props.addressList.length === 0)?(
@@ -83,13 +91,10 @@ export default class SavedAddresses extends Component<Props, State> {
         
 
         <TouchableOpacity onPress={() => {
-          if (!this.props.addressList.length) {
-            this.setState({showModal:true})
-          }
         }} style={styles.delivery}>
-          <Text style={{ color: PRIMARY }}>{this.props.addressList.length ? 'Delivery' : "Add Address"}</Text>
+          <Text style={{ color: PRIMARY }}>{'Delivery'}</Text>
         </TouchableOpacity>
-        <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.setState({showModal:false})} visible={this.state.showModal}  />
+        <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  />
       </View>
     );
   }
