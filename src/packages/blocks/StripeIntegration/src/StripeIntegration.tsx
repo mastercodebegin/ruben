@@ -71,6 +71,7 @@ export default class StripeIntegration extends StripeIntegrationController {
       );
       this.forceUpdate();
     });
+    console.log("check params-->", this.props.route.params)
     // Customizable Area End
   }
 
@@ -258,25 +259,27 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.answerContainer}>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Subtotal</Text>
-                  <Text style={styles.answer}>{'$600'}</Text>
+                  <Text style={styles.answer}>{`$${this.props.route.params.subtotal.toFixed(2)}`}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Discount</Text>
-                  <Text style={styles.answer}>{'-$60 (10%'}</Text>
+                  <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${(this.props.route.params.discount / this.props.route.params.subtotal * 100).toFixed(2)}%)`}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Shipping Charges</Text>
-                  <Text style={styles.answer}>{"$0.00"}</Text>
+                  <Text style={styles.answer}>{`$${this.props.route.params.shipping.toFixed(2)}`}</Text>
                 </View>
-                <View style={styles.row}>
-                  <Text style={styles.paymentText}>{"Meat Storage(Gold)"}</Text>
-                  <Text style={styles.answer}>{"$4.99"}</Text>
-                </View>
+                {this.props.route.params.storageClass !== "Basic" && (
+                  <View style={styles.row}>
+                    <Text style={styles.paymentText}>{"Meat Storage(Gold)"}</Text>
+                    <Text style={styles.answer}>{"$4.99"}</Text>
+                  </View>
+                )}
               </View>
               <View style={styles.seperatorPayment} />
               <View style={[styles.row, { paddingHorizontal: 20 }]}>
                 <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{'$540'}</Text>
+                <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping).toFixed(2)}`}</Text>
               </View>
             </View>
             <DoubleButton

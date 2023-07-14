@@ -216,7 +216,7 @@ export default class OrderSummary extends OrderSummaryController {
             <DoubleButton
               button1Label="Continue to Payment"
               button1_Onpress={() => {
-                this.props.navigation.navigate('', {
+                this.props.navigation.navigate('StripeIntegration', {
                   name,
                   address,
                   phone_number,
@@ -224,7 +224,9 @@ export default class OrderSummary extends OrderSummaryController {
                   subtotal: this.state.subtotal,
                   shipping: this.state.shipping,
                   discount: this.state.discount,
-                  storageClass: this.state.currentStorageClass
+                  storageClass: this.state.currentStorageClass,
+                  orderId: this.state.orderId,
+                  orderNumber: this.state.orderNumber
                 })}
               }
               button2Label="Cancel"

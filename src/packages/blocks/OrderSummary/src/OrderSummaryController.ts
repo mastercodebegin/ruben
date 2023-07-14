@@ -21,10 +21,12 @@ interface S {
   show_modal: boolean;
   addressList: Array<any>;
   productsList:Array<any>;
-  currentStorageClass: string;
+  currentStorageClass: "Basic" | "Gold" | "Platinum";
   subtotal: number;
   discount: number;
   shipping: number;
+  orderId: number;
+  orderNumber: number;
   deliverWithinADay: boolean;
 }
 
@@ -54,10 +56,12 @@ SS
       show_modal: false,
       addressList: [],
       productsList: [],
-      currentStorageClass: '',
+      currentStorageClass: 'Basic',
       subtotal: 0,
       discount: 60,
       shipping: 12,
+      orderId: 4,
+      orderNumber: 12121212,
       deliverWithinADay: false
     };
 
@@ -95,7 +99,7 @@ SS
     ) {
       let productsList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );     
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -164,10 +168,11 @@ SS
       alert('Error getting items in cart!')
     }else{
       let subtotal = 0;
+      this.setState({orderId:prodList?.id})
+      this.setState({orderNumber:prodList?.attributes?.order_no})
       for (const item of prodList?.attributes?.order_items?.data) {
         subtotal += +item.attributes?.catalogue?.data?.attributes?.price
       }
-
       this.setState({
         showLoader: false,
         productsList:prodList?.attributes?.order_items?.data,

@@ -19,6 +19,20 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
+  route:{
+    params: {
+      name: string,
+      address: string,
+      phone_number: number,
+      zip_code: number,
+      subtotal: number,
+      shipping: number,
+      discount: number,
+      storageClass: "Basic" | "Gold" | "Platinum",
+      orderId: number,
+      orderNumber: number
+    }  
+  }
   // Customizable Area End
 }
 
