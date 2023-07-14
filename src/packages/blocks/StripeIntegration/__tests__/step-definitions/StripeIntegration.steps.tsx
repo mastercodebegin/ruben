@@ -35,7 +35,20 @@ defineFeature(feature, (test) => {
         let instance: StripeIntegration;
 
         given('I am a User loading StripeIntegration', () => {
-            exampleBlockA = shallow(<StripeIntegration {...screenProps} />);
+            exampleBlockA = shallow(<StripeIntegration route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} {...screenProps} />);
         });
 
         when('I navigate to the StripeIntegration', () => {
@@ -47,7 +60,20 @@ defineFeature(feature, (test) => {
         });
 
         then('I can enter text with out errors', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} />);
             const input = getByTestId('cardNameInput');
             fireEvent.changeText(input, 'Card Holder name');
             instance = exampleBlockA.instance() as StripeIntegration
@@ -55,7 +81,20 @@ defineFeature(feature, (test) => {
             expect(input.props.value).toBe('Card Holder name');
         });
         then('I can enter card number', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} />);
             const input = getByTestId('cardNumber');
             instance = exampleBlockA.instance() as StripeIntegration
             fireEvent.changeText(input, '42424');
@@ -66,7 +105,20 @@ defineFeature(feature, (test) => {
 
         });
         then('I can enter card expirtydate', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} />);
             const input = getByTestId('cardExpiry');
             instance = exampleBlockA.instance() as StripeIntegration
             fireEvent.changeText(input, '12/');
@@ -81,7 +133,20 @@ defineFeature(feature, (test) => {
 
         });
         then('I can enter cvv', () => {
-            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} />);
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} />);
             const input = getByTestId('cardCVV');
             instance = exampleBlockA.instance() as StripeIntegration
             fireEvent.changeText(input, '123');
@@ -96,8 +161,20 @@ defineFeature(feature, (test) => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
                 <StripeIntegration
-                    {...screenProps}
-                />
+                route={{
+                    params: {
+                        name: "",
+                        address: "",
+                        phone_number: 0,
+                        zip_code: 0,
+                        subtotal: 0,
+                        shipping: 0,
+                        discount: 0,
+                        storageClass: "Basic",
+                        orderId: 0,
+                        orderNumber: 0
+                    }
+                }} {...screenProps}                />
             );
             let instance = explorePageWrapper.instance() as StripeIntegration;
             instance.setState({ showPaymentAlert: true });
@@ -132,8 +209,20 @@ defineFeature(feature, (test) => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
                 <StripeIntegration
-                    {...screenProps}
-                />
+                route={{
+                    params: {
+                        name: "",
+                        address: "",
+                        phone_number: 0,
+                        zip_code: 0,
+                        subtotal: 0,
+                        shipping: 0,
+                        discount: 0,
+                        storageClass: "Basic",
+                        orderId: 0,
+                        orderNumber: 0
+                    }
+                }} {...screenProps}                />
             );
             let instance = explorePageWrapper.instance() as StripeIntegration;
             const { queryByTestId } = render(

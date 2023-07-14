@@ -71,7 +71,6 @@ export default class StripeIntegration extends StripeIntegrationController {
       );
       this.forceUpdate();
     });
-    console.log("check params-->", this.props.route.params)
     // Customizable Area End
   }
 
