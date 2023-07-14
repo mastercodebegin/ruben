@@ -213,8 +213,8 @@ export class ExplorePage extends LandingPageController {
             visible={this.state.show_SortingDropdown}
             testID={"sortingDropdown"}
             data={[
-              { label: "Pricing Low to High", value: "1" },
-              { label: "Pricing High to Low", value: "2" },
+              { label: "Low to High", value: "1" },
+              { label: "High to Low", value: "2" },
             ]}
             onSelect={(item) => {
               this.setState({

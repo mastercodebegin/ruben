@@ -120,7 +120,7 @@ export default class UpdateProfileModal extends LandingPageController {
                 onchangeText={(num) =>
                   this.props.setState({ phone_number: num })
                 }
-                keyBoardtype="number-pad"
+                keyBoardtype="phone-pad"
                 label="Phone Number"
               />
               <TextInput
