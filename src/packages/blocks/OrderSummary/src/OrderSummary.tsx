@@ -125,7 +125,7 @@ export default class OrderSummary extends OrderSummaryController {
                       index={index}
                       image={item.attributes?.catalogue?.data?.attributes?.images[0]}
                       onpressRemove={(index:number)=>{
-                        const array = [...this.state.productsList]                  
+                        const array = [...this.state.productsList]
                           array.splice(index, 1);
                           this.setState({productsList:array})
                       }}
@@ -150,21 +150,23 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-            <View style={styles.deliverContainer}>
-              <Text style={styles.deliverText}>Deliver in 24hrs</Text>
-              <TouchableOpacity style={styles.deliverPrice}>
-                <Text style={styles.deliverPriceText}>{"+ $25.99"}</Text>
-              </TouchableOpacity>
-            </View>
+            {!this.state.deliverWithinADay &&
+              <View style={styles.deliverContainer}>
+                <Text style={styles.deliverText}>Deliver in 24hrs</Text>
+                <TouchableOpacity style={styles.deliverPrice} onPress={this.deliverWithinADayClicked}>
+                  <Text style={styles.deliverPriceText}>{"+ $25.99"}</Text>
+                </TouchableOpacity>
+              </View>
+            }
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"
                 list={[
-                  { question: "Subtotal", ans: "$455.00"  },
-                  { question: "Discount", ans: "- $60.00 (10%)" },
-                  { question: "Shipping Charges", ans: "$12.00"  },
+                  { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
+                  { question: "Discount", ans: `- $${this.state.discount.toFixed(2)} (${(this.state.discount / this.state.subtotal * 100).toFixed(2)}%)` },
+                  { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
-                footer={{question: "Total", ans: "$407.00"}}
+                footer={{question: "Total", ans: `$${(this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2)}`}}
               />
             </View>
             {this.state.selectedTab === "pickup" ? (
@@ -213,7 +215,18 @@ export default class OrderSummary extends OrderSummaryController {
             }
             <DoubleButton
               button1Label="Continue to Payment"
-              button1_Onpress={() => this.setState({ show_modal: true })}
+              button1_Onpress={() => {
+                this.props.navigation.navigate('', {
+                  name,
+                  address,
+                  phone_number,
+                  zip_code,
+                  subtotal: this.state.subtotal,
+                  shipping: this.state.shipping,
+                  discount: this.state.discount,
+                  storageClass: this.state.currentStorageClass
+                })}
+              }
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
