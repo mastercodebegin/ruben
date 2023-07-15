@@ -13,7 +13,7 @@ import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
-import { deepLinkingURL } from "../../../components/src/constants";
+import { deepLinkingURL, shareURL } from "../../../components/src/constants";
 import { showToast } from "../../../components/src/ShowToast";
 interface Types {
   item: any;
@@ -56,8 +56,8 @@ const BlogPostCard = ({ item, type }: Types) => {
               onPress={() => {
                 Clipboard.setString(
                   type === "image"
-                    ? `${deepLinkingURL}?/blogpost=${item?.attributes?.id}`
-                    : `${deepLinkingURL}?/video=${item?.attributes?.id}`
+                    ? `${shareURL}/blogpost/${item?.attributes?.id}`
+                    : `${shareURL}/video/${item?.attributes?.id}`
                 );
                 showToast("Link copied");
               }}
