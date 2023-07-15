@@ -6,7 +6,9 @@ import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackA
 import { LIGHT_GREY, PRIMARY } from "../../../components/src/constants";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
-import { instagram } from "../../landingpage/src/assets";
+import { instagram,mail } from "../../landingpage/src/assets";
+import QuerySubmittedModal from "./QuerySubmittedModal";
+const webIcon = require('../assets/web.png')
 export default class Contactus extends ContactusController {
   constructor(props: Props) {
     super(props);
@@ -66,35 +68,41 @@ export default class Contactus extends ContactusController {
               style={styles.button}
               onPress={() => {}}
             />
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 16,
-                color: "grey",
-              }}
-            >
-              {"or reach out us on"}
-            </Text>
+            <Text style={styles.reachOut}>{"or reach out us on"}</Text>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                paddingHorizontal: 80,
-                paddingTop: 20,
-              }}
-            >
-              <TouchableOpacity style={styles.socialBtn}>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity
+                testID="open_email_test_id"
+                onPress={this.handlePressEmail.bind(this)}
+                style={styles.socialBtn}
+              >
+                <Image
+                  style={styles.image}
+                  resizeMode="contain"
+                  source={mail}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                testID="open_instagram_test_id"
+                onPress={this.handlePressInstagram.bind(this)}
+                style={styles.socialBtn}
+              >
                 <Image style={styles.image} source={instagram} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.socialBtn}>
-                <Image style={styles.image} source={instagram} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialBtn}>
-                <Image style={styles.image} source={instagram} />
+              <TouchableOpacity
+                testID="open_web_test_id"
+                onPress={this.handlePressWebIcon.bind(this)}
+                style={styles.socialBtn}
+              >
+                <Image style={styles.image} source={webIcon} />
               </TouchableOpacity>
             </View>
           </View>
+          <QuerySubmittedModal
+            visible={this.state.showSuccessModal}
+            setVisible={() => this.setState({ showSuccessModal: false,email:"",name:"",comments:"" })}
+            navigation={this.props.navigation}
+          />
         </View>
       </HeaderWithBackArrowTemplate>
     );
@@ -102,6 +110,12 @@ export default class Contactus extends ContactusController {
 }
 
 const styles = StyleSheet.create({
+  iconContainer:{
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
   mainContainer: { flex: 1, backgroundColor: LIGHT_GREY, paddingTop: 20 },
   container: {
     backgroundColor: "white",
@@ -122,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
-  image: { height: 25, width: 25 },
+  image: { height: 20, width: 20 },
   textinput: {
     color: "#5C2221",
     flex: 1,
@@ -138,4 +152,9 @@ const styles = StyleSheet.create({
     color: "#8D7D75",
     paddingVertical: 10,
   },
+  reachOut:{
+    textAlign: "center",
+    fontSize: 16,
+    color: "grey",
+  }
 });
