@@ -6,6 +6,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showToast } from "../../../components/src/ShowToast";
 
 const configJSON = require("../config.js");
 export interface Props {
@@ -20,6 +21,18 @@ interface S {
   selectedTab: "delivery" | "shipping" | "pickup";
   show_modal: boolean;
   addressList: Array<any>;
+  availableSlotsList: Array<string>;
+  name: string;
+  addressType: string;
+  flatNo: string;
+  address: string;
+  zipCode: string;
+  phoneNumber: string;
+  state: string;
+  country: string;
+  keyboardHeight: number;
+  showAddressModal: boolean;
+  showAddAddress: boolean;
 }
 
 interface SS {
@@ -47,12 +60,26 @@ export default class PersonelDetailsController extends BlockComponent<
       selectedTab: "delivery",
       show_modal: false,
       addressList: [],
+      availableSlotsList: [],
+      address: '',
+      addressType: '',
+      country: '',
+      flatNo: "",
+      name: '',
+      phoneNumber: '',
+      state: '',
+      zipCode: '',
+      keyboardHeight: 0,
+      showAddressModal: false,
+      showAddAddress:false,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
 
   getPersonelDetails: string = "";
+  getAvailableSlotsCallId: string ;
+  addAddressCallId: string = "";
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -72,24 +99,47 @@ export default class PersonelDetailsController extends BlockComponent<
         PersonelDetails.data.length &&
         PersonelDetails.data.length > 0
       ) {
-        this.setState({ addressList: PersonelDetails.data });
+        this.setState({ addressList: PersonelDetails.data,showLoader:false });
+      } else {
+        this.setState({ showLoader: false });
       }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.addAddressCallId != null &&
+    this.addAddressCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        let PersonelDetails = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );      
+        if (
+          !error &&
+          PersonelDetails
+        ) {
+          this.setState({ showLoader: false, showAddAddress: false });
+          this.getAddressList()
+        } else {
+          this.setState({ showLoader: false });
+          showToast("something went wrong");
+        }
     }
   }
   getExpectedDeliveryDate() {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 3);
     const date = new Date(currentDate);
-    var months = [
+    const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-    var day = date.getDate();
-    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var dayName = days[date.getDay()];
-    var month = months[date.getMonth()];
+    const day = date.getDate();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayName = days[date.getDay()];
+    const month = months[date.getMonth()];
 
-    var suffix;
+    let suffix;
     if (day === 1 || day === 21 || day === 31) {
       suffix = "st";
     } else if (day === 2 || day === 22) {
@@ -100,6 +150,39 @@ export default class PersonelDetailsController extends BlockComponent<
     suffix = "th";
     }
     return (day + suffix + " " + month + ", " + dayName);
+  }
+  async addAddress(attrs:any) {
+    this.setState({ showLoader: true })
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const usr_data: any = JSON.parse(userDetails);
+
+      const header = {
+        token: usr_data?.meta?.token,
+        "Content-Type": 'application/json',
+      }
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+      this.addAddressCallId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+       configJSON.getPersonelDetails
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(header)
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        JSON.stringify(attrs)
+      );
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+     'POST'
+      );
+      runEngine.sendMessage(requestMessage.id, requestMessage);
+  
+    
   }
   async getAddressList() {
     this.setState({ showLoader: true });
@@ -116,6 +199,33 @@ export default class PersonelDetailsController extends BlockComponent<
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.getPersonelDetails
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async getAvailableSlots() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getAvailableSlotsCallId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.availableSlots
     );
 
     PersonalDetails.addData(
