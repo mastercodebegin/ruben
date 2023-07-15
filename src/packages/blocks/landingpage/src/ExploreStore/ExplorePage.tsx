@@ -151,9 +151,13 @@ export class ExplorePage extends LandingPageController {
                 renderItem={({ item, index }) => {
                   return (
                     <RenderCategories
-                      onpress={this.getSubcategories.bind(this)}
+                      onpress={() => {
+                        this.setState({selectedCat: item?.attributes?.id})
+                        this.getSubcategories(item?.attributes?.id)
+                      }}
                       item={item}
                       index={index}
+                      selectedCategory={this.state.selectedCat}
                     />
                   );
                 }}
