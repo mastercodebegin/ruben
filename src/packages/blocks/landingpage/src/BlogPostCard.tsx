@@ -13,7 +13,7 @@ import { sampleProfile, shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
-import { deepLinkingURL, shareURL } from "../../../components/src/constants";
+import { shareURL } from "../../../components/src/constants";
 import { showToast } from "../../../components/src/ShowToast";
 interface Types {
   item: any;
