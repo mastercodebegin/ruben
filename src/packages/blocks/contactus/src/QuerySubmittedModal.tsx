@@ -29,7 +29,7 @@ const QuerySubmittedModal = ({
       <View style={{ flex: 1, justifyContent: "center" }}>
         <View style={styles.blur} />
         <View style={styles.container}>
-          <TouchableOpacity onPress={setVisible} style={styles.close}>
+          <TouchableOpacity testID="close_test_id" onPress={setVisible} style={styles.close}>
             <Image source={closeIcon} style={styles.icon} />
           </TouchableOpacity>
           <Image source={TickImage} style={styles.tick} />
@@ -40,6 +40,7 @@ const QuerySubmittedModal = ({
           <Text style={styles.text}>{"Thank you for reaching out."}</Text>
           <Button
             label="Continue"
+            testID="continue_btn_test_id"
             onPress={() =>navigation.navigate("LandingPage")}
             containerStyle={{ marginTop: 20 }}
           />

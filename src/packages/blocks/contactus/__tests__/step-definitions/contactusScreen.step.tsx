@@ -83,7 +83,11 @@ defineFeature(feature, (test) => {
         "when I receive my order"
       );
       fireEvent.changeText(getByTestId("name_test_id"), "test name");
+      fireEvent.press(getByTestId("close_test_id"))
+      fireEvent.press(getByTestId("continue_btn_test_id"))
       fireEvent.press(getByTestId("submit_query_test_id"));
+      const specificView = getByTestId('continue_btn_test_id');
+      expect(specificView).toBeDefined();
     });
     then("user trying to contact through email", () => {
       const { getByTestId } = render(<Contactus {...screenProps} />);
