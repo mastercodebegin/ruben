@@ -83,8 +83,30 @@ defineFeature(feature, (test) => {
         "when I receive my order"
       );
       fireEvent.changeText(getByTestId("name_test_id"), "test name");
+      fireEvent.press(getByTestId("close_test_id"))
+      fireEvent.press(getByTestId("continue_btn_test_id"))
       fireEvent.press(getByTestId("submit_query_test_id"));
+      const specificView = getByTestId('continue_btn_test_id');
+      expect(specificView).toBeDefined();
     });
+    then("user trying to contact through email", () => {
+      const { getByTestId } = render(<Contactus {...screenProps} />);
+      fireEvent.press(getByTestId("open_email_test_id"));
+      const specificView = getByTestId('open_email_test_id');
+      expect(specificView).toBeDefined();
+    });
+    then("user trying to contact through instagram", () => {
+      const { getByTestId } = render(<Contactus {...screenProps} />);
+      fireEvent.press(getByTestId("open_instagram_test_id"));
+      const specificView = getByTestId('open_instagram_test_id');
+      expect(specificView).toBeDefined();
+    })
+    then("user trying to contact through website", () => {
+      const { getByTestId } = render(<Contactus {...screenProps} />);
+      fireEvent.press(getByTestId("open_web_test_id"));
+      const specificView = getByTestId('open_web_test_id');
+      expect(specificView).toBeDefined();
+    })
     then("user trying submit the query", () => {
       const { getByTestId } = render(<Contactus {...screenProps} />);
       fireEvent.press(getByTestId("submit_query_test_id"));

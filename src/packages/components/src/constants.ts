@@ -24,3 +24,4 @@ export const deepLinkingURL='https://ruebensftcapp.page.link/63fF';
 export const removeImage = require('./remove.png');
 const SCREEN = Dimensions.get("screen");
 export const SCREEN_WIDTH = SCREEN.width;
+export const closeIcon = require('./closeIcon.png');

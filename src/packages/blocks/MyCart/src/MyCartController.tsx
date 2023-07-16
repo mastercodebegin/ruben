@@ -118,15 +118,29 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     }
     
   }
+  removeFromCart(id:number) {
+    Alert.alert("Alert",
+      "Are you sure delete it from cart", [
+      { text: 'yes', onPress: () => this.removeItemFromCart(id) },
+      {
+        text:'cancel',
+      }
+    ])
+  }
   getCartCallBack(prodList:any,error=false){
     if(error){
       this.showAlert()
-    }else{
+    } else {      
+      if(prodList?.attributes?.order_items?.data?.length){
       store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
       this.setState({
         productsList:prodList?.attributes?.order_items?.data,
         order_id:prodList?.id,showLoader:false
       })
+      } else {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });        
+        this.props.navigation.pop()
+      }
     }
   }
   discoundCodeCallback(discoundCode:any,error=false){

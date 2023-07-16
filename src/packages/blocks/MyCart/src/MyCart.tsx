@@ -125,9 +125,7 @@ export default class MyCart extends MyCartController {
                 quantity={item.attributes?.quantity}
                 index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
-                onpressRemove={(index:number)=>{
-                  this.removeItemFromCart(item?.id)
-                }}
+                onpressRemove={()=>this.removeFromCart(item?.id)}
                 onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
               />
             )}}

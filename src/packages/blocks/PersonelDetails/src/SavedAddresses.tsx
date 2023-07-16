@@ -55,7 +55,7 @@ export default class SavedAddresses extends Component<Props, State> {
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
           <View style={{flexDirection:"row",alignItems:"center"}}>
-          <Text style={[styles.headerText, { textAlign: "center" }]}>
+          <Text style={[styles.headerText, { textAlign: "center" ,flex:1}]}>
             {"CHOOSE FROM SAVED ADDRESS"}
             </Text>
             <TouchableOpacity onPress={() => {
