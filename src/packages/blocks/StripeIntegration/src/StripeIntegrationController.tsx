@@ -50,6 +50,7 @@ interface S {
   expirtyDate: string;
   cvv: string;
   isOrderSuccess: boolean;
+  paymentMethodType: "Card" | "Cod";
   // Customizable Area Start
   // Customizable Area End
 }
@@ -92,6 +93,7 @@ export default class StripeIntegrationController extends BlockComponent<
       expirtyDate: "",
       cvv: "",
       isOrderSuccess: false,
+      paymentMethodType: "Card",
       customAlertText: "",
       customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!",
       // Customizable Area Start
