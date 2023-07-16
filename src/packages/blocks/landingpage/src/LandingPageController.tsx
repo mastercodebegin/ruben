@@ -59,6 +59,7 @@ interface S {
   categories:Array<object>;
   subcategories:Array<object>;
   selectedSub:any;
+  selectedCat: any,
   searchText:string;
   productsList:Array<any>;
   refresh:boolean;
@@ -123,6 +124,7 @@ export default class LandingPageController extends BlockComponent<
       categories:[],
       subcategories:[],
       selectedSub:null,
+      selectedCat:null,
       searchText:'',
       productsList:[{
         category_id: '',

@@ -21,6 +21,7 @@ export const PRIMARY = "#A0272A";
 export const TERTIERY = "#B7DEEC";
 export const WHITE = "#FFFFFF";
 export const deepLinkingURL='https://ruebensftcapp.page.link/63fF';
+export const shareURL = 'https://ruebensftcapp-263982-react.b263982.dev.eastus.az.svc.builder.cafe'
 export const removeImage = require('./remove.png');
 const SCREEN = Dimensions.get("screen");
 export const SCREEN_WIDTH = SCREEN.width;

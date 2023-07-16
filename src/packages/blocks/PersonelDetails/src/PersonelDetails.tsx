@@ -143,7 +143,7 @@ export default class PersonelDetails extends PersonelDetailsController {
               button1Label="Continue to Summary"
               button1_Onpress={() => {
                 if (this.state.addressList.length) {
-                  this.props.navigation.navigate('StripeIntegration');
+                  this.props.navigation.navigate('OrderSummary');
                 } else {
                   Alert.alert("Alert", "Please add address");
                 }
