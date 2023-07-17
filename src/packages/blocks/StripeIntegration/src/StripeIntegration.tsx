@@ -327,7 +327,7 @@ export default class StripeIntegration extends StripeIntegrationController {
           }} onpressContinue={() => {
             this.setState({ showPaymentAlert: false });
             if (this.state.isOrderSuccess) {
-              this.props.navigation.navigate('InvoiceBilling')
+              this.props.navigation.navigate('InvoiceBilling',this.props.route.params)
             }
           }} customeText={this.state.customAlertText} iconImage={require("../../OrderSummary/assets/cart.png")}
             isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />

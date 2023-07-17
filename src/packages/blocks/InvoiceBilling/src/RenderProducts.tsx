@@ -4,23 +4,28 @@ import { styles as cstyle } from "./styles";
 
 interface ListType {
   index: number;
+  item: any;
 }
-const RenderProductList = ({ index }: ListType) => {
+const RenderProductList = ({ index, item }: ListType) => {
   return (
-    <View style={{ flexDirection: "row",paddingVertical:5 }}>
+    <View style={{ flexDirection: "row", paddingVertical: 5 }}>
       <View style={cstyle.indexContainer}>
         <Text style={cstyle.index}>{index}</Text>
       </View>
       <View style={cstyle.container}>
-        <Text style={cstyle.boldText}>Vegetable</Text>
-      </View>
-      <View style={cstyle.container}>
-        <Text style={cstyle.text}>
-          {"$34.00 X 3"}
+        <Text style={cstyle.boldText}>
+          {item?.attributes?.catalogue?.data?.attributes?.name}
         </Text>
       </View>
       <View style={cstyle.container}>
-        <Text style={cstyle.boldText}>{"$120.00"}</Text>
+        <Text style={cstyle.text}>
+          {`$${item?.attributes?.catalogue?.data?.attributes?.price} X ${item?.attributes?.quantity}`}
+        </Text>
+      </View>
+      <View style={cstyle.container}>
+        <Text style={cstyle.boldText}>{`$${Number(
+          item?.attributes?.catalogue?.data?.attributes?.price
+        ) * Number(item?.attributes?.quantity)}`}</Text>
       </View>
     </View>
   );

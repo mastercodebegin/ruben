@@ -25,6 +25,9 @@ export default class InvoiceBilling extends InvoiceBillingController {
   }
 
   // Customizable Area Start
+  async componentDidMount() {
+    this.getCart()
+  }
   // Customizable Area End
 
   render() {
@@ -40,8 +43,8 @@ export default class InvoiceBilling extends InvoiceBillingController {
             <FlatList
               bounces={false}
               showsVerticalScrollIndicator={false}
-              data={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]}
-              renderItem={({ index }) => <RenderPoducts index={index} />}
+              data={this.state.productsList}
+              renderItem={({ index,item }) => <RenderPoducts item={item} index={index} />}
               keyExtractor={(item, index) => item + "" + index}
               contentContainerStyle={{ paddingTop: 30 }}
               ItemSeparatorComponent={() => (
@@ -49,8 +52,8 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter />}
-              ListHeaderComponent={<RenderHeader />}
+              ListFooterComponent={<RenderFooter data={ this.props.route?.params} />}
+              ListHeaderComponent={<RenderHeader data={ this.props.route?.params} />}
             />
           </View>
           <View style={{ paddingTop: 20 }}>
