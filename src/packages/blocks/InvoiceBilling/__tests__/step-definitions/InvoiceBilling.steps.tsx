@@ -10,6 +10,11 @@ const navigation = require("react-navigation");
 const screenProps = {
   navigation: navigation,
   id: "InvoiceBilling",
+  route: {
+    params: {
+      name:"test name"
+    }
+  }
 };
 
 const feature = loadFeature(
