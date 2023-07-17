@@ -77,6 +77,10 @@ interface S {
   show_SortingDropdown: boolean,
   sortAscending: boolean,
   setProductPage:number,
+  showFavoriteList: Array<object>;
+  priceTotal:number;
+  priceDiscount: number;
+  percentage: number;
   // Customizable Area End
 }
 
@@ -180,7 +184,11 @@ export default class LandingPageController extends BlockComponent<
       ],
       aboutus:null,
       cartList:[],
-      setProductPage:1
+      setProductPage:1,
+      showFavoriteList:[],
+      priceTotal:0,
+      priceDiscount: 0,
+      percentage: 0,
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -203,7 +211,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(error);
-      
       if(profileDetails?.data?.attributes){
         const {
           about_me,
@@ -403,6 +410,23 @@ export default class LandingPageController extends BlockComponent<
       console.log(error);
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getFavoritesId != null &&
+      this.getFavoritesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const getFavoritesList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
+      console.log("fav list = === == =",this.state.showFavoriteList);
+      
+    }
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addToFavId != null &&
     this.addToFavId ===
@@ -543,6 +567,10 @@ export default class LandingPageController extends BlockComponent<
   getOrderId: string = '';
   orderListProps = {
     getOrderListData: this.getOrderList
+  }
+  getFavoritesId: string = '';
+  favListProps = {
+    getFavoritesList: this.getFavorites
   }
   async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
@@ -1096,6 +1124,40 @@ export default class LandingPageController extends BlockComponent<
     this.setState({ setProductPage: this.state.setProductPage + 1 }, () => {
       this.getProductList(true)
     });
+  }
+  
+  async getFavorites() {
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const Favorites = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getFavoritesId = Favorites.messageId;
+    Favorites.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.favoritesEndPoint
+    );
+    Favorites.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    Favorites.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(Favorites.id, Favorites);
+  }
+
+  removeFavListProduct(productId :any) {    
+    this.setState(prevState => ({
+      showFavoriteList: prevState.showFavoriteList.filter((product:any) => product.id !== productId)
+    }));
+    alert("Product deleted")
+    console.log("remove fav list product", this.state.showFavoriteList);
   }
   // Customizable Area End
 }
