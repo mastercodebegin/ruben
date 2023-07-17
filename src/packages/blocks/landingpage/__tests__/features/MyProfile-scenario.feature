@@ -17,4 +17,7 @@ Feature: MyProfile
         Then I can see the profile details without error
         Then user pressing recomentations button
         Then user pressing my favorites button to go favorites screen
+        Then user navigate to product detail screen
+        Then user can remove product from fav list
+        Then user can add product to add to cart
         And I can leave the screen with out errors
