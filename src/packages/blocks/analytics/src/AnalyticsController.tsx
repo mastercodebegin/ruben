@@ -177,9 +177,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
         this.setState({categoryList: list.data});
-        this.setState({category_id: 0})
+        this.setState({category_id: list.data[0]?.id})
         this.setState({category_title: list.data[0]?.attributes?.name})
-        this.getAnalyticData()  
+        this.getAnalyticData(list.data[0]?.id)  
         //showToast('success')
       }
     } else if (
@@ -191,12 +191,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let list = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.setState({usedCuts: list.used_cuts});
-      this.setState({remianingCuts: list.remaining_cuts});
-      this.setState({totalCuts: list.total_cuts});
-      this.setState({totaAmount: list.tota_amount});
-      this.setState({numberOfSpendCount: list.no_of_spend_count});
-      this.setState({numberOfSpend: list.no_of_spend});
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -204,6 +198,13 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         console.log("error===>",error);
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
+        
+        this.setState({usedCuts: list.used_cuts});
+        this.setState({remianingCuts: list.remaining_cuts});
+        this.setState({totalCuts: list.total_cuts});
+        this.setState({totaAmount: list.tota_amount});
+        this.setState({numberOfSpendCount: list.no_of_spend_count});
+        this.setState({numberOfSpend: list.no_of_spend});  
         //showToast('success')
       }
     }
@@ -253,7 +254,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(category.id, category);    
   }
 
-  async getAnalyticData() {
+  async getAnalyticData(categoryId: number) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -264,10 +265,24 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     const category = new Message(getName(MessageEnum.RestAPIRequestMessage));
     this.myCreditCallId = category.messageId;
-
+    let startDate = this.state.startDate
+    if (!startDate) {
+      let date = new Date();
+      date.setDate(date.getDate() - 7);
+      let result: string = date.toLocaleString();
+      console.log(result);
+      startDate = result
+    }
+    let endDate = this.state.endDate
+    if (!endDate) {
+      let date = new Date();
+      let result: string = date.toLocaleString();
+      console.log(result);
+      endDate = result
+    }
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${this.state.category_id}&start_date=${this.state.startDate}&end_date=${this.state.endDate}`
+      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
     );
 
     category.addData(

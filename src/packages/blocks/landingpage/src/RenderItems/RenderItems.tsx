@@ -123,7 +123,7 @@ const RenderItems = ({
         <View style={styles.itemHeader}>
           <Text style={styles.itemCategory}>PORK</Text>
           <TouchableOpacity>
-            <Text style={styles.seeAll}>{"SEE ALL >"}</Text>
+            <Text style={styles.seeAll}>{""}</Text>
           </TouchableOpacity>
         </View>
       )}

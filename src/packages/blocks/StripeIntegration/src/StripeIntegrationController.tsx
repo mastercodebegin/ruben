@@ -19,6 +19,20 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
+  route:{
+    params: {
+      name: string,
+      address: string,
+      phone_number: number,
+      zip_code: number,
+      subtotal: number,
+      shipping: number,
+      discount: number,
+      storageClass: "Basic" | "Gold" | "Platinum",
+      orderId: number,
+      orderNumber: number
+    }  
+  }
   // Customizable Area End
 }
 
@@ -36,6 +50,7 @@ interface S {
   expirtyDate: string;
   cvv: string;
   isOrderSuccess: boolean;
+  paymentMethodType: "Card" | "Cod";
   // Customizable Area Start
   // Customizable Area End
 }
@@ -78,6 +93,7 @@ export default class StripeIntegrationController extends BlockComponent<
       expirtyDate: "",
       cvv: "",
       isOrderSuccess: false,
+      paymentMethodType: "Card",
       customAlertText: "",
       customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!",
       // Customizable Area Start

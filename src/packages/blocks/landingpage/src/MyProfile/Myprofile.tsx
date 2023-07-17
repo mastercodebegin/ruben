@@ -171,7 +171,6 @@ export default class Myprofile extends LandingPageController {
                       source={phone}
                     />
                     <Text style={styles.contactText}>
-                      {"+91 "}
                       {this.state.phone_number}
                     </Text>
                   </View>

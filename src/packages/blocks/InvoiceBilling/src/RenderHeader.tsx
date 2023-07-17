@@ -3,14 +3,18 @@ import { View, Text } from "react-native";
 import { styles } from "./InvoiceBilling";
 import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
+import moment from "moment";
+
 const RenderHeader = () => {
+  let todayDate = new Date()
+  let formattedDate = (moment(todayDate)).format('DD-MMM-YYYY')
   return (
     <View>
       <Text style={styles.date}>
-        {"Date : "} <Text style={styles.boldDate}>{"09 Mar 2023"}</Text>
+        {"Date : "} <Text style={styles.boldDate}>{formattedDate}</Text>
       </Text>
       <Text style={styles.date}>
-        {"Due Date : "} <Text style={styles.boldDate}>{"09 Mar 2023"}</Text>
+        {"Due Date : "} <Text style={styles.boldDate}>{formattedDate}</Text>
       </Text>
       <View style={styles.greyContainer}>
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>

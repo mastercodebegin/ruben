@@ -397,8 +397,8 @@ defineFeature(feature, (test) => {
         <SortingDropdown
           visible={true}
           data={[
-            { label: "Pricing Low to High", value: "1" },
-            { label: "Pricing High to Low", value: "2" },
+            { label: "Low to High", value: "1" },
+            { label: "High to Low", value: "2" },
           ]}
           onSelect={jest.fn()}
           testID={"sortingDropdown"}
@@ -430,8 +430,8 @@ defineFeature(feature, (test) => {
         <SortingDropdown
           visible={true}
           data={[
-            { label: "Pricing Low to High", value: "1" },
-            { label: "Pricing High to Low", value: "2" },
+            { label: "Low to High", value: "1" },
+            { label: "High to Low", value: "2" },
           ]}
           onSelect={jest.fn()}
           testID={"sortingDropdown"}
@@ -469,8 +469,8 @@ defineFeature(feature, (test) => {
         <SortingDropdown
           visible={true}
           data={[
-            { label: "Pricing Low to High", value: "1" },
-            { label: "Pricing High to Low", value: "2" },
+            { label: "Low to High", value: "1" },
+            { label: "High to Low", value: "2" },
           ]}
           onSelect={jest.fn()}
           testID={"sortingDropdown"}

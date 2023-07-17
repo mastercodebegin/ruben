@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet,
   ImageSourcePropType,
+  TouchableOpacity,
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
@@ -143,7 +144,7 @@ export default class StripeIntegration extends StripeIntegrationController {
             extraScrollHeight={100}
           >
             <MileStone
-              list={["My Cart", "Personel Details", "Summary", "Payment"]}
+              list={["My Cart", "Personal Details", "Summary", "Payment"]}
               selected="Payment"
             />
             <View style={{ paddingTop: 20 }} />
@@ -151,104 +152,124 @@ export default class StripeIntegration extends StripeIntegrationController {
               <Text style={styles.headerTextPayment}>CHOOSE PAYMENT METHOD</Text>
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
-                <View style={styles.checkBoxContainer}>
-                  <CheckBox checked={true} setChecked={() => { }} />
-                  <Text
-                    style={styles.address}
-                  >{`Credit/Debit Card`}</Text>
+                <View style={styles.addressContainer}>
+                  <TouchableOpacity style={styles.padding} onPress={() => {
+                    this.setState({ paymentMethodType: "Card" })
+                  }}>
+                    <CheckBox
+                      backgroundColor={LIGHT_GREY}
+                      checked={this.state.paymentMethodType === "Card"}
+                      disabled
+                      setChecked={() => { }}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>
                 </View>
-                <View style={styles.checkBoxContainer}>
-                  <CheckBox checked={false} setChecked={() => { }} />
-                  <Text
-                    style={styles.address}
-                  >{`Cash on Delivery`}</Text>
+                <Text style={{ color: DARK_RED }}>{""}
+                </Text>
+                <View style={styles.addressContainer}>
+                  <TouchableOpacity style={styles.padding} onPress={() => {
+                    this.setState({ paymentMethodType: "Cod" })
+                  }}>
+                    <CheckBox
+                      backgroundColor={LIGHT_GREY}
+                      checked={this.state.paymentMethodType === "Cod"}
+                      disabled
+                      setChecked={() => { }}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[styles.question, styles.addressText]}>{`Cash on Delivery`}</Text>
                 </View>
               </View>
             </View>
-            <View style={{ paddingTop: 20 }} />
-            <View style={styles.paymentContainer}>
-              <Text style={styles.headerTextPayment}>CARD DETAILS</Text>
-              <View style={styles.seperatorPayment} />
-              <View style={styles.checkContainer}>
-                <View style={{ paddingTop: 20 }}>
-                  <TextInput
-                    textInputStyle={styles.cardTextinput}
-                    labeStyle={styles.label}
-                    value={this.state.cardName}
-                    testID="cardNameInput"
-                    onchangeText={(text) => {
-                      this.setState({ cardName: text })
-                    }
-                    }
-                    label="Name on card"
-                    placeholder="Enter name on card"
-                  />
-                  <TextInput
-                    textInputStyle={styles.cardTextinput}
-                    labeStyle={styles.label}
-                    keyBoardtype="number-pad"
-                    value={this.state.cardNumber}
-                    testID="cardNumber"
-                    onchangeText={(text) => {
-                      let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
-                      this.setState({ cardNumber: formattedCard })
-                    }
-                    }
-                    label="Card number"
-                    placeholder="Enter card number"
-                  />
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      width: "100%",
-                    }}
-                  >
+            {this.state.paymentMethodType === "Card" && (
+              <View style={{ paddingTop: 20 }}>
+              <View style={styles.paymentContainer}>
+                <Text style={styles.headerTextPayment}>CARD DETAILS</Text>
+                <View style={styles.seperatorPayment} />
+                <View style={styles.checkContainer}>
+                  <View style={{ paddingTop: 20 }}>
                     <TextInput
-                      textInputStyle={styles.expirtyDate}
+                      textInputStyle={styles.cardTextinput}
                       labeStyle={styles.label}
-                      value={this.state.expirtyDate}
-                      keyBoardtype="number-pad"
-                      testID="cardExpiry"
-                      maxLenth={5}
+                      value={this.state.cardName}
+                      testID="cardNameInput"
                       onchangeText={(text) => {
+                        this.setState({ cardName: text })
+                      }
+                      }
+                      label="Name on card"
+                      placeholder="Enter name on card"
+                    />
+                    <TextInput
+                      textInputStyle={styles.cardTextinput}
+                      labeStyle={styles.label}
+                      keyBoardtype="number-pad"
+                      value={this.state.cardNumber}
+                      testID="cardNumber"
+                      onchangeText={(text) => {
+                        let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
+                        this.setState({ cardNumber: formattedCard })
+                      }
+                      }
+                      label="Card number"
+                      placeholder="Enter card number"
+                    />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        width: "100%",
+                      }}
+                    >
+                      <TextInput
+                        textInputStyle={styles.expirtyDate}
+                        labeStyle={styles.label}
+                        value={this.state.expirtyDate}
+                        keyBoardtype="number-pad"
+                        testID="cardExpiry"
+                        maxLenth={5}
+                        onchangeText={(text) => {
 
-                        this.handleExpiryDate(text);
-                      }
-                      }
-                      label="Expiry Date"
-                      placeholder="12/12"
-                    />
-                    <View><Text>{"  "}</Text></View>
-                    <TextInput
-                      textInputStyle={styles.cvv}
-                      labeStyle={styles.label}
-                      value={this.state.cvv}
-                      keyBoardtype="number-pad"
-                      testID="cardCVV"
-                      maxLenth={3}
-                      onchangeText={(text) => {
-                        this.handleCVVTextInput(text)
-                      }
-                      }
-                      label="CVV"
-                      placeholder="123"
-                    />
+                          this.handleExpiryDate(text);
+                        }
+                        }
+                        label="Expiry Date"
+                        placeholder="12/12"
+                      />
+                      <View><Text>{"  "}</Text></View>
+                      <TextInput
+                        textInputStyle={styles.cvv}
+                        labeStyle={styles.label}
+                        value={this.state.cvv}
+                        keyBoardtype="number-pad"
+                        testID="cardCVV"
+                        maxLenth={3}
+                        onchangeText={(text) => {
+                          this.handleCVVTextInput(text)
+                        }
+                        }
+                        label="CVV"
+                        placeholder="123"
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
+              </View>
+            )}
+
             <View style={{ paddingTop: 20, paddingBottom: 20 }}>
               <MyDetails
                 header="MY DETAILS"
                 list={[
-                  { question: "name", ans: "Lerna Tofimova" },
-                  { question: "email", ans: "test@gmail.com" },
-                  { question: "phone", ans: "+ 121212122121" },
+                  { question: "Name", ans: this.props.route.params.name },
+                  { question: "Email", ans: "test@gmail.com" },
+                  { question: "Phone", ans: this.props.route.params.phone_number },
                   {
                     question: "Shipping Add.",
-                    ans: "12, AB Building ,Near Taxibillling, Dallas, TX",
+                    ans: this.props.route.params.address,
                   },
-                  { question: "Zipcode", ans: "123456" },
+                  { question: "Zipcode", ans: this.props.route.params.zip_code },
                 ]}
               />
             </View>
@@ -258,34 +279,41 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.answerContainer}>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Subtotal</Text>
-                  <Text style={styles.answer}>{'$600'}</Text>
+                  <Text style={styles.answer}>{`$${this.props.route.params.subtotal.toFixed(2)}`}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Discount</Text>
-                  <Text style={styles.answer}>{'-$60 (10%'}</Text>
+                  <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${(this.props.route.params.discount / this.props.route.params.subtotal * 100).toFixed(2)}%)`}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Shipping Charges</Text>
-                  <Text style={styles.answer}>{"$0.00"}</Text>
+                  <Text style={styles.answer}>{`$${this.props.route.params.shipping.toFixed(2)}`}</Text>
                 </View>
-                <View style={styles.row}>
-                  <Text style={styles.paymentText}>{"Meat Storage(Gold)"}</Text>
-                  <Text style={styles.answer}>{"$4.99"}</Text>
-                </View>
+                {this.props.route.params.storageClass !== "Basic" && (
+                  <View style={styles.row}>
+                    <Text style={styles.paymentText}>{"Meat Storage(Gold)"}</Text>
+                    <Text style={styles.answer}>{"$4.99"}</Text>
+                  </View>
+                )}
               </View>
               <View style={styles.seperatorPayment} />
               <View style={[styles.row, { paddingHorizontal: 20 }]}>
                 <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{'$540'}</Text>
+                <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping).toFixed(2)}`}</Text>
               </View>
             </View>
             <DoubleButton
-              button1Label="Pay"
+              button1Label={this.state.paymentMethodType === "Card" ? "Pay" : "Continue"}
               //this.setState({ showPaymentAlert: true })
               button1_Onpress={() => {
-                this.setState({ showPaymentLoading: true })
-                this.setState({ customAlertText: "Payment In Process.." });
-                this.getPaymentMethod()
+                if (this.state.paymentMethodType === "Card") {
+                  this.setState({ showPaymentLoading: true })
+                  this.setState({ customAlertText: "Payment In Process.." });
+                  this.getPaymentMethod()
+                } else {
+                  this.handlePaymentSuccess()
+                  this.setState({showPaymentAlert: true})
+                }
               }}
               button2Label="Cancel"
               button2_Onpress={() => { }}

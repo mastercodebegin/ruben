@@ -9,6 +9,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import { showToast } from "../../../components/src/ShowToast";
 import { getStorageData } from "../../../framework/src/Utilities";
+import { Linking } from "react-native";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -37,6 +38,7 @@ interface S {
   activeCreatedAt: string;
   isVisible: boolean;
   query: string;
+  showSuccessModal: boolean;
   // Customizable Area End
 }
 
@@ -80,6 +82,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
       activeCreatedAt: "",
       isVisible: false,
       query: "",
+     showSuccessModal:false, 
     };
 
     // Customizable Area End
@@ -127,8 +130,7 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
 
       if (responseJson?.data) {
         if (apiRequestCallId === this.addContactApiCallId) {
-          showToast("Query Submitted");
-          this.props.navigation.goBack();
+          this.setState({showSuccessModal:true})
         }
       } else if (errorReponse) {
         showToast("Something went wrong");
@@ -333,5 +335,29 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
 
     runEngine.sendMessage(requestMessage.id, requestMessage);
   };
+  async openURL(url:string) {
+    Linking.canOpenURL(url).then(res => {      
+      if (res) {
+        Linking.openURL(url);
+      }
+     })
+  }
+  handlePressWebIcon() {
+    this.openURL('https://ruebensftcapp-263982-react.b263982.dev.eastus.az.svc.builder.cafe/')
+  }
+  handlePressInstagram() {
+    this.openURL('https://www.instagram.com/');
+  }
+  handlePressEmail() {
+      const recipient = 'meatlocker@maranathafarms.com';
+      const subject = '';
+      const body = '';
+    
+      const url = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      this.openURL(url)
+        .catch((error) => console.error('Failed to open email:', error));
+  }
+  
   // Customizable Area End
 }

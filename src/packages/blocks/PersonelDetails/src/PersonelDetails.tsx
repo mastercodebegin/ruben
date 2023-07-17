@@ -46,14 +46,16 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 );
 export default class PersonelDetails extends PersonelDetailsController {
   async componentDidMount(){
-     await this.getAddressList()
+    await this.getAddressList()
+    await this.getAvailableSlots()
   }
   render() {
-    const {address,phone_number, zip_code,name} = {
+    const {address,phone_number, zip_code,name,email} = {
       address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
       phone_number:this.state.addressList[this.state.selectedAddress]?.attributes?.phone_number || '',
       zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
-      name:this.state.addressList[this.state.selectedAddress]?.attributes?.name
+      name: this.state.addressList[this.state.selectedAddress]?.attributes?.name||'',
+      email: this.state.addressList[this.state.selectedAddress]?.attributes?.email||''
     }    
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
@@ -104,7 +106,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                     header="MY DETAILS"
                     list={[
                       { question: "Name", ans: name  },
-                      { question: "Email", ans: "test@gmail.com" },
+                      { question: "Email", ans:email},
                       { question: "Phone",ans:phone_number  },
                       {
                         question: "Shipping Add.",
@@ -116,16 +118,20 @@ export default class PersonelDetails extends PersonelDetailsController {
                 </View>
                 <View style={{ paddingTop: 20 }}>
                   <SavedAddresses
+                    showModal={this.state.showAddAddress}
+                    setShowModal={(val:boolean)=>this.setState({showAddAddress:val})}
                     addressList={this.state.addressList}
                     setSelectedAddress={(index) =>
                       this.setState({ selectedAddress: index })
                     }
+                    isLoading={this.state.showLoader}
+                    addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
                   />
                 </View>
               </>
             ) : (
-              <AvailableSlots />
+              <AvailableSlots list={this.state.availableSlotsList}/>
             )}
             <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
@@ -135,7 +141,13 @@ export default class PersonelDetails extends PersonelDetailsController {
             </View>
             <DoubleButton
               button1Label="Continue to Summary"
-              button1_Onpress={() => this.props.navigation.navigate('StripeIntegration')}
+              button1_Onpress={() => {
+                if (this.state.addressList.length) {
+                  this.props.navigation.navigate('OrderSummary');
+                } else {
+                  Alert.alert("Alert", "Please add address");
+                }
+              }}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
