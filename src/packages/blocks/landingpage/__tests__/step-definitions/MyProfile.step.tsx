@@ -10,7 +10,7 @@ const navigation = {
 
 const screenProps = {
   navigation: navigation,
-  id: "LandingPage",
+  id: "MyProfile",
 };
 
 const feature = loadFeature("./__tests__/features/MyProfile-scenario.feature");
@@ -141,6 +141,30 @@ defineFeature(feature, (test) => {
       );
       touchableOpacity.simulate("press");
       expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
+    })
+
+    then("user navigate to product detail screen", () => {
+      instance.forceUpdate();
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="navigateToProductDetailScreen"]'
+      );
+      touchableOpacity.simulate("press");
+    })
+
+    then("user can remove product from fav list", () => {
+      instance.forceUpdate();
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="removeFavList"]'
+      );
+      touchableOpacity.simulate("press");
+    })
+    
+    then("user can add product to add to cart", () => {
+      instance.forceUpdate();
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="addtocart"]'
+      );
+      touchableOpacity.simulate("press");
     })
 
     then("I can leave the screen with out errors", () => {

@@ -8,6 +8,9 @@ import {
   ScrollView,
   Image,
   Linking,
+  FlatList,
+  ImageBackground,
+  Dimensions,
 } from "react-native";
 import {
   LIGHT_GREY,
@@ -22,7 +25,7 @@ import {
   facebook,
   CART,
   cow,
-  MEAT_IMAGE1,
+  badge,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -30,6 +33,8 @@ import RenderItems from "../RenderItems/RenderItems";
 import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import Modal from "./UpdateProfileModal";
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -46,6 +51,7 @@ export default class Myprofile extends LandingPageController {
     } else {
       this.getProfileDetails();
       this.getOrderList();
+      this.getFavorites();
     }
   }
   openFacebookProfile = () => {
@@ -257,29 +263,84 @@ export default class Myprofile extends LandingPageController {
               </View>
             ) : (
               <>
-                <RenderItems
-                  onPressCart={this.addToCart.bind(this)}
-                  onpressFav={this.AddToFavorites.bind(this)}
-                  item={[
-                    {
-                      attributes: {
-                        images: { url: MEAT_IMAGE1 },
-                        price: 20,
-                        description: "are you searching for a dessert",
-                        name: "Vegetable salad",
-                      },
-                    },
-                    {
-                      attributes: {
-                        images: { url: MEAT_IMAGE1 },
-                        price: 40,
-                        description: "are you searching for a dessert",
-                        name: "Vegetable salad",
-                      },
-                    },
-                  ]}
-                  rating={false}
+               <FlatList
+                  data={this.state.showFavoriteList}
+                  horizontal
+                  numColumns={1}
+                  contentContainerStyle={styles.contentContainer}
+                  bounces={false}
+                  renderItem={({ item }: any) => {
+                    return (
+                      <View style={styles.FavContainer}>
+                        <TouchableOpacity
+                           testID={'navigateToProductDetailScreen'}
+                          onPress={() =>
+                            this.props.navigation.navigate("ProductDetailScreen", {
+                              id:item?.id,
+                              description: item?.attributes?.catalogue_id?.data?.attributes?.description,
+                              name: item?.attributes?.catalogue_id?.data?.attributes?.name,
+                              price: item?.attributes?.catalogue_id?.data?.attributes?.price,
+                            })
+                          }
+                          style={styles.renderContainer}
+                        >
+                          <ImageBackground
+                            resizeMode="stretch"
+                            style={[
+                              item?.attributes?.catalogue_id
+                                ?.data?.attributes?.images[0]?.url
+                                ? styles.itemImage
+                                : styles.itemNoImage,
+                            ]}
+                            source={{
+                              uri: item?.attributes?.catalogue_id
+                                ?.data?.attributes?.images[0]?.url
+                            }}
+                          >
+                            <View style={styles.offerContainer}>
+                              <Text style={styles.offer}>
+                                {`${item?.attributes?.catalogue_id?.data?.attributes?.discount ? item?.attributes?.catalogue_id?.data?.attributes?.discount : " "}` + " % off"}
+                              </Text>
+
+                              <TouchableOpacity
+                                testID={"removeFavList"}
+                                onPress={() => this.removeFavListProduct(item?.id)}
+                                style={styles.badgeContainer}
+                              >
+                                <Image resizeMode="contain" style={styles.badge} source={badge} />
+                              </TouchableOpacity>
+                            </View>
+                          </ImageBackground>
+                          <View style={{ paddingHorizontal: 15 }}>
+                            <Text style={styles.productName}>{item?.attributes?.catalogue_id
+                              ?.data?.attributes?.name ? item?.attributes?.catalogue_id
+                                ?.data?.attributes?.name : ' '}</Text>
+                            <Text style={styles.favdescription} numberOfLines={1}>
+                              {item?.attributes?.catalogue_id
+                                ?.data?.attributes?.description}
+                            </Text>
+                            <View style={styles.priceContainer}>
+                              <Text style={styles.price}>
+                                {`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}` + "/Kg"}
+                              </Text>
+                              <TouchableOpacity
+                                testID={"addtocart"}
+                                onPress={() => this.addToCart(item?.id)}
+                                style={styles.FavcartContainer}
+                              >
+                                <Image resizeMode="contain" style={styles.Favcart} source={CART} />
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }}
+                  keyExtractor={(_, index) => {
+                    return String(index);
+                  }}
                 />
+
                 <TouchableOpacity
                 testID="see_all_button"
                   onPress={() =>
@@ -504,4 +565,104 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginTop: 15,
   },
+   // fav List Styles
+   contentContainer: {
+    padding: 0,
+    marginTop: 20,
+    marginLeft: 20
+  },
+  FavContainer: {
+    padding: 0
+  },
+  renderContainer: {
+    backgroundColor: WHITE,
+    width: deviceWidth * 0.77,
+    marginRight: 20,
+    overflow: "hidden",
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    borderRadius: 20,
+  },
+  favdescription: {
+    fontSize: 17,
+    color: MID_PEACH,
+    paddingBottom: 15,
+  },
+  price: {
+    fontSize: 22,
+    color: DARK_RED,
+    fontWeight: "bold",
+  },
+  itemImage: {
+    height: deviceHeight * 0.2,
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+  },
+  itemNoImage: {
+    height: deviceHeight * 0.2,
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+    backgroundColor: MID_PEACH,
+  },
+  priceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 20,
+  },
+  offerContainer: {
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  itemHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  offer: {
+    color: WHITE,
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+  badgeContainer: {
+    backgroundColor: DARK_RED,
+    padding: 10,
+    borderRadius: 20,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  badge: {
+    height: 20,
+    width: 20,
+    tintColor: WHITE
+  },
+  rating: {
+    color: "white",
+    paddingLeft: 10,
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+  productName: {
+    fontSize: 22,
+    color: DARK_RED,
+    fontWeight: "bold",
+    marginTop: 15,
+  },
+  FavcartContainer: {
+    paddingVertical: 10,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: PRIMARY,
+  },
+  Favcart: { height: 20, width: 20 },
 });
