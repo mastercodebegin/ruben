@@ -73,7 +73,7 @@ export default class OrderSummary extends OrderSummaryController {
         >
           <View style={styles.main}>
             <MileStone
-              list={["My Cart", "Personel Details", "Summary", "Payment"]}
+              list={["My Cart", "Personal Details", "Summary", "Payment"]}
               selected="Summary"
             />
             <View style={styles.imageContainer}>

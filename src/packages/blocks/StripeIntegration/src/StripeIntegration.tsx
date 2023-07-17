@@ -144,7 +144,7 @@ export default class StripeIntegration extends StripeIntegrationController {
             extraScrollHeight={100}
           >
             <MileStone
-              list={["My Cart", "Personel Details", "Summary", "Payment"]}
+              list={["My Cart", "Personal Details", "Summary", "Payment"]}
               selected="Payment"
             />
             <View style={{ paddingTop: 20 }} />
