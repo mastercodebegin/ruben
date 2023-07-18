@@ -18,6 +18,7 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import OrderSummaryController from "./OrderSummaryController";
 import PaymentDetails from "./PaymentDetails";
 import {BLACK, DARK_RED, WHITE} from "../../landingpage/src/colors";
+import CommonLoader from "../../../components/src/CommonLoader";
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -231,6 +232,7 @@ export default class OrderSummary extends OrderSummaryController {
             />
           </View>
         </HeaderWithBackArrowTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
     );
   }
