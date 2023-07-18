@@ -252,6 +252,12 @@ SS
       this.setState({showLoader: false})
       alert('Error getting items in cart!')
     }else{
+
+      if(prodList?.attributes?.order_items?.data?.length === 0) {
+        Alert.alert("No products left in the cart!")
+        this.props.navigation.replace('LandingPage')
+      }
+
       let subtotal = 0;
       this.setState({orderId:prodList?.id})
       this.setState({orderNumber:prodList?.attributes?.order_no})
