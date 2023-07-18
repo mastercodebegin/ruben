@@ -30,6 +30,7 @@ interface S {
   orderId: number;
   orderNumber: number;
   deliverWithinADay: boolean;
+  lifetimeSubscription: boolean;
 }
 
 interface SS {
@@ -64,7 +65,8 @@ SS
       shipping: 12,
       orderId: 4,
       orderNumber: 12121212,
-      deliverWithinADay: false
+      deliverWithinADay: false,
+      lifetimeSubscription: false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -267,6 +269,9 @@ SS
   deliverWithinADayClicked = () => {
     const shipping = this.state.shipping + 25.99
     this.setState({deliverWithinADay: true, shipping})
+  }
+  lifetimeSubClicked = () => {
+    this.setState({lifetimeSubscription: true})
   }
   removeFromCart(id:number) {
     Alert.alert("Alert",

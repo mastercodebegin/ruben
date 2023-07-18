@@ -99,6 +99,7 @@ export default class OrderSummary extends OrderSummaryController {
                 image={removeImage}
               />
             </View>
+              {!this.state.lifetimeSubscription &&
             <View style={styles.lifetimeSub}>
               <View style={styles.cartImageContainer}>
                 <Image resizeMode="contain" style={styles.cartImage} source={require('../assets/cart.png')}/>
@@ -106,11 +107,11 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.lifetimeSubContent}>
                 <Text style={styles.lifetimeSubHeading}>Lifetime Subscription</Text>
                 <Text style={styles.lifetimeSubText}>one-time purchase and lasts a lifetime</Text>
-                <TouchableOpacity style={styles.lifetimeSubButton}>
+                <TouchableOpacity style={styles.lifetimeSubButton} onPress={this.lifetimeSubClicked}>
                   <Text style={styles.lifetimeSubPrice}>{"$5.00"}</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View>}
             <View style={styles.itemsContainer}>
               <View style={styles.headerContainer}>
                 <Text style={styles.addedItemsHeader}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
@@ -161,9 +162,10 @@ export default class OrderSummary extends OrderSummaryController {
                 list={[
                   { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
                   { question: "Discount", ans: `- $${this.state.discount.toFixed(2)} (${(this.state.discount / this.state.subtotal * 100).toFixed(2)}%)` },
+                  { question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscription ? '5.00' : '0.00'}`  },
                   { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
-                footer={{question: "Total", ans: `$${(this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2)}`}}
+                footer={{question: "Total", ans: `$${ this.state.lifetimeSubscription ? (this.state.subtotal - this.state.discount + this.state.shipping + 5.0).toFixed(2) :  (this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2) }`}}
               />
             </View>
             {this.state.selectedTab === "pickup" ? (
