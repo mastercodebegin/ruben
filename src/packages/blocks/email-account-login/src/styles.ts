@@ -51,9 +51,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    height: 70,
-    width: 70,
+    height: 200,
+    width: 200,
     marginTop: 40,
+    alignSelf: "center",
   },
   rememberText: { paddingLeft: 15, color: "#A0272A", fontSize: 16 },
 });

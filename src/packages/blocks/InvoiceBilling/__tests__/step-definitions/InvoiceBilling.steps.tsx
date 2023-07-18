@@ -5,6 +5,11 @@ import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import InvoiceBilling from "../../src/InvoiceBilling";
 import { render } from "@testing-library/react-native";
+import { Message } from "../../../../framework/src/Message";
+import MessageEnum, {
+  getName,
+} from "../../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../../framework/src/RunEngine";
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -38,6 +43,32 @@ defineFeature(feature, (test) => {
 
     when("I navigate to the InvoiceBilling", () => {
       instance = exampleBlockA.instance() as InvoiceBilling;
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        'cart'
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+          "data": [
+            {
+              "attributes": {
+                "order_items":{ "data":[{}]}
+              }
+            }
+          ]
+        
+        }
+      );
+      instance.cartCallId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
     });
 
     then("InvoiceBilling will load with out errors", () => {
