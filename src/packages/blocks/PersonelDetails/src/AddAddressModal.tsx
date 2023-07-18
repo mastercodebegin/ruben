@@ -135,6 +135,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 onchangeText={(phoneNumber) =>
                   this.setState({ phoneNumber })
                 }
+                keyBoardtype="number-pad"
                 label="Phone Number"
               />
               <TextInput

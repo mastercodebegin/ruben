@@ -6,13 +6,14 @@ interface HeaderTypes {
   navigation: any;
   selected: "login" | "signup";
 }
+const splashImage = require('../assets/splash.png')
 const Header = ({ navigation, selected }: HeaderTypes) => (
   <View
     style={{
       paddingHorizontal: 20,
     }}
   >
-    <Image style={styles.logo} source={Logo} />
+    <Image style={styles.logo} source={splashImage} />
     <View style={{ flexDirection: "row" }}>
       <TouchableOpacity
         testID="go_to_login_test_id"
@@ -34,7 +35,7 @@ const Header = ({ navigation, selected }: HeaderTypes) => (
           })
         }
       >
-        <Text style={[styles.header, selected === "signup" && styles.selected]}>
+        <Text style={[styles.header, selected === "signup" && styles.selected,{paddingLeft:15}]}>
           Sign Up
         </Text>
       </TouchableOpacity>
