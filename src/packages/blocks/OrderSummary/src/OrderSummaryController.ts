@@ -194,6 +194,7 @@ SS
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async increaseCartQuatity(catalogue_id:number,orderId:number|null,type:boolean){
+    this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -253,7 +254,7 @@ SS
       this.setState({orderId:prodList?.id})
       this.setState({orderNumber:prodList?.attributes?.order_no})
       for (const item of prodList?.attributes?.order_items?.data) {
-        subtotal += +item.attributes?.catalogue?.data?.attributes?.price
+        subtotal += (+item.attributes?.catalogue?.data?.attributes?.price * +item?.attributes?.quantity);
       }
       this.setState({
         showLoader: false,
