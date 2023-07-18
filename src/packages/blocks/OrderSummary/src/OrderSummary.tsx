@@ -124,12 +124,8 @@ export default class OrderSummary extends OrderSummaryController {
                       quantity={item.attributes?.quantity}
                       index={index}
                       image={item.attributes?.catalogue?.data?.attributes?.images[0]}
-                      onpressRemove={(index:number)=>{
-                        const array = [...this.state.productsList]
-                          array.splice(index, 1);
-                          this.setState({productsList:array})
-                      }}
-                      //onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
+                      onpressRemove={()=>this.removeFromCart(item?.id)}
+                      onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.orderId,res)}
                     />
                   </View>
                 )})}
@@ -204,7 +200,7 @@ export default class OrderSummary extends OrderSummaryController {
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>10 Meat Storage at a time</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Payment Options</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Time Service Available</Text>
-                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Platinum' ? '' : 'Platinum'})}>
+                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Platinum' ? 'Basic' : 'Platinum'})}>
                       <Text style={[styles.addMeatStorageButtonText, {color: this.state.currentStorageClass === 'Platinum' ? BLACK : PRIMARY}]}>
                         {this.state.currentStorageClass === 'Platinum' ? 'Remove' : 'Add Storage'}
                       </Text>

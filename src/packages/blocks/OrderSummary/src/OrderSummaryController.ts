@@ -6,6 +6,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Alert} from "react-native";
+import {showToast} from "../../../components/src/ShowToast";
 
 const configJSON = require("../config.js");
 export interface Props {
@@ -70,6 +72,8 @@ SS
 
   getPersonelDetails: string = "";
   getCartId: string = "";
+  removeItemCallId: string = ""
+  increaseCartCallId: string = ""
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -106,6 +110,34 @@ SS
       const prodList = productsList?.data[0]
       this.getCartCallBack(prodList,error)
 
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.removeItemCallId != null &&
+      this.removeItemCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+  } else {
+        showToast('success');
+        this.getCart();
+      }
+  }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.increaseCartCallId != null &&
+    this.increaseCartCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){   
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );        
+        if(error){
+        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+        }else{
+          this.getCart()
+        }
     }
   }
   async getAddressList() {
@@ -161,6 +193,56 @@ SS
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
+  async increaseCartQuatity(catalogue_id:number,orderId:number|null,type:boolean){
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.increaseCartCallId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${type ? configJSON.increaseCartQuantity :
+         configJSON.decreaseCartQuantity
+        }?catalogue_id=${catalogue_id}&order_id=${orderId}`
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpPostMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async removeItemFromCart(id:number){
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.removeItemCallId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.removeItemEndpoint}${id}`
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpDeleteMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
 
   getCartCallBack(prodList:any,error=false){
     if(error){
@@ -184,5 +266,14 @@ SS
   deliverWithinADayClicked = () => {
     const shipping = this.state.shipping + 25.99
     this.setState({deliverWithinADay: true, shipping})
+  }
+  removeFromCart(id:number) {
+    Alert.alert("Alert",
+      "Are you sure delete it from cart", [
+      { text: 'yes', onPress: () => this.removeItemFromCart(id) },
+      {
+        text:'cancel',
+      }
+    ])
   }
 }
