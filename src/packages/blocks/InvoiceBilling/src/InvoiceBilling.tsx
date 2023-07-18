@@ -44,6 +44,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
               bounces={false}
               showsVerticalScrollIndicator={false}
               data={this.state.productsList}
+              testID="render_product_list_id"
               renderItem={({ index,item }) => <RenderPoducts item={item} index={index} />}
               keyExtractor={(item, index) => item + "" + index}
               contentContainerStyle={{ paddingTop: 30 }}

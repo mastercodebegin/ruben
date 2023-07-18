@@ -69,6 +69,10 @@ defineFeature(feature, (test) => {
       );
       instance.cartCallId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+      const termsCondsList = exampleBlockA.findWhere(
+        (node) => node.prop("testID") === "render_product_list_id"
+      );
+      termsCondsList.render();
     });
 
     then("InvoiceBilling will load with out errors", () => {
