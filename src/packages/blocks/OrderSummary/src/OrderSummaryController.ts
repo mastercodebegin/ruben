@@ -61,7 +61,7 @@ SS
       productsList: [],
       currentStorageClass: 'Basic',
       subtotal: 0,
-      discount: 60,
+      discount: 0,
       shipping: 12,
       orderId: 4,
       orderNumber: 12121212,
@@ -261,7 +261,8 @@ SS
       this.setState({
         showLoader: false,
         productsList:prodList?.attributes?.order_items?.data,
-        subtotal
+        subtotal,
+        discount: subtotal * 0.1
       })
     }
   }

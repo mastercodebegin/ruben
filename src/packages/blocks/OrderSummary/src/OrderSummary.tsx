@@ -161,7 +161,7 @@ export default class OrderSummary extends OrderSummaryController {
                 header="PAYMENT DETAILS"
                 list={[
                   { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
-                  { question: "Discount", ans: `- $${this.state.discount.toFixed(2)} (${(this.state.discount / this.state.subtotal * 100).toFixed(2)}%)` },
+                  { question: "Discount", ans: `- $${(this.state.subtotal * 0.1).toFixed(2)} (10%)` },
                   { question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscription ? '5.00' : '0.00'}`  },
                   { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
