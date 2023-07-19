@@ -9,7 +9,7 @@ import {
   Clipboard,
   Platform,
 } from "react-native";
-import { sampleProfile, shareIcon, playIcon } from "./assets";
+import {  shareIcon, playIcon } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
@@ -21,6 +21,7 @@ interface Types {
   index?: number;
   visibleItem?: number;
 }
+const sampleProfile = require('../assets/logo.png')
 const BlogPostCard = ({ item, type }: Types) => {
   const navigation = useNavigation();
   return (
