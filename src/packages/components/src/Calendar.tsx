@@ -13,7 +13,7 @@ import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
 import moment from "moment";
 import { addDays } from 'date-fns';
 interface Props {
-  dateSelected?: () => void
+  dateSelected?: (date: string) => void
 }
 const backArrow = require("./arrow_left.png");
 const monthNames = [

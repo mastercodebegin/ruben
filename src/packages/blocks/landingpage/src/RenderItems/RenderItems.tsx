@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  ImageBackground,
   TouchableOpacity,
   FlatList,
   Text,
@@ -18,8 +17,8 @@ import {
   CART,
   RATING,
   badge,
+  backGroundImage
 } from "../assets";
-import { useNavigation } from "@react-navigation/native";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 interface Types {
@@ -29,7 +28,8 @@ interface Types {
   onpressFav: (id: number) => Promise<void>;
   onPressCart: (id: number) => Promise<void>;
   index?: number;
-  handleLoadMore?:(any)
+  handleLoadMore?: (any);
+  navigation: any;
 }
 const RenderItem = ({
   item,
@@ -37,11 +37,11 @@ const RenderItem = ({
   onpressFav,
   onPressCart,
   index,
-}: Types) => {
+  navigation
+}: Types) => {  
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
   const percentage = (partial / total) * 100;
-  const navigation = useNavigation();
   return (
     <TouchableOpacity
       testID={`navigate_to_product_details_id_${index}`}
@@ -49,21 +49,15 @@ const RenderItem = ({
         navigation.navigate("ProductDetailScreen", {
           id: item?.id,
           description: item?.attributes?.description,
-          name: item?.attributes?.name,
+          name: item?.attributes?.categoryCode,
           price:item?.attributes?.price
         })
       }
       style={styles.renderContainer}
     >
-      <ImageBackground
-        resizeMode="stretch"
-        style={[
-          item?.attributes?.images[0]?.url
-            ? styles.itemImage
-            : styles.itemNoImage,
-        ]}
-        source={{ uri: item?.attributes?.images[0]?.url }}
-      >
+      <View style={styles.itemImage}>
+        <Image style={styles.itemImage} source={backGroundImage} />
+        <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {rating ? (
             <View style={styles.ratingContainer}>
@@ -76,7 +70,7 @@ const RenderItem = ({
             </View>
           ) : (
             <Text style={styles.offer}>
-              {"-" + percentage.toFixed(0) + "% off"}
+              {"-" + percentage + "% off"}
             </Text>
           )}
           <TouchableOpacity
@@ -87,9 +81,11 @@ const RenderItem = ({
             <Image resizeMode="contain" style={styles.badge} source={badge} />
           </TouchableOpacity>
         </View>
-      </ImageBackground>
+
+        </View>
+      </View>
       <View style={{ paddingHorizontal: 15 }}>
-        <Text style={styles.productName}>{item?.attributes?.name}</Text>
+        <Text style={styles.productName}>{item?.attributes?.categoryCode}</Text>
         <Text style={styles.description} numberOfLines={1}>
           {item?.attributes?.description}
         </Text>
@@ -116,6 +112,7 @@ const RenderItems = ({
   onpressFav,
   onPressCart,
   handleLoadMore,
+  navigation
 }: Types) => {
   return (
     <View>
@@ -130,14 +127,16 @@ const RenderItems = ({
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={styles.flatList}
-        keyExtractor={(item, i) => String(i)}
+        keyExtractor={(item, i) => `${i}`}
         horizontal
+        nestedScrollEnabled
         renderItem={({ item, index }) => (
           <RenderItem
             onPressCart={onPressCart}
             onpressFav={onpressFav}
             rating={rating}
             item={item}
+            navigation={navigation}
             index={index}
           />
         )}

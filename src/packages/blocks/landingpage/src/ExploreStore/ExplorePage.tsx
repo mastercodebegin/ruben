@@ -148,7 +148,7 @@ export class ExplorePage extends LandingPageController {
                   this.categoryPage = this.categoryPage + 1;
                   this.getCategory.bind(this)(this.categoryPage);
                 }}
-                renderItem={({ item, index }) => {
+                renderItem={({ item, index }:any) => {
                   return (
                     <RenderCategories
                       onpress={() => {
@@ -172,16 +172,18 @@ export class ExplorePage extends LandingPageController {
                 renderItem={this.renderItem}
               />
               <RenderItems
+                navigation={this.props.navigation}
                 onPressCart={this.addToCart.bind(this)}
                 onpressFav={this.AddToFavorites.bind(this)}
-                handleLoadMore={() => { this.handleLoadMore() }}
+                handleLoadMore={() => {  }}
                 item={this.state.productList}
                 rating={false}
               />
               <RenderItems
+                navigation={this.props.navigation}
                 onPressCart={this.addToCart.bind(this)}
                 onpressFav={this.AddToFavorites.bind(this)}
-                handleLoadMore={() => { this.handleLoadMore() }}
+                handleLoadMore={() => { }}
                 item={this.state.productList}
                 header={true}
                 rating={true}

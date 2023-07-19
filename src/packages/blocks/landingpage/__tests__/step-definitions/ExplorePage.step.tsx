@@ -504,6 +504,7 @@ defineFeature(feature, (test) => {
         <RenderItems
           rating={false}
           item={[{}]}
+          navigation={navigation}
           onpressFav={addtoFavMock}
           onPressCart={addtoCartMock}
         />
@@ -513,6 +514,7 @@ defineFeature(feature, (test) => {
           rating={true}
           item={[{}, {}]}
           onpressFav={addtoFavMock}
+          navigation={navigation}
           onPressCart={addtoCartMock}
         />
       );
