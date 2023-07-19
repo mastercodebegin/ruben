@@ -123,6 +123,32 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     this.setState({ cvv: text });
   };
+
+  getImageAsperAlert = () => {
+    if (this.state.paymentAlerttype === "PaymentSuccess" || this.state.paymentAlerttype === "ThankYouForYourOder") {
+      return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
+    } else if (this.state.paymentAlerttype === "PaymentFailed") {
+      return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
+    } else {
+      return require("../../StripeIntegration/assets/ic_email_icon.png")
+    }
+  }
+  handleContinueButton = () => {
+    if (this.state.isOrderSuccess) {
+      if (this.state.paymentAlerttype === "PaymentSuccess") {
+        this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
+          this.handlePaymentSuccess()
+        });
+      } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
+        this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
+          this.handlePaymentSuccess()
+        });
+      } else {
+        this.setState({ showPaymentAlert: false });
+        this.props.navigation.navigate('InvoiceBilling')
+      }
+    }
+  }
   // Customizable Area End
 
   render() {
@@ -184,77 +210,77 @@ export default class StripeIntegration extends StripeIntegrationController {
             </View>
             {this.state.paymentMethodType === "Card" && (
               <View style={{ paddingTop: 20 }}>
-              <View style={styles.paymentContainer}>
-                <Text style={styles.headerTextPayment}>CARD DETAILS</Text>
-                <View style={styles.seperatorPayment} />
-                <View style={styles.checkContainer}>
-                  <View style={{ paddingTop: 20 }}>
-                    <TextInput
-                      textInputStyle={styles.cardTextinput}
-                      labeStyle={styles.label}
-                      value={this.state.cardName}
-                      testID="cardNameInput"
-                      onchangeText={(text) => {
-                        this.setState({ cardName: text })
-                      }
-                      }
-                      label="Name on card"
-                      placeholder="Enter name on card"
-                    />
-                    <TextInput
-                      textInputStyle={styles.cardTextinput}
-                      labeStyle={styles.label}
-                      keyBoardtype="number-pad"
-                      value={this.state.cardNumber}
-                      testID="cardNumber"
-                      onchangeText={(text) => {
-                        let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
-                        this.setState({ cardNumber: formattedCard })
-                      }
-                      }
-                      label="Card number"
-                      placeholder="Enter card number"
-                    />
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        width: "100%",
-                      }}
-                    >
+                <View style={styles.paymentContainer}>
+                  <Text style={styles.headerTextPayment}>CARD DETAILS</Text>
+                  <View style={styles.seperatorPayment} />
+                  <View style={styles.checkContainer}>
+                    <View style={{ paddingTop: 20 }}>
                       <TextInput
-                        textInputStyle={styles.expirtyDate}
+                        textInputStyle={styles.cardTextinput}
                         labeStyle={styles.label}
-                        value={this.state.expirtyDate}
-                        keyBoardtype="number-pad"
-                        testID="cardExpiry"
-                        maxLenth={5}
+                        value={this.state.cardName}
+                        testID="cardNameInput"
                         onchangeText={(text) => {
+                          this.setState({ cardName: text })
+                        }
+                        }
+                        label="Name on card"
+                        placeholder="Enter name on card"
+                      />
+                      <TextInput
+                        textInputStyle={styles.cardTextinput}
+                        labeStyle={styles.label}
+                        keyBoardtype="number-pad"
+                        value={this.state.cardNumber}
+                        testID="cardNumber"
+                        onchangeText={(text) => {
+                          let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
+                          this.setState({ cardNumber: formattedCard })
+                        }
+                        }
+                        label="Card number"
+                        placeholder="Enter card number"
+                      />
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          width: "100%",
+                        }}
+                      >
+                        <TextInput
+                          textInputStyle={styles.expirtyDate}
+                          labeStyle={styles.label}
+                          value={this.state.expirtyDate}
+                          keyBoardtype="number-pad"
+                          testID="cardExpiry"
+                          maxLenth={5}
+                          onchangeText={(text) => {
 
-                          this.handleExpiryDate(text);
-                        }
-                        }
-                        label="Expiry Date"
-                        placeholder="12/12"
-                      />
-                      <View><Text>{"  "}</Text></View>
-                      <TextInput
-                        textInputStyle={styles.cvv}
-                        labeStyle={styles.label}
-                        value={this.state.cvv}
-                        keyBoardtype="number-pad"
-                        testID="cardCVV"
-                        maxLenth={3}
-                        onchangeText={(text) => {
-                          this.handleCVVTextInput(text)
-                        }
-                        }
-                        label="CVV"
-                        placeholder="123"
-                      />
+                            this.handleExpiryDate(text);
+                          }
+                          }
+                          label="Expiry Date"
+                          placeholder="12/12"
+                        />
+                        <View><Text>{"  "}</Text></View>
+                        <TextInput
+                          textInputStyle={styles.cvv}
+                          labeStyle={styles.label}
+                          value={this.state.cvv}
+                          keyBoardtype="number-pad"
+                          testID="cardCVV"
+                          maxLenth={3}
+                          onchangeText={(text) => {
+                            this.handleCVVTextInput(text)
+                          }
+                          }
+                          label="CVV"
+                          placeholder="123"
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
               </View>
             )}
 
@@ -312,7 +338,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                   this.getPaymentMethod()
                 } else {
                   this.handlePaymentSuccess()
-                  this.setState({showPaymentAlert: true})
+                  this.setState({ showPaymentAlert: true })
                 }
               }}
               button2Label="Cancel"
@@ -325,26 +351,8 @@ export default class StripeIntegration extends StripeIntegrationController {
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
           }} onpressContinue={() => {
-            // this.setState({ showPaymentAlert: false });
-            if (this.state.isOrderSuccess) {
-              if(this.state.paymentAlerttype === "PaymentSuccess") {
-                this.setState({ paymentAlerttype: "ThankYouForYourOder" },() => {  
-                  this.handlePaymentSuccess()
-                });
-              } else if(this.state.paymentAlerttype === "ThankYouForYourOder") {
-                this.setState({ paymentAlerttype: "ContinueToEmail" },() => {  
-                  this.handlePaymentSuccess()
-                });
-              } else {
-                this.setState({ showPaymentAlert: false });
-                this.props.navigation.navigate('InvoiceBilling')
-              }
-            }
-          }} customeText={this.state.customAlertText} iconImage={this.state.paymentAlerttype === "PaymentSuccess" ? 
-            require("../../StripeIntegration/assets/ic_check_circle_icon.png") :
-            this.state.paymentAlerttype === "ThankYouForYourOder" ? require("../../StripeIntegration/assets/ic_check_circle_icon.png") 
-            : this.state.paymentAlerttype === "PaymentFailed" ? require("../../StripeIntegration/assets/ic_exclamation_icon.png") 
-            : require("../../StripeIntegration/assets/ic_email_icon.png") }
+            this.handleContinueButton()
+          }} customeText={this.state.customAlertText} iconImage={this.getImageAsperAlert()}
             isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
         )}
       </SafeAreaView>
