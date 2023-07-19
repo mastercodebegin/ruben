@@ -325,11 +325,26 @@ export default class StripeIntegration extends StripeIntegrationController {
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
           }} onpressContinue={() => {
-            this.setState({ showPaymentAlert: false });
+            // this.setState({ showPaymentAlert: false });
             if (this.state.isOrderSuccess) {
-              this.props.navigation.navigate('InvoiceBilling')
+              if(this.state.paymentAlerttype === "PaymentSuccess") {
+                this.setState({ paymentAlerttype: "ThankYouForYourOder" },() => {  
+                  this.handlePaymentSuccess()
+                });
+              } else if(this.state.paymentAlerttype === "ThankYouForYourOder") {
+                this.setState({ paymentAlerttype: "ContinueToEmail" },() => {  
+                  this.handlePaymentSuccess()
+                });
+              } else {
+                this.setState({ showPaymentAlert: false });
+                this.props.navigation.navigate('InvoiceBilling')
+              }
             }
-          }} customeText={this.state.customAlertText} iconImage={require("../../OrderSummary/assets/cart.png")}
+          }} customeText={this.state.customAlertText} iconImage={this.state.paymentAlerttype === "PaymentSuccess" ? 
+            require("../../StripeIntegration/assets/ic_check_circle_icon.png") :
+            this.state.paymentAlerttype === "ThankYouForYourOder" ? require("../../StripeIntegration/assets/ic_check_circle_icon.png") 
+            : this.state.paymentAlerttype === "PaymentFailed" ? require("../../StripeIntegration/assets/ic_exclamation_icon.png") 
+            : require("../../StripeIntegration/assets/ic_email_icon.png") }
             isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
         )}
       </SafeAreaView>
