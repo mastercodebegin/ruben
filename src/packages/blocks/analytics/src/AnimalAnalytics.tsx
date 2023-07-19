@@ -13,6 +13,7 @@ import {cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow
 
 import AnalyticsController, { Props } from "./AnalyticsController";
 import AnimalChicken from "./AnimalChicken";
+import AnimalPig from "./AnimalPig";
 
 export default class AnimalAnalytics extends AnalyticsController {
   constructor(props: Props) {
@@ -150,6 +151,9 @@ export default class AnimalAnalytics extends AnalyticsController {
             }
             {this.state.animalSelectedValue == 'Chicken' &&
               <AnimalChicken navigation={undefined} id={""} setState={undefined} state={undefined} />
+            }
+            {this.state.animalSelectedValue == 'Pig' &&
+              <AnimalPig navigation={undefined} id={""} setState={undefined} state={undefined} />
             }
           </>
           <View style={styles.bottomContainer}>
