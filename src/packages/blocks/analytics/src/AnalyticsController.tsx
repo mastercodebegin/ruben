@@ -21,6 +21,7 @@ export interface Props {
   // Customizable Area Start
   setState: any;
   state: any;
+  animalSelectedValue: string;
   // Customizable Area End
 }
 
@@ -55,6 +56,17 @@ interface S {
   chicken_Back:boolean;
   chicken_Wing:boolean;
   chicken_Thigh:boolean;
+  pig:boolean;
+  pigHead:boolean;
+  pigJowl:boolean;
+  pigNeck:boolean;
+  pigShoulder:boolean;
+  pigPicnic:boolean;
+  pigHock:boolean;
+  pigBacon:boolean;
+  pigLegham:boolean;
+  pigRibs:boolean;
+  pigLoin:boolean;
   totalCuts: number;
   usedCuts: number;
   remianingCuts: number;
@@ -141,14 +153,25 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         title: 'Dog',
         id: 3,
       },],
-      animalSelectedValue:'Cow',
+      animalSelectedValue:'',
       chicken_Defult:true,
       chicken_Breast:false,
       chicken_Back:false,
       chicken_leg:false,
       chicken_Neck:false,
       chicken_Thigh:false,
-      chicken_Wing:false
+      chicken_Wing: false,
+      pig:true,
+      pigHead: false,
+      pigJowl: false,
+      pigNeck: false,
+      pigShoulder: false,
+      pigPicnic: false,
+      pigHock: false,
+      pigBacon: false,
+      pigLegham: false,
+      pigRibs: false,
+      pigLoin: false,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -198,6 +221,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         console.log("error===>",error);
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
+        console.log('resppppppp',list);
         
         this.setState({usedCuts: list.used_cuts});
         this.setState({remianingCuts: list.remaining_cuts});
@@ -297,9 +321,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(category.id, category);    
   }
 
-  clickOnChuck() {
+  common(){
     this.setState({ 
-      chuck: true,
+      chuck: false,
       cow_Defult: false,
       cowHead: false,
       cow_Fore_Shank:false,
@@ -311,234 +335,125 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Short_lion: false,
       cow_Rib: false,
       cow_Brisket:false   
+    })
+  }
+
+  clickOnChuck() {
+    this.common()
+    this.setState({ 
+      chuck: true,
     })
   }
   clickOnCowhead() {
-    this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: true,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false   
-    })
+    this.common()
+    this.setState({ cowHead: true})
   }
+
   clickOnCowRib() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: true,
-      cow_Brisket:false   
+      cow_Rib: true
     })
   }
   clickOnShortlion() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: true,
-      cow_Rib: false,
-      cow_Brisket:false   
+      cow_Short_lion: true
     })
   }
   clickOnSirlion() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
       cow_Sirllion: true,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false   
     })
   }
   clickOnRound() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: true,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false   
+      cow_Round: true 
     })
   }
   clickOnShank() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:true,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false   
+      cow_shank:true
     })
   }
   clickOnFlank() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:true,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false ,
-      cow_Brisket:false  
+      cow_Flank:true
     })
   }
   clickOnShortPlate() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:true,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false   
+      cow_Short_plate:true 
     })
   }
   clickOnForeShank() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
       cow_Fore_Shank:true,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
-      cow_Brisket:false  
     })
   }
   clickOnBrisket() {
+    this.common()
     this.setState({ 
-      chuck: false,
-      cow_Defult: false,
-      cowHead: false,
-      cow_Fore_Shank:false,
-      cow_Short_plate:false,
-      cow_Flank:false,
-      cow_shank:false,
-      cow_Round: false,
-      cow_Sirllion: false,
-      cow_Short_lion: false,
-      cow_Rib: false,
       cow_Brisket:true 
     })
   }
   // Chicken
-  clickOnChickenNeck(){
+  chickenCommn(){
     this.setState({
       chicken_Defult:false,
       chicken_Breast:false,
       chicken_Back:false,
       chicken_leg:false,
-      chicken_Neck:true,
+      chicken_Neck:false,
       chicken_Thigh:false,
       chicken_Wing:false
+    })
+  }
+  clickOnChickenNeck(){
+    this.chickenCommn()
+    this.setState({
+      chicken_Neck:true,
     })
   }
   clickOnChickenBack(){
+    this.chickenCommn()
     this.setState({
-      chicken_Defult:false,
-      chicken_Breast:false,
-      chicken_Back:true,
-      chicken_leg:false,
-      chicken_Neck:false,
-      chicken_Thigh:false,
-      chicken_Wing:false
+      chicken_Back:true
     })
   }
   clickOnChickenBreast(){
+    this.chickenCommn()
     this.setState({
-      chicken_Defult:false,
-      chicken_Breast:true,
-      chicken_Back:false,
-      chicken_leg:false,
-      chicken_Neck:false,
-      chicken_Thigh:false,
-      chicken_Wing:false
+      chicken_Breast:true
     })
   }
   clickOnChickenWing(){
+    this.chickenCommn()
     this.setState({
-      chicken_Defult:false,
-      chicken_Breast:false,
-      chicken_Back:false,
-      chicken_leg:false,
-      chicken_Neck:false,
-      chicken_Thigh:false,
       chicken_Wing:true
     })
   }
   clickOnChickenLeg(){
+    this.chickenCommn()
     this.setState({
-      chicken_Defult:false,
-      chicken_Breast:false,
-      chicken_Back:false,
-      chicken_leg:true,
-      chicken_Neck:false,
-      chicken_Thigh:false,
-      chicken_Wing:false
+      chicken_leg:true
     })
   }
   clickOnChickenThigh(){
+    this.chickenCommn()
     this.setState({
-      chicken_Defult:false,
-      chicken_Breast:false,
-      chicken_Back:false,
-      chicken_leg:false,
-      chicken_Neck:false,
-      chicken_Thigh:true,
-      chicken_Wing:false
+      chicken_Thigh:true
     })
+  }
+  getDataOfCat(item:any){
+    this.setState({animalSelectedValue: item?.attributes?.name})
+    console.log("get selected value: : : : : : ", this.state.animalSelectedValue)
   }
   // Customizable Area End
 }

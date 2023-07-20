@@ -5,23 +5,19 @@ import {
   View,
   // Customizable Area Start
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
   // Customizable Area End
 } from "react-native";
-import { pig, pigHead, pigHock, pigNeck, pigbacon } from "./assets";
+import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
-import { pigLeg } from "./assets";
-import { pigRibs } from "./assets";
-import { pigLoin } from "./assets";
-import { pigShoulder } from "./assets";
-import { pigpicnis } from "./assets";
-import { pigJowl } from "./assets";
 
 export default class AnimalPig extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    console.log("value== == == == ::::", this.props?.animalSelectedValue);
     // Customizable Area End
   }
 
@@ -115,113 +111,143 @@ export default class AnimalPig extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <View style={styles.animalImgCont}>
-        {this.state.pig &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pig}
-          />
+      <View style={styles.container}>
+        {this.props?.animalSelectedValue == 'Pig' &&
+          <View style={styles.animalImgContainer}>
+            <View style={styles.animalImgCont}>
+              {this.state.pig &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pig}
+                />
+              }
+              {this.state.pigHead &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigHead}
+                />
+              }
+              {this.state.pigHock &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigHock}
+                />
+              }
+              {this.state.pigBacon &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigbacon}
+                />
+              }
+              {this.state.pigNeck &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigNeck}
+                />
+              }
+              {this.state.pigLegham &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigLeg}
+                />
+              }
+              {this.state.pigRibs &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigRibs}
+                />
+              }
+              {this.state.pigLoin &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigLoin}
+                />
+              }
+              {this.state.pigShoulder &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigShoulder}
+                />
+              }
+              {this.state.pigPicnic &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigpicnis}
+                />
+              }
+              {this.state.pigJowl &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigJowl}
+                />
+              }
+              <TouchableOpacity onPress={() => { this.clickOnPigHead() }} style={styles.clickOnPigHead} testID="pigHead">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockRight} testID="pigHock">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockLeft} testID="pigHock">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigBacon() }} style={styles.clickOnPigBacon} testID="pigBacon">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigNeck() }} style={styles.clickOnPigNeck} testID="pigNeck">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPiglegham() }} style={styles.clickOnPigLegham} testID="pigLegham">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigRib() }} style={styles.clickOnPigRib} testID="pigRib">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigLoin() }} style={styles.clickOnPigLoin} testID="pigLoin">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigShoulder() }} style={styles.clickOnPigShoulder} testID="pigShoulder">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigPicnic() }} style={styles.clickOnPigPicnic} testID="pigPicnic">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnPigJowl() }} style={styles.clickOnPigJowl} testID="pigjowl">
+              </TouchableOpacity>
+            </View>
+            <View style={styles.bottomContainer}>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+                </View>
+                <Text style={styles.textStyle}>Remaining</Text>
+              </View>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+                </View>
+                <Text style={styles.textStyle}>Sold</Text>
+              </View>
+            </View>
+          </View>
         }
-        {this.state.pigHead &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigHead}
-          />
-        }
-        {this.state.pigHock &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigHock}
-          />
-        }
-        {this.state.pigBacon &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigbacon}
-          />
-        }
-        {this.state.pigNeck &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigNeck}
-          />
-        }
-         {this.state.pigLegham &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigLeg}
-          />
-        }
-         {this.state.pigRibs &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigRibs}
-          />
-        }
-        {this.state.pigLoin &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigLoin}
-          />
-        }
-        {this.state.pigShoulder &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigShoulder}
-          />
-        }
-        {this.state.pigPicnic &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigpicnis}
-          />
-        }
-        {this.state.pigJowl &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={pigJowl}
-          />
-        }
-        <TouchableOpacity onPress={() => { this.clickOnPigHead() }} style={styles.clickOnPigHead} testID="pigHead">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockRight} testID="pigHock">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockLeft} testID="pigHock">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigBacon() }} style={styles.clickOnPigBacon} testID="pigBacon">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigNeck() }} style={styles.clickOnPigNeck} testID="pigNeck">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPiglegham() }} style={styles.clickOnPigLegham} testID="pigLegham">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigRib() }} style={styles.clickOnPigRib} testID="pigRib">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigLoin() }} style={styles.clickOnPigLoin} testID="pigLoin">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigShoulder() }} style={styles.clickOnPigShoulder} testID="pigShoulder">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigPicnic() }} style={styles.clickOnPigPicnic} testID="pigPicnic">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnPigJowl() }} style={styles.clickOnPigJowl} testID="pigjowl">
-        </TouchableOpacity>
       </View>
+
       // Customizable Area End
     )
   }
 }
 // Customizable Area Start
 const styles = StyleSheet.create({
+  container: {
+    padding: 0
+  },
+  animalImgContainer: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginTop: 40
+  },
   animalImgCont: {
     width: 250,
     height: 200,
@@ -327,7 +353,27 @@ const styles = StyleSheet.create({
     bottom: 85,
     left: 36,
     borderTopLeftRadius: 15,
-  }
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 20
+  },
+  redDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 10
+  },
+  textStyle: {
+    fontSize: 20,
+    color: '#8D7D75'
+  },
 
 });
 // Customizable Area End
