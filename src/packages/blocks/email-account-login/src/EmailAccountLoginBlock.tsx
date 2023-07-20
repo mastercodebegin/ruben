@@ -1,10 +1,6 @@
 import React from "react";
 // Customizable Area Start
-import {
-  Alert,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Alert, SafeAreaView, TouchableWithoutFeedback } from "react-native";
 export const configJSON = require("./config");
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -73,6 +69,8 @@ export default class EmailAccountLoginBlock extends EmailAccountLoginController 
               onchangePassword={onchangePassword}
               email={this.state.email}
               password={this.state.password}
+              checked={this.state.checkedRememberMe}
+              setChecked={(val) => this.setState({ checkedRememberMe: val })}
               onpressSignup={onpressSignup}
               onpressLogin={this.onpressLoginButton.bind(this)}
               navigation={this.props.navigation}

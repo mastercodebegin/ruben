@@ -80,9 +80,7 @@ defineFeature(feature, (test) => {
       expect(mobileAccountLogInWrapper).toBeTruthy();
     });
 
-    then("I can toggle the Password Show/Hide with out errors", () => {
-  
-    });
+    then("I can toggle the Password Show/Hide with out errors", () => {});
 
     then("I can toggle the Remember Me with out errors", () => {
       let buttonComponent = mobileAccountLogInWrapper.findWhere(
@@ -258,6 +256,7 @@ defineFeature(feature, (test) => {
         }
       );
       instance.apiEmailLoginCallId = msgLogInSucessRestAPI.messageId;
+      instance.setState({ checkedRememberMe: true });
       runEngine.sendMessage("Unit Test", msgLogInSucessRestAPI);
     });
   });

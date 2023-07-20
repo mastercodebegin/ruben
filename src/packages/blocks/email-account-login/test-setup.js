@@ -6,7 +6,7 @@ import React from 'react';
 configure({ adapter: new Adapter() });
 jest.mock('@react-native-async-storage/async-storage',()=>({
     getItem:jest.fn(),
-    setItem:jest.fn()
+    setItem:jest.fn(()=>new Promise((resolve)=>resolve()))
 }))
 jest.mock('react-native-simple-toast',()=>({show:jest.fn()}))
 
@@ -16,4 +16,8 @@ jest.mock("../../components/src/utils", () => ({
       getState: jest.fn(() => "mocked state"),
       dispatch:jest.fn()
     }
-  }));  
+}));  
+jest.mock("../../framework/src/Utilities", () => ({
+  getStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
+  setStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
+}));

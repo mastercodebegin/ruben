@@ -12,6 +12,8 @@ interface LoginComponentTypes {
   onpressLogin: () => boolean;
   email: string;
   password: string;
+  checked: boolean;
+  setChecked: (val: boolean) => void;
 }
 
 /**
@@ -27,11 +29,12 @@ const LoginComponent = ({
   onpressLogin,
   email,
   password,
+  checked,
+  setChecked,
 }: LoginComponentTypes) => {
-  const onpressForgotPassword = (email:string) => {
-    navigation?.navigate("ForgotPassword",{email});
+  const onpressForgotPassword = (email: string) => {
+    navigation?.navigate("ForgotPassword", { email });
   };
-  const [checked, setChecked] = useState(false);
   return (
     <View style={styles.mainContainer}>
       <TextInput
@@ -57,7 +60,7 @@ const LoginComponent = ({
           <CheckBox checked={checked} setChecked={setChecked} />
           <Text style={styles.rememberText}>Remember Me</Text>
         </View>
-        <TouchableOpacity onPress={()=>onpressForgotPassword(email)}>
+        <TouchableOpacity onPress={() => onpressForgotPassword(email)}>
           <Text style={styles.text}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>

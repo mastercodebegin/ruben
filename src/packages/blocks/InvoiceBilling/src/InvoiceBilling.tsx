@@ -37,6 +37,14 @@ export default class InvoiceBilling extends InvoiceBillingController {
         navigation={this.props.navigation}
         headerText="Invoice"
         showsVerticalScrollIndicator={false}
+        onPressBackTestId="back_btn_test_id"
+        onPressBack={() => {
+          Alert.alert("Alert", "Are you sure you want to exit?", [{
+            text: 'yes', onPress: () => this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'LandingPage' }],
+          })},{text:'cancel'}])
+        }}
       >
         <View style={{ flex: 1, padding: 20 }}>
           <View style={styles.innerContainer}>

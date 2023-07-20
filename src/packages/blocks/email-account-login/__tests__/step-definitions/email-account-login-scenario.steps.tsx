@@ -117,6 +117,8 @@ defineFeature(feature, (test) => {
           onchangeEmail={jest.fn()}
           navigation={jest.fn()}
           onpressLogin={jest.fn()}
+          checked={false}
+          setChecked={() => {}}
           email="test@test.com"
           password="Qweqwe123!"
         />

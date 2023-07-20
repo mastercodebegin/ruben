@@ -4,12 +4,13 @@ import { shallow, ShallowWrapper } from "enzyme";
 import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import InvoiceBilling from "../../src/InvoiceBilling";
-import { render } from "@testing-library/react-native";
+import { fireEvent, render } from "@testing-library/react-native";
 import { Message } from "../../../../framework/src/Message";
 import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
+import { Alert } from "react-native";
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -109,6 +110,14 @@ defineFeature(feature, (test) => {
     });
 
     then("I can leave the screen with out errors", () => {
+      const showAlert = jest.spyOn(Alert, 'alert');
+
+      const { getByTestId  } = render(<InvoiceBilling {...screenProps} />);
+      fireEvent.press(getByTestId("back_btn_test_id"))
+
+    expect(showAlert).toHaveBeenCalledTimes(1);
+      expect(showAlert).toBeCalled();
+      
       instance.componentWillUnmount();
       expect(exampleBlockA).toBeTruthy();
     });
