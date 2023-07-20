@@ -274,16 +274,22 @@ export default class StripeIntegrationController extends BlockComponent<
    }
 
    handlePaymentSuccess = () => {
-    console.log("Check the status--->", this.state.paymentAlerttype)
     this.setState({isOrderSuccess : true})
-    this.setState({ customAlertText: this.state.paymentAlerttype === "PaymentSuccess" ? "Payment Successful" 
-    : this.state.paymentAlerttype === "ThankYouForYourOder" ? "Thank you for your order" :
-    "Check your E-mail" });
-    this.setState({ customAlertDesc: this.state.paymentAlerttype === "PaymentSuccess" ? "You earnd a discount coupon code. You can check this out in your profile or Reed Now!" :
-    this.state.paymentAlerttype === "ThankYouForYourOder" ?  `Your order number is ${this.props.route.params.orderNumber }` : "Check your email for order details" });
+    this.setAlertText()
     this.setState({showPaymentLoading: false})
    }
-
+   setAlertText = () => {
+    if (this.state.paymentAlerttype === "PaymentSuccess") {
+      this.setState({ customAlertText: "Payment Successful"})
+      this.setState({ customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!"})
+    } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
+      this.setState({ customAlertText: "Thank you for your order"})
+      this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber }`})
+    } else {
+      this.setState({ customAlertText: "Check your E-mail"})
+      this.setState({ customAlertDesc: "Check your email for order details"})
+    }
+   }
 
   async paymentApiCalled(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
