@@ -145,7 +145,7 @@ export default class StripeIntegration extends StripeIntegrationController {
         });
       } else {
         this.setState({ showPaymentAlert: false });
-        this.props.navigation.navigate('InvoiceBilling')
+        this.props.navigation.navigate('InvoiceBilling',this.props.route.params)
       }
     }
   }
