@@ -5,7 +5,8 @@ import {
   View,
   // Customizable Area Start
   TouchableOpacity,
-  Image
+  Image,
+  Text
   // Customizable Area End
 } from "react-native";
 import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
@@ -16,6 +17,7 @@ export default class AnimalChicken extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    console.log("value== == == == ::::", this.props?.animalSelectedValue);
     // Customizable Area End
   }
 
@@ -26,68 +28,90 @@ export default class AnimalChicken extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <View style={styles.animalImgCont}>
-        {this.state.chicken_Defult &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken}
-          />
+
+      <View style={styles.container}>
+        {this.props?.animalSelectedValue == 'Chicken' &&
+          <View style={styles.animalImgContainer}>
+
+            <View style={styles.animalImgCont}>
+              {
+                this.state.chicken_Defult &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken}
+                />
+              }
+              {this.state.chicken_Neck &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_Neck}
+                />
+              }
+              {this.state.chicken_Back &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_Back}
+                />
+              }
+              {this.state.chicken_Breast &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_Breast}
+                />
+              }
+              {this.state.chicken_Wing &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_Wing}
+                />
+              }
+              {this.state.chicken_leg &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_leg}
+                />
+              }
+              {this.state.chicken_Thigh &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={chicken_Thigh}
+                />
+              }
+              <TouchableOpacity onPress={() => { this.clickOnChickenNeck() }} style={styles.clickOnChickenNeck} testID="chickenNeck">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnChickenBack() }} style={styles.clickOnChickenBack} testID="chickenback">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnChickenBreast() }} style={styles.clickOnChickenBreast} testID="chickenBreast">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnChickenWing() }} style={styles.clickOnChickenWing} testID="chickenWing">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnChickenLeg() }} style={styles.clickOnChickenLeg} testID="chickenLeg">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnChickenThigh() }} style={styles.clickOnChickenThigh} testID="chickenThigh">
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.bottomContainer}>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+                </View>
+                <Text style={styles.textStyle}>Remaining</Text>
+              </View>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+                </View>
+                <Text style={styles.textStyle}>Sold</Text>
+              </View>
+            </View>
+          </View>
         }
-        {this.state.chicken_Neck &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_Neck}
-          />
-        }
-        {this.state.chicken_Back &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_Back}
-          />
-        }
-        {this.state.chicken_Breast &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_Breast}
-          />
-        }
-        {this.state.chicken_Wing &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_Wing}
-          />
-        }
-        {this.state.chicken_leg &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_leg}
-          />
-        }
-        {this.state.chicken_Thigh &&
-          <Image
-            style={styles.animalImg}
-            resizeMode="contain"
-            source={chicken_Thigh}
-          />
-        }
-        <TouchableOpacity onPress={() => { this.clickOnChickenNeck() }} style={styles.clickOnChickenNeck} testID="chickenNeck">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnChickenBack() }} style={styles.clickOnChickenBack} testID="chickenback">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnChickenBreast() }} style={styles.clickOnChickenBreast} testID="chickenBreast">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnChickenWing() }} style={styles.clickOnChickenWing} testID="chickenWing">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnChickenLeg() }} style={styles.clickOnChickenLeg} testID="chickenLeg">
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { this.clickOnChickenThigh() }} style={styles.clickOnChickenThigh} testID="chickenThigh">
-        </TouchableOpacity>
       </View>
       // Customizable Area End
     )
@@ -95,8 +119,16 @@ export default class AnimalChicken extends AnalyticsController {
 }
 // Customizable Area Start
 const styles = StyleSheet.create({
+  container: {
+    padding: 0
+  },
   animalImgContainer: {
-    padding: 1,
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    marginTop: 40
   },
   hoverView: {
     alignItems: 'center',

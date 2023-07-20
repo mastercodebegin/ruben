@@ -9,16 +9,16 @@ import {
   Image
   // Customizable Area End
 } from "react-native";
-import {cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
+import { cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
-import AnimalChicken from "./AnimalChicken";
-import AnimalPig from "./AnimalPig";
 
 export default class AnimalAnalytics extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    console.log("value== == == == ::::", this.props?.animalSelectedValue);
+    
     // Customizable Area End
   }
 
@@ -30,9 +30,9 @@ export default class AnimalAnalytics extends AnalyticsController {
     return (
       // Customizable Area Start
       <View style={styles.container}>
-        <View style={styles.animalImgContainer}>
-          <>
-            {this.state.animalSelectedValue == 'Cow' &&
+        {this.props?.animalSelectedValue == 'Eggs' &&
+          <View style={styles.animalImgContainer}>
+            <>
               <View style={styles.animalImgCont}>
                 {this.state.cow_Defult &&
                   <Image
@@ -148,27 +148,28 @@ export default class AnimalAnalytics extends AnalyticsController {
                 <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket} testID="cowBrisket">
                 </TouchableOpacity>
               </View>
+
+              {/* {this.props?.animalSelectedValue == 'Chicken' &&
+              <AnimalChicken   navigation={undefined} id={""} setState={undefined} state={undefined} animalSelectedValue={"Chicken"} />
             }
-            {this.state.animalSelectedValue == 'Chicken' &&
-              <AnimalChicken navigation={undefined} id={""} setState={undefined} state={undefined} />
-            }
-            {this.state.animalSelectedValue == 'Pig' &&
-              <AnimalPig navigation={undefined} id={""} setState={undefined} state={undefined} />
-            }
-          </>
-          <View style={styles.bottomContainer}>
-            <View style={styles.rowContainer}>
-              <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+            {this.props?.animalSelectedValue == 'Pig' &&
+              <AnimalPig navigation={undefined} id={""} setState={undefined} state={undefined} animalSelectedValue={"Pig"} />
+            } */}
+            </>
+            <View style={styles.bottomContainer}>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+                </View>
+                <Text style={styles.textStyle}>Remaining</Text>
               </View>
-              <Text style={styles.textStyle}>Remaining</Text>
-            </View>
-            <View style={styles.rowContainer}>
-              <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+                </View>
+                <Text style={styles.textStyle}>Sold</Text>
               </View>
-              <Text style={styles.textStyle}>Sold</Text>
             </View>
           </View>
-        </View>
+        }
       </View>
       // Customizable Area End
     );
@@ -179,15 +180,15 @@ export default class AnimalAnalytics extends AnalyticsController {
 const styles = StyleSheet.create({
 
   container: {
+   padding:0
+  },
+  animalImgContainer: {
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
-  },
-  animalImgContainer: {
-    padding: 1,
   },
   hoverView: {
     alignItems: 'center',
