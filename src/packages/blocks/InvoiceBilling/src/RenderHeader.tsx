@@ -3,30 +3,34 @@ import { View, Text } from "react-native";
 import { styles } from "./InvoiceBilling";
 import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
-import moment from "moment";
-
-const RenderHeader = () => {
-  let todayDate = new Date()
-  let formattedDate = (moment(todayDate)).format('DD-MMM-YYYY')
+const RenderHeader = ({ data}:any) => {
+  const date = new Date();
+  
+const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  const formattedDate = date.toLocaleString('en-US', options);
+  const getDeliveryDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    const formattedDate = date.toLocaleString('en-US', options);
+    return formattedDate;
+  }
   return (
     <View>
       <Text style={styles.date}>
         {"Date : "} <Text style={styles.boldDate}>{formattedDate}</Text>
       </Text>
       <Text style={styles.date}>
-        {"Due Date : "} <Text style={styles.boldDate}>{formattedDate}</Text>
+        {"Due Date : "} <Text style={styles.boldDate}>{getDeliveryDate()}</Text>
       </Text>
       <View style={styles.greyContainer}>
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>
           {"Bill to"}
         </Text>
-        <Text style={styles.text}>{"Reactial"}</Text>
-        <Text style={styles.text}>{"Vat. No. 123123132"}</Text>
-        <Text style={styles.text}>{"11 stone Road"}</Text>
-        <Text style={styles.text}>{"Clinton , NJ 0809000"}</Text>
-        <Text style={cstyle.bill}>{"Bill to"}</Text>
-        <Text style={styles.text}>{"11 stone Road"}</Text>
-        <Text style={styles.text}>{"Clinton , NJ 0809000"}</Text>
+        <Text style={styles.text}>{data.name}</Text>
+        <Text style={styles.text}>{data.address}</Text>
+        <Text style={cstyle.bill}>{"Shipping Address"}</Text>
+        <Text style={styles.text}>{data.name}</Text>
+        <Text style={styles.text}>{data.address}</Text>
       </View>
       <View
         style={{

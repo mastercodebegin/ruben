@@ -14,3 +14,11 @@ jest.mock('react-native-share',()=>({
 jest.mock('../../components/src/utils',()=>({
     downloadFiles:jest.fn()
 }))
+jest.mock("@react-native-async-storage/async-storage", () => ({
+    getItem: jest.fn((key) => {
+      return new Promise((resolve) => {
+        resolve(JSON.stringify({ meta: { token: "rtretwftyweyfwtfeytwf" } }));
+      });
+    }),
+    setItem: jest.fn(),
+  }));

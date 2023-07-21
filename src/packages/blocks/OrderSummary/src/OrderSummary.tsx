@@ -18,6 +18,7 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import OrderSummaryController from "./OrderSummaryController";
 import PaymentDetails from "./PaymentDetails";
 import {BLACK, DARK_RED, WHITE} from "../../landingpage/src/colors";
+import CommonLoader from "../../../components/src/CommonLoader";
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -98,6 +99,7 @@ export default class OrderSummary extends OrderSummaryController {
                 image={removeImage}
               />
             </View>
+              {!this.state.lifetimeSubscription &&
             <View style={styles.lifetimeSub}>
               <View style={styles.cartImageContainer}>
                 <Image resizeMode="contain" style={styles.cartImage} source={require('../assets/cart.png')}/>
@@ -105,11 +107,11 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.lifetimeSubContent}>
                 <Text style={styles.lifetimeSubHeading}>Lifetime Subscription</Text>
                 <Text style={styles.lifetimeSubText}>one-time purchase and lasts a lifetime</Text>
-                <TouchableOpacity style={styles.lifetimeSubButton}>
+                <TouchableOpacity style={styles.lifetimeSubButton} onPress={this.lifetimeSubClicked}>
                   <Text style={styles.lifetimeSubPrice}>{"$5.00"}</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View>}
             <View style={styles.itemsContainer}>
               <View style={styles.headerContainer}>
                 <Text style={styles.addedItemsHeader}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
@@ -124,12 +126,8 @@ export default class OrderSummary extends OrderSummaryController {
                       quantity={item.attributes?.quantity}
                       index={index}
                       image={item.attributes?.catalogue?.data?.attributes?.images[0]}
-                      onpressRemove={(index:number)=>{
-                        const array = [...this.state.productsList]
-                          array.splice(index, 1);
-                          this.setState({productsList:array})
-                      }}
-                      //onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
+                      onpressRemove={()=>this.removeFromCart(item?.id)}
+                      onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.orderId,res)}
                     />
                   </View>
                 )})}
@@ -163,10 +161,11 @@ export default class OrderSummary extends OrderSummaryController {
                 header="PAYMENT DETAILS"
                 list={[
                   { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
-                  { question: "Discount", ans: `- $${this.state.discount.toFixed(2)} (${(this.state.discount / this.state.subtotal * 100).toFixed(2)}%)` },
+                  { question: "Discount", ans: `- $${(this.state.subtotal * 0.1).toFixed(2)} (10%)` },
+                  { question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscription ? '5.00' : '0.00'}`  },
                   { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
-                footer={{question: "Total", ans: `$${(this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2)}`}}
+                footer={{question: "Total", ans: `$${ this.state.lifetimeSubscription ? (this.state.subtotal - this.state.discount + this.state.shipping + 5.0).toFixed(2) :  (this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2) }`}}
               />
             </View>
             {this.state.selectedTab === "pickup" ? (
@@ -204,7 +203,7 @@ export default class OrderSummary extends OrderSummaryController {
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>10 Meat Storage at a time</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Payment Options</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Time Service Available</Text>
-                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Platinum' ? '' : 'Platinum'})}>
+                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Platinum' ? 'Basic' : 'Platinum'})}>
                       <Text style={[styles.addMeatStorageButtonText, {color: this.state.currentStorageClass === 'Platinum' ? BLACK : PRIMARY}]}>
                         {this.state.currentStorageClass === 'Platinum' ? 'Remove' : 'Add Storage'}
                       </Text>
@@ -235,6 +234,7 @@ export default class OrderSummary extends OrderSummaryController {
             />
           </View>
         </HeaderWithBackArrowTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
       </SafeAreaView>
     );
   }
