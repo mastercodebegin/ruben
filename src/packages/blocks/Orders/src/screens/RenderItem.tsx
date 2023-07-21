@@ -5,7 +5,9 @@ import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/consta
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
 
+
 const monthShortNames = [
+    
     "JAN",
     "FEB",
     "MAR",
