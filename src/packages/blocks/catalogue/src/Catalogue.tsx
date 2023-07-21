@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 // Customizable Area End
 
 import CatalogueController, { Props } from "./CatalogueController";
+
 export default class Catalogue extends CatalogueController {
   constructor(props: Props) {
     super(props);
@@ -21,12 +22,9 @@ export default class Catalogue extends CatalogueController {
   }
 
   // Customizable Area Start
-  // Customizable Area End
-
   getList(item: any) {
     let value = item.item.attributes;
     return (
-      // Customizable Area Start
       <View style={styles.productBox}>
         <View style={styles.ImgContainer}>
           {value && value.images && value.images.length > 0 && value.images[0].url &&
@@ -51,9 +49,10 @@ export default class Catalogue extends CatalogueController {
           </View>
         </View>
       </View>
-      // Customizable Area End
     );
   }
+  // Customizable Area End
+  
   render() {
     return (
       //Merge Engine DefaultContainer
