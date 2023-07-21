@@ -21,6 +21,9 @@ export default class Catalogue extends CatalogueController {
     // Customizable Area End
   }
 
+  // Customizable Area Start
+  // Customizable Area End
+  
   getList(item: any) {
     let value = item.item.attributes;
     return (
@@ -52,7 +55,6 @@ export default class Catalogue extends CatalogueController {
       // Customizable Area End
     );
   }
-
   render() {
     return (
       //Merge Engine DefaultContainer
