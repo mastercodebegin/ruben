@@ -22,7 +22,9 @@ export default class AnimalChicken extends AnalyticsController {
   }
 
   // Customizable Area Start
+  async componentDidMount() {
 
+  }
   // Customizable Area End
 
   render() {
@@ -32,7 +34,6 @@ export default class AnimalChicken extends AnalyticsController {
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Chicken' &&
           <View style={styles.animalImgContainer}>
-
             <View style={styles.animalImgCont}>
               {
                 this.state.chicken_Defult &&

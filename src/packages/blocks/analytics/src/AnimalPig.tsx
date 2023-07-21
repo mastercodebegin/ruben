@@ -12,16 +12,17 @@ import {
 import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
-
 export default class AnimalPig extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
-    console.log("value== == == == ::::", this.props?.animalSelectedValue);
     // Customizable Area End
   }
 
   // Customizable Area Start
+  async componentDidMount() {
+
+  }
   pigCommn() {
     this.setState({
       pig: false,
@@ -126,8 +127,7 @@ export default class AnimalPig extends AnalyticsController {
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
-                  source={pigHead}
-                />
+                  source={pigHead} />
               }
               {this.state.pigHock &&
                 <Image
@@ -373,7 +373,6 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 20,
     color: '#8D7D75'
-  },
-
+  }
 });
 // Customizable Area End

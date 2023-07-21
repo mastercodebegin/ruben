@@ -453,7 +453,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
   getDataOfCat(item:any){
     this.setState({animalSelectedValue: item?.attributes?.name})
-    console.log("get selected value: : : : : : ", this.state.animalSelectedValue)
   }
   // Customizable Area End
 }

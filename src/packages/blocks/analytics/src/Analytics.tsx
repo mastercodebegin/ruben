@@ -22,11 +22,12 @@ import { store } from "../../../components/src/utils";
 import Calendar from "../../../components/src/Calendar";
 import moment from "moment";
 import { Dropdown } from "../../../components/src/DropDown/src";
+import AnimalChicken from "./AnimalChicken";
+import AnimalPig from "./AnimalPig";
+
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
-import AnimalChicken from "./AnimalChicken";
-import AnimalPig from "./AnimalPig";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -158,7 +159,7 @@ export default class Analytics extends AnalyticsController {
                             let date = momentObj.format('YYYY-MM-DD')
                             this.setState({ startDate: data })
                             this.setState({ endDate: date })
-                            this.getAnalyticData()
+                            this.getAnalyticData(this.state.category_id)
                           }
                           } />
                         </View>
@@ -196,7 +197,6 @@ export default class Analytics extends AnalyticsController {
                     onChange={(item: any) => {
                       this.setState({ category_id: item?.id })
                       this.setState({ category_title: item?.attributes?.name })
-                      // this.setState({ animalSelectedValue: item?.title })
                       this.getAnalyticData(this.state.category_id)
                       this.getDataOfCat(item)
                     }}
