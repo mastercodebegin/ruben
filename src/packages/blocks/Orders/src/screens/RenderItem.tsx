@@ -1,7 +1,7 @@
 import React from "react"
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native"
 import { styles } from './MyOrdersScreen'
-import { DARK_RED, LIGHT_GREY } from "../../../../components/src/constants";
+import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/constants";
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
 
@@ -21,13 +21,19 @@ const monthShortNames = [
 ];
 
 const RenderItem = ({ item }: any) => {
-    const date = new Date(item?.attributes?.delivered_at)
+    const date = new Date(item?.attributes?.delivered_at);
 
     return (
-        <View style={rstyles.main}>
+        <View>
+            <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={rstyles.date}>
                 {`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}
             </Text>
+                <TouchableOpacity>
+                    <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
+                </TouchableOpacity>            
+            </View>
+        <View style={rstyles.main}>
             <View style={rstyles.imageContainer}>
                 <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
                 <View style={rstyles.inner}>
@@ -38,20 +44,6 @@ const RenderItem = ({ item }: any) => {
                         <Text style={styles.price}>
                             {`$ ${item?.attributes?.price
                                 } X ${item?.attributes?.quantity}`}
-                        </Text>
-                    </View>
-                    <View style={styles.row}>
-                        <View style={styles.counterContainer}>
-                            <TouchableOpacity style={styles.button}>
-                                <Text style={styles.count}>{'-'}</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.counter}>{item?.attributes?.quantity}</Text>
-                            <TouchableOpacity style={styles.button}>
-                                <Text style={styles.count}>{'+'}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={rstyles.price}>
-                            {`$${Number(item?.attributes?.price) * Number(item?.attributes?.quantity)}`}
                         </Text>
                     </View>
                 </View>
@@ -65,6 +57,7 @@ const RenderItem = ({ item }: any) => {
             <View style={rstyles.deliveryEstimater}>
                 <View style={rstyles.estimater} />
             </View>
+        </View>
         </View>
     )
 }
