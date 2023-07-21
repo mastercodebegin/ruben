@@ -19,11 +19,7 @@ export default class AnimalAnalytics extends AnalyticsController {
     // Customizable Area Start
     // Customizable Area End
   }
-  // Customizable Area Start
-  async componentDidMount() {
 
-  }
- // Customizable Area End
   render() {
     return (
       // Customizable Area Start

@@ -20,9 +20,6 @@ export default class AnimalPig extends AnalyticsController {
   }
 
   // Customizable Area Start
-  async componentDidMount() {
-
-  }
   pigCommn() {
     this.setState({
       pig: false,
