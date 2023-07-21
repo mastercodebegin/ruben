@@ -23,7 +23,8 @@ const screenProps = {
         pop: jest.fn(),
         replace: jest.fn(),
     },
-    id: "Analytics"
+    id: "Analytics",
+    route: {},
 
 }
 
@@ -192,7 +193,5 @@ defineFeature(feature, (test) => {
             );
             expect(getByTestId('dropdown-wrapper')).toBeTruthy();
         });
-
-
     });
 });
