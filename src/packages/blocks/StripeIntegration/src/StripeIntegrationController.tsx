@@ -11,6 +11,7 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { showToast } from "../../../components/src/ShowToast";
+export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -51,6 +52,7 @@ interface S {
   cvv: string;
   isOrderSuccess: boolean;
   paymentMethodType: "Card" | "Cod";
+  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail";
   // Customizable Area Start
   // Customizable Area End
 }
@@ -94,6 +96,7 @@ export default class StripeIntegrationController extends BlockComponent<
       cvv: "",
       isOrderSuccess: false,
       paymentMethodType: "Card",
+      paymentAlerttype: "PaymentSuccess",
       customAlertText: "",
       customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!",
       // Customizable Area Start
@@ -254,6 +257,7 @@ export default class StripeIntegrationController extends BlockComponent<
     fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => {
+        console.log("result-->",result);
         let json = JSON.parse(result)
         this.paymentApiCalled(json.id, 4)
       })
@@ -271,11 +275,21 @@ export default class StripeIntegrationController extends BlockComponent<
 
    handlePaymentSuccess = () => {
     this.setState({isOrderSuccess : true})
-    this.setState({ customAlertText: "Thank you for your order" });
-    this.setState({ customAlertDesc: "Your order number is 222222423232232" });
+    this.setAlertText()
     this.setState({showPaymentLoading: false})
    }
-
+   setAlertText = () => {
+    if (this.state.paymentAlerttype === "PaymentSuccess") {
+      this.setState({ customAlertText: "Payment Successful"})
+      this.setState({ customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!"})
+    } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
+      this.setState({ customAlertText: "Thank you for your order"})
+      this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber }`})
+    } else {
+      this.setState({ customAlertText: "Check your E-mail"})
+      this.setState({ customAlertDesc: "Check your email for order details"})
+    }
+   }
 
   async paymentApiCalled(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -298,15 +312,18 @@ export default class StripeIntegrationController extends BlockComponent<
       body: raw,
       redirect: 'follow'
     };
-
-    fetch("https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe/bx_block_stripe_integration/payments", requestOptions)
+    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments`
+    console.log("cehck url-->", url)
+    fetch(`${url}`, requestOptions)
       .then(response => response.text())
       .then(result => {
         let json = JSON.parse(result)
         if (json.errors) {
+          console.log("result-->",json.errors);
           this.handlePaymentFailed()
         } else {
           console.log("result-->",result);
+          this.setState({paymentAlerttype: "PaymentSuccess"})
           this.handlePaymentSuccess()
         }
       })

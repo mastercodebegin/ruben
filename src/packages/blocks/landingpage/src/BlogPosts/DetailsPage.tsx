@@ -14,9 +14,10 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Header } from "./Header";
-import { sampleProfile, shareIcon, playIcon, pause ,replay} from "../assets";
+import {  shareIcon, playIcon, pause ,replay} from "../assets";
 import Video from "react-native-video";
 import { showToast } from "../../../../components/src/ShowToast";
+const sampleProfile = require('../../assets/logo.png')
 
 const arrowLeft = require("../../../../components/src/arrow_left.png");
 

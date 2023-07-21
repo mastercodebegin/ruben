@@ -21,8 +21,8 @@ export default class MyCart extends MyCartController {
   render() {
     const getTotalPrice=()=>{
       const array =[...this.state.productsList]
-      const totalPrice= array.reduce((accumulator, item:any) => {        
-        return accumulator +item.attributes?.catalogue?.data?.attributes?.price;
+      const totalPrice = array.reduce((accumulator, item: any) => {                
+        return accumulator +item.attributes?.catalogue?.data?.attributes?.price * item.attributes?.quantity;
       }, 0);
       return totalPrice;
     }
@@ -84,7 +84,7 @@ export default class MyCart extends MyCartController {
                   <View style={styles.answerContainer}>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{`$ ${getTotalPrice()}`}</Text>
+                      <Text style={styles.answer}>{`$ ${Number(getTotalPrice()).toFixed(2)}`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
@@ -98,7 +98,7 @@ export default class MyCart extends MyCartController {
                   <View style={styles.seperator} />
                   <View style={[styles.row, { paddingHorizontal: 20 }]}>
                     <Text style={styles.paymentText}>Total</Text>
-                    <Text style={styles.answer}>{`$${getTotal()}`}</Text>
+                    <Text style={styles.answer}>{`$${Number(getTotal()).toFixed(2)}`}</Text>
                   </View>
                 </View>
                 <Text style={styles.termsAndCondition}>
@@ -120,8 +120,8 @@ export default class MyCart extends MyCartController {
             renderItem={({item,index}:any) => { 
               return (
                 <ProductDetailComponent
-                name={item.attributes?.catalogue?.data?.attributes?.name}
-                price={item.attributes?.catalogue?.data?.attributes?.price}
+                name={item?.attributes?.catalogue?.data?.attributes?.categoryCode}
+                price={Number(item.attributes?.catalogue?.data?.attributes?.price).toFixed(2)}
                 quantity={item.attributes?.quantity}
                 index={index}
                 image={item.attributes?.catalogue?.data?.attributes?.images[0]}
