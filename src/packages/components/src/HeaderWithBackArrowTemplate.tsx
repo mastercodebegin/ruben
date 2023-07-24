@@ -48,7 +48,7 @@ const HeaderWithBackArrowTemplate = ({
       <View style={styles.main}>
         <View style={styles.headerContainer}>
           <TouchableOpacity
-            testID={onPressBackTestId}
+            testID={'back_btn_test_id'}
             style={{ padding: 5 }}
             onPress={onPressBack ? onPressBack : () => navigation.goBack()}
           >
