@@ -116,8 +116,8 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
           show_loader: false,
           favoritesList: Favorites.data || [],
         });
-        console.log("favoritesList == == == =::",this.state.favoritesList);
-        
+        console.log("favoritesList == == == =::", this.state.favoritesList);
+
       }
     }
   }
