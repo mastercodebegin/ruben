@@ -7,9 +7,11 @@ import {
   StyleSheet,
   Text,
   Alert,
+  ImageBackground,
+  Dimensions,
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
-import { WHITE, DARK_RED, badge } from "../assets";
+import { WHITE, DARK_RED, badge, MID_PEACH, LIGHT_GREY, PRIMARY, CART } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { Message } from "../../../../framework/src/Message";
 import { BlockComponent } from "../../../../framework/src/BlockComponent";
@@ -21,6 +23,9 @@ import { runEngine } from "../../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const configJSON = require("../config");
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 export interface Props {
   navigation: any;
@@ -111,6 +116,8 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
           show_loader: false,
           favoritesList: Favorites.data || [],
         });
+        console.log("favoritesList == == == =::",this.state.favoritesList);
+        
       }
     }
   }
@@ -125,55 +132,119 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
             <CommonLoader visible={this.state.show_loader} />
           </View>
         ) : (
-          <View style={styles.flex}>
+          <View>
             <FlatList
               data={this.state.favoritesList}
-              showsVerticalScrollIndicator={false}
+              numColumns={1}
               contentContainerStyle={styles.contentContainer}
               bounces={false}
               renderItem={({ item }) => {
-                if (!item?.attributes?.catalogue_id?.data) {
-                  return <></>;
-                }
+                // if (!item?.attributes?.catalogue_id?.data) {
+                //   return <></>;
+                // }
+                console.log('itttttmmmmmmm', item);
                 return (
-                  <View style={styles.main}>
-                    <Image
-                      resizeMode="stretch"
-                      style={styles.image}
-                      source={{
-                        uri:
-                          item?.attributes?.catalogue_id?.data?.attributes
-                            ?.images[0]?.url,
-                      }}
-                    />
-                    <View style={styles.renderContainer}>
-                      <Text style={styles.text}>
-                        {item?.attributes?.catalogue_id?.data?.attributes?.name}
-                      </Text>
-                      <View style={styles.row}>
-                        <Text style={styles.text}>
-                          ${" "}
-                          {
-                            item?.attributes?.catalogue_id?.data?.attributes
-                              ?.price
-                          }
+                  // <View style={styles.main}>
+                  //   <Image
+                  //     resizeMode="stretch"
+                  //     style={styles.image}
+                  //     source={{
+                  //       uri:
+                  //         item?.attributes?.catalogue_id?.data?.attributes
+                  //           ?.images[0]?.url,
+                  //     }}
+                  //   />
+                  //   <View style={styles.renderContainer}>
+                  //     <Text style={styles.text}>
+                  //       {item?.attributes?.catalogue_id?.data?.attributes?.name}
+                  //     </Text>
+                  //     <View style={styles.row}>
+                  //       <Text style={styles.text}>
+                  //         ${" "}
+                  //         {
+                  //           item?.attributes?.catalogue_id?.data?.attributes
+                  //             ?.price
+                  //         }
+                  //       </Text>
+                  //       <Text style={styles.kg}>{" / kg"}</Text>
+                  //     </View>
+                  //   </View>
+                  //   <View style={styles.descriptionContainer}>
+                  //     <Text style={styles.description}>
+                  //       {
+                  //         item?.attributes?.catalogue_id?.data?.attributes
+                  //           ?.description
+                  //       }
+                  //     </Text>
+                  //     <View>
+                  //       <TouchableOpacity style={styles.badgeButton}>
+                  //         <Image style={styles.badge} source={badge} />
+                  //       </TouchableOpacity>
+                  //     </View>
+                  //   </View>
+                  // </View>
+
+                  <View style={styles.FavContainer}>
+                    <TouchableOpacity
+                      testID={'navigateToProductDetailScreen'}
+                      // onPress={() =>
+                      //   this.props.navigation.navigate("ProductDetailScreen", {
+                      //     id:item?.id,
+                      //     description: item?.attributes?.catalogue_id?.data?.attributes?.description,
+                      //     name: item?.attributes?.catalogue_id?.data?.attributes?.name,
+                      //     price: item?.attributes?.catalogue_id?.data?.attributes?.price,
+                      //   })
+                      // }
+                      style={styles.renderContainer}
+                    >
+                      <ImageBackground
+                        resizeMode="stretch"
+                        style={[
+                          item?.attributes?.catalogue_id
+                            ?.data?.attributes?.productImage
+                            ? styles.itemImage
+                            : styles.itemNoImage,
+                        ]}
+                        source={{
+                          uri: item?.attributes?.catalogue_id
+                            ?.data?.attributes?.productImage
+                        }}
+                      >
+                        <View style={styles.offerContainer}>
+                          <Text style={styles.offer}>
+                            {`${item?.attributes?.catalogue_id?.data?.attributes?.discount ? item?.attributes?.catalogue_id?.data?.attributes?.discount : " "}` + " % off"}
+                          </Text>
+
+                          <TouchableOpacity
+                            testID={"removeFavList"}
+                            // onPress={() => this.removeFavListProduct(item?.id)}
+                            style={styles.badgeContainer}
+                          >
+                            <Image resizeMode="contain" style={styles.badge} source={badge} />
+                          </TouchableOpacity>
+                        </View>
+                      </ImageBackground>
+                      <View style={{ paddingHorizontal: 15 }}>
+                        <Text style={styles.productName}>{item?.attributes?.catalogue_id
+                          ?.data?.attributes?.name ? item?.attributes?.catalogue_id
+                            ?.data?.attributes?.name : ' '}</Text>
+                        <Text style={styles.favdescription} numberOfLines={1}>
+                          {item?.attributes?.catalogue_id?.data?.attributes?.description}
                         </Text>
-                        <Text style={styles.kg}>{" / kg"}</Text>
+                        <View style={styles.priceContainer}>
+                          <Text style={styles.price}>
+                            {`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}` + "/Kg"}
+                          </Text>
+                          <TouchableOpacity
+                            testID={"addtocart"}
+                            // onPress={() => this.addToCart(item?.id)}
+                            style={styles.FavcartContainer}
+                          >
+                            <Image resizeMode="contain" style={styles.Favcart} source={CART} />
+                          </TouchableOpacity>
+                        </View>
                       </View>
-                    </View>
-                    <View style={styles.descriptionContainer}>
-                      <Text style={styles.description}>
-                        {
-                          item?.attributes?.catalogue_id?.data?.attributes
-                            ?.description
-                        }
-                      </Text>
-                      <View>
-                        <TouchableOpacity style={styles.badgeButton}>
-                          <Image style={styles.badge} source={badge} />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 );
               }}
@@ -190,28 +261,22 @@ export default class MyFavorites extends BlockComponent<Props, S, SS> {
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: WHITE,
+    backgroundColor: LIGHT_GREY,
     paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 20,
-    overflow: "hidden",
-    marginBottom: 15,
-    borderRadius: 15,
   },
-  image: { height: 200, width: "100%", borderRadius: 15 },
   text: {
     color: DARK_RED,
     fontWeight: "bold",
     fontSize: 18,
   },
-  kg: {
-    fontSize: 17,
-    color: DARK_RED,
-  },
   renderContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    backgroundColor: WHITE,
+    width: deviceWidth * 0.77,
+    marginRight: 20,
+    overflow: "hidden",
+    paddingHorizontal: 10,
     paddingTop: 10,
+    borderRadius: 20,
   },
   description: {
     flexDirection: "row",
@@ -231,8 +296,72 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
-  descriptionContainer: { flexDirection: "row", width: "100%" },
-  contentContainer: { paddingHorizontal: 20 },
+  contentContainer: { paddingHorizontal: 10 },
   flex: { flex: 1 },
   row: { flexDirection: "row" },
+
+  FavContainer: {
+    padding: 0
+  },
+  itemImage: {
+    height: deviceHeight * 0.2,
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+  },
+  itemNoImage: {
+    height: deviceHeight * 0.2,
+    width: "100%",
+    borderRadius: 18,
+    overflow: "hidden",
+    backgroundColor: MID_PEACH,
+  },
+  offerContainer: {
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  offer: {
+    color: WHITE,
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+  badgeContainer: {
+    backgroundColor: DARK_RED,
+    padding: 10,
+    borderRadius: 20,
+  },
+  productName: {
+    fontSize: 22,
+    color: DARK_RED,
+    fontWeight: "bold",
+    marginTop: 15,
+  },
+  FavcartContainer: {
+    paddingVertical: 10,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: PRIMARY,
+  },
+  Favcart: { height: 20, width: 20 },
+  favdescription: {
+    fontSize: 17,
+    color: MID_PEACH,
+    paddingBottom: 15,
+  },
+  price: {
+    fontSize: 22,
+    color: DARK_RED,
+    fontWeight: "bold",
+  },
+  priceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 20,
+  },
 });
