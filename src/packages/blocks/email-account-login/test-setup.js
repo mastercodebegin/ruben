@@ -15,9 +15,11 @@ jest.mock("../../components/src/utils", () => ({
     store: {
       getState: jest.fn(() => "mocked state"),
       dispatch:jest.fn()
-    }
+  },
+  encryptText: jest.fn(),
+  decryptText:jest.fn(()=>'testReturn')
 }));  
 jest.mock("../../framework/src/Utilities", () => ({
   getStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
-  setStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
+  setStorageData: jest.fn(() => { }),
 }));

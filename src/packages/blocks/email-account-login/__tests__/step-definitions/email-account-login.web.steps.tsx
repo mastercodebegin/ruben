@@ -10,7 +10,7 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 import React from "react";
 import EmailAccountLoginBlock from "../../src/EmailAccountLoginBlock.web";
-
+import {waitFor} from '@testing-library/react-native'
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -64,7 +64,9 @@ defineFeature(feature, (test) => {
         }
       );
       instance.validationApiCallId = msgValidationAPI.messageId;
-      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      waitFor(() => {
+        runEngine.sendMessage("Unit Test", msgValidationAPI);
+      })
     });
 
     when("I navigate to the Log In Screen", () => {
@@ -257,6 +259,8 @@ defineFeature(feature, (test) => {
       );
       instance.apiEmailLoginCallId = msgLogInSucessRestAPI.messageId;
       instance.setState({ checkedRememberMe: true });
+      instance.loginCallBack(null, true)
+      
       runEngine.sendMessage("Unit Test", msgLogInSucessRestAPI);
     });
   });

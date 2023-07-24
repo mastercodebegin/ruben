@@ -113,10 +113,8 @@ defineFeature(feature, test => {
       let buttonComponent = exampleBlockA.findWhere(
         node => node.prop("testID") === "back_btn_test_id"
       );
-      expect(buttonComponent).toBeTruthy();
-      buttonComponent.simulate("press");
-      // const { getByTestId  } = render(<InvoiceBilling {...screenProps} />);
-      // fireEvent.press(getByTestId("back_btn_test_id"))
+      const { getByTestId } = render(<InvoiceBilling {...screenProps} />);
+      fireEvent.press(getByTestId("back_btn_test_id"));
 
       expect(showAlert).toHaveBeenCalledTimes(1);
       expect(showAlert).toBeCalled();
