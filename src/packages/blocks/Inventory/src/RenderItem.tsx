@@ -30,8 +30,8 @@ const RenderItem = () => {
           ref={dropdownCategoryref}
           keySearchObject="name"
           _renderCustomModal
-          customModal={()=>(
-            <View style={{height:300,width:300,backgroundColor:'red'}}/>
+          customModal={() => (
+            <View style={{ height: 300, width: 300, backgroundColor: 'red' }} />
           )}
           renderRow={(props: any) => {
             return (
@@ -62,8 +62,8 @@ const RenderItem = () => {
                   selectedStatus === "Canceled"
                     ? "pink"
                     : selectedStatus === "Success"
-                    ? "green"
-                    : "orange",
+                      ? "green"
+                      : "orange",
               }}
             >
               {selectedStatus}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     flexDirection: "row",
     paddingHorizontal: 20,
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
   text: {
     color: DARK_RED,
@@ -119,5 +119,5 @@ const styles = StyleSheet.create({
     tintColor: "black",
   },
   destination: { color: DARK_RED, fontWeight: "bold", fontSize: 16 },
-  flex:{ flex: 1 }
+  flex: { flex: 1 }
 });

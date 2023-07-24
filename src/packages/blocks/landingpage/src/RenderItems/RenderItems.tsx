@@ -49,8 +49,8 @@ const RenderItem = ({
         navigation.navigate("ProductDetailScreen", {
           id: item?.id,
           description: item?.attributes?.description,
-          name: item?.attributes?.categoryCode,
-          price:item?.attributes?.price
+          name: item?.attributes?.name,
+          price: item?.attributes?.price
         })
       }
       style={styles.renderContainer}

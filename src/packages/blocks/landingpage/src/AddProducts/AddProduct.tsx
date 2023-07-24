@@ -53,18 +53,18 @@ export default class AddProducts extends LandingPageController {
       <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView behavior="padding" style={styles.main}>
           <View style={styles.headerContainer}>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
-              <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
-                <Image style={{height:15,width:15}} source={backArrow}/>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Image style={{ height: 15, width: 15 }} source={backArrow} />
               </TouchableOpacity>
-            <Text style={styles.header}>{ADD_PRODUCTS}</Text>
+              <Text style={styles.header}>{ADD_PRODUCTS}</Text>
             </View>
             <TouchableOpacity
               onPress={() =>
                 this.setState({
                   productsList: [
                     ...this.state.productsList,
-                    { category_id: '',sub_category_id: '',name: "", price: "", images: []},
+                    { category_id: '', sub_category_id: '', name: "", price: "", images: [] },
                   ],
                 })
               }
@@ -80,7 +80,7 @@ export default class AddProducts extends LandingPageController {
             keyExtractor={(_, index) => {
               return String(index);
             }}
-            renderItem={({ item, index }:any) => {
+            renderItem={({ item, index }: any) => {
               return (
                 <View style={styles.productContainer}>
                   <Text style={styles.productHeader}>{`#${index +
@@ -99,7 +99,7 @@ export default class AddProducts extends LandingPageController {
                     }}
                     style={styles.textInput}
                   />
-                   <Text style={styles.label}>{CHOOSE_CATEGORY}</Text>
+                  <Text style={styles.label}>{CHOOSE_CATEGORY}</Text>
                   <View style={styles.dropdownContainer}>
                     <Dropdown
                       style={styles.dropdown}
@@ -197,65 +197,65 @@ export default class AddProducts extends LandingPageController {
                     <Text style={styles.perKg}>{PER_KG}</Text>
                   </View>
                   <Text style={styles.label}>{UPLOAD_IMAGE}</Text>
-                  <FlatList 
-                  data={item?.images}
-                  keyExtractor={(_,index)=>{
-                    return String(index)
-                  }}
-                  bounces={false}
-                  showsHorizontalScrollIndicator={false}
-                  ListHeaderComponent={()=>{
-                    return (<TouchableOpacity
-                    style={styles.addImage}
-                    onPress={() =>
-                      this.selectImage.bind(this)(
-                        (res) => {
-                          const list = this.state.productsList;
-                          list[index] = {
-                            ...list[index],
-                            //@ts-ignore
-                            images: [...list[index].images, res],
-                          };
-                          this.setState({ productsList: list });
-                        },
-                        (err) => {
-                          Alert.alert('Error','Something ')
+                  <FlatList
+                    data={item?.images}
+                    keyExtractor={(_, index) => {
+                      return String(index)
+                    }}
+                    bounces={false}
+                    showsHorizontalScrollIndicator={false}
+                    ListHeaderComponent={() => {
+                      return (<TouchableOpacity
+                        style={styles.addImage}
+                        onPress={() =>
+                          this.selectImage.bind(this)(
+                            (res) => {
+                              const list = this.state.productsList;
+                              list[index] = {
+                                ...list[index],
+                                //@ts-ignore
+                                images: [...list[index].images, res],
+                              };
+                              this.setState({ productsList: list });
+                            },
+                            (err) => {
+                              Alert.alert('Error', 'Something ')
+                            }
+                          )
                         }
+                      >
+                        <Text style={{ color: PRIMARY, fontSize: 20 }}>+</Text>
+                      </TouchableOpacity>)
+                    }}
+                    horizontal
+                    renderItem={(prop: any) => {
+                      return (
+                        <ImageBackground
+                          source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
+                          style={styles.imagesContainer}>
+                          <TouchableOpacity onPress={() => {
+                            const imageList = [...item.images]
+                            imageList.splice(prop.index, 1)
+                            const list = this.state.productsList;
+                            list[index] = {
+                              ...list[index],
+                              images: [...imageList],
+                            };
+                            this.setState({ productsList: list });
+                          }} style={styles.closeContainer}>
+                            <View style={styles.blur} />
+                            <Image resizeMode="contain" style={styles.closeIcon} source={close} />
+                          </TouchableOpacity>
+                        </ImageBackground>
                       )
-                    }
-                  >
-                    <Text style={{ color: PRIMARY, fontSize: 20 }}>+</Text>
-                  </TouchableOpacity>)
-                  }}
-                  horizontal
-                  renderItem={(prop:any)=>{
-                    return (
-                    <ImageBackground 
-                        source={{uri:Platform.OS === 'ios'? `file://${prop.item?.path}`:prop.item?.path}} 
-                        style={styles.imagesContainer}>
-                      <TouchableOpacity onPress={()=>{
-                        const imageList = [...item.images]
-                        imageList.splice(prop.index,1)
-                        const list = this.state.productsList;
-                          list[index] = {
-                            ...list[index],
-                            images: [...imageList],
-                          };
-                          this.setState({ productsList: list });
-                      }} style={styles.closeContainer}>
-                        <View style={styles.blur}/>
-                        <Image resizeMode="contain" style={styles.closeIcon} source={close}/>
-                      </TouchableOpacity>
-                    </ImageBackground>
-                    )
-                  }} />
+                    }} />
                 </View>
               );
             }}
-            ListFooterComponent={()=>(
+            ListFooterComponent={() => (
               <View>
-                <Button style={styles.buttonStyle} onPress={()=>{ this.addProduct()}} label={PUBLISH_NOW}/>
-                <Button style={styles.buttonStyle} transparentBackground onPress={()=>{this.props.navigation.navigate('ExplorePage')}} label={CANCEL}/>
+                <Button style={styles.buttonStyle} onPress={() => { this.addProduct() }} label={PUBLISH_NOW} />
+                <Button style={styles.buttonStyle} transparentBackground onPress={() => { this.props.navigation.navigate('ExplorePage') }} label={CANCEL} />
               </View>
             )}
           />
@@ -265,45 +265,45 @@ export default class AddProducts extends LandingPageController {
   }
 }
 const styles = StyleSheet.create({
-  buttonStyle:{
-    paddingVertical:5
+  buttonStyle: {
+    paddingVertical: 5
   },
-  dollar:{
-    fontSize:17,
-    color:DARK_RED,
-    paddingLeft:20,
-    fontWeight:'bold'
+  dollar: {
+    fontSize: 17,
+    color: DARK_RED,
+    paddingLeft: 20,
+    fontWeight: 'bold'
   },
-  closeIcon:{
-    height:'25%',
-    width:'25%',
-    tintColor:'white'
+  closeIcon: {
+    height: '25%',
+    width: '25%',
+    tintColor: 'white'
   },
-  blur:{
-    position:'absolute',
-    top:0,
-    bottom:0,
-    right:0,
-    left:0,
-    backgroundColor:'black',
-    opacity:0.5
+  blur: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'black',
+    opacity: 0.5
   },
-  closeContainer:{
-    height:30,
-    width:30,
-    borderRadius:15,
-    overflow:'hidden',
-    justifyContent:'center',
-    alignItems:'center'
+  closeContainer: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  imagesContainer:{
-    height:80,
-    width:80,
-    borderRadius:15,
-    marginRight:10,
-    justifyContent:'center',
-    alignItems:'center',
-    overflow:'hidden'
+  imagesContainer: {
+    height: 80,
+    width: 80,
+    borderRadius: 15,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   priceText: {
     flex: 1,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    marginRight:10
+    marginRight: 10
   },
   label: {
     color: "grey",
@@ -356,9 +356,9 @@ const styles = StyleSheet.create({
     paddingVertical: Platform.OS === "ios" ? 15 : undefined,
     paddingHorizontal: 20,
     borderRadius: 10,
-    fontSize:17,
-    color:DARK_RED,
-    fontWeight:'bold'
+    fontSize: 17,
+    color: DARK_RED,
+    fontWeight: 'bold'
   },
   safeArea: { flex: 1, backgroundColor: LIGHT_GREY },
   main: {
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
   header: {
     color: DARK_RED,
     fontSize: 22,
-    paddingLeft:15
+    paddingLeft: 15
   },
   addMore: {
     color: PRIMARY,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
     color: DARK_RED,
-    fontWeight:"700",
+    fontWeight: "700",
   },
   iconStyle: {
     width: 30,

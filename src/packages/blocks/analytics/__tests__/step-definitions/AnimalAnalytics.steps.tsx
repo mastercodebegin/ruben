@@ -12,7 +12,8 @@ const navigation = require("react-navigation")
 
 const screenProps = {
     navigation: navigation,
-    id: "AnimalAnalytics"
+    id: "AnimalAnalytics",
+    route: {},
   }
 
 const feature = loadFeature('./__tests__/features/Animal-Analytics-scenario.feature');
@@ -22,7 +23,10 @@ defineFeature(feature, (test) => {
 
     beforeEach(() => {
         jest.resetModules()
-        jest.doMock('react-native', () => ({ Platform: { OS: 'web' }}))
+        jest.doMock("react-native", () => ({
+            Platform: { OS: "web" },
+            nativeModule: {},
+          }));
         jest.spyOn(helpers, 'getOS').mockImplementation(() => 'web');
     });
 
@@ -31,7 +35,7 @@ defineFeature(feature, (test) => {
         let instance:AnimalAnalytics; 
 
         given('I am a User loading AnimalAnalytics', () => {
-            analyticsBlock = shallow(<AnimalAnalytics setState={undefined} state={undefined} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Eggs"} setState={undefined} state={undefined} {...screenProps}/>)
         });
 
         when('I navigate to the AnimalAnalytics', () => {

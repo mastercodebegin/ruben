@@ -22,6 +22,9 @@ import { store } from "../../../components/src/utils";
 import Calendar from "../../../components/src/Calendar";
 import moment from "moment";
 import { Dropdown } from "../../../components/src/DropDown/src";
+import AnimalChicken from "./AnimalChicken";
+import AnimalPig from "./AnimalPig";
+
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
@@ -156,7 +159,7 @@ export default class Analytics extends AnalyticsController {
                             let date = momentObj.format('YYYY-MM-DD')
                             this.setState({ startDate: data })
                             this.setState({ endDate: date })
-                            this.getAnalyticData()
+                            this.getAnalyticData(this.state.category_id)
                           }
                           } />
                         </View>
@@ -194,8 +197,8 @@ export default class Analytics extends AnalyticsController {
                     onChange={(item: any) => {
                       this.setState({ category_id: item?.id })
                       this.setState({ category_title: item?.attributes?.name })
-                      this.setState({ animalSelectedValue: item?.title })
-                      this.getAnalyticData()
+                      this.getAnalyticData(this.state.category_id)
+                      this.getDataOfCat(item)
                     }}
                     renderItem={(item: any) => {
                       return (
@@ -209,7 +212,12 @@ export default class Analytics extends AnalyticsController {
                   // {...this.DropDownProps}
                   />
                 </View>
-                <AnimalAnalytics navigation={undefined} id={""} setState={undefined} state={undefined} />
+
+                <View style={styles.animalImagContainer}>
+                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
+                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
+                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
+                </View>
 
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
@@ -383,6 +391,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     top: 0,
+  },
+  animalImagContainer: {
+    marginBottom: 10
   }
 });
 // Customizable Area End

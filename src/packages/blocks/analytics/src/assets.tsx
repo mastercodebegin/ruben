@@ -15,6 +15,18 @@ export const chicken_Breast = require('../assets/chicken_Breast.png');
 export const chicken_leg = require('../assets/chicken_leg.png');
 export const chicken_Thigh = require('../assets/chicken_Thigh.png');
 export const chicken_Wing = require('../assets/chicken_Wing.png');
+export const pigbacon = require('../assets/pigbacon.png');
+export const pigHead = require('../assets/pigHead.png');
+export const pigHock = require('../assets/pigHock.png');
+export const pigJowl = require('../assets/pigJowl.png');
+export const pigLeg = require('../assets/pigLeg.png');
+export const pigLoin = require('../assets/pigLoin.png');
+export const pigNeck = require('../assets/pigNeck.png');
+export const pigpicnis = require('../assets/pigPicnics.png');
+export const pigRibs = require('../assets/pigRibs.png');
+export const pigShoulder = require('../assets/pigShoulder.png');
+export const pig = require('../assets/pig.png');
+
 
 
 

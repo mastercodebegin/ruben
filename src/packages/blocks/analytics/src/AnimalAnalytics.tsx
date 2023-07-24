@@ -9,10 +9,9 @@ import {
   Image
   // Customizable Area End
 } from "react-native";
-import {cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
+import { cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_sirlion } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
-import AnimalChicken from "./AnimalChicken";
 
 export default class AnimalAnalytics extends AnalyticsController {
   constructor(props: Props) {
@@ -21,150 +20,141 @@ export default class AnimalAnalytics extends AnalyticsController {
     // Customizable Area End
   }
 
-  // Customizable Area Start
-
-  // Customizable Area End
-
   render() {
     return (
       // Customizable Area Start
-      <View style={styles.container}>
-        <View style={styles.animalImgContainer}>
-          <>
-            {this.state.animalSelectedValue == 'Cow' &&
-              <View style={styles.animalImgCont}>
-                {this.state.cow_Defult &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_head}
-                  />
-                }
-                {this.state.cowHead &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_head}
-                  />
-                }
-                {this.state.chuck &&
-                  <>
-                    <View style={styles.hoverView}>
+      <View style={styles.container} testID="animalView">
+        {this.props?.animalSelectedValue == 'Eggs' &&
+          <View style={styles.animalImgContainer}>
+            <View style={styles.animalImgCont}>
+              {this.state.cow_Defult &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_head}
+                />
+              }
+              {this.state.cowHead &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_head}
+                />
+              }
+              {this.state.chuck &&
+                <>
+                  {/* <View style={styles.hoverView}>
                       <View style={styles.graphContainer}>
                       </View>
                       <View style={styles.linebottom}>
                       </View>
-                    </View>
-                    <Image
-                      style={styles.animalImg}
-                      resizeMode="contain"
-                      source={cow_chuch} />
-                  </>
-                }
-                {this.state.cow_Rib &&
+                    </View> */}
                   <Image
                     style={styles.animalImg}
                     resizeMode="contain"
-                    source={cow_rib}
-                  />
-                }
-                {this.state.cow_Short_lion &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_shortlion}
-                  />
-                }
-                {this.state.cow_Sirllion &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_sirlion}
-                  />
-                }
-                {this.state.cow_Round &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_round}
-                  />
-                }
-                {this.state.cow_shank &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_shank}
-                  />
-                }
-                {this.state.cow_Flank &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_flank}
-                  />
-                }
-                {this.state.cow_Short_plate &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_shortlion}
-                  />
-                }
-                {this.state.cow_Brisket &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_brisket}
-                  />
-                }
-                {this.state.cow_Fore_Shank &&
-                  <Image
-                    style={styles.animalImg}
-                    resizeMode="contain"
-                    source={cow_foreshank}
-                  />
-                }
-                <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck} testID="cowChuck">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnCowhead() }} style={styles.clickOnHead} testID="cowHead">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnCowRib() }} style={styles.clickOnRib} testID="cowRib">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnShortlion() }} style={styles.clickOnShortlionStyle} testID="cowShortlion">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnSirlion() }} style={styles.clickOnSirlion} testID="cowSirLion">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnRound() }} style={styles.clickOnRound} testID="cowRound">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnShank() }} style={styles.clickOnshank} testID="cowShank">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnFlank() }} style={styles.clickOnFlank} testID="cowFlank">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnShortPlate() }} style={styles.clickOnShortPlate} testID="cowShortplate">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnForeShank() }} style={styles.clickOnForeShank} testID="cowForeShank">
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket} testID="cowBrisket">
-                </TouchableOpacity>
-              </View>
-            }
-            {this.state.animalSelectedValue == 'Chicken' &&
-              <AnimalChicken navigation={undefined} id={""} setState={undefined} state={undefined} />
-            }
-          </>
-          <View style={styles.bottomContainer}>
-            <View style={styles.rowContainer}>
-              <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
-              </View>
-              <Text style={styles.textStyle}>Remaining</Text>
+                    source={cow_chuch} />
+                </>
+              }
+              {this.state.cow_Rib &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_rib}
+                />
+              }
+              {this.state.cow_Short_lion &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_shortlion}
+                />
+              }
+              {this.state.cow_Sirllion &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_sirlion}
+                />
+              }
+              {this.state.cow_Round &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_round}
+                />
+              }
+              {this.state.cow_shank &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_shank}
+                />
+              }
+              {this.state.cow_Flank &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_flank}
+                />
+              }
+              {this.state.cow_Short_plate &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_shortlion}
+                />
+              }
+              {this.state.cow_Brisket &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_brisket}
+                />
+              }
+              {this.state.cow_Fore_Shank &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={cow_foreshank}
+                />
+              }
+              <TouchableOpacity onPress={() => { this.clickOnChuck() }} style={styles.clickOnChuck} testID="cowChuck">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnCowhead() }} style={styles.clickOnHead} testID="cowHead">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnCowRib() }} style={styles.clickOnRib} testID="cowRib">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnShortlion() }} style={styles.clickOnShortlionStyle} testID="cowShortlion">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnSirlion() }} style={styles.clickOnSirlion} testID="cowSirLion">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnRound() }} style={styles.clickOnRound} testID="cowRound">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnShank() }} style={styles.clickOnshank} testID="cowShank">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnFlank() }} style={styles.clickOnFlank} testID="cowFlank">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnShortPlate() }} style={styles.clickOnShortPlate} testID="cowShortplate">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnForeShank() }} style={styles.clickOnForeShank} testID="cowForeShank">
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { this.clickOnBrisket() }} style={styles.clickOnBrisket} testID="cowBrisket">
+              </TouchableOpacity>
             </View>
-            <View style={styles.rowContainer}>
-              <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+            <View style={styles.bottomContainer}>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+                </View>
+                <Text style={styles.textStyle}>Remaining</Text>
               </View>
-              <Text style={styles.textStyle}>Sold</Text>
+              <View style={styles.rowContainer}>
+                <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+                </View>
+                <Text style={styles.textStyle}>Sold</Text>
+              </View>
             </View>
           </View>
-        </View>
+        }
       </View>
       // Customizable Area End
     );
@@ -175,15 +165,15 @@ export default class AnimalAnalytics extends AnalyticsController {
 const styles = StyleSheet.create({
 
   container: {
+    padding: 0
+  },
+  animalImgContainer: {
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
-  },
-  animalImgContainer: {
-    padding: 1,
   },
   hoverView: {
     alignItems: 'center',

@@ -2,12 +2,8 @@ import { defineFeature, loadFeature} from "jest-cucumber"
 import { shallow, ShallowWrapper } from 'enzyme'
 
 import * as helpers from '../../../../framework/src/Helpers'
-import {runEngine} from '../../../../framework/src/RunEngine'
-import {Message} from "../../../../framework/src/Message"
 
-import MessageEnum, {getName} from "../../../../framework/src/Messages/MessageEnum"; 
 import React from "react";
-import Analytics from "../../src/Analytics.web"
 import AnimalChicken from "../../src/AnimalChicken"
 const navigation = require("react-navigation")
 
@@ -32,7 +28,7 @@ defineFeature(feature, (test) => {
         let instance:AnimalChicken; 
 
         given('I am a User loading chicken image', () => {
-            analyticsBlock = shallow(<AnimalChicken setState={undefined} state={undefined} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalChicken animalSelectedValue={"Chicken"} setState={undefined} state={undefined} {...screenProps}/>)
         });
 
         when('I navigate to the Animal chicken', () => {
