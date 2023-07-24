@@ -64,7 +64,7 @@ const LoginComponent = ({
           <Text style={styles.text}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      <Button label={"Log In"} onPress={onpressLogin} />
+      <Button testID="do_login_test_id" label={"Log In"} onPress={onpressLogin} />
       <View style={styles.createAcc}>
         <Text style={styles.text}>{"Don't have an account ? "}</Text>
         <TouchableOpacity onPress={onpressSignup}>

@@ -171,6 +171,9 @@ defineFeature(feature, (test) => {
         msgLogInErrorRestAPI.messageId
       );
       instance.apiEmailLoginCallId = msgLogInErrorRestAPI.messageId;
+      instance.loginCallBack({ meta: { user_type: "merchant",token:"fghj" } }, false)
+      instance.loginCallBack({ meta: { user_type :"customer",token:"fghj" } },false)
+
       runEngine.sendMessage("Unit Test", msgLogInErrorRestAPI);
     });
   });
