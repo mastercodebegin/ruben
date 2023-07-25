@@ -11,7 +11,6 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { showToast } from "../../../components/src/ShowToast";
-import { error } from "console";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
