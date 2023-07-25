@@ -427,6 +427,23 @@ export default class LandingPageController extends BlockComponent<
       console.log("fav list = === == =",this.state.showFavoriteList);
       
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getFavoritesDeleteId != null &&
+      this.getFavoritesDeleteId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const getUpDateFavList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ show_loader: false })
+      console.log("delete fav list = === == =",error);
+      
+    }
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addToFavId != null &&
     this.addToFavId ===
@@ -571,6 +588,11 @@ export default class LandingPageController extends BlockComponent<
   getFavoritesId: string = '';
   favListProps = {
     getFavoritesList: this.getFavorites
+  }
+
+  getFavoritesDeleteId :string= '';
+  upDateFavList ={
+    getUpDateFavList :this.removeFavListProduct
   }
   async getCategory(page:number,loader=true){
     this.setState({show_loader:loader})
@@ -1152,12 +1174,30 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(Favorites.id, Favorites);
   }
 
-  removeFavListProduct(productId :any) {    
-    this.setState(prevState => ({
-      showFavoriteList: prevState.showFavoriteList.filter((product:any) => product.id !== productId)
-    }));
-    alert("Product deleted")
-    console.log("remove fav list product", this.state.showFavoriteList);
+  async removeFavListProduct(productId :any) {    
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const FavoritesDelete = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getFavoritesDeleteId = FavoritesDelete.messageId;
+    FavoritesDelete.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_favourites/favourites/destroy?id=${`${productId}`}`
+    );
+    FavoritesDelete.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    FavoritesDelete.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodTypeDelete
+    );
+    runEngine.sendMessage(FavoritesDelete.id, FavoritesDelete);
+    
   }
   // Customizable Area End
 }
