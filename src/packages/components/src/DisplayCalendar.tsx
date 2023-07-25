@@ -9,11 +9,14 @@ import {
     TouchableOpacity
      } from "react-native";
 import Calendar from "./Calendar";
+import { PRIMARY } from "./constants";
 
 interface Props {
   isFullWidth?: boolean;
   dropdownStyle?: any;
-  children:any;
+  children: any;
+  setSelectedDay?: (date: string) => void;
+  selectedDate: string;
 }
 
 interface State {
@@ -78,14 +81,23 @@ export default class DisplayCalendar extends Component<Props, State> {
     this.show()
   }
   _renderModal(){
-    const position = this._calcPosition()
+    const position = this._calcPosition();
+    const markedDate:any = {}
+    markedDate[this.props.selectedDate]={ color: PRIMARY, textColor: "white" } 
     return (
     <Modal transparent visible>
         <TouchableWithoutFeedback onPress={()=>{this.setState({showDropdown:false})}} style={{flex:1}}>
             <View style={{flex:1}}>
                 <View style={{position:"absolute",...position,width:'100%',paddingHorizontal:20}}>
                     <TouchableHighlight >
-                    <Calendar/>
+                <Calendar
+                  markedDate={markedDate}
+                  onDayPress={(date) => {
+                    if (this.props.setSelectedDay) {
+                      this.props.setSelectedDay(date);
+                    }
+                    this.setState({showDropdown:false})
+                  }} />
                     </TouchableHighlight>
                 </View>
             </View>
