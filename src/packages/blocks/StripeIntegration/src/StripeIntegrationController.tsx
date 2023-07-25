@@ -98,7 +98,7 @@ export default class StripeIntegrationController extends BlockComponent<
       paymentMethodType: "Card",
       paymentAlerttype: "PaymentSuccess",
       customAlertText: "",
-      customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!",
+      customAlertDesc: "You earned a discount coupon code. You can check this out in your profile or Redeem Now!",
       // Customizable Area Start
       // Customizable Area End
     };
@@ -282,7 +282,7 @@ export default class StripeIntegrationController extends BlockComponent<
    setAlertText = () => {
     if (this.state.paymentAlerttype === "PaymentSuccess") {
       this.setState({ customAlertText: "Payment Successful"})
-      this.setState({ customAlertDesc: "You earnd a discount coupon code. You can check this out in your profile or Reed Now!"})
+      this.setState({ customAlertDesc: "You earned a discount coupon code. You can check this out in your profile or Reed Now!"})
     } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
       this.setState({ customAlertText: "Thank you for your order"})
       this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber }`})
