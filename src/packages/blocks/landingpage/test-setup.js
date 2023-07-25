@@ -9,7 +9,7 @@ jest.mock("../../framework/src/Utilities", () => ({
 jest.mock("../../components/src/utils", () => ({
   store: {
     getState: jest.fn(() => ({
-      currentUser: "user",
+      currentUser: "merchant",
     })),
     dispatch: jest.fn(),
   },
