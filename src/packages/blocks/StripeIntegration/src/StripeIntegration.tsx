@@ -337,7 +337,9 @@ export default class StripeIntegration extends StripeIntegrationController {
                   this.setState({ customAlertText: "Payment In Process.." });
                   this.getPaymentMethod()
                 } else {
-                  this.handlePaymentSuccess()
+                  this.setState({ showPaymentLoading: true })
+                  this.setState({ customAlertText: "Order In Process.." });
+                  this.codeApiCalled(this.props.route.params.orderId)
                   this.setState({ showPaymentAlert: true })
                 }
               }}

@@ -11,6 +11,7 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { showToast } from "../../../components/src/ShowToast";
+import { error } from "console";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
@@ -259,7 +260,7 @@ export default class StripeIntegrationController extends BlockComponent<
       .then(result => {
         console.log("result-->",result);
         let json = JSON.parse(result)
-        this.paymentApiCalled(json.id, 4)
+        this.paymentApiCalled(json.id, this.props.route.params.orderId)
       })
       .catch(error => {
         this.setState({ customAlertText: "Payment Failed" });
@@ -269,7 +270,8 @@ export default class StripeIntegrationController extends BlockComponent<
   }
 
   handlePaymentFailed = () => {
-    this.setState({ customAlertText: "Payment Failed" });
+    this.setState({ customAlertText: this.state.paymentMethodType === "Card" ? "Payment Failed" : "Order Failed"});
+    this.setState({ customAlertDesc: "Please contact to admin Or Try again."})
     this.setState({showPaymentLoading: false})
    }
 
@@ -302,7 +304,7 @@ export default class StripeIntegrationController extends BlockComponent<
     let raw = JSON.stringify({
       "payment": {
         "order_id": order_id,
-        "payment_method_id": payment_methods
+        "payment_method_id": payment_methods,
       }
     });
 
@@ -312,14 +314,16 @@ export default class StripeIntegrationController extends BlockComponent<
       body: raw,
       redirect: 'follow'
     };
-    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments`
+    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=card`
     console.log("cehck url-->", url)
     fetch(`${url}`, requestOptions)
       .then(response => response.text())
       .then(result => {
+        console.log("main result->",result)
         let json = JSON.parse(result)
         if (json.errors) {
-          console.log("result-->",json.errors);
+          console.log("error-->",json.errors);
+          this.setState({paymentAlerttype: "ThankYouForYourOder"})
           this.handlePaymentFailed()
         } else {
           console.log("result-->",result);
@@ -331,7 +335,52 @@ export default class StripeIntegrationController extends BlockComponent<
         console.log("error par --->",error);
         this.handlePaymentFailed()
       });
-
   }
+
+  async codeApiCalled(order_id: number) {
+
+    console.log("checkin order id---<",order_id)
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    
+    let myHeaders = new Headers();
+    myHeaders.append("token", data?.meta?.token);
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify({
+      "payment": {
+        "order_id": order_id,
+      },
+    });
+  console.log("json raw-->",raw)
+    let requestOptions: any = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=cod`
+    console.log("cehck url-->", url)
+    fetch(`${url}`, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        let json = JSON.parse(result)
+        if (json.errors) {
+          console.log("result-->",json.errors);
+          this.setState({paymentAlerttype: "PaymentFailed"})
+          this.handlePaymentFailed()
+        } else {
+          console.log("result-->",result);
+          this.setState({paymentAlerttype: "ThankYouForYourOder"})
+          this.handlePaymentSuccess()
+        }
+      })
+      .catch(error => {
+        console.log("error par --->",error);
+        this.setState({paymentAlerttype: "PaymentFailed"})
+        this.setState({showPaymentLoading: false})
+        this.handlePaymentFailed()
+      });
+    }
   // Customizable Area End
 }
