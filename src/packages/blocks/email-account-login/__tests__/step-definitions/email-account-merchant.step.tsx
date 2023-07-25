@@ -6,6 +6,13 @@ import React from "react";
 import EmailAccountLoginBlock from "../../src/EmailAccountLoginBlock";
 import SignupComponent from "../../src/SignupComponent";
 import { signupProps } from "./email-account-login-scenario.steps";
+
+import { runEngine } from "../../../../framework/src/RunEngine";
+import { Message } from "../../../../framework/src/Message";
+
+import MessageEnum, {
+  getName,
+} from "../../../../framework/src/Messages/MessageEnum";
 const navigation ={
   navigate:jest.fn(),
   reset:jest.fn(),
@@ -43,6 +50,27 @@ defineFeature(feature, (test) => {
       expect(mobileAccountLogInWrapper).toBeTruthy();
 
       instance = mobileAccountLogInWrapper.instance() as EmailAccountLoginBlock;
+      instance =
+      mobileAccountLogInWrapper.instance() as EmailAccountLoginBlock;
+
+    const msgValidationAPI = new Message(
+      getName(MessageEnum.RestAPIResponceMessage)
+    );
+    msgValidationAPI.addData(
+      getName(MessageEnum.RestAPIResponceDataMessage),
+      msgValidationAPI.messageId
+    );
+    msgValidationAPI.addData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage),
+      {
+        meta: {
+          token:
+            "eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MTAsInR5cGUiOiJTbXNBY2NvdW50IiwiZXhwIjoxNTc2Njk1ODk4fQ.kB2_Z10LNwDmbo6B39esgM0vG9qTAG4U9uLxPBYrCX5PCro0LxQHI9acwVDnfDPsqpWYvQmoejC2EO8MFoEz7Q",
+        },
+      }
+    );
+    instance.apiMerchantEmailSignupCallId = msgValidationAPI.messageId;
+    runEngine.sendMessage("Unit Test", msgValidationAPI);
     });
     then("I can Navigate to merchant signup screen", () => {
       const wrapper = shallow(<SignupComponent {...signupProps} />);
