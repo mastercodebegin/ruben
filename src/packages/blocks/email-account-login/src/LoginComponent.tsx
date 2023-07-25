@@ -57,7 +57,7 @@ const LoginComponent = ({
       />
       <View style={styles.remeber}>
         <View style={styles.remeberMe}>
-          <CheckBox checked={checked} setChecked={setChecked} />
+          <CheckBox testID="remember_me_test_id" checked={checked} setChecked={setChecked} />
           <Text style={styles.rememberText}>Remember Me</Text>
         </View>
         <TouchableOpacity onPress={() => onpressForgotPassword(email)}>

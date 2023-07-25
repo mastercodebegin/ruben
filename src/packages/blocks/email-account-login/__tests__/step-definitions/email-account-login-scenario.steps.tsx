@@ -117,7 +117,7 @@ defineFeature(feature, (test) => {
           navigation:jest.fn(),
           onpressLogin:jest.fn(),
           checked:false,
-          setChecked:() => {},
+          setChecked: jest.fn(),
           email:"test@test.com",
           password:"Qweqwe123!",
       }
@@ -131,6 +131,12 @@ defineFeature(feature, (test) => {
       );
       touchableOpacity.simulate("press");
       expect(loginProps.onpressLogin).toBeCalled();
+      const { getByTestId } = render (   <LoginComponent
+        {...loginProps}
+      />)
+      fireEvent.press(getByTestId("remember_me_test_id"))
+      expect(loginProps.setChecked).toBeCalled()
+
     });
     then("user trying to go login screen using header", () => {
       const { getByTestId } = render(
