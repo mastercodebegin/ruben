@@ -4,18 +4,22 @@ import { DARK_RED } from "../../../components/src/constants";
 import { arrowLeft } from "../../landingpage/src/assets";
 //@ts-ignore
 import ModalDropdownComp from "../../../components/src/ModalDropdownComp";
-type StatusType = "Canceled" | "Pending" | "Success";
-const RenderItem = () => {
+import moment from "moment";
+type StatusType = "cancelled" | "pending" | "success";
+const RenderItem = ({item}: any) => {  
   const dropdownCategoryref: any = React.createRef();
-  const rowData = ["Canceled", "Pending", "Success"];
-  const [selectedStatus, setSelectedStatus] = useState<StatusType>("Pending");
+  const rowData = ["cancelled", "pending", "success"];
+  const [selectedStatus, setSelectedStatus] = useState<StatusType>(
+    item?.data?.attributes?.status === 'scheduled' ?
+      'pending' : item?.data?.attributes?.status === 'completed' ?
+        'success' : item?.data?.attributes?.status);
   return (
     <View style={styles.main}>
       <View style={styles.flex}>
-        <Text style={styles.text}>{"ID:12345"}</Text>
-        <Text style={styles.name}>{"test name"}</Text>
-        <Text style={styles.text}>{"Date : 03/03/23"}</Text>
-        <Text style={styles.text}>{"Item :x3"}</Text>
+        <Text style={styles.text}>{`ID:${item?.data?.attributes?.ID}`}</Text>
+        <Text style={styles.name}>{`${item?.data?.attributes?.name}`}</Text>
+        <Text style={styles.text}>{`Date : ${ moment(new Date(item?.data?.attributes?.Date)).format('DD/MM/YYYY')}`}</Text>
+        <Text style={styles.text}>{`Item :x${item?.data?.attributes?.items}`}</Text>
       </View>
       <View style={[styles.container]}>
         <Text style={styles.destination}>{"Domestic"}</Text>
@@ -59,9 +63,9 @@ const RenderItem = () => {
                 fontSize: 16,
                 paddingRight: 10,
                 color:
-                  selectedStatus === "Canceled"
+                  selectedStatus === "cancelled"
                     ? "pink"
-                    : selectedStatus === "Success"
+                    : selectedStatus === "success"
                       ? "green"
                       : "orange",
               }}

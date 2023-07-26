@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>RuebensFTCApp</string>
+	<string>Farm2URDoor</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -35,14 +35,14 @@
 			</array>
 		</dict>
 	</array>
-  <key>FirebaseDynamicLinksCustomDomains</key>
-  <string>ruebensftcapp.page.link</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>170982444234877</string>
 	<key>FacebookDisplayName</key>
 	<string>RuebensFTCApp</string>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<string>ruebensftcapp.page.link</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

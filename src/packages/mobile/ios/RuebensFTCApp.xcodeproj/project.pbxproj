@@ -601,7 +601,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = QBAHH3NYZ5;
+						DevelopmentTeam = 567C7FFGH7;
 						LastSwiftMigration = 1250;
 						ProvisioningStyle = Automatic;
 					};
@@ -1090,7 +1090,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = QBAHH3NYZ5;
+				DEVELOPMENT_TEAM = 567C7FFGH7;
 				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = RuebensFTCApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1101,7 +1101,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruebensFTCApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azzetta;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
@@ -1122,7 +1122,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QBAHH3NYZ5;
+				DEVELOPMENT_TEAM = 567C7FFGH7;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = RuebensFTCApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1133,7 +1133,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ruebensFTCApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azzetta;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
