@@ -169,7 +169,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} onPress={() => {
+                  <TouchableOpacity style={styles.padding} testID="cardButton" onPress={() => {
                     this.setState({ paymentMethodType: "Card" })
                   }}>
                     <CheckBox
@@ -184,7 +184,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} onPress={() => {
+                  <TouchableOpacity style={styles.padding} testID="codButton" onPress={() => {
                     this.setState({ paymentMethodType: "Cod" })
                   }}>
                     <CheckBox
@@ -290,7 +290,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               />
             </View>
             <View style={styles.paymentContainer}>
-              <Text style={styles.headerTextPayment}>PAYMENT DETAILS</Text>
+              <Text testID="paymentDetails" style={styles.headerTextPayment}>PAYMENT DETAILS</Text>
               <View style={styles.seperatorPayment} />
               <View style={styles.answerContainer}>
                 <View style={styles.row}>
@@ -353,10 +353,10 @@ export default class StripeIntegration extends StripeIntegrationController {
         {this.state.showPaymentAlert && (
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
-          }} onpressContinue={() => {
+          } } onpressContinue={() => {
             this.handleContinueButton();
-          }} customeText={this.state.customAlertText}
-            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} />
+          } } customeText={this.state.customAlertText}
+          isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} testID={"paymentAlert"} />
         )}
       </SafeAreaView>
     );
