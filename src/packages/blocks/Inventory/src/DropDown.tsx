@@ -9,14 +9,22 @@ interface DropDownTypes {
   label: string;
   onpress?: () => void;
   type?: "dropdown" | "calendar";
-  data?:Array<any>;
+  data?: Array<any>;
+  setSelectedDay?: (date: string) => void;
+  selectedDate: string;
+  selectedStatus?: string;
+  setSelectedStatus?: (status:string) => void;
 }
 
 const Dropdown = ({
   label = "",
   onpress = () => {},
   type = "dropdown",
-  data=[]
+  data = [],
+  setSelectedDay,
+  selectedDate,
+  selectedStatus,
+  setSelectedStatus,
 }: DropDownTypes) => {
   const dropdownCategoryref: any = React.createRef();
   const [selected,setSelected]=useState(label)
@@ -27,7 +35,7 @@ const Dropdown = ({
       }}
       style={styles.container}
     >
-      <Text style={styles.text}>{selected}</Text>
+      <Text style={styles.text}>{selectedStatus ? selectedStatus : selected}</Text>
       <Image style={styles.image} source={arrowLeft} />
     </TouchableOpacity>
   );
@@ -36,6 +44,8 @@ const Dropdown = ({
       {type === "calendar" ? (
         <DisplayCalendar
           ref={dropdownCategoryref}
+          setSelectedDay={setSelectedDay}
+          selectedDate={selectedDate}
           dropdownStyle={{ height: 200 }}
         >
           <RenderIcon />
@@ -43,14 +53,17 @@ const Dropdown = ({
       ) : (
         <ModalDropdownComp
           onSelect={(_:any,res2:string) => {
-            setSelected(res2)
+              // setSelected(res2)
+              if (setSelectedStatus) {
+                setSelectedStatus(res2)
+              }
           }}
           options={data}
           isFullWidth
           ref={dropdownCategoryref}
           keySearchObject="name"
           renderRow={(props: any) => {
-            return <Text style={[styles.rendertext,{fontWeight:selected=== props ?'bold':'normal'}]}>{props}</Text>;
+            return <Text style={[styles.rendertext,{fontWeight:selectedStatus=== props ?'bold':'normal'}]}>{props}</Text>;
           }}
           dropdownStyle={styles.dropDown}
           renderSeparator={(obj: any) => null}
