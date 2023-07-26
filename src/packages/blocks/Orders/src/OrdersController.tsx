@@ -17,7 +17,10 @@ export interface Props {
 }
 
 interface S {
-ordersList:Array<object>
+  ordersList: Array<object>;
+  ongoingOrdersList: Array<any>;
+  completedOrdersList: Array<any>;
+  selectedTab : 'ongoing' | 'completed'
 }
 
 interface SS {
@@ -44,7 +47,10 @@ export default class OrdersController extends BlockComponent<
     ];
 
     this.state = {
-      ordersList:[]
+      ordersList: [],
+      ongoingOrdersList: [],
+      completedOrdersList: [],
+      selectedTab:'ongoing'
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -84,7 +90,9 @@ export default class OrdersController extends BlockComponent<
       );
       if (ongoingOrders?.message === "No completed orders are present") {
         
-      }      
+      } else {
+        this.setState({ongoingOrdersList:ongoingOrders?.data})
+      }   
     }
     else {
       runEngine.debugLog("GOIT");
@@ -98,7 +106,7 @@ export default class OrdersController extends BlockComponent<
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    this.getCompletedOrderCallId = getValidationsMsg.messageId;
+    this.getOngoingOrdersAPI = getValidationsMsg.messageId;
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -123,7 +131,7 @@ export default class OrdersController extends BlockComponent<
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    this.getOngoingOrdersAPI = getValidationsMsg.messageId;
+    this.getCompletedOrderCallId = getValidationsMsg.messageId;
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),

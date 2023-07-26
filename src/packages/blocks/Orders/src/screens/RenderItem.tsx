@@ -21,12 +21,29 @@ const monthShortNames = [
     "NOV",
     "DEC",
 ];
-
-const RenderItem = ({ item }: any) => {
-    const date = new Date(item?.attributes?.delivered_at);
-
+const RenderProducts = ({ item,index }: any) => {    
     return (
-        <View>
+        <View key={index} style={rstyles.imageContainer}>
+        <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
+        <View style={rstyles.inner}>
+            <View style={styles.row}>
+                <Text style={styles.productName}>
+                    {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
+                </Text>
+                <Text style={styles.price}>
+                    {`$ ${item?.attributes?.price
+                        } X ${item?.attributes?.quantity}`}
+                </Text>
+            </View>
+        </View>
+    </View>
+    )
+}
+
+const RenderItem = ({ item }: any) => {    
+    const date = new Date(item?.attributes?.customer?.data?.attributes?.created_at);    
+    return (
+        <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={rstyles.date}>
                 {`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}
@@ -36,20 +53,13 @@ const RenderItem = ({ item }: any) => {
                 </TouchableOpacity>            
             </View>
         <View style={rstyles.main}>
-            <View style={rstyles.imageContainer}>
-                <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
-                <View style={rstyles.inner}>
-                    <View style={styles.row}>
-                        <Text style={styles.productName}>
-                            {item?.attributes?.catalogue?.data?.attributes?.name}
-                        </Text>
-                        <Text style={styles.price}>
-                            {`$ ${item?.attributes?.price
-                                } X ${item?.attributes?.quantity}`}
-                        </Text>
-                    </View>
-                </View>
-            </View>
+                {
+                    item?.attributes?.order_items?.data.map((item:any,i:number) => {
+                        return <RenderProducts item={item} index={i} />
+                        
+                    })
+           }
+                
             <View style={rstyles.duration}>
                 <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
                 <Text style={rstyles.deliveryDate}>
@@ -69,7 +79,7 @@ const rstyles = StyleSheet.create({
     date: { fontWeight: 'bold', color: 'grey', fontSize: 15, paddingBottom: 10 },
     duration: { flexDirection: "row", paddingTop: 25, justifyContent: 'space-between', paddingBottom: 10 },
     deliveryDate: { fontWeight: 'bold', color: 'grey', fontSize: 15, paddingBottom: 10 },
-    imageContainer: { flexDirection: 'row', width: '100%' },
+    imageContainer: { flexDirection: 'row', width: '100%',paddingVertical:10 },
     price: { color: DARK_RED, fontSize: 16, fontWeight: 'bold' },
     inner: { flex: 1, paddingLeft: 10, justifyContent: 'space-between' },
     estimater: { backgroundColor: DARK_RED, width: '50%', height: '100%' },

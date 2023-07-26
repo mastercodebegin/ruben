@@ -126,7 +126,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name='BlogPostStack' component={BlogPostStack} />
         <Stack.Screen name='MyOrdersScreen' component={MyOrdersScreen} />
         <Stack.Screen name='AnalyticsScreen' component={Analytics} />
-        <Stack.Screen name='Recomentations' component={Recomentations} />
+        <Stack.Screen name='Recomendations' component={Recomentations} />
         <Stack.Screen name='DetailsPage' component={DetailsPage} />
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} />

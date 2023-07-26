@@ -1,37 +1,34 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-} from "react-native";
+import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
 import OrdersController from "../OrdersController";
 import * as constants from "../../../../components/src/constants";
-import CalendarTemplate from "../../../../components/src/CalendarTemplate";
 import RenderItem from "./RenderItem";
+import { MyOrderHeader } from "./MyOrderHeader";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
   async componentDidMount(): Promise<void> {
-    this.getOrdersList();
+    this.getOnGoingOrder();
   }
   render(): React.ReactNode {
     return (
-      <CalendarTemplate
-        onChangeText={() => {}}
-        animateString1="Ongoing"
-        animateString2="Completed"
-        header="My Orders"
-        navigation={this.props.navigation}
-        data={[{}]}
-        showBottomTab={false}
-        backArrow
-      >
+      <SafeAreaView style={styles.main}>
         <View style={styles.main}>
           <FlatList
-            data={this.state.ordersList}
+            data={
+              this.state.selectedTab === "ongoing"
+                ? this.state.ongoingOrdersList
+                : this.state.completedOrdersList
+            }
             keyExtractor={(item, index) => JSON.stringify(index) + item}
-            style={{ marginHorizontal: 20 }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            ListHeaderComponent={
+              <MyOrderHeader
+                selected={this.state.selectedTab}
+                setSelected={(tab) => this.setState({ selectedTab: tab })}
+                navigation={this.props.navigation}
+              />
+            }
             ListEmptyComponent={() => {
               return (
                 <View>
@@ -44,7 +41,7 @@ export default class MyOrdersScreen extends OrdersController {
             renderItem={RenderItem}
           />
         </View>
-      </CalendarTemplate>
+      </SafeAreaView>
     );
   }
 }
