@@ -307,6 +307,11 @@ export default class LandingPageController extends BlockComponent<
     }
     else {
       this.receiveCallback(message)
+      this.resDeleteFavAPI(message)
+      this.resFavListAPI(message)
+      this.resAddFavList(message)
+      this.resOrderList(message)
+      this.resAboutUs(message)
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -378,11 +383,6 @@ export default class LandingPageController extends BlockComponent<
     } 
     else {
       this.cartCallBack(message)
-      this.resDeleteFavAPI(message)
-      this.resFavListAPI(message)
-      this.resAddFavList(message)
-      this.resOrderList(message)
-      this.resAboutUs(message)
     }
   }
 
@@ -1121,12 +1121,11 @@ export default class LandingPageController extends BlockComponent<
   }
 
   resDeleteFavAPI(message: any) {
-    {
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
         this.getFavoritesDeleteId != null &&
         this.getFavoritesDeleteId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    } {
+     ){
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -1136,12 +1135,12 @@ export default class LandingPageController extends BlockComponent<
     }
   }
   resFavListAPI(message: any) {
-    {
+    if(
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
         this.getFavoritesId != null &&
         this.getFavoritesId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    } {
+     ) {
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1154,10 +1153,10 @@ export default class LandingPageController extends BlockComponent<
     }
   }
   resAddFavList(message:any){
-    {getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToFavId != null &&
       this.addToFavId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))} {
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const AddToFavRes = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1165,15 +1164,16 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.addToFavCallBack(AddToFavRes, error);
+      console.log("addToFavId====")
     }
   }
  resOrderList(message:any) {
-   {
+   if(
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getOrderId != null &&
       this.getOrderId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    } {
+   ){
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1182,16 +1182,17 @@ export default class LandingPageController extends BlockComponent<
       );
       console.log(error);
       this.setState({ orderList: orderListData?.data, show_loader: false })
+      console.log("orderListData====")
     }
   }
 
   resAboutUs(message:any){
-    {
+    if(
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAboutUsId != null &&
       this.getAboutUsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    } {
+     ) {
       const aboutus = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1199,7 +1200,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.aboutusCallback(aboutus, error)
-
+      console.log("getAboutUsId====")
     }
   }
 
