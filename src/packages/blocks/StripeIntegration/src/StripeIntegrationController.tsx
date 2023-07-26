@@ -301,14 +301,7 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  async getPaymentMethod() {
-    this.setState({ showPaymentLoading: true })
-    this.setState({ showPaymentAlert: true })
-    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
-    let cvv = this.state.cvv
-    let month = this.state.expirtyDate.slice(0, 2);
-    let year = "20" + this.state.expirtyDate.slice(-2);
-
+  async getPaymentMethod(card: string, cvv:string, month:string, year:string) {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
     myHeaders.append("Content-Type", "text/plain");

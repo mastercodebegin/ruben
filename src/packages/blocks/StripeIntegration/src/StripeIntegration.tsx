@@ -328,7 +328,12 @@ export default class StripeIntegration extends StripeIntegrationController {
                   if (this.state.paymentMethodType === "Card") {
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Payment In Process.." });
-                    this.getPaymentMethod()
+                    this.setState({ showPaymentAlert: true })
+                    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+                    let cvv = this.state.cvv
+                    let month = this.state.expirtyDate.slice(0, 2);
+                    let year = "20" + this.state.expirtyDate.slice(-2);
+                    this.getPaymentMethod(card, cvv, month, year)
                   } else {
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Order In Process.." });

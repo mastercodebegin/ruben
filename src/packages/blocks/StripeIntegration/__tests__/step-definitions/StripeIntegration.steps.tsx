@@ -88,7 +88,38 @@ defineFeature(feature, (test) => {
               instance.paymentId = msgValidationAPI.messageId;
               runEngine.sendMessage("Unit Test", msgValidationAPI);
         
-          });      
+          });
+          then("codMethod api", () => {
+            let paymentparam = {
+                "order_id": "123",
+              }
+          
+            instance = exampleBlockA.instance() as StripeIntegration
+            const msgValidationAPI = new Message(
+                getName(MessageEnum.RestAPIResponceMessage)
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceDataMessage),
+                msgValidationAPI.messageId
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceEndPointMessage),
+                `payment=${paymentparam}`
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceSuccessMessage),
+                {
+                  "data": [
+                    {
+                    }
+                  ]
+                
+                }
+              );
+              instance.codId = msgValidationAPI.messageId;
+              runEngine.sendMessage("Unit Test", msgValidationAPI);
+        
+          });            
         then('I can enter text with out errors', () => {
             let textInputComponent = exampleBlockA.findWhere(
                 (node) => node.prop("testID") === "cardNameInput"

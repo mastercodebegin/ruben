@@ -5,6 +5,7 @@ Feature: StripeIntegration
         When I navigate to the StripeIntegration
         Then StripeIntegration will load with out errors
         Then paymentMethod api
+        Then codMethod api
         Then I can enter text with out errors
         Then I can enter card number
         Then I can enter card expirtydate
