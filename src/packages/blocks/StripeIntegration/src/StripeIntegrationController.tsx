@@ -108,6 +108,7 @@ export default class StripeIntegrationController extends BlockComponent<
     // Customizable Area End
   }
   paymentId: string = '';
+  codId: string = '';
 
   async receive(from: string, message: Message) {
     runEngine.debugLog("Message Recived", message);
@@ -146,7 +147,28 @@ export default class StripeIntegrationController extends BlockComponent<
         this.setState({ paymentAlerttype: "PaymentSuccess" })
         this.handlePaymentSuccess()
       }
-      // this.discoundCodeCallback(discoundCode,error)
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.codId != null &&
+      this.codId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let paymentData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log("check paymentData", paymentData.success);
+      
+      if (error) {
+        this.setState({ paymentAlerttype: "PaymentFailed" })
+        this.handlePaymentFailed()
+      }else  {
+        this.setState({ paymentAlerttype: "ThankYouForYourOder" })
+        this.handlePaymentSuccess()
+      } 
     }
     // Customizable Area Start
     // Customizable Area End
@@ -243,6 +265,42 @@ export default class StripeIntegrationController extends BlockComponent<
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
+
+  async codeApiCalled(order_id: number) {
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json"
+    };
+
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.codId = subcategory.messageId;
+    let raw = JSON.stringify({
+      payment: {
+        order_id: order_id,
+      }
+    });
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.codApi}`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      raw
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async getPaymentMethod() {
     this.setState({ showPaymentLoading: true })
     this.setState({ showPaymentAlert: true })
@@ -299,96 +357,6 @@ export default class StripeIntegrationController extends BlockComponent<
       this.setState({ customAlertText: "Check your E-mail" })
       this.setState({ customAlertDesc: "Check your email for order details" })
     }
-  }
-
-  // async paymentApiCalled(payment_methods: string, order_id: number) {
-  //   const userDetails: any = await AsyncStorage.getItem("userDetails");
-  //   const data: any = JSON.parse(userDetails);
-
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("token", data?.meta?.token);
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   let raw = JSON.stringify({
-  //     "payment": {
-  //       "order_id": order_id,
-  //       "payment_method_id": payment_methods,
-  //     }
-  //   });
-
-  //   let requestOptions: any = {
-  //     method: 'POST',
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: 'follow'
-  //   };
-  //   let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=card`
-  //   console.log("cehck url-->", url)
-  //   fetch(`${url}`, requestOptions)
-  //     .then(response => response.text())
-  //     .then(result => {
-  //       console.log("main result->", result)
-  //       let json = JSON.parse(result)
-  //       if (json.errors) {
-  //         console.log("error-->", json.errors);
-  //         this.setState({ paymentAlerttype: "ThankYouForYourOder" })
-  //         this.handlePaymentFailed()
-  //       } else {
-  //         console.log("result-->", result);
-  //         this.setState({ paymentAlerttype: "PaymentSuccess" })
-  //         this.handlePaymentSuccess()
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log("error par --->", error);
-  //       this.handlePaymentFailed()
-  //     });
-  // }
-
-  async codeApiCalled(order_id: number) {
-
-    console.log("checkin order id---<", order_id)
-    const userDetails: any = await AsyncStorage.getItem("userDetails");
-    const data: any = JSON.parse(userDetails);
-
-    let myHeaders = new Headers();
-    myHeaders.append("token", data?.meta?.token);
-    myHeaders.append("Content-Type", "application/json");
-
-    let raw = JSON.stringify({
-      "payment": {
-        "order_id": order_id,
-      },
-    });
-    console.log("json raw-->", raw)
-    let requestOptions: any = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=cod`
-    console.log("cehck url-->", url)
-    fetch(`${url}`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        let json = JSON.parse(result)
-        if (json.errors) {
-          console.log("result-->", json.errors);
-          this.setState({ paymentAlerttype: "PaymentFailed" })
-          this.handlePaymentFailed()
-        } else {
-          console.log("result-->", result);
-          this.setState({ paymentAlerttype: "ThankYouForYourOder" })
-          this.handlePaymentSuccess()
-        }
-      })
-      .catch(error => {
-        console.log("error par --->", error);
-        this.setState({ paymentAlerttype: "PaymentFailed" })
-        this.setState({ showPaymentLoading: false })
-        this.handlePaymentFailed()
-      });
   }
   // Customizable Area End
 }
