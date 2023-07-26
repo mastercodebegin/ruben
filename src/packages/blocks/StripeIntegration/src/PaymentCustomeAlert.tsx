@@ -19,8 +19,9 @@ interface PaymentModalTypes {
   visible: boolean;
   customeText: string;
   customeDescription: string;
-  iconImage: any;
-  isLoading: boolean
+  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail";
+  isLoading: boolean;
+  testID: string;
 }
 const PaymentCustomeAlert = ({
   onpressClose,
@@ -28,15 +29,26 @@ const PaymentCustomeAlert = ({
   visible,
   customeText,
   customeDescription,
-  iconImage,
   isLoading,
+  testID="paymentAlert",
+  paymentAlerttype,
 }: PaymentModalTypes) => {
+  const getImageAsperAlert = () => {
+    if (paymentAlerttype === "PaymentSuccess" || paymentAlerttype === "ThankYouForYourOder") {
+      return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
+    } else if (paymentAlerttype === "PaymentFailed") {
+      return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
+    } else {
+      return require("../../StripeIntegration/assets/ic_email_icon.png")
+    }
+  }
+
   return (
     <Modal visible={visible} transparent>
-      <View style={styles.blur} testID="paymentAlert" />
+      <View style={styles.blur} testID={testID} />
       <View style={styles.main}>
         <View style={styles.innerContainer}>
-          <TouchableOpacity onPress={onpressClose} style={styles.closeButton}>
+          <TouchableOpacity onPress={onpressClose} testID="closePaymentAlert" style={styles.closeButton} >
             <Image
               style={styles.closeImage}
               resizeMode="contain"
@@ -51,7 +63,7 @@ const PaymentCustomeAlert = ({
             <Image
             style={styles.mainImage}
             resizeMode="contain"
-            source={iconImage}
+            source={getImageAsperAlert()}
           />
           )}
           <Text style={styles.headerText}>{customeText}</Text>
@@ -59,7 +71,7 @@ const PaymentCustomeAlert = ({
             {customeDescription}
           </Text>
           {isLoading === false && (
-               <Button label="Continue" onPress={onpressContinue}/>
+               <Button label="Continue" testID="clickButton" onPress={onpressContinue}/>
           )}
           <Text>{}</Text>
         </View>

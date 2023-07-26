@@ -26,7 +26,8 @@ const DoubleButton = ({
     <View style={[styles.container, containerStyle]} testID="doubleButton">
       <TouchableOpacity
         onPress={button1_Onpress}
-        style={[styles.button, styles.button1Style]}
+        style={[styles.button, styles.button1Style] }
+        testID="doneFirstButtonEvent"
       >
         <Text style={[styles.textStyles, { color: WHITE }]}>
           {button1Label}
