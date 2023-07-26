@@ -433,16 +433,11 @@ export default class LandingPageController extends BlockComponent<
       this.getFavoritesDeleteId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      const getUpDateFavList = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(error);
       this.setState({ show_loader: false })
-      console.log("delete fav list = === == =",error);
-      
     }
     else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addToFavId != null &&
@@ -1186,7 +1181,7 @@ export default class LandingPageController extends BlockComponent<
     this.getFavoritesDeleteId = FavoritesDelete.messageId;
     FavoritesDelete.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_favourites/favourites/destroy?id=${`${productId}`}`
+      configJSON.deleteFavoritesEndPoint + `${productId}`
     );
     FavoritesDelete.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
