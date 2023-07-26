@@ -20,7 +20,7 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
-  route:{
+  route: {
     params: {
       name: string,
       address: string,
@@ -32,7 +32,7 @@ export interface Props {
       storageClass: "Basic" | "Gold" | "Platinum",
       orderId: number,
       orderNumber: number
-    }  
+    }
   }
   // Customizable Area End
 }
@@ -130,19 +130,21 @@ export default class StripeIntegrationController extends BlockComponent<
       let paymentData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      console.log('increaseCartResponse ', paymentData);
 
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log("check paymentData", paymentData.errors);
+      
       if (error) {
-        Alert.alert("Error", "Something went wrong", [{
-          text: 'OK', onPress: () => {
-            console.log("show loader false")
-          }
-        }]);
+        this.setState({ paymentAlerttype: "PaymentFailed" })
+        this.handlePaymentFailed()
+      }else if (paymentData.errors) {
+        this.setState({ paymentAlerttype: "PaymentFailed" })
+        this.handlePaymentFailed()
       } else {
-        showToast('success')
+        this.setState({ paymentAlerttype: "PaymentSuccess" })
+        this.handlePaymentSuccess()
       }
       // this.discoundCodeCallback(discoundCode,error)
     }
@@ -206,27 +208,34 @@ export default class StripeIntegrationController extends BlockComponent<
   };
 
   // Customizable Area Start
-  async paymentApi(payment_methods: string, order_id: string) {
+  async paymentApi(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
       token: data?.meta?.token,
+      "Content-Type": "application/json"
     };
-    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
     this.paymentId = subcategory.messageId;
-    let paymentparam = {
-      "order_id": order_id,
-      "payment_method_id": payment_methods
-    }
+    let raw = JSON.stringify({
+      payment: {
+        order_id: order_id,
+        payment_method_id: payment_methods,
+      }
+    });
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.paymentApi}?payment=${paymentparam}`
+      `${configJSON.paymentApi}`
     );
 
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      raw
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
@@ -235,18 +244,18 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getPaymentMethod() {
-    this.setState({showPaymentLoading: true})
+    this.setState({ showPaymentLoading: true })
     this.setState({ showPaymentAlert: true })
-    let card =  this.state.cardNumber.replace(' ','').replace(' ','').replace(' ','');
-    let cvv =  this.state.cvv
-    let month =  this.state.expirtyDate.slice(0, 2);
-    let year =  "20" + this.state.expirtyDate.slice(-2);
+    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+    let cvv = this.state.cvv
+    let month = this.state.expirtyDate.slice(0, 2);
+    let year = "20" + this.state.expirtyDate.slice(-2);
 
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
     myHeaders.append("Content-Type", "text/plain");
     let raw = "\n";
-    
+
     let requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
@@ -257,91 +266,91 @@ export default class StripeIntegrationController extends BlockComponent<
     fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => {
-        console.log("result-->",result);
+        console.log("result-->", result);
         let json = JSON.parse(result)
-        this.paymentApiCalled(json.id, this.props.route.params.orderId)
+        this.paymentApi(json.id, this.props.route.params.orderId)
       })
       .catch(error => {
         this.setState({ customAlertText: "Payment Failed" });
-        this.setState({showPaymentLoading: false})
-        this.setState ({showPaymentAlert : false})
-      });    
-  }
-
-  handlePaymentFailed = () => {
-    this.setState({ customAlertText: this.state.paymentMethodType === "Card" ? "Payment Failed" : "Order Failed"});
-    this.setState({ customAlertDesc: "Please contact to admin Or Try again."})
-    this.setState({showPaymentLoading: false})
-   }
-
-   handlePaymentSuccess = () => {
-    this.setState({isOrderSuccess : true})
-    this.setAlertText()
-    this.setState({showPaymentLoading: false})
-   }
-   setAlertText = () => {
-    if (this.state.paymentAlerttype === "PaymentSuccess") {
-      this.setState({ customAlertText: "Payment Successful"})
-      this.setState({ customAlertDesc: "You earned a discount coupon code. You can check this out in your profile or Reed Now!"})
-    } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
-      this.setState({ customAlertText: "Thank you for your order"})
-      this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber }`})
-    } else {
-      this.setState({ customAlertText: "Check your E-mail"})
-      this.setState({ customAlertDesc: "Check your email for order details"})
-    }
-   }
-
-  async paymentApiCalled(payment_methods: string, order_id: number) {
-    const userDetails: any = await AsyncStorage.getItem("userDetails");
-    const data: any = JSON.parse(userDetails);
-    
-    let myHeaders = new Headers();
-    myHeaders.append("token", data?.meta?.token);
-    myHeaders.append("Content-Type", "application/json");
-
-    let raw = JSON.stringify({
-      "payment": {
-        "order_id": order_id,
-        "payment_method_id": payment_methods,
-      }
-    });
-
-    let requestOptions: any = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-    let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=card`
-    console.log("cehck url-->", url)
-    fetch(`${url}`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log("main result->",result)
-        let json = JSON.parse(result)
-        if (json.errors) {
-          console.log("error-->",json.errors);
-          this.setState({paymentAlerttype: "ThankYouForYourOder"})
-          this.handlePaymentFailed()
-        } else {
-          console.log("result-->",result);
-          this.setState({paymentAlerttype: "PaymentSuccess"})
-          this.handlePaymentSuccess()
-        }
-      })
-      .catch(error => {
-        console.log("error par --->",error);
-        this.handlePaymentFailed()
+        this.setState({ showPaymentLoading: false })
+        this.setState({ showPaymentAlert: false })
       });
   }
 
+  handlePaymentFailed = () => {
+    this.setState({ customAlertText: this.state.paymentMethodType === "Card" ? "Payment Failed" : "Order Failed" });
+    this.setState({ customAlertDesc: "Please contact to admin Or Try again." })
+    this.setState({ showPaymentLoading: false })
+  }
+
+  handlePaymentSuccess = () => {
+    this.setState({ isOrderSuccess: true })
+    this.setAlertText()
+    this.setState({ showPaymentLoading: false })
+  }
+  setAlertText = () => {
+    if (this.state.paymentAlerttype === "PaymentSuccess") {
+      this.setState({ customAlertText: "Payment Successful" })
+      this.setState({ customAlertDesc: "You earned a discount coupon code. You can check this out in your profile or Reed Now!" })
+    } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
+      this.setState({ customAlertText: "Thank you for your order" })
+      this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber}` })
+    } else {
+      this.setState({ customAlertText: "Check your E-mail" })
+      this.setState({ customAlertDesc: "Check your email for order details" })
+    }
+  }
+
+  // async paymentApiCalled(payment_methods: string, order_id: number) {
+  //   const userDetails: any = await AsyncStorage.getItem("userDetails");
+  //   const data: any = JSON.parse(userDetails);
+
+  //   let myHeaders = new Headers();
+  //   myHeaders.append("token", data?.meta?.token);
+  //   myHeaders.append("Content-Type", "application/json");
+
+  //   let raw = JSON.stringify({
+  //     "payment": {
+  //       "order_id": order_id,
+  //       "payment_method_id": payment_methods,
+  //     }
+  //   });
+
+  //   let requestOptions: any = {
+  //     method: 'POST',
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: 'follow'
+  //   };
+  //   let url = `${configBase.baseURL}/bx_block_stripe_integration/payments?query=card`
+  //   console.log("cehck url-->", url)
+  //   fetch(`${url}`, requestOptions)
+  //     .then(response => response.text())
+  //     .then(result => {
+  //       console.log("main result->", result)
+  //       let json = JSON.parse(result)
+  //       if (json.errors) {
+  //         console.log("error-->", json.errors);
+  //         this.setState({ paymentAlerttype: "ThankYouForYourOder" })
+  //         this.handlePaymentFailed()
+  //       } else {
+  //         console.log("result-->", result);
+  //         this.setState({ paymentAlerttype: "PaymentSuccess" })
+  //         this.handlePaymentSuccess()
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log("error par --->", error);
+  //       this.handlePaymentFailed()
+  //     });
+  // }
+
   async codeApiCalled(order_id: number) {
 
-    console.log("checkin order id---<",order_id)
+    console.log("checkin order id---<", order_id)
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
-    
+
     let myHeaders = new Headers();
     myHeaders.append("token", data?.meta?.token);
     myHeaders.append("Content-Type", "application/json");
@@ -351,7 +360,7 @@ export default class StripeIntegrationController extends BlockComponent<
         "order_id": order_id,
       },
     });
-  console.log("json raw-->",raw)
+    console.log("json raw-->", raw)
     let requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
@@ -365,21 +374,21 @@ export default class StripeIntegrationController extends BlockComponent<
       .then(result => {
         let json = JSON.parse(result)
         if (json.errors) {
-          console.log("result-->",json.errors);
-          this.setState({paymentAlerttype: "PaymentFailed"})
+          console.log("result-->", json.errors);
+          this.setState({ paymentAlerttype: "PaymentFailed" })
           this.handlePaymentFailed()
         } else {
-          console.log("result-->",result);
-          this.setState({paymentAlerttype: "ThankYouForYourOder"})
+          console.log("result-->", result);
+          this.setState({ paymentAlerttype: "ThankYouForYourOder" })
           this.handlePaymentSuccess()
         }
       })
       .catch(error => {
-        console.log("error par --->",error);
-        this.setState({paymentAlerttype: "PaymentFailed"})
-        this.setState({showPaymentLoading: false})
+        console.log("error par --->", error);
+        this.setState({ paymentAlerttype: "PaymentFailed" })
+        this.setState({ showPaymentLoading: false })
         this.handlePaymentFailed()
       });
-    }
+  }
   // Customizable Area End
 }

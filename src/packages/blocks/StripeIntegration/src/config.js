@@ -11,6 +11,6 @@ exports.exampleApiContentType = "application/json";
 exports.textInputPlaceHolder = "Enter Text";
 exports.labelTitleText = "StripeIntegration";
 exports.labelBodyText = "StripeIntegration Body";
-exports.paymentApi = "bx_block_stripe_integration/payments";
+exports.paymentApi = "bx_block_stripe_integration/payments?query=card";
 exports.btnExampleTitle = "CLICK ME";
 // Customizable Area End

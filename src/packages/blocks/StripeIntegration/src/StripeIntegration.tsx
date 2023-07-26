@@ -133,6 +133,10 @@ export default class StripeIntegration extends StripeIntegrationController {
         this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
           this.handlePaymentSuccess()
         });
+      } else if (this.state.paymentAlerttype === "PaymentFailed") {
+        this.setState({ paymentAlerttype: "PaymentFailed" }, () => {
+          this.setState({showPaymentAlert: false})
+        });
       } else {
         this.setState({ showPaymentAlert: false });
         this.props.navigation.navigate('InvoiceBilling', this.props.route.params)
