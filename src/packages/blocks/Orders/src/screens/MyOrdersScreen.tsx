@@ -21,7 +21,7 @@ export default class MyOrdersScreen extends OrdersController {
                 : this.state.completedOrdersList
             }
             keyExtractor={(item, index) => JSON.stringify(index) + item}
-            contentContainerStyle={{ flexGrow: 1 }}
+            contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
             ListHeaderComponent={
               <MyOrderHeader
                 selected={this.state.selectedTab}

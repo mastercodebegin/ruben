@@ -59,6 +59,14 @@ export default class UpdateProfileModal extends React.Component<P, S> {
       this.setState({ keyboardHeight: 0 });
     });
   }
+  validName(name:string) {
+    const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+    return nameRegex.test(name);
+  }
+
+  showAlert(message:string) {
+    Alert.alert("Alert",message);
+  }
 
   render() {
     return (
@@ -168,7 +176,10 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                   flatNo,
                   phoneNumber,
                 } = this.state;
-                if (
+                if (!this.validName(name)) {
+                  this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
+                }
+                else if (
                   name &&
                   address &&
                   addressType &&
@@ -189,7 +200,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                     country: country,
                   });
                 } else {
-                  Alert.alert("Alert", "Please enter all details");
+                   this.showAlert("Please enter all details");
                 }
               }}
               label={"Save Details"}

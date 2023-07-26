@@ -116,12 +116,12 @@ export default class AboutUs extends LandingPageController {
                     />
                   </View>
                   <View style={styles.priceContainer}>
-                    <Text style={styles.productName}>{this.state.productList[0]?.attributes?.name}</Text>
+                    <Text style={styles.productName}>{this.state.productList[0]?.attributes?.categoryCode}</Text>
                     <Text style={styles.price}>{`$ ${this.state.productList[0]?.attributes?.price}`}</Text>
                   </View>
                   <View style={styles.descriptionContainer}>
                     <Text style={styles.description}>
-                      {this.state.productList[0]?.attributes?.name}
+                      {this.state.productList[0]?.attributes?.description}
                     </Text>
                     <View style={styles.badgeContainer}>
                       <Image source={badge} style={styles.badge} />
