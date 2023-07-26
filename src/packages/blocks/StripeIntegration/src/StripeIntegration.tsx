@@ -340,6 +340,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                testID="doneSecondButtonEvent"
                 onPress={() => { }}
                 style={[styles.buttonDouble, styles.button2Style]}
               >

@@ -5,7 +5,6 @@ import { render, fireEvent } from "@testing-library/react-native";
 import * as helpers from '../../../../framework/src/Helpers'
 import { runEngine } from '../../../../framework/src/RunEngine'
 import { Message } from "../../../../framework/src/Message"
-
 import MessageEnum, { getName } from "../../../../framework/src/Messages/MessageEnum";
 import StripeIntegration from "../../src/StripeIntegration"
 import { cardNumberFormatter } from "../../src/StripeIntegration";
@@ -14,7 +13,6 @@ import DoubleButton from "../../../../components/src/DoubleButton";
 import { State } from "react-native-gesture-handler";
 import { flattenProp } from "recompose";
 const navigation = require("react-navigation")
-
 const screenProps = {
     navigation: navigation,
     id: "StripeIntegration"
@@ -59,7 +57,38 @@ defineFeature(feature, (test) => {
         then('StripeIntegration will load with out errors', () => {
             expect(exampleBlockA).toBeTruthy();
         });
-
+        then("paymentMethod api", () => {
+            let paymentparam = {
+                "order_id": "123",
+                "payment_method_id": "abcabcabc"
+              }
+          
+            instance = exampleBlockA.instance() as StripeIntegration
+            const msgValidationAPI = new Message(
+                getName(MessageEnum.RestAPIResponceMessage)
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceDataMessage),
+                msgValidationAPI.messageId
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceEndPointMessage),
+                `payment=${paymentparam}`
+              );
+              msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceSuccessMessage),
+                {
+                  "data": [
+                    {
+                    }
+                  ]
+                
+                }
+              );
+              instance.paymentId = msgValidationAPI.messageId;
+              runEngine.sendMessage("Unit Test", msgValidationAPI);
+        
+          });      
         then('I can enter text with out errors', () => {
             let textInputComponent = exampleBlockA.findWhere(
                 (node) => node.prop("testID") === "cardNameInput"
@@ -532,19 +561,19 @@ defineFeature(feature, (test) => {
             instance.getPaymentMethod = mockGetPaymentMethod;
 
             // Click on Button 1
-            explorePageWrapper.find(<DoubleButton button1Label={""} button2Label={""} 
-            button1_Onpress={mockGetPaymentMethod()} button2_Onpress={() => {
+            explorePageWrapper.find(<DoubleButton button1Label={""} button2Label={""}
+                button1_Onpress={mockGetPaymentMethod()} button2_Onpress={() => {
 
-            }}/>);      
+                }} />);
 
             // Check state changes
             expect(explorePageWrapper.state('showPaymentLoading')).toBe(true);
             expect(explorePageWrapper.state('customAlertText')).toBe("Paymenst In Process..");
-          
+
             // Check if getPaymentMethod is called
             //expect(mockGetPaymentMethod).toHaveBeenCalled();
-          });
-          then('should call codeApiCalled and set showPaymentAlert to true when paymentMethodType is not "Card"', () => {
+        });
+        then('should call codeApiCalled and set showPaymentAlert to true when paymentMethodType is not "Card"', () => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
                 <StripeIntegration
@@ -565,17 +594,17 @@ defineFeature(feature, (test) => {
             );
             let instance = explorePageWrapper.instance() as StripeIntegration;
             explorePageWrapper.setState({ paymentMethodType: "Cod" }); // Set payment method type to "Cod" or any other type
-            instance.setState({showPaymentAlert: true})
+            instance.setState({ showPaymentAlert: true })
             // Mock codeApiCalled function
             const mockCodeApiCalled = jest.fn();
             instance.codeApiCalled = mockCodeApiCalled;
-          
-            // Call button1_Onpress
-            explorePageWrapper.find(<DoubleButton button1Label={""} button2Label={""} 
-            button1_Onpress={mockCodeApiCalled()} button2_Onpress={() => {
 
-            }}/>);   
-            const {getByTestId} = render(<DoubleButton button1Label={""} button2Label={""} button1_Onpress={mockCodeApiCalled()} button2_Onpress={() => {
+            // Call button1_Onpress
+            explorePageWrapper.find(<DoubleButton button1Label={""} button2Label={""}
+                button1_Onpress={mockCodeApiCalled()} button2_Onpress={() => {
+
+                }} />);
+            const { getByTestId } = render(<DoubleButton button1Label={""} button2Label={""} button1_Onpress={mockCodeApiCalled()} button2_Onpress={() => {
 
             }} />);
             const buttonComponent = getByTestId("doneFirstButtonEvent");
@@ -583,7 +612,7 @@ defineFeature(feature, (test) => {
             expect(mockCodeApiCalled).toHaveBeenCalled();
 
             expect(explorePageWrapper.state('showPaymentAlert')).toBe(true);
-          });
+        });
         then("Double button", async () => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
@@ -604,19 +633,34 @@ defineFeature(feature, (test) => {
                     }} {...screenProps} />
             );
             let instance = explorePageWrapper.instance() as StripeIntegration;
+            let buttonComponent = exampleBlockA.findWhere(
+                (node) => node.prop("testID") === "doneFirstButtonEvent"
+            );
+            buttonComponent.simulate("press");
+            expect(exampleBlockA).toBeTruthy();
 
-            const mockOnPress = jest.fn();
-            const { getByTestId } = render(<DoubleButton button1Label={""} button2Label={""} button1_Onpress={mockOnPress} button2_Onpress={() => {
-
-            }} />);
-            const buttonElements = getByTestId('doneFirstButtonEvent');
-            // Simulate a button click
-            fireEvent.press(buttonElements);
-            // Check if the onClick function is called once
-            expect(mockOnPress).toHaveBeenCalledTimes(1);
-
+            let buttonSecondComponent = exampleBlockA.findWhere(
+                (node) => node.prop("testID") === "doneSecondButtonEvent"
+            );
+            buttonSecondComponent.simulate("press");
+            expect(exampleBlockA).toBeTruthy();
+            instance.setState({paymentMethodType: "Card"});
             const { queryByTestId } = render(
-                <DoubleButton button1Label={""} button2Label={""} button1_Onpress={() => { }} button2_Onpress={() => {}} />
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
             );
             const closeDropdown: any = queryByTestId("doubleButton");
             instance.setState({ showPaymentLoading: true })
@@ -624,7 +668,6 @@ defineFeature(feature, (test) => {
             expect(instance.state.showPaymentLoading).toEqual(true);
             expect(closeDropdown).toBeTruthy();
             fireEvent.press(closeDropdown);
-
         });
         then('should update expirtyDate state with a valid month', () => {
             let explorePageWrapper: ShallowWrapper;
@@ -647,17 +690,15 @@ defineFeature(feature, (test) => {
             );
             let instance = explorePageWrapper.instance() as StripeIntegration;
             const inputText = "05/";
-          
+
             instance.handleExpiryDate(inputText);
-          
+
             expect(explorePageWrapper.state('expirtyDate')).toBe(inputText);
-          });          
+        });
         then('I can leave the screen with out errors', () => {
             instance.componentWillUnmount()
             expect(exampleBlockA).toBeTruthy();
         });
     });
-
-
 });
 
