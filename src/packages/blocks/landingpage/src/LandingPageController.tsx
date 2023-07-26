@@ -8,9 +8,9 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Animated,Alert,Clipboard} from 'react-native';
+import { Animated, Alert, Clipboard } from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
-import {deepLinkingURL} from '../../../components/src/constants';
+import { deepLinkingURL } from '../../../components/src/constants';
 import { store } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
@@ -24,61 +24,61 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
-  visible:boolean;
-  setVisibleProfileModal:()=>void
-  setState:any;
-  state:any;
-  firstTime:boolean;
-  currentUser:string;
-  route:any;
-  updateCartDetails:(data:any)=>void;
-  cartDetails:Array<any>;
+  visible: boolean;
+  setVisibleProfileModal: () => void
+  setState: any;
+  state: any;
+  firstTime: boolean;
+  currentUser: string;
+  route: any;
+  updateCartDetails: (data: any) => void;
+  cartDetails: Array<any>;
   // Customizable Area End
 }
 
 interface S {
   // Customizable Area Start
-  selectedTab:string
-  showProfileModal:boolean
-  profileImage:any;
-  name:string;
-  email:string;
-  instagram_link:string;
-  whatsapp_link:string;
-  facebook_link:string;
-  phone_number:string;
-  about_me:string;
-  show_loader:boolean;
-  id:any;
-  loader:boolean;
-  keyboardHeight:number;
-  blogTab:number;
-  animatedValue:any;
-  coldPackagingFee:boolean;
-  lifeTimeSubscription:boolean;
-  categories:Array<object>;
-  subcategories:Array<object>;
-  selectedSub:any;
+  selectedTab: string
+  showProfileModal: boolean
+  profileImage: any;
+  name: string;
+  email: string;
+  instagram_link: string;
+  whatsapp_link: string;
+  facebook_link: string;
+  phone_number: string;
+  about_me: string;
+  show_loader: boolean;
+  id: any;
+  loader: boolean;
+  keyboardHeight: number;
+  blogTab: number;
+  animatedValue: any;
+  coldPackagingFee: boolean;
+  lifeTimeSubscription: boolean;
+  categories: Array<object>;
+  subcategories: Array<object>;
+  selectedSub: any;
   selectedCat: any,
-  searchText:string;
-  productsList:Array<any>;
-  refresh:boolean;
-  imageBlogList:Array<object>;
-  videoLibrary:Array<object>;
-  visibleCard:number;
+  searchText: string;
+  productsList: Array<any>;
+  refresh: boolean;
+  imageBlogList: Array<object>;
+  videoLibrary: Array<object>;
+  visibleCard: number;
   categoryItem: string;
   subCategoryItem: string;
   categoryList: Array<object>;
   subCategoryList: Array<object>;
   productList: Array<any>;
-  aboutus:any;
+  aboutus: any;
   orderList: Array<any>;
-  cartList:Array<any>;
+  cartList: Array<any>;
   show_SortingDropdown: boolean,
   sortAscending: boolean,
-  setProductPage:number,
+  setProductPage: number,
   showFavoriteList: Array<object>;
-  priceTotal:number;
+  priceTotal: number;
   priceDiscount: number;
   percentage: number;
   // Customizable Area End
@@ -99,38 +99,38 @@ export default class LandingPageController extends BlockComponent<
 
     // Customizable Area Start
     this.subScribedMessages = [
-        getName(MessageEnum.RestAPIResponceMessage),
-        getName(MessageEnum.ReciveUserCredentials),
-        getName(MessageEnum.CountryCodeMessage),
+      getName(MessageEnum.RestAPIResponceMessage),
+      getName(MessageEnum.ReciveUserCredentials),
+      getName(MessageEnum.CountryCodeMessage),
     ];
 
     this.state = {
-      selectedTab:'MyFavoritesScreen',
-      showProfileModal:false,
-      profileImage:'',
-      name:'',
-      email:'',
-      instagram_link:'',
+      selectedTab: 'MyFavoritesScreen',
+      showProfileModal: false,
+      profileImage: '',
+      name: '',
+      email: '',
+      instagram_link: '',
       show_SortingDropdown: false,
       sortAscending: false,
-      facebook_link:'',
-      whatsapp_link:'',
-      about_me:'',
-      phone_number:'',
-      show_loader:false,
-      id:null,
-      loader:false,
-      keyboardHeight:0,
-      blogTab:0,
-      animatedValue:new Animated.Value(0),
-      coldPackagingFee:true,
-      lifeTimeSubscription:true,
-      categories:[],
-      subcategories:[],
-      selectedSub:null,
-      selectedCat:null,
-      searchText:'',
-      productsList:[{
+      facebook_link: '',
+      whatsapp_link: '',
+      about_me: '',
+      phone_number: '',
+      show_loader: false,
+      id: null,
+      loader: false,
+      keyboardHeight: 0,
+      blogTab: 0,
+      animatedValue: new Animated.Value(0),
+      coldPackagingFee: true,
+      lifeTimeSubscription: true,
+      categories: [],
+      subcategories: [],
+      selectedSub: null,
+      selectedCat: null,
+      searchText: '',
+      productsList: [{
         category_id: '',
         sub_category_id: '',
         name: '',
@@ -138,10 +138,10 @@ export default class LandingPageController extends BlockComponent<
         images: [],
         desciption: ''
       }],
-      refresh:false,
-      imageBlogList:[],
-      videoLibrary:[],
-      visibleCard:0,
+      refresh: false,
+      imageBlogList: [],
+      videoLibrary: [],
+      visibleCard: 0,
       categoryItem: '',
       subCategoryItem: '',
       productList: [],
@@ -182,11 +182,11 @@ export default class LandingPageController extends BlockComponent<
           id: 3,
         },
       ],
-      aboutus:null,
-      cartList:[],
-      setProductPage:1,
-      showFavoriteList:[],
-      priceTotal:0,
+      aboutus: null,
+      cartList: [],
+      setProductPage: 1,
+      showFavoriteList: [],
+      priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
     };
@@ -202,7 +202,7 @@ export default class LandingPageController extends BlockComponent<
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null &&
       this.getprofileDetailsId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -211,7 +211,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(error);
-      if(profileDetails?.data?.attributes){
+      if (profileDetails?.data?.attributes) {
         const {
           about_me,
           email_address,
@@ -222,77 +222,79 @@ export default class LandingPageController extends BlockComponent<
           photo,
           whatsapp_link,
           id
-        }=profileDetails.data.attributes;
+        } = profileDetails.data.attributes;
         this.setState({
-          about_me,email:email_address,
-          facebook_link,name:full_name,
-          instagram_link,phone_number:String(phone_number),
-        profileImage: photo?.url,
-        whatsapp_link,
-      id:id,
-    loader:false})
-    const dispatch = store?.dispatch;
-     dispatch({
-      type:'PROFILE_DETAILS',
-      payload:{
-      about_me,
-      email_address,
-      facebook_link,
-      full_name,
-      instagram_link,
-      phone_number,
-      photo,
-      whatsapp_link,
-      id
-    }})
-      }else{
-        this.setState({loader:false})
+          about_me, email: email_address,
+          facebook_link, name: full_name,
+          instagram_link, phone_number: String(phone_number),
+          profileImage: photo?.url,
+          whatsapp_link,
+          id: id,
+          loader: false
+        })
+        const dispatch = store?.dispatch;
+        dispatch({
+          type: 'PROFILE_DETAILS',
+          payload: {
+            about_me,
+            email_address,
+            facebook_link,
+            full_name,
+            instagram_link,
+            phone_number,
+            photo,
+            whatsapp_link,
+            id
+          }
+        })
+      } else {
+        this.setState({ loader: false })
       }
-    }else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.updateProfileDetailsId != null &&
-    this.updateProfileDetailsId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
+    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.updateProfileDetailsId != null &&
+      this.updateProfileDetailsId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const userDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.props.setState({show_loader:false})  
+      this.props.setState({ show_loader: false })
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.updateProfileCallback(error,userDetails)
+      this.updateProfileCallback(error, userDetails)
     }
-    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getCategoriesId != null &&
-    this.getCategoriesId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getCategoriesId != null &&
+      this.getCategoriesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const categories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
+      );
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.categoryCallback.bind(this)(error,categories?.data)
+      this.categoryCallback.bind(this)(error, categories?.data)
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
       this.getSubCategoryId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       const subCategories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
+      );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.getSubcategoryCallback(subCategories,error)
-      
+      this.getSubcategoryCallback(subCategories, error)
+
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToCartId != null &&
       this.addToCartId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
@@ -300,52 +302,50 @@ export default class LandingPageController extends BlockComponent<
       const subCategories = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      
-        this.addToCartCallBack(subCategories,error)
-      
-      
+
+      this.addToCartCallBack(subCategories, error)
     }
-  else{
+    else {
       this.receiveCallback(message)
     }
-    
+
     runEngine.debugLog("Message Recived", message);
     // Customizable Area End
   }
 
   // Customizable Area Start
 
-  receiveCallback(message:any){
-     if (
+  receiveCallback(message: any) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getBlogPostsId != null &&
       this.getBlogPostsId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ){
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
       const imageBlogPosts = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
+      );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        console.log(error);
-        this.setState({imageBlogList:imageBlogPosts?.data,show_loader:false})
+      );
+      console.log(error);
+      this.setState({ imageBlogList: imageBlogPosts?.data, show_loader: false })
 
-    }else if (
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getVideoLibraryId != null &&
       this.getVideoLibraryId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ){
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
       const videoLibrary = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
+      );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        this.videoLibraryCallback(videoLibrary,error)
-       
-    }else if (
+      );
+      this.videoLibraryCallback(videoLibrary, error)
+
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getProductId != null &&
       this.getProductId ===
@@ -361,137 +361,66 @@ export default class LandingPageController extends BlockComponent<
       const productList1 = [...this.state.productList];
       const productList2 = productListData?.data;
       const finalproductList = productList1.concat(productList2)
-      console.log("productList1 :", productList2);
-      console.log("productList2 :", productList2);
-      console.log("finalArray :", finalproductList);
       this.setState({ productList: finalproductList, show_loader: false })
-      console.log("product list === === == ", this.state.productList)
-      }else if (
-        getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-        this.getAddProductId != null &&
-        this.getAddProductId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-      ) {
-        const addProductListData = message.getData(
-          getName(MessageEnum.RestAPIResponceSuccessMessage)
-        );
-        const error = message.getData(
-          getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        this.addProductCallback(addProductListData, error)
-        // this.setState({ addProductList: addProductListData?.data, show_loader: false })
-      }else if (
-        getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getAboutUsId != null &&
-      this.getAboutUsId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ){
-      const aboutus = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        this.aboutusCallback(aboutus,error)
-       
-    }
-    else if (
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getOrderId != null &&
-      this.getOrderId ===
+      this.getAddProductId != null &&
+      this.getAddProductId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      const orderListData = message.getData(
+      const addProductListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(error);
-      this.setState({ orderList: orderListData?.data, show_loader: false })
+      this.addProductCallback(addProductListData, error)
+    } 
+    else {
+      this.cartCallBack(message)
+      this.resDeleteFavAPI(message)
+      this.resFavListAPI(message)
+      this.resAddFavList(message)
+      this.resOrderList(message)
+      this.resAboutUs(message)
     }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getFavoritesId != null &&
-      this.getFavoritesId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const getFavoritesList = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
-      this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
-      console.log("fav list = === == =",this.state.showFavoriteList);
-      
-    }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getFavoritesDeleteId != null &&
-      this.getFavoritesDeleteId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
-      this.setState({ show_loader: false })
-    }
-    else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.addToFavId != null &&
-    this.addToFavId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
-        const AddToFavRes = message.getData(
-          getName(MessageEnum.RestAPIResponceSuccessMessage)
-        );  
-        const error = message.getData(
-          getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        this.addToFavCallBack(AddToFavRes,error);
-        
-      }else{
-        this.cartCallBack(message)
-      }
   }
 
-  cartCallBack(message:any){
-     if (
+  cartCallBack(message: any) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getCartId != null &&
       this.getCartId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       const cartDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );  
+      );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if(error){
-        Alert.alert('Error',"Something went wrong please try again.")
+      if (error) {
+        Alert.alert('Error', "Something went wrong please try again.")
       }
-      else if(cartDetails?.data[0]?.attributes?.order_items?.data)
-        {
-          store.dispatch({type:'UPDATE_CART_DETAILS',payload:cartDetails?.data[0]?.attributes?.order_items?.data});
-         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
-        }
+      else if (cartDetails?.data[0]?.attributes?.order_items?.data) {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
+        this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
+      }
     }
   }
 
-  addToCartCallBack(cart:any,error:any){    
-    if(cart ?.data){
-      store.dispatch({type:'UPDATE_CART_DETAILS',payload:cart?.data?.attributes?.order_items?.data});
+  addToCartCallBack(cart: any, error: any) {
+    if (cart?.data) {
+      store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cart?.data?.attributes?.order_items?.data });
       showToast('Product Added to the cart')
-    }else{
+    } else {
       showToast('Something went wrong')
     }
   }
-  addToFavCallBack(AddToFavRes:any,error:any){
-    if(error){
+  addToFavCallBack(AddToFavRes: any, error: any) {
+    if (error) {
       showToast("Something went wrong");
-    }else if(AddToFavRes) {
+    } else if (AddToFavRes) {
       showToast("Product added to favorites");
     }
   }
@@ -508,65 +437,65 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  aboutusCallback(aboutus:any,error:any){    
-    if(error){
-      this.setState({show_loader:false})
-    }else{
-      this.setState({show_loader:false,aboutus:aboutus?.data?.length &&aboutus?.data[aboutus?.data?.length-1]})
+  aboutusCallback(aboutus: any, error: any) {
+    if (error) {
+      this.setState({ show_loader: false })
+    } else {
+      this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
     }
   }
-  videoLibraryCallback(videoLibrary:any,error:any){
-    if(error){
+  videoLibraryCallback(videoLibrary: any, error: any) {
+    if (error) {
       this.showAlert('Something went wrong, please try again later')
-    }else{
-      this.setState({videoLibrary:videoLibrary?.data,show_loader:false})
+    } else {
+      this.setState({ videoLibrary: videoLibrary?.data, show_loader: false })
     }
   }
-  getSubcategoryCallback(subCategories:any,error:any){
-    if(error){
-      this.setState({show_loader:false})
-      Alert.alert('Error','Something went wrong, Please try again later')
-    }else{
-      this.setState({subcategories:subCategories?.data,show_loader:false})
+  getSubcategoryCallback(subCategories: any, error: any) {
+    if (error) {
+      this.setState({ show_loader: false })
+      Alert.alert('Error', 'Something went wrong, Please try again later')
+    } else {
+      this.setState({ subcategories: subCategories?.data, show_loader: false })
     }
   }
-  categoryCallback(error:any,categories:Array<object>){
-      if(error)
-      {
-        Alert.alert('Error','Something went wrong, Please try again later')
-        this.setState({show_loader:false,refresh:false});
-      }else{
-        if(categories?.length === 0){
-          this.categoryPage = null;
-          this.setState({show_loader:false})
-        }else{
-        this.setState({show_loader:false,categories: this.categoryPage > 1 ? [...this.state.categories,...categories]: categories,refresh:false})}
+  categoryCallback(error: any, categories: Array<object>) {
+    if (error) {
+      Alert.alert('Error', 'Something went wrong, Please try again later')
+      this.setState({ show_loader: false, refresh: false });
+    } else {
+      if (categories?.length === 0) {
+        this.categoryPage = null;
+        this.setState({ show_loader: false })
+      } else {
+        this.setState({ show_loader: false, categories: this.categoryPage > 1 ? [...this.state.categories, ...categories] : categories, refresh: false })
       }
+    }
   }
-  updateProfileCallback(error:any,response:any){
-    if(error){
+  updateProfileCallback(error: any, response: any) {
+    if (error) {
       this.showAlert('something went wrong')
-    }else if(response){
-      if(this.props.firstTime){
-        Alert.alert('Success','Profile created successfully',[{text:'OK',onPress:this.goToLandingPage.bind(this)}])
-      }else{
-        Alert.alert('Success','Profile updated successfully',[{text:'OK',onPress:()=> this.props.setState({showProfileModal:false})}]);
+    } else if (response) {
+      if (this.props.firstTime) {
+        Alert.alert('Success', 'Profile created successfully', [{ text: 'OK', onPress: this.goToLandingPage.bind(this) }])
+      } else {
+        Alert.alert('Success', 'Profile updated successfully', [{ text: 'OK', onPress: () => this.props.setState({ showProfileModal: false }) }]);
       }
     }
   }
-  getprofileDetailsId:string ='';
-  updateProfileDetailsId:string ='';
-  getCategoriesId:string='';
-  getAboutUsId:any;
-  getSubCategoryId:string='';
-  getBlogPostsId:string='';
-  getVideoLibraryId:string='';
-  categoryPage:any=1;
-  addToFavId:string=''
-  getCartId:string='';
-  addToCartId:string='';
-  userdetailsProps={
-    getuserDetails:this.getProfileDetails
+  getprofileDetailsId: string = '';
+  updateProfileDetailsId: string = '';
+  getCategoriesId: string = '';
+  getAboutUsId: any;
+  getSubCategoryId: string = '';
+  getBlogPostsId: string = '';
+  getVideoLibraryId: string = '';
+  categoryPage: any = 1;
+  addToFavId: string = ''
+  getCartId: string = '';
+  addToCartId: string = '';
+  userdetailsProps = {
+    getuserDetails: this.getProfileDetails
   }
   getProductId: string = '';
   productListProps = {
@@ -585,26 +514,26 @@ export default class LandingPageController extends BlockComponent<
     getFavoritesList: this.getFavorites
   }
 
-  getFavoritesDeleteId :string= '';
-  upDateFavList ={
-    getUpDateFavList :this.removeFavListProduct
+  getFavoritesDeleteId: string = '';
+  upDateFavList = {
+    getUpDateFavList: this.removeFavListProduct
   }
-  async getCategory(page:number,loader=true){
-    this.setState({show_loader:loader})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getCategory(page: number, loader = true) {
+    this.setState({ show_loader: loader })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
 
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getCategoriesId = getValidationsMsg.messageId;
-    
+
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -622,27 +551,25 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-
-
-  async getAboutUs(){
-    this.setState({show_loader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getAboutUs() {
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
 
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getAboutUsId = getValidationsMsg.messageId;
-    
+
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-     configJSON.getAboutUs
+      configJSON.getAboutUs
     );
 
     getValidationsMsg.addData(
@@ -655,53 +582,53 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
-   opencamera(callBack:(res:any)=>void,error:(e:any)=>void){
+  opencamera(callBack: (res: any) => void, error: (e: any) => void) {
     ImagePicker.openCamera({
       cropping: false,
-      mediaType:'photo',
+      mediaType: 'photo',
       includeBase64: true
     }).then((image) => {
       callBack(image)
-    }).catch(e=>error(e))
+    }).catch(e => error(e))
   }
 
-  async openGallery(callBack:(res:any)=>void,error:(e:any)=>void){
-     ImagePicker.openPicker({
+  async openGallery(callBack: (res: any) => void, error: (e: any) => void) {
+    ImagePicker.openPicker({
       cropping: false,
-      mediaType:'photo',
+      mediaType: 'photo',
       includeBase64: true
     }).then((image) => {
       callBack(image)
-    }).catch(e=>{
+    }).catch(e => {
       error(e)
     });
   }
-  selectImage(callBack:(res:any)=>void,error:(e:any)=>void){
+  selectImage(callBack: (res: any) => void, error: (e: any) => void) {
     Alert.alert("Choose image from", "", [
       {
         text: "camera",
-        onPress:()=>this.opencamera(callBack,error),
+        onPress: () => this.opencamera(callBack, error),
       },
-      { text: "gallery", onPress:()=> this.openGallery(callBack,error) },
-      { text: "cancel", onPress: () => {} },
+      { text: "gallery", onPress: () => this.openGallery(callBack, error) },
+      { text: "cancel", onPress: () => { } },
     ]);
   }
-  showAlert(message:string){
-    Alert.alert('Alert',message)
+  showAlert(message: string) {
+    Alert.alert('Alert', message)
   }
-  async getblogPosts(){
-    this.setState({show_loader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getblogPosts() {
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
     const subcategory = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getBlogPostsId = subcategory.messageId;
-    
+
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -718,17 +645,17 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async getVideoBlog(){
-    this.setState({show_loader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getVideoBlog() {
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
     const videoLibrary = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getVideoLibraryId = videoLibrary.messageId;
     videoLibrary.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -745,75 +672,74 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
-  checkValidation(){
-    if(this.props.state.profileImage === ''){
+  checkValidation() {
+    if (this.props.state.profileImage === '') {
       this.showAlert('Please select your profile picture ');
       return false;
-    } 
-    if(this.props.state.name === ''){
+    }
+    if (this.props.state.name === '') {
       this.showAlert('Name can not be blank')
       return false;
     }
-    if (this.props.state.email === ''){
+    if (this.props.state.email === '') {
       this.showAlert('Email can not be blank')
       return false;
     }
-    if (this.props.state.phone_number === ''){
+    if (this.props.state.phone_number === '') {
       this.showAlert('please provide your phone number')
       return false;
     }
-    if (this.props.state.about_me === ''){
+    if (this.props.state.about_me === '') {
       this.showAlert('please provide information about you')
       return false;
     }
-    if (this.props.state.instagram_link === ''){
+    if (this.props.state.instagram_link === '') {
       this.showAlert('please provide your Instagram link')
       return false;
     }
-    if ( !validInstagramLink.test(this.props.state.instagram_link)){
+    if (!validInstagramLink.test(this.props.state.instagram_link)) {
       this.showAlert('please provide valid Instagram link')
       return false;
     }
     return true
   }
-  
-  async updateProfileDetails (firstTime:boolean) {
-    if(!this.checkValidation()){
+
+  async updateProfileDetails(firstTime: boolean) {
+    if (!this.checkValidation()) {
       return
     }
-    if (this.props.state.whatsapp_link === ''){
+    if (this.props.state.whatsapp_link === '') {
       this.showAlert('please provide your WhatsApp link')
       return
     }
-    if ( !validWhatssappLink.test(this.props.state.whatsapp_link)){
+    if (!validWhatssappLink.test(this.props.state.whatsapp_link)) {
       this.showAlert('please provide valid Whats app link')
       return
     }
-    if (this.props.state.facebook_link === ''){
+    if (this.props.state.facebook_link === '') {
       this.showAlert('please provide your Facebook link')
       return
     }
-    if ( !validFacebookLink.test(this.props.state.facebook_link)){
+    if (!validFacebookLink.test(this.props.state.facebook_link)) {
       this.showAlert('please provide valid facebook profile link')
       return
     }
-    this.props.setState({show_loader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails');
-    const data:any = JSON.parse(userDetails);
+    this.props.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails');
+    const data: any = JSON.parse(userDetails);
     const formdata = new FormData();
-    if(this.props.state?.profileImage?.path){
+    if (this.props.state?.profileImage?.path) {
       const imagePath = this.props.state.profileImage.path
-      const imageName = this.props.state?.profileImage?.filename ? 
-      this.props.state?.profileImage?.filename :imagePath.slice(imagePath.lastIndexOf('/') + 1)
-      const filename = `${
-        data?.meta?.token}${
-        new Date().getTime()}${imageName}`
-    formdata.append('photo', {
-      //@ts-ignore
-       uri: imagePath,
-       type: this.props.state?.profileImage?.mime,
-       name: filename,
-     });}
+      const imageName = this.props.state?.profileImage?.filename ?
+        this.props.state?.profileImage?.filename : imagePath.slice(imagePath.lastIndexOf('/') + 1)
+      const filename = `${data?.meta?.token}${new Date().getTime()}${imageName}`
+      formdata.append('photo', {
+        //@ts-ignore
+        uri: imagePath,
+        type: this.props.state?.profileImage?.mime,
+        name: filename,
+      });
+    }
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
     formdata.append("about_me", this.props.state.about_me);
@@ -821,46 +747,46 @@ export default class LandingPageController extends BlockComponent<
     formdata.append("whatsapp_link", this.props.state.whatsapp_link);
     formdata.append("facebook_link", this.props.state.facebook_link);
     formdata.append("phone_number", this.props.state.phone_number);
-      const header = {
-        'token': data?.meta?.token,
-      };
-      const requestMessage = new Message(
-        getName(MessageEnum.RestAPIRequestMessage)
-      );
-      this.updateProfileDetailsId = requestMessage.messageId;
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIResponceEndPointMessage),
-        firstTime ?  configJSON.userDetailsEndpoint : `${configJSON.userDetailsEndpoint}/${this?.props?.state?.id}`
-      );
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestHeaderMessage),
-        JSON.stringify(header)
-      );
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestBodyMessage),
-        formdata
-      );
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestMethodMessage),
-        firstTime ? 'POST' : 'PATCH'
-      );
-      runEngine.sendMessage(requestMessage.id, requestMessage);
-    
+    const header = {
+      'token': data?.meta?.token,
+    };
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.updateProfileDetailsId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      firstTime ? configJSON.userDetailsEndpoint : `${configJSON.userDetailsEndpoint}/${this?.props?.state?.id}`
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(header)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      formdata
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      firstTime ? 'POST' : 'PATCH'
+    );
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
     return true;
   }
-  async getSubcategories(subCategoryId:string){
-    this.setState({show_loader:true,selectedSub:null})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+  async getSubcategories(subCategoryId: string) {
+    this.setState({ show_loader: true, selectedSub: null })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
     const subcategory = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    
+
     this.getSubCategoryId = subcategory.messageId;
-    
+
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -878,12 +804,12 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getProfileDetails() {
-    this.setState({loader:true})
-    const userDetails:any = await AsyncStorage.getItem('userDetails')
-    const data:any = JSON.parse(userDetails)
+    this.setState({ loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
-      'token':data?.meta?.token
+      'token': data?.meta?.token
     };
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -903,14 +829,14 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
-  goToLandingPage(){
-    this.setState({showProfileModal:false})
+  goToLandingPage() {
+    this.setState({ showProfileModal: false })
     this.props.navigation.reset({
       index: 0,
-      routes: [{ name: "LandingPage"}],
+      routes: [{ name: "LandingPage" }],
     });
   }
- 
+
   goToHome() {
     const msg: Message = new Message(
       getName(MessageEnum.NavigationHomeScreenMessage)
@@ -946,7 +872,7 @@ export default class LandingPageController extends BlockComponent<
     const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
-    console.log('add products == =',  headers)
+    console.log('add products == =', headers)
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -970,7 +896,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getProductList(type:boolean) {
+  async getProductList(type: boolean) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -984,7 +910,7 @@ export default class LandingPageController extends BlockComponent<
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `${configJSON.getProductListEndpoint}?page=${this.state.setProductPage}&type=${type ? "asc" : "desc"}`
-      );
+    );
     getProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -995,22 +921,22 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
-  async AddToFavorites(catalogue_id:number) {
-    console.log('catalogue_idcatalogue_id ',catalogue_id);
-    
+  async AddToFavorites(catalogue_id: number) {
+    console.log('catalogue_idcatalogue_id ', catalogue_id);
+
     const userDetails: any = await AsyncStorage.getItem('userDetails')
-    const userDetail: any = JSON.parse(userDetails);       
+    const userDetail: any = JSON.parse(userDetails);
     const header = {
       'token': userDetail?.meta?.token,
       "Content-Type": "application/json"
     };
     const data = {
-      "data":{
-          "favouriteable_id":userDetail.data?.id,
-          favouriteable_type:"AccountBlock::Account",
-          catalogue_id
+      "data": {
+        "favouriteable_id": userDetail.data?.id,
+        favouriteable_type: "AccountBlock::Account",
+        catalogue_id
       }
-  }
+    }
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1034,7 +960,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id:number) {
+  async addToCart(id: number) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1050,8 +976,8 @@ export default class LandingPageController extends BlockComponent<
         "taxable_value": 0.1233,
         "other_charges": 0.124,
         "delivered_at": "2023-04-21T12:27:59.395Z"
+      }
     }
-  }
 
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1081,7 +1007,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-  shareProducts(id:number){
+  shareProducts(id: number) {
     Clipboard.setString(
       `${deepLinkingURL}?/product=${1}`
     );
@@ -1106,7 +1032,7 @@ export default class LandingPageController extends BlockComponent<
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.validationApiMethodType
+      configJSON.validationApiMethodType
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
@@ -1142,7 +1068,7 @@ export default class LandingPageController extends BlockComponent<
       this.getProductList(true)
     });
   }
-  
+
   async getFavorites() {
     this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -1169,7 +1095,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(Favorites.id, Favorites);
   }
 
-  async removeFavListProduct(productId :any) {    
+  async removeFavListProduct(productId: any) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -1192,7 +1118,90 @@ export default class LandingPageController extends BlockComponent<
       configJSON.validationApiMethodTypeDelete
     );
     runEngine.sendMessage(FavoritesDelete.id, FavoritesDelete);
-    
   }
+
+  resDeleteFavAPI(message: any) {
+    {
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+        this.getFavoritesDeleteId != null &&
+        this.getFavoritesDeleteId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    } {
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ show_loader: false })
+      console.log("getFavoritesDeleteId====")
+    }
+  }
+  resFavListAPI(message: any) {
+    {
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+        this.getFavoritesId != null &&
+        this.getFavoritesId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    } {
+      const getFavoritesList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
+      console.log("fav list = === == =", this.state.showFavoriteList);
+    }
+  }
+  resAddFavList(message:any){
+    {getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.addToFavId != null &&
+      this.addToFavId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))} {
+      const AddToFavRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.addToFavCallBack(AddToFavRes, error);
+    }
+  }
+ resOrderList(message:any) {
+   {
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getOrderId != null &&
+      this.getOrderId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    } {
+      const orderListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
+      this.setState({ orderList: orderListData?.data, show_loader: false })
+    }
+  }
+
+  resAboutUs(message:any){
+    {
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getAboutUsId != null &&
+      this.getAboutUsId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    } {
+      const aboutus = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.aboutusCallback(aboutus, error)
+
+    }
+  }
+
   // Customizable Area End
 }
