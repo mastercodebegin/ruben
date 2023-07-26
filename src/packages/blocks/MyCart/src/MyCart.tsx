@@ -108,7 +108,7 @@ export default class MyCart extends MyCartController {
                   onPress={() => this.props.navigation.navigate('PersonelDetails')}
                   label="Continue to Personal Details"
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity onPress={()=>this.onpressCancel.bind(this)()} style={styles.button}>
                   <Text style={styles.buttonText}>{"Cancel"}</Text>
                 </TouchableOpacity>
               </View>

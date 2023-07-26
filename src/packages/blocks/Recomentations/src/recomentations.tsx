@@ -70,16 +70,6 @@ export default class Recomentations extends RecomentationsController {
                     >
                      {item?.attributes?.description}
                     </Text>
-                    <View>
-                      <TouchableOpacity
-                        style={styles.badgeContainer}
-                      >
-                        <Image
-                          style={styles.badge}
-                          source={badge}
-                        />
-                      </TouchableOpacity>
-                    </View>
                     </View>
                     </View>
                 </TouchableWithoutFeedback>

@@ -151,6 +151,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       showToast('Discound code fetched successfully')
     }
   }
+  onpressCancel() {
+    Alert.alert('Alert','Are you sure to cancel',[{text:'Ok',onPress:()=>this.props.navigation.goBack()},{text:'Cancel'}])
+  }
   async getCart() {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
