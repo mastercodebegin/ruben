@@ -7,6 +7,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { getStorageData } from "../../../framework/src/Utilities";
 
 export const configJSON = require("./config");
 
@@ -16,7 +17,10 @@ export interface Props {
 }
 
 interface S {
-ordersList:Array<object>
+  ordersList: Array<object>;
+  ongoingOrdersList: Array<any>;
+  completedOrdersList: Array<any>;
+  selectedTab : 'ongoing' | 'completed'
 }
 
 interface SS {
@@ -28,7 +32,9 @@ export default class OrdersController extends BlockComponent<
   S,
   SS
 > {
-  getOrdersListCallId:any;
+  getOrdersListCallId: any;
+  getOngoingOrdersAPI: any;
+  getCompletedOrderCallId: string;
 
   constructor(props: Props) {
     super(props);
@@ -41,7 +47,10 @@ export default class OrdersController extends BlockComponent<
     ];
 
     this.state = {
-      ordersList:[]
+      ordersList: [],
+      ongoingOrdersList: [],
+      completedOrdersList: [],
+      selectedTab:'ongoing'
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -66,11 +75,79 @@ export default class OrdersController extends BlockComponent<
       }else{
         this.setState({ordersList:ordersList?.data})
       }  
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getOngoingOrdersAPI != null &&
+      this.getOngoingOrdersAPI ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let ongoingOrders = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let ongoingOrdersError = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (ongoingOrders?.message === "No completed orders are present") {
+        
+      } else {
+        this.setState({ongoingOrdersList:ongoingOrders?.data})
+      }   
     }
     else {
       runEngine.debugLog("GOIT");
     }
   }
+  async getOnGoingOrder() {
+    const data:any =await getStorageData("userDetails",true)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getOngoingOrdersAPI = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_shopping_cart/orders/ongoing_orders'
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async getCompletedOrder() {
+    const data:any =await getStorageData("userDetails",true)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getCompletedOrderCallId = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_shopping_cart/orders/completed_orders'
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
   async getOrdersList() {
     const userDetails:any = await AsyncStorage.getItem('userDetails')
     const data:any = JSON.parse(userDetails)

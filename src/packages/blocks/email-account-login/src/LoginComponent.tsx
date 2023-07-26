@@ -12,6 +12,8 @@ interface LoginComponentTypes {
   onpressLogin: () => boolean;
   email: string;
   password: string;
+  checked: boolean;
+  setChecked: (val: boolean) => void;
 }
 
 /**
@@ -27,11 +29,12 @@ const LoginComponent = ({
   onpressLogin,
   email,
   password,
+  checked,
+  setChecked,
 }: LoginComponentTypes) => {
-  const onpressForgotPassword = (email:string) => {
-    navigation?.navigate("ForgotPassword",{email});
+  const onpressForgotPassword = (email: string) => {
+    navigation?.navigate("ForgotPassword", { email });
   };
-  const [checked, setChecked] = useState(false);
   return (
     <View style={styles.mainContainer}>
       <TextInput
@@ -54,14 +57,14 @@ const LoginComponent = ({
       />
       <View style={styles.remeber}>
         <View style={styles.remeberMe}>
-          <CheckBox checked={checked} setChecked={setChecked} />
+          <CheckBox testID="remember_me_test_id" checked={checked} setChecked={setChecked} />
           <Text style={styles.rememberText}>Remember Me</Text>
         </View>
-        <TouchableOpacity onPress={()=>onpressForgotPassword(email)}>
+        <TouchableOpacity onPress={() => onpressForgotPassword(email)}>
           <Text style={styles.text}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      <Button label={"Log In"} onPress={onpressLogin} />
+      <Button testID="do_login_test_id" label={"Log In"} onPress={onpressLogin} />
       <View style={styles.createAcc}>
         <Text style={styles.text}>{"Don't have an account ? "}</Text>
         <TouchableOpacity onPress={onpressSignup}>

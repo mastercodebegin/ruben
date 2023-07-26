@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 import CommonLoader from "../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
@@ -13,6 +14,7 @@ import {
   WHITE,
   DARK_RED,
   badge,
+  backGroundImage,
 } from "../../landingpage/src/assets";
 import RecomentationsController from "./RecomentationsController";
 export default class Recomentations extends RecomentationsController {
@@ -37,18 +39,26 @@ export default class Recomentations extends RecomentationsController {
             showsVerticalScrollIndicator={false}
             bounces={false}
             contentContainerStyle={{paddingHorizontal:20}}
-            renderItem={({item}:any) => {              
+              renderItem={({ item }: any) => {                  
               return (
-                <View style={styles.main}>
+                <TouchableWithoutFeedback onPress={() => {
+                  this.props.navigation.navigate("ProductDetailScreen", {
+                    id: item?.id,
+                    description: item?.attributes?.description,
+                    name: item?.attributes?.categoryCode,
+                    price: item?.attributes?.price
+                  })
+                }}>
+                  <View  style={styles.main}>
                   <Image
                     resizeMode="stretch"
                     style={styles.image}
-                    source={{uri:item?.attributes?.images[0]?.url}}
+                    source={backGroundImage}
                   />
                   <View
                     style={styles.row}
                   >
-                    <Text style={styles.text}>{item?.attributes?.name}</Text>
+                    <Text style={styles.text}>{item?.attributes?.categoryCode}</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.text}>$ {item?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
@@ -70,8 +80,9 @@ export default class Recomentations extends RecomentationsController {
                         />
                       </TouchableOpacity>
                     </View>
-                  </View>
-                </View>
+                    </View>
+                    </View>
+                </TouchableWithoutFeedback>
               );
             }}
             keyExtractor={(_, index) => {

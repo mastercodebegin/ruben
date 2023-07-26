@@ -185,7 +185,7 @@ const CalendarTemplate = ({
   );
 };
 export default CalendarTemplate;
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   calendarContainer: {
     position: "absolute",
     top: 40,

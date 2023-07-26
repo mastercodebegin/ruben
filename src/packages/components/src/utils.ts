@@ -134,3 +134,22 @@ const reducer = (state = initialState, action: any) => {
       const token = await messaging().getToken()
       return token;
   }
+
+  export function encryptText(text:string, key:string) {
+    var encryptedText = "";
+    for (var i = 0; i < text.length; i++) {
+      var charCode = text.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+      encryptedText += String.fromCharCode(charCode);
+    }
+    return encryptedText;
+  }
+  
+  export function decryptText(encryptedText:string, key:string) {
+    var decryptedText = "";
+    for (var i = 0; i < encryptedText.length; i++) {
+      var charCode = encryptedText.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+      decryptedText += String.fromCharCode(charCode);
+    }
+    return decryptedText;
+  }
+  
