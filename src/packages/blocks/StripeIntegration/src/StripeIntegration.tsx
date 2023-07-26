@@ -123,16 +123,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     this.setState({ cvv: text });
   };
-
-  getImageAsperAlert = () => {
-    if (this.state.paymentAlerttype === "PaymentSuccess" || this.state.paymentAlerttype === "ThankYouForYourOder") {
-      return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
-    } else if (this.state.paymentAlerttype === "PaymentFailed") {
-      return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
-    } else {
-      return require("../../StripeIntegration/assets/ic_email_icon.png")
-    }
-  }
   handleContinueButton = () => {
     if (this.state.isOrderSuccess) {
       if (this.state.paymentAlerttype === "PaymentSuccess") {
@@ -365,8 +355,8 @@ export default class StripeIntegration extends StripeIntegrationController {
             this.setState({ showPaymentAlert: false });
           }} onpressContinue={() => {
             this.handleContinueButton();
-          }} customeText={this.state.customAlertText} iconImage={this.getImageAsperAlert()}
-            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={"PaymentFailed"} />
+          }} customeText={this.state.customAlertText}
+            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} />
         )}
       </SafeAreaView>
     );
