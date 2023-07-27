@@ -7,6 +7,7 @@ import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
+import * as utils  from "../../../../components/src/ShowToast";
 
 const configJSON = require("../../src/config");
 
@@ -29,6 +30,9 @@ defineFeature(feature, (test) => {
     jest.doMock("react-native", () => ({
       Platform: { OS: "web" },
       nativeModule: {},
+    }));
+    jest.doMock("../../../../components/src/ShowToast", () => ({
+      showToast: jest.fn(),
     }));
   });
 
@@ -102,6 +106,15 @@ defineFeature(feature, (test) => {
     then("user can see the description", () => {
       const description = instance.state.aboutus.attributes.description;
       expect(description).toBeTruthy();
+    });
+    then("user can add the product into cart", () => {
+      const showAlert = jest.spyOn(utils, "showToast");
+
+      const touchableOpacity = AboutUsBlock.find(
+        '[testID="add_to_fav_test_id"]'
+      );
+      touchableOpacity.simulate("press");
+      expect(showAlert).toBeDefined();
     });
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

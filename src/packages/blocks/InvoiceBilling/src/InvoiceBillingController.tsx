@@ -183,8 +183,8 @@ export default class InvoiceBillingController extends BlockComponent<
         true
       );
       this.setState({ showLoader: false });
-      showAlert &&
-        Alert.alert("Success", "invoice downloaded in downloads/rubensftcapp");
+      showAlert && setTimeout(
+        () => { Alert.alert("Success", "invoice downloaded in downloads/rubensftcapp") }, 300);
     } catch (e) {
       Alert.alert("Error", e.message);
       this.setState({ showLoader: false });
