@@ -45,7 +45,7 @@ const RenderAboutThisFarm = ({ item , AddToFavorites}: any) => {
             <View style={{ flex: 1 }}>
               <Text numberOfLines={3}>{item?.attributes?.description}</Text>
             </View>
-            <TouchableOpacity onPress={()=>AddToFavorites(item?.id)} style={styles.button}>
+            <TouchableOpacity testID="add_to_fav_test_id" onPress={()=>AddToFavorites(item?.id)} style={styles.button}>
               <Image style={styles.badge} source={badge} />
             </TouchableOpacity>
           </View>

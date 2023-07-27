@@ -4,7 +4,7 @@ import React from "react";
 import ProductDetails from "../../src/ProductDetails/ProductDetails";
 import  RenderAboutThisFarm from "../../src/ProductDetails/RenderAboutThisFarm";
 import RenderSteps from "../../src/ProductDetails/RenderSteps";
-import { render } from "@testing-library/react-native";
+import { render ,fireEvent} from "@testing-library/react-native";
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -69,8 +69,13 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     });
 
-    then("user can see about this farm",()=>{
-      render(<RenderAboutThisFarm/>);
+    then("user can see about this farm", () => {
+      const RenderAboutThisFarmProps = {
+        AddToFavorites:jest.fn()
+      }
+      const { getByTestId } = render(<RenderAboutThisFarm {...RenderAboutThisFarmProps} />);
+      fireEvent.press(getByTestId('add_to_fav_test_id'));
+      expect(RenderAboutThisFarmProps.AddToFavorites).toBeCalled()
       render(<RenderSteps header={""} description={""} images={[]}/>);
     })
   });

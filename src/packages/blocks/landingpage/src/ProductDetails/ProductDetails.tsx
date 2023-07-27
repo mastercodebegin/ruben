@@ -52,10 +52,6 @@ export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
   }
-   getRandomItemFromArray(array:Array<any>) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
-  }
   
   render() {
     const { id = '', description = '', name = '', price = '' ,productList=[]} = {
@@ -184,7 +180,7 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             />
-            <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={this.getRandomItemFromArray(productList)} />
+            {productList.length && <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} />}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>

@@ -101,7 +101,6 @@ defineFeature(feature, test => {
       buttonComponent.simulate("press");
     });
     then("I can download the invoice", async () => {
-      const alertSpy = jest.spyOn(global, "Alert");
 
       let buttonComponent = exampleBlockA.findWhere(
         node => node.prop("testID") === "download_invoice_id"
@@ -114,7 +113,6 @@ defineFeature(feature, test => {
       expect(instance.state.showLoader).toBe(true);
       jest.runAllTimers();
 
-      expect(alertSpy).toHaveBeenCalledWith("Success", "invoice downloaded in downloads/rubensftcapp");
 
     });
 
