@@ -299,7 +299,7 @@ export default class StripeIntegrationController extends BlockComponent<
   }
 
   async getPaymentMethod(card: string, cvv:string, month:string, year:string, test=false) {
-    var myHeaders: any; 
+    let myHeaders: any; 
     if (test === false) {
        myHeaders = new Headers();
        myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
