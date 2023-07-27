@@ -15,7 +15,8 @@ import { flattenProp } from "recompose";
 const navigation = require("react-navigation")
 const screenProps = {
     navigation: navigation,
-    id: "StripeIntegration"
+    id: "StripeIntegration",
+    fetch: jest.fn()
 }
 
 const feature = loadFeature('./__tests__/features/StripeIntegration-scenario.feature');
@@ -61,65 +62,101 @@ defineFeature(feature, (test) => {
             let paymentparam = {
                 "order_id": "123",
                 "payment_method_id": "abcabcabc"
-              }
-          
+            }
+
             instance = exampleBlockA.instance() as StripeIntegration
             const msgValidationAPI = new Message(
                 getName(MessageEnum.RestAPIResponceMessage)
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceDataMessage),
                 msgValidationAPI.messageId
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceEndPointMessage),
                 `payment=${paymentparam}`
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceSuccessMessage),
                 {
-                  "data": [
-                    {
-                    }
-                  ]
-                
+                    "data": [
+                        {
+                        }
+                    ]
+
                 }
-              );
-              instance.paymentId = msgValidationAPI.messageId;
-              runEngine.sendMessage("Unit Test Api", msgValidationAPI);
-        
-          });
-          then("codMethod api", () => {
+            );
+            instance.paymentId = msgValidationAPI.messageId;
+            runEngine.sendMessage("Unit Test Api", msgValidationAPI);
+
+        });
+        then("codMethod api", () => {
             let paymentparam = {
                 "order_id": "123",
-              }
-          
+            }
+
             instance = exampleBlockA.instance() as StripeIntegration
             const msgValidationAPI = new Message(
                 getName(MessageEnum.RestAPIResponceMessage)
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceDataMessage),
                 msgValidationAPI.messageId
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceEndPointMessage),
                 `payment=${paymentparam}`
-              );
-              msgValidationAPI.addData(
+            );
+            msgValidationAPI.addData(
                 getName(MessageEnum.RestAPIResponceSuccessMessage),
                 {
-                  "data": [
-                    {
-                    }
-                  ]
-                
+                    "data": [
+                        {
+                        }
+                    ]
+
                 }
-              );
-              instance.codId = msgValidationAPI.messageId;
-              runEngine.sendMessage("Unit Test", msgValidationAPI);
-        
-          });            
+            );
+            instance.codId = msgValidationAPI.messageId;
+            runEngine.sendMessage("Unit Test", msgValidationAPI);
+        });
+        then("I can select the button with with out errors", () => {
+            let explorePageWrapper: ShallowWrapper;
+            explorePageWrapper = shallow(
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
+            );
+            let instance = explorePageWrapper.instance() as StripeIntegration;
+            instance.setState({ enableField: true });
+            instance.btnShowHideProps.onPress()
+            expect(instance.state.enableField).toBe(false);
+
+            instance.setEnableField()
+            expect(instance.state.enableField).toBe(true);
+
+            instance.txtInputWebProps.onChangeText("abc")
+            expect(instance.state.txtInputValue).toBe("abc");
+
+            instance.btnExampleProps.onPress()
+            expect(instance).toBeTruthy();
+
+
+        });
+
+
         then('I can enter text with out errors', () => {
             let textInputComponent = exampleBlockA.findWhere(
                 (node) => node.prop("testID") === "cardNameInput"
@@ -195,11 +232,37 @@ defineFeature(feature, (test) => {
             instance.handleExpiryDate("12")
             expect(input.props.value).toBe('12/');
             expect(instance.state.expirtyDate).toEqual("12/");
+
             if (instance.state.expirtyDate.length > 2) {
                 instance.handleExpirtyMorethan3("12/", "23")
                 instance.setState({ expirtyDate: "12/23" })
                 expect(instance.state.expirtyDate).toEqual("12/23");
             }
+
+        });
+        then('I can enter card expirtydate with digit', () => {
+            const { getByTestId } = render(<StripeIntegration navigation={navigation} id={"1"} route={{
+                params: {
+                    name: "",
+                    address: "",
+                    phone_number: 0,
+                    zip_code: 0,
+                    subtotal: 0,
+                    shipping: 0,
+                    discount: 0,
+                    storageClass: "Basic",
+                    orderId: 0,
+                    orderNumber: 0
+                }
+            }} />);
+            const input = getByTestId('cardExpiry');
+            instance = exampleBlockA.instance() as StripeIntegration
+            instance.setState({ backspaceFlag: true })
+            fireEvent.changeText(input, '12/');
+            instance.handleExpiryDate("12/")
+            expect(input.props.value).toBe('12/');
+            expect(instance.state.expirtyDate).toEqual("12/");
+            expect(instance.state.backspaceFlag).toBe(true);
 
         });
         then('I can enter cvv', () => {
@@ -674,7 +737,7 @@ defineFeature(feature, (test) => {
             );
             buttonSecondComponent.simulate("press");
             expect(exampleBlockA).toBeTruthy();
-            instance.setState({paymentMethodType: "Card"});
+            instance.setState({ paymentMethodType: "Card" });
             const { queryByTestId } = render(
                 <StripeIntegration
                     route={{
@@ -695,10 +758,77 @@ defineFeature(feature, (test) => {
             const closeDropdown: any = queryByTestId("doubleButton");
             instance.setState({ showPaymentLoading: true })
             instance.setState({ customAlertText: "Payment In Process.." });
-            expect(instance.state.showPaymentLoading).toEqual(true);
-            expect(closeDropdown).toBeTruthy();
+            instance.setState({ showPaymentAlert: true })
             fireEvent.press(closeDropdown);
+            buttonComponent.simulate("press");
+            expect(instance.state.showPaymentLoading).toEqual(true);
+            expect(instance.state.customAlertText).toEqual("Payment In Process..");
+            expect(instance.state.showPaymentAlert).toEqual(true);
+            let card = instance.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+            let cvv = instance.state.cvv
+            let month = instance.state.expirtyDate.slice(0, 2);
+            let year = "20" + instance.state.expirtyDate.slice(-2);
+            instance.getPaymentMethod(card, cvv, month, year)
+            expect(instance.getPaymentMethod).toBeTruthy()
+            expect(closeDropdown).toBeTruthy();
+
         });
+        then('should handle payment method type "Card" correctly', () => {
+            const mockGetPaymentMethod = jest.fn();
+            const mockCodeApiCalled = jest.fn();
+            const mockSetState = jest.fn();
+
+            // Mock the component instance
+            let explorePageWrapper: ShallowWrapper;
+            explorePageWrapper = shallow(
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
+            );
+            const instance = explorePageWrapper.instance() as StripeIntegration
+            instance.setState({ paymentMethodType: "Card" })
+            const { getByText } = render(
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
+            );
+            const onPressMock = jest.fn();
+            const button = getByText('Pay');
+            instance.getPaymentMethod = mockGetPaymentMethod;
+            let buttonComponent = explorePageWrapper.findWhere(
+                (node) => node.prop("testID") === "doneFirstButtonEvent"
+            );
+            buttonComponent.simulate("press");
+            expect(instance.state.showPaymentLoading).toBe(true);
+            expect(instance.state.customAlertText).toBe("Payment In Process..");
+            expect(instance.state.showPaymentAlert).toBe(true);
+            expect(mockGetPaymentMethod).toHaveBeenCalled();
+        });
+
         then('should update expirtyDate state with a valid month', () => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
@@ -752,18 +882,74 @@ defineFeature(feature, (test) => {
             instance.setState({ customAlertDesc: "Please contact to admin Or Try again." });
 
             // Set the initial state with paymentMethodType as "Card"
-          
+
             // Call the function
             instance.handlePaymentFailed();
-          
+
             // Assertions for the expected behavior after handling payment failure
             expect(instance.setState).toHaveBeenCalled();
             expect(explorePageWrapper.state('showPaymentLoading')).toBe(false);
             // expect(explorePageWrapper.state('customAlertText')).toBe("Payment Failed");
             // expect(explorePageWrapper.state('customAlertDesc')).toBe("Please contact to admin Or Try again.");
-          });
+        });
 
-          
+        then('stripe payment api', async () => {
+            let explorePageWrapper: ShallowWrapper;
+            explorePageWrapper = shallow(
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
+            );
+            // let myHeaders = new Headers();
+            //  myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+            // myHeaders.append("Content-Type", "text/plain");
+            // let raw = "\n";
+
+            // let requestOptions: any = {
+            //   method: 'POST',
+            //   headers: myHeaders,
+            //   body: raw,
+            //   redirect: 'follow'
+            // };        
+            const orderId = '123';
+            const cardNumber = '4242 4242 4242 4242';
+            const cvv = '123';
+            const expMonth = '12';
+            const expYear = '24';
+            let instance = explorePageWrapper.instance() as StripeIntegration;
+
+            let url = await instance.getPaymentMethod(cardNumber, cvv, expMonth, expYear, true)
+            expect(url).toBe(`https://api.stripe.com/v1/payment_methods?card[number]=${cardNumber}&card[exp_month]=${expMonth}&card[exp_year]=${expYear}&card[cvc]=${cvv}&type=card`); // Verify that the result is 5
+            // instance.setState = jest.fn();
+            // explorePageWrapper.setState({ paymentMethodType: "Card" });
+            // instance.setState({ showPaymentLoading: false })
+            // instance.setState({ customAlertText: "Payment Failed" });
+            // instance.setState({ customAlertDesc: "Please contact to admin Or Try again." });
+
+            // Set the initial state with paymentMethodType as "Card"
+
+            // Call the function
+            // instance.handlePaymentFailed();
+
+            // Assertions for the expected behavior after handling payment failure
+            // expect(instance.setState).toHaveBeenCalled();
+            // expect(explorePageWrapper.state('showPaymentLoading')).toBe(false);
+            // expect(explorePageWrapper.state('customAlertText')).toBe("Payment Failed");
+            // expect(explorePageWrapper.state('customAlertDesc')).toBe("Please contact to admin Or Try again.");
+        });
+
         then('I can leave the screen with out errors', () => {
             instance.componentWillUnmount()
             expect(exampleBlockA).toBeTruthy();

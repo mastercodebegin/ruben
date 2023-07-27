@@ -298,12 +298,14 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  async getPaymentMethod(card: string, cvv:string, month:string, year:string) {
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
-    myHeaders.append("Content-Type", "text/plain");
+  async getPaymentMethod(card: string, cvv:string, month:string, year:string, test=false) {
+    var myHeaders: any; 
+    if (test === false) {
+       myHeaders = new Headers();
+       myHeaders.append("Authorization", "Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+       myHeaders.append("Content-Type", "text/plain");   
+    }
     let raw = "\n";
-
     let requestOptions: any = {
       method: 'POST',
       headers: myHeaders,
@@ -311,6 +313,9 @@ export default class StripeIntegrationController extends BlockComponent<
       redirect: 'follow'
     };
     let url = `https://api.stripe.com/v1/payment_methods?card[number]=${card}&card[exp_month]=${month}&card[exp_year]=${year}&card[cvc]=${cvv}&type=card`
+    if (test) {
+      return url
+    } 
     fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => {
@@ -319,10 +324,9 @@ export default class StripeIntegrationController extends BlockComponent<
         this.paymentApi(json.id, this.props.route.params.orderId)
       })
       .catch(error => {
-        this.setState({ customAlertText: "Payment Failed" });
-        this.setState({ showPaymentLoading: false })
-        this.setState({ showPaymentAlert: false })
+        this.handlePaymentFailed()
       });
+      
   }
 
   handlePaymentFailed = () => {

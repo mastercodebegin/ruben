@@ -6,9 +6,11 @@ Feature: StripeIntegration
         Then StripeIntegration will load with out errors
         Then paymentMethod api
         Then codMethod api
+        Then I can select the button with with out errors
         Then I can enter text with out errors
         Then I can enter card number
         Then I can enter card expirtydate
+        Then I can enter card expirtydate with digit
         Then I can enter cvv
         Then card button event
         Then cod button event
@@ -24,6 +26,8 @@ Feature: StripeIntegration
         Then should set showPaymentLoading to true and call getPaymentMethod for paymentMethodType as Card
         Then should call codeApiCalled and set showPaymentAlert to true when paymentMethodType is not "Card"
         Then Double button
+        Then should handle payment method type "Card" correctly
         Then should update expirtyDate state with a valid month
         Then should set custom alert text and description for "Card" payment method type
+        Then  stripe payment api
         And I can leave the screen with out errors
