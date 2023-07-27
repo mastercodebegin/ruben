@@ -174,6 +174,7 @@ export class ExplorePage extends LandingPageController {
               <RenderItems
                 navigation={this.props.navigation}
                 onPressCart={this.addToCart.bind(this)}
+                testID="products_list_id"
                 onpressFav={this.AddToFavorites.bind(this)}
                 handleLoadMore={() => { this.handleLoadMore() }}
                 item={this.state.productList}
@@ -183,6 +184,7 @@ export class ExplorePage extends LandingPageController {
                 navigation={this.props.navigation}
                 onPressCart={this.addToCart.bind(this)}
                 onpressFav={this.AddToFavorites.bind(this)}
+                testID="products_list_id2"
                 handleLoadMore={() => { this.handleLoadMore() }}
                 item={this.state.productList}
                 header={true}

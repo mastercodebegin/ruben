@@ -31,6 +31,7 @@ interface Types {
   index?: number;
   handleLoadMore?: (any);
   navigation: any;
+  testID?: string;
 }
 const RenderItem = ({
   item,
@@ -113,7 +114,8 @@ const RenderItems = ({
   onpressFav,
   onPressCart,
   handleLoadMore,
-  navigation
+  navigation,
+  testID
 }: Types) => {
   return (
     <View>
@@ -129,6 +131,7 @@ const RenderItems = ({
         showsHorizontalScrollIndicator={false}
         style={styles.flatList}
         keyExtractor={(item, i) => `${i}`}
+        testID={testID}
         horizontal
         nestedScrollEnabled
         renderItem={({ item, index }) => (
