@@ -25,4 +25,5 @@ Feature: StripeIntegration
         Then should call codeApiCalled and set showPaymentAlert to true when paymentMethodType is not "Card"
         Then Double button
         Then should update expirtyDate state with a valid month
+        Then should set custom alert text and description for "Card" payment method type
         And I can leave the screen with out errors

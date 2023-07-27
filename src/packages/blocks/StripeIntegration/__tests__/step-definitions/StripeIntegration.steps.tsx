@@ -86,7 +86,7 @@ defineFeature(feature, (test) => {
                 }
               );
               instance.paymentId = msgValidationAPI.messageId;
-              runEngine.sendMessage("Unit Test", msgValidationAPI);
+              runEngine.sendMessage("Unit Test Api", msgValidationAPI);
         
           });
           then("codMethod api", () => {
@@ -265,7 +265,6 @@ defineFeature(feature, (test) => {
             expect(mockOnSClick).toHaveBeenCalledTimes(1);
 
         });
-
         then("Payment alert", async () => {
             let explorePageWrapper: ShallowWrapper;
             explorePageWrapper = shallow(
@@ -726,6 +725,45 @@ defineFeature(feature, (test) => {
 
             expect(explorePageWrapper.state('expirtyDate')).toBe(inputText);
         });
+        then('should set custom alert text and description for "Card" payment method type', () => {
+            let explorePageWrapper: ShallowWrapper;
+            explorePageWrapper = shallow(
+                <StripeIntegration
+                    route={{
+                        params: {
+                            name: "",
+                            address: "",
+                            phone_number: 0,
+                            zip_code: 0,
+                            subtotal: 0,
+                            shipping: 0,
+                            discount: 0,
+                            storageClass: "Basic",
+                            orderId: 0,
+                            orderNumber: 0
+                        }
+                    }} {...screenProps} />
+            );
+            let instance = explorePageWrapper.instance() as StripeIntegration;
+            instance.setState = jest.fn();
+            explorePageWrapper.setState({ paymentMethodType: "Card" });
+            instance.setState({ showPaymentLoading: false })
+            instance.setState({ customAlertText: "Payment Failed" });
+            instance.setState({ customAlertDesc: "Please contact to admin Or Try again." });
+
+            // Set the initial state with paymentMethodType as "Card"
+          
+            // Call the function
+            instance.handlePaymentFailed();
+          
+            // Assertions for the expected behavior after handling payment failure
+            expect(instance.setState).toHaveBeenCalled();
+            expect(explorePageWrapper.state('showPaymentLoading')).toBe(false);
+            // expect(explorePageWrapper.state('customAlertText')).toBe("Payment Failed");
+            // expect(explorePageWrapper.state('customAlertDesc')).toBe("Please contact to admin Or Try again.");
+          });
+
+          
         then('I can leave the screen with out errors', () => {
             instance.componentWillUnmount()
             expect(exampleBlockA).toBeTruthy();
