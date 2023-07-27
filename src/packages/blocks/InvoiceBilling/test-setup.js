@@ -32,3 +32,4 @@ jest.mock("../../components/src/HeaderWithBackArrowTemplate", () =>
     return <>{ props.children }</>;
   })
 );
+jest.mock("../../components/src/ShowToast",()=>({showToast:jest.fn()}))
