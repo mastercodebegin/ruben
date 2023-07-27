@@ -137,10 +137,7 @@ export default class StripeIntegrationController extends BlockComponent<
       );
       console.log("check paymentData", paymentData.errors);
       
-      if (error) {
-        this.setState({ paymentAlerttype: "PaymentFailed" })
-        this.handlePaymentFailed()
-      }else if (paymentData.errors) {
+      if (paymentData.errors || error) {
         this.setState({ paymentAlerttype: "PaymentFailed" })
         this.handlePaymentFailed()
       } else {
