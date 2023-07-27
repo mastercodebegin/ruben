@@ -1,9 +1,9 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import { styles } from "./Inventory";
 import Dropdown from "./DropDown";
 import SearchBarWithFilter from "../../../components/src/SearchBarWithFilter";
-import { WHITE } from "../../../components/src/constants";
+import { LIGHT_GREY, WHITE } from "../../../components/src/constants";
 interface HeaderTypes {
   onChangeText: (text: string) => void;
   searchText: string;
@@ -25,9 +25,6 @@ const FlatListHeader = ({
       <View style={styles.headerContainer}>
         <View style={styles.headerTextContainer}>
           <Text style={styles.header}>Inventory</Text>
-          <TouchableOpacity>
-            <Text style={styles.newOrder}>{"+ New Order"}</Text>
-          </TouchableOpacity>
         </View>
         <SearchBarWithFilter
           searchText={searchText}
@@ -53,6 +50,7 @@ const FlatListHeader = ({
       </View>
       <View style={{ backgroundColor: WHITE }}>
         <View style={styles.statusContainer}>
+          <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10}} />
           <View style={styles.containerHeader}>
             <Text style={styles.headerList}>#Details</Text>
           </View>

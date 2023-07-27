@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
-import { DARK_RED } from "../../../components/src/constants";
+import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
 import { MEAT_IMAGE1, arrowLeft } from "../../landingpage/src/assets";
 import moment from "moment";
 const sampleData = [
@@ -47,6 +47,10 @@ const RenderItem = ({item}: any) => {
       paddingHorizontal: 20,
       backgroundColor: "white"}}>
       <View style={styles.main}>
+        <View style={{justifyContent:"center"}}>
+
+      <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10,marginRight:10}} />
+        </View>
       <View style={styles.flex}>
         <Text style={styles.text}>{`ID:${item?.data?.attributes?.ID}`}</Text>
         <Text style={styles.name}>{`${item?.data?.attributes?.name}`}</Text>
@@ -77,11 +81,11 @@ const RenderItem = ({item}: any) => {
             >
               {selectedStatus}
             </Text>
-            <Image style={styles.dropDownImage} source={arrowLeft} />
+            <Image style={[styles.dropDownImage,show && {transform:[{rotate:'90deg'}]}]} source={arrowLeft} />
           </TouchableOpacity>
       </View>
     </View>
-     {show&& <View>
+     {show&& <View style={{backgroundColor:LIGHT_GREY,padding:10,borderRadius:20,marginTop:10}}>
         {
           sampleData.map((item,i) => {
             return (

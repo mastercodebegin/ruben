@@ -134,6 +134,10 @@ const reducer = (state = initialState, action: any) => {
       const token = await messaging().getToken()
       return token;
   }
+  export const validName = (name:string)=> {
+    const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+    return nameRegex.test(name);
+  }
 
   export function encryptText(text:string, key:string) {
     var encryptedText = "";

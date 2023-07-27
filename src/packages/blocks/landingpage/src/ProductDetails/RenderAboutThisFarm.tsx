@@ -6,10 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { DARK_RED, MEAT_IMAGE3, PRIMARY, badge } from "../assets";
 import { sampleText, ImageData } from "./ProductDetails";
-const RenderAboutThisFarm = () => {
+const RenderAboutThisFarm = ({ item , AddToFavorites}: any) => {
   return (
     <View style={styles.main}>
       <Text style={styles.header}>{"About this farm"}</Text>
@@ -37,14 +38,14 @@ const RenderAboutThisFarm = () => {
         <View>
           <Image style={styles.productImage} source={MEAT_IMAGE3} />
           <View style={styles.productContainer}>
-            <Text style={styles.productName}>Meat</Text>
-            <Text style={styles.price}>{"$ 22.99/kg"}</Text>
+            <Text style={styles.productName}>{  item?.attributes?.categoryCode }</Text>
+            <Text style={styles.price}>{`$ ${ item?.attributes?.price }/kg`}</Text>
           </View>
           <View style={styles.badgeContainer}>
             <View style={{ flex: 1 }}>
-              <Text numberOfLines={3}>{sampleText}</Text>
+              <Text numberOfLines={3}>{item?.attributes?.description}</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={()=>AddToFavorites(item?.id)} style={styles.button}>
               <Image style={styles.badge} source={badge} />
             </TouchableOpacity>
           </View>
@@ -57,21 +58,22 @@ export default RenderAboutThisFarm;
 const styles = StyleSheet.create({
   main: {},
   price: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
-  productImage: { height: 220, width: "100%", borderRadius: 20 },
+  productImage: { height: Dimensions.get('window').height * 0.2
+    , width: "100%", borderRadius: 20 },
   productContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 20,
   },
   productName: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
-  badgeContainer: { flexDirection: "row", alignItems: "center" },
+  badgeContainer: { flexDirection: "row", alignItems: "center",paddingTop:10 },
   badge: { height: "100%", width: "100%", tintColor: PRIMARY },
   button: {
     height: 30,
     width: 30,
     borderWidth: 1,
     borderColor: PRIMARY,
-    padding: 4,
+    padding: 5,
     borderRadius: 15,
   },
   header: {
