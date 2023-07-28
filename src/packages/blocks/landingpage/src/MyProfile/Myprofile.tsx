@@ -104,7 +104,7 @@ export default class Myprofile extends LandingPageController {
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.alertHeader}>New Order Alert</Text>
-                  <Text style={styles.deliverydate}>Est.delivery:</Text>
+                  <Text style={styles.deliverydate}>Est.Delivery:</Text>
                   <TouchableOpacity
                     testID="navigate_myorder_id"
                     onPress={() =>

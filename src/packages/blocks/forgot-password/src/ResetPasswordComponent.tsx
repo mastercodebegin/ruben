@@ -67,8 +67,11 @@ export default class ResetComponent extends  BlockComponent<Props, S, SS>  {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log("check log data-->",resetResponse)
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
+      } else if(resetResponse.errors) {
+        Alert.alert("Error", resetResponse.errors[0].otp,[{text:'OK',onPress:()=>this.setState({showLoader:false})}]);
       } else {
             if(resetResponse.success){
               Alert.alert('Success','Check Your Email For Reset Password Link!',[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
