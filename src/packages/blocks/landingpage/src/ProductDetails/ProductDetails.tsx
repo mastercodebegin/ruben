@@ -52,12 +52,14 @@ export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
   }
+  
   render() {
-    const { id = '', description = '', name = '', price = '' } = {
+    const { id = '', description = '', name = '', price = '' ,productList=[]} = {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
-      price: this.props?.route?.params?.price
+      price: this.props?.route?.params?.price,
+      productList:this.props?.route?.params?.productList
     }
     return (
       <SafeAreaView style={style.flex}>
@@ -178,7 +180,7 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             />
-            <RenderAboutThisFarm />
+            {productList.length && <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} />}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>

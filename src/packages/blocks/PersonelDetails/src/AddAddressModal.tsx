@@ -15,6 +15,7 @@ import {
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
 import { close, DARK_RED } from "../../landingpage/src/assets";
+import { validName } from "../../../components/src/utils";
 interface S {
   name: string;
   addressType: string;
@@ -58,10 +59,6 @@ export default class UpdateProfileModal extends React.Component<P, S> {
     Keyboard.addListener("keyboardWillHide", () => {
       this.setState({ keyboardHeight: 0 });
     });
-  }
-  validName(name:string) {
-    const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    return nameRegex.test(name);
   }
 
   showAlert(message:string) {
@@ -176,7 +173,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                   flatNo,
                   phoneNumber,
                 } = this.state;
-                if (!this.validName(name)) {
+                if (!validName(name)) {
                   this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
                 }
                 else if (

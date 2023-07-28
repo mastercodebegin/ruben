@@ -4,7 +4,7 @@ import { shallow, ShallowWrapper } from "enzyme";
 import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import InvoiceBilling from "../../src/InvoiceBilling";
-import { fireEvent, render } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Message } from "../../../../framework/src/Message";
 import MessageEnum, {
   getName
@@ -100,12 +100,20 @@ defineFeature(feature, test => {
       expect(buttonComponent).toBeTruthy();
       buttonComponent.simulate("press");
     });
-    then("I can download the invoice", () => {
+    then("I can download the invoice", async () => {
+
       let buttonComponent = exampleBlockA.findWhere(
         node => node.prop("testID") === "download_invoice_id"
       );
       expect(buttonComponent).toBeTruthy();
-      buttonComponent.simulate("press");
+      waitFor(() => {
+        
+        buttonComponent.simulate("press");
+      })
+      expect(instance.state.showLoader).toBe(true);
+      jest.runAllTimers();
+
+
     });
 
     then("I can leave the screen with out errors", () => {

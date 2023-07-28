@@ -19,6 +19,7 @@ import {
   badge,
   backGroundImage
 } from "../assets";
+import FastImage from "react-native-fast-image";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 interface Types {
@@ -30,6 +31,8 @@ interface Types {
   index?: number;
   handleLoadMore?: (any);
   navigation: any;
+  testID?: string;
+  productList?:Array<any>
 }
 const RenderItem = ({
   item,
@@ -37,11 +40,12 @@ const RenderItem = ({
   onpressFav,
   onPressCart,
   index,
-  navigation
+  navigation,
+  productList
 }: Types) => {  
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
-  const percentage = (partial / total) * 100;
+  const percentage = (partial / total) * 100;  
   return (
     <TouchableOpacity
       testID={`navigate_to_product_details_id_${index}`}
@@ -50,13 +54,14 @@ const RenderItem = ({
           id: item?.id,
           description: item?.attributes?.description,
           name: item?.attributes?.categoryCode,
-          price: item?.attributes?.price
+          price: item?.attributes?.price,
+          productList:productList
         })
       }
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        <Image resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item?.attributes?.productImage} :backGroundImage} />
+        <FastImage resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item?.attributes?.productImage} :backGroundImage} />
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {rating ? (
@@ -112,8 +117,10 @@ const RenderItems = ({
   onpressFav,
   onPressCart,
   handleLoadMore,
-  navigation
+  navigation,
+  testID
 }: Types) => {
+  const productList = item;
   return (
     <View>
       {header && (
@@ -128,6 +135,7 @@ const RenderItems = ({
         showsHorizontalScrollIndicator={false}
         style={styles.flatList}
         keyExtractor={(item, i) => `${i}`}
+        testID={testID}
         horizontal
         nestedScrollEnabled
         renderItem={({ item, index }) => (
@@ -138,6 +146,7 @@ const RenderItems = ({
             item={item}
             navigation={navigation}
             index={index}
+            productList={productList}
           />
         )}
         onEndReachedThreshold={1}
