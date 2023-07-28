@@ -55,7 +55,7 @@ export default class OrderSummary extends OrderSummaryController {
       address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
       phone_number:this.state.addressList[this.state.selectedAddress]?.attributes?.phone_number || '',
       zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
-      name:this.state.addressList[this.state.selectedAddress]?.attributes?.name
+      name:this.state.addressList[this.state.selectedAddress]?.attributes?.name,
     }    
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
@@ -138,7 +138,7 @@ export default class OrderSummary extends OrderSummaryController {
                 header="MY DETAILS"
                 list={[
                   { question: "Name", ans: name  },
-                  { question: "Email", ans: "test@gmail.com" },
+                  { question: "Email", ans: this.state.emailId },
                   { question: "Phone",ans:phone_number  },
                   {
                     question: "Shipping Add.",
@@ -220,6 +220,7 @@ export default class OrderSummary extends OrderSummaryController {
                   address,
                   phone_number,
                   zip_code,
+                  email: this.state.emailId,
                   subtotal: this.state.subtotal,
                   shipping: this.state.shipping,
                   discount: this.state.discount,
