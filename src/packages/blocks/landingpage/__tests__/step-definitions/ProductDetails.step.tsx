@@ -71,9 +71,15 @@ defineFeature(feature, (test) => {
 
     then("user can see about this farm", () => {
       const RenderAboutThisFarmProps = {
-        AddToFavorites:jest.fn()
+        AddToFavorites: jest.fn(),
+        item: { attributes: { categoryCode :"product name",price:45,description:'test description'},id:'d134',image:'https://testimage.com' }
+        
       }
       const { getByTestId } = render(<RenderAboutThisFarm {...RenderAboutThisFarmProps} />);
+      const data = [ { item: null }, { item: { attributes: null } }]
+      data.map((item) => {
+        render(<RenderAboutThisFarm {...{ ...RenderAboutThisFarmProps, ...item }} />)
+      })
       fireEvent.press(getByTestId('add_to_fav_test_id'));
       expect(RenderAboutThisFarmProps.AddToFavorites).toBeCalled()
       render(<RenderSteps header={""} description={""} images={[]}/>);
