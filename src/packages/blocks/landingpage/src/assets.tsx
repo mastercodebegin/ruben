@@ -53,3 +53,6 @@ export const arrowLeft = require('../assets/arrow_left.png');
 export const pause = require('../assets/pause.png');
 export const replay = require('../assets/replay.png');
 export const backGroundImage = require("../assets/licensed-image.jpg");
+export const downArrow = require('../assets/down-arrow.png');
+export const minus = require('../assets/minus.png');
+export const upArrow = require('../assets/up-arrow.png');

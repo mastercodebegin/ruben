@@ -33,6 +33,7 @@ export interface Props {
   route: any;
   updateCartDetails: (data: any) => void;
   cartDetails: Array<any>;
+  setCreditDetailModal: () => void;
   // Customizable Area End
 }
 
@@ -81,6 +82,18 @@ interface S {
   priceTotal: number;
   priceDiscount: number;
   percentage: number;
+  showMyCreditModal: boolean;
+  deliverOption: Array<object>;
+  setDeliverOption: string;
+  animalCutsNumber: number;
+  prevState: number;
+  handleAnimalCutsDropDown: boolean;
+  animalCutsOptionsList: Array<object>;
+  selectedAnimalCuts: string;
+  animalAvailableSlots: Array<object>;
+  selectedAnimalSlot: string;
+  nearestLocation: string;
+  setAddressOption: boolean;
   // Customizable Area End
 }
 
@@ -189,6 +202,85 @@ export default class LandingPageController extends BlockComponent<
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
+      showMyCreditModal: false,
+      deliverOption: [
+        {
+          title: "Pickup",
+          id: 0
+        },
+        {
+          title: "Deliver",
+          id: 1
+        },
+        {
+          title: "Shipping",
+          id: 3
+        }
+      ],
+      setDeliverOption: "",
+      animalCutsNumber: 2,
+      prevState: 1,
+      handleAnimalCutsDropDown: false,
+      animalCutsOptionsList: [
+        {
+          title: "Pork Legs",
+          id: 0
+        },
+        {
+          title: "Cow Legs",
+          id: 1
+        },
+        {
+          title: "Beef Legs",
+          id: 2
+        },
+        {
+          title: "Vegetables",
+          id: 3
+        }
+      ],
+      selectedAnimalCuts: "Head",
+      animalAvailableSlots: [
+        {
+          time: "06:00 AM",
+          id: 0
+        },
+        {
+          time: "07:00 AM",
+          id: 1
+        },
+        {
+          time: "08:00 AM",
+          id: 2
+        },
+        {
+          time: "09:00 AM",
+          id: 3
+        },
+        {
+          time: "10:00 AM",
+          id: 4
+        },
+        {
+          time: "11:00 AM",
+          id: 5
+        },
+        {
+          time: "12:00 AM",
+          id: 6
+        },
+        {
+          time: "01:00 PM",
+          id: 7
+        },
+        {
+          time: "02:00 PM",
+          id: 8
+        }
+      ],
+      selectedAnimalSlot: "10:00 AM",
+      nearestLocation: "",
+      setAddressOption: false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -380,7 +472,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.addProductCallback(addProductListData, error)
-    } 
+    }
     else {
       this.cartCallBack(message)
     }
@@ -1121,11 +1213,11 @@ export default class LandingPageController extends BlockComponent<
   }
 
   resDeleteFavAPI(message: any) {
-    if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-        this.getFavoritesDeleteId != null &&
-        this.getFavoritesDeleteId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-     ){
+    if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getFavoritesDeleteId != null &&
+      this.getFavoritesDeleteId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
@@ -1135,12 +1227,12 @@ export default class LandingPageController extends BlockComponent<
     }
   }
   resFavListAPI(message: any) {
-    if(
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-        this.getFavoritesId != null &&
-        this.getFavoritesId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-     ) {
+      this.getFavoritesId != null &&
+      this.getFavoritesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1152,7 +1244,7 @@ export default class LandingPageController extends BlockComponent<
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
   }
-  resAddFavList(message:any){
+  resAddFavList(message: any) {
     if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToFavId != null &&
       this.addToFavId ===
@@ -1167,13 +1259,13 @@ export default class LandingPageController extends BlockComponent<
       console.log("addToFavId====")
     }
   }
- resOrderList(message:any) {
-   if(
+  resOrderList(message: any) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getOrderId != null &&
       this.getOrderId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-   ){
+    ) {
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1186,13 +1278,13 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  resAboutUs(message:any){
-    if(
+  resAboutUs(message: any) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAboutUsId != null &&
       this.getAboutUsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-     ) {
+    ) {
       const aboutus = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -1203,6 +1295,37 @@ export default class LandingPageController extends BlockComponent<
       console.log("getAboutUsId====")
     }
   }
+  handleDeliverOptionChange = (item: any) => {
+    console.log("selected deliver option", item);
+    this.setState({ setDeliverOption: item });
+  };
+
+  handleIncreaseAnimalCuts = () => {
+    console.log(
+      "selected handleDecreaseAnimalCuts",
+      this.state.animalCutsNumber
+    );
+    this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
+  };
+
+
+  handleDecreaseAnimalCuts = () => {
+    console.log("selected handleDecreaseAnimalCuts");
+    this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
+  };
+  handleAnimalCutsOption = (item: any) => {
+    console.log("option", item);
+    this.setState({
+      selectedAnimalCuts: item
+    });
+  };
+  handleAnimalSelectSlots = (item: any) => {
+    this.setState({ selectedAnimalSlot: item });
+  };
+  showHideCreditDetailModal() {
+    this.setState({ showMyCreditModal: false });
+  }
+
 
   // Customizable Area End
 }

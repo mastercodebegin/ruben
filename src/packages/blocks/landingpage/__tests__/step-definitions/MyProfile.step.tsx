@@ -135,7 +135,7 @@ defineFeature(feature, (test) => {
       
     })
 
-    then("user pressing my favorites button to go favorites screen", () => {
+    then("user pressing my favorites button to go favorites screen",async () => {
       const touchableOpacity = landingPageBlock.find(
         '[testID="go_to_favorites_id"]'
       );
@@ -143,7 +143,7 @@ defineFeature(feature, (test) => {
       expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
     })
 
-    then("user navigate to product detail screen", () => {
+    then("user navigate to product detail screen", async() => {
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="navigateToProductDetailScreen"]'
@@ -151,7 +151,7 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     })
 
-    then("user can remove product from fav list", () => {
+    then("user can remove product from fav list",async () => {
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'
@@ -159,7 +159,7 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     })
     
-    then("user can add product to add to cart", () => {
+    then("user can add product to add to cart",async () => {
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="addtocart"]'
