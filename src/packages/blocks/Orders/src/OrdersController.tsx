@@ -20,7 +20,8 @@ interface S {
   ordersList: Array<object>;
   ongoingOrdersList: Array<any>;
   completedOrdersList: Array<any>;
-  selectedTab : 'ongoing' | 'completed'
+  selectedTab: 'ongoing' | 'completed';
+  showLoader: boolean;
 }
 
 interface SS {
@@ -50,7 +51,8 @@ export default class OrdersController extends BlockComponent<
       ordersList: [],
       ongoingOrdersList: [],
       completedOrdersList: [],
-      selectedTab:'ongoing'
+      selectedTab: 'ongoing',
+      showLoader:false,
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -88,10 +90,11 @@ export default class OrdersController extends BlockComponent<
       let ongoingOrdersError = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (ongoingOrders?.message === "No completed orders are present") {
-        
+      if (ongoingOrders?.message === "No completed orders are present" && !ongoingOrdersError) {
+        this.setState({ongoingOrdersList:[],showLoader:false})
+
       } else {
-        this.setState({ongoingOrdersList:ongoingOrders?.data})
+        this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false})
       }   
     }
     else {
@@ -99,6 +102,7 @@ export default class OrdersController extends BlockComponent<
     }
   }
   async getOnGoingOrder() {
+    this.setState({showLoader:true})
     const data:any =await getStorageData("userDetails",true)
     const headers = {
       'token':data?.meta?.token

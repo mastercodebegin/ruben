@@ -1,5 +1,5 @@
 import React from "react"
-import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native"
+import { Text, View, TouchableOpacity, Image, StyleSheet, Alert } from "react-native"
 import { styles } from './MyOrdersScreen'
 import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/constants";
 //@ts-ignore
@@ -39,6 +39,9 @@ const RenderProducts = ({ item,index }: any) => {
     </View>
     )
 }
+const onPressCancel = () => {
+    Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>{}}])
+}
 
 const RenderItem = ({ item }: any) => {    
     const date = new Date(item?.attributes?.customer?.data?.attributes?.created_at);    
@@ -48,7 +51,7 @@ const RenderItem = ({ item }: any) => {
             <Text style={rstyles.date}>
                 {`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}
             </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onPressCancel}>
                     <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
                 </TouchableOpacity>            
             </View>

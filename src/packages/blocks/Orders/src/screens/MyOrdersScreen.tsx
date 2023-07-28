@@ -4,6 +4,7 @@ import OrdersController from "../OrdersController";
 import * as constants from "../../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./MyOrderHeader";
+import CommonLoader from "../../../../components/src/CommonLoader";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
@@ -40,6 +41,7 @@ export default class MyOrdersScreen extends OrdersController {
             }}
             renderItem={RenderItem}
           />
+          <CommonLoader visible={this.state.showLoader} />
         </View>
       </SafeAreaView>
     );

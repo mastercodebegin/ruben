@@ -26,11 +26,15 @@ export default class MyCart extends MyCartController {
       }, 0);
       return totalPrice;
     }
-    const getDiscountPrice=()=>{
+    const getDiscountPrice = () => {
+      if (this.state.discountPrice)
+      {
+        return this.state.discountPrice;
+        }
       return Math.abs(this.state.discountPercentage);
     }
     const getDicountPercentage=()=>{
-      const percentatge =( Math.abs(this.state.discountPercentage) * 100) / getTotalPrice()
+      const percentatge =( Math.abs(this.state.discountPrice ? this.state.discountPrice:this.state.discountPercentage) * 100) / getTotalPrice()
        return Math.round(percentatge)
      }
     const getTotal = ()=>{
@@ -74,7 +78,14 @@ export default class MyCart extends MyCartController {
                     style={styles.textInput}
                     placeholderTextColor='#A0272A'
                     />
-                  <TouchableOpacity onPress={()=>this.getDiscountCode.bind(this)()}>
+                  <TouchableOpacity onPress={() => {
+                    this.setState({discountPrice:0})
+                    if (this.state.discountCode === "") {
+                      this.getDiscountCode.bind(this)()
+                    } else {
+                      this.applyDiscountCode.bind(this)(this.state.discountCode);
+                    }
+                  }}>
                   <Text style={styles.direct}>Fetch Directly</Text>
                   </TouchableOpacity>
                 </View>

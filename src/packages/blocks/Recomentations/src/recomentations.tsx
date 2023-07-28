@@ -28,7 +28,7 @@ export default class Recomentations extends RecomentationsController {
   render(): React.ReactNode {
     return (
       <HeaderWithBackArrowTemplate
-        headerText="Recomentations"
+        headerText="Recommendations"
         navigation={this.props.navigation}
       >
         {this.state.show_loader ?
