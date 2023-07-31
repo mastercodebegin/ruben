@@ -31,6 +31,7 @@ interface S {
   orderNumber: number;
   deliverWithinADay: boolean;
   lifetimeSubscription: boolean;
+  emailId:string;
 }
 
 interface SS {
@@ -66,7 +67,8 @@ SS
       orderId: 4,
       orderNumber: 12121212,
       deliverWithinADay: false,
-      lifetimeSubscription: false
+      lifetimeSubscription: false,
+      emailId: "",
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -95,6 +97,7 @@ SS
       PersonelDetails.data.length &&
     PersonelDetails.data.length > 0
       ) {
+        this.setState({emailId: PersonelDetails.data[0]?.attributes?.email})
         this.setState({ addressList: PersonelDetails.data });
       }
     }else if (
