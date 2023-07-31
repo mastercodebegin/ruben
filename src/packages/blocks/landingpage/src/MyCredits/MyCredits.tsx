@@ -76,12 +76,13 @@ export default class MyCreditScreen extends LandingPageController {
             }}
           />
           <Modal
-            setCreditDetailModal={() =>
-              this.setState({ showMyCreditModal: false })
-            }
+            setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
             visible={this.state.showMyCreditModal}
-            navigation={this.props.navigation}
-          />
+            navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
+              throw new Error("Function not implemented.");
+            } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
+              throw new Error("Function not implemented.");
+            } } cartDetails={[]}          />
         </View>
       </HeaderWithBackArrowTemplate>
     );

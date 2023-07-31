@@ -17,11 +17,11 @@ import {
   downArrow,
   minus,
   plus,
-  upArrow
+  upArrow,
+  PRIMARY,
+  WHITE
 } from "../assets";
 import { BLACK } from "../colors";
-import { PRIMARY } from "../assets";
-import { WHITE } from "../assets";
 import LandingPageController, { Props } from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 export default class MyCreditDetailsModal extends LandingPageController {
@@ -174,28 +174,6 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       }}
                       keyExtractor={(item: any) => item.id.toString()}
                     />
-                    {/* <View style={styles.slotsContainer}>
-                      <Text style={styles.slotsTitle}>Available Slots</Text>
-                      <FlatList
-                        data={this.state.animalAvailableSlots}
-                        numColumns={3}
-                        renderItem={({ item }: any) => {
-                          return (
-                            <View style={this.state.selectedAnimalSlot === item.time ? [styles.selectSlots, { backgroundColor: PRIMARY }] : [styles.selectSlots, { backgroundColor: WHITE }]}>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  this.handleAnimalSelectSlots(item.time)
-                                }}>
-                                <Text style={this.state.selectedAnimalSlot === item.time ? [styles.slotsTime, { color: WHITE }] : [styles.slotsTime, { color: MID_PEACH }]}>
-                                  {item.time}
-                                </Text>
-                              </TouchableOpacity>
-                            </View>
-                          );
-                        }}
-                        keyExtractor={(item: any) => item.id.toString()}
-                      />
-                    </View> */}
                   </View>
                 )}
                 <View style={styles.optionContainer}>
@@ -207,11 +185,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       textInputStyle={styles.locationInputStyle}
                       value={this.state.nearestLocation}
                       testID="name_test_id"
-                      onchangeText={location =>
-                        this.setState({ nearestLocation: location })
-                      }
-                      placeholder="Eg: "
-                    />
+                      onchangeText={location => this.setState({ nearestLocation: location })}
+                      placeholder="Eg: " label={""}                    />
                   </View>
                 </View>
                 <View style={styles.addressContinerStyle}>

@@ -1,4 +1,4 @@
-Feature: My Favorites
+Feature: MyFavorites
 
     Scenario: User navigates to About us screen
         Given users loading About us screen
