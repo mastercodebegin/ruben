@@ -46,7 +46,8 @@ export default class Recomentations extends RecomentationsController {
                     id: item?.id,
                     description: item?.attributes?.description,
                     name: item?.attributes?.categoryCode,
-                    price: item?.attributes?.price
+                    price: item?.attributes?.price,
+                    productList:this.state.recomentedProducts,
                   })
                 }}>
                   <View  style={styles.main}>

@@ -29,9 +29,9 @@ export default class MyCart extends MyCartController {
     const getDiscountPrice = () => {
       if (this.state.discountPrice)
       {
-        return this.state.discountPrice;
+        return this.state.discountPrice.toFixed(2);
         }
-      return Math.abs(this.state.discountPercentage);
+      return Math.abs(this.state.discountPercentage).toFixed(2);
     }
     const getDicountPercentage=()=>{
       const percentatge =( Math.abs(this.state.discountPrice ? this.state.discountPrice:this.state.discountPercentage) * 100) / getTotalPrice()

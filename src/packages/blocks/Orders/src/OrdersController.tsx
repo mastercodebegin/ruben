@@ -8,6 +8,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { getStorageData } from "../../../framework/src/Utilities";
+import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../components/src/constants";
 
 export const configJSON = require("./config");
 
@@ -22,6 +23,9 @@ interface S {
   completedOrdersList: Array<any>;
   selectedTab: 'ongoing' | 'completed';
   showLoader: boolean;
+  selectedDate: string;
+  startDate: string;
+  endDate: string;
 }
 
 interface SS {
@@ -52,7 +56,10 @@ export default class OrdersController extends BlockComponent<
       ongoingOrdersList: [],
       completedOrdersList: [],
       selectedTab: 'ongoing',
-      showLoader:false,
+      showLoader: false,
+      selectedDate: '',
+      startDate: '',
+      endDate:''
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -101,6 +108,52 @@ export default class OrdersController extends BlockComponent<
       runEngine.debugLog("GOIT");
     }
   }
+  getSelectedDates() {
+    let startDate:any = new Date(this.state.startDate);
+    let endDate:any = new Date(this.state.endDate);
+    if (startDate > endDate) {
+      const temp = this.state.startDate;
+      startDate = this.state.endDate;
+      endDate = temp;
+    } else {
+      startDate = this.state.startDate;
+      endDate = this.state.endDate;
+    }
+    return {
+      startDate,
+      endDate
+    }
+  }
+   generateDateObject(startDateStr:string, endDateStr:string) {
+      let startDate = new Date(startDateStr);
+     let endDate = new Date(endDateStr);
+     if (startDate > endDate) {
+       const temp = startDate;
+       startDate = endDate;
+       endDate = temp;
+     }
+      const result :any = {};
+      let currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      const currentDateStr = currentDate.toISOString().split("T")[0];
+        const dayData:any = { color: LIGHT_GREY, textColor: DARK_RED };
+        if (currentDate.getTime() === startDate.getTime()) {
+        dayData.startingDay = true;
+        dayData.color = PRIMARY;
+        dayData.textColor = "white";
+      } else if (currentDate.getTime() === endDate.getTime()) {
+        dayData.endingDay = true;
+        dayData.color = PRIMARY;
+        dayData.textColor = "white";
+        dayData.dotColor = "white";
+      }
+        result[currentDateStr] = dayData;
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return result;
+  }
+  
   async getOnGoingOrder() {
     this.setState({showLoader:true})
     const data:any =await getStorageData("userDetails",true)
@@ -128,6 +181,7 @@ export default class OrdersController extends BlockComponent<
   }
 
   async getCompletedOrder() {
+    this.setState({showLoader:true})
     const data:any =await getStorageData("userDetails",true)
     const headers = {
       'token':data?.meta?.token
@@ -135,11 +189,40 @@ export default class OrdersController extends BlockComponent<
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    this.getCompletedOrderCallId = getValidationsMsg.messageId;
+    this.getOngoingOrdersAPI = getValidationsMsg.messageId;
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       'bx_block_shopping_cart/orders/completed_orders'
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+  async filterByDate() {
+    this.setState({showLoader:true})
+    const userDetails:any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails);
+    const { startDate, endDate } = this.getSelectedDates();
+    console.log(' startDate ,endDate  startDate ,endDate  ', startDate ,endDate );
+    
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getOngoingOrdersAPI = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/filter_order?start_date=${startDate}&end_date=${endDate}`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

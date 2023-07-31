@@ -20,11 +20,20 @@ interface MyOrderHeaderTypes {
   navigation: any;
   selected: "completed" | "ongoing";
   setSelected: (selected: "completed" | "ongoing") => void;
+  selectedDay: string;
+  onDaySelect: (date: string) => void;
+  markedDates: any;
+  onOpen: () => void;
+  onclose: () => void;
 }
 export const MyOrderHeader = ({
   navigation,
   selected = "ongoing",
   setSelected,
+  onDaySelect,
+  markedDates,
+  onOpen,
+  onclose
 }: MyOrderHeaderTypes) => {
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const calendarRef = useRef();
@@ -107,7 +116,10 @@ export const MyOrderHeader = ({
             ref={calendarRef}
             setSelectedDay={() => {}}
             selectedDate={""}
+            onDayPress={onDaySelect}
             dropdownStyle={{ height: 200 }}
+            onClose={onclose}
+            markedDates={markedDates}
           >
             <TouchableOpacity
               style={{
@@ -119,7 +131,10 @@ export const MyOrderHeader = ({
                 borderRadius: 25,
                 marginLeft:20
               }}
-              onPress={() => calendarRef.current._onButtonPress()}
+              onPress={() => {
+                onOpen()
+                calendarRef.current._onButtonPress()
+              }}
             >
               <Image
                 style={expStyles.explore}
