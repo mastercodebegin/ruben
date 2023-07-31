@@ -12,7 +12,6 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import Share from "react-native-share";
 import { downloadFiles } from "../../../components/src/utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showToast } from "../../../components/src/ShowToast";
 
 // Customizable Area End
 
@@ -33,6 +32,7 @@ interface S {
   // Customizable Area Start
   showLoader: boolean;
   productsList: Array<any>;
+  showModal: boolean;
   // Customizable Area End
 }
 
@@ -71,7 +71,8 @@ export default class InvoiceBillingController extends BlockComponent<
       enableField: false,
       // Customizable Area Start
       showLoader: false,
-      productsList:[]
+      productsList: [],
+      showModal:false,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -183,8 +184,7 @@ export default class InvoiceBillingController extends BlockComponent<
         true,
         true
       );
-      this.setState({ showLoader: false });
-         showToast("invoice downloaded in downloads/rubensftcapp")
+      this.setState({ showLoader: false,showModal:showAlert });
     } catch (e) {
       Alert.alert("Error", e.message);
       this.setState({ showLoader: false });

@@ -10,7 +10,7 @@ const RenderProductList = ({ index, item }: ListType) => {
   return (
     <View style={{ flexDirection: "row", paddingVertical: 5 }}>
       <View style={cstyle.indexContainer}>
-        <Text style={cstyle.index}>{index}</Text>
+        <Text style={cstyle.index}>{index+1}</Text>
       </View>
       <View style={cstyle.container}>
         <Text style={cstyle.boldText}>

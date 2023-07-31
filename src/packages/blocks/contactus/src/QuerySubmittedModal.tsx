@@ -17,12 +17,20 @@ const TickImage = require("../assets/check-mark.png");
 interface QuerySubmittedModalTypes {
   visible: boolean;
   setVisible: () => void;
-  navigation?: any;
+  header: string;
+  message: string;
+  buttonLabel: string;
+  onPress: () => void;
+  text: string;
 }
 const QuerySubmittedModal = ({
   visible = false,
   setVisible = () => { },
-  navigation
+  header,
+  text,
+  buttonLabel,
+  onPress,
+  message
 }: QuerySubmittedModalTypes) => {
   return (
     <Modal visible={visible} transparent>
@@ -33,15 +41,15 @@ const QuerySubmittedModal = ({
             <Image source={closeIcon} style={styles.icon} />
           </TouchableOpacity>
           <Image source={TickImage} style={styles.tick} />
-          <Text style={styles.header}>{"Your Query Submitted"}</Text>
+          <Text style={styles.header}>{header}</Text>
           <Text style={styles.text}>
-            {"Be Patience! We'll try to solve your issues as soon as possible."}
+            {message}
           </Text>
-          <Text style={styles.text}>{"Thank you for reaching out."}</Text>
+          <Text style={styles.text}>{text}</Text>
           <Button
-            label="Continue"
+            label={buttonLabel}
             testID="continue_btn_test_id"
-            onPress={() =>navigation.navigate("LandingPage")}
+            onPress={onPress}
             containerStyle={{ marginTop: 20 }}
           />
         </View>

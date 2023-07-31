@@ -4,7 +4,8 @@ export const isIOs = Platform.OS === 'ios';
 import { createStore } from 'redux';
 import messaging from '@react-native-firebase/messaging';
 
-const imagePath = isIOs ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
+
+const imagePath = isIOs ?  RNFetchBlob.fs.dirs.DownloadDir : RNFetchBlob.fs.dirs.DownloadDir;
 export const downloadFiles = (
   url: string,
   fileName: string,
@@ -14,7 +15,7 @@ export const downloadFiles = (
   notification: boolean,
   useDownloadManager: boolean
 ) => {
-  const filePath = `${imagePath}/rubensftcapp/${fileName}`;
+  const filePath = `${imagePath}/Farm2URDoor/${fileName}`;
   return new Promise((resolve, reject) => {
     RNFetchBlob.config({
       fileCache: true,

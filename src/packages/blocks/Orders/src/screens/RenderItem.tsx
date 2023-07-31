@@ -1,5 +1,5 @@
 import React from "react"
-import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native"
+import { Text, View, TouchableOpacity, Image, StyleSheet, Alert } from "react-native"
 import { styles } from './MyOrdersScreen'
 import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/constants";
 //@ts-ignore
@@ -21,41 +21,47 @@ const monthShortNames = [
     "NOV",
     "DEC",
 ];
-const RenderProducts = ({ item,index }: any) => {    
+const RenderProducts = ({ item, index }: any) => {        
     return (
         <View key={index} style={rstyles.imageContainer}>
         <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
         <View style={rstyles.inner}>
             <View style={styles.row}>
-                <Text style={styles.productName}>
+                <Text style={[styles.productName,{fontWeight:"bold"}]}>
                     {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
-                </Text>
+                    </Text>
+                    <View>
                 <Text style={styles.price}>
-                    {`$ ${item?.attributes?.price
+                    {`$ ${item?.attributes?.catalogue?.data?.attributes?.price
                         } X ${item?.attributes?.quantity}`}
-                </Text>
+                        </Text>
+                        <Text style={{color:DARK_RED,fontSize:16,fontWeight:"bold",textAlign:"right"}}>{`$${(Number(item?.attributes?.catalogue?.data?.attributes?.price)*Number(item?.attributes?.quantity)).toFixed(2)}`}</Text>
+                    </View>
             </View>
         </View>
     </View>
     )
 }
+const onPressCancel = () => {
+    Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>{}}])
+}
 
-const RenderItem = ({ item }: any) => {    
-    const date = new Date(item?.attributes?.customer?.data?.attributes?.created_at);    
+const RenderItem = ({ item }: any) => {            
+    const date = new Date(item?.attributes?.created_at);    
     return (
         <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={rstyles.date}>
-                {`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}
+                {`${monthShortNames[date.getMonth()]} ${date.getDate()}TH, ${date.getFullYear()}`}
             </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onPressCancel}>
                     <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
                 </TouchableOpacity>            
             </View>
         <View style={rstyles.main}>
                 {
                     item?.attributes?.order_items?.data.map((item:any,i:number) => {
-                        return <RenderProducts item={item} index={i} />
+                        return <RenderProducts  item={item} index={i} />
                         
                     })
            }
@@ -63,7 +69,7 @@ const RenderItem = ({ item }: any) => {
             <View style={rstyles.duration}>
                 <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
                 <Text style={rstyles.deliveryDate}>
-                    {`${monthShortNames[date.getMonth()]} ${date.getDay()}TH, ${date.getFullYear()}`}
+                    {`${monthShortNames[date.getMonth()]} ${date.getDate()}TH, ${date.getFullYear()}`}
                 </Text>
             </View>
             <View style={rstyles.deliveryEstimater}>
