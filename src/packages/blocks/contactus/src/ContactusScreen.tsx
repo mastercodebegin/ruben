@@ -8,6 +8,7 @@ import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
 import { instagram,mail } from "../../landingpage/src/assets";
 import QuerySubmittedModal from "./QuerySubmittedModal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const webIcon = require('../assets/web.png')
 export default class Contactus extends ContactusController {
   constructor(props: Props) {
@@ -19,9 +20,10 @@ export default class Contactus extends ContactusController {
     return (
       <HeaderWithBackArrowTemplate
         navigation={navigation}
-        scrollView
+        scrollView={false}
         headerText="Contact Us"
       >
+        <KeyboardAwareScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingHorizontal:20}}>
         <View style={styles.mainContainer}>
           <View style={styles.container}>
             <TextInput
@@ -66,7 +68,11 @@ export default class Contactus extends ContactusController {
                 fontWeight: "normal",
               }}
               style={styles.button}
-              onPress={() => {}}
+              onPress={() => {
+                this.setState({ email: "" })
+                 this.setState({ name: "" })
+                 this.setState({ comments: "" })
+              }}
             />
             <Text style={styles.reachOut}>{"or reach out us on"}</Text>
 
@@ -100,10 +106,15 @@ export default class Contactus extends ContactusController {
           </View>
           <QuerySubmittedModal
             visible={this.state.showSuccessModal}
-            setVisible={() => this.setState({ showSuccessModal: false,email:"",name:"",comments:"" })}
-            navigation={this.props.navigation}
+              setVisible={() => this.setState({ showSuccessModal: false, email: "", name: "", comments: "" })}
+              header="Your Query Submitted"
+              onPress={() => navigation.navigate("LandingPage")}
+              buttonLabel="Continue"
+              message="Be Patience! We'll try to solve your issues as soon as possible."
+              text="Thank you for reaching out."
           />
         </View>
+        </KeyboardAwareScrollView>
       </HeaderWithBackArrowTemplate>
     );
   }
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  mainContainer: { flex: 1, backgroundColor: LIGHT_GREY, paddingTop: 20 },
+  mainContainer: { flex: 1, backgroundColor: LIGHT_GREY, paddingTop: 20,paddingBottom:20 },
   container: {
     backgroundColor: "white",
     paddingHorizontal: 20,

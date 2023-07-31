@@ -110,18 +110,33 @@ defineFeature(feature, (test) => {
     });
 
     when("I navigate to the Log In Screen", () => {
+      const loginProps = {
+        onpressSignup:jest.fn() ,
+          onchangePassword:jest.fn(),
+          onchangeEmail:jest.fn(),
+          navigation:jest.fn(),
+          onpressLogin:jest.fn(),
+          checked:false,
+          setChecked: jest.fn(),
+          email:"test@test.com",
+          password:"Qweqwe123!",
+      }
       const wrapper = shallow(
         <LoginComponent
-          onpressSignup={jest.fn()}
-          onchangePassword={jest.fn()}
-          onchangeEmail={jest.fn()}
-          navigation={jest.fn()}
-          onpressLogin={jest.fn()}
-          email="test@test.com"
-          password="Qweqwe123!"
+          {...loginProps}
         />
       );
-      expect(wrapper).toBeTruthy();
+      const touchableOpacity = wrapper.findWhere(
+        (node) => node.prop("testID") === "do_login_test_id"
+      );
+      touchableOpacity.simulate("press");
+      expect(loginProps.onpressLogin).toBeCalled();
+      const { getByTestId } = render (   <LoginComponent
+        {...loginProps}
+      />)
+      fireEvent.press(getByTestId("remember_me_test_id"))
+      expect(loginProps.setChecked).toBeCalled()
+
     });
     then("user trying to go login screen using header", () => {
       const { getByTestId } = render(

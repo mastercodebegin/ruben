@@ -25,6 +25,8 @@ interface HeaderWithBackArrowTemplateTypes {
   refreshControl?: boolean;
   bounces?: boolean;
   scrollViewStyle?: StyleProp<ViewStyle>;
+  onPressBack?: () => void;
+  onPressBackTestId?: string;
 }
 const HeaderWithBackArrowTemplate = ({
   children,
@@ -38,14 +40,17 @@ const HeaderWithBackArrowTemplate = ({
   refreshControl,
   bounces = false,
   scrollViewStyle,
+  onPressBack,
+  onPressBackTestId
 }: HeaderWithBackArrowTemplateTypes) => {
   return (
     <SafeAreaView style={styles.flex}>
       <View style={styles.main}>
         <View style={styles.headerContainer}>
           <TouchableOpacity
+            testID={'back_btn_test_id'}
             style={{ padding: 5 }}
-            onPress={() => navigation.goBack()}
+            onPress={onPressBack ? onPressBack : () => navigation.goBack()}
           >
             <Image style={styles.backImage} source={arrowLeft} />
           </TouchableOpacity>

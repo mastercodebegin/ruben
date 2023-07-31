@@ -46,7 +46,10 @@ defineFeature(feature, (test) => {
           visible={false}
           setVisibleProfileModal={jest.fn()}
           setState={undefined}
-          state={undefined}
+          state={{
+            profileImage: 'dfghjk',
+            name:'name56'
+          }}
           firstTime={false}
           currentUser={"user"}
           route={undefined}
@@ -203,6 +206,7 @@ defineFeature(feature, (test) => {
         },
         false
       );
+      instance.checkValidation()
       instance.addToCartCallBack(null,true)
     })
 

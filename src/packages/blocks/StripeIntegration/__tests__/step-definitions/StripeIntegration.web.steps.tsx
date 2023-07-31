@@ -33,7 +33,20 @@ defineFeature(feature, (test) => {
     let instance: StripeIntegration;
 
     given("I am a User loading StripeIntegration", () => {
-      exampleBlockA = shallow(<StripeIntegration {...screenProps} />);
+      exampleBlockA = shallow(<StripeIntegration route={{
+        params: {
+          name: "",
+          address: "",
+          phone_number: 0,
+          zip_code: 0,
+          subtotal: 0,
+          shipping: 0,
+          discount: 0,
+          storageClass: "Basic",
+          orderId: 0,
+          orderNumber: 0
+        }
+      }} {...screenProps} />);
     });
 
     when("I navigate to the StripeIntegration", () => {

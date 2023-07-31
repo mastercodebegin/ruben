@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  TouchableOpacity
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import { DARK_RED, MEAT_IMAGE2, badge, MID_PEACH } from "../assets";
@@ -116,16 +117,16 @@ export default class AboutUs extends LandingPageController {
                     />
                   </View>
                   <View style={styles.priceContainer}>
-                    <Text style={styles.productName}>{this.state.productList[0]?.attributes?.name}</Text>
+                    <Text style={styles.productName}>{this.state.productList[0]?.attributes?.categoryCode}</Text>
                     <Text style={styles.price}>{`$ ${this.state.productList[0]?.attributes?.price}`}</Text>
                   </View>
                   <View style={styles.descriptionContainer}>
                     <Text style={styles.description}>
-                      {this.state.productList[0]?.attributes?.name}
+                      {this.state.productList[0]?.attributes?.description}
                     </Text>
-                    <View style={styles.badgeContainer}>
+                    <TouchableOpacity testID="add_to_fav_test_id" onPress={()=>this.AddToFavorites(this.state.productList[0]?.id)} style={styles.badgeContainer}>
                       <Image source={badge} style={styles.badge} />
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

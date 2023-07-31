@@ -13,7 +13,9 @@ import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
 import moment from "moment";
 import { addDays } from 'date-fns';
 interface Props {
-  dateSelected?: (date: string) => void
+  dateSelected?: (date: string) => void;
+  onDayPress?: (date: string) => void;
+  markedDate?:any
 }
 const backArrow = require("./arrow_left.png");
 const monthNames = [
@@ -38,22 +40,12 @@ const getMonthName = (timestamp: number) => {
 };
 
 const Calendar = ({
-  dateSelected=(date: string) => {},
+  dateSelected = (date: string) => { },
+  onDayPress,
+  markedDate
 }: Props): JSX.Element => {
   const [month, setMonth] = useState(new Date().getTime());
-  const [selectedDate, setSelectedDate] = useState("");
   const [markDate, setMarkDate] = useState({
-    "2023-05-19": { startingDay: true, color: PRIMARY, textColor: "white" },
-    "2023-05-20": { color: LIGHT_GREY, textColor: DARK_RED },
-    "2023-05-21": { color: LIGHT_GREY, textColor: DARK_RED },
-    "2023-05-22": { color: LIGHT_GREY, textColor: DARK_RED },
-    "2023-05-23": {
-      color: LIGHT_GREY,
-      textColor: DARK_RED,
-      dotColor: "white",
-    },
-    "2023-05-24": { color: LIGHT_GREY, textColor: DARK_RED },
-    "2023-05-25": { endingDay: true, color: PRIMARY, textColor: "white" },
   });
 
   const today = moment();
@@ -149,10 +141,13 @@ const Calendar = ({
       setMonth(month.timestamp);
     },
     markingType: "period",
-    markedDates: markDate,
+    markedDates: markedDate ? markedDate : markDate,
     firstDay: 0,
     onDayPress: (day: any) => {
-      console.log("check the day click:--->", day);
+      if (onDayPress) {
+        onDayPress(day.dateString)
+        return 
+      }
       dateSelected(day.dateString)
       getSelectedDayEvents(day);
     },

@@ -10,8 +10,8 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Animated, Alert, Clipboard } from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
-import { deepLinkingURL } from '../../../components/src/constants';
-import { store } from "../../../components/src/utils";
+import {deepLinkingURL} from '../../../components/src/constants';
+import { store, validName } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
@@ -773,7 +773,11 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('Name can not be blank')
       return false;
     }
-    if (this.props.state.email === '') {
+    if (!validName(this.props.state.name)) {
+      this.showAlert('The name cannot be empty and should not contain any numbers or special characters');
+      return false;
+    }
+    if (this.props.state.email === ''){
       this.showAlert('Email can not be blank')
       return false;
     }

@@ -15,6 +15,7 @@ import InvoiceBillingController, {
   Props,
   configJSON,
 } from "./InvoiceBillingController";
+import QuerySubmittedModal from "../../contactus/src/QuerySubmittedModal";
 
 export default class InvoiceBilling extends InvoiceBillingController {
   constructor(props: Props) {
@@ -37,6 +38,14 @@ export default class InvoiceBilling extends InvoiceBillingController {
         navigation={this.props.navigation}
         headerText="Invoice"
         showsVerticalScrollIndicator={false}
+        onPressBackTestId="back_btn_test_id"
+        onPressBack={() => {
+          Alert.alert("Alert", "Are you sure you want to exit?", [{
+            text: 'yes', onPress: () => this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'LandingPage' }],
+          })},{text:'cancel'}])
+        }}
       >
         <View style={{ flex: 1, padding: 20 }}>
           <View style={styles.innerContainer}>
@@ -53,8 +62,8 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter data={ this.props.route?.params} />}
-              ListHeaderComponent={<RenderHeader data={ this.props.route?.params} />}
+              ListFooterComponent={<RenderFooter data={ this.props?.route?.params} />}
+              ListHeaderComponent={<RenderHeader data={ this.props?.route?.params} />}
             />
           </View>
           <View style={{ paddingTop: 20 }}>
@@ -63,14 +72,25 @@ export default class InvoiceBilling extends InvoiceBillingController {
               label="Share Invoice"
               onPress={async () => {
                 this.downloadInvoice().then((res: any) => {
-                  this.setState({showLoader:false})
-                  this.shareInvoice(res);
+                  setTimeout(() => {   
+                    this.setState({showLoader:false})
+                    this.shareInvoice(res);
+                  },700)
                 });
               }}
             />
             <Button testID="download_invoice_id" label="Download Invoice" onPress={()=>this.downloadInvoice.bind(this)(true)} />
           </View>
-          <CommonLoader visible={ this.state.showLoader } />
+          <CommonLoader visible={this.state.showLoader} />
+          <QuerySubmittedModal
+            visible={this.state.showModal}
+            buttonLabel="Okay"
+            header="Success"
+            message="Your invoice downloaded Successfully"
+            onPress={() => this.setState({ showModal: false })}
+            setVisible={() => this.setState({ showModal: false })}
+            text="You can find your invoice on Downloads/Farm2URDoor"
+          />
         </View>
       </HeaderWithBackArrowTemplate>
     );

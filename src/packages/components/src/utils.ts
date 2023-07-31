@@ -4,7 +4,8 @@ export const isIOs = Platform.OS === 'ios';
 import { createStore } from 'redux';
 import messaging from '@react-native-firebase/messaging';
 
-const imagePath = isIOs ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
+
+const imagePath = isIOs ?  RNFetchBlob.fs.dirs.DownloadDir : RNFetchBlob.fs.dirs.DownloadDir;
 export const downloadFiles = (
   url: string,
   fileName: string,
@@ -14,7 +15,7 @@ export const downloadFiles = (
   notification: boolean,
   useDownloadManager: boolean
 ) => {
-  const filePath = `${imagePath}/rubensftcapp/${fileName}`;
+  const filePath = `${imagePath}/Farm2URDoor/${fileName}`;
   return new Promise((resolve, reject) => {
     RNFetchBlob.config({
       fileCache: true,
@@ -134,3 +135,26 @@ const reducer = (state = initialState, action: any) => {
       const token = await messaging().getToken()
       return token;
   }
+  export const validName = (name:string)=> {
+    const nameRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+    return nameRegex.test(name);
+  }
+
+  export function encryptText(text:string, key:string) {
+    var encryptedText = "";
+    for (var i = 0; i < text.length; i++) {
+      var charCode = text.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+      encryptedText += String.fromCharCode(charCode);
+    }
+    return encryptedText;
+  }
+  
+  export function decryptText(encryptedText:string, key:string) {
+    var decryptedText = "";
+    for (var i = 0; i < encryptedText.length; i++) {
+      var charCode = encryptedText.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+      decryptedText += String.fromCharCode(charCode);
+    }
+    return decryptedText;
+  }
+  

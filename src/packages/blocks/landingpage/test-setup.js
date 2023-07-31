@@ -9,10 +9,11 @@ jest.mock("../../framework/src/Utilities", () => ({
 jest.mock("../../components/src/utils", () => ({
   store: {
     getState: jest.fn(() => ({
-      currentUser: "user",
+      currentUser: "merchant",
     })),
     dispatch: jest.fn(),
   },
+  validName: jest.fn(() => false),
 }));
 jest.mock("react-native-simple-toast", () => {});
 jest.mock("@react-native-async-storage/async-storage", () => ({

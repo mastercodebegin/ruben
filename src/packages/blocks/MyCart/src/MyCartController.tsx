@@ -22,7 +22,8 @@ interface S {
   discountCode:string;
   discountPercentage:number;
   show_modal:boolean;
-  order_id:number | null;
+  order_id: number | null;
+  discountPrice: number;
 }
 
 interface SS {
@@ -46,7 +47,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       discountCode:'',
       discountPercentage:0,
       show_modal:false,
-      order_id:null
+      order_id: null,
+      discountPrice: 0,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -54,7 +56,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   cartCallId:string ='';
   removeItemCallId:string='';
   increaseCartCallId:string='';
-  fetchDiscountCode:string='';
+  fetchDiscountCode: string = '';
+  applyDiscountCodeId: string;
   showAlert(){
     Alert.alert('Alert',"something went wrong please try again",[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
 
@@ -115,8 +118,34 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         }else{
           this.getCart()
         }
+    }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.applyDiscountCodeId != null &&
+    this.applyDiscountCodeId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){   
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+    );   
+    
+    let discountPrice = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    if (discountPrice?.discount === "Discount not present") {
+      this.setState({ showLoader: false }, ()=>this.showDiscountMessage("Discount not present"))
+    }
+    else if (!error) {
+      showToast("Discount Applied")
+      this.setState({showLoader:false,discountPrice:Number(discountPrice.discount)}, ()=>this.showDiscountMessage("Discount Applied"))
+    } else {
+      this.setState({showLoader:false},()=>this.showDiscountMessage("Something went wrong"))
+    }
     }
     
+  }
+
+  showDiscountMessage(message: string) {
+    setTimeout(() => {
+      showToast(message)
+    },300)
   }
   removeFromCart(id:number) {
     Alert.alert("Alert",
@@ -150,6 +179,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount});
       showToast('Discound code fetched successfully')
     }
+  }
+  onpressCancel() {
+    Alert.alert('Alert','Are you sure to cancel',[{text:'Ok',onPress:()=>this.props.navigation.goBack()},{text:'Cancel'}])
   }
   async getCart() {
     this.setState({ showLoader: true });
@@ -224,6 +256,32 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
      configJSON.httpDeleteMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async applyDiscountCode(code:string) {
+    this.setState({showLoader:true})
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.applyDiscountCodeId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.applyDiscountCode}${code}`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }

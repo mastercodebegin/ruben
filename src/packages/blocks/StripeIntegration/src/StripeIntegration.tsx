@@ -123,16 +123,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     this.setState({ cvv: text });
   };
-
-  getImageAsperAlert = () => {
-    if (this.state.paymentAlerttype === "PaymentSuccess" || this.state.paymentAlerttype === "ThankYouForYourOder") {
-      return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
-    } else if (this.state.paymentAlerttype === "PaymentFailed") {
-      return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
-    } else {
-      return require("../../StripeIntegration/assets/ic_email_icon.png")
-    }
-  }
   handleContinueButton = () => {
     if (this.state.isOrderSuccess) {
       if (this.state.paymentAlerttype === "PaymentSuccess") {
@@ -143,9 +133,13 @@ export default class StripeIntegration extends StripeIntegrationController {
         this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
           this.handlePaymentSuccess()
         });
+      } else if (this.state.paymentAlerttype === "PaymentFailed") {
+        this.setState({ paymentAlerttype: "PaymentFailed" }, () => {
+          this.setState({showPaymentAlert: false})
+        });
       } else {
         this.setState({ showPaymentAlert: false });
-        this.props.navigation.navigate('InvoiceBilling',this.props.route.params)
+        this.props.navigation.navigate('InvoiceBilling', this.props.route.params)
       }
     }
   }
@@ -179,7 +173,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} onPress={() => {
+                  <TouchableOpacity style={styles.padding} testID="cardButton" onPress={() => {
                     this.setState({ paymentMethodType: "Card" })
                   }}>
                     <CheckBox
@@ -194,7 +188,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} onPress={() => {
+                  <TouchableOpacity style={styles.padding} testID="codButton" onPress={() => {
                     this.setState({ paymentMethodType: "Cod" })
                   }}>
                     <CheckBox
@@ -289,7 +283,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 header="MY DETAILS"
                 list={[
                   { question: "Name", ans: this.props.route.params.name },
-                  { question: "Email", ans: "test@gmail.com" },
+                  { question: "Email", ans: this.props.route.params.email },
                   { question: "Phone", ans: this.props.route.params.phone_number },
                   {
                     question: "Shipping Add.",
@@ -300,7 +294,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               />
             </View>
             <View style={styles.paymentContainer}>
-              <Text style={styles.headerTextPayment}>PAYMENT DETAILS</Text>
+              <Text testID="paymentDetails" style={styles.headerTextPayment}>PAYMENT DETAILS</Text>
               <View style={styles.seperatorPayment} />
               <View style={styles.answerContainer}>
                 <View style={styles.row}>
@@ -328,32 +322,51 @@ export default class StripeIntegration extends StripeIntegrationController {
                 <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping).toFixed(2)}`}</Text>
               </View>
             </View>
-            <DoubleButton
-              button1Label={this.state.paymentMethodType === "Card" ? "Pay" : "Continue"}
-              //this.setState({ showPaymentAlert: true })
-              button1_Onpress={() => {
-                if (this.state.paymentMethodType === "Card") {
-                  this.setState({ showPaymentLoading: true })
-                  this.setState({ customAlertText: "Payment In Process.." });
-                  this.getPaymentMethod()
-                } else {
-                  this.handlePaymentSuccess()
-                  this.setState({ showPaymentAlert: true })
-                }
-              }}
-              button2Label="Cancel"
-              button2_Onpress={() => { }}
-              containerStyle={{ paddingTop: 20 }}
-            />
+            <View style={styles.containerStyle} testID="doubleButton">
+              <TouchableOpacity
+                onPress={()=> {
+                  if (this.state.paymentMethodType === "Card") {
+                    this.setState({ showPaymentLoading: true })
+                    this.setState({ customAlertText: "Payment In Process.." });
+                    this.setState({ showPaymentAlert: true })
+                    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+                    let cvv = this.state.cvv
+                    let month = this.state.expirtyDate.slice(0, 2);
+                    let year = "20" + this.state.expirtyDate.slice(-2);
+                    this.getPaymentMethod(card, cvv, month, year)
+                  } else {
+                    this.setState({ showPaymentLoading: true })
+                    this.setState({ customAlertText: "Order In Process.." });
+                    this.codeApiCalled(this.props.route.params.orderId)
+                    this.setState({ showPaymentAlert: true })
+                  }  
+                }}
+                style={[styles.buttonDouble, styles.button1Style]}
+                testID="doneFirstButtonEvent"
+              >
+                <Text style={[styles.textStyles, { color: WHITE }]}>
+                  {this.state.paymentMethodType === "Card" ? "Pay" : "Continue"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                testID="doneSecondButtonEvent"
+                onPress={() => { }}
+                style={[styles.buttonDouble, styles.button2Style]}
+              >
+                <Text style={[styles.textStyles, { color: PRIMARY }]}>
+                  {"Cancel"}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </KeyboardAwareScrollView>
         </HeaderWithBackArrowTemplate>
         {this.state.showPaymentAlert && (
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
-          }} onpressContinue={() => {
-            this.handleContinueButton()
-          }} customeText={this.state.customAlertText} iconImage={this.getImageAsperAlert()}
-            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} />
+          } } onpressContinue={() => {
+            this.handleContinueButton();
+          } } customeText={this.state.customAlertText}
+          isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} testID={"paymentAlert"} />
         )}
       </SafeAreaView>
     );
@@ -632,5 +645,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
 
   },
+  buttonDouble: { alignItems: "center" },
+  textStyles: {
+    fontSize: 15,
+    fontWeight: "bold",
+    paddingVertical: 14,
+  },
+  button2Style: {
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: PRIMARY,
+    marginTop: 10,
+  },
+  button1Style: { backgroundColor: PRIMARY, borderRadius: 30 },
+  containerStyle:{ paddingTop: 20 },
+
 });
 // Customizable Area End

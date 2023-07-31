@@ -10,7 +10,7 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 import React from "react";
 import EmailAccountLoginBlock from "../../src/EmailAccountLoginBlock.web";
-
+import {waitFor} from '@testing-library/react-native'
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -64,7 +64,9 @@ defineFeature(feature, (test) => {
         }
       );
       instance.validationApiCallId = msgValidationAPI.messageId;
-      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      waitFor(() => {
+        runEngine.sendMessage("Unit Test", msgValidationAPI);
+      })
     });
 
     when("I navigate to the Log In Screen", () => {
@@ -80,9 +82,7 @@ defineFeature(feature, (test) => {
       expect(mobileAccountLogInWrapper).toBeTruthy();
     });
 
-    then("I can toggle the Password Show/Hide with out errors", () => {
-  
-    });
+    then("I can toggle the Password Show/Hide with out errors", () => {});
 
     then("I can toggle the Remember Me with out errors", () => {
       let buttonComponent = mobileAccountLogInWrapper.findWhere(
@@ -171,6 +171,9 @@ defineFeature(feature, (test) => {
         msgLogInErrorRestAPI.messageId
       );
       instance.apiEmailLoginCallId = msgLogInErrorRestAPI.messageId;
+      instance.loginCallBack({ meta: { user_type: "merchant",token:"fghj" } }, false)
+      instance.loginCallBack({ meta: { user_type :"customer",token:"fghj" } },false)
+
       runEngine.sendMessage("Unit Test", msgLogInErrorRestAPI);
     });
   });
@@ -258,6 +261,9 @@ defineFeature(feature, (test) => {
         }
       );
       instance.apiEmailLoginCallId = msgLogInSucessRestAPI.messageId;
+      instance.setState({ checkedRememberMe: true });
+      instance.loginCallBack(null, true)
+      
       runEngine.sendMessage("Unit Test", msgLogInSucessRestAPI);
     });
   });

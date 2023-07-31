@@ -1,56 +1,69 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
-import { DARK_RED } from "../../../components/src/constants";
-import { arrowLeft } from "../../landingpage/src/assets";
-//@ts-ignore
-import ModalDropdownComp from "../../../components/src/ModalDropdownComp";
-type StatusType = "Canceled" | "Pending" | "Success";
-const RenderItem = () => {
-  const dropdownCategoryref: any = React.createRef();
-  const rowData = ["Canceled", "Pending", "Success"];
-  const [selectedStatus, setSelectedStatus] = useState<StatusType>("Pending");
+import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
+import { MEAT_IMAGE1, arrowLeft } from "../../landingpage/src/assets";
+import moment from "moment";
+const sampleData = [
+  {
+    name : "test name",
+PN :3423,
+
+Pick: 3,
+
+Vendor: "Juan Esteban ",
+
+OnHand:3
+  },
+  {
+    name : "test name",
+PN :3423,
+
+Pick: 3,
+
+Vendor: "Juan Esteban ",
+
+OnHand:3
+  },
+  {
+    name : "test name",
+PN :3423,
+
+Pick: 3,
+
+Vendor: "Juan Esteban ",
+
+OnHand:3
+  }
+]
+const RenderItem = ({item}: any) => {  
+  const selectedStatus = item?.data?.attributes?.status === 'scheduled' ?
+    'pending' : item?.data?.attributes?.status === 'completed' ?
+      'success' : item?.data?.attributes?.status;
+  const [show, setShow] = useState(false);
   return (
-    <View style={styles.main}>
+    <View style={{ paddingVertical: 10,
+      borderBottomColor: "grey",
+      borderBottomWidth: 0.5,
+      paddingHorizontal: 20,
+      backgroundColor: "white"}}>
+      <View style={styles.main}>
+        <View style={{justifyContent:"center"}}>
+
+      <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10,marginRight:10}} />
+        </View>
       <View style={styles.flex}>
-        <Text style={styles.text}>{"ID:12345"}</Text>
-        <Text style={styles.name}>{"test name"}</Text>
-        <Text style={styles.text}>{"Date : 03/03/23"}</Text>
-        <Text style={styles.text}>{"Item :x3"}</Text>
+        <Text style={styles.text}>{`ID:${item?.data?.attributes?.ID}`}</Text>
+        <Text style={styles.name}>{`${item?.data?.attributes?.name}`}</Text>
+        <Text style={styles.text}>{`Date : ${ moment(new Date(item?.data?.attributes?.Date)).format('DD/MM/YYYY')}`}</Text>
+        <Text style={styles.text}>{`Item :x${item?.data?.attributes?.items}`}</Text>
       </View>
       <View style={[styles.container]}>
         <Text style={styles.destination}>{"Domestic"}</Text>
       </View>
       <View style={styles.container}>
-        <ModalDropdownComp
-          onSelect={(_: any, rowData: StatusType) => {
-            setSelectedStatus(rowData);
-          }}
-          options={rowData}
-          isFullWidth
-          ref={dropdownCategoryref}
-          keySearchObject="name"
-          _renderCustomModal
-          customModal={() => (
-            <View style={{ height: 300, width: 300, backgroundColor: 'red' }} />
-          )}
-          renderRow={(props: any) => {
-            return (
-              <Text
-                style={{
-                  ...styles.status,
-                  fontWeight: props === selectedStatus ? "bold" : undefined,
-                }}
-              >
-                {props}
-              </Text>
-            );
-          }}
-          dropdownStyle={styles.dropdownStyle}
-          renderSeparator={(obj: any) => null}
-        >
           <TouchableOpacity
             onPress={() => {
-              dropdownCategoryref.current._onButtonPress();
+              setShow(!show)
             }}
             style={styles.statusContainer}
           >
@@ -59,32 +72,53 @@ const RenderItem = () => {
                 fontSize: 16,
                 paddingRight: 10,
                 color:
-                  selectedStatus === "Canceled"
+                  selectedStatus === "cancelled"
                     ? "pink"
-                    : selectedStatus === "Success"
+                    : selectedStatus === "success"
                       ? "green"
                       : "orange",
               }}
             >
               {selectedStatus}
             </Text>
-            <Image style={styles.dropDownImage} source={arrowLeft} />
+            <Image style={[styles.dropDownImage,show && {transform:[{rotate:'90deg'}]}]} source={arrowLeft} />
           </TouchableOpacity>
-        </ModalDropdownComp>
       </View>
     </View>
+     {show&& <View style={{backgroundColor:LIGHT_GREY,padding:10,borderRadius:20,marginTop:10}}>
+        {
+          sampleData.map((item,i) => {
+            return (
+              <View style={{paddingVertical:3}} key={i}>
+              <View style={{ flexDirection: 'row' }}>
+                  <Image style={{ height: 70, width: 70, borderRadius: 8 }} source={MEAT_IMAGE1} />
+                  <View style={{paddingHorizontal:20,flex:1,justifyContent:"space-between",paddingVertical:12}}>
+                    <Text style={{color:DARK_RED,fontSize:18,fontWeight:"bold"}}>{item.name}</Text>
+                    <Text style={{color:DARK_RED,fontSize:16}}>{"PN -"+ item.PN}</Text>
+
+                    </View>
+                </View>
+                <Text style={styles.question}>{"Pick : "} <Text style={styles.answer}>{3}</Text></Text>
+                <Text style={styles.question}>{"Vendor : "} <Text style={styles.answer}>{"test name"}</Text></Text>
+                <Text style={styles.question}>{"On hand : "} <Text style={styles.answer}>{3}</Text></Text>
+
+                </View>
+            )
+
+          })
+          }
+      </View>}
+      </View>
+    
   );
 };
 export default RenderItem;
 
 const styles = StyleSheet.create({
+  answer:{ color: DARK_RED, fontSize: 17 },
+  question:{ color: 'grey', fontSize: 17,paddingVertical:3 },
   main: {
-    paddingVertical: 10,
-    borderBottomColor: "grey",
-    borderBottomWidth: 0.5,
     flexDirection: "row",
-    paddingHorizontal: 20,
-    backgroundColor: "white"
   },
   text: {
     color: DARK_RED,

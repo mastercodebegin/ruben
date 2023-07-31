@@ -52,7 +52,7 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
       const merchantComponent =()=>{
         return <>
         {renderIcons(Bill, tabName === "OrdersScreen",'OrdersScreen')}
-        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'BlogPostStack')}
+        {renderIcons(tabName === "BlogPost"?element_marked:element_unmarked, tabName === "BlogPost",'Inventory')}
         </>
       }
   return (

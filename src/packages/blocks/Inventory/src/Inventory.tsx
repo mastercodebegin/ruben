@@ -1,5 +1,12 @@
 import React from "react";
-import { View, SafeAreaView, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 import MyCartController from "./InventoryController";
 import {
   LIGHT_GREY,
@@ -8,24 +15,77 @@ import {
 } from "../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import FlatListHeader from "./FlatlistHeader";
+import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
+
 export default class Inventory extends MyCartController {
   render() {
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.container}>
-          <FlatList
-            data={[{}, {}, {}, {}]}
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            renderItem={() => <RenderItem />}
-            ListHeaderComponent={
-              <FlatListHeader
-              searchText={this.state.searchText}
-                onChangeText={(text) => this.setState({ searchText: text })}
-              />
-            }
-            keyExtractor={(_, i) => `key${i}`}
-          />
+          <View style={{ flex: 1 }}>
+            <FlatList
+              data={this.state.inventoryList}
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => <RenderItem item={item} />}
+              onEndReached={this.handleLoadMoreDebounced.bind(this)}
+              onEndReachedThreshold={0.1}
+              ListEmptyComponent={() => (
+                <>
+                  {!this.state.loading ? (
+                    <View style={{ paddingVertical: 40 }}>
+                      <Text style={{ textAlign: "center", fontSize: 17 }}>
+                        {"No data found"}
+                      </Text>
+                    </View>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+              ListFooterComponent={
+                <>
+                  {this.state.loading ? (
+                    <View style={{ alignItems: "center", paddingVertical: 20 }}>
+                      <ActivityIndicator size="large" />
+                    </View>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              }
+              ListHeaderComponent={
+                <FlatListHeader
+                  setSelectedStatus={(res) => {
+                    this.setState({
+                      selectedStatus:
+                        this.state.selectedStatus === res ? "" : res,
+                      inventoryList: [],
+                    });
+                    this.getInventoryData.bind(this)(
+                      1,
+                      this.state.selectedDate
+                    );
+                  }}
+                  selectedStatus={this.state.selectedStatus}
+                  searchText={this.state.searchText}
+                  selectedDate={this.state.selectedDate}
+                  setSelectedDay={(date) => {
+                    if (this.state.selectedDate === date) {
+                      this.setState({ selectedDate: '', inventoryList: [] });
+                      this.getInventoryData.bind(this)(1);
+                      return;
+                    }
+                    this.setState({ selectedDate: date, inventoryList: [] });
+                    this.getInventoryData.bind(this)(1, date);
+                  }}
+                  onChangeText={(text) => this.setState({ searchText: text })}
+                />
+              }
+              keyExtractor={(_, i) => `key${i}`}
+            />
+          </View>
+          <BottomTab navigation={this.props.navigation} tabName="BlogPost" />
         </View>
       </SafeAreaView>
     );

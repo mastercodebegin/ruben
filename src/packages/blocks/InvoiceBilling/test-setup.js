@@ -1,6 +1,7 @@
 // test-setup.js
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import React from 'react';
 
 configure({ adapter: new Adapter() });
 
@@ -21,4 +22,25 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
       });
     }),
     setItem: jest.fn(),
-  }));
+}));
+  
+jest.mock("../../components/src/HeaderWithBackArrowTemplate", () =>
+  jest.fn((props) => {
+    if (props.onPressBack) {
+      props.onPressBack();
+    }
+    return <>{ props.children }</>;
+  })
+);
+jest.mock("../../components/src/ShowToast", () => ({ showToast: jest.fn() }))
+jest.mock("../contactus/src/QuerySubmittedModal", () => {
+  let render = 1;
+  return jest.fn((props) => {
+    if (props.onPress && props.setVisible && render===1 ) {
+      props.onPress();
+      props.setVisible();
+      render++;
+    }
+    return <></>;
+  })}
+);

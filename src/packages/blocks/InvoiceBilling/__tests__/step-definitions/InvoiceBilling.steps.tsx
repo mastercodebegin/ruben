@@ -4,12 +4,13 @@ import { shallow, ShallowWrapper } from "enzyme";
 import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import InvoiceBilling from "../../src/InvoiceBilling";
-import { render } from "@testing-library/react-native";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Message } from "../../../../framework/src/Message";
 import MessageEnum, {
-  getName,
+  getName
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
+import { Alert } from "react-native";
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -17,7 +18,7 @@ const screenProps = {
   id: "InvoiceBilling",
   route: {
     params: {
-      name:"test name"
+      name: "test name"
     }
   }
 };
@@ -26,7 +27,7 @@ const feature = loadFeature(
   "./__tests__/features/InvoiceBilling-scenario.feature"
 );
 
-defineFeature(feature, (test) => {
+defineFeature(feature, test => {
   beforeEach(() => {
     jest.resetModules();
     jest.doMock("react-native", () => ({ Platform: { OS: "web" } }));
@@ -52,25 +53,24 @@ defineFeature(feature, (test) => {
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceEndPointMessage),
-        'cart'
+        "cart"
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
         {
-          "data": [
+          data: [
             {
-              "attributes": {
-                "order_items":{ "data":[{}]}
+              attributes: {
+                order_items: { data: [{}] }
               }
             }
           ]
-        
         }
       );
       instance.cartCallId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       const termsCondsList = exampleBlockA.findWhere(
-        (node) => node.prop("testID") === "render_product_list_id"
+        node => node.prop("testID") === "render_product_list_id"
       );
       termsCondsList.render();
     });
@@ -95,20 +95,35 @@ defineFeature(feature, (test) => {
 
     then("I can share the the invoice through mail", () => {
       let buttonComponent = exampleBlockA.findWhere(
-        (node) => node.prop("testID") === "share_invoice_id"
+        node => node.prop("testID") === "share_invoice_id"
       );
-      expect(buttonComponent).toBeTruthy()
+      expect(buttonComponent).toBeTruthy();
       buttonComponent.simulate("press");
     });
-    then("I can download the invoice", () => {
+    then("I can download the invoice", async () => {
+
       let buttonComponent = exampleBlockA.findWhere(
-        (node) => node.prop("testID") === "download_invoice_id"
+        node => node.prop("testID") === "download_invoice_id"
       );
-      expect(buttonComponent).toBeTruthy()
-      buttonComponent.simulate("press");
+      expect(buttonComponent).toBeTruthy();
+      waitFor(() => {
+        
+        buttonComponent.simulate("press");
+      })
+      expect(instance.state.showLoader).toBe(true);
+      jest.runAllTimers();
+
+
     });
 
     then("I can leave the screen with out errors", () => {
+      const showAlert = jest.spyOn(Alert, "alert");
+      // const { getByTestId } = render(<InvoiceBilling {...screenProps} />);
+      // fireEvent.press(getByTestId("back_btn_test_id"));
+
+      // expect(showAlert).toHaveBeenCalledTimes(1);
+      // expect(showAlert).toBeCalled();
+
       instance.componentWillUnmount();
       expect(exampleBlockA).toBeTruthy();
     });

@@ -3,24 +3,21 @@ import { View, Text } from "react-native";
 import { styles } from "./InvoiceBilling";
 import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
+import moment from 'moment';
+
 const RenderHeader = ({ data}:any) => {
-  const date = new Date();
   
-const options = { day: '2-digit', month: 'short', year: 'numeric' };
-  const formattedDate = date.toLocaleString('en-US', options);
-  const getDeliveryDate = () => {
-    const date = new Date();
-    date.setDate(date.getDate() + 3);
-    const formattedDate = date.toLocaleString('en-US', options);
-    return formattedDate;
+  function getDeliveryDate(date:Date) {
+   return moment(date).format('DD MMM YYYY');
+
   }
   return (
     <View>
       <Text style={styles.date}>
-        {"Date : "} <Text style={styles.boldDate}>{formattedDate}</Text>
+        {"Date : "} <Text style={styles.boldDate}>{getDeliveryDate(new Date())}</Text>
       </Text>
       <Text style={styles.date}>
-        {"Due Date : "} <Text style={styles.boldDate}>{getDeliveryDate()}</Text>
+        {"Due Date : "} <Text style={styles.boldDate}>{getDeliveryDate(new Date())}</Text>
       </Text>
       <View style={styles.greyContainer}>
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>
