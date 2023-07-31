@@ -10,7 +10,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Animated, Alert, Clipboard } from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
-import {deepLinkingURL} from '../../../components/src/constants';
+import { deepLinkingURL } from '../../../components/src/constants';
 import { store, validName } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
@@ -777,7 +777,7 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('The name cannot be empty and should not contain any numbers or special characters');
       return false;
     }
-    if (this.props.state.email === ''){
+    if (this.props.state.email === '') {
       this.showAlert('Email can not be blank')
       return false;
     }
@@ -1329,7 +1329,6 @@ export default class LandingPageController extends BlockComponent<
   showHideCreditDetailModal() {
     this.setState({ showMyCreditModal: false });
   }
-
-
+  
   // Customizable Area End
 }
