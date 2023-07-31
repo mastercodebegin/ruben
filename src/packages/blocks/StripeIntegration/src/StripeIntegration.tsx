@@ -283,7 +283,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 header="MY DETAILS"
                 list={[
                   { question: "Name", ans: this.props.route.params.name },
-                  { question: "Email", ans: "test@gmail.com" },
+                  { question: "Email", ans: this.props.route.params.email },
                   { question: "Phone", ans: this.props.route.params.phone_number },
                   {
                     question: "Shipping Add.",

@@ -23,6 +23,7 @@ export interface Props {
   route: {
     params: {
       name: string,
+      email: string,
       address: string,
       phone_number: number,
       zip_code: number,
