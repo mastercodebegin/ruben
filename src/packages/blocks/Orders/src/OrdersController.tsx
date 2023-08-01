@@ -218,7 +218,7 @@ export default class OrdersController extends BlockComponent<
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `orders/destroy?id=${id}`
+      `bx_block_shopping_cart/orders/destroy?id=${id}`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
