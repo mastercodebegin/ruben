@@ -59,7 +59,7 @@ export default class MyOrdersScreen extends OrdersController {
                 </View>
               );
             }}
-            renderItem={RenderItem}
+            renderItem={({item}) => <RenderItem item={item} cancelOrder={this.cancelOrder.bind(this)} />}
           />
           <CommonLoader visible={this.state.showLoader} />
         </View>
