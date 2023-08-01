@@ -58,9 +58,9 @@ export default class AboutUs extends LandingPageController {
                 <View style={styles.imageDescription}>
                   <View style={styles.imageContainer}>
                     <Image
-                      source={{
-                        uri: this.state.aboutus?.attributes?.photo?.url,
-                      }}
+                      source={ this.state.aboutus?.attributes?.photo?.url !== null && this.state.aboutus?.attributes?.photo?.url !== undefined ? {
+                        uri: this.state.aboutus?.attributes?.photo?.url 
+                      }: require("../../assets/food.jpg")}
                       style={styles.imageStyle}
                     />
                   </View>
