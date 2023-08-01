@@ -29,7 +29,6 @@ import {
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
-import RenderItems from "../RenderItems/RenderItems";
 import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import Modal from "./UpdateProfileModal";
@@ -119,7 +118,7 @@ export default class Myprofile extends LandingPageController {
               <View style={styles.profileContainer}>
                 <View style={styles.blur} />
                 <TouchableOpacity
-                testID="edit_profile_test_id"
+                  testID="edit_profile_test_id"
                   onPress={() => this.setState({ showProfileModal: true })}
                   style={styles.profile}
                 >
@@ -201,7 +200,7 @@ export default class Myprofile extends LandingPageController {
                   style={[
                     styles.selections,
                     this.state.selectedTab === "MyFavoritesScreen" &&
-                      styles.selected,
+                    styles.selected,
                   ]}
                 >
                   My Favorites
@@ -215,7 +214,7 @@ export default class Myprofile extends LandingPageController {
                   style={[
                     styles.selections,
                     this.state.selectedTab === "Recomendations" &&
-                      styles.selected,
+                    styles.selected,
                   ]}
                 >
                   Recomendation
@@ -263,7 +262,7 @@ export default class Myprofile extends LandingPageController {
               </View>
             ) : (
               <>
-               <FlatList
+                <FlatList
                   data={this.state.showFavoriteList}
                   horizontal
                   numColumns={1}
@@ -273,10 +272,10 @@ export default class Myprofile extends LandingPageController {
                     return (
                       <View style={styles.FavContainer}>
                         <TouchableOpacity
-                           testID={'navigateToProductDetailScreen'}
+                          testID={'navigateToProductDetailScreen'}
                           onPress={() =>
                             this.props.navigation.navigate("ProductDetailScreen", {
-                              id:item?.id,
+                              id: item?.id,
                               description: item?.attributes?.catalogue_id?.data?.attributes?.description,
                               name: item?.attributes?.catalogue_id?.data?.attributes?.name,
                               price: item?.attributes?.catalogue_id?.data?.attributes?.price,
@@ -304,7 +303,11 @@ export default class Myprofile extends LandingPageController {
 
                               <TouchableOpacity
                                 testID={"removeFavList"}
-                                onPress={() => this.removeFavListProduct(item?.id)}
+                                onPress={() =>{this.removeFavListProduct(item?.id)
+                                  setTimeout(() => {
+                                    this.getFavorites()
+                                  }, 300);	
+                                  }}
                                 style={styles.badgeContainer}
                               >
                                 <Image resizeMode="contain" style={styles.badge} source={badge} />
@@ -325,7 +328,9 @@ export default class Myprofile extends LandingPageController {
                               </Text>
                               <TouchableOpacity
                                 testID={"addtocart"}
-                                onPress={() => this.addToCart(item?.id)}
+                                onPress={() => {
+                                  this.addToCart(item?.attributes?.catalogue_id?.data?.id)
+                                }}
                                 style={styles.FavcartContainer}
                               >
                                 <Image resizeMode="contain" style={styles.Favcart} source={CART} />
@@ -342,7 +347,7 @@ export default class Myprofile extends LandingPageController {
                 />
 
                 <TouchableOpacity
-                testID="see_all_button"
+                  testID="see_all_button"
                   onPress={() =>
                     this.props.navigation.navigate(this.state.selectedTab)
                   }
@@ -565,8 +570,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginTop: 15,
   },
-   // fav List Styles
-   contentContainer: {
+  // fav List Styles
+  contentContainer: {
     padding: 0,
     marginTop: 20,
     marginLeft: 20

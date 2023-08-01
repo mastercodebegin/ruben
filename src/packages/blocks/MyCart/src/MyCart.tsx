@@ -40,6 +40,9 @@ export default class MyCart extends MyCartController {
     const getTotal = ()=>{
       return (getTotalPrice() - getDiscountPrice())
     }
+    const getCartCount = ()=>{
+      return this.state.productsList.length > 9 ? this.state.productsList.length : `0${this.state.productsList.length}`
+    }
     return (
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
@@ -56,7 +59,7 @@ export default class MyCart extends MyCartController {
                   selected="My Cart"
                 />
                 <View style={styles.headerContainer}>
-                  <Text style={styles.headerText}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
+                  <Text style={styles.headerText}>{`ADDED ITEMS (${getCartCount()})`}</Text>
                 </View>
               </View>
             )}

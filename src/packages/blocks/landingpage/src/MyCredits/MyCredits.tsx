@@ -5,7 +5,7 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  Text,
+  Text
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import {
@@ -14,61 +14,80 @@ import {
   cow,
   LIGHT_GREY,
   PRIMARY,
-  MID_PEACH,
+  MID_PEACH
 } from "../assets";
-import MyCreditDetailsModal from "./MyCreditDetailsModal";
-const MyCreditScreen = ({ navigation }: any) => {
-  const [isShowMyCreditModal, setShowMyCreditModal] = useState(false);
-
-  return (
-    <HeaderWithBackArrowTemplate headerText="My Credit" navigation={navigation}>
-      <View style={{ flex: 1 }}>
-        <FlatList
-          data={[1, 2]}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          renderItem={() => {
-            return (
-              <View style={styles.main}>
-                <Image resizeMode="stretch" style={styles.image} source={cow} />
-                <View style={styles.flexContainer}>
-                  <Text style={styles.text}>Purchased Animal</Text>
-                  <Text style={styles.desText}>Cow</Text>
+import Modal from "./MyCreditDetailsModal";
+import LandingPageController, { Props } from "../LandingPageController";
+export default class MyCreditScreen extends LandingPageController {
+  constructor(props: Props) {
+    super(props);
+  }
+  render() {
+    return (
+      //@ts-ignore
+      <HeaderWithBackArrowTemplate
+        headerText="My Credit"
+        navigation={this.props.navigation}
+      >
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={[1, 2]}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            renderItem={() => {
+              return (
+                <View style={styles.main}>
+                  <Image
+                    resizeMode="stretch"
+                    style={styles.image}
+                    source={cow}
+                  />
+                  <View style={styles.flexContainer}>
+                    <Text style={styles.text}>Purchased Animal</Text>
+                    <Text style={styles.desText}>Cow</Text>
+                  </View>
+                  <View style={styles.flexContainer}>
+                    <Text style={styles.text}>Total Cuts</Text>
+                    <Text style={styles.desText}>10</Text>
+                  </View>
+                  <View style={styles.flexContainer}>
+                    <Text style={styles.text}>Used Cuts</Text>
+                    <Text style={styles.desText}>7</Text>
+                  </View>
+                  <View style={styles.flexContainer}>
+                    <Text style={styles.text}>Remaining Cuts</Text>
+                    <Text style={styles.desText}>3</Text>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.pickButton}
+                    testID="detailsModal"
+                    onPress={() => {
+                      this.setState({ showMyCreditModal: true });
+                      console.log("my credit details modal == === ");
+                    }}
+                  >
+                    <Text style={styles.pickText}>Pickup / Deliver </Text>
+                  </TouchableOpacity>
                 </View>
-                <View style={styles.flexContainer}>
-                  <Text style={styles.text}>Total Cuts</Text>
-                  <Text style={styles.desText}>10</Text>
-                </View>
-                <View style={styles.flexContainer}>
-                  <Text style={styles.text}>Used Cuts</Text>
-                  <Text style={styles.desText}>7</Text>
-                </View>
-                <View style={styles.flexContainer}>
-                  <Text style={styles.text}>Remaining Cuts</Text>
-                  <Text style={styles.desText}>3</Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.pickButton}
-                  onPress={() => {
-                    setShowMyCreditModal(true);
-                  }}
-                >
-                  <Text style={styles.pickText}>Pickup / Deliver </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-          keyExtractor={(_, index) => {
-            return String(index);
-          }}
-        />
-        {isShowMyCreditModal && <MyCreditDetailsModal />}
-      </View>
-    </HeaderWithBackArrowTemplate>
-  );
-};
-
-export default MyCreditScreen;
+              );
+            }}
+            keyExtractor={(_, index) => {
+              return String(index);
+            }}
+          />
+          <Modal
+            setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
+            visible={this.state.showMyCreditModal}
+            navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
+              throw new Error("Function not implemented.");
+            } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
+              throw new Error("Function not implemented.");
+            } } cartDetails={[]}          />
+        </View>
+      </HeaderWithBackArrowTemplate>
+    );
+  }
+}
 const styles = StyleSheet.create({
   main: {
     backgroundColor: WHITE,
@@ -76,24 +95,24 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     overflow: "hidden",
     marginBottom: 15,
-    borderRadius: 15,
+    borderRadius: 15
   },
   image: {
     height: 180,
     width: "80%",
     marginTop: 20,
     marginBottom: 10,
-    alignSelf: "center",
+    alignSelf: "center"
   },
   text: {
     color: MID_PEACH,
     fontWeight: "normal",
-    fontSize: 16,
+    fontSize: 16
   },
   desText: {
     fontSize: 17,
     color: DARK_RED,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   flexContainer: {
     flexDirection: "row",
@@ -101,7 +120,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderColor: LIGHT_GREY,
+    borderColor: LIGHT_GREY
   },
   pickButton: {
     backgroundColor: LIGHT_GREY,
@@ -111,11 +130,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: PRIMARY,
     marginHorizontal: 20,
-    marginTop: 10,
+    marginTop: 10
   },
   pickText: {
     fontSize: 16,
     color: PRIMARY,
-    fontWeight: "700",
-  },
+    fontWeight: "700"
+  }
 });

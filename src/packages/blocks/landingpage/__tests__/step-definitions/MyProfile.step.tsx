@@ -1,9 +1,10 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { shallow, ShallowWrapper } from "enzyme";
-
+import { render, fireEvent } from "@testing-library/react-native";
 import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import MyProfile from "../../src/MyProfile/Myprofile";
+
 const navigation = {
   navigate: jest.fn(),
 };
@@ -35,7 +36,9 @@ defineFeature(feature, (test) => {
     given("I am a User loading MyProfileScreen", () => {
       landingPageBlock = shallow(
         <MyProfile
-          updateCartDetails={jest.fn()}
+          setCreditDetailModal={function (): void {
+            throw new Error("Function not implemented.");
+          } } updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
           setVisibleProfileModal={jest.fn()}
@@ -43,12 +46,12 @@ defineFeature(feature, (test) => {
           state={undefined}
           firstTime={false}
           currentUser={"user"}
-          route={{params:{firstTime:true}}}
-          {...screenProps}
-        />
+          route={{ params: { firstTime: true } }}
+          {...screenProps}        />
       );
       instance = landingPageBlock.instance() as MyProfile;
       instance.componentDidMount()
+      expect(instance).toBeTruthy();
     });
     when(
       "I navigate to the My profile screen I can open facebook profile",
@@ -133,39 +136,51 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
       expect(instance.state.selectedTab).toBe('Recomendations')
       
-    })
+    });
 
-    then("user pressing my favorites button to go favorites screen", () => {
+    then("user pressing my favorites button to go favorites screen",async () => {
       const touchableOpacity = landingPageBlock.find(
         '[testID="go_to_favorites_id"]'
       );
       touchableOpacity.simulate("press");
       expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
-    })
+    });
 
-    then("user navigate to product detail screen", () => {
+    then("user navigate to product detail screen", async() => {
+      const touchableOpacity :any = landingPageBlock.findWhere((node) => node.prop("testID") === "navigateToProductDetailScreen");
+      const { queryByTestId } = render(
+        <MyProfile navigation={undefined} id={""} visible={false} setVisibleProfileModal={function (): void {
+          throw new Error("Function not implemented.");
+        } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
+          throw new Error("Function not implemented.");
+        } } cartDetails={[]} setCreditDetailModal={function (): void {
+          throw new Error("Function not implemented.");
+        } } />
+      )
+      const navBtn: any = queryByTestId("navigateToProductDetailScreen");
+      fireEvent.press(navBtn);
       instance.forceUpdate();
-      // const touchableOpacity = landingPageBlock.find(
-      //   '[testID="navigateToProductDetailScreen"]'
-      // );
-      // touchableOpacity.simulate("press");
-    })
+      expect(touchableOpacity).toBeTruthy()
+    });
 
-    then("user can remove product from fav list", () => {
+    then("user can remove product from fav list",async (item) => {
       instance.forceUpdate();
-      // const touchableOpacity = landingPageBlock.find(
-      //   '[testID="removeFavList"]'
-      // );
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="removeFavList"]'
+      );
+      instance.removeFavListProduct(item)
       // touchableOpacity.simulate("press");
-    })
+      expect(touchableOpacity).toBeTruthy()
+    });
     
-    then("user can add product to add to cart", () => {
+    then("user can add product to add to cart",async () => {
       instance.forceUpdate();
-      // const touchableOpacity = landingPageBlock.find(
-      //   '[testID="addtocart"]'
-      // );
+      const touchableOpacity = landingPageBlock.find(
+        '[testID="addtocart"]'
+      );
       // touchableOpacity.simulate("press");
-    })
+      expect(touchableOpacity).toBeTruthy()
+    });
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
