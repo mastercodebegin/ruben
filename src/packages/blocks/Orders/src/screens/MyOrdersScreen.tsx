@@ -23,6 +23,7 @@ export default class MyOrdersScreen extends OrdersController {
               <MyOrderHeader
                 selected={this.state.selectedTab}
                 selectedDay={this.state.selectedDate}
+                searchOrder={(no)=>this.searchOrder(no)}
                 markedDates={this.generateDateObject(this.state.startDate,this.state.endDate === ""?this.state.startDate:this.state.endDate)}
                 onDaySelect={(date) => {
                   if (this.state.startDate !== '') {

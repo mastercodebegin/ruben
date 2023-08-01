@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef ,useState} from "react";
 import {
   View,
   Image,
@@ -25,6 +25,7 @@ interface MyOrderHeaderTypes {
   markedDates: any;
   onOpen: () => void;
   onclose: () => void;
+  searchOrder: (no:string) => void;
 }
 export const MyOrderHeader = ({
   navigation,
@@ -33,10 +34,12 @@ export const MyOrderHeader = ({
   onDaySelect,
   markedDates,
   onOpen,
-  onclose
+  onclose,
+  searchOrder
 }: MyOrderHeaderTypes) => {
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const calendarRef = useRef();
+  const [orderNo,setOrderNo]=useState('')
   const animate = (value: number, selected: "completed" | "ongoing") => {
     setSelected(selected);
     Animated.timing(AnimatedValue, {
@@ -107,6 +110,13 @@ export const MyOrderHeader = ({
           />
           <TextInput
             style={expStyles.textInput}
+            onChangeText={(text) => {
+              setOrderNo(text)
+            }}
+            keyboardType="number-pad"
+            onBlur={() => {
+              searchOrder(orderNo)
+            }}
             placeholder="Search any product..."
             placeholderTextColor={"#8D7D75"}
           />
