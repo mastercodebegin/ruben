@@ -4,29 +4,50 @@ import OrdersController from "../OrdersController";
 import * as constants from "../../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./MyOrderHeader";
+import CommonLoader from "../../../../components/src/CommonLoader";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
   async componentDidMount(): Promise<void> {
     this.getOnGoingOrder();
   }
-  render(): React.ReactNode {
+  render(): React.ReactNode {    
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.main}>
           <FlatList
-            data={
-              this.state.selectedTab === "ongoing"
-                ? this.state.ongoingOrdersList
-                : this.state.completedOrdersList
-            }
+            data={ this.state.ongoingOrdersList}
             keyExtractor={(item, index) => JSON.stringify(index) + item}
             contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
             ListHeaderComponent={
               <MyOrderHeader
                 selected={this.state.selectedTab}
-                setSelected={(tab) => this.setState({ selectedTab: tab })}
+                selectedDay={this.state.selectedDate}
+                markedDates={this.generateDateObject(this.state.startDate,this.state.endDate === ""?this.state.startDate:this.state.endDate)}
+                onDaySelect={(date) => {
+                  if (this.state.startDate !== '') {
+                    this.setState({endDate:date})
+                  } else {
+                    this.setState({startDate:date})
+                  }                  
+                }}
+                onOpen={()=>this.setState({startDate:'',endDate:''})}
+                setSelected={(tab) => {
+                  console.log('selected tab ',tab);
+                  
+                  if (tab === "completed") {
+                    this.getCompletedOrder()
+                  } else {
+                    this.getOnGoingOrder()
+                  }
+                  this.setState({ selectedTab: tab ,ongoingOrdersList:[]})
+                }}
                 navigation={this.props.navigation}
+                onclose={() => {                  
+                  if (this.state.startDate !== '' && this.state.endDate !== '') {
+                    this.filterByDate.bind(this)()
+                  }
+                }}
               />
             }
             ListEmptyComponent={() => {
@@ -40,6 +61,7 @@ export default class MyOrdersScreen extends OrdersController {
             }}
             renderItem={RenderItem}
           />
+          <CommonLoader visible={this.state.showLoader} />
         </View>
       </SafeAreaView>
     );

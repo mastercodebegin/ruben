@@ -17,6 +17,9 @@ interface Props {
   children: any;
   setSelectedDay?: (date: string) => void;
   selectedDate: string;
+  onDayPress?: (date: string) => void;
+  markedDates?: any;
+  onClose?: () => void;
 }
 
 interface State {
@@ -86,13 +89,22 @@ export default class DisplayCalendar extends Component<Props, State> {
     markedDate[this.props.selectedDate]={ color: PRIMARY, textColor: "white" } 
     return (
     <Modal transparent visible>
-        <TouchableWithoutFeedback onPress={()=>{this.setState({showDropdown:false})}} style={{flex:1}}>
+        <TouchableWithoutFeedback onPress={() => {
+          if (this.props.onClose) {
+            this.props.onClose()
+          }
+          this.setState({ showDropdown: false })
+        }} style={{ flex: 1 }}>
             <View style={{flex:1}}>
                 <View style={{position:"absolute",...position,width:'100%',paddingHorizontal:20}}>
                     <TouchableHighlight >
                 <Calendar
-                  markedDate={markedDate}
+                  markedDate={this.props.markedDates? this.props.markedDates : markedDate}
                   onDayPress={(date) => {
+                    if (this.props.onDayPress) {
+                      this.props.onDayPress(date);
+                      return
+                    }
                     if (this.props.setSelectedDay) {
                       this.props.setSelectedDay(date);
                     }

@@ -32,4 +32,15 @@ jest.mock("../../components/src/HeaderWithBackArrowTemplate", () =>
     return <>{ props.children }</>;
   })
 );
-jest.mock("../../components/src/ShowToast",()=>({showToast:jest.fn()}))
+jest.mock("../../components/src/ShowToast", () => ({ showToast: jest.fn() }))
+jest.mock("../contactus/src/QuerySubmittedModal", () => {
+  let render = 1;
+  return jest.fn((props) => {
+    if (props.onPress && props.setVisible && render===1 ) {
+      props.onPress();
+      props.setVisible();
+      render++;
+    }
+    return <></>;
+  })}
+);

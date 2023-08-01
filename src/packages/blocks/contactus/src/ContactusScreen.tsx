@@ -106,8 +106,12 @@ export default class Contactus extends ContactusController {
           </View>
           <QuerySubmittedModal
             visible={this.state.showSuccessModal}
-            setVisible={() => this.setState({ showSuccessModal: false,email:"",name:"",comments:"" })}
-            navigation={this.props.navigation}
+              setVisible={() => this.setState({ showSuccessModal: false, email: "", name: "", comments: "" })}
+              header="Your Query Submitted"
+              onPress={() => navigation.navigate("LandingPage")}
+              buttonLabel="Continue"
+              message="Be Patience! We'll try to solve your issues as soon as possible."
+              text="Thank you for reaching out."
           />
         </View>
         </KeyboardAwareScrollView>

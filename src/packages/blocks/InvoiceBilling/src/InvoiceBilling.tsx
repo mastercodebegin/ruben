@@ -15,6 +15,7 @@ import InvoiceBillingController, {
   Props,
   configJSON,
 } from "./InvoiceBillingController";
+import QuerySubmittedModal from "../../contactus/src/QuerySubmittedModal";
 
 export default class InvoiceBilling extends InvoiceBillingController {
   constructor(props: Props) {
@@ -61,8 +62,8 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter data={ this.props.route?.params} />}
-              ListHeaderComponent={<RenderHeader data={ this.props.route?.params} />}
+              ListFooterComponent={<RenderFooter data={ this.props?.route?.params} />}
+              ListHeaderComponent={<RenderHeader data={ this.props?.route?.params} />}
             />
           </View>
           <View style={{ paddingTop: 20 }}>
@@ -80,7 +81,16 @@ export default class InvoiceBilling extends InvoiceBillingController {
             />
             <Button testID="download_invoice_id" label="Download Invoice" onPress={()=>this.downloadInvoice.bind(this)(true)} />
           </View>
-          <CommonLoader visible={ this.state.showLoader } />
+          <CommonLoader visible={this.state.showLoader} />
+          <QuerySubmittedModal
+            visible={this.state.showModal}
+            buttonLabel="Okay"
+            header="Success"
+            message="Your invoice downloaded Successfully"
+            onPress={() => this.setState({ showModal: false })}
+            setVisible={() => this.setState({ showModal: false })}
+            text="You can find your invoice on Downloads/Farm2URDoor"
+          />
         </View>
       </HeaderWithBackArrowTemplate>
     );

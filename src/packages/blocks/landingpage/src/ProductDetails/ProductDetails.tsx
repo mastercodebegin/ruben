@@ -180,7 +180,7 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             />
-            {productList.length && <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} />}
+            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} /> :<></>}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>

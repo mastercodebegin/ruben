@@ -229,7 +229,7 @@ const SignupComponent = ({
           </View>
         </View>
         <Button
-          label={isMerchant === "user" ? "Sign Up" : "Submit Farm"}
+          label={isMerchant === "user" ? "Sign Up" : "Submit Form"}
           onPress={
             checked ? 
             isMerchant === "user"
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F4F4",
   },
-  rememberText: { paddingLeft: 10, color: "#A0272A", fontSize: 16 },
+  rememberText: { paddingLeft: 10, color: DARK_RED, fontSize: 16 },
 });
 
 export default SignupComponent;
