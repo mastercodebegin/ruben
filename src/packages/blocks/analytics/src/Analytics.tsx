@@ -156,10 +156,12 @@ export default class Analytics extends AnalyticsController {
                             let newDate = new Date(data);
                             newDate.setDate(newDate.getDate() + 7);
                             let momentObj = moment(newDate, 'MM-DD-YYYY');
-                            let date = momentObj.format('YYYY-MM-DD')
+                            let date = momentObj.format("YYYY-MM-DD'T'HH:mm:ss.sssZ")
+                            console.log("checking end date-->",date)
                             this.setState({ startDate: data })
                             this.setState({ endDate: date })
                             this.getAnalyticData(this.state.category_id)
+                            this.setState({showCalendar: false})
                           }
                           } />
                         </View>

@@ -11,6 +11,7 @@ import analytics from "@react-native-firebase/analytics";
 // Customizable Area Start
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -221,7 +222,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         console.log("error===>",error);
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
-        console.log('resppppppp',list);
+        console.log('check list of data chart--->',list);
         
         this.setState({usedCuts: list.used_cuts});
         this.setState({remianingCuts: list.remaining_cuts});
@@ -229,7 +230,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         this.setState({totaAmount: list.tota_amount});
         this.setState({numberOfSpendCount: list.no_of_spend_count});
         this.setState({numberOfSpend: list.no_of_spend});  
-        //showToast('success')
       }
     }
 
@@ -293,16 +293,21 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     if (!startDate) {
       let date = new Date();
       date.setDate(date.getDate() - 7);
-      let result: string = date.toLocaleString();
-      console.log(result);
-      startDate = result
+      let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      startDate = startDateString
+    } else {
+      let momentObj = moment(startDate, "YYYY-MM-DD");
+      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      startDate = startDateString
+      console.log("cehcking start-->",startDate)
     }
     let endDate = this.state.endDate
     if (!endDate) {
       let date = new Date();
-      let result: string = date.toLocaleString();
-      console.log(result);
-      endDate = result
+      let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      endDate = endDateString
     }
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),

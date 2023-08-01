@@ -12,6 +12,7 @@ import LandingPageController from "../LandingPageController";
 import { DARK_RED, MEAT_IMAGE2, badge, MID_PEACH } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
+import { SCREEN_WIDTH } from "../../../../components/src/constants";
 const ImageData = [
   {
     id: "1",
@@ -81,7 +82,7 @@ export default class AboutUs extends LandingPageController {
                     <View style={{ left: 10 }}>
                       <Text style={styles.farmName}>Mark Jhon's Farm</Text>
                       <Text style={styles.farmAdd}>
-                        7460 Redwood Blvd California , 94945 , USA
+                        7460 Redwood Blvd California, 94945 , USA
                       </Text>
                     </View>
                   </View>
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  farmAdd: { fontSize: 14, color: "grey", width: "90%" },
+  farmAdd: { fontSize: 14, color: "grey", width: SCREEN_WIDTH - 150 , marginRight: 10,flexWrap: 'wrap', },
   photos: { fontWeight: "700", color: "grey" },
   badge: { height: 20, width: 20, tintColor: DARK_RED },
   productName: {
