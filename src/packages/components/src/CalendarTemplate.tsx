@@ -167,7 +167,7 @@ const CalendarTemplate = ({
         showsVerticalScrollIndicator={false}
         data={data}
         onScrollBeginDrag={() => setShowCalendar(false)}
-        ListHeaderComponentStyle={{ zIndex: 1000 }}
+        ListHeaderComponentStyle={{ zIndex: 1000, elevation: 1 }}
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }: any) => (
           <Calendarcontext.Provider value={{ ...contextValue, item: item }}>
