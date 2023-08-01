@@ -59,9 +59,9 @@ const OrdersScreen = ({ navigation }: any) => {
   return (
     <CalendarTemplate
       header="Orders"
-      data={[]}
+      data={[{}]}
       navigation={navigation}
-      animateString1="incoming Orders"
+      animateString1="Incoming Orders"
       animateString2="Previous Orders"
       onChangeText={(text) => {}}
       additionalHeader={
