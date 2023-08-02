@@ -42,11 +42,12 @@ const RenderProducts = ({ item, index }: any) => {
     </View>
     )
 }
-const onPressCancel = () => {
-    Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>{}}])
-}
 
-const RenderItem = ({ item }: any) => {            
+
+const RenderItem = ({ item,cancelOrder }: any) => {      
+    const onPressCancel = () => {
+        Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>cancelOrder(item?.id)}])
+    }
     const date = new Date(item?.attributes?.created_at);    
     return (
         <View style={{paddingHorizontal:20}}>

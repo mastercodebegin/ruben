@@ -40,6 +40,8 @@ export default class OrdersController extends BlockComponent<
   getOrdersListCallId: any;
   getOngoingOrdersAPI: any;
   getCompletedOrderCallId: string;
+  cancelOrderAPiCallId: string;
+  searchOrderId: string;
 
   constructor(props: Props) {
     super(props);
@@ -103,6 +105,50 @@ export default class OrdersController extends BlockComponent<
       } else {
         this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false})
       }   
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.searchOrderId != null &&
+      this.searchOrderId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let ongoingOrders = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let ongoingOrdersError = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (ongoingOrders?.data && !ongoingOrdersError) {
+        this.setState({ongoingOrdersList:[ongoingOrders?.data],showLoader:false})
+
+      } else {
+        this.setState({ongoingOrdersList:[],showLoader:false})
+      }   
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.cancelOrderAPiCallId != null &&
+      this.cancelOrderAPiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) { 
+      let cancelOrderResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let cancelOrderErrorResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (cancelOrderResponse?.message === "cancelled order successfully" && !cancelOrderErrorResponse) {
+        Alert.alert('Success', 'Order cancelled successfully', [{
+          text: 'okay', onPress: () => {
+            if (this.state.selectedTab === "completed") {
+              this.getCompletedOrder()
+            } else {
+              this.getOnGoingOrder()
+            }
+            this.setState({ ongoingOrdersList:[],showLoader:false})
+        }}])
+      } else {
+        Alert.alert('Error', 'Something went wrong', [{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+      }
     }
     else {
       runEngine.debugLog("GOIT");
@@ -153,7 +199,31 @@ export default class OrdersController extends BlockComponent<
   
     return result;
   }
-  
+  async searchOrder(id:string) {
+    this.setState({showLoader:true})
+    const data:any =await getStorageData("userDetails",true)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.searchOrderId = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/search_order?order_no=${id}`
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
   async getOnGoingOrder() {
     this.setState({showLoader:true})
     const data:any =await getStorageData("userDetails",true)
@@ -176,6 +246,31 @@ export default class OrdersController extends BlockComponent<
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+  async cancelOrder(id:number) {
+    this.setState({showLoader:true})
+    const data:any =await getStorageData("userDetails",true)
+    const headers = {
+      'token':data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.cancelOrderAPiCallId = getValidationsMsg.messageId;
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/destroy?id=${id}`
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'DELETE'
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }

@@ -11,6 +11,8 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
 import { Alert } from "react-native";
+import RenderHeader from "../../src/RenderHeader";
+import RenderFooter from "../../src/RenderFooter";
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -91,6 +93,8 @@ defineFeature(feature, test => {
     // });
     then("I can see the invoice", () => {
       render(<InvoiceBilling {...screenProps} />);
+      render(<RenderHeader />)
+      render(<RenderFooter/>)
     });
 
     then("I can share the the invoice through mail", () => {

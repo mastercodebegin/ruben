@@ -72,10 +72,12 @@ export default class InvoiceBilling extends InvoiceBillingController {
               label="Share Invoice"
               onPress={async () => {
                 this.downloadInvoice().then((res: any) => {
-                  setTimeout(() => {   
-                    this.setState({showLoader:false})
-                    this.shareInvoice(res);
-                  },700)
+                  if (res) {   
+                    setTimeout(() => {   
+                      this.setState({showLoader:false})
+                      this.shareInvoice(res);
+                    },700)
+                  }
                 });
               }}
             />

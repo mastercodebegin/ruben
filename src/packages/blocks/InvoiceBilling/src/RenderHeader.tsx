@@ -23,11 +23,11 @@ const RenderHeader = ({ data}:any) => {
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>
           {"Bill to"}
         </Text>
-        <Text style={styles.text}>{data.name}</Text>
-        <Text style={styles.text}>{data.address}</Text>
+        <Text style={styles.text}>{data?.name}</Text>
+        <Text style={styles.text}>{data?.address}</Text>
         <Text style={cstyle.bill}>{"Shipping Address"}</Text>
-        <Text style={styles.text}>{data.name}</Text>
-        <Text style={styles.text}>{data.address}</Text>
+        <Text style={styles.text}>{data?.name}</Text>
+        <Text style={styles.text}>{data?.address}</Text>
       </View>
       <View
         style={{
