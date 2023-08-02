@@ -6,6 +6,7 @@ import CalendarTemplate, {
 import { DARK_RED, MEAT_IMAGE1 } from "../assets";
 import DualButton from "../../../../components/src/DualButton";
 import OrdersScreenController from './OrdersScreenController'
+import CommonLoader from "../../../../components/src/CommonLoader";
 
 const ChildrenComponent = () => {
   const contextValue = useContext(Calendarcontext);
@@ -68,30 +69,38 @@ const ChildrenComponent = () => {
 
     render() {
   return (
-    <CalendarTemplate
-      header="Orders"
-      data={this.state.listData}
-      navigation={this.props.navigation}
-      animateString1="Incoming Orders"
-      animateString2="Previous Orders"
-      selected={this.state.selected}
-      setSelected={this.setSelected}
-      onChangeText={(text) => {}}
-      additionalHeader={
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingBottom: 10,
+      <>
+        <CalendarTemplate
+          header="Orders"
+          data={this.state.selected === "incom" ? this.state.incomingOrders : this.state.previousOrders}
+          extraData={{
+            selected: this.state.selected,
+            incomingOrders: this.state.incomingOrders,
+            previousOrders: this.state.previousOrders
           }}
+          navigation={this.props.navigation}
+          animateString1="Incoming Orders"
+          animateString2="Previous Orders"
+          selected={this.state.selected}
+          setSelected={this.setSelected}
+          onChangeText={(text) => {}}
+          additionalHeader={
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 10,
+              }}
+            >
+              <Text style={styles.header}></Text>
+              <Text style={styles.header}></Text>
+            </View>
+          }
         >
-          <Text style={styles.header}></Text>
-          <Text style={styles.header}></Text>
-        </View>
-      }
-    >
-      <ChildrenComponent />
-    </CalendarTemplate>
+          <ChildrenComponent />
+        </CalendarTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
+      </>
   );
     }
 };

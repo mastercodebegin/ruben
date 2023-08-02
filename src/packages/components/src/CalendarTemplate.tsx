@@ -26,6 +26,7 @@ import {
   backArrow as BackArrow,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
+import CommonLoader from "./CommonLoader";
 
 type OrderItem = {
   id?: number;
@@ -50,8 +51,9 @@ type ItemType = {
   };
 };
 
+// @ts-ignore
 export const Calendarcontext: Context<{
-  disable: false;
+  disable: boolean;
   item: ItemType;
 }> = createContext({ disable: false, item: {} });
 
@@ -68,6 +70,7 @@ interface CalendarTemplateTypes {
   navigation?: any;
   showBottomTab?: boolean;
   data: Array<object>;
+  extraData?: object;
 }
 
 const CalendarTemplate = ({
@@ -83,6 +86,7 @@ const CalendarTemplate = ({
   navigation,
   showBottomTab = true,
   data = [],
+  extraData = {},
 }: CalendarTemplateTypes) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const AnimatedValue = useRef(new Animated.Value(0)).current;
@@ -198,6 +202,7 @@ const CalendarTemplate = ({
         bounces={false}
         showsVerticalScrollIndicator={false}
         data={data}
+        extraData={extraData}
         onScrollBeginDrag={() => setShowCalendar(false)}
         ListHeaderComponentStyle={{ zIndex: 1000, elevation: 1 }}
         keyExtractor={(_, i) => String(i)}
@@ -213,6 +218,7 @@ const CalendarTemplate = ({
       {showBottomTab && (
         <BottomTab navigation={navigation} tabName="OrdersScreen" />
       )}
+      <CommonLoader visible={!data.length} />
     </SafeAreaView>
   );
 };

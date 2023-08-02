@@ -19,7 +19,6 @@ interface S {
   showLoader: boolean;
   incomingOrders: [];
   previousOrders: [];
-  listData: [];
   selected: string;
 }
 
@@ -46,7 +45,6 @@ SS
       showLoader: false,
       incomingOrders: [],
       previousOrders: [],
-      listData: [],
       selected: "incom"
     };
 
@@ -70,7 +68,7 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error) {
-        this.setState({incomingOrders: response?.data})
+        this.setState({incomingOrders: response?.data, showLoader: false})
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -85,7 +83,7 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error) {
-        this.setState({previousOrders: response?.data})
+        this.setState({previousOrders: response?.data, showLoader: false})
       }
     }
   }
@@ -148,11 +146,6 @@ SS
 
   setSelected = (tabName: string) => {
     this.setState({selected: tabName})
-    if(tabName === "incom") {
-      this.setState({listData: this.state.incomingOrders})
-    } else {
-      this.setState({listData: this.state.previousOrders})
-    }
   }
 }
 
