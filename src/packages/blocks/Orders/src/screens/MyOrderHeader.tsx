@@ -1,4 +1,4 @@
-import React, { useRef ,useState} from "react";
+import React, { useRef } from "react";
 import {
   View,
   Image,
@@ -25,7 +25,9 @@ interface MyOrderHeaderTypes {
   markedDates: any;
   onOpen: () => void;
   onclose: () => void;
-  searchOrder: (no:string) => void;
+  searchOrder: (no: string) => void;
+  setOrderNo: (no:string) => void;
+  orderNo: string;
 }
 export const MyOrderHeader = ({
   navigation,
@@ -35,11 +37,12 @@ export const MyOrderHeader = ({
   markedDates,
   onOpen,
   onclose,
-  searchOrder
+  searchOrder,
+  orderNo,
+  setOrderNo
 }: MyOrderHeaderTypes) => {
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const calendarRef = useRef();
-  const [orderNo,setOrderNo]=useState('')
   const animate = (value: number, selected: "completed" | "ongoing") => {
     setSelected(selected);
     Animated.timing(AnimatedValue, {
@@ -113,6 +116,7 @@ export const MyOrderHeader = ({
             onChangeText={(text) => {
               setOrderNo(text)
             }}
+            value={orderNo}
             keyboardType="number-pad"
             onBlur={() => {
               searchOrder(orderNo)

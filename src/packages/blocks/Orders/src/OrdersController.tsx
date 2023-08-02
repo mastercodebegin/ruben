@@ -26,6 +26,8 @@ interface S {
   selectedDate: string;
   startDate: string;
   endDate: string;
+  refresh: boolean;
+  orderNo: string;
 }
 
 interface SS {
@@ -61,7 +63,9 @@ export default class OrdersController extends BlockComponent<
       showLoader: false,
       selectedDate: '',
       startDate: '',
-      endDate:''
+      endDate: '',
+      refresh: false,
+      orderNo: '',
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -100,10 +104,10 @@ export default class OrdersController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (ongoingOrders?.message === "No completed orders are present" && !ongoingOrdersError) {
-        this.setState({ongoingOrdersList:[],showLoader:false})
+        this.setState({ongoingOrdersList:[],showLoader:false,refresh:false})
 
       } else {
-        this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false})
+        this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false,refresh:false})
       }   
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
