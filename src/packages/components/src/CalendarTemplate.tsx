@@ -218,7 +218,6 @@ const CalendarTemplate = ({
       {showBottomTab && (
         <BottomTab navigation={navigation} tabName="OrdersScreen" />
       )}
-      <CommonLoader visible={!data.length} />
     </SafeAreaView>
   );
 };
