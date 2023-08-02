@@ -26,18 +26,19 @@ defineFeature(feature, (test) => {
     given("I am a User loading Video Library screen", () => {
       InventoryBlock = render(
         <Inventory
-          visible={false}
-          setVisibleProfileModal={function(): void {
+          setCreditDetailModal={function (): void {
             throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
-          state={{videoLibrary:[{},{}]}}
+          } } visible={false}
+          setVisibleProfileModal={function (): void {
+            throw new Error("Function not implemented.");
+          } }
+          setState={() => { } }
+          state={{ videoLibrary: [{}, {}] }}
           firstTime={false}
           currentUser="user"
-          updateCartDetails={() => {}}
+          updateCartDetails={() => { } }
           cartDetails={[]}
-          {...screenProps}
-        />
+          {...screenProps}        />
       );
       expect(InventoryBlock).toBeTruthy();
     });

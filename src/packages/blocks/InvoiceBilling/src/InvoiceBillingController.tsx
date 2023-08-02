@@ -12,7 +12,7 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import Share from "react-native-share";
 import { downloadFiles } from "../../../components/src/utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+const { baseURL } = require('../../../framework/src/config');
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -175,24 +175,29 @@ export default class InvoiceBillingController extends BlockComponent<
     let url;
     try {
       this.setState({ showLoader: true });
+      const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const header = {
+      token: data?.meta?.token,
+    };
       url = await downloadFiles(
-        "https://www.africau.edu/images/default/sample.pdf",
+        `${baseURL}/bx_block_invoicebilling/invoices/download_invoice_pdf`,
         `${new Date().getTime()}invoice.pdf`,
         "invoice",
         "application/pdf",
         "invoice",
         true,
-        true
-      );
+        true,
+        header
+      )
       this.setState({ showLoader: false,showModal:showAlert });
     } catch (e) {
-      Alert.alert("Error", e.message);
-      this.setState({ showLoader: false });
+      Alert.alert("Error", e?.message || 'Something went wrong',
+        [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);
     }
     return url;
   }
   async shareInvoice(filePath: string) {
-    console.log("filePathfilePath ", filePath);
 
     try {
       const fileName = "example.pdf";
@@ -202,7 +207,6 @@ export default class InvoiceBillingController extends BlockComponent<
       };
       await Share.open(shareOptions);
     } catch (error) {
-      // Alert.alert('Error',error.message)
     }
   }
   getCartCallBack(prodList:any,error=false){

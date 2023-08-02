@@ -23,6 +23,7 @@ export default class MyOrdersScreen extends OrdersController {
               <MyOrderHeader
                 selected={this.state.selectedTab}
                 selectedDay={this.state.selectedDate}
+                searchOrder={(no)=>this.searchOrder(no)}
                 markedDates={this.generateDateObject(this.state.startDate,this.state.endDate === ""?this.state.startDate:this.state.endDate)}
                 onDaySelect={(date) => {
                   if (this.state.startDate !== '') {
@@ -59,7 +60,7 @@ export default class MyOrdersScreen extends OrdersController {
                 </View>
               );
             }}
-            renderItem={RenderItem}
+            renderItem={({item}) => <RenderItem item={item} cancelOrder={this.cancelOrder.bind(this)} />}
           />
           <CommonLoader visible={this.state.showLoader} />
         </View>

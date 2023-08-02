@@ -4,6 +4,7 @@ import BlogPostCard from "../BlogPostCard";
 import LandingPageController from "../LandingPageController";
 import BottomTab from "../BottomTab/BottomTab";
 import CommonLoader from "../../../../components/src/CommonLoader";
+import { LIGHT_GREY } from "../../../../components/src/constants";
 const VideoComponent = ({ data }: any) => {
   return (
     <View style={{ flex: 1 }}>
@@ -11,6 +12,7 @@ const VideoComponent = ({ data }: any) => {
         data={data}
         keyExtractor={(_, index) => String(index)}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{backgroundColor:LIGHT_GREY,flexGrow:1}}
         bounces={false}
         renderItem={({ item }) => (
           <View style={{ marginBottom: 20 }}>
