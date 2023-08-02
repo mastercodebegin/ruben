@@ -68,9 +68,12 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (!error) {
-        this.setState({incomingOrders: response?.data, showLoader: false})
+      if (error) {
+        showToast("Some error occured!")
+      } else {
+        this.setState({incomingOrders: response?.data})
       }
+      this.setState({showLoader: false})
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getPreviousOrdersId != null &&
@@ -83,9 +86,12 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (!error) {
-        this.setState({previousOrders: response?.data, showLoader: false})
+      if (error) {
+        showToast("Some error occured!")
+      } else {
+        this.setState({previousOrders: response?.data})
       }
+      this.setState({showLoader: false})
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
