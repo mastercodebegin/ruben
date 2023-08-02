@@ -1,4 +1,4 @@
-import React, { useState, useRef, createContext } from "react";
+import React, { useState, useRef, createContext, Context } from "react";
 import {
   Animated,
   View,
@@ -26,13 +26,43 @@ import {
   backArrow as BackArrow,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
-export const Calendarcontext = createContext({ disable: false, item: {} });
+
+type OrderItem = {
+  id?: number;
+  attributes?: {
+    price?: number;
+    quantity?: number;
+    delivered_at?: string;
+  };
+};
+
+type ItemType = {
+  id?: number;
+  attributes?: {
+    customer?: {
+      data?: {
+        id?: number;
+      };
+    };
+    order_items?: {
+      data: OrderItem[];
+    };
+  };
+};
+
+export const Calendarcontext: Context<{
+  disable: false;
+  item: ItemType;
+}> = createContext({ disable: false, item: {} });
+
 interface CalendarTemplateTypes {
   children: React.ReactElement<any, any>;
   header: string;
   backArrow?: boolean;
   animateString1: string;
   animateString2: string;
+  selected?: string;
+  setSelected?: (text: string) => void;
   onChangeText: (text: string) => void;
   additionalHeader?: React.ReactElement<any, any>;
   navigation?: any;
@@ -46,13 +76,14 @@ const CalendarTemplate = ({
   backArrow = false,
   animateString1 = "",
   animateString2 = "",
+  selected = "incom",
+  setSelected = () => {},
   onChangeText,
   additionalHeader,
   navigation,
   showBottomTab = true,
   data = [],
 }: CalendarTemplateTypes) => {
-  const [selected, setSelected] = useState("incom");
   const [showCalendar, setShowCalendar] = useState(false);
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const animate = (value: number, selected: string) => {
@@ -131,6 +162,7 @@ const CalendarTemplate = ({
               editable={!showCalendar}
               placeholder="Search any product..."
               placeholderTextColor={"#8D7D75"}
+              onChangeText={onChangeText}
             />
           </View>
           <View style={{ height: "100%" }}>
