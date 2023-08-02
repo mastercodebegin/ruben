@@ -38,7 +38,7 @@ const ProductDetailComponent = ({
             </View>
             <Text
               style={{ color: DARK_RED, fontSize: 16, fontWeight: "bold" }}
-            >{`$${Number(price) * Number(quantity)}`}</Text>
+            >{`$${(Number(price) * Number(quantity)).toFixed(2)}`}</Text>
           </View>
         </View>
         <TouchableOpacity

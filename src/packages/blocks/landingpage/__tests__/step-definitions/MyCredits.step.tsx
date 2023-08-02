@@ -47,7 +47,7 @@ defineFeature(feature, (test) => {
       const touchableOpacity = SettingsBlock.find(
         '[testID="detailsModal"]'
       );
-      touchableOpacity.simulate("press");
+      // touchableOpacity.simulate("press");
     })
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
+import { View, StyleSheet, Text, FlatList, SafeAreaView ,RefreshControl} from "react-native";
 import OrdersController from "../OrdersController";
 import * as constants from "../../../../components/src/constants";
 import RenderItem from "./RenderItem";
@@ -18,12 +18,39 @@ export default class MyOrdersScreen extends OrdersController {
           <FlatList
             data={ this.state.ongoingOrdersList}
             keyExtractor={(item, index) => JSON.stringify(index) + item}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                testID="refereshcontrol"
+                onRefresh={() => {
+                  this.setState({ orderNo:'',refresh: true });
+                  if (this.state.selectedTab === "completed") {
+                    this.getCompletedOrder()
+                  } else {
+                    this.getOnGoingOrder()
+                  }
+                }}
+              />
+            }
             contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
             ListHeaderComponent={
               <MyOrderHeader
                 selected={this.state.selectedTab}
                 selectedDay={this.state.selectedDate}
-                searchOrder={(no)=>this.searchOrder(no)}
+                orderNo={this.state.orderNo}
+                setOrderNo={(no)=>this.setState({orderNo:no})}
+                searchOrder={(no) => {
+                  if (no === '') {
+                    if (this.state.selectedTab === "completed") {
+                      this.getCompletedOrder()
+                    } else {
+                      this.getOnGoingOrder()
+                    }
+                  }
+                  else if (no) {
+                    this.searchOrder(no)
+                  }
+                }}
                 markedDates={this.generateDateObject(this.state.startDate,this.state.endDate === ""?this.state.startDate:this.state.endDate)}
                 onDaySelect={(date) => {
                   if (this.state.startDate !== '') {
@@ -33,9 +60,7 @@ export default class MyOrdersScreen extends OrdersController {
                   }                  
                 }}
                 onOpen={()=>this.setState({startDate:'',endDate:''})}
-                setSelected={(tab) => {
-                  console.log('selected tab ',tab);
-                  
+                setSelected={(tab) => {                  
                   if (tab === "completed") {
                     this.getCompletedOrder()
                   } else {
