@@ -8,7 +8,7 @@ import DualButton from "../../../../components/src/DualButton";
 import OrdersScreenController from './OrdersScreenController'
 import CommonLoader from "../../../../components/src/CommonLoader";
 
-const ChildrenComponent = () => {
+const ChildrenComponent = ({acceptDeclineOrders = async () => {}}: {acceptDeclineOrders: (orderId: number, accept: boolean) => Promise<void>}) => {
   const contextValue = useContext(Calendarcontext);
   const dd_mm_yy = (date: Date) => `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear().toString().slice(2)}`;
   const hh_mm_am_pm = (date: Date) => `${(date.getHours() % 12).toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
@@ -55,12 +55,25 @@ const ChildrenComponent = () => {
           disable={contextValue?.disable}
           button1Label="Decline"
           button2label="Accept"
+          button1Onpress={() => {
+            if(contextValue.item.id)
+              acceptDeclineOrders(contextValue.item?.id, false)
+          }}
+          button2Onpress={() => {
+            if(contextValue.item.id)
+              acceptDeclineOrders(contextValue.item?.id, true)
+          }}
         />
       </View>
     </View>
   );
 };
   export default class OrdersScreen extends OrdersScreenController {
+
+    constructor(props: any) {
+      super(props)
+      this.acceptDeclineOrders = this.acceptDeclineOrders.bind(this)
+    }
 
     async componentDidMount() {
       this.getIncomingOrders();
@@ -97,7 +110,7 @@ const ChildrenComponent = () => {
             </View>
           }
         >
-          <ChildrenComponent />
+          <ChildrenComponent acceptDeclineOrders={this.acceptDeclineOrders} />
         </CalendarTemplate>
         <CommonLoader visible={this.state.showLoader}/>
       </>

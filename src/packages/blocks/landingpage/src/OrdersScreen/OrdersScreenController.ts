@@ -53,6 +53,7 @@ SS
 
   getIncomingOrdersId: string = "";
   getPreviousOrdersId: string = "";
+  acceptDeclineOrdersId: string = "";
 
   async receive(from: string, message: Message) {
     if (
@@ -85,6 +86,22 @@ SS
       if (!error) {
         this.setState({previousOrders: response?.data, showLoader: false})
       }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.acceptDeclineOrdersId != null &&
+      this.acceptDeclineOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        showToast("Some error occured!")
+      } else {
+        this.getIncomingOrders()
+        this.getPreviousOrders()
+      }
+      this.setState({showLoader: false})
     }
   }
 
@@ -142,6 +159,34 @@ SS
     );
 
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+  }
+
+  async acceptDeclineOrders(orderId: number, accept: boolean) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const acceptDeclineOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.acceptDeclineOrdersId = acceptDeclineOrdersRequest.messageId;
+
+    acceptDeclineOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.accptDeclineOrder}/${orderId}?status=${accept ? "completed" : "cancelled"}`
+    );
+
+    acceptDeclineOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    acceptDeclineOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpPutMethod
+    );
+
+    runEngine.sendMessage(acceptDeclineOrdersRequest.id, acceptDeclineOrdersRequest);
   }
 
   setSelected = (tabName: string) => {
