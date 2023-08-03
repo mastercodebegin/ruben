@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import messaging from '@react-native-firebase/messaging';
 
 
-const imagePath = isIOs ?  RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
+const imagePath = isIOs ?  RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir+'/Farm2URDoor';
 export const downloadFiles = (
   url: string,
   fileName: string,
@@ -16,7 +16,7 @@ export const downloadFiles = (
   useDownloadManager: boolean,
   header?: { [key: string]: string }
 ) => {
-  const filePath = `${imagePath}/Farm2URDoor/${fileName}`;
+  const filePath = `${imagePath}/${fileName}`;
   return new Promise((resolve, reject) => {
     RNFetchBlob.config({
       fileCache: true,
@@ -32,16 +32,7 @@ export const downloadFiles = (
     })
       .fetch("GET", url,header)
       .then(async (res) => {
-        if (res.info().status === 200) {
           resolve(isIOs ?`file://${filePath}`: filePath)
-        } else {
-          reject({
-            message: `Request failed with status: ${res.info().status}`,
-            errorResponse: res.json()
-          })
-        }
-        
-
       })
       .catch((error) => {
         reject(error);

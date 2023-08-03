@@ -36,10 +36,9 @@ defineFeature(feature, (test) => {
     given("I am a User loading Blog posts", () => {
       AboutUsBlock = render(
         <BlogPost
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ selectedSub: [{}, {}] }}
           firstTime={false}

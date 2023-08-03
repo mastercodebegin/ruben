@@ -41,6 +41,7 @@ defineFeature(feature, (test) => {
     given("I am a User loading LandingPage", () => {
       landingPageBlock = shallow(
         <LandingPage
+          setCreditDetailModal={jest.fn()}
           updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
