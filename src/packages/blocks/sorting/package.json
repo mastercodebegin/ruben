@@ -45,7 +45,7 @@
     "lint-staged": "10.0.7",
     "prettier-eslint-cli": "5.0.0",
     "raf": "^3.4.1",
-    "ts-jest": "^25.2.0"
+    "ts-jest": "25.2.0"
   },
   "dependencies": {
   },
