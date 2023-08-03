@@ -74,7 +74,7 @@ export default class LandingPage extends LandingPageController {
                   </Text>
                   <TouchableOpacity
                     onPress={this.onpressExploreStore}
-                    style={styles.explorebtn}
+                    style={[styles.explorebtn, {height: 50}]}
                   >
                     <Text style={styles.exploreBtn}>Explore Store</Text>
                   </TouchableOpacity>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   exploreBtn: {
     fontSize: 20,
-    paddingVertical: 14,
+    paddingVertical: 7,
     color: "white",
     paddingHorizontal: 30,
     marginVertical: 5,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#8D7D75",
-    fontSize: 19,
+    fontSize: 16,
     width: "70%",
     marginTop: 10,
   },
