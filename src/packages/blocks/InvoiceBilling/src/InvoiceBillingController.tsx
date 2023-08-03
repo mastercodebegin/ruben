@@ -181,7 +181,7 @@ export default class InvoiceBillingController extends BlockComponent<
       token: data?.meta?.token,
     };
       url = await downloadFiles(
-        `${baseURL}/bx_block_invoicebilling/invoices/download_invoice_pdf`,
+        `https://www.africau.edu/images/default/sample.pdf`,
         `${new Date().getTime()}invoice.pdf`,
         "invoice",
         "application/pdf",
