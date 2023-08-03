@@ -5,14 +5,19 @@ import CalendarTemplate, {
 } from "../../../../components/src/CalendarTemplate";
 import { DARK_RED, MEAT_IMAGE1 } from "../assets";
 import DualButton from "../../../../components/src/DualButton";
+import OrdersScreenController from './OrdersScreenController'
+import CommonLoader from "../../../../components/src/CommonLoader";
 
-const ChildrenComponent = () => {
+const ChildrenComponent = ({acceptDeclineOrders = async () => {}}: {acceptDeclineOrders: (orderId: number, accept: boolean) => Promise<void>}) => {
   const contextValue = useContext(Calendarcontext);
+  const dd_mm_yy = (date: Date) => `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear().toString().slice(2)}`;
+  const hh_mm_am_pm = (date: Date) => `${(date.getHours() % 12).toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
+
+
   return (
     <View
       style={{
         paddingBottom: 15,
-
         marginHorizontal: 20,
       }}
     >
@@ -24,24 +29,24 @@ const ChildrenComponent = () => {
           />
           <View style={styles.innerCon}>
             <View style={styles.row}>
-              <Text style={styles.headerText}>Vegetables</Text>
-              <Text style={styles.text}>$ 22.00 X 3</Text>
+              <Text style={styles.headerText}>{contextValue.item?.id}</Text>
+              <Text style={styles.text}>{`$ ${(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.price || 0).toFixed(2)} x ${contextValue.item?.attributes?.order_items?.data[0]?.attributes?.quantity || 0}`}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Order ID:</Text>
-              <Text style={styles.text}>123445</Text>
+              <Text style={styles.text}>{contextValue.item?.id}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Due Date:</Text>
-              <Text style={styles.text}>01-12-2023</Text>
+              <Text style={styles.text}>{contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at ? dd_mm_yy(new Date(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at)) : ''}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Shipping Time:</Text>
-              <Text style={styles.text}>4:50 PM</Text>
+              <Text style={styles.text}>{contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at ? hh_mm_am_pm(new Date(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at)) : ''}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Subtotal:</Text>
-              <Text style={styles.text}>$ 66.00</Text>
+              <Text style={styles.text}>{`$ ${((contextValue.item?.attributes?.order_items?.data[0]?.attributes?.price || 0) * (contextValue.item?.attributes?.order_items?.data[0]?.attributes?.quantity || 0)).toFixed(2)}`}</Text>
             </View>
           </View>
         </View>
@@ -50,38 +55,68 @@ const ChildrenComponent = () => {
           disable={contextValue?.disable}
           button1Label="Decline"
           button2label="Accept"
+          button1Onpress={() => {
+            if(contextValue.item.id)
+              acceptDeclineOrders(contextValue.item?.id, false)
+          }}
+          button2Onpress={() => {
+            if(contextValue.item.id)
+              acceptDeclineOrders(contextValue.item?.id, true)
+          }}
         />
       </View>
     </View>
   );
 };
-const OrdersScreen = ({ navigation }: any) => {
+  export default class OrdersScreen extends OrdersScreenController {
+
+    constructor(props: any) {
+      super(props)
+      this.acceptDeclineOrders = this.acceptDeclineOrders.bind(this)
+    }
+
+    async componentDidMount() {
+      this.getIncomingOrders();
+      this.getPreviousOrders();
+    }
+
+    render() {
   return (
-    <CalendarTemplate
-      header="Orders"
-      data={[]}
-      navigation={navigation}
-      animateString1="incoming Orders"
-      animateString2="Previous Orders"
-      onChangeText={(text) => {}}
-      additionalHeader={
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingBottom: 10,
+      <>
+        <CalendarTemplate
+          header="Orders"
+          data={this.state.selected === "incom" ? this.state.incomingOrders : this.state.previousOrders}
+          extraData={{
+            selected: this.state.selected,
+            incomingOrders: this.state.incomingOrders,
+            previousOrders: this.state.previousOrders
           }}
+          navigation={this.props.navigation}
+          animateString1="Incoming Orders"
+          animateString2="Previous Orders"
+          selected={this.state.selected}
+          setSelected={this.setSelected}
+          onChangeText={(text) => {}}
+          additionalHeader={
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 10,
+              }}
+            >
+              <Text style={styles.header}></Text>
+              <Text style={styles.header}></Text>
+            </View>
+          }
         >
-          <Text style={styles.header}>JANUARY</Text>
-          <Text style={styles.header}>5 ORDERS</Text>
-        </View>
-      }
-    >
-      <ChildrenComponent />
-    </CalendarTemplate>
+          <ChildrenComponent acceptDeclineOrders={this.acceptDeclineOrders} />
+        </CalendarTemplate>
+        <CommonLoader visible={this.state.showLoader}/>
+      </>
   );
+    }
 };
-export default OrdersScreen;
 const styles = StyleSheet.create({
   qText: {
     color: DARK_RED,
