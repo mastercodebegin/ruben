@@ -1,4 +1,4 @@
-import React, { useState, useRef, createContext } from "react";
+import React, { useState, useRef, createContext, Context } from "react";
 import {
   Animated,
   View,
@@ -26,18 +26,51 @@ import {
   backArrow as BackArrow,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
-export const Calendarcontext = createContext({ disable: false, item: {} });
+import CommonLoader from "./CommonLoader";
+
+type OrderItem = {
+  id?: number;
+  attributes?: {
+    price?: number;
+    quantity?: number;
+    delivered_at?: string;
+  };
+};
+
+type ItemType = {
+  id?: number;
+  attributes?: {
+    customer?: {
+      data?: {
+        id?: number;
+      };
+    };
+    order_items?: {
+      data: OrderItem[];
+    };
+  };
+};
+
+// @ts-ignore
+export const Calendarcontext: Context<{
+  disable: boolean;
+  item: ItemType;
+}> = createContext({ disable: false, item: {} });
+
 interface CalendarTemplateTypes {
   children: React.ReactElement<any, any>;
   header: string;
   backArrow?: boolean;
   animateString1: string;
   animateString2: string;
+  selected?: string;
+  setSelected?: (text: string) => void;
   onChangeText: (text: string) => void;
   additionalHeader?: React.ReactElement<any, any>;
   navigation?: any;
   showBottomTab?: boolean;
   data: Array<object>;
+  extraData?: object;
 }
 
 const CalendarTemplate = ({
@@ -46,13 +79,15 @@ const CalendarTemplate = ({
   backArrow = false,
   animateString1 = "",
   animateString2 = "",
+  selected = "incom",
+  setSelected = () => {},
   onChangeText,
   additionalHeader,
   navigation,
   showBottomTab = true,
   data = [],
+  extraData = {},
 }: CalendarTemplateTypes) => {
-  const [selected, setSelected] = useState("incom");
   const [showCalendar, setShowCalendar] = useState(false);
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const animate = (value: number, selected: string) => {
@@ -131,6 +166,7 @@ const CalendarTemplate = ({
               editable={!showCalendar}
               placeholder="Search any product..."
               placeholderTextColor={"#8D7D75"}
+              onChangeText={onChangeText}
             />
           </View>
           <View style={{ height: "100%" }}>
@@ -166,8 +202,9 @@ const CalendarTemplate = ({
         bounces={false}
         showsVerticalScrollIndicator={false}
         data={data}
+        extraData={extraData}
         onScrollBeginDrag={() => setShowCalendar(false)}
-        ListHeaderComponentStyle={{ zIndex: 1000 }}
+        ListHeaderComponentStyle={{ zIndex: 1000, elevation: 1 }}
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }: any) => (
           <Calendarcontext.Provider value={{ ...contextValue, item: item }}>
