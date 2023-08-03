@@ -108,11 +108,10 @@ defineFeature(feature, (test) => {
     given("I am a User loading ExplorePage", () => {
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
+          setVisibleProfileModal={jest.fn()}
+          setState={() => { } }
           state={{ selectedSub: [{}, {}] }}
           firstTime={false}
           currentUser={""}
@@ -187,11 +186,10 @@ defineFeature(feature, (test) => {
     then("referesh controller", async () => {
       const component = render(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
+          setVisibleProfileModal={jest.fn()}
+          setState={() => { } }
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
           currentUser={""}
@@ -212,11 +210,10 @@ defineFeature(feature, (test) => {
     then("user searching with product name", () => {
       const { queryByTestId } = render(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
+          setVisibleProfileModal={jest.fn()}
+          setState={() => { } }
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
           currentUser={""}
@@ -233,10 +230,9 @@ defineFeature(feature, (test) => {
     then("render flatlist", () => {
       render(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
@@ -253,10 +249,9 @@ defineFeature(feature, (test) => {
       let termsCondsList;
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
@@ -279,10 +274,9 @@ defineFeature(feature, (test) => {
       let subcategoryList;
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: subCategoryArray, categories: [{}, {}] }}
           firstTime={false}
@@ -347,10 +341,9 @@ defineFeature(feature, (test) => {
       let subcategoryList;
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: subCategoryArray, categories: array }}
           firstTime={false}
@@ -412,10 +405,9 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
@@ -451,10 +443,9 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{ subcategories: [{}, {}], categories: [{}, {}] }}
           firstTime={false}
