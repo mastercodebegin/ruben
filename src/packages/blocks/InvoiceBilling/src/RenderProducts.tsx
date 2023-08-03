@@ -14,7 +14,7 @@ const RenderProductList = ({ index, item }: ListType) => {
       </View>
       <View style={cstyle.container}>
         <Text style={cstyle.boldText}>
-          {item?.attributes?.catalogue?.data?.attributes?.name}
+          {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
         </Text>
       </View>
       <View style={cstyle.container}>
@@ -23,9 +23,9 @@ const RenderProductList = ({ index, item }: ListType) => {
         </Text>
       </View>
       <View style={cstyle.container}>
-        <Text style={cstyle.boldText}>{`$${Number(
+        <Text style={cstyle.boldText}>{`$${(Number(
           item?.attributes?.catalogue?.data?.attributes?.price
-        ) * Number(item?.attributes?.quantity)}`}</Text>
+        ) * Number(item?.attributes?.quantity)).toFixed(2)}`}</Text>
       </View>
     </View>
   );

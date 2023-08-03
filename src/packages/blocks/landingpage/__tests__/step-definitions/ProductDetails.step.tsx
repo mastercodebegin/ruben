@@ -47,10 +47,9 @@ defineFeature(feature, (test) => {
     given("users loading orders screen", () => {
       SettingsBlock = shallow(
         <ProductDetails
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{}}
           firstTime={false}

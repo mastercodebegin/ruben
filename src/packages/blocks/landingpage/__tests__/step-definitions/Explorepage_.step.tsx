@@ -40,12 +40,11 @@ defineFeature(feature, (test) => {
     given("users loading about us screen", () => {
       AboutUsBlock = shallow(
         <ExplorePage
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
-          state={{show_SortingDropdown:true}}
+          setVisibleProfileModal={jest.fn()}
+          setState={() => { } }
+          state={{ show_SortingDropdown: true }}
           firstTime={false}
           currentUser={""}
           updateCartDetails={() => {}}
@@ -56,11 +55,11 @@ defineFeature(feature, (test) => {
       instance = AboutUsBlock.instance() as ExplorePage;
 
       instance.setState({show_SortingDropdown:true,categories:[{},{}],subcategories:[{},{}]},()=>{
-        const {getByTestId} =render(<ExplorePage  visible={false}
-            setVisibleProfileModal={function(): void {
-              throw new Error("Function not implemented.");
-            }}
-            setState={() => {}}
+        const { getByTestId } = render(<ExplorePage
+          setCreditDetailModal={jest.fn()}
+          visible={false}
+        setVisibleProfileModal={jest.fn()}
+        setState={() => {}}
             state={{}}
             firstTime={false}
             currentUser={"user"}
@@ -82,17 +81,16 @@ defineFeature(feature, (test) => {
 
     then('user can see the categories and sub categories',()=>{
    const {getByTestId}=  render( <ExplorePage
-        visible={false}
-        setVisibleProfileModal={function(): void {
-          throw new Error("Function not implemented.");
-        }}
-        setState={() => {}}
-        state={{show_SortingDropdown:true}}
-        firstTime={false}
-        currentUser={""}
-        updateCartDetails={() => {}}
-        cartDetails={[]}
-        {...screenProps}
+     setCreditDetailModal={jest.fn()}
+     visible={false}
+     setVisibleProfileModal={jest.fn()}
+     setState={() => { } }
+     state={{ show_SortingDropdown: true }}
+     firstTime={false}
+     currentUser={""}
+     updateCartDetails={() => { } }
+     cartDetails={[]}
+     {...screenProps}
    />)
       fireEvent(getByTestId('products_list_id'), 'onEndReached');
       fireEvent(getByTestId('products_list_id2'), 'onEndReached');

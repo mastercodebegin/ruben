@@ -30,7 +30,8 @@ defineFeature(feature, (test) => {
     given("users loading orders screen", () => {
      render(
         <Alert
-          visible={false}
+         visible={false}
+         setCreditDetailModal={jest.fn()}
           setVisibleProfileModal={function(): void {
             throw new Error("Function not implemented.");
           }}

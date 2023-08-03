@@ -43,10 +43,9 @@ defineFeature(feature, (test) => {
     given("users loading about us screen", () => {
       AboutUsBlock = shallow(
         <AboutUs
+          setCreditDetailModal={jest.fn()}
           visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
+          setVisibleProfileModal={jest.fn()}
           setState={() => {}}
           state={{}}
           firstTime={false}

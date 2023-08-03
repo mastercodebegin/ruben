@@ -20,6 +20,7 @@ const feature = loadFeature(
 const simulateTextInput = (testId: string, text: string) => {
   const { queryByTestId } = render(
     <UpdateProfileModal
+      setCreditDetailModal={jest.fn()}
       updateCartDetails={jest.fn()}
       cartDetails={[]}
       visible={false}
@@ -67,6 +68,7 @@ defineFeature(feature, (test) => {
     given("I am a User loading update profile screen", () => {
       landingPageBlock = shallow(
         <UpdateProfileModal
+          setCreditDetailModal={jest.fn()}
           updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
@@ -94,6 +96,7 @@ defineFeature(feature, (test) => {
     then("user selecting image from storage", () => {
       landingPageBlock = shallow(
         <UpdateProfileModal
+          setCreditDetailModal={jest.fn()}
           updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
@@ -132,6 +135,7 @@ defineFeature(feature, (test) => {
     then("user saving al the details", () => {
       landingPageBlock = shallow(
         <UpdateProfileModal
+          setCreditDetailModal={jest.fn()}
           updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
