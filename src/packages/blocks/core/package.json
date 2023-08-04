@@ -167,7 +167,7 @@
     "react-app-rewired": "2.1.4",
     "react-native-save-view": "^0.2.3",
     "react-test-renderer": "16.11.0",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "25.0.0",
     "typescript": "4.1.3"
   }
 }
