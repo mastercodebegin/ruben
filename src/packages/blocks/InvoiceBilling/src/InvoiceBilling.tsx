@@ -2,7 +2,7 @@ import React from "react";
 
 // Customizable Area Start
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-import { View, StyleSheet, FlatList, Alert } from "react-native";
+import { View, StyleSheet, FlatList, Alert, Platform } from "react-native";
 import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
 import RenderHeader from "./RenderHeader";
 import RenderPoducts from "./RenderProducts";
@@ -27,7 +27,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
 
   // Customizable Area Start
   async componentDidMount() {
-    this.getCart()
+    this.getInvoiceDetails()
   }
   // Customizable Area End
 
@@ -62,8 +62,8 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter data={ this.props?.route?.params} />}
-              ListHeaderComponent={<RenderHeader data={ this.props?.route?.params} />}
+              ListFooterComponent={<RenderFooter subTotal={this.state.subTotal}  />}
+              ListHeaderComponent={<RenderHeader billingAddress={this.state.billingAddress} shippingAddress={this.state.shippingAddress} />}
             />
           </View>
           <View style={{ paddingTop: 20 }}>
@@ -91,7 +91,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
             message="Your invoice downloaded Successfully"
             onPress={() => this.setState({ showModal: false })}
             setVisible={() => this.setState({ showModal: false })}
-            text="You can find your invoice on Downloads/Farm2URDoor"
+            text={Platform.OS === "android" ? "You can find your invoice on Downloads/Farm2URDoor":"You can find your invoice on Farm2URDoor folder"}
           />
         </View>
       </HeaderWithBackArrowTemplate>

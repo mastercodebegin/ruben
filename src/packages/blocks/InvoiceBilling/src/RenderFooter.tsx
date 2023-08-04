@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "./styles";
-const RenderFooter = ({ data }: any) => {  
+const RenderFooter = ({ subTotal }: any) => {  
   return (
     <View
       style={{
@@ -14,11 +14,11 @@ const RenderFooter = ({ data }: any) => {
     >
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.text}>Sub Total</Text>
-        <Text style={styles.text}>{`$${data?.subtotal}`}</Text>
+        <Text style={styles.text}>{`$${subTotal}`}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.boldText}>Total</Text>
-        <Text style={styles.boldText}>{`$${data?.subtotal}`}</Text>
+        <Text style={styles.boldText}>{`$${subTotal}`}</Text>
       </View>
     </View>
   );

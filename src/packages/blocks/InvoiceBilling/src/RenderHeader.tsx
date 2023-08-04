@@ -5,7 +5,7 @@ import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
 import moment from 'moment';
 
-const RenderHeader = ({ data}:any) => {
+const RenderHeader = ({billingAddress,shippingAddress }: any) => {
   
   function getDeliveryDate(date:Date) {
    return moment(date).format('DD MMM YYYY');
@@ -23,11 +23,13 @@ const RenderHeader = ({ data}:any) => {
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>
           {"Bill to"}
         </Text>
-        <Text style={styles.text}>{data?.name}</Text>
-        <Text style={styles.text}>{data?.address}</Text>
+        <Text style={styles.text}>{billingAddress?.name}</Text>
+        <Text style={styles.text}>{billingAddress?.address}</Text>
+        <Text style={styles.text}>{billingAddress?.zip_code}</Text>
         <Text style={cstyle.bill}>{"Shipping Address"}</Text>
-        <Text style={styles.text}>{data?.name}</Text>
-        <Text style={styles.text}>{data?.address}</Text>
+        <Text style={styles.text}>{shippingAddress?.name}</Text>
+        <Text style={styles.text}>{shippingAddress?.address}</Text>
+        <Text style={styles.text}>{shippingAddress?.zip_code}</Text>
       </View>
       <View
         style={{
