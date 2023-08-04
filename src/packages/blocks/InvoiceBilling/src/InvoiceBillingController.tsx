@@ -33,6 +33,10 @@ interface S {
   showLoader: boolean;
   productsList: Array<any>;
   showModal: boolean;
+  subTotal: number;
+  createdDate: string;
+  billingAddress: any;
+  shippingAddress: any;
   // Customizable Area End
 }
 
@@ -48,7 +52,8 @@ export default class InvoiceBillingController extends BlockComponent<
   SS
 > {
   // Customizable Area Start
-  cartCallId:string=''
+  cartCallId: string = '';
+  getInvoiceDetailsId: string = '';
   // Customizable Area End
 
   constructor(props: Props) {
@@ -72,7 +77,11 @@ export default class InvoiceBillingController extends BlockComponent<
       // Customizable Area Start
       showLoader: false,
       productsList: [],
-      showModal:false,
+      showModal: false,
+      billingAddress: '',
+      shippingAddress: '',
+      createdDate: '',
+      subTotal:0,
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -98,19 +107,27 @@ export default class InvoiceBillingController extends BlockComponent<
     // Customizable Area Start
     else  if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.cartCallId != null &&
-      this.cartCallId ===
+      this.getInvoiceDetailsId != null &&
+      this.getInvoiceDetailsId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      let productsList = message.getData(
+      let invoiceDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );      
-      let error = message.getData(
+      let invoiceError = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      const prodList = productsList?.data[0]
-      this.getCartCallBack(prodList,error)
-      
+      if (!invoiceError && invoiceDetails) {
+        this.setState({
+          productsList: invoiceDetails?.data?.attributes?.order_items?.data,
+          showLoader: false,
+          subTotal: Number(invoiceDetails?.data?.attributes?.subtotal[0]),
+          billingAddress: invoiceDetails?.data?.attributes?.bill_to,
+          shippingAddress:invoiceDetails?.data?.attributes?.shipping_address
+        })
+      } else {
+        this.setState({showLoader:false})
+      }
     }
     // Customizable Area End
   }
@@ -181,7 +198,7 @@ export default class InvoiceBillingController extends BlockComponent<
       token: data?.meta?.token,
     };
       url = await downloadFiles(
-        `https://www.africau.edu/images/default/sample.pdf`,
+        `${baseURL}/bx_block_invoicebilling/invoices/download_invoice_pdf`,
         `${new Date().getTime()}invoice.pdf`,
         "invoice",
         "application/pdf",
@@ -222,7 +239,7 @@ export default class InvoiceBillingController extends BlockComponent<
       } 
     }
   }
-  async getCart() {
+  async getInvoiceDetails() {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -231,11 +248,11 @@ export default class InvoiceBillingController extends BlockComponent<
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-    this.cartCallId = subcategory.messageId;
+    this.getInvoiceDetailsId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_shopping_cart/orders/order_alerts'
+      'bx_block_invoicebilling/invoices'
     );
 
     subcategory.addData(
