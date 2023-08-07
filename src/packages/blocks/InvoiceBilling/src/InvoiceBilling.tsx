@@ -71,6 +71,10 @@ export default class InvoiceBilling extends InvoiceBillingController {
               testID="share_invoice_id"
               label="Share Invoice"
               onPress={async () => {
+                if (this.state.pdfUrl !== '') {
+                  this.shareInvoice(this.state.pdfUrl);
+                  return;
+                }
                 this.downloadInvoice().then((res: any) => {
                   if (res) {   
                     setTimeout(() => {   
