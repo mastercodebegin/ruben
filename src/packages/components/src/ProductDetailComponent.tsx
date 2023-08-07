@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 20,
   },
-  productName: { fontSize: 16 },
+  productName: { fontSize: 16 ,flex:1},
   button: {
     height: 25,
     width: 25,
