@@ -151,7 +151,7 @@ export default class Analytics extends AnalyticsController {
                     </View>
                     {this.state.showCalendar && (
                       <TouchableWithoutFeedback>
-                        <View style={styles.calendarContainer}>
+                        <View style={styles.calendarContainer} testID="calendarObject">
                           <Calendar dateSelected={(data: string) => {
                             let newDate = new Date(data);
                             newDate.setDate(newDate.getDate() + 7);

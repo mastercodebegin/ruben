@@ -20,8 +20,6 @@ export interface Props {
   navigation: any;
   id: string;
   // Customizable Area Start
-  setState: any;
-  state: any;
   animalSelectedValue: string;
   // Customizable Area End
 }
