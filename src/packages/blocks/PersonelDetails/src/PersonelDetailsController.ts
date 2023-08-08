@@ -124,6 +124,21 @@ export default class PersonelDetailsController extends BlockComponent<
           this.setState({ showLoader: false });
           showToast("something went wrong");
         }
+    }else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getAvailableSlotsCallId != null &&
+      this.getAvailableSlotsCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let availableSlots = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && availableSlots?.avilable_sloat) {
+        this.setState({availableSlotsList:availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length -1 ]?.available_slot})
+      }      
     }
   }
   getExpectedDeliveryDate() {

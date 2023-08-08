@@ -10,6 +10,7 @@ interface ListType {
 }
 interface AvailableSlotsTypes {
   list: Array<string>;
+  address?: any;
 }
 const RenderList = ({ selectedSlot, setSelectedSlot, slot }: ListType) => (
   <TouchableOpacity
@@ -17,7 +18,7 @@ const RenderList = ({ selectedSlot, setSelectedSlot, slot }: ListType) => (
     onPress={() => setSelectedSlot(slot)}
     style={{
       backgroundColor: selectedSlot === slot ? PRIMARY : "white",
-      ...styles.slot
+      ...styles.slot,marginHorizontal:"1%"
     }}
   >
     <Text style={{ color: selectedSlot === slot ? "white" : "grey" }}>
@@ -25,16 +26,21 @@ const RenderList = ({ selectedSlot, setSelectedSlot, slot }: ListType) => (
     </Text>
   </TouchableOpacity>
 );
-const AvailableSlots = ({ list = [] }: AvailableSlotsTypes) => {
-  const [selectedSlot, setSelectedSlot] = useState(list[0]);
+const AvailableSlots = ({ address, list = [] }: AvailableSlotsTypes) => {
+  const [selectedSlot, setSelectedSlot] = useState(list[0]);  
   return (
     <View style={styles.slots}>
       <View style={styles.blur} />
       <View style={styles.checkBoxContainer}>
-        <CheckBox checked setChecked={() => {}} />
+        <CheckBox checked setChecked={() => { }} />
+        <View style={{flexDirection:"row",flex:1}}>
         <Text
+          numberOfLines={1}
           style={styles.address}
-        >{`Pick Up ( store branch : ljar 12 , asemln , USA)`}</Text>
+        >{`Pick Up ( ${address}`}
+          </Text>
+          <Text>{')'}</Text>
+        </View>
       </View>
       <View style={styles.container}>
         <Text style={styles.availableText}>Available Slots</Text>
@@ -42,7 +48,7 @@ const AvailableSlots = ({ list = [] }: AvailableSlotsTypes) => {
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
-            justifyContent: "space-between",
+            justifyContent:"center"
           }}
         >
           {list.map((slot) => (

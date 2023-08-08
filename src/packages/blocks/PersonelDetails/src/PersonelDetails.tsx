@@ -9,7 +9,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { styles } from "./styles";
-import { PRIMARY, removeImage } from "../../../components/src/constants";
+import { PRIMARY } from "../../../components/src/constants";
 import MileStone from "../../../components/src/MilestoneComponent";
 import PersonelDetailsController from "./PersonelDetailsController";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
@@ -18,6 +18,9 @@ import SavedAddresses from "./SavedAddresses";
 import AvailableSlots from "./AvailableSlots";
 import DoubleButton from "../../../components/src/DoubleButton";
 import DeliveryFeesModal from "./DeliveryFeesModal";
+const deliveryIcon = require('../../../components/src/deliveryIcon.png');
+const pickupIcon = require('../../../components/src/shippingIcon.png');
+const shippingIcon = require('../../../components/src/package.png');
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -30,8 +33,8 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
     style={[styles.boxContainer, selected && { backgroundColor: PRIMARY }]}
   >
     <Image
-      resizeMode="contain"
-      style={[{ height: 20, width: 20 }, selected && { tintColor: "white" }]}
+      resizeMode="stretch"
+      style={[{ height: 20, width: 20 ,tintColor:selected ? "white":PRIMARY}]}
       source={image}
     />
     <Text
@@ -82,21 +85,21 @@ export default class PersonelDetails extends PersonelDetailsController {
                 selected={this.state.selectedTab === "delivery"}
                 text="Delivery"
                 onpress={() => this.setState({ selectedTab: "delivery" })}
-                image={removeImage}
+                image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
                 onpress={() => this.setState({ selectedTab: "shipping" })}
                 text="Shipping/Mailing"
-                image={removeImage}
+                image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
                 onpress={() => this.setState({ selectedTab: "pickup" })}
                 text="Pick Up"
-                image={removeImage}
+                image={pickupIcon}
               />
             </View>
             {this.state.selectedTab !== "pickup" ? (
@@ -131,7 +134,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                 </View>
               </>
             ) : (
-              <AvailableSlots list={this.state.availableSlotsList}/>
+              <AvailableSlots address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} list={this.state.availableSlotsList}/>
             )}
             <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
