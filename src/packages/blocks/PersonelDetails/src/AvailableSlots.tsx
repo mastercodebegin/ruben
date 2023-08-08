@@ -37,7 +37,7 @@ const AvailableSlots = ({ address, list = [] }: AvailableSlotsTypes) => {
         <Text
           numberOfLines={1}
           style={styles.address}
-        >{`Pick Up ( ${address}`}
+        >{`Pick Up ( ${address||''}`}
           </Text>
           <Text>{')'}</Text>
         </View>
