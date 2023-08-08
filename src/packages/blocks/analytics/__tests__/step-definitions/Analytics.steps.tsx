@@ -52,6 +52,41 @@ defineFeature(feature, (test) => {
             instance = analyticsBlock.instance() as Analytics
         });
 
+        then("analytic api", () => {
+            let paymentparam = {
+                "query": "chicken",
+                "id": 1,
+                "categoryId": 31,
+                "startDate": "2023-07-23",
+                "endDate": "2023-07-31"
+
+            }
+            instance = analyticsBlock.instance() as Analytics
+            const msgValidationAPI = new Message(
+                getName(MessageEnum.RestAPIResponceMessage)
+            );
+            msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceDataMessage),
+                msgValidationAPI.messageId
+            );
+            msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceEndPointMessage),
+                `${paymentparam}`
+            );
+            msgValidationAPI.addData(
+                getName(MessageEnum.RestAPIResponceSuccessMessage),
+                {
+                    "data": [
+                        {
+                        }
+                    ]
+
+                }
+            );
+            instance.myCreditCallId = msgValidationAPI.messageId;
+            runEngine.sendMessage("Unit Test Api", msgValidationAPI);
+
+        });
         then('Analytics will load with out errors', () => {
             expect(analyticsBlock).toBeTruthy()
         });
@@ -129,18 +164,19 @@ defineFeature(feature, (test) => {
         });
 
         then('show_calendar', () => {
-            analyticsBlock = shallow(<Analytics setState={undefined} state={undefined} animalSelectedValue={""} {...screenProps} />)
-            const touchableOpacity = analyticsBlock.find(
+            let analyticsWrapper: ShallowWrapper;
+            analyticsWrapper = shallow(<Analytics setState={undefined} state={undefined} animalSelectedValue={""} {...screenProps} />)
+            const touchableOpacity = analyticsWrapper.find(
                 '[testID="show_calendar"]'
             );
-            //touchableOpacity.simulate("press");
+           // touchableOpacity.simulate("press");
 
-            let analyticsWrapper: ShallowWrapper;
-            analyticsWrapper = shallow(
-                <Analytics setState={undefined} state={undefined} animalSelectedValue={""} {...screenProps} />
-            );
-            let instanceWapper = analyticsWrapper.instance() as Analytics;
-            instanceWapper.setState({ showCalendar: true })
+            // let analyticsWrapper: ShallowWrapper;
+            // analyticsWrapper = shallow(
+            //     <Analytics setState={undefined} state={undefined} animalSelectedValue={""} {...screenProps} />
+            // );
+            // let instanceWapper = analyticsWrapper.instance() as Analytics;
+            // instanceWapper.setState({ showCalendar: true })
         });
 
         then('load calendar', () => {
