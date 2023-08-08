@@ -216,9 +216,9 @@ export default class Analytics extends AnalyticsController {
                 </View>
 
                 <View style={styles.animalImagContainer}>
-                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
-                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
-                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
+                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""}  />
+                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""}  />
+                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""}  />
                 </View>
 
                 <View style={styles.boxContainer}>

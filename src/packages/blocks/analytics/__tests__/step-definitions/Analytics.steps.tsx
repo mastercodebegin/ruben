@@ -53,6 +53,7 @@ defineFeature(feature, (test) => {
         });
 
         then("analytic api", () => {
+            console.log("check working or not---->>>>>>>>>>>>>>");
             let paymentparam = {
                 "query": "chicken",
                 "id": 1,
@@ -85,7 +86,6 @@ defineFeature(feature, (test) => {
             );
             instance.myCreditCallId = msgValidationAPI.messageId;
             runEngine.sendMessage("Unit Test Api", msgValidationAPI);
-
         });
         then('Analytics will load with out errors', () => {
             expect(analyticsBlock).toBeTruthy()
@@ -223,7 +223,7 @@ defineFeature(feature, (test) => {
                     />
                 </View>
             );
-          //  expect(getByTestId('dropdown-wrapper')).toBeTruthy();
+            expect(getByTestId('dropdown-wrapper')).toBeTruthy();
         });
     });
 });
