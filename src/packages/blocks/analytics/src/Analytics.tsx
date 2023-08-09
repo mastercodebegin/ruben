@@ -98,12 +98,10 @@ export default class Analytics extends AnalyticsController {
               <View style={styles.headerContainer}>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.goBack()}
-                  testID="goback_navigation"
-                >
+                  testID="goback_navigation">
                   <Image
                     style={styles.backImage}
-                    source={require("../../../components/src/arrow_left.png")}
-                  />
+                    source={require("../../../components/src/arrow_left.png")}/>
                 </TouchableOpacity>
                 <Text style={styles.headerText}>{"Analytics"}</Text>
               </View>
@@ -114,8 +112,7 @@ export default class Analytics extends AnalyticsController {
                       style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                      }}
-                    >
+                      }}>
                       <View>
                         <Text style={styles.totalIncome}>{"Total Income"}</Text>
                         <Text style={styles.incomeValue}>
@@ -127,8 +124,7 @@ export default class Analytics extends AnalyticsController {
                         onPress={() => {
                           this.setState({ showCalendar: true });
                         }}
-                        testID="show_calendar"
-                      >
+                        testID="show_calendar">
                         <View style={styles.calendarView}>
                           <Image
                             style={[styles.backImage, { marginLeft: 10 }]}
@@ -139,8 +135,7 @@ export default class Analytics extends AnalyticsController {
                               fontSize: 18,
                               color: "#5C2221",
                               marginLeft: 10,
-                            }}
-                          >
+                            }}>
                             {"March, 2022"}
                           </Text>
                         </View>
@@ -163,8 +158,7 @@ export default class Analytics extends AnalyticsController {
                           backgroundColor: "transparent",
                         }}
                         yAxisLabel={""}
-                        yAxisSuffix=""
-                      />
+                        yAxisSuffix=""/>
                       <View style={[styles.overlay, { height: 20 }]} />
                     </View>
                     {this.state.showCalendar && (
@@ -179,22 +173,19 @@ export default class Analytics extends AnalyticsController {
                     )}
                   </View>
                 )}
-
                 <View style={styles.numberOfSent}>
                   <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
                   <View
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
-                    }}
-                  >
+                    }}>
                     <Text
                       style={{
                         fontSize: 20,
                         color: "#5C2221",
                         fontWeight: "600",
-                      }}
-                    >
+                      }}>
                       {`${this.state.numberOfSpend}`}
                     </Text>
                     <Text style={{ fontSize: 20, color: "#A0272A" }}>
@@ -204,8 +195,7 @@ export default class Analytics extends AnalyticsController {
                 </View>
                 <View
                   style={styles.dropdownContainer}
-                  testID="dropdown-wrapper"
-                >
+                  testID="dropdown-wrapper">
                   <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
@@ -226,29 +216,22 @@ export default class Analytics extends AnalyticsController {
                       );
                     }}
                     value={this.state.category_title}
-                    // value={() => this.setValue()}
-                    // {...this.DropDownProps}
                   />
                 </View>
-
                 <View style={styles.animalImagContainer}>
                   <AnimalAnalytics
                     animalSelectedValue={this.state.animalSelectedValue}
                     navigation={this.state.animalSelectedValue}
-                    id={""}
-                  />
+                    id={""}/>
                   <AnimalChicken
                     animalSelectedValue={this.state.animalSelectedValue}
                     navigation={this.state.animalSelectedValue}
-                    id={""}
-                  />
+                    id={""}/>
                   <AnimalPig
                     animalSelectedValue={this.state.animalSelectedValue}
                     navigation={this.state.animalSelectedValue}
-                    id={""}
-                  />
+                    id={""}/>
                 </View>
-
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>
