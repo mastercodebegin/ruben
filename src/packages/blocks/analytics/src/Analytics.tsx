@@ -38,7 +38,7 @@ export default class Analytics extends AnalyticsController {
 
   // Customizable Area Start
   async componentDidMount() {
-    this.getCategoryList();
+    this.getCategoryList()
   }
   numberWithCommas = (x: string) => {
     return x.toLocaleString();
@@ -58,18 +58,17 @@ export default class Analytics extends AnalyticsController {
           (opacity = 1) => `#F8F4F4`,
           (opacity = 1) => `#5C2221`,
           (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`,
-        ],
-      },
-    ],
+          (opacity = 1) => `#F8F4F4`]
+      }
+    ]
   };
   chartConfig = {
-    backgroundGradientFrom: "white",
+    backgroundGradientFrom: 'white',
     // // decimalPlaces: 0,
     // // barPercentage: 1.0,
     // // fillShadowGradientOpacity: 1,
     backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "white",
+    backgroundGradientTo: 'white',
     // spacingInner: 1.0,
     backgroundColor: "transparent",
     backgroundGradientToOpacity: 0.0,
@@ -80,7 +79,7 @@ export default class Analytics extends AnalyticsController {
     barRadius: 13,
     propsForBackgroundLines: {
       strokeWidth: 0,
-    },
+    }
   };
   // Customizable Area End
 
