@@ -96,12 +96,11 @@ export default class Analytics extends AnalyticsController {
           <SafeAreaView>
             <View style={styles.main}>
               <View style={styles.headerContainer}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.goBack()}
-                  testID="goback_navigation">
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
                   <Image
                     style={styles.backImage}
-                    source={require("../../../components/src/arrow_left.png")}/>
+                    source={require("../../../components/src/arrow_left.png")}
+                  />
                 </TouchableOpacity>
                 <Text style={styles.headerText}>{"Analytics"}</Text>
               </View>
@@ -112,36 +111,27 @@ export default class Analytics extends AnalyticsController {
                       style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                      }}>
+                      }} >
                       <View>
                         <Text style={styles.totalIncome}>{"Total Income"}</Text>
-                        <Text style={styles.incomeValue}>
-                          {" "}
-                          {`$${this.state.totaAmount}`}{" "}
-                        </Text>
+                        <Text style={styles.incomeValue}> {`$${this.state.totaAmount}`} </Text>
                       </View>
                       <TouchableOpacity
-                        onPress={() => {
-                          this.setState({ showCalendar: true });
-                        }}
-                        testID="show_calendar">
+                        onPress={() => { this.setState({ showCalendar: true }) }}
+                        testID="show_calendar"
+                      >
                         <View style={styles.calendarView}>
                           <Image
                             style={[styles.backImage, { marginLeft: 10 }]}
                             source={require("../assets/calendar_icon.png")}
                           />
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              color: "#5C2221",
-                              marginLeft: 10,
-                            }}>
+                          <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
                             {"March, 2022"}
                           </Text>
                         </View>
                       </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
+                    < View style={{ marginTop: 50 }} testID="bar-chart-wrapper">
                       <BarChart
                         width={SCREEN_WIDTH}
                         height={250}
@@ -153,24 +143,22 @@ export default class Analytics extends AnalyticsController {
                         showBarTops={false}
                         withHorizontalLabels={false}
                         verticalLabelRotation={0}
-                        style={{
-                          marginLeft: -60,
-                          backgroundColor: "transparent",
-                        }}
+                        style={{ marginLeft: -60, backgroundColor: "transparent" }}
                         yAxisLabel={""}
-                        yAxisSuffix=""/>
+                        yAxisSuffix=""
+                      />
                       <View style={[styles.overlay, { height: 20 }]} />
                     </View>
                     {this.state.showCalendar && (
                       <TouchableWithoutFeedback>
-                        <View
-                          style={styles.calendarContainer}
-                          testID="calendarObject"
-                        >
-                          <Calendar dateSelected={this.handleDateSelected} />
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
+                      <View
+                        style={styles.calendarContainer}
+                        testID="calendarObject"
+                      >
+                        <Calendar dateSelected={this.handleDateSelected} />
+                      </View>
+                    </TouchableWithoutFeedback>
+                  )}
                   </View>
                 )}
                 <View style={styles.numberOfSent}>
@@ -179,13 +167,9 @@ export default class Analytics extends AnalyticsController {
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: "#5C2221",
-                        fontWeight: "600",
-                      }}>
+                    }}
+                  >
+                    <Text style={{ fontSize: 20, color: "#5C2221", fontWeight: "600" }}>
                       {`${this.state.numberOfSpend}`}
                     </Text>
                     <Text style={{ fontSize: 20, color: "#A0272A" }}>
@@ -193,10 +177,8 @@ export default class Analytics extends AnalyticsController {
                     </Text>
                   </View>
                 </View>
-                <View
-                  style={styles.dropdownContainer}
-                  testID="dropdown-wrapper">
-                  <Dropdown
+                <View style={styles.dropdownContainer} testID="dropdown-wrapper">
+                <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
@@ -209,37 +191,24 @@ export default class Analytics extends AnalyticsController {
                     renderItem={(item: any) => {
                       return (
                         <View>
-                          <Text style={styles.textItem}>
-                            {item?.attributes?.name}
-                          </Text>
+                          <Text style={styles.textItem}>{item?.attributes?.name}</Text>
                         </View>
-                      );
+                      )
                     }}
                     value={this.state.category_title}
+                  // value={() => this.setValue()}
+                  // {...this.DropDownProps}
                   />
                 </View>
                 <View style={styles.animalImagContainer}>
-                  <AnimalAnalytics
-                    animalSelectedValue={this.state.animalSelectedValue}
-                    navigation={this.state.animalSelectedValue}
-                    id={""}/>
-                  <AnimalChicken
-                    animalSelectedValue={this.state.animalSelectedValue}
-                    navigation={this.state.animalSelectedValue}
-                    id={""}/>
-                  <AnimalPig
-                    animalSelectedValue={this.state.animalSelectedValue}
-                    navigation={this.state.animalSelectedValue}
-                    id={""}/>
+                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
+                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
+                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
                 </View>
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
-                    <Text style={styles.boxHeader}>
-                      Current Animal purchased
-                    </Text>
-                    <Text style={styles.boxText}>
-                      {this.state.category_title}
-                    </Text>
+                    <Text style={styles.boxHeader}>Current Animal purchased</Text>
+                    <Text style={styles.boxText}>{this.state.category_title}</Text>
                   </View>
                   <View style={styles.seperator} />
                   <View style={styles.box}>
@@ -255,7 +224,7 @@ export default class Analytics extends AnalyticsController {
                   <View style={styles.seperator} />
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Remaining Cuts</Text>
-                    <Text style={styles.boxText}>{"3 (10%)"}</Text>
+                    <Text style={styles.boxText}>{'3 (10%)'}</Text>
                   </View>
                 </View>
               </View>
@@ -272,7 +241,7 @@ export default class Analytics extends AnalyticsController {
 // Customizable Area Start
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   seperator: { width: 10 },
   boxContainer: { flexDirection: "row", width: "100%", paddingBottom: 15 },
@@ -281,7 +250,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingTop: 20,
     fontWeight: "bold",
-    textTransform: "capitalize",
+    textTransform: 'capitalize'
   },
   boxHeader: { fontSize: 17, color: "grey" },
   box: {
@@ -322,21 +291,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     height: 375,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff"
   },
   backImage: { height: 20, width: 20 },
   totalIncome: {
-    fontSize: 18,
-    color: "#5C2221",
-    paddingBottom: 5,
-    fontWeight: "600",
-    paddingLeft: 16,
+    fontSize: 18, color: "#5C2221", paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
   },
   incomeValue: {
-    paddingLeft: 16,
-    fontSize: 22,
-    color: "#5C2221",
-    fontWeight: "600",
+    paddingLeft: 16, fontSize: 22, color: "#5C2221", fontWeight: "600"
   },
   calendarView: {
     paddingVertical: 15,
@@ -351,11 +313,11 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   overlay: {
     flex: 1,
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     bottom: 38,
-    backgroundColor: "white",
-    width: SCREEN_WIDTH - 40,
+    backgroundColor: 'white',
+    width: SCREEN_WIDTH - 40
   },
   calendarContainer: {
     position: "absolute",
@@ -367,14 +329,14 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     backgroundColor: "white",
     borderRadius: 10,
-    marginBottom: 0,
+    marginBottom: 0
   },
   dropdown: {
     height: 50,
     backgroundColor: "white",
     borderRadius: 10,
     padding: 12,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -395,10 +357,11 @@ const styles = StyleSheet.create({
     color: DARK_RED,
     paddingVertical: 5,
     marginLeft: 10,
+
   },
   placeholderStyle: {
     fontSize: 16,
-    color: DARK_RED,
+    color: DARK_RED
   },
   selectedTextStyle: {
     fontSize: 16,
@@ -416,8 +379,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   animalImagContainer: {
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
 // Customizable Area End
-
