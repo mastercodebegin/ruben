@@ -6,6 +6,8 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
+  Button,
+  Platform,
   // Customizable Area Start
   TouchableOpacity,
   Image,
@@ -22,9 +24,7 @@ import moment from "moment";
 import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
-
 // Customizable Area End
-
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
