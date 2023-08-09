@@ -26,33 +26,29 @@ const RenderProducts = ({ item, index }: any) => {
     </View>
     )
 }
-
-const findDateDifference =(startDate,endDate)=>{
-    if(startDate.getTime() >= endDate.getTime()){
+const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
+    if (!(startDate && endDate)) {
         return 0;
     }
-const timeDifferenceMillis = endDate - startDate;
-if(timeDifferenceMillis === 0){
-    return 0;
-}
-const daysDifference = timeDifferenceMillis / (1000 * 60 * 60 * 24);
-return daysDifference;
-}
-
-const getDeliveryPercentage=(startDate,endDate)=>{
-const currentDate = new Date();
-currentDate.setHours(0);
-currentDate.setMinutes(0);
-if(currentDate.getTime() >= endDate.getTime()){
-    return 100;
-}
-const elapsedDay = (findDateDifference(startDate,endDate)-findDateDifference(currentDate,endDate));
-const totalDays = findDateDifference(startDate,endDate);
-if(elapsedDay > 0 && totalDays >0){
-    return Math.floor(((elapsedDay / totalDays) * 100));
-}else{
-    return 100;
-}
+    const currentDate = new Date();
+    if (endDate.getTime() <= currentDate.getTime() && startDate.getTime() <= currentDate.getTime()) {
+        return 100;
+    }
+    const findDateDifference = (startDate: Date, endDate: Date) => {
+        const timeDifferenceMillisecond = endDate.getTime() - startDate.getTime();
+        return (timeDifferenceMillisecond / (1000 * 60 * 60 * 24));
+    }
+    if (startDate.getTime() < endDate.getTime()) {
+        const totalDayDifference = findDateDifference(startDate, endDate);
+        const remainingDayDifference = findDateDifference(currentDate, endDate);
+        const passedDays = totalDayDifference - remainingDayDifference;
+        const percentage = Math.round(((passedDays / totalDayDifference) * 100));
+        if (typeof percentage === 'number') {
+            return percentage < 0 ? 0 : percentage;
+        }
+        return 0;
+        
+    }
 }
 const RenderItem = ({ item,cancelOrder }: any) => {      
     const onPressCancel = () => {
@@ -85,7 +81,7 @@ const RenderItem = ({ item,cancelOrder }: any) => {
                 </Text>
             </View>
             <View style={rstyles.deliveryEstimater}>
-                <View style={rstyles.estimater} />
+                <View style={{...rstyles.estimater,width:`${getDeliveryPercentage(date,deliveryDate)}%`}} />
             </View>
         </View>
         </View>

@@ -33,6 +33,7 @@ interface S {
   keyboardHeight: number;
   showAddressModal: boolean;
   showAddAddress: boolean;
+  estimatedDeliveryDate: string;
 }
 
 interface SS {
@@ -71,7 +72,8 @@ export default class PersonelDetailsController extends BlockComponent<
       zipCode: '',
       keyboardHeight: 0,
       showAddressModal: false,
-      showAddAddress:false,
+      showAddAddress: false,
+      estimatedDeliveryDate:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -80,6 +82,7 @@ export default class PersonelDetailsController extends BlockComponent<
   getPersonelDetails: string = "";
   getAvailableSlotsCallId: string ;
   addAddressCallId: string = "";
+  estimatedDeliveryDateCallId: string = '';
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -139,12 +142,30 @@ export default class PersonelDetailsController extends BlockComponent<
       if (!error && availableSlots?.avilable_sloat) {
         this.setState({availableSlotsList:availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length -1 ]?.available_slot})
       }      
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.estimatedDeliveryDateCallId != null &&
+      this.estimatedDeliveryDateCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const estimatedDeliverDate = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && estimatedDeliverDate?.delivery_date) {
+        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date });
+      }
     }
   }
   getExpectedDeliveryDate() {
+    const date = new Date(this.state.estimatedDeliveryDate);
+    const findDateDifference = (startDate: Date, endDate: Date) => {
+      const timeDifferenceMillisecond = endDate.getTime() - startDate.getTime();
+      return (timeDifferenceMillisecond / (1000 * 60 * 60 * 24));
+  }
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 3);
-    const date = new Date(currentDate);
     const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -164,7 +185,7 @@ export default class PersonelDetailsController extends BlockComponent<
     } else {
     suffix = "th";
     }
-    return (day + suffix + " " + month + ", " + dayName);
+    return `Within ${Math.round(findDateDifference(currentDate,date))} days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
   }
   async addAddress(attrs:any) {
     this.setState({ showLoader: true })
@@ -214,6 +235,33 @@ export default class PersonelDetailsController extends BlockComponent<
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.getPersonelDetails
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async getEstimatedDeliveryDate() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.estimatedDeliveryDateCallId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_shopping_cart/orders/delivery_date'
     );
 
     PersonalDetails.addData(

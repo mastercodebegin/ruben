@@ -49,8 +49,9 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 );
 export default class PersonelDetails extends PersonelDetailsController {
   async componentDidMount(){
-    await this.getAddressList()
-    await this.getAvailableSlots()
+    await this.getAddressList();
+    await this.getAvailableSlots();
+    this.getEstimatedDeliveryDate();
   }
   render() {
     const {address,phone_number, zip_code,name,email} = {
@@ -136,12 +137,12 @@ export default class PersonelDetails extends PersonelDetailsController {
             ) : (
               <AvailableSlots address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} list={this.state.availableSlotsList}/>
             )}
-            <View style={{ paddingTop: 20 }}>
+            {this.state.estimatedDeliveryDate ? <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
               <Text style={styles.estimation}>
-                {`Within 3 days, ${this.getExpectedDeliveryDate()}- 9:00 AM to 6:00 PM`}
-              </Text>
-            </View>
+                {this.getExpectedDeliveryDate()}
+              </Text> 
+            </View>: <></>}
             <DoubleButton
               button1Label="Continue to Summary"
               button1_Onpress={() => {
