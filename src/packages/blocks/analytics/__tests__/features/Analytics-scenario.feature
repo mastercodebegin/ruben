@@ -10,3 +10,4 @@ Feature: Analytics
         Then show_calendar
         Then load calendar
         Then load dropdown
+        Then Check misc functions
