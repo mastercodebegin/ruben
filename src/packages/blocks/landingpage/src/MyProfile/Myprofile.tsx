@@ -9,7 +9,6 @@ import {
   Image,
   Linking,
   FlatList,
-  ImageBackground,
   Dimensions,
 } from "react-native";
 import {
@@ -25,13 +24,13 @@ import {
   facebook,
   CART,
   cow,
-  badge,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
 import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import Modal from "./UpdateProfileModal";
+import RenderProducts from "./RenderProducts";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 export default class Myprofile extends LandingPageController {
@@ -53,6 +52,7 @@ export default class Myprofile extends LandingPageController {
       this.getFavorites();
     }
   }
+  flatlistRef:any= React.createRef();
   openFacebookProfile = () => {
     if (this.state.facebook_link === "") {
       this.showAlert("Invalid User name please update your profile");
@@ -82,6 +82,18 @@ export default class Myprofile extends LandingPageController {
       });
     }
   };
+   showButton () {
+    if (this.state.selectedTab === 'MyFavoritesScreen') {
+      return this.state.showFavoriteList?.length !== 0;
+    }
+     if (this.state.selectedTab === 'Recomendations') {
+       return this.state.productList?.length !== 0;
+     }
+     return true;
+   }
+  navigateToDetailsPage(params={}) {
+    this.props.navigation.navigate("ProductDetailScreen",params)
+  }
 
   render() {
     return (
@@ -192,8 +204,10 @@ export default class Myprofile extends LandingPageController {
             >
               <TouchableOpacity
                 testID="go_to_favorites_id"
-                onPress={() =>
+                onPress={() => {
                   this.setState({ selectedTab: "MyFavoritesScreen" })
+                  this.flatlistRef.current?.scrollToIndex({ index: 0,animated:false })
+                }
                 }
               >
                 <Text
@@ -208,7 +222,11 @@ export default class Myprofile extends LandingPageController {
               </TouchableOpacity>
               <TouchableOpacity
                 testID="go_to_recomendations_id"
-                onPress={() => this.setState({ selectedTab: "Recomendations" })}
+                onPress={() => {
+                  (!this.state.productList.length) && this.getProductList(false);
+                  this.flatlistRef.current?.scrollToIndex({index:0,animated:false});
+                  this.setState({ selectedTab: "Recomendations" })
+                }}
               >
                 <Text
                   style={[
@@ -217,7 +235,7 @@ export default class Myprofile extends LandingPageController {
                     styles.selected,
                   ]}
                 >
-                  Recomendation
+                  Recommendation
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -263,82 +281,51 @@ export default class Myprofile extends LandingPageController {
             ) : (
               <>
                 <FlatList
-                  data={this.state.showFavoriteList}
+                  data={this.state.selectedTab === 'MyFavoritesScreen' ? this.state.showFavoriteList : this.state.productList.slice(0,5)}
                   horizontal
+                  ref={this.flatlistRef}
                   numColumns={1}
+                  showsHorizontalScrollIndicator={false}
                   contentContainerStyle={styles.contentContainer}
                   bounces={false}
-                  renderItem={({ item }: any) => {
+                    renderItem={({ item }: any) => {
+                      const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
+                        name:item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
+                        image:
+                          Array.isArray(item?.attributes?.catalogue_id?.data?.attributes?.images) ?
+                            item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url :
+                            '',
+                        description:item?.attributes?.catalogue_id?.data?.attributes?.description,
+                        discount:item?.attributes?.catalogue_id?.data?.attributes?.discount,
+                        id:item?.id,
+                        navigate:this.navigateToDetailsPage.bind(this),
+                        price:item?.attributes?.catalogue_id?.data?.attributes?.price,
+                        onPressRemoveFromFav:() => {
+                          this.removeFavListProduct(item?.id)
+                          setTimeout(() => {
+                            this.getFavorites()
+                          }, 300);	
+                        },
+                        onPressAddToCart:() => {
+                          this.addToCart(item?.attributes?.catalogue_id?.data?.id)
+                        },
+                      } : {
+                        name:item?.attributes?.categoryCode,
+                        image:Array.isArray(item?.images) ? item?.images[0]?.url :'',
+                        description:item?.attributes?.description,
+                        discount:item?.discount,
+                        id:item?.id,
+                        navigate:this.navigateToDetailsPage.bind(this),
+                        price:item?.attributes?.price,
+                        onPressRemoveFromFav:() => {},
+                        onPressAddToCart:() => {
+                          this.addToCart(item?.id)
+                        },
+                    }              
                     return (
-                      <View style={styles.FavContainer}>
-                        <TouchableOpacity
-                          testID={'navigateToProductDetailScreen'}
-                          onPress={() =>
-                            this.props.navigation.navigate("ProductDetailScreen", {
-                              id: item?.id,
-                              description: item?.attributes?.catalogue_id?.data?.attributes?.description,
-                              name: item?.attributes?.catalogue_id?.data?.attributes?.name,
-                              price: item?.attributes?.catalogue_id?.data?.attributes?.price,
-                            })
-                          }
-                          style={styles.renderContainer}
-                        >
-                          <ImageBackground
-                            resizeMode="stretch"
-                            style={[
-                              item?.attributes?.catalogue_id
-                                ?.data?.attributes?.images[0]?.url
-                                ? styles.itemImage
-                                : styles.itemNoImage,
-                            ]}
-                            source={{
-                              uri: item?.attributes?.catalogue_id
-                                ?.data?.attributes?.images[0]?.url
-                            }}
-                          >
-                            <View style={styles.offerContainer}>
-                              <Text style={styles.offer}>
-                                {`${item?.attributes?.catalogue_id?.data?.attributes?.discount ? item?.attributes?.catalogue_id?.data?.attributes?.discount : " "}` + " % off"}
-                              </Text>
-
-                              <TouchableOpacity
-                                testID={"removeFavList"}
-                                onPress={() =>{this.removeFavListProduct(item?.id)
-                                  setTimeout(() => {
-                                    this.getFavorites()
-                                  }, 300);	
-                                  }}
-                                style={styles.badgeContainer}
-                              >
-                                <Image resizeMode="contain" style={styles.badge} source={badge} />
-                              </TouchableOpacity>
-                            </View>
-                          </ImageBackground>
-                          <View style={{ paddingHorizontal: 15 }}>
-                            <Text style={styles.productName}>{item?.attributes?.catalogue_id
-                              ?.data?.attributes?.name ? item?.attributes?.catalogue_id
-                                ?.data?.attributes?.name : ' '}</Text>
-                            <Text style={styles.favdescription} numberOfLines={1}>
-                              {item?.attributes?.catalogue_id
-                                ?.data?.attributes?.description}
-                            </Text>
-                            <View style={styles.priceContainer}>
-                              <Text style={styles.price}>
-                                {`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}` + "/Kg"}
-                              </Text>
-                              <TouchableOpacity
-                                testID={"addtocart"}
-                                onPress={() => {
-                                  this.addToCart(item?.attributes?.catalogue_id?.data?.id)
-                                }}
-                                style={styles.FavcartContainer}
-                              >
-                                <Image resizeMode="contain" style={styles.Favcart} source={CART} />
-                              </TouchableOpacity>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
+                      <RenderProducts
+                        {...props}
+                      />
                     );
                   }}
                   keyExtractor={(_, index) => {
@@ -346,7 +333,7 @@ export default class Myprofile extends LandingPageController {
                   }}
                 />
 
-                <TouchableOpacity
+                {this.showButton() ? <TouchableOpacity
                   testID="see_all_button"
                   onPress={() =>
                     this.props.navigation.navigate(this.state.selectedTab)
@@ -354,7 +341,7 @@ export default class Myprofile extends LandingPageController {
                   style={styles.seeBtn}
                 >
                   <Text style={styles.seeText}>See All</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> :<></>}
               </>
             )}
           </View>
@@ -383,7 +370,7 @@ export default class Myprofile extends LandingPageController {
   }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   cartContainer: {
     paddingVertical: 10,
     backgroundColor: LIGHT_GREY,
