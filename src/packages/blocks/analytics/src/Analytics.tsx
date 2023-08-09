@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Button,
+  Platform,
   // Customizable Area Start
   TouchableOpacity,
   Image,
