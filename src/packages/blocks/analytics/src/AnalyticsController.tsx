@@ -239,7 +239,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         ]);
       } else {
         console.log("check list of data chart--->", list);
-
         this.setState({ usedCuts: list.used_cuts });
         this.setState({ remianingCuts: list.remaining_cuts });
         this.setState({ totalCuts: list.total_cuts });
@@ -248,14 +247,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         this.setState({ numberOfSpend: list.no_of_spend });
       }
     }
-
     // Customizable Area End
   }
-
   btnExampleProps = {
     onPress: () => this.doButtonPressed(),
   };
-
+  
   async doButtonPressed() {
     await analytics().logEvent("button_click", {
       button: "doButtonPressed",

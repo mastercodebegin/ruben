@@ -6,12 +6,10 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
-  Button,
-  Platform,
   // Customizable Area Start
   TouchableOpacity,
   Image,
-  SafeAreaView,
+  SafeAreaView
   // Customizable Area End
 } from "react-native";
 // Customizable Area Start
