@@ -310,11 +310,15 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
     }
-    let isUser = store.getState().currentUser === "user";
+    let params: string;
+    if (store.getState().currentUser === "user") {
+        params = `?category_id=${categoryId}`
+    } else {
+        params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+    }
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}?category_id=${categoryId}`
-     // : `${configJSON.getAnalytic}?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      `${configJSON.getAnalytic}${params}`
     );
 
     category.addData(
