@@ -16,6 +16,7 @@ const screenProps = {
     route: {},
   }
 
+  
 const feature = loadFeature('./__tests__/features/Animal-Analytics-scenario.feature');
 
 defineFeature(feature, (test) => {
@@ -35,7 +36,7 @@ defineFeature(feature, (test) => {
         let instance:AnimalAnalytics; 
 
         given('I am a User loading AnimalAnalytics', () => {
-            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Eggs"} setState={undefined} state={undefined} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Eggs"} {...screenProps}/>)
         });
 
         when('I navigate to the AnimalAnalytics', () => {

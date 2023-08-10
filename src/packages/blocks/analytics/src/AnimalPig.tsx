@@ -20,90 +20,6 @@ export default class AnimalPig extends AnalyticsController {
   }
 
   // Customizable Area Start
-  pigCommn() {
-    this.setState({
-      pig: false,
-      pigHead: false,
-      pigJowl: false,
-      pigNeck: false,
-      pigShoulder: false,
-      pigPicnic: false,
-      pigHock: false,
-      pigBacon: false,
-      pigLegham: false,
-      pigRibs: false,
-      pigLoin: false,
-    })
-  }
-
-  clickOnPigHead() {
-    this.pigCommn()
-    this.setState({
-      pigHead: true,
-    })
-  }
-  clickOnPigHock() {
-    this.pigCommn()
-    this.setState({
-      pigHock: true
-    })
-  }
-
-  clickOnPigBacon() {
-    this.pigCommn()
-    this.setState({
-      pigBacon: true
-    })
-  }
-
-  clickOnPigNeck() {
-    this.pigCommn()
-    this.setState({
-      pigNeck: true
-    })
-  }
-
-  clickOnPiglegham() {
-    this.pigCommn()
-    this.setState({
-      pigLegham: true
-    })
-  }
-
-  clickOnPigRib() {
-    this.pigCommn()
-    this.setState({
-      pigRibs: true
-    })
-  }
-
-  clickOnPigLoin() {
-    this.pigCommn()
-    this.setState({
-      pigLoin: true
-    })
-  }
-
-  clickOnPigShoulder() {
-    this.pigCommn()
-    this.setState({
-      pigShoulder: true
-    })
-  }
-
-  clickOnPigPicnic() {
-    this.pigCommn()
-    this.setState({
-      pigPicnic: true
-    })
-  }
-
-  clickOnPigJowl() {
-    this.pigCommn()
-    this.setState({
-      pigJowl: true
-    })
-  }
   // Customizable Area End
 
   render() {
@@ -201,7 +117,7 @@ export default class AnimalPig extends AnalyticsController {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { this.clickOnPiglegham() }} style={styles.clickOnPigLegham} testID="pigLegham">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigRib() }} style={styles.clickOnPigRib} testID="pigRib">
+              <TouchableOpacity onPress={() => { this.clickOnPigRib() }} style={styles.clickOnPigRib} testID="pigRibs">
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { this.clickOnPigLoin() }} style={styles.clickOnPigLoin} testID="pigLoin">
               </TouchableOpacity>
@@ -209,7 +125,7 @@ export default class AnimalPig extends AnalyticsController {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { this.clickOnPigPicnic() }} style={styles.clickOnPigPicnic} testID="pigPicnic">
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigJowl() }} style={styles.clickOnPigJowl} testID="pigjowl">
+              <TouchableOpacity onPress={() => { this.clickOnPigJowl() }} style={styles.clickOnPigJowl} testID="pigJowl">
               </TouchableOpacity>
             </View>
             <View style={styles.bottomContainer}>

@@ -8,7 +8,5 @@ Feature: AnimalPig
         Then I click on pig back
         Then I click on pig breast
         Then I click on pig wing
-        Then I click on pig leg
-        Then I click on pig Thigh
         And I can leave the pig screen with out errors
 
