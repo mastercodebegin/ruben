@@ -14,6 +14,20 @@ const screenProps = {
   id: "MyProfile",
 };
 
+const profileProps = {
+  navigation: navigation,
+  id: "",
+  visible: false,
+  setVisibleProfileModal: jest.fn(),
+  setState: jest.fn(),
+  state: jest.fn(),
+  firstTime: false,
+  currentUser: "",
+  route: {},
+  updateCartDetails: jest.fn(),
+  cartDetails: [],
+  setCreditDetailModal: jest.fn(),
+};
 const feature = loadFeature("./__tests__/features/MyProfile-scenario.feature");
 
 defineFeature(feature, (test) => {
@@ -146,24 +160,28 @@ defineFeature(feature, (test) => {
       expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
     });
 
-    then("user navigate to product detail screen", async() => {
-      const touchableOpacity :any = landingPageBlock.findWhere((node) => node.prop("testID") === "navigateToProductDetailScreen");
-      const { queryByTestId } = render(
-        <MyProfile navigation={undefined} id={""} visible={false} setVisibleProfileModal={function (): void {
-          throw new Error("Function not implemented.");
-        } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
-          throw new Error("Function not implemented.");
-        } } cartDetails={[]} setCreditDetailModal={function (): void {
-          throw new Error("Function not implemented.");
-        } } />
-      )
+    then("user navigate to product detail screen", async () => {
+      const touchableOpacity: any = landingPageBlock.findWhere(
+        (node) => node.prop("testID") === "navigateToProductDetailScreen"
+      );
+      const { queryByTestId } = render(<MyProfile {...profileProps} />);
       const navBtn: any = queryByTestId("navigateToProductDetailScreen");
       // fireEvent.press(navBtn);
       instance.forceUpdate();
-      expect(touchableOpacity).toBeTruthy()
+      expect(touchableOpacity).toBeTruthy();
     });
 
-    then("user can remove product from fav list",async (item) => {
+    then("user can remove product from fav list", async (item) => {
+      instance.setState(
+        { selectedTab: "MyFavoritesScreen", showFavoriteList: [{}] },
+        () => {
+          const propsList = [{}, { item: {} }, { item: { attributes: {} } }, { item: { attributes: { catalogue_id: {} } } }, { item: { attributes: { catalogue_id: {data:{}} } } },{ item: { attributes: { catalogue_id: {data:{attributes:{}}} } } }]
+          //
+          propsList.map((item) => {
+            render(instance.renderItem(item));
+          })
+        }
+      );
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'

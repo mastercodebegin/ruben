@@ -49,7 +49,9 @@ export default class Myprofile extends LandingPageController {
     } else {
       this.getProfileDetails();
       this.getOrderList();
-      this.getFavorites();
+      this.props.navigation.addListener('focus', () => {
+        this.getFavorites();
+      });
     }
   }
   flatlistRef:any= React.createRef();
@@ -94,8 +96,50 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params={}) {
     this.props.navigation.navigate("ProductDetailScreen",params)
   }
+   renderItem({ item }: any){
+    const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
+      name:item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
+      image:
+        Array.isArray(item?.attributes?.catalogue_id?.data?.attributes?.images) ?
+          item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url :
+          '',
+      description:item?.attributes?.catalogue_id?.data?.attributes?.description,
+      discount:item?.attributes?.catalogue_id?.data?.attributes?.discount,
+      id:item?.id,
+      navigate:this.navigateToDetailsPage.bind(this),
+      price:item?.attributes?.catalogue_id?.data?.attributes?.price,
+      onPressRemoveFromFav:() => {
+        this.removeFavListProduct(item?.id)
+        setTimeout(() => {
+          this.getFavorites()
+        }, 300);	
+      },
+      onPressAddToCart:() => {
+        this.addToCart(item?.attributes?.catalogue_id?.data?.id)
+      },
+    } : {
+      name:item?.attributes?.categoryCode,
+      image:Array.isArray(item?.images) ? item?.images[0]?.url :'',
+      description:item?.attributes?.description,
+      discount:item?.discount,
+      id:item?.id,
+      navigate:this.navigateToDetailsPage.bind(this),
+      price:item?.attributes?.price,
+      onPressRemoveFromFav:() => {},
+      onPressAddToCart:() => {
+        this.addToCart(item?.id)
+      },
+  }        
+  return (
+    <RenderProducts
+      {...props}
+    />
+  );
+}
 
   render() {
+    const productsList = this.state.selectedTab === 'MyFavoritesScreen' ? this.state.showFavoriteList : this.state.productList.slice(0, 5);
+    
     return (
       <SafeAreaView style={styles.main}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
@@ -206,7 +250,9 @@ export default class Myprofile extends LandingPageController {
                 testID="go_to_favorites_id"
                 onPress={() => {
                   this.setState({ selectedTab: "MyFavoritesScreen" })
-                  this.flatlistRef.current?.scrollToIndex({ index: 0,animated:false })
+                  if (this.state.showFavoriteList.length) {
+                    this.flatlistRef.current?.scrollToIndex({ index: 0,animated:false })
+                  }
                 }
                 }
               >
@@ -224,7 +270,9 @@ export default class Myprofile extends LandingPageController {
                 testID="go_to_recomendations_id"
                 onPress={() => {
                   (!this.state.productList.length) && this.getProductList(false);
-                  this.flatlistRef.current?.scrollToIndex({index:0,animated:false});
+                  if (this.state.productList.length) {
+                    this.flatlistRef.current?.scrollToIndex({index:0,animated:false});
+                  }
                   this.setState({ selectedTab: "Recomendations" })
                 }}
               >
@@ -280,58 +328,26 @@ export default class Myprofile extends LandingPageController {
               </View>
             ) : (
               <>
-                <FlatList
-                  data={this.state.selectedTab === 'MyFavoritesScreen' ? this.state.showFavoriteList : this.state.productList.slice(0,5)}
-                  horizontal
+                  {(productsList?.length && (this.state.selectedTab === 'MyFavoritesScreen' || this.state.selectedTab === 'Recomendations')) ?
+                    (<>{ console.log('flatlist called',productsList)}
+                      <FlatList
+                  data={productsList}
+                      horizontal
+                      testID="favorites_list_id"
                   ref={this.flatlistRef}
                   numColumns={1}
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={styles.contentContainer}
                   bounces={false}
-                    renderItem={({ item }: any) => {
-                      const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
-                        name:item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
-                        image:
-                          Array.isArray(item?.attributes?.catalogue_id?.data?.attributes?.images) ?
-                            item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.url :
-                            '',
-                        description:item?.attributes?.catalogue_id?.data?.attributes?.description,
-                        discount:item?.attributes?.catalogue_id?.data?.attributes?.discount,
-                        id:item?.id,
-                        navigate:this.navigateToDetailsPage.bind(this),
-                        price:item?.attributes?.catalogue_id?.data?.attributes?.price,
-                        onPressRemoveFromFav:() => {
-                          this.removeFavListProduct(item?.id)
-                          setTimeout(() => {
-                            this.getFavorites()
-                          }, 300);	
-                        },
-                        onPressAddToCart:() => {
-                          this.addToCart(item?.attributes?.catalogue_id?.data?.id)
-                        },
-                      } : {
-                        name:item?.attributes?.categoryCode,
-                        image:Array.isArray(item?.images) ? item?.images[0]?.url :'',
-                        description:item?.attributes?.description,
-                        discount:item?.discount,
-                        id:item?.id,
-                        navigate:this.navigateToDetailsPage.bind(this),
-                        price:item?.attributes?.price,
-                        onPressRemoveFromFav:() => {},
-                        onPressAddToCart:() => {
-                          this.addToCart(item?.id)
-                        },
-                    }              
-                    return (
-                      <RenderProducts
-                        {...props}
-                      />
-                    );
-                  }}
+                    renderItem={this.renderItem.bind(this)}
                   keyExtractor={(_, index) => {
                     return String(index);
                   }}
-                />
+                  /></>) :
+                    <View style={{paddingHorizontal:20,paddingVertical:25}}>
+                      <Text style={{textAlign:'center',fontSize:17,color:PRIMARY,fontWeight:"bold"}}>{"No products!"}</Text>
+                    </View>
+                  }
 
                 {this.showButton() ? <TouchableOpacity
                   testID="see_all_button"
