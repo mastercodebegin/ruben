@@ -19,26 +19,19 @@ export default class MyCart extends MyCartController {
     this.getCart()
   }
   render() {
-    const getTotalPrice=()=>{
-      const array =[...this.state.productsList]
-      const totalPrice = array.reduce((accumulator, item: any) => {                
-        return accumulator +item.attributes?.catalogue?.data?.attributes?.price * item.attributes?.quantity;
-      }, 0);
-      return totalPrice;
-    }
     const getDiscountPrice = () => {
       if (this.state.discountPrice)
       {
         return this.state.discountPrice.toFixed(2);
-        }
+      }
       return Math.abs(this.state.discountPercentage).toFixed(2);
     }
     const getDicountPercentage=()=>{
-      const percentatge =( Math.abs(this.state.discountPrice ? this.state.discountPrice:this.state.discountPercentage) * 100) / getTotalPrice()
+      const percentatge = (Math.abs(this.state.discountPrice ? this.state.discountPrice : this.state.discountPercentage) * 100) / this.state.totalPrice;
        return Math.round(percentatge)
      }
     const getTotal = ()=>{
-      return (getTotalPrice() - getDiscountPrice())
+      return (this.state.totalPrice - getDiscountPrice())
     }
     const getCartCount = ()=>{
       return this.state.productsList.length > 9 ? this.state.productsList.length : `0${this.state.productsList.length}`
@@ -98,7 +91,7 @@ export default class MyCart extends MyCartController {
                   <View style={styles.answerContainer}>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{`$ ${Number(getTotalPrice()).toFixed(2)}`}</Text>
+                      <Text style={styles.answer}>{`$ ${this.state.totalPrice.toFixed(2)}`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>

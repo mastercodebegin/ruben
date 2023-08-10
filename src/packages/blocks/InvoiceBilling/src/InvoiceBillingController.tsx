@@ -37,6 +37,7 @@ interface S {
   createdDate: string;
   billingAddress: any;
   shippingAddress: any;
+  pdfUrl: any;
   // Customizable Area End
 }
 
@@ -82,6 +83,7 @@ export default class InvoiceBillingController extends BlockComponent<
       shippingAddress: '',
       createdDate: '',
       subTotal:0,
+      pdfUrl:'',
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -189,6 +191,10 @@ export default class InvoiceBillingController extends BlockComponent<
 
   // Customizable Area Start
   async downloadInvoice(showAlert = false) {
+    if (this.state.pdfUrl !== '') {
+      this.setState({showModal:showAlert });
+      return;
+    }
     let url;
     try {
       this.setState({ showLoader: true });
@@ -199,7 +205,7 @@ export default class InvoiceBillingController extends BlockComponent<
     };
       url = await downloadFiles(
         `${baseURL}/bx_block_invoicebilling/invoices/download_invoice_pdf`,
-        `${new Date().getTime()}invoice.pdf`,
+        `invoice-${new Date().getTime()}.pdf`,
         "invoice",
         "application/pdf",
         "invoice",
@@ -207,7 +213,7 @@ export default class InvoiceBillingController extends BlockComponent<
         true,
         header
       )
-      this.setState({ showLoader: false,showModal:showAlert });
+      this.setState({ showLoader: false,showModal:showAlert,pdfUrl:url });
     } catch (e) {
       Alert.alert("Error", e?.message || 'Something went wrong',
         [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }]);

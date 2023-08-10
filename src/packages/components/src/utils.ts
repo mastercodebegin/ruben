@@ -21,14 +21,6 @@ export const downloadFiles = (
     RNFetchBlob.config({
       fileCache: true,
       path: filePath,
-      addAndroidDownloads: {
-        useDownloadManager,
-        notification,
-        title,
-        description: descriptionAndroid,
-        mime,
-        path: filePath,
-      },
     })
       .fetch("GET", url,header)
       .then(async (res) => {

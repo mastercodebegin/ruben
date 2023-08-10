@@ -24,6 +24,7 @@ interface S {
   show_modal:boolean;
   order_id: number | null;
   discountPrice: number;
+  totalPrice: number;
 }
 
 interface SS {
@@ -49,6 +50,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       show_modal:false,
       order_id: null,
       discountPrice: 0,
+      totalPrice: 0,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -164,7 +166,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
       this.setState({
         productsList:prodList?.attributes?.order_items?.data,
-        order_id:prodList?.id,showLoader:false
+        order_id: prodList?.id,
+        showLoader: false,
+        totalPrice:prodList?.attributes?.total_fees
       })
       } else {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });        
@@ -177,7 +181,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
     } else if(discoundCode?.promo_code) {
       this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount});
-      showToast('Discound code fetched successfully')
+      showToast('Discount code fetched successfully')
     }
   }
   onpressCancel() {
