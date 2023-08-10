@@ -12,6 +12,7 @@ import analytics from "@react-native-firebase/analytics";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
+import { store } from "../../../components/src/utils";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -194,6 +195,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log("list===>",list);
+
       if (error) {
         console.log("error===>",error);
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
@@ -307,9 +310,11 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
     }
+    let isUser = store.getState().currentUser === "user";
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      `${configJSON.getAnalytic}?category_id=${categoryId}`
+     // : `${configJSON.getAnalytic}?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
     );
 
     category.addData(
@@ -339,7 +344,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   handleDropdownChange = (item: any) => {
     this.setState({ category_id: item?.id });
     this.setState({ category_title: item?.attributes?.name });
-    this.getAnalyticData(this.state.category_id);
+    this.getAnalyticData(item.id);
     this.getDataOfCat(item);
   };
 
