@@ -226,11 +226,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         console.log('check list of data chart--->',list);
         let amount = list.tota_amount.toFixed(2);
         let numberOfSpend = list.no_of_spend.toFixed(2)
+        let numberOfSpendCount = list.no_of_spend_count.toFixed(2)
         this.setState({usedCuts: list.used_cuts});
         this.setState({remianingCuts: list.remaining_cuts});
         this.setState({totalCuts: list.total_cuts});
         this.setState({totaAmount: amount});
-        this.setState({numberOfSpendCount: list.no_of_spend_count});
+        this.setState({numberOfSpendCount: numberOfSpendCount});
         this.setState({numberOfSpend: numberOfSpend});  
       }
     }
