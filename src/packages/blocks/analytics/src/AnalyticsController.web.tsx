@@ -54,8 +54,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     // Customizable Area Start
     // Customizable Area End
     if (firebase.apps.length !== 0) {
-      const defaultAnalytics = firebase.app().analytics();
-      defaultAnalytics.logEvent("Analytics::Web::Load");
+      // const defaultAnalytics = firebase.app().analytics();
+      // defaultAnalytics.logEvent("Analytics::Web::Load");
     }
   }
 
@@ -83,8 +83,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   };
 
   async doButtonPressed() {
-    const defaultAnalytics = firebase.app().analytics();
-    defaultAnalytics.logEvent("Analytics::Web::button_clicked");
+    // const defaultAnalytics = firebase.app().analytics();
+    // defaultAnalytics.logEvent("Analytics::Web::button_clicked");
   }
 
   // Customizable Area Start
