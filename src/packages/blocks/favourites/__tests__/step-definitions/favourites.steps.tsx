@@ -10,10 +10,9 @@ import MessageEnum, { getName } from "../../../../framework/src/Messages/Message
 import React from "react";
 import Favourites from "../../src/Favourites"
 import AddFavourites from "../../src/AddFavourites"
-const navigation = require("react-navigation")
 
 const screenProps = {
-    navigation: navigation,
+    navigation: {navigate: jest.fn()},
     id: "Favourites"
 }
 
@@ -108,13 +107,19 @@ defineFeature(feature, (test) => {
             );
             closeFavouriteTouchablity.simulate("press");
 
-            // const addFavouriteTouchablity = FavouritesWrapper.find(
-            //     '[testID="btnAddFavouritesTxt"]'
-            // );
-            // addFavouriteTouchablity.simulate("press");
+            const addFavouriteTouchablity = FavouritesWrapper.find(
+                '[testID="btnAddFavouritesTxt"]'
+            );
+            addFavouriteTouchablity.simulate("press");
 
 
             expect(instance.state.isVisible).toBe(true);
+            instance.addFavourites()
+            instance.setType("");
+            expect(instance.state.favouriteType).toBe("");
+            instance.setID("1");
+            expect(instance.state.favouriteId).toBe(1);
+
         });
 
     });
