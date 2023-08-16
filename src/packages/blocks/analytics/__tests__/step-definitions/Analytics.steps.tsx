@@ -138,6 +138,8 @@ defineFeature(feature, (test) => {
       instance.handleDropdownChange({ item: { id: 1 } });
       expect(instance.state.category_id).toBe(instance.state.category_id);
 
+      instance.showAlert()
+      expect(instance.state.showLoader).toBe(true)
       const chartConfig = {
         backgroundGradientFrom: "white",
         // // decimalPlaces: 0,
