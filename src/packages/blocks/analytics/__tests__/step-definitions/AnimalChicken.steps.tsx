@@ -28,7 +28,7 @@ defineFeature(feature, (test) => {
         let instance:AnimalChicken; 
 
         given('I am a User loading chicken image', () => {
-            analyticsBlock = shallow(<AnimalChicken animalSelectedValue={"Chicken"} setState={undefined} state={undefined} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalChicken animalSelectedValue={"Chicken"} {...screenProps}/>)
         });
 
         when('I navigate to the Animal chicken', () => {

@@ -46,7 +46,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} {...screenProps} />);
         });
@@ -135,7 +136,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -178,7 +180,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const input = getByTestId('cardNameInput');
@@ -199,7 +202,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const input = getByTestId('cardNumber');
@@ -223,7 +227,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const input = getByTestId('cardExpiry');
@@ -252,7 +257,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const input = getByTestId('cardExpiry');
@@ -277,7 +283,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const input = getByTestId('cardCVV');
@@ -343,7 +350,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -397,7 +405,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const textComponent = renders.getByTestId('paymentDetails');
@@ -436,7 +445,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             const circle = require("./../../../StripeIntegration/assets/ic_check_circle_icon.png")
@@ -456,7 +466,8 @@ defineFeature(feature, (test) => {
                     discount: 0,
                     storageClass: "Basic",
                     orderId: 0,
-                    orderNumber: 0
+                    orderNumber: 0,
+                    email: ""
                 }
             }} />);
             if (instance.state.paymentAlerttype === "PaymentSuccess") {
@@ -496,7 +507,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -532,7 +544,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -568,7 +581,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -604,7 +618,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -640,7 +655,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -681,7 +697,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -721,7 +738,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -751,7 +769,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -793,7 +812,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -812,7 +832,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -844,7 +865,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -870,7 +892,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );
@@ -908,7 +931,8 @@ defineFeature(feature, (test) => {
                             discount: 0,
                             storageClass: "Basic",
                             orderId: 0,
-                            orderNumber: 0
+                            orderNumber: 0,
+                            email: ""
                         }
                     }} {...screenProps} />
             );

@@ -16,3 +16,11 @@ jest.mock("../../components/src/utils", () => ({
     },
   }));  
   jest.mock('react-native-chart-kit',()=>({BarChart:()=>(<></>)}))
+  jest.mock("@react-native-async-storage/async-storage", () => ({
+    getItem: jest.fn((key) => {
+      return new Promise((resolve) => {
+        resolve(JSON.stringify({ meta: { token: "rtretwftyweyfwtfeytwf" } }));
+      });
+    }),
+    setItem: jest.fn(),
+  }));

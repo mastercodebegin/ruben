@@ -151,25 +151,16 @@ export default class Analytics extends AnalyticsController {
                     </View>
                     {this.state.showCalendar && (
                       <TouchableWithoutFeedback>
-                        <View style={styles.calendarContainer}>
-                          <Calendar dateSelected={(data: string) => {
-                            let newDate = new Date(data);
-                            newDate.setDate(newDate.getDate() + 7);
-                            let momentObj = moment(newDate, 'MM-DD-YYYY');
-                            let date = momentObj.format("YYYY-MM-DD'T'HH:mm:ss.sssZ")
-                            console.log("checking end date-->",date)
-                            this.setState({ startDate: data })
-                            this.setState({ endDate: date })
-                            this.getAnalyticData(this.state.category_id)
-                            this.setState({showCalendar: false})
-                          }
-                          } />
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
+                      <View
+                        style={styles.calendarContainer}
+                        testID="calendarObject"
+                      >
+                        <Calendar dateSelected={this.handleDateSelected} />
+                      </View>
+                    </TouchableWithoutFeedback>
+                  )}
                   </View>
                 )}
-
                 <View style={styles.numberOfSent}>
                   <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
                   <View
@@ -187,7 +178,7 @@ export default class Analytics extends AnalyticsController {
                   </View>
                 </View>
                 <View style={styles.dropdownContainer} testID="dropdown-wrapper">
-                  <Dropdown
+                <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
@@ -196,12 +187,7 @@ export default class Analytics extends AnalyticsController {
                     data={this.state.categoryList}
                     maxHeight={400}
                     placeholder={this.state.category_title}
-                    onChange={(item: any) => {
-                      this.setState({ category_id: item?.id })
-                      this.setState({ category_title: item?.attributes?.name })
-                      this.getAnalyticData(this.state.category_id)
-                      this.getDataOfCat(item)
-                    }}
+                    onChange={this.handleDropdownChange}
                     renderItem={(item: any) => {
                       return (
                         <View>
@@ -214,13 +200,11 @@ export default class Analytics extends AnalyticsController {
                   // {...this.DropDownProps}
                   />
                 </View>
-
                 <View style={styles.animalImagContainer}>
-                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
-                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
-                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} setState={undefined} state={undefined} />
+                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
+                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
+                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
                 </View>
-
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Current Animal purchased</Text>
