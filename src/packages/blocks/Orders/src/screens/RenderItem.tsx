@@ -4,23 +4,7 @@ import { styles } from './MyOrdersScreen'
 import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/constants";
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
-
-
-const monthShortNames = [
-    
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-];
+import moment from 'moment';
 const RenderProducts = ({ item, index }: any) => {        
     return (
         <View key={index} style={rstyles.imageContainer}>
@@ -42,18 +26,41 @@ const RenderProducts = ({ item, index }: any) => {
     </View>
     )
 }
-
-
+const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
+    if (!(startDate && endDate)) {
+        return 0;
+    }
+    const currentDate = new Date();
+    if (endDate.getTime() <= currentDate.getTime() && startDate.getTime() <= currentDate.getTime()) {
+        return 100;
+    }
+    const findDateDifference = (startDate: Date, endDate: Date) => {
+        const timeDifferenceMillisecond = endDate.getTime() - startDate.getTime();
+        return (timeDifferenceMillisecond / (1000 * 60 * 60 * 24));
+    }
+    if (startDate.getTime() < endDate.getTime()) {
+        const totalDayDifference = findDateDifference(startDate, endDate);
+        const remainingDayDifference = findDateDifference(currentDate, endDate);
+        const passedDays = totalDayDifference - remainingDayDifference;
+        const percentage = Math.round(((passedDays / totalDayDifference) * 100));
+        if (typeof percentage === 'number') {
+            return percentage < 0 ? 0 : percentage;
+        }
+        return 0;
+        
+    }
+}
 const RenderItem = ({ item,cancelOrder }: any) => {      
     const onPressCancel = () => {
         Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>cancelOrder(item?.id)}])
     }
     const date = new Date(item?.attributes?.created_at);    
+    const deliveryDate = new Date(item?.attributes?.delivery_date);
     return (
         <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={rstyles.date}>
-                {`${monthShortNames[date.getMonth()]} ${date.getDate()}TH, ${date.getFullYear()}`}
+                {moment(date).format('MMM Do, YYYY')?.toUpperCase() || ''}
             </Text>
                 <TouchableOpacity onPress={onPressCancel}>
                     <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
@@ -70,11 +77,11 @@ const RenderItem = ({ item,cancelOrder }: any) => {
             <View style={rstyles.duration}>
                 <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
                 <Text style={rstyles.deliveryDate}>
-                    {`${monthShortNames[date.getMonth()]} ${date.getDate()}TH, ${date.getFullYear()}`}
+                    { moment(deliveryDate).format('MMM Do, YYYY')?.toUpperCase() || ''}
                 </Text>
             </View>
             <View style={rstyles.deliveryEstimater}>
-                <View style={rstyles.estimater} />
+                <View style={{...rstyles.estimater,width:`${getDeliveryPercentage(date,deliveryDate)}%`}} />
             </View>
         </View>
         </View>
@@ -89,7 +96,7 @@ const rstyles = StyleSheet.create({
     imageContainer: { flexDirection: 'row', width: '100%',paddingVertical:10 },
     price: { color: DARK_RED, fontSize: 16, fontWeight: 'bold' },
     inner: { flex: 1, paddingLeft: 10, justifyContent: 'space-between' },
-    estimater: { backgroundColor: DARK_RED, width: '50%', height: '100%' },
+    estimater: { backgroundColor: DARK_RED, width: '70%', height: '100%' },
     deliveryEstimater:{ height: 5, backgroundColor: LIGHT_GREY, width: '100%' }
 })
 export default RenderItem;

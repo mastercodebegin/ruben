@@ -497,6 +497,8 @@ export default class LandingPageController extends BlockComponent<
       else if (cartDetails?.data[0]?.attributes?.order_items?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
+      } else {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload:[] });
       }
     }
   }

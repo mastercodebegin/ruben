@@ -262,11 +262,16 @@ defineFeature(feature, (test) => {
       let buttonComponent = exampleBlockA.findWhere(
         (node) => node.prop("testID") === "download_invoice_id"
       );
-      expect(buttonComponent).toBeTruthy();
       waitFor(() => {
         buttonComponent.simulate("press");
       });
       expect(instance.state.showLoader).toBe(true);
+      instance.setState({ pdfUrl: 'file:///user/test/test.pdf' });
+      let shareBtn = exampleBlockA.findWhere(
+        (node) => node.prop("testID") === "share_invoice_id"
+      ); 
+      shareBtn.simulate('press')
+      buttonComponent.simulate("press");
       jest.runAllTimers();
     });
 

@@ -14,7 +14,7 @@ jest.mock('react-native-share',()=>({
 }))
 jest.mock('../../components/src/utils',()=>({
   downloadFiles: jest.fn(() => new Promise((res, rej) => {
-      rej({})
+    res('file:///user/test/test.pdf')
     }))
 }))
 jest.mock("@react-native-async-storage/async-storage", () => ({
