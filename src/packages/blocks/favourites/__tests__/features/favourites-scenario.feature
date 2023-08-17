@@ -31,4 +31,6 @@ Feature: favourites
         Given I am a user attempting to add a favourites
         When I am adding a favourites with title and content
         Then add favourites should succeed
+        Then add favourites action
+        Then add TextInput action
         And Rest Api will return success response

@@ -224,13 +224,15 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
       } else {
         console.log('check list of data chart--->',list);
-        
+        let amount = list.tota_amount.toFixed(2);
+        let numberOfSpend = list.no_of_spend.toFixed(2)
+        let numberOfSpendCount = list.no_of_spend_count.toFixed(2)
         this.setState({usedCuts: list.used_cuts});
         this.setState({remianingCuts: list.remaining_cuts});
         this.setState({totalCuts: list.total_cuts});
-        this.setState({totaAmount: list.tota_amount});
-        this.setState({numberOfSpendCount: list.no_of_spend_count});
-        this.setState({numberOfSpend: list.no_of_spend});  
+        this.setState({totaAmount: amount});
+        this.setState({numberOfSpendCount: numberOfSpendCount});
+        this.setState({numberOfSpend: numberOfSpend});  
       }
     }
 
@@ -299,7 +301,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       startDate = startDateString
     } else {
       let momentObj = moment(startDate, "YYYY-MM-DD");
-      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      let startDateString = moment(momentObj).format("YYYY-MM-DD");
       startDate = startDateString
       console.log("cehcking start-->",startDate)
     }
@@ -307,7 +309,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     if (!endDate) {
       let date = new Date();
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
-      let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      let endDateString = moment(momentObj).format("YYYY-MM-DD");
       endDate = endDateString
     }
     let params: string;
