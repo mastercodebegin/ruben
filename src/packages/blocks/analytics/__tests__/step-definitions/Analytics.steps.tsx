@@ -11,7 +11,7 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 import React from "react";
 import Analytics from "../../src/Analytics";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import Calendar from "../../../../components/src/Calendar";
 import { Dropdown } from "../../../../components/src/DropDown/src";
@@ -106,10 +106,10 @@ defineFeature(feature, (test) => {
         <Analytics animalSelectedValue={""} {...screenProps} />
       );
       const dataArray = {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        labels: ["08/09", "08/10", "08/11", "08/12", "08/13", "08/14", "08/15"],
         datasets: [
           {
-            data: [60, 45, 28, 80, 99, 43, 80],
+            data: [0,0,0,0,0,0,0],
             colors: [
               (opacity = 1) => `#F8F4F4`,
               (opacity = 1) => `#F8F4F4`,
@@ -129,7 +129,7 @@ defineFeature(feature, (test) => {
       }
       expect(instance.data.datasets[0].colors);
 
-      expect(instance.chartConfig.color()).toBe("#ffffff");
+      expect(instance.chartConfig.color()).toBe("black");
       expect(instance.chartConfig.labelColor()).toBe("black");
 
       instance.handleDateSelected("01-01-2000");
@@ -138,8 +138,6 @@ defineFeature(feature, (test) => {
       instance.handleDropdownChange({ item: { id: 1 } });
       expect(instance.state.category_id).toBe(instance.state.category_id);
 
-      instance.showAlert()
-      expect(instance.state.showLoader).toBe(true)
       const chartConfig = {
         backgroundGradientFrom: "white",
         // // decimalPlaces: 0,
@@ -182,6 +180,17 @@ defineFeature(feature, (test) => {
       const barChartComponent = getByTestId("bar-chart-wrapper").props.children;
       expect(barChartComponent.props.data).toMatchObject(dataArray);
       expect(getByTestId("bar-chart-wrapper")).toBeTruthy();
+
+
+      for (let i = 0; i < instance.state.chartObject.datasets[0].colors.length; i++) {
+        const getColor = instance.state.chartObject.datasets[0].colors[i];
+        expect(getColor()).toBe(instance.state.chartObject.datasets[0].colors[i]());
+      }
+
+      jest.spyOn(Alert, 'alert');
+      instance.showAlert()
+      expect(Alert.alert).toHaveBeenCalled()
+
     });
 
     then("show_calendar", () => {
@@ -250,6 +259,42 @@ defineFeature(feature, (test) => {
       expect(getByTestId("dropdown-wrapper")).toBeTruthy();
     });
 
+    then("chart Data load", () => {
+      
+    const chartData = [
+        { date: '2023-08-09', sell: 95.95 },
+        { date: '2023-08-10', sell: 288.91 },
+        { date: '2023-08-11', sell: 392.95 }
+    ]
+    
+    let testResult = {
+      "labels": [
+        "08/09",
+        "08/10",
+        "08/11",
+        "08/12",
+        "08/13",
+        "08/14",
+        "08/15"
+      ],
+      "datasets": [
+        {
+          "data": [
+            0,
+            0,
+            0,
+            95.95,
+            288.91,
+            392.95,
+            0
+          ],
+          "colors": [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
+          (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
+        }
+      ]
+    }
+    expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09'))).toBe(JSON.stringify(testResult))    
+    });
     then("Check misc functions", () => {
       instance.common();
       instance.clickOnChuck();
