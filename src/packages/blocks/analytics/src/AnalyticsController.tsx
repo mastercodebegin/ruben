@@ -254,50 +254,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     // Customizable Area End
   }
 
-  convertToChartFormat = (chartData: any[], startDate: string) => {
-    const data = [0, 0, 0, 0, 0, 0, 0];
-    const labels = ["", "", "", "", "", "", ""];
-    const colors = [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
-    (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
-    
-    let maxSell = 0;
-    let maxSellIdx = 0;
-    const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    chartData.forEach(item => {
-        const date = new Date(item.date)
-        const day = date.getDay();
-        data[day] = item.sell;
-        
-        if((parseFloat(item.sell)) > maxSell) {
-            maxSell = parseFloat(item.sell);
-            maxSellIdx = day;
-        }
-    })
-    
-    colors[maxSellIdx] = (opacity = 1) => `#5C2221`;
-    
-    const date = new Date(startDate);
-    for(let i = 0; i < 7; i++) {
-        labels[i] = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
-        date.setDate(date.getDate() + 1);
-    }
-    
-    const datasets = [
-        {
-            data,
-            colors
-        }
-    ]
-    
-    console.log("checking lables", labels);
-    console.log("checking, dataset", datasets);
-    return {
-        labels,
-        datasets
-    };
-}
-  
-
   btnExampleProps = {
     onPress: () => this.doButtonPressed()
   };
@@ -372,7 +328,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
       this.setState({endDate: endDate})
-
     }
     let params: string;
     if (store.getState().currentUser === "user") {
@@ -415,6 +370,49 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.getAnalyticData(this.state.category_id);
     this.getDataOfCat(item);
   };
+
+  convertToChartFormat = (chartData: any[], startDate: string) => {
+    const data = [0, 0, 0, 0, 0, 0, 0];
+    const labels = ["", "", "", "", "", "", ""];
+    const colors = [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
+    (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
+    
+    let maxSell = 0;
+    let maxSellIdx = 0;
+    const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    chartData.forEach(item => {
+        const date = new Date(item.date)
+        const day = date.getDay();
+        data[day] = item.sell;
+        
+        if((parseFloat(item.sell)) > maxSell) {
+            maxSell = parseFloat(item.sell);
+            maxSellIdx = day;
+        }
+    })
+    
+    colors[maxSellIdx] = (opacity = 1) => `#5C2221`;
+    
+    const date = new Date(startDate);
+    for(let i = 0; i < 7; i++) {
+        labels[i] = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+        date.setDate(date.getDate() + 1);
+    }
+    
+    const datasets = [
+        {
+            data,
+            colors
+        }
+    ]
+    
+    console.log("checking lables", labels);
+    console.log("checking, dataset", datasets);
+    return {
+        labels,
+        datasets
+    };
+}
 
   common() {
     this.setState({
