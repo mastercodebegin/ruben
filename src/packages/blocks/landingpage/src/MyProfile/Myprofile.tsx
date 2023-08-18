@@ -142,8 +142,29 @@ export default class Myprofile extends LandingPageController {
   }
   getImage() {
     return this.state.profileImage?.path
-                          ? this.state.profileImage?.path
+                          ? this.state.profileImage.path
                           : this.state.profileImage
+  }
+  renderProfileImage() {
+    return (
+    <>
+      {this.state.profileImage != "" ? (
+        <Image
+          style={styles.profileImage}
+          testID="updated_profile_id"
+          source={{
+            uri: this.getImage(),
+          }}
+        />
+        ) : <></>}
+        </>
+    )
+  }
+  onPressMyFav() {
+    this.setState({ selectedTab: "MyFavoritesScreen" })
+    if (this.state.showFavoriteList.length) {
+      this.flatlistRef.current?.scrollToIndex({ index: 0,animated:false })
+    }
   }
 
   render() {
@@ -186,15 +207,7 @@ export default class Myprofile extends LandingPageController {
                   onPress={() => this.setState({ showProfileModal: true })}
                   style={styles.profile}
                 >
-                  {this.state.profileImage != "" && (
-                    <Image
-                      style={styles.profileImage}
-                      testID="updated_profile_id"
-                      source={{
-                        uri: this.getImage(),
-                      }}
-                    />
-                  )}
+                  {this.renderProfileImage()}
                   <Text style={styles.name}>{this.state.name}</Text>
                   <View style={styles.iconContainer}>
                     <TouchableOpacity
@@ -254,13 +267,7 @@ export default class Myprofile extends LandingPageController {
             >
               <TouchableOpacity
                 testID="go_to_favorites_id"
-                onPress={() => {
-                  this.setState({ selectedTab: "MyFavoritesScreen" })
-                  if (this.state.showFavoriteList.length) {
-                    this.flatlistRef.current?.scrollToIndex({ index: 0,animated:false })
-                  }
-                }
-                }
+                onPress={this.onPressMyFav.bind(this)}
               >
                 <Text
                   style={[

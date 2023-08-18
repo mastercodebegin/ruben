@@ -207,8 +207,9 @@ defineFeature(feature, (test) => {
           });
         }
       );
+      instance.getImage();
       instance.setState(
-        { selectedTab: "recommendations", showFavoriteList: [{}] },
+        { selectedTab: "recommendations", showFavoriteList: [{}] ,profileImage:null},
         () => {
           const propsList = [
             {},
@@ -244,6 +245,10 @@ defineFeature(feature, (test) => {
         '[testID="removeFavList"]'
       );
       instance.removeFavListProduct(item);
+      instance.getImage()
+      instance.setState({ profileImage: { path: 'image' } })
+      instance.getImage();
+      expect(instance.getImage()).toBe('image')
       // touchableOpacity.simulate("press");
       expect(touchableOpacity).toBeTruthy();
     });
