@@ -82,6 +82,12 @@ defineFeature(feature, (test) => {
             
             expect(result2).toBe(0.0)
 
+          
+            const textTemp = '0123';
+            
+            instance.handleExpirtyMorethan3(textTemp, "2025");
+            
+            expect(instance.handleExpirtyMorethan3(textTemp, "2025")).toBeTruthy;
           });
         then("Receive function works properly", () => {
             const successMessage = {
