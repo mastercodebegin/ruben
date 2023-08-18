@@ -119,9 +119,6 @@ export default class StripeIntegration extends StripeIntegrationController {
   }
 
   handleCVVTextInput = (text: string) => {
-    if (text === undefined) {
-      return;
-    }
     this.setState({ cvv: text });
   };
   handleContinueButton = () => {
@@ -154,10 +151,10 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
   }
 
+   handleOkPress = () => this.props.navigation.goBack();
    handleCancelPress = () => {
-    const handleOkPress = () => this.props.navigation.goBack();
     Alert.alert("Alert", "Are you sure to cancel", [
-      { text: "OK", onPress: handleOkPress },
+      { text: "OK", onPress: this.handleOkPress },
       { text: "CANCEL" },
     ]);
   };

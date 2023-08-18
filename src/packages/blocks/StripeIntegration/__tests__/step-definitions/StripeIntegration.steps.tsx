@@ -12,10 +12,12 @@ import PaymentCustomeAlert from "../../src/PaymentCustomeAlert";
 import DoubleButton from "../../../../components/src/DoubleButton";
 import { State } from "react-native-gesture-handler";
 import { flattenProp } from "recompose";
+import { Alert } from "react-native";
 const navigation = require("react-navigation")
 const screenProps = {
     navigation: navigation,
     id: "StripeIntegration",
+    goBack: jest.fn(),
     fetch: jest.fn()
 }
 
@@ -59,6 +61,28 @@ defineFeature(feature, (test) => {
         then('StripeIntegration will load with out errors', () => {
             expect(exampleBlockA).toBeTruthy();
         });
+        then('should return 3.99 for storageClass Gold', () => {
+            const mockParams = { storageClass: "Gold" };
+            const mockRoute = { params: mockParams };
+            const mockProps = { route: mockRoute };
+            
+            instance = exampleBlockA.instance() as StripeIntegration
+            instance.props.route.params.storageClass = "Gold"
+            const result = instance.getMeatStorage();
+            
+            expect(result).toBe(3.99)
+
+            instance.props.route.params.storageClass = "Platinum"
+            const result1 = instance.getMeatStorage();
+            
+            expect(result1).toBe(9.99)
+
+            instance.props.route.params.storageClass = "Basic"
+            const result2 = instance.getMeatStorage();
+            
+            expect(result2).toBe(0.0)
+
+          });
         then("Receive function works properly", () => {
             const successMessage = {
               id: getName(MessageEnum.RestAPIResponceMessage),
