@@ -59,6 +59,63 @@ defineFeature(feature, (test) => {
         then('StripeIntegration will load with out errors', () => {
             expect(exampleBlockA).toBeTruthy();
         });
+        then("Receive function works properly", () => {
+            const successMessage = {
+              id: getName(MessageEnum.RestAPIResponceMessage),
+              properties: {
+                RestAPIResponceDataMessage: "c2d357a3-3706-418f-8190-19cdbd987109",
+                RestAPIResponceErrorMessage: "",
+              },
+              messageId: "1",
+              addData: jest.fn(),
+              getData: (type: string) => {
+                if (type === getName(MessageEnum.RestAPIResponceDataMessage)) {
+                  return "1";
+                } else if (
+                  type === getName(MessageEnum.RestAPIResponceSuccessMessage)
+                ) {
+                  return {};
+                } else {
+                  return "";
+                }
+              },
+              initializeFromObject: jest.fn(),
+              copyAllPropertiesOf: jest.fn(),
+            };
+      
+            const errorMessage = {
+              id: getName(MessageEnum.RestAPIResponceMessage),
+              properties: {
+                RestAPIResponceDataMessage: "c2d357a3-3706-418f-8190-19cdbd987109",
+                RestAPIResponceErrorMessage: "Some error",
+              },
+              messageId: "1",
+              addData: jest.fn(),
+              getData: (type: string) => {
+                if (type === getName(MessageEnum.RestAPIResponceDataMessage)) {
+                  return "1";
+                } else if (
+                  type === getName(MessageEnum.RestAPIResponceSuccessMessage)
+                ) {
+                  return {};
+                } else {
+                  return "Some error";
+                }
+              },
+              initializeFromObject: jest.fn(),
+              copyAllPropertiesOf: jest.fn(),
+            };
+      
+            instance.paymentId = "1";
+            instance.receive("", successMessage);
+            instance.receive("", errorMessage);
+      
+            instance.paymentId = "";
+            instance.codId = "1";
+            instance.receive("", successMessage);
+            instance.receive("", errorMessage);
+
+          });
         then("paymentMethod api", () => {
             let paymentparam = {
                 "order_id": "123",

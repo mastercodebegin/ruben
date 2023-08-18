@@ -4,6 +4,7 @@ Feature: StripeIntegration
         Given I am a User loading StripeIntegration
         When I navigate to the StripeIntegration
         Then StripeIntegration will load with out errors
+        Then Receive function works properly
         Then paymentMethod api
         Then codMethod api
         Then I can select the button with with out errors
