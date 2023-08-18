@@ -144,6 +144,16 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     }
   }
+   getMeatStorage = ()=>{
+    if (this.props.route.params.storageClass === "Gold") {
+      return 3.99
+    } else if (this.props.route.params.storageClass === "Platinum") {
+      return 9.99
+    } else {
+      return 0.0
+    }
+  }
+
    handleCancelPress = () => {
     const handleOkPress = () => this.props.navigation.goBack();
     Alert.alert("Alert", "Are you sure to cancel", [
@@ -319,15 +329,15 @@ export default class StripeIntegration extends StripeIntegrationController {
                 </View>
                 {this.props.route.params.storageClass !== "Basic" && (
                   <View style={styles.row}>
-                    <Text style={styles.paymentText}>{"Meat Storage(Gold)"}</Text>
-                    <Text style={styles.answer}>{"$4.99"}</Text>
+                    <Text style={styles.paymentText}>{`Meat Storage(${this.props.route.params.storageClass})`}</Text>
+                    <Text style={styles.answer}>{this.props.route.params.storageClass === "Gold" ? "$3.99" : "$9.99"}</Text>
                   </View>
                 )}
               </View>
               <View style={styles.seperatorPayment} />
               <View style={[styles.row, { paddingHorizontal: 20 }]}>
                 <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping).toFixed(2)}`}</Text>
+                <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping + this.getMeatStorage()).toFixed(2)}`}</Text>
               </View>
             </View>
             <View style={styles.containerStyle} testID="doubleButton">
