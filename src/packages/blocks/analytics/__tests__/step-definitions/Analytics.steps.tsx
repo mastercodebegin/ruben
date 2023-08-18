@@ -15,6 +15,9 @@ import { View, Text, Alert } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import Calendar from "../../../../components/src/Calendar";
 import { Dropdown } from "../../../../components/src/DropDown/src";
+import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { store } from "../../../../components/src/utils";
 const navigation = require("react-navigation");
 
 const screenProps = {
@@ -84,9 +87,40 @@ defineFeature(feature, (test) => {
       instance.myCreditCallId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test Api", msgValidationAPI);
     });
-    then("Analytics will load with out errors", () => {
-      expect(analyticsBlock).toBeTruthy();
+    then("Analytics will load with out errors", async () => {
 
+      // Mock AsyncStorage.getItem and JSON.parse
+      const mockedAsyncStorageGetItem = jest.spyOn(AsyncStorage, 'getItem').mockResolvedValue('{"meta": {"token": "mockedToken"}}');
+      const mockedJSONParse = jest.spyOn(JSON, 'parse').mockReturnValue({ meta: { token: 'mockedToken' } });
+
+      // Mock the moment library
+      jest.mock('moment', () => () => ({
+        format: () => 'mockedFormattedDate'
+      }));
+
+      // Mock store.getState
+      const mockedStoreGetState = jest.spyOn(store, 'getState').mockReturnValue({
+        currentUser: "user",
+        profileDetails: null,
+        cartDetails: []
+      });
+
+      // Mock setState
+      const mockedSetState = jest.spyOn(instance, 'setState');
+
+      // Mock runEngine.sendMessage
+      const mockedSendMessage = jest.spyOn(runEngine, 'sendMessage');
+
+      // Call the function
+      await instance.getAnalyticData(123);
+
+      // Assertions
+      expect(mockedAsyncStorageGetItem).toHaveBeenCalledWith("userDetails");
+      expect(mockedJSONParse).toHaveBeenCalledWith('{"meta": {"token": "mockedToken"}}');
+      expect(mockedStoreGetState).toHaveBeenCalled();
+      // expect(mockedSetState).toHaveBeenCalledWith({ showLoader: true, startDate: 'mockedFormattedDate' });
+      // expect(mockedSendMessage).toHaveBeenCalledWith(expect.any(Number), expect.any(Object));
+      expect(analyticsBlock).toBeTruthy();
       expect(instance.numberWithCommas("45687")).toBe("45687".toLocaleString());
     });
 
@@ -109,7 +143,7 @@ defineFeature(feature, (test) => {
         labels: ["08/09", "08/10", "08/11", "08/12", "08/13", "08/14", "08/15"],
         datasets: [
           {
-            data: [0,0,0,0,0,0,0],
+            data: [0, 0, 0, 0, 0, 0, 0],
             colors: [
               (opacity = 1) => `#F8F4F4`,
               (opacity = 1) => `#F8F4F4`,
@@ -247,7 +281,7 @@ defineFeature(feature, (test) => {
             data={animalList}
             maxHeight={400}
             placeholder="Cow"
-            onChange={(item: any) => {}}
+            onChange={(item: any) => { }}
             renderItem={(item: any) => {
               return (
                 <View>
@@ -263,41 +297,41 @@ defineFeature(feature, (test) => {
     });
 
     then("chart Data load", () => {
-      
-    const chartData = [
+
+      const chartData = [
         { date: '2023-08-09', sell: 95.95 },
         { date: '2023-08-10', sell: 288.91 },
         { date: '2023-08-11', sell: 392.95 }
-    ]
-    
-    let testResult = {
-      "labels": [
-        "08/09",
-        "08/10",
-        "08/11",
-        "08/12",
-        "08/13",
-        "08/14",
-        "08/15"
-      ],
-      "datasets": [
-        {
-          "data": [
-            0,
-            0,
-            0,
-            95.95,
-            288.91,
-            392.95,
-            0
-          ],
-          "colors": [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
-        }
       ]
-    }
-    expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09').datasets[0].colors)).toBe(JSON.stringify(testResult.datasets[0].colors))    
-    expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09'))).toBe(JSON.stringify(testResult))    
+
+      let testResult = {
+        "labels": [
+          "08/09",
+          "08/10",
+          "08/11",
+          "08/12",
+          "08/13",
+          "08/14",
+          "08/15"
+        ],
+        "datasets": [
+          {
+            "data": [
+              0,
+              0,
+              0,
+              95.95,
+              288.91,
+              392.95,
+              0
+            ],
+            "colors": [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
+            (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
+          }
+        ]
+      }
+      expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09').datasets[0].colors)).toBe(JSON.stringify(testResult.datasets[0].colors))
+      expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09'))).toBe(JSON.stringify(testResult))
     });
     then("Check misc functions", () => {
       instance.common();
