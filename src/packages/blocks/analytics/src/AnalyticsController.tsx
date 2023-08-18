@@ -42,31 +42,31 @@ interface S {
   showCalendar: boolean;
   selectedDate: string;
   markedDates: any;
-  showAnimalList:boolean;
+  showAnimalList: boolean;
   animalList: Array<object>;
   category_id: number;
   category_title: string;
   showLoader: boolean;
-  categoryList:Array<object>;
-  animalSelectedValue:string;
-  chicken_Defult:boolean;
-  chicken_Breast:boolean;
-  chicken_leg:boolean;
-  chicken_Neck:boolean;
-  chicken_Back:boolean;
-  chicken_Wing:boolean;
-  chicken_Thigh:boolean;
-  pig:boolean;
-  pigHead:boolean;
-  pigJowl:boolean;
-  pigNeck:boolean;
-  pigShoulder:boolean;
-  pigPicnic:boolean;
-  pigHock:boolean;
-  pigBacon:boolean;
-  pigLegham:boolean;
-  pigRibs:boolean;
-  pigLoin:boolean;
+  categoryList: Array<object>;
+  animalSelectedValue: string;
+  chicken_Defult: boolean;
+  chicken_Breast: boolean;
+  chicken_leg: boolean;
+  chicken_Neck: boolean;
+  chicken_Back: boolean;
+  chicken_Wing: boolean;
+  chicken_Thigh: boolean;
+  pig: boolean;
+  pigHead: boolean;
+  pigJowl: boolean;
+  pigNeck: boolean;
+  pigShoulder: boolean;
+  pigPicnic: boolean;
+  pigHock: boolean;
+  pigBacon: boolean;
+  pigLegham: boolean;
+  pigRibs: boolean;
+  pigLoin: boolean;
   totalCuts: number;
   usedCuts: number;
   remianingCuts: number;
@@ -75,7 +75,8 @@ interface S {
   numberOfSpend: number;
   startDate: string;
   endDate: string;
-  chartArray:Array<object>;
+  chartArray: Array<object>;
+  chartObject: any;
   // Customizable Area End
 }
 
@@ -87,10 +88,10 @@ interface SS {
 
 export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   // Customizable Area Start
-  categoaryCallId:string ='';
-  myCreditCallId:string='';
-  showAlert(){
-    Alert.alert('Alert',"something went wrong please try again",[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+  categoaryCallId: string = '';
+  myCreditCallId: string = '';
+  showAlert() {
+    Alert.alert('Alert', "something went wrong please try again", [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }])
   }
   // Customizable Area End
 
@@ -129,14 +130,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       showLoader: false,
       category_id: 0,
       category_title: "",
-      categoryList:[],
+      categoryList: [],
       chartArray: [],
       numberOfSpend: 0,
-      numberOfSpendCount:  0,
+      numberOfSpendCount: 0,
       usedCuts: 0,
       totaAmount: 0,
       totalCuts: 0,
-      remianingCuts:0,
+      remianingCuts: 0,
       animalList: [{
         title: 'Cow',
         id: 0
@@ -153,15 +154,15 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         title: 'Dog',
         id: 3,
       },],
-      animalSelectedValue:'',
-      chicken_Defult:true,
-      chicken_Breast:false,
-      chicken_Back:false,
-      chicken_leg:false,
-      chicken_Neck:false,
-      chicken_Thigh:false,
+      animalSelectedValue: '',
+      chicken_Defult: true,
+      chicken_Breast: false,
+      chicken_Back: false,
+      chicken_leg: false,
+      chicken_Neck: false,
+      chicken_Thigh: false,
       chicken_Wing: false,
-      pig:true,
+      pig: true,
       pigHead: false,
       pigJowl: false,
       pigNeck: false,
@@ -172,6 +173,21 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigLegham: false,
       pigRibs: false,
       pigLoin: false,
+      chartObject: {
+        labels: ['08/09', '08/10', '08/11', '08/12', '08/13', '08/14', '08/15'],
+        datasets: [
+          { data: [ 0, 0, 0, 0, 0, 0, 0 ],
+            colors: [
+              (opacity = 1) => `#F8F4F4`,
+              (opacity = 1) => `#F8F4F4`,
+              (opacity = 1) => `#F8F4F4`,
+              (opacity = 1) => `#F8F4F4`,
+              (opacity = 1) => `#5C2221`,
+              (opacity = 1) => `#F8F4F4`,
+              (opacity = 1) => `#F8F4F4`]
+          }
+        ]
+      },
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -187,7 +203,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.categoaryCallId != null &&
       this.categoaryCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let list = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -195,23 +211,19 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log("list===>",list);
-
       if (error) {
-        console.log("error===>",error);
-        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+        Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
       } else {
-        this.setState({categoryList: list.data});
-        this.setState({category_id: list.data[0]?.id})
-        this.setState({category_title: list.data[0]?.attributes?.name})
-        this.getAnalyticData(list.data[0]?.id)  
-        //showToast('success')
+        this.setState({ categoryList: list.data });
+        this.setState({ category_id: list.data[0]?.id })
+        this.setState({ category_title: list.data[0]?.attributes?.name })
+        this.getAnalyticData(list.data[0]?.id)
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.myCreditCallId != null &&
       this.myCreditCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let list = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
@@ -220,19 +232,19 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        console.log("error===>",error);
-        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+        console.log("error===>", error);
+        Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
       } else {
-        console.log('check list of data chart--->',list);
+       this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
         let amount = list.tota_amount.toFixed(2);
         let numberOfSpend = list.no_of_spend.toFixed(2)
         let numberOfSpendCount = list.no_of_spend_count.toFixed(2)
-        this.setState({usedCuts: list.used_cuts});
-        this.setState({remianingCuts: list.remaining_cuts});
-        this.setState({totalCuts: list.total_cuts});
-        this.setState({totaAmount: amount});
-        this.setState({numberOfSpendCount: numberOfSpendCount});
-        this.setState({numberOfSpend: numberOfSpend});  
+        this.setState({ usedCuts: list.used_cuts });
+        this.setState({ remianingCuts: list.remaining_cuts });
+        this.setState({ totalCuts: list.total_cuts });
+        this.setState({ totaAmount: amount });
+        this.setState({ numberOfSpendCount: numberOfSpendCount });
+        this.setState({ numberOfSpend: numberOfSpend });
       }
     }
 
@@ -278,7 +290,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
     );
-    runEngine.sendMessage(category.id, category);    
+    runEngine.sendMessage(category.id, category);
   }
 
   async getAnalyticData(categoryId: number) {
@@ -297,30 +309,32 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let date = new Date();
       date.setDate(date.getDate() - 7);
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
-      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
-      startDate = startDateString
-    } else {
-      let momentObj = moment(startDate, "YYYY-MM-DD");
       let startDateString = moment(momentObj).format("YYYY-MM-DD");
       startDate = startDateString
-      console.log("cehcking start-->",startDate)
+      this.setState({startDate: startDate})
+    } else {
+      let momentObj = moment(startDate, "YYYY-MM-DD");
+      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+      startDate = startDateString
+      console.log("cehcking start-->", startDate)
     }
     let endDate = this.state.endDate
     if (!endDate) {
       let date = new Date();
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
-      let endDateString = moment(momentObj).format("YYYY-MM-DD");
+      let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
+      this.setState({endDate: endDate})
     }
     let params: string;
     if (store.getState().currentUser === "user") {
-        params = `?category_id=${categoryId}`
+      params = `?category_id=${categoryId}`
     } else {
-        params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
     }
     category.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}${params}`
+      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
     );
 
     category.addData(
@@ -332,7 +346,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
     );
-    runEngine.sendMessage(category.id, category);    
+    runEngine.sendMessage(category.id, category);
   }
 
   handleDateSelected = (data: string) => {
@@ -350,9 +364,51 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   handleDropdownChange = (item: any) => {
     this.setState({ category_id: item?.id });
     this.setState({ category_title: item?.attributes?.name });
-    this.getAnalyticData(item.id);
+    this.getAnalyticData(this.state.category_id);
     this.getDataOfCat(item);
   };
+
+  convertToChartFormat = (chartData: any[], startDate: string) => {
+    const data = [0, 0, 0, 0, 0, 0, 0];
+    const labels = ["", "", "", "", "", "", ""];
+    const colors = [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
+    (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
+    
+    let maxSell = 0;
+    let maxSellIdx = 0;
+    chartData.forEach(item => {
+        const date = new Date(item.date)
+        const day = date.getDay();
+        data[day] = item.sell;
+        
+        if((parseFloat(item.sell)) > maxSell) {
+            maxSell = parseFloat(item.sell);
+            maxSellIdx = day;
+        }
+    })
+    
+    colors[maxSellIdx] = (opacity = 1) => `#5C2221`;
+    
+    const date = new Date(startDate);
+    for(let i = 0; i < 7; i++) {
+        labels[i] = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+        date.setDate(date.getDate() + 1);
+    }
+    
+    const datasets = [
+        {
+            data,
+            colors
+        }
+    ]
+    
+    console.log("checking lables", labels);
+    console.log("checking, dataset", datasets);
+    return {
+        labels,
+        datasets
+    };
+}
 
   common() {
     this.setState({

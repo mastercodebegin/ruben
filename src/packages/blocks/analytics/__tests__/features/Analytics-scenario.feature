@@ -10,4 +10,5 @@ Feature: Analytics
         Then show_calendar
         Then load calendar
         Then load dropdown
+        Then chart Data load
         Then Check misc functions
