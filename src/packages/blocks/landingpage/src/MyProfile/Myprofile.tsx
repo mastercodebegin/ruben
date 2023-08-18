@@ -96,9 +96,7 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params={}) {
     this.props.navigation.navigate("ProductDetailScreen",params)
   }
-  renderItem({ item }: any) {
-     console.log('hghdgdhg',item);
-     
+  renderItem({ item }: any) {     
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name:item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
@@ -137,10 +135,18 @@ export default class Myprofile extends LandingPageController {
       {...props}
     />
   );
-}
+  }
+  getList(){
+    const productsList = this.state.selectedTab === 'MyFavoritesScreen' ? this.state.showFavoriteList : this.state.productList.slice(0, 5);
+    return productsList;
+  }
+  getImage() {
+    return this.state.profileImage?.path
+                          ? this.state.profileImage?.path
+                          : this.state.profileImage
+  }
 
   render() {
-    const productsList = this.state.selectedTab === 'MyFavoritesScreen' ? this.state.showFavoriteList : this.state.productList.slice(0, 5);
     
     return (
       <SafeAreaView style={styles.main}>
@@ -185,9 +191,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.profileImage}
                       testID="updated_profile_id"
                       source={{
-                        uri: this.state.profileImage?.path
-                          ? this.state.profileImage?.path
-                          : this.state.profileImage,
+                        uri: this.getImage(),
                       }}
                     />
                   )}
@@ -330,10 +334,10 @@ export default class Myprofile extends LandingPageController {
               </View>
             ) : (
               <>
-                  {(productsList?.length && (this.state.selectedTab === 'MyFavoritesScreen' || this.state.selectedTab === 'Recomendations')) ?
+                  {(this.getList()?.length && (this.state.selectedTab === 'MyFavoritesScreen' || this.state.selectedTab === 'Recomendations')) ?
                     (<>
                       <FlatList
-                  data={productsList}
+                  data={this.getList()}
                       horizontal
                       testID="favorites_list_id"
                   ref={this.flatlistRef}

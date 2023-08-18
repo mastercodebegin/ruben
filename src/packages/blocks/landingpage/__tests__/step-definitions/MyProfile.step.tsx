@@ -238,6 +238,7 @@ defineFeature(feature, (test) => {
           });
         }
       );
+      instance.navigateToDetailsPage();
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'
