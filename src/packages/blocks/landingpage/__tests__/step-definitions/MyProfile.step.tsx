@@ -247,6 +247,7 @@ defineFeature(feature, (test) => {
       instance.removeFavListProduct(item);
       instance.getImage()
       instance.setState({ profileImage: { path: 'image' } })
+      instance.showButton()
       instance.getImage();
       expect(instance.getImage()).toBe('image')
       // touchableOpacity.simulate("press");

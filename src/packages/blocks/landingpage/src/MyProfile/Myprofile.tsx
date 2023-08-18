@@ -85,11 +85,11 @@ export default class Myprofile extends LandingPageController {
     }
   };
    showButton () {
-    if (this.state.selectedTab === 'MyFavoritesScreen') {
-      return this.state.showFavoriteList?.length !== 0;
+    if (this.state.selectedTab === 'MyFavoritesScreen' && Array.isArray(this.state.showFavoriteList)) {
+      return this.state.showFavoriteList.length !== 0;
     }
-     if (this.state.selectedTab === 'Recomendations') {
-       return this.state.productList?.length !== 0;
+     if (this.state.selectedTab === 'Recomendations'&& Array.isArray(this.state.productList)) {
+       return this.state.productList.length !== 0;
      }
      return true;
    }
