@@ -154,6 +154,8 @@ defineFeature(feature, (test) => {
         '[testID="go_to_recomendations_id"]'
       );
       touchableOpacity.simulate("press");
+      instance.setState({ showFavoriteList: [{}] ,productList:[{}]})
+      touchableOpacity.simulate("press");
       expect(instance.state.selectedTab).toBe("Recomendations");
     });
 
@@ -163,6 +165,10 @@ defineFeature(feature, (test) => {
         const touchableOpacity = landingPageBlock.find(
           '[testID="go_to_favorites_id"]'
         );
+        landingPageBlock.find(
+          '[testID="favorites_list_id"]'
+        ).render();
+        
         touchableOpacity.simulate("press");
         expect(instance.state.selectedTab).toBe("MyFavoritesScreen");
       }
