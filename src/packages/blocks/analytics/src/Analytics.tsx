@@ -33,6 +33,7 @@ export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    this.setState({chartObject: this.convertToChartFormat([],"2023-08-09")}) 
     // Customizable Area End
   }
 
@@ -47,10 +48,9 @@ export default class Analytics extends AnalyticsController {
   isUser = store.getState().currentUser === "user";
   navigation = this.props.navigation;
   data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    labels: ['08/09', '08/10', '08/11', '08/12', '08/13', '08/14', '08/15'],
     datasets: [
-      {
-        data: [60, 45, 28, 80, 99, 43, 80],
+      { data: [ 0, 0, 0, 0, 0, 0, 0 ],
         colors: [
           (opacity = 1) => `#F8F4F4`,
           (opacity = 1) => `#F8F4F4`,
@@ -73,7 +73,7 @@ export default class Analytics extends AnalyticsController {
     backgroundColor: "transparent",
     backgroundGradientToOpacity: 0.0,
 
-    color: () => `#ffffff`,
+    color: () => `black`,
     labelColor: () => `black`,
     withShadow: false,
     barRadius: 13,
@@ -135,7 +135,7 @@ export default class Analytics extends AnalyticsController {
                       <BarChart
                         width={SCREEN_WIDTH}
                         height={250}
-                        data={this.data}
+                        data={this.state.chartObject}
                         withCustomBarColorFromData={true}
                         flatColor={true}
                         fromZero={true}
@@ -143,6 +143,7 @@ export default class Analytics extends AnalyticsController {
                         showBarTops={false}
                         withHorizontalLabels={false}
                         verticalLabelRotation={0}
+                        showValuesOnTopOfBars={true}
                         style={{ marginLeft: -60, backgroundColor: "transparent" }}
                         yAxisLabel={""}
                         yAxisSuffix=""
