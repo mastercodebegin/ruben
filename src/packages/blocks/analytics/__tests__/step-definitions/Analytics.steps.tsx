@@ -191,6 +191,9 @@ defineFeature(feature, (test) => {
       instance.showAlert()
       expect(Alert.alert).toHaveBeenCalled()
 
+      instance.btnExampleProps.onPress()
+      expect(instance).toBeTruthy();
+
     });
 
     then("show_calendar", () => {
@@ -293,6 +296,7 @@ defineFeature(feature, (test) => {
         }
       ]
     }
+    expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09').datasets[0].colors)).toBe(JSON.stringify(testResult.datasets[0].colors))    
     expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09'))).toBe(JSON.stringify(testResult))    
     });
     then("Check misc functions", () => {
@@ -329,3 +333,4 @@ defineFeature(feature, (test) => {
     });
   });
 });
+

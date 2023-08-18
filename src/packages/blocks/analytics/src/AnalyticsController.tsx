@@ -211,9 +211,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log("list===>", list);
       if (error) {
-        console.log("error===>", error);
         Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
       } else {
         this.setState({ categoryList: list.data });
