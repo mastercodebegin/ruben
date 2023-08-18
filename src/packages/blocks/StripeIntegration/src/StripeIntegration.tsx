@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ImageSourcePropType,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
@@ -143,6 +144,13 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
     }
   }
+   handleCancelPress = () => {
+    const handleOkPress = () => this.props.navigation.goBack();
+    Alert.alert("Alert", "Are you sure to cancel", [
+      { text: "OK", onPress: handleOkPress },
+      { text: "CANCEL" },
+    ]);
+  };
   // Customizable Area End
 
   render() {
@@ -350,7 +358,9 @@ export default class StripeIntegration extends StripeIntegrationController {
               </TouchableOpacity>
               <TouchableOpacity
                 testID="doneSecondButtonEvent"
-                onPress={() => { }}
+                onPress={() => { 
+                  this.handleCancelPress()
+                }}
                 style={[styles.buttonDouble, styles.button2Style]}
               >
                 <Text style={[styles.textStyles, { color: PRIMARY }]}>
