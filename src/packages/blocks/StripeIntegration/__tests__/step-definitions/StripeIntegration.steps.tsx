@@ -88,6 +88,16 @@ defineFeature(feature, (test) => {
             instance.handleExpirtyMorethan3(textTemp, "2025");
             
             expect(instance.handleExpirtyMorethan3(textTemp, "2025")).toBeTruthy;
+
+            instance.handleExpiryDate("23");
+            
+            expect(instance.handleExpiryDate("23")).toBeTruthy;
+
+            instance.handlePaymentFailed();
+            
+            expect(instance.handlePaymentFailed()).toBeTruthy;
+
+
           });
         then("Receive function works properly", () => {
             const successMessage = {
