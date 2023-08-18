@@ -96,7 +96,9 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params={}) {
     this.props.navigation.navigate("ProductDetailScreen",params)
   }
-   renderItem({ item }: any){
+  renderItem({ item }: any) {
+     console.log('hghdgdhg',item);
+     
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name:item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
@@ -119,7 +121,7 @@ export default class Myprofile extends LandingPageController {
       },
     } : {
       name:item?.attributes?.categoryCode,
-      image:Array.isArray(item?.images) ? item?.images[0]?.url :'',
+      image:Array.isArray(item?.images) ? item.images[0]?.url :'',
       description:item?.attributes?.description,
       discount:item?.discount,
       id:item?.id,
@@ -329,7 +331,7 @@ export default class Myprofile extends LandingPageController {
             ) : (
               <>
                   {(productsList?.length && (this.state.selectedTab === 'MyFavoritesScreen' || this.state.selectedTab === 'Recomendations')) ?
-                    (<>{ console.log('flatlist called',productsList)}
+                    (<>
                       <FlatList
                   data={productsList}
                       horizontal

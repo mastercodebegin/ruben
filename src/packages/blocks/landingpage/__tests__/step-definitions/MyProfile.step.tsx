@@ -199,7 +199,38 @@ defineFeature(feature, (test) => {
               item: {
                 attributes: { catalogue_id: { data: { attributes: {} } } },
               },
+            }
+          ];
+          //
+          propsList.map((item) => {
+            render(instance.renderItem(item));
+          });
+        }
+      );
+      instance.setState(
+        { selectedTab: "recommendations", showFavoriteList: [{}] },
+        () => {
+          const propsList = [
+            {},
+            { item: {} },
+            { item: { attributes: {} } },
+            { item: { attributes: { catalogue_id: {} } } },
+            { item: { attributes: { catalogue_id: { data: {} } } } },
+            {
+              item: {
+                attributes: { catalogue_id: { data: { attributes: {} } } },
+              },
             },
+            {
+              item: {
+                images:[]
+              }
+            },
+            {
+              item: {
+                images:[{url:'test'}]
+              }
+            }
           ];
           //
           propsList.map((item) => {
