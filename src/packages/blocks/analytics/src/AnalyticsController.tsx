@@ -13,7 +13,6 @@ import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { store } from "../../../components/src/utils";
-import { date } from "yup";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -379,7 +378,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     
     let maxSell = 0;
     let maxSellIdx = 0;
-    const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     chartData.forEach(item => {
         const date = new Date(item.date)
         const day = date.getDay();
