@@ -4,9 +4,13 @@ import { render, fireEvent } from "@testing-library/react-native";
 import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import MyProfile from "../../src/MyProfile/Myprofile";
+import RenderProducts from "../../src/MyProfile/RenderProducts";
 
 const navigation = {
   navigate: jest.fn(),
+  addListener: (_: any, callBack: () => void) => {
+    callBack()
+  }
 };
 
 const screenProps = {
@@ -52,7 +56,8 @@ defineFeature(feature, (test) => {
         <MyProfile
           setCreditDetailModal={function (): void {
             throw new Error("Function not implemented.");
-          } } updateCartDetails={jest.fn()}
+          }}
+          updateCartDetails={jest.fn()}
           cartDetails={[]}
           visible={false}
           setVisibleProfileModal={jest.fn()}
@@ -61,10 +66,11 @@ defineFeature(feature, (test) => {
           firstTime={false}
           currentUser={"user"}
           route={{ params: { firstTime: true } }}
-          {...screenProps}        />
+          {...screenProps}
+        />
       );
       instance = landingPageBlock.instance() as MyProfile;
-      instance.componentDidMount()
+      instance.componentDidMount();
       expect(instance).toBeTruthy();
     });
     when(
@@ -148,17 +154,19 @@ defineFeature(feature, (test) => {
         '[testID="go_to_recomendations_id"]'
       );
       touchableOpacity.simulate("press");
-      expect(instance.state.selectedTab).toBe('Recomendations')
-      
+      expect(instance.state.selectedTab).toBe("Recomendations");
     });
 
-    then("user pressing my favorites button to go favorites screen",async () => {
-      const touchableOpacity = landingPageBlock.find(
-        '[testID="go_to_favorites_id"]'
-      );
-      touchableOpacity.simulate("press");
-      expect(instance.state.selectedTab).toBe('MyFavoritesScreen')
-    });
+    then(
+      "user pressing my favorites button to go favorites screen",
+      async () => {
+        const touchableOpacity = landingPageBlock.find(
+          '[testID="go_to_favorites_id"]'
+        );
+        touchableOpacity.simulate("press");
+        expect(instance.state.selectedTab).toBe("MyFavoritesScreen");
+      }
+    );
 
     then("user navigate to product detail screen", async () => {
       const touchableOpacity: any = landingPageBlock.findWhere(
@@ -175,29 +183,54 @@ defineFeature(feature, (test) => {
       instance.setState(
         { selectedTab: "MyFavoritesScreen", showFavoriteList: [{}] },
         () => {
-          const propsList = [{}, { item: {} }, { item: { attributes: {} } }, { item: { attributes: { catalogue_id: {} } } }, { item: { attributes: { catalogue_id: {data:{}} } } },{ item: { attributes: { catalogue_id: {data:{attributes:{}}} } } }]
+          const propsList = [
+            {},
+            { item: {} },
+            { item: { attributes: {} } },
+            { item: { attributes: { catalogue_id: {} } } },
+            { item: { attributes: { catalogue_id: { data: {} } } } },
+            {
+              item: {
+                attributes: { catalogue_id: { data: { attributes: {} } } },
+              },
+            },
+          ];
           //
           propsList.map((item) => {
             render(instance.renderItem(item));
-          })
+          });
         }
       );
       instance.forceUpdate();
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'
       );
-      instance.removeFavListProduct(item)
+      instance.removeFavListProduct(item);
       // touchableOpacity.simulate("press");
-      expect(touchableOpacity).toBeTruthy()
+      expect(touchableOpacity).toBeTruthy();
     });
-    
-    then("user can add product to add to cart",async () => {
-      instance.forceUpdate();
-      const touchableOpacity = landingPageBlock.find(
-        '[testID="addtocart"]'
+
+    then("user can add product to add to cart", async () => {
+      const {getByTestId} = render(
+        <RenderProducts
+          navigate={() => {}}
+          id={0}
+          description={""}
+          name={""}
+          price={0}
+          discount={0}
+          image={"https://image.com"}
+          onPressRemoveFromFav={jest.fn()}
+          onPressAddToCart={jest.fn()}
+        />
       );
+      fireEvent.press(getByTestId('navigateToProductDetailScreen'));
+      fireEvent.press(getByTestId('removeFavList'))
+      instance.forceUpdate();
+      const touchableOpacity = landingPageBlock.find('[testID="addtocart"]');
+      instance.forceUpdate();
       // touchableOpacity.simulate("press");
-      expect(touchableOpacity).toBeTruthy()
+      expect(touchableOpacity).toBeTruthy();
     });
 
     then("I can leave the screen with out errors", () => {
