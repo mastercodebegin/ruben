@@ -240,8 +240,8 @@ const styles = StyleSheet.create({
     borderColor: "#A0272A",
   },
   appLogo: {
-    height: 60,
-    width: 60,
+    height: 80,
+    width: 85,
     marginTop: 20,
     marginBottom: 30,
   },

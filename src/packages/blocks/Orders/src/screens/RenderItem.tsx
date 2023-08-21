@@ -50,21 +50,29 @@ const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
         
     }
 }
-const RenderItem = ({ item,cancelOrder }: any) => {      
+const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => { 
+    const isCompleted = item?.attributes?.status === 'completed';
+    const isCanceled = item?.attributes?.status === 'cancelled';    
     const onPressCancel = () => {
         Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>cancelOrder(item?.id)}])
     }
     const date = new Date(item?.attributes?.created_at);    
     const deliveryDate = new Date(item?.attributes?.delivery_date);
+    if ((selectedStatus === 'completed' && item?.attributes?.status === 'on_going')) {
+        return <></>;
+    }
+    if ((selectedStatus === 'ongoing' && (isCompleted || isCanceled))) {
+        return <></>;
+    }
     return (
         <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
             <Text style={rstyles.date}>
                 {moment(date).format('MMM Do, YYYY')?.toUpperCase() || ''}
             </Text>
-                <TouchableOpacity onPress={onPressCancel}>
+               {(isCompleted || isCanceled)?  <Text style={{fontSize:17,color:isCanceled ? "red" : "green"}}>{isCanceled ? 'Cancelled':'Delivered'}</Text>:<TouchableOpacity onPress={onPressCancel}>
                     <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
-                </TouchableOpacity>            
+                </TouchableOpacity> }            
             </View>
         <View style={rstyles.main}>
                 {
@@ -74,15 +82,19 @@ const RenderItem = ({ item,cancelOrder }: any) => {
                     })
            }
                 
-            <View style={rstyles.duration}>
-                <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
-                <Text style={rstyles.deliveryDate}>
-                    { moment(deliveryDate).format('MMM Do, YYYY')?.toUpperCase() || ''}
-                </Text>
-            </View>
-            <View style={rstyles.deliveryEstimater}>
-                <View style={{...rstyles.estimater,width:`${getDeliveryPercentage(date,deliveryDate)}%`}} />
-            </View>
+                {
+                    (isCompleted || isCanceled )? <></> :
+                        <><View style={rstyles.duration}>
+                            <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
+                            <Text style={rstyles.deliveryDate}>
+                                {moment(deliveryDate).format('MMM Do, YYYY')?.toUpperCase() || ''}
+                            </Text>
+                        </View>
+                            <View style={rstyles.deliveryEstimater}>
+                                <View style={{ ...rstyles.estimater, width: `${getDeliveryPercentage(date, deliveryDate)}%` }} />
+                                
+                            </View>
+                        </>}
         </View>
         </View>
     )

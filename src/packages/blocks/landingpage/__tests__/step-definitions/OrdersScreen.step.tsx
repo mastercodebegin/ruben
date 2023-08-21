@@ -43,16 +43,6 @@ defineFeature(feature, (test) => {
     given("users loading orders screen", () => {
       SettingsBlock = shallow(
         <OrdersScreen
-          visible={false}
-          setVisibleProfileModal={function(): void {
-            throw new Error("Function not implemented.");
-          }}
-          setState={() => {}}
-          state={{}}
-          firstTime={false}
-          currentUser="user"
-          updateCartDetails={() => {}}
-          cartDetails={[]}
           {...screenProps}
         />
       );
