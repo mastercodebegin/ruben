@@ -21,6 +21,8 @@ const screenProps = {
   route: {
     params: {
       name: "test name",
+      subtotal: 90,
+      total: 0,
     },
   },
 };
@@ -246,9 +248,14 @@ defineFeature(feature, (test) => {
     //     expect(instance.state.txtSavedValue).toEqual("hello@aol.com");
     // });
     then("I can see the invoice", () => {
+      const props = {
+        billingAddress: {},
+        shippingAddress: {},
+        deliveryDate: "",
+      };
       render(<InvoiceBilling {...screenProps} />);
-      render(<RenderHeader />);
-      render(<RenderFooter />);
+      render(<RenderHeader {...props} />);
+      render(<RenderFooter subTotal={0} total={9} />);
     });
 
     then("I can share the the invoice through mail", () => {
@@ -266,11 +273,11 @@ defineFeature(feature, (test) => {
         buttonComponent.simulate("press");
       });
       expect(instance.state.showLoader).toBe(true);
-      instance.setState({ pdfUrl: 'file:///user/test/test.pdf' });
+      instance.setState({ pdfUrl: "file:///user/test/test.pdf" });
       let shareBtn = exampleBlockA.findWhere(
         (node) => node.prop("testID") === "share_invoice_id"
-      ); 
-      shareBtn.simulate('press')
+      );
+      shareBtn.simulate("press");
       buttonComponent.simulate("press");
       jest.runAllTimers();
     });

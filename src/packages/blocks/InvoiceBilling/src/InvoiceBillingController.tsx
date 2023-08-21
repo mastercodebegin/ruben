@@ -85,6 +85,7 @@ export default class InvoiceBillingController extends BlockComponent<
       createdDate: '',
       subTotal:0,
       pdfUrl:'',
+      deliveryDate:''
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
