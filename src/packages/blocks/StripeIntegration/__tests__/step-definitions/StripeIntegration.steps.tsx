@@ -12,10 +12,12 @@ import PaymentCustomeAlert from "../../src/PaymentCustomeAlert";
 import DoubleButton from "../../../../components/src/DoubleButton";
 import { State } from "react-native-gesture-handler";
 import { flattenProp } from "recompose";
+import { Alert } from "react-native";
 const navigation = require("react-navigation")
 const screenProps = {
     navigation: navigation,
     id: "StripeIntegration",
+    goBack: jest.fn(),
     fetch: jest.fn()
 }
 
@@ -59,6 +61,101 @@ defineFeature(feature, (test) => {
         then('StripeIntegration will load with out errors', () => {
             expect(exampleBlockA).toBeTruthy();
         });
+        then('should return 3.99 for storageClass Gold', () => {
+            const mockParams = { storageClass: "Gold" };
+            const mockRoute = { params: mockParams };
+            const mockProps = { route: mockRoute };
+            
+            instance = exampleBlockA.instance() as StripeIntegration
+            instance.props.route.params.storageClass = "Gold"
+            const result = instance.getMeatStorage();
+            
+            expect(result).toBe(3.99)
+
+            instance.props.route.params.storageClass = "Platinum"
+            const result1 = instance.getMeatStorage();
+            
+            expect(result1).toBe(9.99)
+
+            instance.props.route.params.storageClass = "Basic"
+            const result2 = instance.getMeatStorage();
+            
+            expect(result2).toBe(0.0)
+
+          
+            const textTemp = '0123';
+            
+            instance.handleExpirtyMorethan3(textTemp, "2025");
+            
+            expect(instance.handleExpirtyMorethan3(textTemp, "2025")).toBeTruthy;
+
+            instance.handleExpiryDate("23");
+            
+            expect(instance.handleExpiryDate("23")).toBeTruthy;
+
+            instance.handlePaymentFailed();
+            
+            expect(instance.handlePaymentFailed()).toBeTruthy;
+
+
+          });
+        then("Receive function works properly", () => {
+            const successMessage = {
+              id: getName(MessageEnum.RestAPIResponceMessage),
+              properties: {
+                RestAPIResponceDataMessage: "c2d357a3-3706-418f-8190-19cdbd987109",
+                RestAPIResponceErrorMessage: "",
+              },
+              messageId: "1",
+              addData: jest.fn(),
+              getData: (type: string) => {
+                if (type === getName(MessageEnum.RestAPIResponceDataMessage)) {
+                  return "1";
+                } else if (
+                  type === getName(MessageEnum.RestAPIResponceSuccessMessage)
+                ) {
+                  return {};
+                } else {
+                  return "";
+                }
+              },
+              initializeFromObject: jest.fn(),
+              copyAllPropertiesOf: jest.fn(),
+            };
+      
+            const errorMessage = {
+              id: getName(MessageEnum.RestAPIResponceMessage),
+              properties: {
+                RestAPIResponceDataMessage: "c2d357a3-3706-418f-8190-19cdbd987109",
+                RestAPIResponceErrorMessage: "Some error",
+              },
+              messageId: "1",
+              addData: jest.fn(),
+              getData: (type: string) => {
+                if (type === getName(MessageEnum.RestAPIResponceDataMessage)) {
+                  return "1";
+                } else if (
+                  type === getName(MessageEnum.RestAPIResponceSuccessMessage)
+                ) {
+                  return {};
+                } else {
+                  return "Some error";
+                }
+              },
+              initializeFromObject: jest.fn(),
+              copyAllPropertiesOf: jest.fn(),
+            };
+      
+            instance.paymentId = "1";
+            instance.receive("", successMessage);
+            instance.receive("", errorMessage);
+      
+            instance.paymentId = "";
+            instance.codId = "1";
+            instance.receive("", successMessage);
+            instance.receive("", errorMessage);
+
+          });
         then("paymentMethod api", () => {
             let paymentparam = {
                 "order_id": "123",
