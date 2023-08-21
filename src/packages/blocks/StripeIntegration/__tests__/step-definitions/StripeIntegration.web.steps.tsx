@@ -36,10 +36,12 @@ defineFeature(feature, (test) => {
       exampleBlockA = shallow(<StripeIntegration route={{
         params: {
           name: "",
+          email : "",
           address: "",
           phone_number: 0,
           zip_code: 0,
           subtotal: 0,
+          discountPercentage: 0,
           shipping: 0,
           discount: 0,
           storageClass: "Basic",

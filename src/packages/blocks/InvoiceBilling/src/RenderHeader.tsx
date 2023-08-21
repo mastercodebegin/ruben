@@ -5,7 +5,7 @@ import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
 import moment from 'moment';
 
-const RenderHeader = ({billingAddress,shippingAddress }: any) => {
+const RenderHeader = ({billingAddress,shippingAddress, deliveryDate }: any) => {
   
   function getDeliveryDate(date:Date) {
    return moment(date).format('DD MMM YYYY');
@@ -17,7 +17,7 @@ const RenderHeader = ({billingAddress,shippingAddress }: any) => {
         {"Date : "} <Text style={styles.boldDate}>{getDeliveryDate(new Date())}</Text>
       </Text>
       <Text style={styles.date}>
-        {"Due Date : "} <Text style={styles.boldDate}>{getDeliveryDate(new Date())}</Text>
+        {"Due Date : "} <Text style={styles.boldDate}>{getDeliveryDate(deliveryDate)}</Text>
       </Text>
       <View style={styles.greyContainer}>
         <Text style={{ color: DARK_RED, fontSize: 17, fontWeight: "bold" }}>

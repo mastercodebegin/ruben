@@ -57,6 +57,7 @@ export default class MyOrdersScreen extends OrdersController {
                     this.setState({endDate:date})
                   } else {
                     this.setState({startDate:date})
+                    this.setState({endDate: date})
                   }                  
                 }}
                 onOpen={()=>this.setState({startDate:'',endDate:''})}

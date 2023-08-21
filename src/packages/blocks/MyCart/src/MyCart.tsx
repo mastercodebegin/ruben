@@ -112,7 +112,12 @@ export default class MyCart extends MyCartController {
                   {"*terms & conditions apply"}
                 </Text>
                 <Button
-                  onPress={() => this.props.navigation.navigate('PersonelDetails')}
+                  onPress={() => this.props.navigation.navigate('PersonelDetails', {
+                    discountPercentage: getDicountPercentage(),
+                    discount : Number(getDiscountPrice()), 
+                    subTotal: this.state.totalPrice, 
+                    total: Number(getTotal())
+                  })}
                   label="Continue to Personal Details"
                 />
                 <TouchableOpacity onPress={()=>this.onpressCancel.bind(this)()} style={styles.button}>

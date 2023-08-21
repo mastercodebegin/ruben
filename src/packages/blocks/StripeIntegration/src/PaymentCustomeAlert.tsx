@@ -19,7 +19,7 @@ interface PaymentModalTypes {
   visible: boolean;
   customeText: string;
   customeDescription: string;
-  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail";
+  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   isLoading: boolean;
   testID: string;
 }
@@ -34,7 +34,7 @@ const PaymentCustomeAlert = ({
   paymentAlerttype,
 }: PaymentModalTypes) => {
   const getImageAsperAlert = () => {
-    if (paymentAlerttype === "PaymentSuccess" || paymentAlerttype === "ThankYouForYourOder") {
+    if (paymentAlerttype === "PaymentSuccess" || paymentAlerttype === "ThankYouForYourOder" || paymentAlerttype === "CodConfirmation") {
       return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
     } else if (paymentAlerttype === "PaymentFailed") {
       return require("../../StripeIntegration/assets/ic_exclamation_icon.png")

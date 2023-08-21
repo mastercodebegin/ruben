@@ -38,6 +38,7 @@ interface S {
   billingAddress: any;
   shippingAddress: any;
   pdfUrl: any;
+  deliveryDate : any;
   // Customizable Area End
 }
 
@@ -124,8 +125,9 @@ export default class InvoiceBillingController extends BlockComponent<
           productsList: invoiceDetails?.data?.attributes?.order_items?.data,
           showLoader: false,
           subTotal: Number(invoiceDetails?.data?.attributes?.subtotal[0]),
-          billingAddress: invoiceDetails?.data?.attributes?.bill_to,
-          shippingAddress:invoiceDetails?.data?.attributes?.shipping_address
+          billingAddress: invoiceDetails?.data?.attributes?.bill_to?.data[0]?.attributes,
+          shippingAddress:invoiceDetails?.data?.attributes?.shipping_address?.data[0]?.attributes,
+          deliveryDate : invoiceDetails?.data?.attributes?.delivery_date,
         })
       } else {
         this.setState({showLoader:false})

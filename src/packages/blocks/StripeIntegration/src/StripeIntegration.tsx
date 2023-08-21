@@ -122,16 +122,21 @@ export default class StripeIntegration extends StripeIntegrationController {
     this.setState({ cvv: text });
   };
   handleContinueButton = () => {
+    console.log("continueeeee", this.state)
     if (this.state.isOrderSuccess) {
       if (this.state.paymentAlerttype === "PaymentSuccess") {
         this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
           this.handlePaymentSuccess()
         });
-      } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
+      } else if (this.state.paymentAlerttype === "ThankYouForYourOder" && this.state.paymentMethodType === "Cod") {
+        this.setState({ paymentAlerttype: "CodConfirmation" }, () => {
+          this.handlePaymentSuccess()
+        });
+      } else if (this.state.paymentAlerttype === "CodConfirmation" || this.state.paymentAlerttype === "ThankYouForYourOder") {
         this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
           this.handlePaymentSuccess()
         });
-      }  else {
+       } else {
         this.setState({ showPaymentAlert: false });
         this.props.navigation.navigate('InvoiceBilling', this.props.route.params)
       }
@@ -318,7 +323,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Discount</Text>
-                  <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${(this.props.route.params.discount / this.props.route.params.subtotal * 100).toFixed(2)}%)`}</Text>
+                  <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)`}</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Shipping Charges</Text>
