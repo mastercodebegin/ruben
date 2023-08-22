@@ -30,6 +30,7 @@ export interface Props {
       subtotal: number,
       shipping: number,
       discount: number,
+      discountPercentage : number,
       storageClass: "Basic" | "Gold" | "Platinum",
       orderId: number,
       orderNumber: number
@@ -53,7 +54,7 @@ interface S {
   cvv: string;
   isOrderSuccess: boolean;
   paymentMethodType: "Card" | "Cod";
-  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail";
+  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   // Customizable Area Start
   // Customizable Area End
 }
@@ -348,6 +349,8 @@ export default class StripeIntegrationController extends BlockComponent<
     } else if (this.state.paymentAlerttype === "ThankYouForYourOder") {
       this.setState({ customAlertText: "Thank you for your order" })
       this.setState({ customAlertDesc: `Your order number is ${this.props.route.params.orderNumber}` })
+    } else if (this.state.paymentAlerttype === "CodConfirmation"){
+      this.setState({customAlertText: "We are glad to inform you that we have confirmed your order as COD", customAlertDesc: "" })
     } else {
       this.setState({ customAlertText: "Check your E-mail" })
       this.setState({ customAlertDesc: "Check your email for order details" })

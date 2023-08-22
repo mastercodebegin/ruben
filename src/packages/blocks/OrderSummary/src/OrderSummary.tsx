@@ -19,6 +19,9 @@ import OrderSummaryController from "./OrderSummaryController";
 import PaymentDetails from "./PaymentDetails";
 import {BLACK, DARK_RED, WHITE} from "../../landingpage/src/colors";
 import CommonLoader from "../../../components/src/CommonLoader";
+const deliveryIcon = require("../../../components/src/deliveryIcon.png");
+const pickupIcon = require('../../../components/src/shippingIcon.png');
+const shippingIcon = require('../../../components/src/package.png');
 interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
@@ -32,7 +35,7 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   >
     <Image
       resizeMode="contain"
-      style={[{ height: 20, width: 20 }, selected && { tintColor: "white" }]}
+      style={[{ height: 20, width: 20 , tintColor: selected ? "white" :DARK_RED }]}
       source={image}
     />
     <Text
@@ -64,6 +67,7 @@ export default class OrderSummary extends OrderSummaryController {
         { text: "CANCEL" },
       ]);
     };
+    const total = this.state.lifetimeSubscription ? (this.state.subtotal - this.props.route.params.discount + this.state.shipping + 5.0).toFixed(2) :  (this.state.subtotal - this.props.route.params.discount + this.state.shipping).toFixed(2);
     return (
       <SafeAreaView style={styles.safearea}>
         <HeaderWithBackArrowTemplate
@@ -82,21 +86,21 @@ export default class OrderSummary extends OrderSummaryController {
                 selected={this.state.selectedTab === "delivery"}
                 text="Delivery"
                 onpress={() => this.setState({ selectedTab: "delivery" })}
-                image={removeImage}
+                image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
                 onpress={() => this.setState({ selectedTab: "shipping" })}
                 text="Shipping/Mailing"
-                image={removeImage}
+                image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
                 onpress={() => this.setState({ selectedTab: "pickup" })}
                 text="Pickup"
-                image={removeImage}
+                image={pickupIcon}
               />
             </View>
               {!this.state.lifetimeSubscription &&
@@ -121,7 +125,7 @@ export default class OrderSummary extends OrderSummaryController {
                   return (
                     <View key={index}>
                       <ProductDetailComponent
-                      name={item.attributes?.catalogue?.data?.attributes?.name}
+                      name={item.attributes?.catalogue?.data?.attributes?.categoryCode}
                       price={item.attributes?.catalogue?.data?.attributes?.price}
                       quantity={item.attributes?.quantity}
                       index={index}
@@ -161,11 +165,11 @@ export default class OrderSummary extends OrderSummaryController {
                 header="PAYMENT DETAILS"
                 list={[
                   { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
-                  { question: "Discount", ans: `- $${(this.state.subtotal * 0.1).toFixed(2)} (10%)` },
+                  { question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` },
                   { question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscription ? '5.00' : '0.00'}`  },
                   { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
                 ]}
-                footer={{question: "Total", ans: `$${ this.state.lifetimeSubscription ? (this.state.subtotal - this.state.discount + this.state.shipping + 5.0).toFixed(2) :  (this.state.subtotal - this.state.discount + this.state.shipping).toFixed(2) }`}}
+                footer={{question: "Total", ans: `$${total}`}}
               />
             </View>
             {this.state.selectedTab === "pickup" ? (
@@ -222,8 +226,10 @@ export default class OrderSummary extends OrderSummaryController {
                   zip_code,
                   email: this.state.emailId,
                   subtotal: this.state.subtotal,
+                  total: Number(total),
                   shipping: this.state.shipping,
-                  discount: this.state.discount,
+                  discount: this.props.route.params.discount,
+                  discountPercentage : this.props.route.params.discountPercentage,
                   storageClass: this.state.currentStorageClass,
                   orderId: this.state.orderId,
                   orderNumber: this.state.orderNumber
