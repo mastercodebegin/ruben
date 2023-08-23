@@ -161,7 +161,7 @@ export default class PersonelDetails extends PersonelDetailsController {
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary")
+                this.props.navigation.navigate("OrderSummary", this.props.route.params)
               }}
             />
           </View>

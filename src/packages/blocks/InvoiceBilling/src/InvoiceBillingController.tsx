@@ -194,10 +194,6 @@ export default class InvoiceBillingController extends BlockComponent<
 
   // Customizable Area Start
   async downloadInvoice(showAlert = false) {
-    if (this.state.pdfUrl !== '') {
-      this.setState({showModal:showAlert });
-      return;
-    }
     let url;
     try {
       this.setState({ showLoader: true });

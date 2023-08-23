@@ -67,7 +67,16 @@ export default class OrderSummary extends OrderSummaryController {
         { text: "CANCEL" },
       ]);
     };
-    const total = this.state.lifetimeSubscription ? (this.state.subtotal - this.props.route.params.discount + this.state.shipping + 5.0).toFixed(2) :  (this.state.subtotal - this.props.route.params.discount + this.state.shipping).toFixed(2);
+    const subScriptionCharges = {Basic:0, Gold : 3.99, Platinum : 9.99};
+    const lifetimeSubscriptionCharge = subScriptionCharges[this.state.currentStorageClass]
+    const total =  this.state.subtotal - this.props.route.params.discount + this.state.shipping + lifetimeSubscriptionCharge; 
+    const paymentDetailsList = [
+      { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
+    ]
+    if(this.props.route.params.discount) paymentDetailsList.splice(1,0,{ question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` });
+    if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${lifetimeSubscriptionCharge}`  });
+    paymentDetailsList.push( { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  });
+
     return (
       <SafeAreaView style={styles.safearea}>
         <HeaderWithBackArrowTemplate
@@ -163,16 +172,11 @@ export default class OrderSummary extends OrderSummaryController {
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"
-                list={[
-                  { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
-                  { question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` },
-                  { question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscription ? '5.00' : '0.00'}`  },
-                  { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  },
-                ]}
-                footer={{question: "Total", ans: `$${total}`}}
+                list={paymentDetailsList}
+                footer={{question: "Total", ans: `$${total.toFixed(2)}`}}
               />
             </View>
-            {this.state.selectedTab === "pickup" ? (
+             
                 <>
                   <Text style={[styles.meatStorageHeading, {marginTop: 30}]}>Meat Storage</Text>
                   <View style={styles.meatStorageOption}>
@@ -192,7 +196,7 @@ export default class OrderSummary extends OrderSummaryController {
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>10 Meat Storage at a time</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>All Payment Options</Text>
                     <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>All Time Service Available</Text>
-                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Gold' ? '' : 'Gold'})}>
+                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Gold' ? 'Basic' : 'Gold'})}>
                       <Text style={[styles.addMeatStorageButtonText, {color: this.state.currentStorageClass === 'Gold' ? BLACK : PRIMARY}]}>
                         {this.state.currentStorageClass === 'Gold' ? 'Remove' : 'Add Storage'}
                       </Text>
@@ -214,10 +218,9 @@ export default class OrderSummary extends OrderSummaryController {
                     </TouchableOpacity>
                   </View>
                 </>
-              ) : null
-            }
+              
             <DoubleButton
-              button1Label="Continue to Payment"
+              button1Label={this.state.currentStorageClass !== "Basic" ? `Continue with ${this.state.currentStorageClass}` : "Continue to Payment"}
               button1_Onpress={() => {
                 this.props.navigation.navigate('StripeIntegration', {
                   name,

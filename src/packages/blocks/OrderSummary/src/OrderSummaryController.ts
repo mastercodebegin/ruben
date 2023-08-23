@@ -267,9 +267,20 @@ SS
       for (const item of prodList?.attributes?.order_items?.data) {
         subtotal += (+item.attributes?.catalogue?.data?.attributes?.price * +item?.attributes?.quantity);
       }
+      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
+        const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0; 
+      })
       this.setState({
         showLoader: false,
-        productsList:prodList?.attributes?.order_items?.data,
+        productsList:sortedProductList,
         subtotal,
         discount: subtotal * 0.1
       })
@@ -277,8 +288,7 @@ SS
   }
 
   deliverWithinADayClicked = () => {
-    const shipping = this.state.shipping + 25.99
-    this.setState({deliverWithinADay: true, shipping})
+    this.setState({deliverWithinADay: true, shipping:25.99})
   }
   lifetimeSubClicked = () => {
     this.setState({lifetimeSubscription: true})

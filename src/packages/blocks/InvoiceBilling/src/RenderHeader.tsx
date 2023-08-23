@@ -37,18 +37,17 @@ const RenderHeader = ({billingAddress,shippingAddress, deliveryDate }: any) => {
           paddingBottom: 3,
           borderBottomWidth: 0.5,
           borderBottomColor: "grey",
-          paddingTop:20
+          paddingTop:20,
         }}
       >
         <View style={cstyle.number}>
           <Text style={cstyle.text}>{"#"}</Text>
         </View>
-        <View style={cstyle.center}>
+        <View style={{flex:1,flexDirection:"row",          justifyContent: "space-between"
+}}>
+
           <Text style={cstyle.text}>{"Product"}</Text>
-        </View>
-        <View style={{ flex: 1 }} />
-        <View style={cstyle.center}>
-          <Text style={cstyle.text}>{"Total"}</Text>
+          <Text style={[cstyle.text,{paddingRight:0}]}>{"Total"}</Text>
         </View>
       </View>
     </View>

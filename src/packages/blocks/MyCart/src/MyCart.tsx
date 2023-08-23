@@ -93,10 +93,10 @@ export default class MyCart extends MyCartController {
                       <Text style={styles.paymentText}>Subtotal</Text>
                       <Text style={styles.answer}>{`$ ${this.state.totalPrice.toFixed(2)}`}</Text>
                     </View>
-                    <View style={styles.row}>
+                   {this.state.discountFetched ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
                       <Text style={styles.answer}>{`-$${getDiscountPrice()} (${getDicountPercentage()}%)`}</Text>
-                    </View>
+                    </View> : null}
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
                       <Text style={styles.answer}>{"$0.00"}</Text>
@@ -114,7 +114,7 @@ export default class MyCart extends MyCartController {
                 <Button
                   onPress={() => this.props.navigation.navigate('PersonelDetails', {
                     discountPercentage: getDicountPercentage(),
-                    discount : Number(getDiscountPrice()), 
+                    discount : this.state.discountFetched ? Number(getDiscountPrice()) : null, 
                     subTotal: this.state.totalPrice, 
                     total: Number(getTotal())
                   })}
@@ -150,7 +150,7 @@ export default class MyCart extends MyCartController {
 }
 const styles = StyleSheet.create({
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
-  termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
+  termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15, fontStyle: "italic" },
   contentContainer: { paddingBottom: 20,paddingHorizontal:20 },
   buttonText: {
     color: "#A0272A",
@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
     color: "grey",
     paddingHorizontal: 20,
     paddingBottom: 10,
+    fontWeight: "bold"
   },
   main: { flex: 1 },
   textInput:{flex:1,paddingLeft:25,fontWeight:'bold',fontSize:16,color:'#A0272A'}

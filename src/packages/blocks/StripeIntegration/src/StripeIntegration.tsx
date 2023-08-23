@@ -122,7 +122,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     this.setState({ cvv: text });
   };
   handleContinueButton = () => {
-    console.log("continueeeee", this.state)
     if (this.state.isOrderSuccess) {
       if (this.state.paymentAlerttype === "PaymentSuccess") {
         this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
@@ -321,10 +320,10 @@ export default class StripeIntegration extends StripeIntegrationController {
                   <Text style={styles.paymentText}>Subtotal</Text>
                   <Text style={styles.answer}>{`$${this.props.route.params.subtotal.toFixed(2)}`}</Text>
                 </View>
-                <View style={styles.row}>
+               {this.props.route.params.discount ? <View style={styles.row}>
                   <Text style={styles.paymentText}>Discount</Text>
                   <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)`}</Text>
-                </View>
+                </View>:null}
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Shipping Charges</Text>
                   <Text style={styles.answer}>{`$${this.props.route.params.shipping.toFixed(2)}`}</Text>

@@ -14,11 +14,11 @@ const RenderFooter = ({ subTotal, total }: any) => {
     >
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.text}>Sub Total</Text>
-        <Text style={styles.text}>{`$${subTotal.toFixed(2)}`}</Text>
+        <Text style={styles.text}>{`$${subTotal?.toFixed(2)}`}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.boldText}>Total</Text>
-        <Text style={styles.boldText}>{`$${total.toFixed(2)}`}</Text>
+        <Text style={styles.boldText}>{`$${total?.toFixed(2)}`}</Text>
       </View>
     </View>
   );

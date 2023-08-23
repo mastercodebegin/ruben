@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: { flexDirection: "row", paddingTop: 20 },
-  answer: { textAlign: "right", color: DARK_RED, fontSize: 15 },
+  answer: { textAlign: "right", color: DARK_RED, fontSize: 15, marginLeft: 25 },
   question: { color: "grey", fontSize: 15 },
   headerText: {
     letterSpacing: 3,
