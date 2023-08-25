@@ -5,6 +5,9 @@ import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import MyProfile from "../../src/MyProfile/Myprofile";
 import RenderProducts from "../../src/MyProfile/RenderProducts";
+import { Message } from "../../../../framework/src/Message";
+import MessageEnum, { getName } from "../../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../../framework/src/RunEngine";
 
 const navigation = {
   navigate: jest.fn(),
@@ -241,10 +244,32 @@ defineFeature(feature, (test) => {
       );
       instance.navigateToDetailsPage();
       instance.forceUpdate();
+      instance.setState({ fetchFavorites: true });
+      instance.addToFavCallBack({},null)
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'
       );
       instance.removeFavListProduct(item);
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        ''
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+       
+        }
+      );
+
+      instance.getFavoritesDeleteId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.getImage()
       instance.setState({ profileImage: { path: 'image' } })
       instance.showButton()
