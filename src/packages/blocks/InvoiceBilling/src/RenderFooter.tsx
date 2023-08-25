@@ -23,11 +23,11 @@ const RenderFooter = ({ subTotal, total, params }: any) => {
         </View>
         <View>
           <Text style={[styles.text,{textAlign:"right"}]}>{`$${subTotal?.toFixed(2)}`}</Text>
-          <Text style={[styles.text,{textAlign:"right"}]}>{`$${new Number(params?.shipping).toFixed(2)}`}</Text>
-          {params?.discount ? <Text style={[styles.text,{textAlign:"right"}]}>{`-$${new Number(params?.discount).toFixed(2)}`}</Text> : null}
-          <Text style={[styles.text, { textAlign: "right" }]}>{`$${new Number(params?.deliveryCharge).toFixed(2)}`}</Text>
-          {params?.lifetimeSubscriptionCharge ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${new Number(params?.lifetimeSubscriptionCharge).toFixed(2)}`}</Text> : null}
-          <Text style={[styles.boldText, { textAlign: "right" }]}>{`$${new Number(total)?.toFixed(2)}`}</Text>
+          <Text style={[styles.text,{textAlign:"right"}]}>{`$${Number(params?.shipping).toFixed(2)}`}</Text>
+          {params?.discount ? <Text style={[styles.text,{textAlign:"right"}]}>{`-$${Number(params?.discount).toFixed(2)}`}</Text> : null}
+          <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.deliveryCharge).toFixed(2)}`}</Text>
+          {params?.lifetimeSubscriptionCharge ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.lifetimeSubscriptionCharge).toFixed(2)}`}</Text> : null}
+          <Text style={[styles.boldText, { textAlign: "right" }]}>{`$${Number(total)?.toFixed(2)}`}</Text>
         </View>
       </View>
     </View>

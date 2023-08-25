@@ -17,7 +17,8 @@ import { Header } from "./Header";
 import {  shareIcon, playIcon, pause ,replay} from "../assets";
 import Video from "react-native-video";
 import { showToast } from "../../../../components/src/ShowToast";
-const sampleProfile = require('../../assets/logo.png')
+import FImage from 'react-native-fast-image';
+const sampleProfile = require('../../assets/logo.png');
 
 const arrowLeft = require("../../../../components/src/arrow_left.png");
 
@@ -84,7 +85,7 @@ const DetailsPage = ({ route }: any) => {
               </View>
               <Text style={styles.blogText}>{description}</Text>
               {type === "image" ? (
-                <Image
+                <FImage
                   style={styles.blogImage}
                   resizeMode="stretch"
                   source={{ uri: url }}
