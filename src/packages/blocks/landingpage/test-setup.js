@@ -43,3 +43,4 @@ jest.mock("react-native-video", () =>
     return <></>;
   })
 );
+jest.mock("react-native-keyboard-aware-scroll-view",()=>({KeyboardAwareScrollView:({children})=>(<>{children}</>)}))

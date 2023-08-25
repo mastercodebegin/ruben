@@ -342,7 +342,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={[styles.row, { paddingHorizontal: 20 }]}>
                 <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{`${new Number(this.props.route?.params.total).toFixed(2)}`}</Text>
+                <Text style={styles.answer}>{`${Number(this.props.route?.params.total).toFixed(2)}`}</Text>
               </View>
             </View>
             <View style={styles.containerStyle} testID="doubleButton">
