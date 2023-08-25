@@ -35,7 +35,7 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   >
     <Image
       resizeMode="contain"
-      style={[{ height: 20, width: 20 , tintColor: selected ? "white" :DARK_RED }]}
+      style={[{ height: 20, width: 20 , tintColor: selected ? "white" :PRIMARY }]}
       source={image}
     />
     <Text
@@ -69,9 +69,10 @@ export default class OrderSummary extends OrderSummaryController {
     };
     const subScriptionCharges = {Basic:0, Gold : 3.99, Platinum : 9.99};
     const lifetimeSubscriptionCharge = subScriptionCharges[this.state.currentStorageClass]
-    const total =  this.state.subtotal - this.props.route.params.discount + this.state.shipping + lifetimeSubscriptionCharge; 
+    const total =  this.state.subtotal - this.props.route.params.discount + this.state.shipping + lifetimeSubscriptionCharge + this.state.deliveryCharge; 
     const paymentDetailsList = [
-      { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}`  },
+      { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}` },
+      { question: "Delivery Charges", ans: `$${new Number(this.state.deliveryCharge).toFixed(2)}`}
     ]
     if(this.props.route.params.discount) paymentDetailsList.splice(1,0,{ question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` });
     if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${lifetimeSubscriptionCharge}`  });
@@ -235,7 +236,9 @@ export default class OrderSummary extends OrderSummaryController {
                   discountPercentage : this.props.route.params.discountPercentage,
                   storageClass: this.state.currentStorageClass,
                   orderId: this.state.orderId,
-                  orderNumber: this.state.orderNumber
+                  orderNumber: this.state.orderNumber,
+                  deliveryCharge: this.state.deliveryCharge,
+                  lifetimeSubscriptionCharge:lifetimeSubscriptionCharge
                 })}
               }
               button2Label="Cancel"

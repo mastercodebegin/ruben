@@ -31,7 +31,8 @@ interface S {
   orderNumber: number;
   deliverWithinADay: boolean;
   lifetimeSubscription: boolean;
-  emailId:string;
+  emailId: string;
+  deliveryCharge: number;
 }
 
 interface SS {
@@ -63,11 +64,12 @@ SS
       currentStorageClass: 'Basic',
       subtotal: 0,
       discount: 0,
-      shipping: 12,
+      shipping: 10,
       orderId: 4,
       orderNumber: 12121212,
       deliverWithinADay: false,
       lifetimeSubscription: false,
+      deliveryCharge:12,
       emailId: "",
     };
 
@@ -288,7 +290,7 @@ SS
   }
 
   deliverWithinADayClicked = () => {
-    this.setState({deliverWithinADay: true, shipping:25.99})
+    this.setState({deliverWithinADay: true, deliveryCharge:25.99})
   }
   lifetimeSubClicked = () => {
     this.setState({lifetimeSubscription: true})

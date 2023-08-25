@@ -3,7 +3,6 @@ import {
   View,
   Modal,
   StyleSheet,
-  ScrollView,
   Image,
   TouchableOpacity,
   ActivityIndicator,
@@ -15,6 +14,7 @@ import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED, edit } from "../assets";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props: any) {
     super(props);
@@ -48,7 +48,7 @@ export default class UpdateProfileModal extends LandingPageController {
       <Modal visible={this.props.visible} transparent>
         <View style={styles.blur} />
         <View style={styles.innerContainer}>
-          <ScrollView
+          <KeyboardAwareScrollView
             bounces={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.contentContainer}
@@ -175,7 +175,7 @@ export default class UpdateProfileModal extends LandingPageController {
               label={"Save Details"}
             />
             <View style={{ height: this.props.state.keyboardHeight }} />
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </View>
         {this.props.state.show_loader && (
           <View style={styles.loader}>

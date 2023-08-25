@@ -99,13 +99,13 @@ export default class MyCart extends MyCartController {
                     </View> : null}
                     <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
-                      <Text style={styles.answer}>{"$0.00"}</Text>
+                      <Text style={styles.answer}>{"$10.00"}</Text>
                     </View>
                   </View>
                   <View style={styles.seperator} />
                   <View style={[styles.row, { paddingHorizontal: 20 }]}>
                     <Text style={styles.paymentText}>Total</Text>
-                    <Text style={styles.answer}>{`$${Number(getTotal()).toFixed(2)}`}</Text>
+                    <Text style={styles.answer}>{`$${Number(getTotal()+10).toFixed(2)}`}</Text>
                   </View>
                 </View>
                 <Text style={styles.termsAndCondition}>

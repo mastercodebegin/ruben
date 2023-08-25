@@ -33,7 +33,9 @@ export interface Props {
       discountPercentage : number,
       storageClass: "Basic" | "Gold" | "Platinum",
       orderId: number,
-      orderNumber: number
+      orderNumber: number,
+      deliveryCharge: number,
+      total:number
     }
   }
   // Customizable Area End

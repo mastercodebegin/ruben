@@ -404,6 +404,7 @@ export default class LandingPageController extends BlockComponent<
       this.resAddFavList(message)
       this.resOrderList(message)
       this.resAboutUs(message)
+      this.filterByCategoryCallback(message);
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -411,6 +412,25 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
+
+  filterByCategoryCallback(message: Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterProductByCategoryId != null &&
+      this.filterProductByCategoryId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) { 
+      const filterByCategoryResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && filterByCategoryResponse) {
+        this.setState({productList:filterByCategoryResponse?.data})
+      }
+    }
+  }
 
   receiveCallback(message: any) {
     if (
@@ -588,6 +608,7 @@ export default class LandingPageController extends BlockComponent<
   addToFavId: string = ''
   getCartId: string = '';
   addToCartId: string = '';
+  filterProductByCategoryId: string = '';
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -871,6 +892,32 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
     return true;
+  }
+  async getProductByCategory() {
+    this.setState({ loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.filterProductByCategoryId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_catalogue/catalogues?query=brisket'
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
   async getSubcategories(subCategoryId: string) {
     this.setState({ show_loader: true, selectedSub: null })

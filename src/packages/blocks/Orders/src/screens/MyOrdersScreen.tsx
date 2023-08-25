@@ -16,7 +16,7 @@ export default class MyOrdersScreen extends OrdersController {
       <SafeAreaView style={styles.main}>
         <View style={styles.main}>
           <FlatList
-            data={ this.state.ongoingOrdersList}
+            data={ this.state.ongoingOrdersList.reverse()}
             keyExtractor={(item, index) => JSON.stringify(index) + item}
             refreshControl={
               <RefreshControl
