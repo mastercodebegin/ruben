@@ -302,6 +302,20 @@ defineFeature(feature, (test) => {
       expect(touchableOpacity).toBeTruthy();
     });
 
+    then('remove product from the cart', () => {
+      const { getByTestId } = render(instance.renderItem({id:12}))
+      fireEvent.press(getByTestId('removeFavList'));
+      fireEvent.press(getByTestId('addtocart'));
+
+    }) 
+    then('user adding product to wishlist from recommended products', () => {
+      instance.setState({ selectedTab: 'MyFavoritesScreen' })
+      const { getByTestId } = render(instance.renderItem({id:12}));
+     render(instance.renderItem({id:12}))
+     fireEvent.press(getByTestId('addtocart'));
+      fireEvent.press(getByTestId('removeFavList'));
+    })
+
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
       expect(landingPageBlock).toBeTruthy();
