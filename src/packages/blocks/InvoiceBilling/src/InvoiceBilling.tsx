@@ -27,7 +27,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
 
   // Customizable Area Start
   async componentDidMount() {
-    this.getInvoiceDetails()
+    this.getInvoiceDetails();
   }
   // Customizable Area End
 
