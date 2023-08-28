@@ -75,8 +75,11 @@ export default class OrderSummary extends OrderSummaryController {
       { question: "Delivery Charges", ans: `$${new Number(this.state.deliveryCharge).toFixed(2)}`}
     ]
     if(this.props.route.params.discount) paymentDetailsList.splice(1,0,{ question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` });
-    if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${lifetimeSubscriptionCharge}`  });
-    paymentDetailsList.push( { question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}`  });
+    if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Meat Storage Plan", ans: `$${lifetimeSubscriptionCharge}`  });
+    paymentDetailsList.push({ question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}` });
+    if (this.state.deliverWithinADay) {
+      paymentDetailsList.push({ question: "Delivery Within A Day", ans: `$${this.state.deliveryCharge.toFixed(2)}` });
+    }
 
     return (
       <SafeAreaView style={styles.safearea}>
