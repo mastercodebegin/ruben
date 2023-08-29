@@ -9,7 +9,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { styles } from "./styles";
-import { PRIMARY, removeImage } from "../../../components/src/constants";
+import { PRIMARY } from "../../../components/src/constants";
 import MileStone from "../../../components/src/MilestoneComponent";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./MyDetails";
@@ -50,15 +50,15 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 );
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
-      this.getAddressList()
       this.getCart()
   }
   render() {
-    const {address,phone_number, zip_code,name} = {
-      address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
-      phone_number:this.state.addressList[this.state.selectedAddress]?.attributes?.phone_number || '',
-      zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
-      name:this.state.addressList[this.state.selectedAddress]?.attributes?.name,
+    const {address,phone_number, zip_code,name,email} = {
+      address: this.props.route.params?.address || '',
+      phone_number:this.props.route.params?.phone_number || '',
+      zip_code: this.props.route.params?.zip_code || '',
+      name: this.props.route.params?.name || '',
+      email:this.props.route.params?.email || '',
     }    
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
@@ -77,8 +77,8 @@ export default class OrderSummary extends OrderSummaryController {
     if(this.props.route.params.discount) paymentDetailsList.splice(1,0,{ question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` });
     if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Meat Storage Plan", ans: `$${lifetimeSubscriptionCharge}`  });
     paymentDetailsList.push({ question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}` });
-    if (this.state.deliverWithinADay) {
-      paymentDetailsList.push({ question: "Delivery Within A Day", ans: `$${this.state.deliveryCharge.toFixed(2)}` });
+    if (this.state.lifetimeSubscription) {
+      paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscriptionPrice.toFixed(2)}` });
     }
 
     return (
@@ -155,7 +155,7 @@ export default class OrderSummary extends OrderSummaryController {
                 header="MY DETAILS"
                 list={[
                   { question: "Name", ans: name  },
-                  { question: "Email", ans: this.state.emailId },
+                  { question: "Email", ans:email },
                   { question: "Phone",ans:phone_number  },
                   {
                     question: "Shipping Add.",
@@ -231,7 +231,6 @@ export default class OrderSummary extends OrderSummaryController {
                   address,
                   phone_number,
                   zip_code,
-                  email: this.state.emailId,
                   subtotal: this.state.subtotal,
                   total: Number(total),
                   shipping: this.state.shipping,
@@ -241,7 +240,8 @@ export default class OrderSummary extends OrderSummaryController {
                   orderId: this.state.orderId,
                   orderNumber: this.state.orderNumber,
                   deliveryCharge: this.state.deliveryCharge,
-                  lifetimeSubscriptionCharge:lifetimeSubscriptionCharge
+                  lifetimeSubscriptionCharge: lifetimeSubscriptionCharge,
+                  email:email
                 })}
               }
               button2Label="Cancel"

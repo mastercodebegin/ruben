@@ -33,6 +33,7 @@ interface S {
   lifetimeSubscription: boolean;
   emailId: string;
   deliveryCharge: number;
+  lifetimeSubscriptionPrice: number;
 }
 
 interface SS {
@@ -71,6 +72,7 @@ SS
       lifetimeSubscription: false,
       deliveryCharge:12,
       emailId: "",
+      lifetimeSubscriptionPrice:5,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);

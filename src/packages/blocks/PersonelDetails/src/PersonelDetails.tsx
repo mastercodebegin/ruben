@@ -56,10 +56,10 @@ export default class PersonelDetails extends PersonelDetailsController {
   render() {
     const {address,phone_number, zip_code,name,email} = {
       address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
-      phone_number:this.state.addressList[this.state.selectedAddress]?.attributes?.phone_number || '',
+      phone_number:this.state.addressList[this.state.selectedAddress || 0]?.attributes?.phone_number || '',
       zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
-      name: this.state.addressList[this.state.selectedAddress]?.attributes?.name||'',
-      email: this.state.addressList[this.state.selectedAddress]?.attributes?.email||''
+      name: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.name||'',
+      email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||''
     }    
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
@@ -91,14 +91,30 @@ export default class PersonelDetails extends PersonelDetailsController {
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
-                onpress={() => this.setState({ selectedTab: "shipping" })}
+                onpress={() => {
+                    if (!this.state.addressList.length) {
+                      Alert.alert("Alert", "Please add address");
+                    } else if (this.state.selectedAddress === null) {
+                      Alert.alert("Alert", "Please select an address");
+                    } else {
+                      this.setState({selectedTab:'shipping'})
+                    }
+                }}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
-                onpress={() => this.setState({ selectedTab: "pickup" })}
+                onpress={() => {
+                  if (!this.state.addressList.length) {
+                    Alert.alert("Alert", "Please add address");
+                  } else if (this.state.selectedAddress === null) {
+                    Alert.alert("Alert", "Please select an address");
+                  } else {
+                    this.setState({selectedTab:'pickup'})
+                  }
+                }}
                 text="Pick Up"
                 image={pickupIcon}
               />
@@ -125,8 +141,11 @@ export default class PersonelDetails extends PersonelDetailsController {
                     showModal={this.state.showAddAddress}
                     setShowModal={(val:boolean)=>this.setState({showAddAddress:val})}
                     addressList={this.state.addressList}
-                    setSelectedAddress={(index) =>
-                      this.setState({ selectedAddress: index })
+                    setSelectedAddress={(index) => {
+                      if(!(index === this.state.selectedAddress)){
+                        this.addAddressToTheOrder(index)
+                      }
+                    }
                     }
                     isLoading={this.state.showLoader}
                     addAddress={this.addAddress.bind(this)}
@@ -144,14 +163,8 @@ export default class PersonelDetails extends PersonelDetailsController {
               </Text> 
             </View>: <></>}
             <DoubleButton
-              button1Label="Continue to Summary"
-              button1_Onpress={() => {
-                if (this.state.addressList.length) {
-                  this.setState({ show_modal: true });
-                } else {
-                  Alert.alert("Alert", "Please add address");
-                }
-              }}
+              button1Label={(this.state.selectedTab === 'delivery' || this.state.selectedTab === 'shipping')? "Continue" : "Continue to Summary"}
+              button1_Onpress={this.onPressContinue.bind(this)}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
@@ -161,7 +174,7 @@ export default class PersonelDetails extends PersonelDetailsController {
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary", this.props.route.params)
+                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email})
               }}
             />
           </View>
