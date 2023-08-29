@@ -94,6 +94,7 @@ interface S {
   selectedAnimalSlot: string;
   nearestLocation: string;
   setAddressOption: boolean;
+  fetchFavorites: boolean;
   // Customizable Area End
 }
 
@@ -280,7 +281,8 @@ export default class LandingPageController extends BlockComponent<
       ],
       selectedAnimalSlot: "10:00 AM",
       nearestLocation: "",
-      setAddressOption: false
+      setAddressOption: false,
+      fetchFavorites:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -412,6 +414,7 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
 
+
   receiveCallback(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -516,6 +519,9 @@ export default class LandingPageController extends BlockComponent<
       showToast("Something went wrong");
     } else if (AddToFavRes) {
       showToast("Product added to favorites");
+      if (this.state.fetchFavorites) {        
+        this.getFavorites();
+      }
     }
   }
   addProductCallback(error: any, response: any) {
@@ -588,6 +594,7 @@ export default class LandingPageController extends BlockComponent<
   addToFavId: string = ''
   getCartId: string = '';
   addToCartId: string = '';
+  filterProductByCategoryId: string = '';
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -1227,9 +1234,12 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(error);
-      this.setState({ show_loader: false })
-      console.log("getFavoritesDeleteId====")
+      this.setState({ show_loader: false });
+      if (!error) {
+        this.getFavorites()
+      } else {
+        showToast('something went wrong');
+      }
     }
   }
   resFavListAPI(message: any) {
@@ -1262,7 +1272,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.addToFavCallBack(AddToFavRes, error);
-      console.log("addToFavId====")
     }
   }
   resOrderList(message: any) {

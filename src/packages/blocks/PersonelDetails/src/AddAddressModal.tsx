@@ -4,18 +4,16 @@ import {
   View,
   Modal,
   StyleSheet,
-  ScrollView,
   Image,
   TouchableOpacity,
   ActivityIndicator,
   Text,
-  Keyboard,
-  KeyboardAvoidingView,
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
 import { close, DARK_RED } from "../../landingpage/src/assets";
 import { validName } from "../../../components/src/utils";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 interface S {
   name: string;
   addressType: string;
@@ -52,15 +50,6 @@ export default class UpdateProfileModal extends React.Component<P, S> {
     };
   }
 
-  async componentDidMount() {
-    Keyboard.addListener("keyboardWillShow", (state) => {
-      this.setState({ keyboardHeight: state.endCoordinates.height });
-    });
-    Keyboard.addListener("keyboardWillHide", () => {
-      this.setState({ keyboardHeight: 0 });
-    });
-  }
-
   showAlert(message:string) {
     Alert.alert("Alert",message);
   }
@@ -69,8 +58,8 @@ export default class UpdateProfileModal extends React.Component<P, S> {
     return (
       <Modal visible={this.props.visible} transparent>
         <View style={styles.blur} />
-        <KeyboardAvoidingView style={styles.innerContainer}>
-          <ScrollView
+        <View style={styles.innerContainer}>
+          <KeyboardAwareScrollView
             bounces={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.contentContainer}
@@ -202,9 +191,9 @@ export default class UpdateProfileModal extends React.Component<P, S> {
               }}
               label={"Save Details"}
             />
-          </ScrollView>
+          </KeyboardAwareScrollView>
           <View style={{ height: this.state.keyboardHeight }} />
-        </KeyboardAvoidingView>
+        </View>
         {this.props.isLoading && (
           <View style={styles.loader}>
             <View>

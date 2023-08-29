@@ -109,10 +109,7 @@ export default class Myprofile extends LandingPageController {
       navigate:this.navigateToDetailsPage.bind(this),
       price:item?.attributes?.catalogue_id?.data?.attributes?.price,
       onPressRemoveFromFav:() => {
-        this.removeFavListProduct(item?.id)
-        setTimeout(() => {
-          this.getFavorites()
-        }, 300);	
+        this.removeFavListProduct(item?.id);
       },
       onPressAddToCart:() => {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
@@ -125,10 +122,14 @@ export default class Myprofile extends LandingPageController {
       id:item?.id,
       navigate:this.navigateToDetailsPage.bind(this),
       price:item?.attributes?.price,
-      onPressRemoveFromFav:() => {},
+        onPressRemoveFromFav: () => {
+          this.setState({fetchFavorites:true})
+          this.AddToFavorites(item?.id)
+        },
       onPressAddToCart:() => {
         this.addToCart(item?.id)
-      },
+        },
+      isRecommendations:true
   }        
   return (
     <RenderProducts

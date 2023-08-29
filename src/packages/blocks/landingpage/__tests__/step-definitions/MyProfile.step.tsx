@@ -5,6 +5,9 @@ import * as helpers from "../../../../framework/src/Helpers";
 import React from "react";
 import MyProfile from "../../src/MyProfile/Myprofile";
 import RenderProducts from "../../src/MyProfile/RenderProducts";
+import { Message } from "../../../../framework/src/Message";
+import MessageEnum, { getName } from "../../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../../framework/src/RunEngine";
 
 const navigation = {
   navigate: jest.fn(),
@@ -241,10 +244,32 @@ defineFeature(feature, (test) => {
       );
       instance.navigateToDetailsPage();
       instance.forceUpdate();
+      instance.setState({ fetchFavorites: true });
+      instance.addToFavCallBack({},null)
       const touchableOpacity = landingPageBlock.find(
         '[testID="removeFavList"]'
       );
       instance.removeFavListProduct(item);
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        ''
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+       
+        }
+      );
+
+      instance.getFavoritesDeleteId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.getImage()
       instance.setState({ profileImage: { path: 'image' } })
       instance.showButton()
@@ -276,6 +301,20 @@ defineFeature(feature, (test) => {
       // touchableOpacity.simulate("press");
       expect(touchableOpacity).toBeTruthy();
     });
+
+    then('remove product from the cart', () => {
+      const { getByTestId } = render(instance.renderItem({id:12}))
+      fireEvent.press(getByTestId('removeFavList'));
+      fireEvent.press(getByTestId('addtocart'));
+
+    }) 
+    then('user adding product to wishlist from recommended products', () => {
+      instance.setState({ selectedTab: 'MyFavoritesScreen' })
+      const { getByTestId } = render(instance.renderItem({id:12}));
+     render(instance.renderItem({id:12}))
+     fireEvent.press(getByTestId('addtocart'));
+      fireEvent.press(getByTestId('removeFavList'));
+    })
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

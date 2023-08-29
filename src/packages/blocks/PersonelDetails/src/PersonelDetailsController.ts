@@ -7,7 +7,7 @@ import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showToast } from "../../../components/src/ShowToast";
-
+import { Alert } from 'react-native';
 const configJSON = require("../config.js");
 export interface Props {
   navigation: any;
@@ -17,7 +17,7 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
-  selectedAddress: number;
+  selectedAddress: any;
   selectedTab: "delivery" | "shipping" | "pickup";
   show_modal: boolean;
   addressList: Array<any>;
@@ -57,7 +57,7 @@ export default class PersonelDetailsController extends BlockComponent<
 
     this.state = {
       showLoader: false,
-      selectedAddress: 0,
+      selectedAddress: null,
       selectedTab: "delivery",
       show_modal: false,
       addressList: [],
@@ -82,7 +82,9 @@ export default class PersonelDetailsController extends BlockComponent<
   getPersonelDetails: string = "";
   getAvailableSlotsCallId: string ;
   addAddressCallId: string = "";
+  addAddressToOrderCallId: string = '';
   estimatedDeliveryDateCallId: string = '';
+  addressId:any = null;
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -111,12 +113,12 @@ export default class PersonelDetailsController extends BlockComponent<
     this.addAddressCallId != null &&
     this.addAddressCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-        let PersonelDetails = message.getData(
+        const PersonelDetails = message.getData(
           getName(MessageEnum.RestAPIResponceSuccessMessage)
         );
-        let error = message.getData(
+        const error = message.getData(
           getName(MessageEnum.RestAPIResponceErrorMessage)
-        );      
+        );
         if (
           !error &&
           PersonelDetails
@@ -157,6 +159,23 @@ export default class PersonelDetailsController extends BlockComponent<
       if (!error && estimatedDeliverDate?.delivery_date) {
         this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date });
       }
+    } else if (  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.addAddressToOrderCallId != null &&
+    this.addAddressToOrderCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const addAddressResponse = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      if (!error && addAddressResponse?.message === 'address choosed') {
+        this.setState({ selectedAddress: this.addressId });
+        this.addressId = null;
+      } else {
+        showToast('Something went wrong');
+      }
+      
     }
   }
   getExpectedDeliveryDate() {
@@ -300,5 +319,49 @@ export default class PersonelDetailsController extends BlockComponent<
       configJSON.httpGetMethod
     );
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async addAddressToTheOrder(id:number) {
+    this.setState({ showLoader: true });
+    this.addressId = id;
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.addAddressToOrderCallId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.addAddressToTheOrder}${this.state.addressList[id]?.attributes?.id}`
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+
+  onPressContinue() {
+    if (this.state.selectedTab === 'delivery') {
+      if (!this.state.addressList.length) {
+        Alert.alert("Alert", "Please add address");
+      } else if (this.state.selectedAddress === null) {
+        Alert.alert("Alert", "Please select an address");
+      } else {
+        this.setState({selectedTab:'shipping'})
+      }
+    } else if (this.state.selectedTab === 'shipping') {
+      this.setState({selectedTab:'pickup'})
+    } else {
+      this.setState({ show_modal: true });
+    }
   }
 }

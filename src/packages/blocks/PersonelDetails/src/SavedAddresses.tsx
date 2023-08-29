@@ -94,7 +94,7 @@ export default class SavedAddresses extends Component<Props, State> {
         }} style={styles.delivery}>
           <Text style={{ color: PRIMARY }}>{'Delivery'}</Text>
         </TouchableOpacity>
-        <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  />
+        {this.props.showModal ? <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  /> : null}
       </View>
     );
   }

@@ -27,7 +27,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
 
   // Customizable Area Start
   async componentDidMount() {
-    this.getInvoiceDetails()
+    this.getInvoiceDetails();
   }
   // Customizable Area End
 
@@ -62,7 +62,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter subTotal={this.props.route.params.subtotal} total={this.props.route.params.total} />}
+              ListFooterComponent={<RenderFooter subTotal={this.props.route?.params?.subtotal} total={this.props?.route?.params?.total} params={this.props.route?.params} />}
               ListHeaderComponent={<RenderHeader billingAddress={this.state.billingAddress} shippingAddress={this.state.shippingAddress} deliveryDate={this.state.deliveryDate}/>}
             />
           </View>

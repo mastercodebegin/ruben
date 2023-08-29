@@ -25,6 +25,7 @@ interface S {
   order_id: number | null;
   discountPrice: number;
   totalPrice: number;
+  discountFetched: boolean;
 }
 
 interface SS {
@@ -51,6 +52,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       order_id: null,
       discountPrice: 0,
       totalPrice: 0,
+      discountFetched: false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -136,7 +138,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     }
     else if (!error) {
       showToast("Discount Applied")
-      this.setState({showLoader:false,discountPrice:Number(discountPrice.discount)}, ()=>this.showDiscountMessage("Discount Applied"))
+      this.setState({showLoader:false,discountPrice:Number(discountPrice.discount),discountFetched:true}, ()=>this.showDiscountMessage("Discount Applied"))
     } else {
       this.setState({showLoader:false},()=>this.showDiscountMessage("Something went wrong"))
     }
@@ -164,8 +166,20 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     } else {      
       if(prodList?.attributes?.order_items?.data?.length){
       store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
+      //sorting productList
+      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
+        const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0; 
+      })
       this.setState({
-        productsList:prodList?.attributes?.order_items?.data,
+        productsList:sortedProductList,
         order_id: prodList?.id,
         showLoader: false,
         totalPrice:prodList?.attributes?.total_fees
@@ -180,7 +194,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if (error) {
       Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
     } else if(discoundCode?.promo_code) {
-      this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount});
+      this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount, discountFetched: true});
       showToast('Discount code fetched successfully')
     }
   }

@@ -46,7 +46,9 @@ defineFeature(feature, (test) => {
           discount: 0,
           storageClass: "Basic",
           orderId: 0,
-          orderNumber: 0
+          orderNumber: 0,
+          deliveryCharge: 0,
+              total:0
         }
       }} {...screenProps} />);
     });

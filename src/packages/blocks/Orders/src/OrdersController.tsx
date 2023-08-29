@@ -103,7 +103,7 @@ export default class OrdersController extends BlockComponent<
       let ongoingOrdersError = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (ongoingOrders?.message === "No completed orders are present" && !ongoingOrdersError) {
+      if (ongoingOrders?.message === "No completed orders are present" && !ongoingOrdersError && ongoingOrders?.data?.length) {
         this.setState({ongoingOrdersList:[],showLoader:false,refresh:false})
 
       } else {

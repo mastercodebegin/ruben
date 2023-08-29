@@ -75,7 +75,7 @@ const BlogPostCard = ({ item, type }: Types) => {
             {item?.attributes?.description}
           </Text>
           {type === "image" ? (
-            <Image
+            <FastImage
               style={styles.blogImage}
               resizeMode="stretch"
               source={{ uri: item?.attributes?.images[0]?.url }}

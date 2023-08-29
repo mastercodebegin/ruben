@@ -122,7 +122,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     this.setState({ cvv: text });
   };
   handleContinueButton = () => {
-    console.log("continueeeee", this.state)
     if (this.state.isOrderSuccess) {
       if (this.state.paymentAlerttype === "PaymentSuccess") {
         this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
@@ -138,7 +137,7 @@ export default class StripeIntegration extends StripeIntegrationController {
         });
        } else {
         this.setState({ showPaymentAlert: false });
-        this.props.navigation.navigate('InvoiceBilling', this.props.route.params)
+        this.props.navigation.navigate('InvoiceBilling', this.props.route.params);
       }
     } else {
        if (this.state.paymentAlerttype === "PaymentFailed") {
@@ -321,13 +320,17 @@ export default class StripeIntegration extends StripeIntegrationController {
                   <Text style={styles.paymentText}>Subtotal</Text>
                   <Text style={styles.answer}>{`$${this.props.route.params.subtotal.toFixed(2)}`}</Text>
                 </View>
-                <View style={styles.row}>
+               {this.props.route.params.discount ? <View style={styles.row}>
                   <Text style={styles.paymentText}>Discount</Text>
                   <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)`}</Text>
-                </View>
+                </View>:null}
                 <View style={styles.row}>
                   <Text style={styles.paymentText}>Shipping Charges</Text>
                   <Text style={styles.answer}>{`$${this.props.route.params.shipping.toFixed(2)}`}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.paymentText}>Delivery Charges</Text>
+                  <Text style={styles.answer}>{`$${this.props.route.params.deliveryCharge.toFixed(2)}`}</Text>
                 </View>
                 {this.props.route.params.storageClass !== "Basic" && (
                   <View style={styles.row}>
@@ -339,7 +342,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={[styles.row, { paddingHorizontal: 20 }]}>
                 <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{`$${(this.props.route.params.subtotal - this.props.route.params.discount + this.props.route.params.shipping + this.getMeatStorage()).toFixed(2)}`}</Text>
+                <Text style={styles.answer}>{`${Number(this.props.route?.params.total).toFixed(2)}`}</Text>
               </View>
             </View>
             <View style={styles.containerStyle} testID="doubleButton">

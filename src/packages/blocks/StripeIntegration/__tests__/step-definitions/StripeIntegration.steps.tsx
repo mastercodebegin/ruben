@@ -57,6 +57,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -233,6 +235,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -281,6 +285,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -310,6 +316,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -344,6 +352,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -380,6 +390,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -412,6 +424,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -486,6 +500,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -555,6 +571,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -609,6 +627,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -637,6 +657,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
         />
@@ -690,6 +712,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -738,6 +762,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -786,6 +812,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -833,6 +861,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -879,6 +909,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -933,6 +965,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -987,6 +1021,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -1021,6 +1057,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -1069,6 +1107,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -1092,6 +1132,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -1128,6 +1170,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}
@@ -1160,6 +1204,8 @@ defineFeature(feature, (test) => {
                 orderNumber: 0,
                 email: "",
                 discountPercentage: 0,
+                deliveryCharge: 0,
+              total:0
               },
             }}
             {...screenProps}
@@ -1205,6 +1251,8 @@ defineFeature(feature, (test) => {
               orderNumber: 0,
               email: "",
               discountPercentage: 0,
+              deliveryCharge: 0,
+              total:0
             },
           }}
           {...screenProps}

@@ -126,8 +126,8 @@ export default class InvoiceBillingController extends BlockComponent<
           productsList: invoiceDetails?.data?.attributes?.order_items?.data,
           showLoader: false,
           subTotal: Number(invoiceDetails?.data?.attributes?.subtotal[0]),
-          billingAddress: invoiceDetails?.data?.attributes?.bill_to?.data[0]?.attributes,
-          shippingAddress:invoiceDetails?.data?.attributes?.shipping_address?.data[0]?.attributes,
+          billingAddress: invoiceDetails?.data?.attributes?.bill_to?.data?.attributes,
+          shippingAddress:invoiceDetails?.data?.attributes?.shipping_address?.data?.attributes,
           deliveryDate : invoiceDetails?.data?.attributes?.delivery_date,
         })
       } else {
@@ -194,10 +194,6 @@ export default class InvoiceBillingController extends BlockComponent<
 
   // Customizable Area Start
   async downloadInvoice(showAlert = false) {
-    if (this.state.pdfUrl !== '') {
-      this.setState({showModal:showAlert });
-      return;
-    }
     let url;
     try {
       this.setState({ showLoader: true });

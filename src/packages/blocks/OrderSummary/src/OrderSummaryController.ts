@@ -31,7 +31,9 @@ interface S {
   orderNumber: number;
   deliverWithinADay: boolean;
   lifetimeSubscription: boolean;
-  emailId:string;
+  emailId: string;
+  deliveryCharge: number;
+  lifetimeSubscriptionPrice: number;
 }
 
 interface SS {
@@ -63,12 +65,14 @@ SS
       currentStorageClass: 'Basic',
       subtotal: 0,
       discount: 0,
-      shipping: 12,
+      shipping: 10,
       orderId: 4,
       orderNumber: 12121212,
       deliverWithinADay: false,
       lifetimeSubscription: false,
+      deliveryCharge:12,
       emailId: "",
+      lifetimeSubscriptionPrice:5,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -267,9 +271,20 @@ SS
       for (const item of prodList?.attributes?.order_items?.data) {
         subtotal += (+item.attributes?.catalogue?.data?.attributes?.price * +item?.attributes?.quantity);
       }
+      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
+        const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0; 
+      })
       this.setState({
         showLoader: false,
-        productsList:prodList?.attributes?.order_items?.data,
+        productsList:sortedProductList,
         subtotal,
         discount: subtotal * 0.1
       })
@@ -277,8 +292,7 @@ SS
   }
 
   deliverWithinADayClicked = () => {
-    const shipping = this.state.shipping + 25.99
-    this.setState({deliverWithinADay: true, shipping})
+    this.setState({deliverWithinADay: true, deliveryCharge:25.99})
   }
   lifetimeSubClicked = () => {
     this.setState({lifetimeSubscription: true})

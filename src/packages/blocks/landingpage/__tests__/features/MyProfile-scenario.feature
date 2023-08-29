@@ -20,4 +20,6 @@ Feature: MyProfile
         Then user navigate to product detail screen
         Then user can remove product from fav list
         Then user can add product to add to cart
+        Then remove product from the cart
+        Then user adding product to wishlist from recommended products
         And I can leave the screen with out errors

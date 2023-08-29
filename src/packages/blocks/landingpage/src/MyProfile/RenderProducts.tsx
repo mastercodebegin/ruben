@@ -19,6 +19,7 @@ interface RenderProductsTypes {
   image: string;
   onPressRemoveFromFav: () => void;
   onPressAddToCart: () => void;
+  isRecommendations?: boolean;
 }
 const RenderProducts = ({
   navigate,
@@ -30,6 +31,7 @@ const RenderProducts = ({
   image,
   onPressRemoveFromFav,
   onPressAddToCart,
+  isRecommendations=false
 }: RenderProductsTypes) => {
   return (
     <View style={styles.FavContainer}>
@@ -58,9 +60,9 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"removeFavList"}
               onPress={onPressRemoveFromFav}
-              style={styles.badgeContainer}
+              style={[styles.badgeContainer,isRecommendations&&{backgroundColor:"white"}]}
             >
-              <Image resizeMode="contain" style={styles.badge} source={badge} />
+              <Image resizeMode="contain" style={[styles.badge,isRecommendations &&{tintColor:"#000000"}]} source={badge} />
             </TouchableOpacity>
           </View>
         </ImageBackground>

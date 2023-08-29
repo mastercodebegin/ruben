@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "./styles";
-const RenderFooter = ({ subTotal, total }: any) => {
+const RenderFooter = ({ subTotal, total, params }: any) => {  
   return (
     <View
       style={{
@@ -13,12 +13,22 @@ const RenderFooter = ({ subTotal, total }: any) => {
       }}
     >
       <View style={{ flexDirection: "row" }}>
-        <Text style={styles.text}>Sub Total</Text>
-        <Text style={styles.text}>{`$${subTotal.toFixed(2)}`}</Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.boldText}>Total</Text>
-        <Text style={styles.boldText}>{`$${total.toFixed(2)}`}</Text>
+        <View>
+          <Text style={styles.text}>Sub Total</Text>
+          <Text style={styles.text}>Shipping Charges</Text>
+          {params?.discount ? <Text style={styles.text}>Discount</Text> : null}
+          <Text style={styles.text}>Delivery Charges</Text>
+          {params?.lifetimeSubscriptionCharge ? <Text style={styles.text}>Lifetime Subscription</Text>:null}
+          <Text style={styles.boldText}>Total</Text>
+        </View>
+        <View>
+          <Text style={[styles.text,{textAlign:"right"}]}>{`$${subTotal?.toFixed(2)}`}</Text>
+          <Text style={[styles.text,{textAlign:"right"}]}>{`$${Number(params?.shipping).toFixed(2)}`}</Text>
+          {params?.discount ? <Text style={[styles.text,{textAlign:"right"}]}>{`-$${Number(params?.discount).toFixed(2)}`}</Text> : null}
+          <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.deliveryCharge).toFixed(2)}`}</Text>
+          {params?.lifetimeSubscriptionCharge ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.lifetimeSubscriptionCharge).toFixed(2)}`}</Text> : null}
+          <Text style={[styles.boldText, { textAlign: "right" }]}>{`$${Number(total)?.toFixed(2)}`}</Text>
+        </View>
       </View>
     </View>
   );
