@@ -180,6 +180,23 @@ defineFeature(feature, (test) => {
     then("user moving to signup tab", () => {
       instance.setState({ selectedTab: false });
       const wrapper = shallow(<SignupComponent {...signupProps} />);
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+          meta: {
+           token:'test token'
+         }
+        }
+      );
+      instance.apiEmailSignupCallId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
       const touchableOpacity = wrapper.findWhere(
         (node) => node.prop("testID") === "merchant_check_box_id"
       );

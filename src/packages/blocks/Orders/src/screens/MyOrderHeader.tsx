@@ -100,30 +100,42 @@ export const MyOrderHeader = ({
         </TouchableOpacity>
       </View>
       <View style={expStyles.textInputContainer}>
-        <View style={expStyles.searchContainer}>
-          <Image
+        <View style={[expStyles.searchContainer, { height: 50, paddingHorizontal: 20 }]}>
+       {(orderNo.length ===0)?<Image
             resizeMode="stretch"
             style={[
-              expStyles.search,
               {
                 tintColor: DARK_RED,
+                height: 20,
+                width: 20,
+                marginRight:10
               },
             ]}
             source={SEARCH}
-          />
+          />:null}
           <TextInput
-            style={expStyles.textInput}
+            style={{flex:1,height:"100%",marginRight:1}}
             onChangeText={(text) => {
               setOrderNo(text)
             }}
             value={orderNo}
             keyboardType="number-pad"
-            onBlur={() => {
-              searchOrder(orderNo)
-            }}
             placeholder="Search any product..."
             placeholderTextColor={"#8D7D75"}
           />
+          <TouchableOpacity onPress={()=>searchOrder(orderNo)}>
+          {(orderNo.length)? <Image
+            resizeMode="stretch"
+            style={[
+              {
+                tintColor: DARK_RED,
+                height: 20,
+                width:20
+              },
+            ]}
+            source={SEARCH}
+          />:null}
+          </TouchableOpacity>
         </View>
         <View style={{ height: "100%" }}>
           <DisplayCalendar

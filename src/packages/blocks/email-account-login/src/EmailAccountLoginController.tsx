@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { decryptText, encryptText, store } from "../../../components/src/utils";
 import {
   getStorageData,
+  removeStorageData,
   setStorageData,
 } from "../../../framework/src/Utilities";
 const encryptionKey = "gh753mjb6v8cpqet7vslwf";
@@ -514,6 +515,7 @@ export default class EmailAccountLoginController extends BlockComponent<
               coupon_code: newLogged?.data?.attributes?.code,
               showLoader: false,
             });
+            removeStorageData('userCred');
           }
         );
       } else {

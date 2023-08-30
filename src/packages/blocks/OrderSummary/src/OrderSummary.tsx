@@ -68,7 +68,7 @@ export default class OrderSummary extends OrderSummaryController {
       ]);
     };
     const subScriptionCharges = {Basic:0, Gold : 3.99, Platinum : 9.99};
-    const lifetimeSubscriptionCharge = subScriptionCharges[this.state.currentStorageClass]
+    const lifetimeSubscriptionCharge = this.state.subscriptionCharge;
     const total =  this.state.subtotal - this.props.route.params.discount + this.state.shipping + lifetimeSubscriptionCharge + this.state.deliveryCharge; 
     const paymentDetailsList = [
       { question: "Subtotal", ans: `$${this.state.subtotal.toFixed(2)}` },
@@ -79,7 +79,7 @@ export default class OrderSummary extends OrderSummaryController {
     paymentDetailsList.push({ question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}` });
     if (this.state.lifetimeSubscription) {
       paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscriptionPrice.toFixed(2)}` });
-    }
+    }    
 
     return (
       <SafeAreaView style={styles.safearea}>
@@ -183,44 +183,27 @@ export default class OrderSummary extends OrderSummaryController {
              
                 <>
                   <Text style={[styles.meatStorageHeading, {marginTop: 30}]}>Meat Storage</Text>
-                  <View style={styles.meatStorageOption}>
+                  {this.state.currentPlan ?<View style={styles.meatStorageOption}>
                     <View style={styles.meatStorageHeader}>
-                      <Text style={styles.meatStorageHeading}>Basic</Text>
+                  <Text style={styles.meatStorageHeading}>{this.capitalizeFirstLetter(this.state.currentPlan?.plan_name)}</Text>
                       <Text style={[styles.meatStoragePrice, {color: 'grey'}]}>CURRENT</Text>
                     </View>
-                    <Text style={styles.meatStorageDesc}>Free Access to Explore</Text>
-                    <Text style={styles.meatStorageDesc}>1 Meat Store at a time</Text>
-                  </View>
-                  <View style={[styles.meatStorageOption, {backgroundColor: this.state.currentStorageClass === 'Gold' ? PRIMARY : WHITE}]}>
+                <Text style={styles.meatStorageDesc}>{this.state.currentPlan?.description}</Text>
+              </View> : null}
+              
+                  {this.state.availablePlans.map((item)=>(<View key={item?.id} style={[styles.meatStorageOption, {backgroundColor:this.state.selectedPlan ===item?.id ? PRIMARY : WHITE}]}>
                     <View style={styles.meatStorageHeader}>
-                      <Text style={[styles.meatStorageHeading, {color: this.state.currentStorageClass === 'Gold' ? WHITE : DARK_RED}]}>Gold</Text>
-                      <Text style={[styles.meatStoragePrice, {color: this.state.currentStorageClass === 'Gold' ? WHITE : DARK_RED}]}>{"$3.99"}<Text style={styles.monthText}>{'/Month'}</Text></Text>
+                      <Text style={[styles.meatStorageHeading, { color: this.state.selectedPlan ===item?.id ? WHITE : DARK_RED }]}>{this.capitalizeFirstLetter(item?.plan_name)}</Text>
+                      <Text style={[styles.meatStoragePrice, {color: this.state.selectedPlan ===item?.id? WHITE : DARK_RED}]}>{`$${item?.price}`}<Text style={styles.monthText}>{'/Month'}</Text></Text>
                     </View>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>Instant Pickup/Delivery</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>10 Meat Storage at a time</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>All Payment Options</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Gold' ? '#dddddd' : 'grey'}]}>All Time Service Available</Text>
-                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Gold' ? 'Basic' : 'Gold'})}>
-                      <Text style={[styles.addMeatStorageButtonText, {color: this.state.currentStorageClass === 'Gold' ? BLACK : PRIMARY}]}>
-                        {this.state.currentStorageClass === 'Gold' ? 'Remove' : 'Add Storage'}
+                    <Text style={[styles.meatStorageDesc, { color: this.state.selectedPlan ===item?.id ? '#dddddd' : 'grey' }]}>{ item?.description }</Text>
+                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({selectedPlan:item?.id,subscriptionCharge:item?.price})}>
+                      <Text style={[styles.addMeatStorageButtonText, {color:this.state.selectedPlan ===item?.id ? BLACK : PRIMARY}]}>
+                        {this.state.selectedPlan ===item?.id ? 'Remove' : 'Add Storage'}
                       </Text>
                     </TouchableOpacity>
-                  </View>
-                  <View style={[styles.meatStorageOption, {backgroundColor: this.state.currentStorageClass === 'Platinum' ? PRIMARY : WHITE}]}>
-                    <View style={styles.meatStorageHeader}>
-                      <Text style={[styles.meatStorageHeading, {color: this.state.currentStorageClass === 'Platinum' ? WHITE : DARK_RED}]}>Platinum</Text>
-                      <Text style={[styles.meatStoragePrice, {color: this.state.currentStorageClass === 'Platinum' ? WHITE : DARK_RED}]}>{"$9.99"}<Text style={styles.monthText}>{'/Month'}</Text></Text>
-                    </View>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>Instant Pickup/Delivery</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>10 Meat Storage at a time</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Payment Options</Text>
-                    <Text style={[styles.meatStorageDesc, {color: this.state.currentStorageClass === 'Platinum' ? '#dddddd' : 'grey'}]}>All Time Service Available</Text>
-                    <TouchableOpacity style={styles.addMeatStorageButton} onPress={() => this.setState({currentStorageClass: this.state.currentStorageClass === 'Platinum' ? 'Basic' : 'Platinum'})}>
-                      <Text style={[styles.addMeatStorageButtonText, {color: this.state.currentStorageClass === 'Platinum' ? BLACK : PRIMARY}]}>
-                        {this.state.currentStorageClass === 'Platinum' ? 'Remove' : 'Add Storage'}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  </View>))}
+                  
                 </>
               
             <DoubleButton

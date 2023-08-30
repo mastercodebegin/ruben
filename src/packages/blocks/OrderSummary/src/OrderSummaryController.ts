@@ -34,6 +34,11 @@ interface S {
   emailId: string;
   deliveryCharge: number;
   lifetimeSubscriptionPrice: number;
+  meatStoragePlans: any[];
+  currentPlan: any;
+  availablePlans: any[];
+  selectedPlan: any;
+  subscriptionCharge: null | number;
 }
 
 interface SS {
@@ -72,7 +77,12 @@ SS
       lifetimeSubscription: false,
       deliveryCharge:12,
       emailId: "",
-      lifetimeSubscriptionPrice:5,
+      lifetimeSubscriptionPrice: 5,
+      meatStoragePlans: [],
+      currentPlan: null,
+      availablePlans: [],
+      selectedPlan: null,
+      subscriptionCharge:null
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -116,8 +126,15 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      const prodList = productsList?.data[0]
-      this.getCartCallBack(prodList,error)
+      
+      if (productsList?.data?.length ) {
+        const prodList = productsList?.data[0];
+        const subTotal = productsList?.data[0]?.attributes?.subtotal;
+        this.getCartCallBack(prodList,productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans,subTotal,error)
+      } else {
+        showToast('Something went wrong');
+      }
+      
 
     }
     else if (
@@ -254,22 +271,14 @@ SS
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  getCartCallBack(prodList:any,error=false){
+  getCartCallBack(prodList: any, plans: any[],subTotal:number, error = false) {    
     if(error){
       this.setState({showLoader: false})
-      alert('Error getting items in cart!')
+      alert('Error getting items in cart!');
     }else{
-
       if(prodList?.attributes?.order_items?.data?.length === 0) {
         Alert.alert("No products left in the cart!")
         this.props.navigation.replace('LandingPage')
-      }
-
-      let subtotal = 0;
-      this.setState({orderId:prodList?.id})
-      this.setState({orderNumber:prodList?.attributes?.order_no})
-      for (const item of prodList?.attributes?.order_items?.data) {
-        subtotal += (+item.attributes?.catalogue?.data?.attributes?.price * +item?.attributes?.quantity);
       }
       const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
         const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
@@ -285,8 +294,13 @@ SS
       this.setState({
         showLoader: false,
         productsList:sortedProductList,
-        subtotal,
-        discount: subtotal * 0.1
+        subtotal:subTotal,
+        discount: subTotal * 0.1,
+        meatStoragePlans: plans,
+        orderId: prodList?.id,
+        orderNumber: prodList?.attributes?.order_no,
+        currentPlan: plans[0]?.current_plan,
+        availablePlans:plans[0]?.existing_paln
       })
     }
   }
@@ -305,5 +319,8 @@ SS
         text:'cancel',
       }
     ])
+  }
+   capitalizeFirstLetter(string:string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }
