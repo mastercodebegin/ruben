@@ -11,11 +11,11 @@ import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 //@ts-ignore
 import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
 import moment from "moment";
-import { addDays } from 'date-fns';
 interface Props {
   dateSelected?: (date: string) => void;
   onDayPress?: (date: string) => void;
-  markedDate?:any
+  markedDate?: any;
+  minDate?: any;
 }
 const backArrow = require("./arrow_left.png");
 const monthNames = [
@@ -42,7 +42,8 @@ const getMonthName = (timestamp: number) => {
 const Calendar = ({
   dateSelected = (date: string) => { },
   onDayPress,
-  markedDate
+  markedDate,
+  minDate
 }: Props): JSX.Element => {
   const [month, setMonth] = useState(new Date().getTime());
   const [markDate, setMarkDate] = useState({
@@ -140,6 +141,7 @@ const Calendar = ({
     onMonthChange: (month: any) => {
       setMonth(month.timestamp);
     },
+    minDate:minDate,
     markingType: "period",
     markedDates: markedDate ? markedDate : markDate,
     firstDay: 0,

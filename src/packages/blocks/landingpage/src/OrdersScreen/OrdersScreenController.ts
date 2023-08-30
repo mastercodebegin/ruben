@@ -19,7 +19,12 @@ interface S {
   showLoader: boolean;
   incomingOrders: [];
   previousOrders: [];
-  selected: string;
+  selected: "incoming" | "previous";
+  searchText: string;
+  selectedDate: {
+    startDate: string ,
+    endDate: string 
+  }
 }
 
 interface SS {
@@ -45,7 +50,12 @@ SS
       showLoader: false,
       incomingOrders: [],
       previousOrders: [],
-      selected: "incom"
+      selected: "incoming",
+      searchText: '',
+      selectedDate: {
+        endDate: '',
+        startDate:'',
+      }
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -54,6 +64,7 @@ SS
   getIncomingOrdersId: string = "";
   getPreviousOrdersId: string = "";
   acceptDeclineOrdersId: string = "";
+  filterOrdersWithDateId: string = '';
 
   async receive(from: string, message: Message) {
     if (
@@ -69,11 +80,11 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        showToast("Some error occured!")
+        showToast("Some error occurred!");
+        this.setState({ showLoader: false });
       } else {
-        this.setState({incomingOrders: response?.data})
+        this.setState({ incomingOrders: response?.data, showLoader: false });
       }
-      this.setState({showLoader: false})
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getPreviousOrdersId != null &&
@@ -86,12 +97,12 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error) {
-        showToast("Some error occured!")
-      } else {
-        this.setState({previousOrders: response?.data})
+      if (error && !response?.data?.length) {
+        showToast("Some error occurred!");
+        this.setState({ showLoader: false });
+      } else if (response?.data?.length) {
+        this.setState({ previousOrders: response?.data, showLoader: false });
       }
-      this.setState({showLoader: false})
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
@@ -101,13 +112,42 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error) {
-        showToast("Some error occured!")
+     this.acceptDeclineCallback(error)
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterOrdersWithDateId != null &&
+      this.filterOrdersWithDateId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error) {
+        if (this.state.selected === 'incoming') {
+          this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        } else {
+          this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        }
       } else {
-        this.getIncomingOrders()
-        this.getPreviousOrders()
+        showToast('Something went wrong');
+        this.setState({ showLoader: false });
       }
+    }
+  }
+
+  acceptDeclineCallback(error=null) {
+    if (error) {
+      showToast("Some error occurred!");
       this.setState({showLoader: false})
+    } else {
+      if (this.state.selected === 'incoming') {          
+        this.getIncomingOrders();
+      } else {
+        this.getPreviousOrders();
+      }
     }
   }
 
@@ -166,6 +206,35 @@ SS
 
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
   }
+  async filterWithDate(status:any , startDate:string , endDate:string) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/merchant_inventory?start_date=${startDate}&end_date=${endDate}&status=[${"on_going"}]`
+      //bx_block_shopping_cart/orders/merchant_inventory?start_date=2023-08-17&end_date=2023-08-18&status=["on_going"]
+    );
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
 
   async acceptDeclineOrders(orderId: number, accept: boolean) {
     this.setState({ showLoader: true });
@@ -195,8 +264,11 @@ SS
     runEngine.sendMessage(acceptDeclineOrdersRequest.id, acceptDeclineOrdersRequest);
   }
 
-  setSelected = (tabName: string) => {
-    this.setState({selected: tabName})
+  setSelected = (tabName: "incoming" | "previous") => {    
+    if (tabName === 'previous' && this.state.previousOrders.length ===0 ) {
+      this.getPreviousOrders();
+    }
+    this.setState({ selected: tabName });
   }
 }
 

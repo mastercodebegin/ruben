@@ -3,6 +3,7 @@ import RNFetchBlob from "rn-fetch-blob";
 export const isIOs = Platform.OS === 'ios';
 import { createStore } from 'redux';
 import messaging from '@react-native-firebase/messaging';
+import { DARK_RED, LIGHT_GREY, PRIMARY } from "./constants";
 
 
 const imagePath = isIOs ?  RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir+'/Farm2URDoor';
@@ -151,3 +152,32 @@ const reducer = (state = initialState, action: any) => {
     return decryptedText;
   }
   
+  export const  generateDateObject = (startDateStr:string, endDateStr:string)=> {
+    let startDate = new Date(startDateStr);
+   let endDate = new Date(endDateStr);
+   if (startDate > endDate) {
+     const temp = startDate;
+     startDate = endDate;
+     endDate = temp;
+   }
+    const result :any = {};
+    let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    const currentDateStr = currentDate.toISOString().split("T")[0];
+      const dayData:any = { color: LIGHT_GREY, textColor: DARK_RED };
+      if (currentDate.getTime() === startDate.getTime()) {
+      dayData.startingDay = true;
+      dayData.color = PRIMARY;
+      dayData.textColor = "white";
+    } else if (currentDate.getTime() === endDate.getTime()) {
+      dayData.endingDay = true;
+      dayData.color = PRIMARY;
+      dayData.textColor = "white";
+      dayData.dotColor = "white";
+    }
+      result[currentDateStr] = dayData;
+      currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return result;
+}
