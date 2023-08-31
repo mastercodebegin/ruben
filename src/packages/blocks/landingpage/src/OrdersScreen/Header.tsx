@@ -55,12 +55,6 @@ export const MyOrderHeader = ({
   return (
     <View style={styles.main}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingHorizontal: 10 }}
-        >
-          <Image style={{ height: 20, width: 20 }} source={backArrow} />
-        </TouchableOpacity>
         <Text style={styles.header}>{"Orders"}</Text>
       </View>
       <View style={styles.animatedContainer}>
@@ -72,6 +66,7 @@ export const MyOrderHeader = ({
         />
         <TouchableOpacity
           disabled={selected === "incoming"}
+          testID="incoming_orders_test_id"
           onPress={() => animate(0, "incoming")}
           style={styles.selectorContainer}
         >
@@ -141,6 +136,7 @@ export const MyOrderHeader = ({
         </View>
         <View style={{ height: "100%" }}>
           <DisplayCalendar
+            //@ts-ignore
             ref={calendarRef}
             setSelectedDay={() => {}}
             selectedDate={""}
@@ -161,7 +157,8 @@ export const MyOrderHeader = ({
                 marginLeft:20
               }}
               onPress={() => {
-                onOpen()
+                onOpen();
+                //@ts-ignore
                 calendarRef.current._onButtonPress()
               }}
             >

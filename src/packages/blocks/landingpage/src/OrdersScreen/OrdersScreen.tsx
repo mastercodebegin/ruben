@@ -6,22 +6,23 @@ import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./Header";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { generateDateObject } from "../../../../components/src/utils";
+import BottomTab from "../BottomTab/BottomTab";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
-  constructor(props:any) {
-    super(props);
-  }
+  
   async componentDidMount(){
     this.getIncomingOrders();
   }
   
-  render(): React.ReactNode {    
+  render(): React.ReactNode {        
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.main}>
+          <View style={{flex:1}}>
           <FlatList
-            data={ this.state.selected === 'incoming'? this.state.incomingOrders:this.state.previousOrders }
+              data={this.state.selected === 'incoming' ? this.state.incomingOrders : this.state.previousOrders}
+              testID="orders_list_id"
             keyExtractor={(item, index) => JSON.stringify(index) + item}
             contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
             ListHeaderComponent={
@@ -30,9 +31,7 @@ export default class MyOrdersScreen extends OrdersController {
                   selectedDay={this.state.selectedDate.startDate}
                   orderNo={this.state.searchText}
                   setOrderNo={(no)=>this.setState({searchText:no})}
-                  searchOrder={(no) => {
-                  
-                  }}
+                  searchOrder={() => {}}
                   minDate={this.state.selectedDate.startDate}
                   markedDates={generateDateObject(this.state.selectedDate.startDate,this.state.selectedDate.endDate?this.state.selectedDate.endDate:this.state.selectedDate.startDate)}
                 onDaySelect={(date) => {                  
@@ -47,11 +46,7 @@ export default class MyOrdersScreen extends OrdersController {
                   }}
                   setSelected={this.setSelected}
                   navigation={this.props.navigation}
-                onclose={() => { 
-                  if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
-                    this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
-                    }
-                  }}
+                onclose={this.onCloseCalendar}
                 />
             }
             ListEmptyComponent={() => { 
@@ -65,8 +60,10 @@ export default class MyOrdersScreen extends OrdersController {
             }}
             renderItem={({ item }) => <RenderItem acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}  item={item} />}
           />
+          </View>
           <CommonLoader visible={this.state.showLoader} />
-        </View>
+          <BottomTab navigation={this.props.navigation} tabName="OrdersScreen"/>
+        </View> 
       </SafeAreaView>
     );
   }

@@ -125,19 +125,22 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (!error) {
-        if (this.state.selected === 'incoming') {
-          this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
-        } else {
-          this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
-        }
-      } else {
-        showToast('Something went wrong');
-        this.setState({ showLoader: false });
-      }
+      this.filterByDateCallBack(response, error);
     }
   }
 
+  filterByDateCallBack(response:any , error=null) {
+    if (!error) {
+      if (this.state.selected === 'incoming') {
+        this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
+      } else {
+        this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
+      }
+    } else {
+      showToast('Something went wrong');
+      this.setState({ showLoader: false });
+    }
+  }
   acceptDeclineCallback(error=null) {
     if (error) {
       showToast("Some error occurred!");
@@ -269,6 +272,12 @@ SS
       this.getPreviousOrders();
     }
     this.setState({ selected: tabName });
+  }
+
+  onCloseCalendar() {
+    if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
+      this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
+      }
   }
 }
 
