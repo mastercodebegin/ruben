@@ -16,64 +16,80 @@ export default class MyOrdersScreen extends OrdersController {
       <SafeAreaView style={styles.main}>
         <View style={styles.main}>
           <FlatList
-            data={ this.state.ongoingOrdersList }
+            data={this.state.ongoingOrdersList}
             keyExtractor={(item, index) => JSON.stringify(index) + item}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refresh}
                 testID="refereshcontrol"
                 onRefresh={() => {
-                  this.setState({ orderNo:'',refresh: true });
+                  this.setState({ orderNo: "", refresh: true });
                   if (this.state.selectedTab === "completed") {
-                    this.getCompletedOrder()
+                    this.getCompletedOrder();
                   } else {
-                    this.getOnGoingOrder()
+                    this.getOnGoingOrder();
                   }
                 }}
               />
             }
-            contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              backgroundColor: LIGHT_GREY,
+            }}
             ListHeaderComponent={
               <MyOrderHeader
                 selected={this.state.selectedTab}
                 selectedDay={this.state.selectedDate}
                 orderNo={this.state.orderNo}
-                setOrderNo={(no) => this.setState({ orderNo: no })}
+                setOrderNo={(no) => {
+                  if (no === "") {
+                    this.setState({
+                      orderNo: "",
+                      ongoingOrdersList: this.state.persistedData,
+                    });
+                  } else {
+                    this.setState({ orderNo: no });
+                  }
+                }}
                 minDate={this.state.startDate}
                 searchOrder={(no) => {
-                  if (no === '') {
-                    if (this.state.selectedTab === "completed") {
-                      this.getCompletedOrder()
-                    } else {
-                      this.getOnGoingOrder()
-                    }
-                  }
-                  else if (no) {
-                    this.searchOrder(no)
+                  if (no) {
+                    this.searchOrder(no);
                   }
                 }}
-                markedDates={this.generateDateObject(this.state.startDate,this.state.endDate === ""?this.state.startDate:this.state.endDate)}
+                markedDates={this.generateDateObject(
+                  this.state.startDate,
+                  this.state.endDate === ""
+                    ? this.state.startDate
+                    : this.state.endDate
+                )}
                 onDaySelect={(date) => {
-                  if (this.state.startDate !== '') {
-                    this.setState({endDate:date})
+                  if (this.state.startDate !== "") {
+                    this.setState({ endDate: date });
                   } else {
-                    this.setState({startDate:date})
-                    this.setState({endDate: date})
-                  }                  
-                }}
-                onOpen={()=>this.setState({startDate:'',endDate:''})}
-                setSelected={(tab) => {                  
-                  if (tab === "completed") {
-                    this.getCompletedOrder()
-                  } else {
-                    this.getOnGoingOrder()
+                    this.setState({ startDate: date });
+                    this.setState({ endDate: date });
                   }
-                  this.setState({ selectedTab: tab ,ongoingOrdersList:[]})
+                }}
+                onOpen={() => this.setState({ startDate: "", endDate: "" })}
+                setSelected={(tab) => {
+                  if (tab === "completed") {
+                    this.getCompletedOrder();
+                  } else {
+                    this.getOnGoingOrder();
+                  }
+                  this.setState({
+                    selectedTab: tab,
+                    ongoingOrdersList: [],
+                  });
                 }}
                 navigation={this.props.navigation}
-                onclose={() => {                  
-                  if (this.state.startDate !== '' && this.state.endDate !== '') {
-                    this.filterByDate.bind(this)()
+                onclose={() => {
+                  if (
+                    this.state.startDate !== "" &&
+                    this.state.endDate !== ""
+                  ) {
+                    this.filterByDate.bind(this)();
                   }
                 }}
               />
@@ -87,7 +103,13 @@ export default class MyOrdersScreen extends OrdersController {
                 </View>
               );
             }}
-            renderItem={({ item }) => <RenderItem selectedStatus={ this.state.selectedTab } item={item} cancelOrder={this.cancelOrder.bind(this)} />}
+            renderItem={({ item }) => (
+              <RenderItem
+                selectedStatus={this.state.selectedTab}
+                item={item}
+                cancelOrder={this.cancelOrder.bind(this)}
+              />
+            )}
           />
           <CommonLoader visible={this.state.showLoader} />
         </View>
