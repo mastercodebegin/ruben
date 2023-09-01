@@ -21,7 +21,7 @@ export default class MyOrdersScreen extends OrdersController {
         <View style={styles.main}>
           <View style={{flex:1}}>
           <FlatList
-              data={this.state.selected === 'incoming' ? this.state.incomingOrders : this.state.previousOrders}
+              data={this.getCorrespondingArray()}
               testID="orders_list_id"
             keyExtractor={(item, index) => JSON.stringify(index) + item}
             contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
@@ -30,8 +30,14 @@ export default class MyOrdersScreen extends OrdersController {
                   selected={this.state.selected}
                   selectedDay={this.state.selectedDate.startDate}
                   orderNo={this.state.searchText}
-                  setOrderNo={(no)=>this.setState({searchText:no})}
-                  searchOrder={() => {}}
+                setOrderNo={(no) => {
+                  if (no) {
+                    this.setState({ searchText: no });
+                  } else {
+                    this.setState({ isSearching: false ,searchText: ''});
+                  }
+                }}
+                  searchOrder={this.searchOrder.bind(this)}
                   minDate={this.state.selectedDate.startDate}
                   markedDates={generateDateObject(this.state.selectedDate.startDate,this.state.selectedDate.endDate?this.state.selectedDate.endDate:this.state.selectedDate.startDate)}
                 onDaySelect={(date) => {                  
@@ -46,7 +52,7 @@ export default class MyOrdersScreen extends OrdersController {
                   }}
                   setSelected={this.setSelected}
                   navigation={this.props.navigation}
-                onclose={this.onCloseCalendar}
+                onclose={this.onCloseCalendar.bind(this)}
                 />
             }
             ListEmptyComponent={() => { 

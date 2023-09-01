@@ -16,11 +16,13 @@ interface SearchBarWithFilterTyes {
   onChangeText: (text: string) => void;
   testID?: string;
   searchText: string;
+  hideFilter?: boolean;
 }
 const SearchBarWithFilter = ({
   onChangeText = () => {},
   testID,
   searchText,
+  hideFilter=false
 }: SearchBarWithFilterTyes) => {
   const dropdownCategoryref: any = React.createRef();
 
@@ -37,7 +39,7 @@ const SearchBarWithFilter = ({
           onChangeText={onChangeText}
         />
       </View>
-      <View style={{ height: "100%" }}>
+      {hideFilter?null:<View style={{ height: "100%" }}>
         <ModalDropdownComp
           onSelect={() => {}}
           options={["High to low", "Low to high",]}
@@ -65,7 +67,7 @@ const SearchBarWithFilter = ({
             />
           </TouchableOpacity>
         </ModalDropdownComp>
-      </View>
+      </View>}
     </View>
   );
 };

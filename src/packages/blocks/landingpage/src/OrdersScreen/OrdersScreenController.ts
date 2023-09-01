@@ -17,14 +17,16 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
-  incomingOrders: [];
+  incomingOrders: any[];
   previousOrders: [];
   selected: "incoming" | "previous";
   searchText: string;
   selectedDate: {
     startDate: string ,
     endDate: string 
-  }
+  },
+  isSearching: boolean;
+  searchResult: any[];
 }
 
 interface SS {
@@ -55,7 +57,9 @@ SS
       selectedDate: {
         endDate: '',
         startDate:'',
-      }
+      },
+      isSearching: false,
+      searchResult:[]
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -65,6 +69,7 @@ SS
   getPreviousOrdersId: string = "";
   acceptDeclineOrdersId: string = "";
   filterOrdersWithDateId: string = '';
+  searchOrdersWithNumberId: string = '';
 
   async receive(from: string, message: Message) {
     if (
@@ -83,7 +88,8 @@ SS
         showToast("Some error occurred!");
         this.setState({ showLoader: false });
       } else {
-        this.setState({ incomingOrders: response?.data, showLoader: false });
+        const incomingOrders = this.filterByStatus(response?.data);
+        this.setState({ incomingOrders: incomingOrders.incomingOrders, showLoader: false });
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -126,7 +132,48 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.filterByDateCallBack(response, error);
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.searchOrdersWithNumberId != null &&
+      this.searchOrdersWithNumberId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.searchOrderCallBack(response, error);
     }
+  }
+  searchOrderCallBack(response:any,error:any) {
+    if (error && !response) {
+      showToast("No orders found");
+      this.setState({showLoader:false,searchResult:[]})
+    } else {
+      this.setState({showLoader:false,searchResult:response?.data?.length?response?.data:[] })
+    }
+  }
+
+   filterByStatus(list: any[]) {
+    const incomingOrders:any[] = [];
+     const completedOrders: any[] = [];
+     if (list?.length) {
+       list.forEach((item) => {
+         if (item?.attributes?.status === 'on_going') {
+           incomingOrders.push(item);
+         }else if(item?.attributes?.status === 'completed' || item?.attributes?.status === 'cancelled')
+         {
+           completedOrders.push(item);
+         }
+       })
+     }
+    return {
+      incomingOrders,
+      completedOrders
+    }
+    
   }
 
   filterByDateCallBack(response:any , error=null) {
@@ -209,6 +256,42 @@ SS
 
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
   }
+  getParams() {
+    if (this.state.selected === 'incoming') {
+      return '["on_going"]'
+    }
+    if (this.state.selected === 'previous')
+      return '["completed"]'
+  }
+
+  async searchOrder(orderNo:number) {
+    this.setState({ showLoader: true ,isSearching:true});
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.searchOrdersWithNumberId = getPreviousOrdersRequest.messageId;
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/merchant_inventory?order_no=${orderNo}&status=${this.getParams()}`
+    );
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
   async filterWithDate(status:any , startDate:string , endDate:string) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -271,13 +354,24 @@ SS
     if (tabName === 'previous' && this.state.previousOrders.length ===0 ) {
       this.getPreviousOrders();
     }
-    this.setState({ selected: tabName });
+    this.setState({ selected: tabName , searchResult:[],isSearching:false });
   }
 
   onCloseCalendar() {
     if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
       this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
       }
+  }
+
+  getCorrespondingArray() {
+    if (this.state.isSearching) {
+      return this.state.searchResult;
+    } else if (this.state.selected === 'incoming') {
+      return this.state.incomingOrders;
+    } else if (this.state.selected === 'previous') {
+      return this.state.previousOrders
+    }
+    return [];
   }
 }
 

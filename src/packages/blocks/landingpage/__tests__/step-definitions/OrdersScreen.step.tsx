@@ -224,8 +224,8 @@ defineFeature(feature, (test) => {
       const ordersList = SettingsBlock.find('[testID="orders_list_id"]');
       const props: any = ordersList.props();
       const { getByTestId } = render(props.ListHeaderComponent)
-      fireEvent.press(getByTestId('incoming_orders_test_id'))
       ordersList.render();
+      fireEvent.press(getByTestId('incoming_orders_test_id'))
     })
   });
 });

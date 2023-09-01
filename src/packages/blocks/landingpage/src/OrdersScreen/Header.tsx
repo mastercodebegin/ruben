@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { styles } from "../../../../components/src/CalendarTemplate";
-import { SEARCH, backArrow } from "../../../landingpage/src/assets";
+import { SEARCH } from "../../../landingpage/src/assets";
 import { styles as expStyles } from "../../../landingpage/src/ExploreStore/ExplorePage";
 import { DARK_RED, calendarIcon } from "../../../../components/src/constants";
 import DisplayCalendar from "../../../../components/src/DisplayCalendar";
@@ -25,7 +25,7 @@ interface MyOrderHeaderTypes {
   markedDates: any;
   onOpen: () => void;
   onclose: () => void;
-  searchOrder: (no: string) => void;
+  searchOrder: any;
   setOrderNo: (no:string) => void;
   orderNo: string;
   minDate: string | null;

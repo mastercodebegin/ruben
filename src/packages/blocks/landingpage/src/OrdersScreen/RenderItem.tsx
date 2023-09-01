@@ -41,7 +41,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Order ID:</Text>
-              <Text style={styles.text}>{item?.id}</Text>
+              <Text style={styles.text}>{item?.attributes?.order_no}</Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Due Date:</Text>
