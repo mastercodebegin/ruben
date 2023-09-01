@@ -19,6 +19,34 @@ const screenProps = {
   id: "LandingPage",
   route: {},
 };
+const apiResponse = {
+  data: [
+    {
+      attributes: {
+        address: { data: null },
+        bill_to: { data: null },
+        created_at: "2023-06-16T07:16:45.912Z",
+        customer: { data: [Object] },
+        delivery_date: "2023-06-19",
+        discount_amount: null,
+        order_enable: false,
+        order_items: { data: [Array] },
+        order_no: null,
+        shipping_address: { data: null },
+        shipping_charge: null,
+        status: "scheduled",
+        subtotal: 0,
+        total: null,
+        total_fees: 0,
+        total_items: null,
+        total_tax: null,
+        updated_at: "2023-06-16T07:16:45.912Z",
+      },
+      id: "86",
+      type: "order",
+    },
+  ],
+}
 
 const feature = loadFeature("./__tests__/features/OrdersScreen-scenario.feature");
 defineFeature(feature, (test) => {
@@ -58,34 +86,7 @@ defineFeature(feature, (test) => {
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: [
-            {
-              attributes: {
-                address: { data: null },
-                bill_to: { data: null },
-                created_at: "2023-06-16T07:16:45.912Z",
-                customer: { data: [Object] },
-                delivery_date: "2023-06-19",
-                discount_amount: null,
-                order_enable: false,
-                order_items: { data: [Array] },
-                order_no: null,
-                shipping_address: { data: null },
-                shipping_charge: null,
-                status: "scheduled",
-                subtotal: 0,
-                total: null,
-                total_fees: 0,
-                total_items: null,
-                total_tax: null,
-                updated_at: "2023-06-16T07:16:45.912Z",
-              },
-              id: "86",
-              type: "order",
-            },
-          ],
-        }
+        apiResponse
       );
       instance.getIncomingOrdersId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
@@ -102,34 +103,7 @@ defineFeature(feature, (test) => {
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: [
-            {
-              attributes: {
-                address: { data: null },
-                bill_to: { data: null },
-                created_at: "2023-06-16T07:16:45.912Z",
-                customer: { data: [Object] },
-                delivery_date: "2023-06-19",
-                discount_amount: null,
-                order_enable: false,
-                order_items: { data: [Array] },
-                order_no: null,
-                shipping_address: { data: null },
-                shipping_charge: null,
-                status: "scheduled",
-                subtotal: 0,
-                total: null,
-                total_fees: 0,
-                total_items: null,
-                total_tax: null,
-                updated_at: "2023-06-16T07:16:45.912Z",
-              },
-              id: "86",
-              type: "order",
-            },
-          ],
-        }
+        apiResponse
       );
       instance.getPreviousOrdersId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
@@ -145,38 +119,10 @@ defineFeature(feature, (test) => {
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: [
-            {
-              attributes: {
-                address: { data: null },
-                bill_to: { data: null },
-                created_at: "2023-06-16T07:16:45.912Z",
-                customer: { data: [Object] },
-                delivery_date: "2023-06-19",
-                discount_amount: null,
-                order_enable: false,
-                order_items: { data: [Array] },
-                order_no: null,
-                shipping_address: { data: null },
-                shipping_charge: null,
-                status: "scheduled",
-                subtotal: 0,
-                total: null,
-                total_fees: 0,
-                total_items: null,
-                total_tax: null,
-                updated_at: "2023-06-16T07:16:45.912Z",
-              },
-              id: "86",
-              type: "order",
-            },
-          ],
-        }
+        apiResponse
       );
       instance.acceptDeclineOrdersId = msgValidationAPI.messageId;
-      runEngine.sendMessage("Unit Test", msgValidationAPI);
-      
+      runEngine.sendMessage("Unit Test", msgValidationAPI);      
     });
     then("user trying to filter the orders with date", () => {
       const msgValidationAPI = new Message(
@@ -188,44 +134,39 @@ defineFeature(feature, (test) => {
       );
       msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: [
-            {
-              attributes: {
-                address: { data: null },
-                bill_to: { data: null },
-                created_at: "2023-06-16T07:16:45.912Z",
-                customer: { data: [Object] },
-                delivery_date: "2023-06-19",
-                discount_amount: null,
-                order_enable: false,
-                order_items: { data: [Array] },
-                order_no: null,
-                shipping_address: { data: null },
-                shipping_charge: null,
-                status: "scheduled",
-                subtotal: 0,
-                total: null,
-                total_fees: 0,
-                total_items: null,
-                total_tax: null,
-                updated_at: "2023-06-16T07:16:45.912Z",
-              },
-              id: "86",
-              type: "order",
-            },
-          ],
-        }
+        apiResponse
       );
       instance.filterOrdersWithDateId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+      expect(instance.state.incomingOrders).toBe(apiResponse.data);
     })
     then('users can see available orders list', () => {
       const ordersList = SettingsBlock.find('[testID="orders_list_id"]');
       const props: any = ordersList.props();
       const { getByTestId } = render(props.ListHeaderComponent)
       ordersList.render();
+      instance.setState({ isSearching: true, searchResult: [] });
+      ordersList.render();
       fireEvent.press(getByTestId('incoming_orders_test_id'))
+    });
+    then('user trying to search orders with order id', () => {
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        apiResponse
+      );
+      instance.searchOrdersWithNumberId = msgValidationAPI.messageId;
+      instance.searchOrder(1234);
+      instance.setSelected('incoming');
+      instance.setSelected('previous');
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      expect(instance.state.searchResult).toBe(apiResponse.data);
     })
   });
 });

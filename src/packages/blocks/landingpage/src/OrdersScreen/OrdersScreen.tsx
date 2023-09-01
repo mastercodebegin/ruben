@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
-import OrdersController from  './OrdersScreenController';
+import OrdersController from "./OrdersScreenController";
 import * as constants from "../../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./Header";
@@ -10,66 +10,65 @@ import BottomTab from "../BottomTab/BottomTab";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
-  
-  async componentDidMount(){
+  async componentDidMount() {
     this.getIncomingOrders();
   }
-  
-  render(): React.ReactNode {        
+
+  render(): React.ReactNode {
     return (
       <SafeAreaView style={styles.main}>
         <View style={styles.main}>
-          <View style={{flex:1}}>
-          <FlatList
+          <View style={{ flex: 1 }}>
+            <FlatList
               data={this.getCorrespondingArray()}
               testID="orders_list_id"
-            keyExtractor={(item, index) => JSON.stringify(index) + item}
-            contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
-            ListHeaderComponent={
+              keyExtractor={(item, index) => JSON.stringify(index) + item}
+              contentContainerStyle={{
+                flexGrow: 1,
+                backgroundColor: LIGHT_GREY,
+              }}
+              ListHeaderComponent={
                 <MyOrderHeader
                   selected={this.state.selected}
                   selectedDay={this.state.selectedDate.startDate}
                   orderNo={this.state.searchText}
-                setOrderNo={(no) => {
-                  if (no) {
-                    this.setState({ searchText: no });
-                  } else {
-                    this.setState({ isSearching: false ,searchText: ''});
-                  }
-                }}
+                  setOrderNo={this.onSetOrderNo.bind(this)}
                   searchOrder={this.searchOrder.bind(this)}
                   minDate={this.state.selectedDate.startDate}
-                  markedDates={generateDateObject(this.state.selectedDate.startDate,this.state.selectedDate.endDate?this.state.selectedDate.endDate:this.state.selectedDate.startDate)}
-                onDaySelect={(date) => {                  
-                  if (!this.state.selectedDate.startDate) {
-                    this.setState({selectedDate:{startDate:date,endDate:''}})
-                  } else {
-                    this.setState({selectedDate:{...this.state.selectedDate,endDate:date}})
-                  }
-                 }}
-                onOpen={() => {
-                    this.setState({selectedDate:{startDate:'',endDate:''}})
-                  }}
+                  markedDates={generateDateObject(
+                    this.state.selectedDate.startDate,
+                    this.state.selectedDate.endDate
+                      ? this.state.selectedDate.endDate
+                      : this.state.selectedDate.startDate
+                  )}
+                  onDaySelect={this.onDaySelect.bind(this)}
+                  onOpen={this.onCalendarOpen.bind(this)}
                   setSelected={this.setSelected}
                   navigation={this.props.navigation}
-                onclose={this.onCloseCalendar.bind(this)}
+                  onclose={this.onCloseCalendar.bind(this)}
                 />
-            }
-            ListEmptyComponent={() => { 
-              return (
+              }
+              ListEmptyComponent={
                 <View>
                   <Text style={{ fontWeight: "bold", textAlign: "center" }}>
                     No Data Found
                   </Text>
                 </View>
-              );
-            }}
-            renderItem={({ item }) => <RenderItem acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}  item={item} />}
-          />
+              }
+              renderItem={({ item }) => (
+                <RenderItem
+                  acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}
+                  item={item}
+                />
+              )}
+            />
           </View>
           <CommonLoader visible={this.state.showLoader} />
-          <BottomTab navigation={this.props.navigation} tabName="OrdersScreen"/>
-        </View> 
+          <BottomTab
+            navigation={this.props.navigation}
+            tabName="OrdersScreen"
+          />
+        </View>
       </SafeAreaView>
     );
   }

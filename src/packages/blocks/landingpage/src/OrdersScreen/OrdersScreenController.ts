@@ -103,12 +103,7 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error && !response?.data?.length) {
-        showToast("Some error occurred!");
-        this.setState({ showLoader: false });
-      } else if (response?.data?.length) {
-        this.setState({ previousOrders: response?.data, showLoader: false });
-      }
+     this.previousOrderCallBack(response,error)
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
@@ -145,6 +140,15 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.searchOrderCallBack(response, error);
+    }
+  }
+
+  previousOrderCallBack(response:any,error:any) {
+    if (error && !response?.data?.length) {
+      showToast("Some error occurred!");
+      this.setState({ showLoader: false });
+    } else if (response?.data?.length) {
+      this.setState({ previousOrders: response?.data, showLoader: false });
     }
   }
   searchOrderCallBack(response:any,error:any) {
@@ -373,5 +377,25 @@ SS
     }
     return [];
   }
+  onDaySelect(date:string) {
+      if (!this.state.selectedDate.startDate) {
+        this.setState({selectedDate:{startDate:date,endDate:''}})
+      } else {
+        this.setState({selectedDate:{...this.state.selectedDate,endDate:date}})
+      }
+     
+  }
+  onCalendarOpen() {
+      this.setState({
+        selectedDate: { startDate: "", endDate: "" },
+      });
+  }
+  onSetOrderNo(no:string) {
+      if (no) {
+        this.setState({ searchText: no });
+      } else {
+        this.setState({ isSearching: false, searchText: "" });
+      }
+    }
 }
 
