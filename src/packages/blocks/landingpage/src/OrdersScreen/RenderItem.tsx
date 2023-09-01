@@ -3,18 +3,10 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import DualButton from "../../../../components/src/DualButton";
 import { MEAT_IMAGE1 } from "../assets";
 import { DARK_RED } from "../../../../components/src/constants";
-
-const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {  
-  const dd_mm_yy = (date: Date) =>
-    `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${date.getFullYear().toString().slice(2)}`;
-  const hh_mm_am_pm = (date: Date) =>
-    `${(date.getHours() % 12).toString().padStart(2, "0")}:${date
-      .getMinutes()
-      .toString()
-      .padStart(2, "0")} ${date.getHours() < 12 ? "AM" : "PM"}`;
-
+import moment from "moment";
+const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
+  const deliveryDate =
+    item?.attributes?.order_items?.data[0]?.attributes?.delivered_at;
   return (
     <View
       style={{
@@ -32,11 +24,10 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
             <View style={styles.row}>
               <Text style={styles.headerText}>{item?.id}</Text>
               <Text style={styles.text}>{`$ ${(
-                item?.attributes?.order_items?.data[0]?.attributes
-                  ?.price || 0
+                item?.attributes?.order_items?.data[0]?.attributes?.price || 0
               ).toFixed(2)} x ${
-                item?.attributes?.order_items?.data[0]?.attributes
-                  ?.quantity || 0
+                item?.attributes?.order_items?.data[0]?.attributes?.quantity ||
+                0
               }`}</Text>
             </View>
             <View style={styles.row}>
@@ -46,36 +37,22 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
             <View style={styles.row}>
               <Text style={styles.qText}>Due Date:</Text>
               <Text style={styles.text}>
-                {item?.attributes?.order_items?.data[0]?.attributes
-                  ?.delivered_at
-                  ? dd_mm_yy(
-                      new Date(
-                        item?.attributes?.order_items?.data[0]?.attributes?.delivered_at
-                      )
-                    )
-                  : ""}
+                {deliveryDate ? moment(deliveryDate).format("DD-MM-YYYY") : ""}
               </Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Shipping Time:</Text>
               <Text style={styles.text}>
-                {item?.attributes?.order_items?.data[0]?.attributes
-                  ?.delivered_at
-                  ? hh_mm_am_pm(
-                      new Date(
-                        item?.attributes?.order_items?.data[0]?.attributes?.delivered_at
-                      )
-                    )
-                  : ""}
+                {deliveryDate ? moment(deliveryDate).format("hh:mm A") : ""}
               </Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.qText}>Subtotal:</Text>
               <Text style={styles.text}>{`$ ${(
-                (item?.attributes?.order_items?.data[0]?.attributes
-                  ?.price || 0) *
-                (item?.attributes?.order_items?.data[0]?.attributes
-                  ?.quantity || 0)
+                (item?.attributes?.order_items?.data[0]?.attributes?.price ||
+                  0) *
+                (item?.attributes?.order_items?.data[0]?.attributes?.quantity ||
+                  0)
               ).toFixed(2)}`}</Text>
             </View>
           </View>
@@ -84,6 +61,8 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
         <DualButton
           button1Label="Decline"
           button2label="Accept"
+          buttn1TestID="decline_test_id"
+          buttn2TestID="accept_test_id"
           button1Onpress={() => {
             if (item.id) acceptDeclineOrders(item?.id, false);
           }}

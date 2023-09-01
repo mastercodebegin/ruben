@@ -8,6 +8,7 @@ import MessageEnum, {
 } from "../../../../framework/src/Messages/MessageEnum";
 import { runEngine } from "../../../../framework/src/RunEngine";
 import { fireEvent, render } from "@testing-library/react-native";
+import RenderItem from '../../src/OrdersScreen/RenderItem';
 
 const navigation = {
   navigate: jest.fn(),
@@ -23,24 +24,31 @@ const apiResponse = {
   data: [
     {
       attributes: {
-        address: { data: null },
-        bill_to: { data: null },
-        created_at: "2023-06-16T07:16:45.912Z",
-        customer: { data: [Object] },
-        delivery_date: "2023-06-19",
-        discount_amount: null,
-        order_enable: false,
-        order_items: { data: [Array] },
-        order_no: null,
-        shipping_address: { data: null },
-        shipping_charge: null,
-        status: "scheduled",
-        subtotal: 0,
-        total: null,
-        total_fees: 0,
-        total_items: null,
-        total_tax: null,
-        updated_at: "2023-06-16T07:16:45.912Z",
+        order_items: {
+          data: [{
+            attributes: {
+              address: { data: null },
+              bill_to: { data: null },
+              created_at: "2023-06-16T07:16:45.912Z",
+              customer: { data: [Object] },
+              delivered_at: "2023-06-19",
+              discount_amount: null,
+              order_enable: false,
+              order_items: { data: [Array] },
+              order_no: null,
+              shipping_address: { data: null },
+              shipping_charge: null,
+              status: "scheduled",
+              subtotal: 0,
+              total: null,
+              total_fees: 0,
+              total_items: null,
+              total_tax: null,
+              updated_at: "2023-06-16T07:16:45.912Z"
+            }
+           }
+          ]}
+       
       },
       id: "86",
       type: "order",
@@ -143,11 +151,21 @@ defineFeature(feature, (test) => {
     then('users can see available orders list', () => {
       const ordersList = SettingsBlock.find('[testID="orders_list_id"]');
       const props: any = ordersList.props();
-      const { getByTestId } = render(props.ListHeaderComponent)
+      // const { getByTestId } = render(props.ListHeaderComponent)
       ordersList.render();
       instance.setState({ isSearching: true, searchResult: [] });
       ordersList.render();
-      fireEvent.press(getByTestId('incoming_orders_test_id'))
+      // fireEvent.press(getByTestId('incoming_orders_test_id'));
+      const data = [null, {}, { attributes: {} }]
+      data.forEach((data) => {
+        render(<RenderItem item={data} />);
+      })
+      const increaseBtn = jest.fn();
+      const { getByTestId } = render(<RenderItem item={apiResponse.data[0]} acceptDeclineOrders={increaseBtn} />);
+      fireEvent.press(getByTestId('decline_test_id'));
+      fireEvent.press(getByTestId('accept_test_id'));
+      expect(increaseBtn).toBeCalled()
+
     });
     then('user trying to search orders with order id', () => {
       const msgValidationAPI = new Message(
