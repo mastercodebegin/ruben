@@ -1,156 +1,120 @@
-import React, { useContext } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import CalendarTemplate, {
-  Calendarcontext,
-} from "../../../../components/src/CalendarTemplate";
-import { DARK_RED, MEAT_IMAGE1 } from "../assets";
-import DualButton from "../../../../components/src/DualButton";
-import OrdersScreenController from './OrdersScreenController'
+import React from "react";
+import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
+import OrdersController from "./OrdersScreenController";
+import * as constants from "../../../../components/src/constants";
+import RenderItem from "./RenderItem";
+import { MyOrderHeader } from "./Header";
 import CommonLoader from "../../../../components/src/CommonLoader";
+import { generateDateObject } from "../../../../components/src/utils";
+import BottomTab from "../BottomTab/BottomTab";
+const { LIGHT_GREY, DARK_RED } = constants;
 
-const ChildrenComponent = ({acceptDeclineOrders = async () => {}}: {acceptDeclineOrders: (orderId: number, accept: boolean) => Promise<void>}) => {
-  const contextValue = useContext(Calendarcontext);
-  const dd_mm_yy = (date: Date) => `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear().toString().slice(2)}`;
-  const hh_mm_am_pm = (date: Date) => `${(date.getHours() % 12).toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
+export default class MyOrdersScreen extends OrdersController {
+  async componentDidMount() {
+    this.getIncomingOrders();
+  }
 
-
-  return (
-    <View
-      style={{
-        paddingBottom: 15,
-        marginHorizontal: 20,
-      }}
-    >
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-          <Image
-            style={{ height: 75, width: 75, borderRadius: 20 }}
-            source={MEAT_IMAGE1}
-          />
-          <View style={styles.innerCon}>
-            <View style={styles.row}>
-              <Text style={styles.headerText}>{contextValue.item?.id}</Text>
-              <Text style={styles.text}>{`$ ${(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.price || 0).toFixed(2)} x ${contextValue.item?.attributes?.order_items?.data[0]?.attributes?.quantity || 0}`}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Order ID:</Text>
-              <Text style={styles.text}>{contextValue.item?.id}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Due Date:</Text>
-              <Text style={styles.text}>{contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at ? dd_mm_yy(new Date(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at)) : ''}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Shipping Time:</Text>
-              <Text style={styles.text}>{contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at ? hh_mm_am_pm(new Date(contextValue.item?.attributes?.order_items?.data[0]?.attributes?.delivered_at)) : ''}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Subtotal:</Text>
-              <Text style={styles.text}>{`$ ${((contextValue.item?.attributes?.order_items?.data[0]?.attributes?.price || 0) * (contextValue.item?.attributes?.order_items?.data[0]?.attributes?.quantity || 0)).toFixed(2)}`}</Text>
-            </View>
-          </View>
-        </View>
-
-        <DualButton
-          disable={contextValue?.disable}
-          button1Label="Decline"
-          button2label="Accept"
-          button1Onpress={() => {
-            if(contextValue.item.id)
-              acceptDeclineOrders(contextValue.item?.id, false)
-          }}
-          button2Onpress={() => {
-            if(contextValue.item.id)
-              acceptDeclineOrders(contextValue.item?.id, true)
-          }}
-        />
-      </View>
-    </View>
-  );
-};
-  export default class OrdersScreen extends OrdersScreenController {
-
-    constructor(props: any) {
-      super(props)
-      this.acceptDeclineOrders = this.acceptDeclineOrders.bind(this)
-    }
-
-    async componentDidMount() {
-      this.getIncomingOrders();
-      this.getPreviousOrders();
-    }
-
-    render() {
-  return (
-      <>
-        <CalendarTemplate
-          header="Orders"
-          data={this.state.selected === "incom" ? this.state.incomingOrders : this.state.previousOrders}
-          extraData={{
-            selected: this.state.selected,
-            incomingOrders: this.state.incomingOrders,
-            previousOrders: this.state.previousOrders
-          }}
-          navigation={this.props.navigation}
-          animateString1="Incoming Orders"
-          animateString2="Previous Orders"
-          selected={this.state.selected}
-          setSelected={this.setSelected}
-          onChangeText={(text) => {}}
-          additionalHeader={
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingBottom: 10,
+  render(): React.ReactNode {
+    return (
+      <SafeAreaView style={styles.main}>
+        <View style={styles.main}>
+          <View style={{ flex: 1 }}>
+            <FlatList
+              data={this.getCorrespondingArray()}
+              testID="orders_list_id"
+              keyExtractor={(item, index) => JSON.stringify(index) + item}
+              contentContainerStyle={{
+                flexGrow: 1,
+                backgroundColor: LIGHT_GREY,
               }}
-            >
-              <Text style={styles.header}></Text>
-              <Text style={styles.header}></Text>
-            </View>
-          }
-        >
-          <ChildrenComponent acceptDeclineOrders={this.acceptDeclineOrders} />
-        </CalendarTemplate>
-        <CommonLoader visible={this.state.showLoader}/>
-      </>
-  );
-    }
-};
-const styles = StyleSheet.create({
-  qText: {
-    color: DARK_RED,
-    fontSize: 17,
-    paddingVertical: 5,
-  },
-  text: {
-    color: DARK_RED,
-    fontSize: 17,
-    fontWeight: "400",
-  },
-  headerText: {
-    color: DARK_RED,
-    fontWeight: "bold",
-    fontSize: 17,
-    paddingBottom: 10,
-  },
-  header: {
-    color: "grey",
-    fontSize: 16,
-  },
-  innerCon: {
+              ListHeaderComponent={
+                <MyOrderHeader
+                  selected={this.state.selected}
+                  selectedDay={this.state.selectedDate.startDate}
+                  orderNo={this.state.searchText}
+                  setOrderNo={this.onSetOrderNo.bind(this)}
+                  searchOrder={this.searchOrder.bind(this)}
+                  minDate={this.state.selectedDate.startDate}
+                  markedDates={generateDateObject(
+                    this.state.selectedDate.startDate,
+                    this.state.selectedDate.endDate
+                      ? this.state.selectedDate.endDate
+                      : this.state.selectedDate.startDate
+                  )}
+                  onDaySelect={this.onDaySelect.bind(this)}
+                  onOpen={this.onCalendarOpen.bind(this)}
+                  setSelected={this.setSelected}
+                  navigation={this.props.navigation}
+                  onclose={this.onCloseCalendar.bind(this)}
+                />
+              }
+              ListEmptyComponent={
+                <View>
+                  <Text style={{ fontWeight: "bold", textAlign: "center" }}>
+                    No Data Found
+                  </Text>
+                </View>
+              }
+              renderItem={({ item }) => (
+                <RenderItem
+                  acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}
+                  item={item}
+                />
+              )}
+            />
+          </View>
+          <CommonLoader visible={this.state.showLoader} />
+          <BottomTab
+            navigation={this.props.navigation}
+            tabName="OrdersScreen"
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
+}
+export const styles = StyleSheet.create({
+  main: {
     flex: 1,
-    paddingLeft: 10,
-    paddingTop: 10,
   },
   container: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 15,
+    flex: 1,
+    backgroundColor: LIGHT_GREY,
   },
+  flatlist: {
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  text: { fontSize: 16, color: "grey" },
+  innerContainer: { marginBottom: 20, paddingHorizontal: 20 },
+  productName: { fontSize: 16 },
+  button: {
+    height: 25,
+    width: 25,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 12.5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  count: {
+    color: DARK_RED,
+  },
+  counter: {
+    paddingHorizontal: 10,
+    color: DARK_RED,
+    fontSize: 17,
+  },
+  counterContainer: { flexDirection: "row", alignItems: "center" },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
+  },
+  price: {
+    color: DARK_RED,
+    fontSize: 17,
   },
 });

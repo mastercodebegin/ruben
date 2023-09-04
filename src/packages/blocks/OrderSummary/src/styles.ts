@@ -178,7 +178,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
-    backgroundColor: WHITE,
+    backgroundColor: LIGHT_GREY,
   },
   addMeatStorageButtonText: {
     fontWeight: "bold",

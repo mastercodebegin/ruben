@@ -50,7 +50,7 @@ const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
         
     }
 }
-const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => { 
+const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {     
     const isCompleted = item?.attributes?.status === 'completed';
     const isCanceled = item?.attributes?.status === 'cancelled';    
     const onPressCancel = () => {

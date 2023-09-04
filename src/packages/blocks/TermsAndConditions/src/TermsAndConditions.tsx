@@ -43,7 +43,7 @@ export default class TermsAndConditions extends TermsAndConditionsController {
         headerText={TERMS_AND_CONDITIONS}
         contentContainerStyle={styles.contentContainer}
         refreshControl
-        bounces
+        bounces 
         scrollViewStyle={styles.scrollView}
         onRefresh={() => {
           this.setState({ refresh: true });
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 20,
+    borderRadius:20
   },
   main: {
     flex: 1,

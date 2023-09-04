@@ -20,6 +20,7 @@ interface Props {
   onDayPress?: (date: string) => void;
   markedDates?: any;
   onClose?: () => void;
+  minDate?:any
 }
 
 interface State {
@@ -99,7 +100,8 @@ export default class DisplayCalendar extends Component<Props, State> {
                 <View style={{position:"absolute",...position,width:'100%',paddingHorizontal:20}}>
                     <TouchableHighlight >
                 <Calendar
-                  markedDate={this.props.markedDates? this.props.markedDates : markedDate}
+                  markedDate={this.props.markedDates ? this.props.markedDates : markedDate}
+                  minDate={this.props.minDate}
                   onDayPress={(date) => {
                     if (this.props.onDayPress) {
                       this.props.onDayPress(date);

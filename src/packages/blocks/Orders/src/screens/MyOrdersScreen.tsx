@@ -38,16 +38,16 @@ export default class MyOrdersScreen extends OrdersController {
                 selected={this.state.selectedTab}
                 selectedDay={this.state.selectedDate}
                 orderNo={this.state.orderNo}
-                setOrderNo={(no)=>this.setState({orderNo:no})}
-                searchOrder={(no) => {
+                setOrderNo={(no) => {
                   if (no === '') {
-                    if (this.state.selectedTab === "completed") {
-                      this.getCompletedOrder()
-                    } else {
-                      this.getOnGoingOrder()
-                    }
+                    this.setState({ orderNo: '' ,ongoingOrdersList :this.state.persistedData })
+                  } else {
+                    this.setState({ orderNo: no })
                   }
-                  else if (no) {
+                }}
+                minDate={this.state.startDate}
+                searchOrder={(no) => {
+              if (no) {
                     this.searchOrder(no)
                   }
                 }}

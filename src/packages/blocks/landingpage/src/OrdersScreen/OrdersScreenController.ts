@@ -17,9 +17,16 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
-  incomingOrders: [];
+  incomingOrders: any[];
   previousOrders: [];
-  selected: string;
+  selected: "incoming" | "previous";
+  searchText: string;
+  selectedDate: {
+    startDate: string ,
+    endDate: string 
+  },
+  isSearching: boolean;
+  searchResult: any[];
 }
 
 interface SS {
@@ -45,7 +52,14 @@ SS
       showLoader: false,
       incomingOrders: [],
       previousOrders: [],
-      selected: "incom"
+      selected: "incoming",
+      searchText: '',
+      selectedDate: {
+        endDate: '',
+        startDate:'',
+      },
+      isSearching: false,
+      searchResult:[]
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -54,6 +68,8 @@ SS
   getIncomingOrdersId: string = "";
   getPreviousOrdersId: string = "";
   acceptDeclineOrdersId: string = "";
+  filterOrdersWithDateId: string = '';
+  searchOrdersWithNumberId: string = '';
 
   async receive(from: string, message: Message) {
     if (
@@ -69,11 +85,12 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        showToast("Some error occured!")
+        showToast("Some error occurred!");
+        this.setState({ showLoader: false });
       } else {
-        this.setState({incomingOrders: response?.data})
+        const incomingOrders = this.filterByStatus(response?.data);
+        this.setState({ incomingOrders: incomingOrders.incomingOrders, showLoader: false });
       }
-      this.setState({showLoader: false})
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getPreviousOrdersId != null &&
@@ -86,12 +103,7 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error) {
-        showToast("Some error occured!")
-      } else {
-        this.setState({previousOrders: response?.data})
-      }
-      this.setState({showLoader: false})
+     this.previousOrderCallBack(response,error)
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
@@ -101,13 +113,95 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error) {
-        showToast("Some error occured!")
+     this.acceptDeclineCallback(error)
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterOrdersWithDateId != null &&
+      this.filterOrdersWithDateId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.filterByDateCallBack(response, error);
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.searchOrdersWithNumberId != null &&
+      this.searchOrdersWithNumberId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.searchOrderCallBack(response, error);
+    }
+  }
+
+  previousOrderCallBack(response:any,error:any) {
+    if (error && !response?.data?.length) {
+      showToast("Some error occurred!");
+      this.setState({ showLoader: false });
+    } else if (response?.data?.length) {
+      this.setState({ previousOrders: response?.data, showLoader: false });
+    }
+  }
+  searchOrderCallBack(response:any,error:any) {
+    if (error && !response) {
+      showToast("No orders found");
+      this.setState({showLoader:false,searchResult:[]})
+    } else {
+      this.setState({showLoader:false,searchResult:response?.data?.length?response?.data:[] })
+    }
+  }
+
+   filterByStatus(list: any[]) {
+    const incomingOrders:any[] = [];
+     const completedOrders: any[] = [];
+     if (list?.length) {
+       list.forEach((item) => {
+         if (item?.attributes?.status === 'on_going') {
+           incomingOrders.push(item);
+         }else if(item?.attributes?.status === 'completed' || item?.attributes?.status === 'cancelled')
+         {
+           completedOrders.push(item);
+         }
+       })
+     }
+    return {
+      incomingOrders,
+      completedOrders
+    }
+    
+  }
+
+  filterByDateCallBack(response:any , error=null) {
+    if (!error) {
+      if (this.state.selected === 'incoming') {
+        this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
       } else {
-        this.getIncomingOrders()
-        this.getPreviousOrders()
+        this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
       }
+    } else {
+      showToast('Something went wrong');
+      this.setState({ showLoader: false });
+    }
+  }
+  acceptDeclineCallback(error=null) {
+    if (error) {
+      showToast("Some error occurred!");
       this.setState({showLoader: false})
+    } else {
+      if (this.state.selected === 'incoming') {          
+        this.getIncomingOrders();
+      } else {
+        this.getPreviousOrders();
+      }
     }
   }
 
@@ -166,6 +260,71 @@ SS
 
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
   }
+  getParams() {
+    if (this.state.selected === 'incoming') {
+      return '["on_going"]'
+    }
+    if (this.state.selected === 'previous')
+      return '["completed"]'
+  }
+
+  async searchOrder(orderNo:number) {
+    this.setState({ showLoader: true ,isSearching:true});
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.searchOrdersWithNumberId = getPreviousOrdersRequest.messageId;
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/merchant_inventory?order_no=${orderNo}&status=${this.getParams()}`
+    );
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
+  async filterWithDate(status:any , startDate:string , endDate:string) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/merchant_inventory?start_date=${startDate}&end_date=${endDate}&status=[${"on_going"}]`
+      //bx_block_shopping_cart/orders/merchant_inventory?start_date=2023-08-17&end_date=2023-08-18&status=["on_going"]
+    );
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
 
   async acceptDeclineOrders(orderId: number, accept: boolean) {
     this.setState({ showLoader: true });
@@ -195,8 +354,48 @@ SS
     runEngine.sendMessage(acceptDeclineOrdersRequest.id, acceptDeclineOrdersRequest);
   }
 
-  setSelected = (tabName: string) => {
-    this.setState({selected: tabName})
+  setSelected = (tabName: "incoming" | "previous") => {    
+    if (tabName === 'previous' && this.state.previousOrders.length ===0 ) {
+      this.getPreviousOrders();
+    }
+    this.setState({ selected: tabName , searchResult:[],isSearching:false });
   }
+
+  onCloseCalendar() {
+    if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
+      this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
+      }
+  }
+
+  getCorrespondingArray() {
+    if (this.state.isSearching) {
+      return this.state.searchResult;
+    } else if (this.state.selected === 'incoming') {
+      return this.state.incomingOrders;
+    } else if (this.state.selected === 'previous') {
+      return this.state.previousOrders
+    }
+    return [];
+  }
+  onDaySelect(date:string) {
+      if (!this.state.selectedDate.startDate) {
+        this.setState({selectedDate:{startDate:date,endDate:''}})
+      } else {
+        this.setState({selectedDate:{...this.state.selectedDate,endDate:date}})
+      }
+     
+  }
+  onCalendarOpen() {
+      this.setState({
+        selectedDate: { startDate: "", endDate: "" },
+      });
+  }
+  onSetOrderNo(no:string) {
+      if (no) {
+        this.setState({ searchText: no });
+      } else {
+        this.setState({ isSearching: false, searchText: "" });
+      }
+    }
 }
 

@@ -14,6 +14,7 @@ jest.mock("../../components/src/utils", () => ({
     dispatch: jest.fn(),
   },
   validName: jest.fn(() => false),
+  generateDateObject: jest.fn()
 }));
 jest.mock("react-native-simple-toast", () => {});
 jest.mock("@react-native-async-storage/async-storage", () => ({

@@ -28,6 +28,7 @@ interface S {
   endDate: string;
   refresh: boolean;
   orderNo: string;
+  persistedData: any[]
 }
 
 interface SS {
@@ -66,6 +67,7 @@ export default class OrdersController extends BlockComponent<
       endDate: '',
       refresh: false,
       orderNo: '',
+      persistedData: []
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
@@ -107,7 +109,8 @@ export default class OrdersController extends BlockComponent<
         this.setState({ongoingOrdersList:[],showLoader:false,refresh:false})
 
       } else {
-        this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false,refresh:false})
+        const ordersList =ongoingOrders?.data?.length  ? ongoingOrders?.data : []
+        this.setState({ongoingOrdersList: ordersList,showLoader:false,refresh:false,persistedData:ordersList})
       }   
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&

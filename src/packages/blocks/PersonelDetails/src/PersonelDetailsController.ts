@@ -142,8 +142,10 @@ export default class PersonelDetailsController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && availableSlots?.avilable_sloat) {
-        this.setState({availableSlotsList:availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length -1 ]?.available_slot})
-      }      
+        this.setState({availableSlotsList:availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length -1 ]?.available_slot,showLoader:false})
+      } else {
+        this.setState({ showLoader: false });
+      }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.estimatedDeliveryDateCallId != null &&
@@ -157,7 +159,9 @@ export default class PersonelDetailsController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && estimatedDeliverDate?.delivery_date) {
-        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date });
+        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date ,showLoader:false});
+      } else {
+        this.setState({ showLoader: false });
       }
     } else if (  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addAddressToOrderCallId != null &&
@@ -170,10 +174,11 @@ export default class PersonelDetailsController extends BlockComponent<
           getName(MessageEnum.RestAPIResponceErrorMessage)
         );
       if (!error && addAddressResponse?.message === 'address choosed') {
-        this.setState({ selectedAddress: this.addressId });
+        this.setState({ selectedAddress: this.addressId,showLoader:false });
         this.addressId = null;
       } else {
         showToast('Something went wrong');
+        this.setState({ showLoader: false });
       }
       
     }

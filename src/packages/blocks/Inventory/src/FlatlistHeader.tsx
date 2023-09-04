@@ -28,6 +28,7 @@ const FlatListHeader = ({
         </View>
         <SearchBarWithFilter
           searchText={searchText}
+          hideFilter
           onChangeText={onChangeText}
         />
         <View style={styles.filterContainer}>

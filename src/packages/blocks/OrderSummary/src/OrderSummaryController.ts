@@ -34,6 +34,11 @@ interface S {
   emailId: string;
   deliveryCharge: number;
   lifetimeSubscriptionPrice: number;
+  meatStoragePlans: any[];
+  currentPlan: any;
+  availablePlans: any[];
+  selectedPlan: any;
+  subscriptionCharge: null | number;
 }
 
 interface SS {
@@ -72,7 +77,12 @@ SS
       lifetimeSubscription: false,
       deliveryCharge:12,
       emailId: "",
-      lifetimeSubscriptionPrice:5,
+      lifetimeSubscriptionPrice: 5,
+      meatStoragePlans: [],
+      currentPlan: null,
+      availablePlans: [],
+      selectedPlan: null,
+      subscriptionCharge:null
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -81,7 +91,8 @@ SS
   getPersonelDetails: string = "";
   getCartId: string = "";
   removeItemCallId: string = ""
-  increaseCartCallId: string = ""
+  increaseCartCallId: string = "";
+  applyStoragePlanId: string = '';
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -116,8 +127,15 @@ SS
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      const prodList = productsList?.data[0]
-      this.getCartCallBack(prodList,error)
+      
+      if (productsList?.data?.length ) {
+        const prodList = productsList?.data[0];
+        const subTotal = productsList?.data[0]?.attributes?.subtotal;
+        this.getCartCallBack(prodList,productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans,subTotal,error)
+      } else {
+        showToast('Something went wrong');
+      }
+      
 
     }
     else if (
@@ -132,7 +150,6 @@ SS
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
   } else {
-        showToast('success');
         this.getCart();
       }
   }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -147,6 +164,19 @@ SS
         }else{
           this.getCart()
         }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.applyStoragePlanId != null &&
+      this.applyStoragePlanId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        this.getCart();
+      }
     }
   }
   async getAddressList() {
@@ -192,6 +222,29 @@ SS
       configJSON.getCart
     );
 
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async applyStoragePlan(name:string) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.applyStoragePlanId = subcategory.messageId;
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.addStoragePlans}${name}`
+    );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -254,24 +307,16 @@ SS
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  getCartCallBack(prodList:any,error=false){
+  getCartCallBack(prodList: any, plans: any[],subTotal:number, error = false) {    
     if(error){
       this.setState({showLoader: false})
-      alert('Error getting items in cart!')
+      alert('Error getting items in cart!');
     }else{
-
       if(prodList?.attributes?.order_items?.data?.length === 0) {
-        Alert.alert("No products left in the cart!")
+       showToast("No products left in the cart!")
         this.props.navigation.replace('LandingPage')
       }
-
-      let subtotal = 0;
-      this.setState({orderId:prodList?.id})
-      this.setState({orderNumber:prodList?.attributes?.order_no})
-      for (const item of prodList?.attributes?.order_items?.data) {
-        subtotal += (+item.attributes?.catalogue?.data?.attributes?.price * +item?.attributes?.quantity);
-      }
-      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
+      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
         const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
         const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
         if (nameA < nameB) {
@@ -280,14 +325,34 @@ SS
         if (nameA > nameB) {
           return 1;
         }
-        return 0; 
-      })
+        return 0;
+      });
+      let availablePlans: any[] = [];
+      let currentPlan = null;
+      if (plans?.length && plans[0]?.existing_paln && plans.length && plans[0]?.current_plan) {
+        availablePlans = [...plans[0].existing_paln, plans[0].current_plan];
+        availablePlans.sort((a: any, b: any) => {
+          if (a?.plan_name < b?.plan_name) {
+            return -1;
+          }
+          if (a?.plan_name > b?.plan_name) {
+            return 1;
+          };
+          return 0;
+        })
+        currentPlan = plans[0]?.current_plan;
+      }
       this.setState({
         showLoader: false,
-        productsList:sortedProductList,
-        subtotal,
-        discount: subtotal * 0.1
-      })
+        productsList: sortedProductList,
+        subtotal: subTotal,
+        discount: subTotal * 0.1,
+        meatStoragePlans: plans,
+        orderId: prodList?.id,
+        orderNumber: prodList?.attributes?.order_no,
+        currentPlan,
+        availablePlans,
+      });
     }
   }
 
@@ -305,5 +370,8 @@ SS
         text:'cancel',
       }
     ])
+  }
+   capitalizeFirstLetter(string:string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

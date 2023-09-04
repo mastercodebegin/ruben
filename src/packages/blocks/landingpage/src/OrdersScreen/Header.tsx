@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { styles } from "../../../../components/src/CalendarTemplate";
-import { SEARCH, backArrow } from "../../../landingpage/src/assets";
+import { SEARCH } from "../../../landingpage/src/assets";
 import { styles as expStyles } from "../../../landingpage/src/ExploreStore/ExplorePage";
 import { DARK_RED, calendarIcon } from "../../../../components/src/constants";
 import DisplayCalendar from "../../../../components/src/DisplayCalendar";
@@ -18,21 +18,21 @@ const ScreenWidth = Dimensions.get("window").width;
 const calculatedScreenW = ScreenWidth - 40;
 interface MyOrderHeaderTypes {
   navigation: any;
-  selected: "completed" | "ongoing";
-  setSelected: (selected: "completed" | "ongoing") => void;
-  selectedDay: string;
+  selected: "incoming" | "previous";
+  setSelected: (selected: "incoming" | "previous") => void;
+  selectedDay: string | null;
   onDaySelect: (date: string) => void;
   markedDates: any;
   onOpen: () => void;
   onclose: () => void;
-  searchOrder: (no: string) => void;
+  searchOrder: any;
   setOrderNo: (no:string) => void;
   orderNo: string;
-  minDate:any
+  minDate: string | null;
 }
 export const MyOrderHeader = ({
   navigation,
-  selected = "ongoing",
+  selected = "incoming",
   setSelected,
   onDaySelect,
   markedDates,
@@ -45,7 +45,7 @@ export const MyOrderHeader = ({
 }: MyOrderHeaderTypes) => {
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const calendarRef = useRef();
-  const animate = (value: number, selected: "completed" | "ongoing") => {
+  const animate = (value: number, selected: "incoming" | "previous") => {
     setSelected(selected);
     Animated.timing(AnimatedValue, {
       duration: 700,
@@ -55,13 +55,7 @@ export const MyOrderHeader = ({
   return (
     <View style={styles.main}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingHorizontal: 10 }}
-        >
-          <Image style={{ height: 20, width: 20 }} source={backArrow} />
-        </TouchableOpacity>
-        <Text style={styles.header}>{"My Orders"}</Text>
+        <Text style={styles.header}>{"Orders"}</Text>
       </View>
       <View style={styles.animatedContainer}>
         <Animated.View
@@ -71,33 +65,35 @@ export const MyOrderHeader = ({
           }}
         />
         <TouchableOpacity
-          disabled={selected === "ongoing"}
-          onPress={() => animate(0, "ongoing")}
+          disabled={selected === "incoming"}
+          testID="incoming_orders_test_id"
+          onPress={() => animate(0, "incoming")}
           style={styles.selectorContainer}
         >
           <Text
             style={[
               styles.selectorText,
-              selected === "ongoing" && styles.selectedStyle,
+              selected === "incoming" && styles.selectedStyle,
             ]}
           >
-            {"Ongoing"}
+            {"Incoming Orders"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          disabled={selected === "completed"}
+          disabled={selected === "previous"}
+          testID="previous_orders_test_id"
           onPress={() => {
-            animate(calculatedScreenW / 2, "completed");
+            animate(calculatedScreenW / 2, "previous");
           }}
           style={styles.selectorContainer}
         >
           <Text
             style={[
               styles.selectorText,
-              selected === "completed" && styles.selectedStyle,
+              selected === "previous" && styles.selectedStyle,
             ]}
           >
-            {"Completed"}
+            {"Previous Orders"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -116,7 +112,8 @@ export const MyOrderHeader = ({
             source={SEARCH}
           />:null}
           <TextInput
-            style={{flex:1,height:"100%",marginRight:1}}
+            style={{ flex: 1, height: "100%", marginRight: 1 }}
+            testID="search_order_test_id"
             onChangeText={(text) => {
               setOrderNo(text)
             }}
@@ -125,7 +122,9 @@ export const MyOrderHeader = ({
             placeholder="Search any product..."
             placeholderTextColor={"#8D7D75"}
           />
-          <TouchableOpacity onPress={()=>searchOrder(orderNo)}>
+          <TouchableOpacity
+            testID="search_order_button_test_id"
+            onPress={() => searchOrder(orderNo)}>
           {(orderNo.length)? <Image
             resizeMode="stretch"
             style={[
@@ -141,6 +140,7 @@ export const MyOrderHeader = ({
         </View>
         <View style={{ height: "100%" }}>
           <DisplayCalendar
+            //@ts-ignore
             ref={calendarRef}
             setSelectedDay={() => {}}
             selectedDate={""}
@@ -151,6 +151,7 @@ export const MyOrderHeader = ({
             minDate={minDate}
           >
             <TouchableOpacity
+              testID="calendar_test_id"
               style={{
                 height: 50,
                 width: 50,
@@ -161,7 +162,8 @@ export const MyOrderHeader = ({
                 marginLeft:20
               }}
               onPress={() => {
-                onOpen()
+                onOpen();
+                //@ts-ignore
                 calendarRef.current._onButtonPress()
               }}
             >
