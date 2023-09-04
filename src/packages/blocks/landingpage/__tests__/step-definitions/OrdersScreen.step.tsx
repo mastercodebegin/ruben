@@ -9,6 +9,7 @@ import MessageEnum, {
 import { runEngine } from "../../../../framework/src/RunEngine";
 import { fireEvent, render } from "@testing-library/react-native";
 import RenderItem from '../../src/OrdersScreen/RenderItem';
+import {MyOrderHeader} from '../../src/OrdersScreen/Header';
 
 const navigation = {
   navigate: jest.fn(),
@@ -146,6 +147,39 @@ defineFeature(feature, (test) => {
       );
       instance.filterOrdersWithDateId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+      const setOrderNo = jest.fn();
+      const searchOrder = jest.fn()
+      const props:any = {
+        markedDates: {},
+        minDate: "",
+        navigation: screenProps.navigation,
+        onDaySelect: jest.fn(),
+        onOpen: jest.fn(),
+        onclose: jest.fn(), 
+        orderNo: "333",
+        searchOrder,
+        selected: "previous",
+        selectedDay: '',
+        setOrderNo,
+        setSelected: jest.fn()
+      };
+      
+      const { getByTestId, rerender } = render(
+        <MyOrderHeader
+          {...props}
+        />
+      );
+      fireEvent.press(getByTestId('incoming_orders_test_id'));
+      rerender(
+      <MyOrderHeader
+        {...{...props,selected:'incoming'}}
+      />)
+      fireEvent.press(getByTestId('previous_orders_test_id'));
+      fireEvent.changeText(getByTestId('search_order_test_id'),'8575');
+      expect(setOrderNo).toBeCalledWith('8575');
+      fireEvent.press(getByTestId('search_order_button_test_id'));
+      fireEvent.press(getByTestId('calendar_test_id'));
+      expect(searchOrder).toBeCalledWith('333');
       expect(instance.state.incomingOrders).toBe(apiResponse.data);
     })
     then('users can see available orders list', () => {

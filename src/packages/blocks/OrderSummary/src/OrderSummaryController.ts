@@ -91,7 +91,8 @@ SS
   getPersonelDetails: string = "";
   getCartId: string = "";
   removeItemCallId: string = ""
-  increaseCartCallId: string = ""
+  increaseCartCallId: string = "";
+  applyStoragePlanId: string = '';
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -149,7 +150,6 @@ SS
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
   } else {
-        showToast('success');
         this.getCart();
       }
   }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -164,6 +164,19 @@ SS
         }else{
           this.getCart()
         }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.applyStoragePlanId != null &&
+      this.applyStoragePlanId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        this.getCart();
+      }
     }
   }
   async getAddressList() {
@@ -209,6 +222,29 @@ SS
       configJSON.getCart
     );
 
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+  async applyStoragePlan(name:string) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.applyStoragePlanId = subcategory.messageId;
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.addStoragePlans}${name}`
+    );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
@@ -277,10 +313,10 @@ SS
       alert('Error getting items in cart!');
     }else{
       if(prodList?.attributes?.order_items?.data?.length === 0) {
-        Alert.alert("No products left in the cart!")
+       showToast("No products left in the cart!")
         this.props.navigation.replace('LandingPage')
       }
-      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
+      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
         const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
         const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
         if (nameA < nameB) {
@@ -289,19 +325,34 @@ SS
         if (nameA > nameB) {
           return 1;
         }
-        return 0; 
-      })
+        return 0;
+      });
+      let availablePlans: any[] = [];
+      let currentPlan = null;
+      if (plans?.length && plans[0]?.existing_paln && plans.length && plans[0]?.current_plan) {
+        availablePlans = [...plans[0].existing_paln, plans[0].current_plan];
+        availablePlans.sort((a: any, b: any) => {
+          if (a?.plan_name < b?.plan_name) {
+            return -1;
+          }
+          if (a?.plan_name > b?.plan_name) {
+            return 1;
+          };
+          return 0;
+        })
+        currentPlan = plans[0]?.current_plan;
+      }
       this.setState({
         showLoader: false,
-        productsList:sortedProductList,
-        subtotal:subTotal,
+        productsList: sortedProductList,
+        subtotal: subTotal,
         discount: subTotal * 0.1,
         meatStoragePlans: plans,
         orderId: prodList?.id,
         orderNumber: prodList?.attributes?.order_no,
-        currentPlan: plans[0]?.current_plan,
-        availablePlans:plans[0]?.existing_paln
-      })
+        currentPlan,
+        availablePlans,
+      });
     }
   }
 

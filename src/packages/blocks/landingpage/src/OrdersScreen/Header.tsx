@@ -81,6 +81,7 @@ export const MyOrderHeader = ({
         </TouchableOpacity>
         <TouchableOpacity
           disabled={selected === "previous"}
+          testID="previous_orders_test_id"
           onPress={() => {
             animate(calculatedScreenW / 2, "previous");
           }}
@@ -111,7 +112,8 @@ export const MyOrderHeader = ({
             source={SEARCH}
           />:null}
           <TextInput
-            style={{flex:1,height:"100%",marginRight:1}}
+            style={{ flex: 1, height: "100%", marginRight: 1 }}
+            testID="search_order_test_id"
             onChangeText={(text) => {
               setOrderNo(text)
             }}
@@ -120,7 +122,9 @@ export const MyOrderHeader = ({
             placeholder="Search any product..."
             placeholderTextColor={"#8D7D75"}
           />
-          <TouchableOpacity onPress={()=>searchOrder(orderNo)}>
+          <TouchableOpacity
+            testID="search_order_button_test_id"
+            onPress={() => searchOrder(orderNo)}>
           {(orderNo.length)? <Image
             resizeMode="stretch"
             style={[
@@ -147,6 +151,7 @@ export const MyOrderHeader = ({
             minDate={minDate}
           >
             <TouchableOpacity
+              testID="calendar_test_id"
               style={{
                 height: 50,
                 width: 50,

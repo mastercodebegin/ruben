@@ -11,4 +11,5 @@ Object.defineProperty(exports, "__esModule", {
   exports.increaseCartQuantity =
     "bx_block_shopping_cart/orders/increase_product_quantity";
   exports.decreaseCartQuantity = "bx_block_shopping_cart/orders/decrease_product_quantity";
-  
+exports.addStoragePlans = 'bx_block_storage/storages/add_storage?plan_name=';
+exports.removeItemEndpoint = "bx_block_shopping_cart/order_items/destroy?id=";

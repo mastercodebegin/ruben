@@ -18,6 +18,7 @@ import SavedAddresses from "./SavedAddresses";
 import AvailableSlots from "./AvailableSlots";
 import DoubleButton from "../../../components/src/DoubleButton";
 import DeliveryFeesModal from "./DeliveryFeesModal";
+import CommonLoader from "../../../components/src/CommonLoader";
 const deliveryIcon = require('../../../components/src/deliveryIcon.png');
 const pickupIcon = require('../../../components/src/shippingIcon.png');
 const shippingIcon = require('../../../components/src/package.png');
@@ -177,6 +178,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                 this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email})
               }}
             />
+            <CommonLoader visible={this.state.showLoader} />
           </View>
         </HeaderWithBackArrowTemplate>
       </SafeAreaView>
