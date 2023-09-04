@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
-import DualButton from "../../../../components/src/DualButton";
-import { MEAT_IMAGE1 } from "../assets";
-import { DARK_RED } from "../../../../components/src/constants";
+import DualButton from "../../../components/src/DualButton";
+import { MEAT_IMAGE1 } from "../../landingpage/src/assets";
+import { DARK_RED } from "../../../components/src/constants";
 import moment from "moment";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
   const deliveryDate =

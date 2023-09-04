@@ -7,6 +7,8 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {showToast} from "../../../components/src/ShowToast";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -20,17 +22,17 @@ export interface Props {
 
 interface S {
   // Customizable Area Start
-  orders: any;
-  isCancelVisible: boolean;
-  isRateVisible: boolean;
-  cancelDialog: boolean;
-  starCount: number;
-  comment: string;
-  token: string;
-  itemDetail: any;
-  activeOrderId: number;
-  activeItemId: number;
-  activeAddress: any;
+  showLoader: boolean;
+  incomingOrders: any[];
+  previousOrders: [];
+  selected: "incoming" | "previous";
+  searchText: string;
+  selectedDate: {
+    startDate: string ,
+    endDate: string 
+  },
+  isSearching: boolean;
+  searchResult: any[];
   // Customizable Area End
 }
 
@@ -59,17 +61,17 @@ export default class OrdermanagementController extends BlockComponent<
     ];
 
     this.state = {
-      orders: [],
-      isCancelVisible: false,
-      isRateVisible: false,
-      cancelDialog: false,
-      starCount: 0,
-      token: "",
-      itemDetail: "",
-      activeOrderId: 0,
-      activeItemId: 0,
-      comment: "",
-      activeAddress: [],
+      showLoader: false,
+      incomingOrders: [],
+      previousOrders: [],
+      selected: "incoming",
+      searchText: '',
+      selectedDate: {
+        endDate: '',
+        startDate:'',
+      },
+      isSearching: false,
+      searchResult:[]
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -92,201 +94,339 @@ export default class OrdermanagementController extends BlockComponent<
 
   async receive(from: string, message: Message) {
     // Customizable Area Start
-    if (getName(MessageEnum.SessionResponseMessage) === message.id) {
-      runEngine.debugLog("Token", message);
-
-      let token = message.getData(getName(MessageEnum.SessionResponseToken));
-      this.setState({ token: token });
-      this.getOrdersDataRequest(token);
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id) {
-      runEngine.debugLog("API Message Recived", JSON.stringify(message));
-
-      const apiRequestCallId = message.getData(
-        getName(MessageEnum.RestAPIResponceDataMessage)
-      );
-
-      let responseJson = message.getData(
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getIncomingOrdersId != null &&
+      this.getIncomingOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-
-      let errorReponse = message.getData(
+      let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (responseJson && responseJson.data) {
-        if (apiRequestCallId === this.getOrdersAPICallId) {
-          this.setState({ orders: responseJson.data });
-        } else if (apiRequestCallId === this.getItemDetailAPICallId) {
-          this.props.navigation.navigate("OrderDetails", {
-            DATA: responseJson.data,
-          });
-        } else if (apiRequestCallId === this.rateOrderAPICallId) {
-          this.setState({ isRateVisible: !this.state.isRateVisible });
-          this.props.navigation.goBack();
-        }
-      } else if (apiRequestCallId === this.cancelOrderAPICallId) {
-        this.getOrdersDataRequest(this.state.token);
-        this.setState({
-          activeOrderId: 0,
-          activeItemId: 0,
-          isCancelVisible: false,
-          cancelDialog: true,
-        });
-      } else if (errorReponse || responseJson.errors) {
-        this.parseApiErrorResponse(responseJson);
-        this.parseApiCatchErrorResponse(errorReponse);
+      if (error) {
+        showToast("Some error occurred!");
+        this.setState({ showLoader: false });
+      } else {
+        const incomingOrders = this.filterByStatus(response?.data);
+        this.setState({ incomingOrders: incomingOrders.incomingOrders, showLoader: false });
       }
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getPreviousOrdersId != null &&
+      this.getPreviousOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+     this.previousOrderCallBack(response,error)
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.acceptDeclineOrdersId != null &&
+      this.acceptDeclineOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+     this.acceptDeclineCallback(error)
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterOrdersWithDateId != null &&
+      this.filterOrdersWithDateId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.filterByDateCallBack(response, error);
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.searchOrdersWithNumberId != null &&
+      this.searchOrdersWithNumberId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.searchOrderCallBack(response, error);
     }
   }
   // Customizable Area Start
 
-  cancelOrder = (orderId: number, itemId: number) => {
-    this.setState({
-      activeOrderId: orderId,
-      activeItemId: itemId,
-      isCancelVisible: !this.state.isCancelVisible,
-    });
-  };
-  rateOrder = () => {
-    this.setState({ isRateVisible: !this.state.isRateVisible });
-  };
-  hideCancelModal = () => {
-    this.setState({ isCancelVisible: false });
-  };
-  selectCancel = () => {
-    this.setState({ isCancelVisible: false, cancelDialog: true });
-  };
 
-  getOrdersDataRequest = (token: string) => {
-    const header = {
-      "Content-Type": configJSON.ordersApiContentType,
-      token: token,
+  getIncomingOrdersId: string = "";
+  getPreviousOrdersId: string = "";
+  acceptDeclineOrdersId: string = "";
+  filterOrdersWithDateId: string = '';
+  searchOrdersWithNumberId: string = '';
+  
+  previousOrderCallBack(response:any,error:any) {
+    if (error && !response?.data?.length) {
+      showToast("Some error occurred!");
+      this.setState({ showLoader: false });
+    } else if (response?.data?.length) {
+      this.setState({ previousOrders: response?.data, showLoader: false });
+    }
+  }
+  searchOrderCallBack(response:any,error:any) {
+    if (error && !response) {
+      showToast("No orders found");
+      this.setState({showLoader:false,searchResult:[]})
+    } else {
+      this.setState({showLoader:false,searchResult:response?.data?.length?response?.data:[] })
+    }
+  }
+
+   filterByStatus(list: any[]) {
+    const incomingOrders:any[] = [];
+     const completedOrders: any[] = [];
+     if (list?.length) {
+       list.forEach((item) => {
+         if (item?.attributes?.status === 'on_going') {
+           incomingOrders.push(item);
+         }else if(item?.attributes?.status === 'completed' || item?.attributes?.status === 'cancelled')
+         {
+           completedOrders.push(item);
+         }
+       })
+     }
+    return {
+      incomingOrders,
+      completedOrders
+    }
+    
+  }
+
+  filterByDateCallBack(response:any , error=null) {
+    if (!error) {
+      if (this.state.selected === 'incoming') {
+        this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
+      } else {
+        this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
+      }
+    } else {
+      showToast('Something went wrong');
+      this.setState({ showLoader: false });
+    }
+  }
+  acceptDeclineCallback(error=null) {
+    if (error) {
+      showToast("Some error occurred!");
+      this.setState({showLoader: false})
+    } else {
+      if (this.state.selected === 'incoming') {          
+        this.getIncomingOrders();
+      } else {
+        this.getPreviousOrders();
+      }
+    }
+  }
+
+  async getIncomingOrders() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
     };
-    const requestMessage = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
 
-    this.getOrdersAPICallId = requestMessage.messageId;
+    const getIncomingOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.getIncomingOrdersId = getIncomingOrdersRequest.messageId;
 
-    requestMessage.addData(
+    getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.ordersAPiEndPoint
+      configJSON.getIncomingOrders
     );
 
-    requestMessage.addData(
+    getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(header)
+      JSON.stringify(headers)
     );
-
-    requestMessage.addData(
+    getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.httpGetMethod
     );
 
-    runEngine.sendMessage(requestMessage.id, requestMessage);
-  };
+    runEngine.sendMessage(getIncomingOrdersRequest.id, getIncomingOrdersRequest);
+  }
 
-  getItemDetailDataRequest = (id: number) => {
-    const header = {
-      "Content-Type": configJSON.ordersApiContentType,
-      token: this.state.token,
+  async getPreviousOrders() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
     };
-    const requestMessage = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
 
-    this.getItemDetailAPICallId = requestMessage.messageId;
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.getPreviousOrdersId = getPreviousOrdersRequest.messageId;
 
-    requestMessage.addData(
+    getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.ordersAPiEndPoint + `/${id}`
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(header)
+      configJSON.getPreviousOrders
     );
 
-    requestMessage.addData(
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.httpGetMethod
     );
 
-    runEngine.sendMessage(requestMessage.id, requestMessage);
-    return true;
-  };
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+  }
+  getParams() {
+    if (this.state.selected === 'incoming') {
+      return '["on_going"]'
+    }
+    if (this.state.selected === 'previous')
+      return '["completed"]'
+  }
 
-  cancelOrderDataRequest = () => {
-    const header = {
-      "Content-Type": configJSON.ordersApiContentType,
-      token: this.state.token,
+  async searchOrder(orderNo:number) {
+    this.setState({ showLoader: true ,isSearching:true});
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
     };
-    let data = {
-      item_id: this.state.activeItemId,
-    };
-    const requestMessage = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
 
-    this.cancelOrderAPICallId = requestMessage.messageId;
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.searchOrdersWithNumberId = getPreviousOrdersRequest.messageId;
 
-    requestMessage.addData(
+    getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.ordersAPiEndPoint + `/${this.state.activeOrderId}/cancel_order`
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(header)
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestBodyMessage),
-      JSON.stringify(data)
+      `bx_block_shopping_cart/orders/merchant_inventory?order_no=${orderNo}&status=${this.getParams()}`
     );
 
-    requestMessage.addData(
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
+  async filterWithDate(status:any , startDate:string , endDate:string) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_shopping_cart/orders/merchant_inventory?start_date=${startDate}&end_date=${endDate}&status=[${"on_going"}]`
+      //bx_block_shopping_cart/orders/merchant_inventory?start_date=2023-08-17&end_date=2023-08-18&status=["on_going"]
+    );
+
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getPreviousOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+
+    runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
+    
+  }
+
+  async acceptDeclineOrders(orderId: number, accept: boolean) {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const acceptDeclineOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.acceptDeclineOrdersId = acceptDeclineOrdersRequest.messageId;
+
+    acceptDeclineOrdersRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.accptDeclineOrder}/${orderId}?status=${accept ? "completed" : "cancelled"}`
+    );
+
+    acceptDeclineOrdersRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    acceptDeclineOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.httpPutMethod
     );
 
-    runEngine.sendMessage(requestMessage.id, requestMessage);
-    return true;
-  };
+    runEngine.sendMessage(acceptDeclineOrdersRequest.id, acceptDeclineOrdersRequest);
+  }
 
-  rateOrderDataRequest = (id: number) => {
-    const header = {
-      "Content-Type": configJSON.ordersApiContentType,
-      token: this.state.token,
-    };
-    let data = {
-      catalogue_id: id,
-      rating: this.state.starCount,
-      comment: this.state.comment,
-    };
-    const requestMessage = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
+  setSelected = (tabName: "incoming" | "previous") => {    
+    if (tabName === 'previous' && this.state.previousOrders.length ===0 ) {
+      this.getPreviousOrders();
+    }
+    this.setState({ selected: tabName , searchResult:[],isSearching:false });
+  }
 
-    this.rateOrderAPICallId = requestMessage.messageId;
+  onCloseCalendar() {
+    if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
+      this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
+      }
+  }
 
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.rateAPiEndPoint
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(header)
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestBodyMessage),
-      JSON.stringify(data)
-    );
-
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.httpPostMethod
-    );
-
-    runEngine.sendMessage(requestMessage.id, requestMessage);
-    return true;
-  };
+  getCorrespondingArray() {
+    if (this.state.isSearching) {
+      return this.state.searchResult;
+    } else if (this.state.selected === 'incoming') {
+      return this.state.incomingOrders;
+    } else if (this.state.selected === 'previous') {
+      return this.state.previousOrders
+    }
+    return [];
+  }
+  onDaySelect(date:string) {
+      if (!this.state.selectedDate.startDate) {
+        this.setState({selectedDate:{startDate:date,endDate:''}})
+      } else {
+        this.setState({selectedDate:{...this.state.selectedDate,endDate:date}})
+      }
+     
+  }
+  onCalendarOpen() {
+      this.setState({
+        selectedDate: { startDate: "", endDate: "" },
+      });
+  }
+  onSetOrderNo(no:string) {
+      if (no) {
+        this.setState({ searchText: no });
+      } else {
+        this.setState({ isSearching: false, searchText: "" });
+      }
+    }
 
   // Customizable Area End
 }
