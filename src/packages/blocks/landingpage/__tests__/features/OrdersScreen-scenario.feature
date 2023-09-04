@@ -6,4 +6,5 @@ Feature: Orders
         Then user trying to accept the order
         Then user trying to filter the orders with date
         Then users can see available orders list
+        Then user selecting date on calendar
         Then user trying to search orders with order id

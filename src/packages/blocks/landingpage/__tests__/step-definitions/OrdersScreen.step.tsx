@@ -201,6 +201,15 @@ defineFeature(feature, (test) => {
       expect(increaseBtn).toBeCalled()
 
     });
+    then('user selecting date on calendar', () => {
+      instance.onDaySelect('03-04-2023');
+      expect(instance.state.selectedDate.startDate).toBe('03-04-2023');
+      expect(instance.state.selectedDate.endDate).toBe('');
+      instance.onDaySelect('05-04-2023');
+      expect(instance.state.selectedDate.endDate).toBe('05-04-2023');
+      instance.onCloseCalendar();
+      
+    })
     then('user trying to search orders with order id', () => {
       const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
