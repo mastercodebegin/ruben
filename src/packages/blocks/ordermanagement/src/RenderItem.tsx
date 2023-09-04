@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import DualButton from "../../../components/src/DualButton";
-import { MEAT_IMAGE1 } from "../../landingpage/src/assets";
+import { MeatImage } from "../../../components/src/constants";
 import { DARK_RED } from "../../../components/src/constants";
 import moment from "moment";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
@@ -18,7 +18,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
           <Image
             style={{ height: 75, width: 75, borderRadius: 20 }}
-            source={MEAT_IMAGE1}
+            source={MeatImage}
           />
           <View style={styles.innerCon}>
             <View style={styles.row}>

@@ -27,3 +27,4 @@ const SCREEN = Dimensions.get("screen");
 export const SCREEN_WIDTH = SCREEN.width;
 export const closeIcon = require('./closeIcon.png');
 export const calendarIcon = require('./calendar.png');
+export const MeatImage = require('./meatimage@3.jpg');
