@@ -218,8 +218,7 @@ export default class OrdermanagementController extends BlockComponent<
         this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
       }
     } else {
-      showToast('Something went wrong');
-      this.setState({ showLoader: false });
+      this.setState({previousOrders:[],showLoader:false})
     }
   }
   acceptDeclineCallback(error=null) {
@@ -326,21 +325,23 @@ export default class OrdermanagementController extends BlockComponent<
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
     
   }
-  async filterWithDate(status:any , startDate:string , endDate:string) {
+  async filterWithDate(status: any, startDate: string, endDate: string) {
+    console.log('start date and end date ',startDate , endDate);
+    
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
       token: data?.meta?.token,
     };
+    const type = this.state.selected === 'incoming' ? 'on_going' : 'completed';
 
     const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
     this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?start_date=${startDate}&end_date=${endDate}&status=[${"on_going"}]`
-      //bx_block_shopping_cart/orders/merchant_inventory?start_date=2023-08-17&end_date=2023-08-18&status=["on_going"]
+      `bx_block_shopping_cart/orders/merchant_inventory?start_date="${startDate}&end_date="${endDate}"&status=["${type}"]`
     );
 
     getPreviousOrdersRequest.addData(
@@ -385,10 +386,12 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   setSelected = (tabName: "incoming" | "previous") => {    
-    if (tabName === 'previous' && this.state.previousOrders.length ===0 ) {
+    if (tabName === 'previous' ) {
       this.getPreviousOrders();
+      this.setState({incomingOrders:[]})
     }
-    this.setState({ selected: tabName , searchResult:[],isSearching:false });
+    this.getIncomingOrders()
+    this.setState({ selected: tabName , searchResult:[],isSearching:false,previousOrders:[] });
   }
 
   onCloseCalendar() {

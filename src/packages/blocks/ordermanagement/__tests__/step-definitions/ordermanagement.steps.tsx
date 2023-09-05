@@ -25,6 +25,7 @@ const apiResponse = {
   data: [
     {
       attributes: {
+        status:"on_going",
         order_items: {
           data: [{
             attributes: {
@@ -211,6 +212,7 @@ defineFeature(feature, (test) => {
       
     })
     then('user trying to search orders with order id', () => {
+      instance.searchOrder(123);
       const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
