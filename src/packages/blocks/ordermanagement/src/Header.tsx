@@ -8,11 +8,11 @@ import {
   TextInput,
   Dimensions,
 } from "react-native";
-import { styles } from "../../../../components/src/CalendarTemplate";
-import { SEARCH } from "../../../landingpage/src/assets";
-import { styles as expStyles } from "../../../landingpage/src/ExploreStore/ExplorePage";
-import { DARK_RED, calendarIcon } from "../../../../components/src/constants";
-import DisplayCalendar from "../../../../components/src/DisplayCalendar";
+import { styles } from "../../../components/src/CalendarTemplate";
+import { SEARCH } from "../../landingpage/src/assets";
+import { styles as expStyles } from "../../landingpage/src/ExploreStore/ExplorePage";
+import { DARK_RED, calendarIcon } from "../../../components/src/constants";
+import DisplayCalendar from "../../../components/src/DisplayCalendar";
 const ScreenWidth = Dimensions.get("window").width;
 
 const calculatedScreenW = ScreenWidth - 40;

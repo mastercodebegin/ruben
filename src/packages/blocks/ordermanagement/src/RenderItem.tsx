@@ -1,12 +1,11 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
-import DualButton from "../../../../components/src/DualButton";
-import { MEAT_IMAGE1 } from "../assets";
-import { DARK_RED } from "../../../../components/src/constants";
+import DualButton from "../../../components/src/DualButton";
+import { DARK_RED,MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
   const deliveryDate =
-    item?.attributes?.order_items?.data[0]?.attributes?.delivered_at;
+    item?.attributes?.delivery_date;
   return (
     <View
       style={{
@@ -18,7 +17,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
           <Image
             style={{ height: 75, width: 75, borderRadius: 20 }}
-            source={MEAT_IMAGE1}
+            source={MeatImage}
           />
           <View style={styles.innerCon}>
             <View style={styles.row}>
@@ -58,7 +57,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
           </View>
         </View>
 
-        <DualButton
+        {item?.attributes?.status === 'on_going' ? <DualButton
           button1Label="Decline"
           button2label="Accept"
           buttn1TestID="decline_test_id"
@@ -69,7 +68,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
           button2Onpress={() => {
             if (item.id) acceptDeclineOrders(item?.id, true);
           }}
-        />
+        /> : null }
       </View>
     </View>
   );

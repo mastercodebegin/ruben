@@ -22,7 +22,6 @@ import HomeScreen from '../components/src/HomeScreen';
 import ForgotPassword from '../blocks/forgot-password/src/ForgotPassword';
 import ResetPassword from '../blocks/forgot-password/src/ResetPasswordScreen';
 import { Provider } from 'react-redux';
-import OrdersScreen from '../blocks/landingpage/src/OrdersScreen/OrdersScreen'
 import MyCreditScreen from '../blocks/landingpage/src/MyCredits/MyCredits';
 import { Header } from '../blocks/landingpage/src/BlogPosts/Header';
 import VideoLibrary from '../blocks/landingpage/src/BlogPosts/VideoLibrary';
@@ -41,6 +40,7 @@ import { linking, store } from '../components/src/utils';
 import { getStorageData } from '../framework/src/Utilities';
 import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
 import ContactUs from '../blocks/contactus/src/ContactusScreen';
+import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement'
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -120,7 +120,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="Inventory" component={Inventory} />
         <Stack.Screen name='TermsAndCondition' component={TermsAndConditions} />
         <Stack.Screen name='MyFavoritesScreen' component={Favourites} />
-        <Stack.Screen name='OrdersScreen' component={OrdersScreen} />
+        <Stack.Screen name='OrdersScreen' component={Ordermanagement} />
         <Stack.Screen name='AddProducts' component={AddProductScreen} />
         <Stack.Screen name='MyCreditScreen' component={MyCreditScreen} />
         <Stack.Screen name='BlogPostStack' component={BlogPostStack} />

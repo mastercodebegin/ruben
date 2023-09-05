@@ -1,286 +1,235 @@
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { shallow, ShallowWrapper } from "enzyme";
-
-import * as helpers from "../../../../framework/src/Helpers";
-import { runEngine } from "../../../../framework/src/RunEngine";
-import { Message } from "../../../../framework/src/Message";
-
-import MessageEnum, {
-  getName
-} from "../../../../framework/src/Messages/MessageEnum";
 import React from "react";
-import Ordermanagement from "../../src/Ordermanagement";
-import OrderDetails from "../../src/OrderDetails";
+import OrdersScreen from "../../src/Ordermanagement";
+import { Message } from "../../../../framework/src/Message";
+import MessageEnum, {
+  getName,
+} from "../../../../framework/src/Messages/MessageEnum";
+import { runEngine } from "../../../../framework/src/RunEngine";
+import { fireEvent, render } from "@testing-library/react-native";
+import RenderItem from '../../src/RenderItem';
+import {MyOrderHeader} from '../../src/Header';
 
-const navigation = require("react-navigation");
+const navigation = {
+  navigate: jest.fn(),
+  reset: jest.fn(),
+};
 
 const screenProps = {
   navigation: navigation,
-  id: "Ordermanagement"
+  id: "LandingPage",
+  route: {},
 };
+const apiResponse = {
+  data: [
+    {
+      attributes: {
+        status:"on_going",
+        order_items: {
+          data: [{
+            attributes: {
+              address: { data: null },
+              bill_to: { data: null },
+              created_at: "2023-06-16T07:16:45.912Z",
+              customer: { data: [Object] },
+              delivered_at: "2023-06-19",
+              discount_amount: null,
+              order_enable: false,
+              order_items: { data: [Array] },
+              order_no: null,
+              shipping_address: { data: null },
+              shipping_charge: null,
+              status: "scheduled",
+              subtotal: 0,
+              total: null,
+              total_fees: 0,
+              total_items: null,
+              total_tax: null,
+              updated_at: "2023-06-16T07:16:45.912Z"
+            }
+           }
+          ]}
+       
+      },
+      id: "86",
+      type: "order",
+    },
+  ],
+}
 
-const feature = loadFeature(
-  "./__tests__/features/ordermanagement-scenario.web.feature"
-);
-
-defineFeature(feature, test => {
+const feature = loadFeature("./__tests__/features/ordermanagement-scenario.feature");
+defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
-    jest.doMock("react-native", () => ({ Platform: { OS: "web" } }));
-    jest.spyOn(helpers, "getOS").mockImplementation(() => "web");
+    jest.doMock("react-native", () => ({
+      Platform: { OS: "web" },
+      nativeModule: {},
+    }));
+    jest.doMock("react-native", () => ({
+      Platform: { OS: "web" },
+      nativeModule: {},
+    }));
+    jest.doMock("../../../../components/src/utils", () => ({
+      store: {
+        getState: jest.fn(() => ({
+          currentUser: "user",
+        })),
+        dispatch: jest.fn(),
+      },
+    }));
   });
 
-  test("User navigates to ordermanagement", ({ given, when, then }) => {
-    let OrderWrapper: ShallowWrapper;
-    let instance: Ordermanagement;
+  test("User navigates to orders screen", ({ given, when, then }) => {
+    let SettingsBlock: ShallowWrapper;
+    let instance: OrdersScreen;
 
-    given("I am a User loading ordermanagement", () => {
-      OrderWrapper = shallow(<Ordermanagement {...screenProps} />);
-      expect(OrderWrapper).toBeTruthy();
-
-      instance = OrderWrapper.instance() as Ordermanagement;
-
-      const getOrdersAPI = new Message(
+    given("users loading orders screen", () => {
+      SettingsBlock = shallow(<OrdersScreen {...screenProps} />);
+      instance = SettingsBlock.instance() as OrdersScreen;
+      const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
-      getOrdersAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceDataMessage),
-        getOrdersAPI.messageId
+        msgValidationAPI.messageId
       );
-      getOrdersAPI.addData(getName(MessageEnum.RestAPIResponceSuccessMessage), {
-        data: [
-          {
-            id: "34",
-            type: "order",
-            attributes: {
-              id: 34,
-              order_number: "OD00000034",
-              amount: null,
-              account_id: 3,
-              coupon_code_id: 1,
-              delivery_address_id: null,
-              sub_total: "19.99",
-              total: "82.59",
-              order_items: [
-                {
-                  id: "33",
-                  type: "order_item",
-                  attributes: {
-                    id: 33,
-                    order_id: 34,
-                    quantity: 1,
-                    unit_price: "19.99",
-                    total_price: "19.99",
-                    old_unit_price: null,
-                    status: "in_cart",
-                    catalogue_id: 24,
-                    catalogue_variant_id: 24
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      });
-      instance.getOrdersAPICallId = getOrdersAPI.messageId;
-      runEngine.sendMessage("Unit Test", getOrdersAPI);
-    });
-
-    when("I navigate to the ordermanagement", () => {
-      instance = OrderWrapper.instance() as Ordermanagement;
-    });
-
-    then("ordermanagement will load with out errors", () => {
-      expect(OrderWrapper).toBeTruthy();
-    });
-
-    then("I can leave the screen with out errors", () => {
-      instance.componentWillUnmount();
-      expect(OrderWrapper).toBeTruthy();
-    });
-  });
-
-  test("User cancel an order", ({ given, when, then }) => {
-    let OrderWrapper: ShallowWrapper;
-    let instance: Ordermanagement;
-
-    given("I am a User attempting to cancel an order", () => {
-      OrderWrapper = shallow(<Ordermanagement {...screenProps} />);
-      expect(OrderWrapper).toBeTruthy();
-    });
-    when("I click on cancel order", () => {
-      instance = OrderWrapper.instance() as Ordermanagement;
-      instance.setState({
-        activeOrderId: 1,
-        activeItemId: 1,
-        isCancelVisible: !instance.state.isCancelVisible
-      });
-      expect(OrderWrapper).toBeTruthy();
-    });
-    then("I click on yes", () => {
-      instance = OrderWrapper.instance() as Ordermanagement;
-      let btnCancelOrder = OrderWrapper.findWhere(
-        node => node.prop("testID") === "yesCancel"
-      );
-      btnCancelOrder.simulate("press");
-      expect(instance.cancelOrderDataRequest()).toBe(true);
-      expect(OrderWrapper).toBeTruthy();
-    });
-    then("Rest Api will return success response", () => {
-      const cancelOrderSucessRestAPI = new Message(
-        getName(MessageEnum.RestAPIResponceMessage)
-      );
-      cancelOrderSucessRestAPI.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        cancelOrderSucessRestAPI.messageId
-      );
-      cancelOrderSucessRestAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          message: "Order cancelled successfully"
-        }
+        apiResponse
       );
-      instance.cancelOrderAPICallId = cancelOrderSucessRestAPI.messageId;
-      runEngine.sendMessage("Unit Test", cancelOrderSucessRestAPI);
+      instance.getIncomingOrdersId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
     });
-  });
-
-  test("User click on an order", ({ given, when, then }) => {
-    let OrderWrapper: ShallowWrapper;
-    let instance: Ordermanagement;
-
-    given("I am a User attempting to click an order", () => {
-      OrderWrapper = shallow(<Ordermanagement {...screenProps} />);
-      expect(OrderWrapper).toBeTruthy();
-    });
-
-    when("I click on an order", () => {
-      instance = OrderWrapper.instance() as Ordermanagement;
-      expect(instance.getItemDetailDataRequest(1)).toBe(true);
-      expect(OrderWrapper).toBeTruthy();
-    });
-    then("Rest Api will return success response", () => {
-      const orderDetailSucessRestAPI = new Message(
+    then("user pressing previous orders button", () => {
+      instance.getPreviousOrders();
+      instance.filterWithDate('','','');
+      const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
-      orderDetailSucessRestAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceDataMessage),
-        orderDetailSucessRestAPI.messageId
+        msgValidationAPI.messageId
       );
-      orderDetailSucessRestAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: {
-            id: "38",
-            type: "order_item",
-            attributes: {
-              id: 38,
-              order_id: 39,
-              quantity: 1,
-              unit_price: "19.99",
-              total_price: "19.99",
-              order: {
-                id: 39,
-                order_number: "OD00000039",
-                amount: null,
-                created_at: "2020-11-04T10:38:55.459Z",
-                updated_at: "2020-11-04T11:45:46.720Z"
-              },
-              catalogue: {
-                id: "12",
-                type: "catalogue",
-                attributes: {
-                  tags: [],
-                  reviews: [
-                    {
-                      id: 9,
-                      catalogue_id: 12,
-                      comment: "",
-                      rating: 3,
-                      created_at: "2020-11-04T11:27:33.254Z",
-                      updated_at: "2020-11-04T11:27:33.254Z",
-                      account_id: 3
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
+        apiResponse
       );
-      instance.getItemDetailAPICallId = orderDetailSucessRestAPI.messageId;
-      runEngine.sendMessage("Unit Test", orderDetailSucessRestAPI);
-
-      expect(OrderWrapper).toBeTruthy();
-
-      let OrderDetailWrapper: ShallowWrapper;
-      OrderDetailWrapper = shallow(<OrderDetails {...screenProps} />);
-      expect(OrderDetailWrapper).toBeTruthy();
-  
-
-      // let detailScreenInstance:OrderDetails;
-    });
-    then("orderDetails will load with out errors", () => {
-      expect(Ordermanagement).toBeTruthy();
-    });
-  });
-
-  test("User rate an order", ({ given, when, then }) => {
-    let OrderWrapper: ShallowWrapper;
-    let instance: Ordermanagement;
-
-    given("I am a User attempting to rate an order", () => {
-      OrderWrapper = shallow(<Ordermanagement {...screenProps} />);
-      expect(OrderWrapper).toBeTruthy();
-    });
-
-    when("I rate an order", () => {
-      instance = OrderWrapper.instance() as Ordermanagement;
-      instance.setState({ starCount: 4, comment: "Awesome product" });
-      expect(instance.rateOrderDataRequest(1)).toBe(true);
-      expect(OrderWrapper).toBeTruthy();
-    });
-    then("Rest Api will return success response", () => {
-      const rateOrderSucessRestAPI = new Message(
+      instance.getPreviousOrdersId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+    })
+    then("user trying to accept the order", () => {
+      instance.acceptDeclineOrders(1,false)
+      const msgValidationAPI = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
-      rateOrderSucessRestAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceDataMessage),
-        rateOrderSucessRestAPI.messageId
+        msgValidationAPI.messageId
       );
-      rateOrderSucessRestAPI.addData(
+      msgValidationAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-          data: {
-            id: "12",
-            type: "review",
-            attributes: {
-              id: 12,
-              catalogue_id: 24,
-              rating: 4,
-              comment: "Awesome product",
-              created_at: "2020-11-04T13:11:20.184Z",
-              updated_at: "2020-11-04T13:11:20.184Z",
-              account: {
-                activated: true,
-                country_code: null,
-                email: "danil.kozub@gmail.com",
-                first_name: null,
-                full_phone_number: "",
-                last_name: null,
-                phone_number: null,
-                type: "EmailAccount",
-                created_at: "2020-09-30T08:29:11.544Z",
-                updated_at: "2020-09-30T08:29:11.544Z",
-                device_id: null,
-                unique_auth_id: null
-              }
-            }
-          }
-        }
+        apiResponse
       );
-      instance.rateOrderAPICallId = rateOrderSucessRestAPI.messageId;
-      runEngine.sendMessage("Unit Test", rateOrderSucessRestAPI);
+      instance.acceptDeclineOrdersId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);      
     });
+    then("user trying to filter the orders with date", () => {
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        apiResponse
+      );
+      instance.filterOrdersWithDateId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      const setOrderNo = jest.fn();
+      const searchOrder = jest.fn()
+      const props:any = {
+        markedDates: {},
+        minDate: "",
+        navigation: screenProps.navigation,
+        onDaySelect: jest.fn(),
+        onOpen: jest.fn(),
+        onclose: jest.fn(), 
+        orderNo: "333",
+        searchOrder,
+        selected: "previous",
+        selectedDay: '',
+        setOrderNo,
+        setSelected: jest.fn()
+      };
+      
+      const { getByTestId, rerender } = render(
+        <MyOrderHeader
+          {...props}
+        />
+      );
+      fireEvent.press(getByTestId('incoming_orders_test_id'));
+      rerender(
+      <MyOrderHeader
+        {...{...props,selected:'incoming'}}
+      />)
+      fireEvent.press(getByTestId('previous_orders_test_id'));
+      fireEvent.changeText(getByTestId('search_order_test_id'),'8575');
+      expect(setOrderNo).toBeCalledWith('8575');
+      fireEvent.press(getByTestId('search_order_button_test_id'));
+      fireEvent.press(getByTestId('calendar_test_id'));
+      expect(searchOrder).toBeCalledWith('333');
+      expect(instance.state.incomingOrders).toBe(apiResponse.data);
+    })
+    then('users can see available orders list', () => {
+      const ordersList = SettingsBlock.find('[testID="orders_list_id"]');
+      const props: any = ordersList.props();
+      // const { getByTestId } = render(props.ListHeaderComponent)
+      ordersList.render();
+      instance.setState({ isSearching: true, searchResult: [] });
+      ordersList.render();
+      // fireEvent.press(getByTestId('incoming_orders_test_id'));
+      const data = [null, {}, { attributes: {} }]
+      data.forEach((data) => {
+        render(<RenderItem item={data} />);
+      })
+      const increaseBtn = jest.fn();
+      const { getByTestId } = render(<RenderItem item={apiResponse.data[0]} acceptDeclineOrders={increaseBtn} />);
+      fireEvent.press(getByTestId('decline_test_id'));
+      fireEvent.press(getByTestId('accept_test_id'));
+      expect(increaseBtn).toBeCalled()
+
+    });
+    then('user selecting date on calendar', () => {
+      instance.onDaySelect('03-04-2023');
+      expect(instance.state.selectedDate.startDate).toBe('03-04-2023');
+      expect(instance.state.selectedDate.endDate).toBe('');
+      instance.onDaySelect('05-04-2023');
+      expect(instance.state.selectedDate.endDate).toBe('05-04-2023');
+      instance.onCloseCalendar();
+      
+    })
+    then('user trying to search orders with order id', () => {
+      instance.searchOrder(123);
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        apiResponse
+      );
+      instance.searchOrdersWithNumberId = msgValidationAPI.messageId;
+      instance.searchOrder(1234);
+      instance.setSelected('incoming');
+      instance.setSelected('previous');
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      expect(instance.state.searchResult).toBe(apiResponse.data);
+    })
   });
 });

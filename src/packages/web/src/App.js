@@ -15,8 +15,6 @@ import MeatTypeMap from "../../blocks/MeatTypeMap/src/MeatTypeMap";
 import VisualAnalytics from "../../blocks/visualanalytics/src/VisualAnalytics";
 import CustomisableUserProfiles from "../../blocks/CustomisableUserProfiles/src/CustomisableUserProfiles";
 import VideoLibrary from "../../blocks/VideoLibrary/src/VideoLibrary";
-import Ordermanagement from "../../blocks/ordermanagement/src/Ordermanagement";
-import OrderDetails from "../../blocks/ordermanagement/src/OrderDetails";
 import SocialMediaAccountLoginScreen from "../../blocks/social-media-account-login/src/SocialMediaAccountLoginScreen";
 import Documentation from "../../blocks/Documentation/src/Documentation";
 import StripeIntegration from "../../blocks/StripeIntegration/src/StripeIntegration";
@@ -77,12 +75,6 @@ path:"/CustomisableUserProfiles"},
 VideoLibrary:{
  component:VideoLibrary,
 path:"/VideoLibrary"},
-Ordermanagement:{
- component:Ordermanagement,
-path:"/Ordermanagement"},
-OrderDetails:{
- component:OrderDetails,
-path:"/OrderDetails"},
 SocialMediaAccountLoginScreen:{
  component:SocialMediaAccountLoginScreen,
 path:"/SocialMediaAccountLoginScreen"},
