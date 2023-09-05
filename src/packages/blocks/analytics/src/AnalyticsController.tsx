@@ -13,6 +13,7 @@ import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { store } from "../../../components/src/utils";
+import DisplayCalendar from "../../../components/src/DisplayCalendar";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -90,6 +91,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   // Customizable Area Start
   categoaryCallId: string = '';
   myCreditCallId: string = '';
+  calendarRef:  React.RefObject<DisplayCalendar>;
   showAlert() {
     Alert.alert('Alert', "something went wrong please try again", [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }])
   }
@@ -124,7 +126,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       showCalendar: false,
       selectedDate: "",
       markedDates: {},
-      startDate: "",
+      startDate: new Date().toDateString(),
       endDate: "",
       showAnimalList: false,
       showLoader: false,
@@ -182,7 +184,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
               (opacity = 1) => `#F8F4F4`,
               (opacity = 1) => `#F8F4F4`,
               (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#5C2221`,
+              (opacity = 1) => `#ee5e5d`,
               (opacity = 1) => `#F8F4F4`,
               (opacity = 1) => `#F8F4F4`]
           }
@@ -349,6 +351,10 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(category.id, category);
   }
 
+  calendarToggle (value: boolean){
+    this.setState({ showCalendar: value });
+  }
+
   handleDateSelected = (data: string) => {
     let newDate = new Date(data);
     newDate.setDate(newDate.getDate() + 7);
@@ -387,7 +393,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         }
     })
     
-    colors[maxSellIdx] = (opacity = 1) => `#5C2221`;
+    colors[maxSellIdx] = (opacity = 1) => `#ee5e5d`;
     
     const date = new Date(startDate);
     for(let i = 0; i < 7; i++) {
@@ -409,6 +415,11 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         datasets
     };
 }
+
+  dateStringToLabelFormat = (date: string)=> {
+    let _date = new Date(date);
+    return moment(_date).format('MMMM, YYYY');
+  }
 
   common() {
     this.setState({

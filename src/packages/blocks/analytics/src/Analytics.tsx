@@ -17,22 +17,30 @@ import {
 // Customizable Area Start
 import AnimalAnalytics from "./AnimalAnalytics";
 import { BarChart } from "react-native-chart-kit";
-import { DARK_RED, SCREEN_WIDTH } from "../../../components/src/constants";
+import {
+  DARK_RED,
+  PRIMARY,
+  WHITE,
+  LIGHT_GREY,
+  SCREEN_WIDTH,
+  calendarIcon,
+  BLACK
+} from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
 import Calendar from "../../../components/src/Calendar";
-import moment from "moment";
 import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
-
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
+import DisplayCalendar from "../../../components/src/DisplayCalendar";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    this.calendarRef = React.createRef();
     this.setState({chartObject: this.convertToChartFormat([],"2023-08-09")}) 
     // Customizable Area End
   }
@@ -52,23 +60,23 @@ export default class Analytics extends AnalyticsController {
     datasets: [
       { data: [ 0, 0, 0, 0, 0, 0, 0 ],
         colors: [
-          (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#5C2221`,
-          (opacity = 1) => `#F8F4F4`,
-          (opacity = 1) => `#F8F4F4`]
+          (opacity = 1) => LIGHT_GREY,
+          (opacity = 1) => LIGHT_GREY,
+          (opacity = 1) => LIGHT_GREY,
+          (opacity = 1) => LIGHT_GREY,
+          (opacity = 1) => DARK_RED,
+          (opacity = 1) => LIGHT_GREY,
+          (opacity = 1) => LIGHT_GREY]
       }
     ]
   };
   chartConfig = {
-    backgroundGradientFrom: 'white',
+    backgroundGradientFrom: WHITE,
     // // decimalPlaces: 0,
     // // barPercentage: 1.0,
     // // fillShadowGradientOpacity: 1,
     backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: 'white',
+    backgroundGradientTo: WHITE,
     // spacingInner: 1.0,
     backgroundColor: "transparent",
     backgroundGradientToOpacity: 0.0,
@@ -108,26 +116,42 @@ export default class Analytics extends AnalyticsController {
                 {this.isUser === false && (
                   <View style={styles.chartView}>
                     <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }} >
+                      style={styles.chartViewHeader} >
                       <View>
                         <Text style={styles.totalIncome}>{"Total Income"}</Text>
                         <Text style={styles.incomeValue}> {`$${this.state.totaAmount}`} </Text>
                       </View>
                       <TouchableOpacity
-                        onPress={() => { this.setState({ showCalendar: true }) }}
+                        onPress={() => { this.calendarToggle(true) }}
                         testID="show_calendar"
                       >
-                        <View style={styles.calendarView}>
-                          <Image
-                            style={[styles.backImage, { marginLeft: 10 }]}
-                            source={require("../assets/calendar_icon.png")}
-                          />
-                          <Text style={{ fontSize: 18, color: "#5C2221", marginLeft: 10 }}>
-                            {"March, 2022"}
-                          </Text>
+                        <View >
+                          <DisplayCalendar
+                              ref={this.calendarRef}
+                              setSelectedDay={this.handleDateSelected}
+                              selectedDate={""}
+                              dropdownStyle={{ height: 200 }}
+                              onClose={()=> {this.calendarToggle(false);}}
+                          >
+                            <TouchableOpacity
+                                onPress={() => {
+                                  this.calendarToggle(true);
+                                  this.calendarRef.current?._onButtonPress();
+                                }}
+                            >
+                              <View style={styles.calendarView}>
+                                <Image
+                                  style={[styles.backImage, { marginLeft: 10 }]}
+                                  source={calendarIcon}
+                              />
+                                <Text style={{ fontSize: 18, color: DARK_RED, marginLeft: 10 }}>
+                                  {this.dateStringToLabelFormat(this.state.startDate)}
+                                </Text>
+                              </View>
+                            </TouchableOpacity>
+                          </DisplayCalendar>
+
+
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -150,16 +174,6 @@ export default class Analytics extends AnalyticsController {
                       />
                       <View style={[styles.overlay, { height: 20 }]} />
                     </View>
-                    {this.state.showCalendar && (
-                      <TouchableWithoutFeedback>
-                      <View
-                        style={styles.calendarContainer}
-                        testID="calendarObject"
-                      >
-                        <Calendar dateSelected={this.handleDateSelected} />
-                      </View>
-                    </TouchableWithoutFeedback>
-                  )}
                   </View>
                 )}
                 <View style={styles.numberOfSent}>
@@ -170,10 +184,10 @@ export default class Analytics extends AnalyticsController {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: "#5C2221", fontWeight: "600" }}>
+                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
                       {`${this.state.numberOfSpend}`}
                     </Text>
-                    <Text style={{ fontSize: 20, color: "#A0272A" }}>
+                    <Text style={{ fontSize: 20, color: PRIMARY }}>
                       {`$${this.state.numberOfSpendCount}`}
                     </Text>
                   </View>
@@ -247,7 +261,7 @@ const styles = StyleSheet.create({
   seperator: { width: 10 },
   boxContainer: { flexDirection: "row", width: "100%", paddingBottom: 15 },
   boxText: {
-    color: "#5C2221",
+    color: DARK_RED,
     fontSize: 17,
     paddingTop: 20,
     fontWeight: "bold",
@@ -256,14 +270,14 @@ const styles = StyleSheet.create({
   boxHeader: { fontSize: 17, color: "grey" },
   box: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 15,
   },
   numOfSent: { fontSize: 15, color: "grey", paddingBottom: 5 },
   numberOfSent: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 10,
@@ -271,7 +285,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: LIGHT_GREY,
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -283,7 +297,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
     paddingLeft: 20,
-    color: "#5C2221",
+    color: DARK_RED,
     fontWeight: "400",
   },
   chartView: {
@@ -292,23 +306,31 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     height: 375,
-    backgroundColor: "#ffffff"
+    backgroundColor: WHITE
   },
   backImage: { height: 20, width: 20 },
   totalIncome: {
-    fontSize: 18, color: "#5C2221", paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
+    fontSize: 18, color: DARK_RED, paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
+  },
+  chartViewHeader:{
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   incomeValue: {
-    paddingLeft: 16, fontSize: 22, color: "#5C2221", fontWeight: "600"
+    marginLeft: 16, fontSize: 22, color: DARK_RED, fontWeight: "600"
   },
   calendarView: {
+    alignSelf: "flex-end",
     paddingVertical: 15,
     borderRadius: 10,
+    marginRight: 16,
     height: 50,
-    width: 150,
+    width: "auto",
+    paddingRight: 10,
+    minWidth: 150,
     margin: 20,
     marginTop: 0,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: LIGHT_GREY,
     flexDirection: "row",
   },
   flex: { flex: 1 },
@@ -317,7 +339,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     bottom: 38,
-    backgroundColor: 'white',
+    backgroundColor: WHITE,
     width: SCREEN_WIDTH - 40
   },
   calendarContainer: {
@@ -328,16 +350,16 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   dropdownContainer: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderRadius: 10,
     marginBottom: 0
   },
   dropdown: {
     height: 50,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderRadius: 10,
     padding: 12,
-    shadowColor: '#000',
+    shadowColor: BLACK,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -350,7 +372,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 5,
     borderBottomWidth: 1,
-    borderColor: "white",
+    borderColor: WHITE,
   },
   textItem: {
     flex: 1,
