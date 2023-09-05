@@ -1,12 +1,11 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import DualButton from "../../../components/src/DualButton";
-import { MeatImage } from "../../../components/src/constants";
-import { DARK_RED } from "../../../components/src/constants";
+import { DARK_RED,MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
   const deliveryDate =
-    item?.attributes?.order_items?.data[0]?.attributes?.delivered_at;
+    item?.attributes?.delivery_date;
   return (
     <View
       style={{
@@ -58,7 +57,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
           </View>
         </View>
 
-        <DualButton
+        {item?.attributes?.status === 'on_going' ? <DualButton
           button1Label="Decline"
           button2label="Accept"
           buttn1TestID="decline_test_id"
@@ -69,7 +68,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
           button2Onpress={() => {
             if (item.id) acceptDeclineOrders(item?.id, true);
           }}
-        />
+        /> : null }
       </View>
     </View>
   );
