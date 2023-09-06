@@ -12,6 +12,7 @@ import {
 import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
+import AnimalChart from "../../../components/src/AnimalChart";
 export default class AnimalPig extends AnalyticsController {
   constructor(props: Props) {
     super(props);
@@ -23,11 +24,13 @@ export default class AnimalPig extends AnalyticsController {
   // Customizable Area End
 
   render() {
+    // Customizable Area Start
+    const {x: left,y:top , isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
     return (
-      // Customizable Area Start
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Pig' &&
           <View style={styles.animalImgContainer}>
+            <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
             <View style={styles.animalImgCont}>
               {this.state.pig &&
                 <Image
@@ -143,9 +146,8 @@ export default class AnimalPig extends AnalyticsController {
           </View>
         }
       </View>
-
-      // Customizable Area End
     )
+    // Customizable Area End
   }
 }
 // Customizable Area Start

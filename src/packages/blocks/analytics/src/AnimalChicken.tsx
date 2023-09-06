@@ -12,6 +12,7 @@ import {
 import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
 
 import AnalyticsController, { Props } from "./AnalyticsController";
+import AnimalChart from "../../../components/src/AnimalChart";
 
 export default class AnimalChicken extends AnalyticsController {
   constructor(props: Props) {
@@ -22,12 +23,22 @@ export default class AnimalChicken extends AnalyticsController {
   }
 
   render() {
-    return (
-      // Customizable Area Start
+    // Customizable Area Start
+    const {
+      x: left,
+      y:top ,
+      isShow: isAnimalChartSow,
+      sold,
+      remaining,
+      lineHeight
+    } = this.state.soldChart;
 
+
+    return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Chicken' &&
           <View style={styles.animalImgContainer}>
+            <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
             <View style={styles.animalImgCont}>
               {
                 this.state.chicken_Defult &&
@@ -108,8 +119,8 @@ export default class AnimalChicken extends AnalyticsController {
           </View>
         }
       </View>
-      // Customizable Area End
     )
+    // Customizable Area End
   }
 }
 // Customizable Area Start

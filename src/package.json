@@ -64,6 +64,7 @@
     "react-native-screens": "^2.18.1",
     "react-native-simple-toast": "1.1.4",
     "react-native-star-rating": "^1.1.0",
+    "d3-shape": "file:./packages/blocks/core/node_modules/d3-shape",
     "react-native-svg": "file:./packages/blocks/core/node_modules/react-native-svg",
     "react-native-vector-icons": "file:./packages/blocks/core/node_modules/react-native-vector-icons",
     "react-native-webview": "file:./packages/blocks/core/node_modules/react-native-webview",
@@ -79,6 +80,7 @@
   "devDependencies": {
     "@types/node": "file:./packages/blocks/core/node_modules/@types/node",
     "@types/react": "file:./packages/blocks/core/node_modules/@types/react",
+    "@types/d3-shape": "file:./packages/blocks/core/node_modules/@types/d3-shape",
     "@types/react-native": "file:./packages/blocks/core/node_modules/@types/react-native",
     "@types/react-native-check-box": "file:./packages/blocks/core/node_modules/@types/react-native-check-box",
     "@types/react-native-onboarding-swiper": "^1.1.0",

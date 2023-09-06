@@ -5,9 +5,7 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableWithoutFeedback,
-  Button,
-  Platform
+  TouchableWithoutFeedback
   // Customizable Area Start
   , TouchableOpacity,
   Image,
@@ -15,8 +13,10 @@ import {
   // Customizable Area End
 } from "react-native";
 // Customizable Area Start
+import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
-import { BarChart } from "react-native-chart-kit";
+import {BarChart} from "react-native-chart-kit";
+
 import {
   DARK_RED,
   PRIMARY,
@@ -27,13 +27,13 @@ import {
   BLACK
 } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
-import Calendar from "../../../components/src/Calendar";
 import { Dropdown } from "../../../components/src/DropDown/src";
+import DoughnutChart from "../../../components/src/DoughnutChart";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
 // Customizable Area End
 
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
+import AnalyticsController, { Props } from "./AnalyticsController";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
 
 export default class Analytics extends AnalyticsController {
@@ -41,7 +41,7 @@ export default class Analytics extends AnalyticsController {
     super(props);
     // Customizable Area Start
     this.calendarRef = React.createRef();
-    this.setState({chartObject: this.convertToChartFormat([],"2023-08-09")}) 
+    this.setState({chartObject: this.convertToChartFormat([], moment(new Date(), "YYYY-MM-DD"))})
     // Customizable Area End
   }
 
@@ -129,9 +129,11 @@ export default class Analytics extends AnalyticsController {
                           <DisplayCalendar
                               ref={this.calendarRef}
                               setSelectedDay={this.handleDateSelected}
-                              selectedDate={""}
+                              selectedDate={this.state.startDate}
                               dropdownStyle={{ height: 200 }}
                               onClose={()=> {this.calendarToggle(false);}}
+                              markedDates={this.state.markedDates}
+                              // onDaySelect={this.handleDateSelected}
                           >
                             <TouchableOpacity
                                 onPress={() => {
@@ -139,12 +141,14 @@ export default class Analytics extends AnalyticsController {
                                   this.calendarRef.current?._onButtonPress();
                                 }}
                             >
-                              <View style={styles.calendarView}>
-                                <Image
-                                  style={[styles.backImage, { marginLeft: 10 }]}
-                                  source={calendarIcon}
-                              />
-                                <Text style={{ fontSize: 18, color: DARK_RED, marginLeft: 10 }}>
+                              <View style={styles.calendarButton}>
+                                <View>
+                                  <Image
+                                    style={[styles.backImage,styles.calendarButtonIcon]}
+                                    source={calendarIcon}
+                                />
+                                </View>
+                                <Text style={styles.calendarButtonText}>
                                   {this.dateStringToLabelFormat(this.state.startDate)}
                                 </Text>
                               </View>
@@ -319,19 +323,30 @@ const styles = StyleSheet.create({
   incomeValue: {
     marginLeft: 16, fontSize: 22, color: DARK_RED, fontWeight: "600"
   },
-  calendarView: {
+  calendarButton: {
+    display: "flex",
     alignSelf: "flex-end",
+    alignContent: "center",
     paddingVertical: 15,
     borderRadius: 10,
     marginRight: 16,
     height: 50,
     width: "auto",
-    paddingRight: 10,
+    paddingHorizontal: 10,
     minWidth: 150,
     margin: 20,
     marginTop: 0,
     backgroundColor: LIGHT_GREY,
     flexDirection: "row",
+  },
+  calendarButtonIcon: {
+    alignSelf: "center",
+    marginRight: 10,
+  },
+  calendarButtonText: {
+    fontSize: 18,
+    color: DARK_RED,
+    alignSelf: "center",
   },
   flex: { flex: 1 },
   overlay: {
@@ -341,13 +356,6 @@ const styles = StyleSheet.create({
     bottom: 38,
     backgroundColor: WHITE,
     width: SCREEN_WIDTH - 40
-  },
-  calendarContainer: {
-    position: "absolute",
-    top: 40,
-    right: 0,
-    left: 0,
-    zIndex: 100,
   },
   dropdownContainer: {
     backgroundColor: WHITE,
