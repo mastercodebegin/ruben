@@ -26,6 +26,9 @@ interface S {
   discountPrice: number;
   totalPrice: number;
   discountFetched: boolean;
+  screenError: boolean;
+  shippingCharge: number;
+  subTotal: number;
 }
 
 interface SS {
@@ -52,7 +55,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       order_id: null,
       discountPrice: 0,
       totalPrice: 0,
-      discountFetched: false
+      discountFetched: false,
+      screenError: false,
+      shippingCharge: 0,
+      subTotal:0
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -62,6 +68,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   increaseCartCallId:string='';
   fetchDiscountCode: string = '';
   applyDiscountCodeId: string;
+  fetchDiscountCallId: string = '';
   showAlert(){
     Alert.alert('Alert',"something went wrong please try again",[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
 
@@ -142,8 +149,28 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     } else {
       this.setState({showLoader:false},()=>this.showDiscountMessage("Something went wrong"))
     }
+  } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+  this.fetchDiscountCallId != null &&
+  this.fetchDiscountCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    let error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
+    let discountPrice = message.getData(getName(MessageEnum.RestAPIResponceSuccessMessage));
+    if (!error && discountPrice?.message === "discount fetched") {
+      this.fetchDiscountCallBack()
+    } else {
+      this.setState({ screenError: true, showLoader: false });
+      }
+  }
+  }
+
+  componentDidUpdate() {    
+    if (this.state.screenError) {
+      Alert.alert('Error','Something went wrong, please try again later',[{text:'OK',onPress:()=>this.props.navigation.goBack()}])
     }
-    
+      
+  }
+  fetchDiscountCallBack(){
+    this.getDiscountCode();
   }
 
   showDiscountMessage(message: string) {
@@ -163,10 +190,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   getCartCallBack(prodList:any,error=false){
     if(error){
       this.showAlert()
-    } else {      
+    } else {
+      this.getDiscountCode();
       if(prodList?.attributes?.order_items?.data?.length){
       store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
-      //sorting productList
       const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
         const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
         const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
@@ -182,7 +209,6 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         productsList:sortedProductList,
         order_id: prodList?.id,
         showLoader: false,
-        totalPrice:prodList?.attributes?.total_fees
       })
       } else {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });        
@@ -193,9 +219,18 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   discoundCodeCallback(discoundCode:any,error=false){
     if (error) {
       Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
-    } else if(discoundCode?.promo_code) {
-      this.setState({discountCode:discoundCode?.promo_code,showLoader:false,discountPercentage:discoundCode?.discount, discountFetched: true});
-      showToast('Discount code fetched successfully')
+    } else if (discoundCode?.promo_code || (discoundCode?.sub_total &&  discoundCode?.total)) {      
+      this.setState({
+        discountCode: discoundCode?.promo_code || '',
+        showLoader: false,
+        discountPercentage: discoundCode?.discount,
+        discountFetched: discoundCode?.promo_code ? true : false ,
+        totalPrice: discoundCode?.total || 0,
+        discountPrice: discoundCode?.discount,
+        shippingCharge: discoundCode?.shipping_charge || 0,
+        subTotal:discoundCode?.sub_total || 0
+        
+      });
     }
   }
   onpressCancel() {
@@ -326,6 +361,33 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
+  async fetchDiscount() {
+    this.setState({showLoader:true})
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.fetchDiscountCallId = subcategory.messageId;
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `account_block/accounts/discount`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+    'POST'
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }

@@ -25,7 +25,6 @@ interface S {
   productsList:Array<any>;
   currentStorageClass: "Basic" | "Gold" | "Platinum";
   subtotal: number;
-  discount: number;
   shipping: number;
   orderId: number;
   orderNumber: number;
@@ -33,12 +32,16 @@ interface S {
   lifetimeSubscription: boolean;
   emailId: string;
   deliveryCharge: number;
-  lifetimeSubscriptionPrice: number;
   meatStoragePlans: any[];
   currentPlan: any;
   availablePlans: any[];
   selectedPlan: any;
   subscriptionCharge: null | number;
+  orderDetails: any;
+  totalPrice: number | string;
+  billingDetails: any[];
+  fastDeliveryPice: null | number;
+  screenError: boolean;
 }
 
 interface SS {
@@ -69,20 +72,23 @@ SS
       productsList: [],
       currentStorageClass: 'Basic',
       subtotal: 0,
-      discount: 0,
       shipping: 10,
       orderId: 4,
       orderNumber: 12121212,
       deliverWithinADay: false,
       lifetimeSubscription: false,
-      deliveryCharge:12,
+      deliveryCharge:0,
       emailId: "",
-      lifetimeSubscriptionPrice: 5,
       meatStoragePlans: [],
       currentPlan: null,
       availablePlans: [],
       selectedPlan: null,
-      subscriptionCharge:null
+      subscriptionCharge: null,
+      orderDetails: {},
+      totalPrice: 0,
+      billingDetails: [],
+      fastDeliveryPice: null,
+      screenError: false,
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -93,6 +99,16 @@ SS
   removeItemCallId: string = ""
   increaseCartCallId: string = "";
   applyStoragePlanId: string = '';
+  lifeTimeSubscriptionCallId: string = '';
+  addFastDeliveryApiCallId: string = '';
+  getBillingDetailsCallId: string = '';
+
+  componentDidUpdate(){
+    if (this.state.screenError) {
+      Alert.alert("Error","Something went wrong please try again later",[{text:"OK",onPress:()=>this.props.navigation.goBack()}])
+      }
+  }
+
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -131,12 +147,11 @@ SS
       if (productsList?.data?.length ) {
         const prodList = productsList?.data[0];
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
-        this.getCartCallBack(prodList,productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans,subTotal,error)
+        const total = productsList?.data[0]?.attributes?.total;
+        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, error);
       } else {
         showToast('Something went wrong');
       }
-      
-
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -176,6 +191,71 @@ SS
         showToast("Something went wrong");
       } else {
         this.getCart();
+      }
+    } else if (   getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.addFastDeliveryApiCallId != null &&
+    this.addFastDeliveryApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
+    {
+      const fastDeliveryResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );     
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );      
+      if (fastDeliveryResponse && !error) {
+        this.getBillingDetails();     
+        if (typeof fastDeliveryResponse?.message === 'string') {
+          showToast(fastDeliveryResponse?.message);
+        }
+      } else {
+        this.setState({ showLoader: false });
+        showToast('Something went wrong');
+      }
+    }else if (  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getBillingDetailsCallId != null &&
+    this.getBillingDetailsCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
+    {
+      const billingDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );     
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if ((!error && billingDetails)) {
+        const list = this.getOrderDetailsArray(billingDetails);
+        const totalPrice = billingDetails?.total;
+        const fastDelivery = billingDetails?.delivery_hrs;
+        const lifetimeSubscription = billingDetails?.life_time_subscription !== null;
+        this.setState({
+          show_modal: false,
+          orderDetails: billingDetails,
+          billingDetails: list,
+          fastDeliveryPice: fastDelivery || null,
+          lifetimeSubscription: lifetimeSubscription,
+          showLoader: false,
+          totalPrice
+        });
+      } else {
+        this.setState({ show_modal: false ,showLoader:false});
+      }      
+    } else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.lifeTimeSubscriptionCallId != null &&
+      this.lifeTimeSubscriptionCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+        const lifetimeSubscriptionResponse = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );     
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      if (!error && lifetimeSubscriptionResponse?.data?.type === 'subscription') {
+        this.getBillingDetails();     
+      } else {
+        this.setState({ screenError: true});
       }
     }
   }
@@ -307,7 +387,33 @@ SS
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  getCartCallBack(prodList: any, plans: any[],subTotal:number, error = false) {    
+  async getBillingDetails() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const billingDetails = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.getBillingDetailsCallId = billingDetails.messageId;
+
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/accounts/fetch_discount'
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(billingDetails.id, billingDetails);
+  }
+
+  getCartCallBack(prodList: any, plans: any[],subTotal:number,total:number, error = false) {    
     if(error){
       this.setState({showLoader: false})
       alert('Error getting items in cart!');
@@ -346,21 +452,80 @@ SS
         showLoader: false,
         productsList: sortedProductList,
         subtotal: subTotal,
-        discount: subTotal * 0.1,
         meatStoragePlans: plans,
         orderId: prodList?.id,
         orderNumber: prodList?.attributes?.order_no,
         currentPlan,
         availablePlans,
       });
+      this.getBillingDetails();
     }
   }
+  async addFastDelivery() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const fastDelivery = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-  deliverWithinADayClicked = () => {
-    this.setState({deliverWithinADay: true, deliveryCharge:25.99})
+    this.addFastDeliveryApiCallId = fastDelivery.messageId;
+
+    fastDelivery.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/accounts/delivery_hrs'
+    );
+    fastDelivery.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    fastDelivery.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpPostMethod
+    );
+    runEngine.sendMessage(fastDelivery.id, fastDelivery);
+  }
+
+  async addLifeTimeSubscription() { 
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json"
+    };
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.lifeTimeSubscriptionCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_subscriptions/subscriptions'
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify({
+        "subscription": {
+            "name": "",
+            "subscrible_id": 1,
+            "status": "paid",
+            "enable": true
+        }
+    })
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'POST'
+    );
+    runEngine.sendMessage(requestMessage.id, requestMessage);
   }
   lifetimeSubClicked = () => {
-    this.setState({lifetimeSubscription: true})
+    this.addLifeTimeSubscription();
   }
   removeFromCart(id:number) {
     Alert.alert("Alert",
@@ -373,5 +538,46 @@ SS
   }
    capitalizeFirstLetter(string:string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+   }
+  numberValue(num: number) {
+    if (typeof num === 'number') {
+      return num.toFixed(2);
+    } else {
+      return 0;
+    }
+  }
+  getAddressDetails() {
+    return {
+      address: this.props.route.params?.address || '',
+      phone_number:this.props.route.params?.phone_number || '',
+      zip_code: this.props.route.params?.zip_code || '',
+      name: this.props.route.params?.name || '',
+      email:this.props.route.params?.email || '',
+    }    
+  }
+  getOrderDetailsArray(orderDetails:any) {
+    const OrderDetailsList: any[] = [];    
+    if (orderDetails?.sub_total && orderDetails?.total) {
+      OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.sub_total)});
+      if (orderDetails?.shipping_charge) {
+        OrderDetailsList.push({ question: "Shipping Charges", ans: this.numberValue(orderDetails?.shipping_charge) });
+      }
+      if (orderDetails?.delivery_fees) {
+        OrderDetailsList.push({ question: "Delivery Fees", ans: this.numberValue(orderDetails?.delivery_fees)});
+      }
+      if (orderDetails?.discount) {
+        OrderDetailsList.push({ question: "Discount", ans: this.numberValue(orderDetails?.discount) });
+      }
+      if (orderDetails?.delivery_hrs) {
+        OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(orderDetails?.delivery_hrs) });
+      }
+      if (orderDetails?.life_time_subscription) {
+        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(orderDetails?.life_time_subscription)})
+      }
+      if (orderDetails?.meat_storage_amount) {
+        OrderDetailsList.push({question : "Meat Storage",ans:this.numberValue(orderDetails?.meat_storage_amount)})
+      }
+    }
+    return OrderDetailsList;
   }
 }

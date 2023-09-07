@@ -9,14 +9,18 @@ import {
 } from "react-native";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MileStone from "../../../components/src/MilestoneComponent";
-import MyCartController from "./MyCartController";
+import MyCartController,{Props} from "./MyCartController";
 import ProductDetailComponent from "../../../components/src/ProductDetailComponent";
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 export default class MyCart extends MyCartController {
+  constructor(props:Props ) {
+    super(props);
+    this.fetchDiscount = this.fetchDiscount.bind(this);
+  }
   async componentDidMount() {
-    this.getCart()
+    this.getCart();
   }
   render() {
     const getDiscountPrice = () => {
@@ -31,7 +35,7 @@ export default class MyCart extends MyCartController {
        return Math.round(percentatge)
      }
     const getTotal = ()=>{
-      return (this.state.totalPrice - getDiscountPrice())
+      return (this.state.totalPrice - getDiscountPrice());
     }
     const getCartCount = ()=>{
       return this.state.productsList.length > 9 ? this.state.productsList.length : `0${this.state.productsList.length}`
@@ -77,7 +81,7 @@ export default class MyCart extends MyCartController {
                   <TouchableOpacity onPress={() => {
                     this.setState({discountPrice:0})
                     if (this.state.discountCode === "") {
-                      this.getDiscountCode.bind(this)()
+                      this.fetchDiscount();
                     } else {
                       this.applyDiscountCode.bind(this)(this.state.discountCode);
                     }
@@ -89,24 +93,24 @@ export default class MyCart extends MyCartController {
                   <Text style={styles.headerText}>PAYMENT DETAILS</Text>
                   <View style={styles.seperator} />
                   <View style={styles.answerContainer}>
-                    <View style={styles.row}>
+                    {this.state.subTotal ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{`$ ${this.state.totalPrice.toFixed(2)}`}</Text>
-                    </View>
+                      <Text style={styles.answer}>{`$ ${this.state.subTotal.toFixed(2)}`}</Text>
+                    </View> : null }
                    {this.state.discountFetched ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
                       <Text style={styles.answer}>{`-$${getDiscountPrice()} (${getDicountPercentage()}%)`}</Text>
                     </View> : null}
-                    <View style={styles.row}>
+                    {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
-                      <Text style={styles.answer}>{"$10.00"}</Text>
-                    </View>
+                      <Text style={styles.answer}>{`$${this.state.shippingCharge.toFixed(2)}`}</Text>
+                    </View> : null }
                   </View>
                   <View style={styles.seperator} />
-                  <View style={[styles.row, { paddingHorizontal: 20 }]}>
+                  {this.state.totalPrice ? <View style={[styles.row, { paddingHorizontal: 20 }]}>
                     <Text style={styles.paymentText}>Total</Text>
-                    <Text style={styles.answer}>{`$${Number(getTotal()+10).toFixed(2)}`}</Text>
-                  </View>
+                    <Text style={styles.answer}>{`$${this.state.totalPrice.toFixed(2)}`}</Text>
+                  </View>:null}
                 </View>
                 <Text style={styles.termsAndCondition}>
                   {"*terms & conditions apply"}

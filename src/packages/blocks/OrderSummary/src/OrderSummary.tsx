@@ -26,11 +26,11 @@ interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
   selected: boolean;
-  onpress: () => void;
+  onPress: () => void;
 }
-const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
+const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
   <TouchableOpacity
-    onPress={onpress}
+    onPress={onPress}
     style={[styles.boxContainer, selected && { backgroundColor: PRIMARY }]}
   >
     <Image
@@ -50,16 +50,10 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 );
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
-      this.getCart()
+    this.getCart();
   }
   render() {
-    const {address,phone_number, zip_code,name,email} = {
-      address: this.props.route.params?.address || '',
-      phone_number:this.props.route.params?.phone_number || '',
-      zip_code: this.props.route.params?.zip_code || '',
-      name: this.props.route.params?.name || '',
-      email:this.props.route.params?.email || '',
-    }    
+    const {address,phone_number, zip_code,name,email} = this.getAddressDetails()
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel", [
@@ -68,17 +62,6 @@ export default class OrderSummary extends OrderSummaryController {
       ]);
     };
     const lifetimeSubscriptionCharge = this.state.subscriptionCharge;
-    const total =  this.state.subtotal - this.props.route.params.discount + this.state.shipping + lifetimeSubscriptionCharge + this.state.deliveryCharge; 
-    const paymentDetailsList = [
-      { question: "Subtotal", ans: `$${this.state.subtotal}` },
-      { question: "Delivery Charges", ans: `$${new Number(this.state.deliveryCharge).toFixed(2)}`}
-    ]
-    if(this.props.route.params.discount) paymentDetailsList.splice(1,0,{ question: "Discount", ans: `- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)` });
-    if(this.state.currentStorageClass !== "Basic") paymentDetailsList.push({ question: "Meat Storage Plan", ans: `$${lifetimeSubscriptionCharge}`  });
-    paymentDetailsList.push({ question: "Shipping Charges", ans: `$${this.state.shipping.toFixed(2)}` });
-    if (this.state.lifetimeSubscription) {
-      paymentDetailsList.push({ question: "Lifetime Subscription", ans: `$${this.state.lifetimeSubscriptionPrice.toFixed(2)}` });
-    }    
 
     return (
       <SafeAreaView style={styles.safearea}>
@@ -97,25 +80,24 @@ export default class OrderSummary extends OrderSummaryController {
               <ImageBox
                 selected={this.state.selectedTab === "delivery"}
                 text="Delivery"
-                onpress={() => this.setState({ selectedTab: "delivery" })}
+                onPress={() => this.setState({ selectedTab: "delivery" })}
                 image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
-                onpress={() => this.setState({ selectedTab: "shipping" })}
+                onPress={() => this.setState({ selectedTab: "shipping" })}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
-                onpress={() => this.setState({ selectedTab: "pickup" })}
+                onPress={() => this.setState({ selectedTab: "pickup" })}
                 text="Pickup"
                 image={pickupIcon}
               />
             </View>
-              {!this.state.lifetimeSubscription &&
             <View style={styles.lifetimeSub}>
               <View style={styles.cartImageContainer}>
                 <Image resizeMode="contain" style={styles.cartImage} source={require('../assets/cart.png')}/>
@@ -123,11 +105,11 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.lifetimeSubContent}>
                 <Text style={styles.lifetimeSubHeading}>Lifetime Subscription</Text>
                 <Text style={styles.lifetimeSubText}>one-time purchase and lasts a lifetime</Text>
-                <TouchableOpacity style={styles.lifetimeSubButton} onPress={this.lifetimeSubClicked}>
-                  <Text style={styles.lifetimeSubPrice}>{"$5.00"}</Text>
+                <TouchableOpacity disabled={this.state.lifetimeSubscription} style={styles.lifetimeSubButton} onPress={this.addLifeTimeSubscription.bind(this)}>
+                  <Text style={styles.lifetimeSubPrice}>{this.state.lifetimeSubscription ? "Added": "$5.00"}</Text>
                 </TouchableOpacity>
               </View>
-            </View>}
+            </View>
             <View style={styles.itemsContainer}>
               <View style={styles.headerContainer}>
                 <Text style={styles.addedItemsHeader}>{`ADDED ITEMS (${this.state.productsList.length})`}</Text>
@@ -164,19 +146,17 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-            {!this.state.deliverWithinADay &&
               <View style={styles.deliverContainer}>
                 <Text style={styles.deliverText}>Deliver in 24hrs</Text>
-                <TouchableOpacity style={styles.deliverPrice} onPress={this.deliverWithinADayClicked}>
-                  <Text style={styles.deliverPriceText}>{"+ $25.99"}</Text>
+                <TouchableOpacity disabled={this.state.fastDeliveryPice !== null} style={styles.deliverPrice} onPress={this.addFastDelivery.bind(this)}>
+                  <Text style={styles.deliverPriceText}>{this.state.fastDeliveryPice ? "Added" : "+ $25.00"}</Text>
                 </TouchableOpacity>
               </View>
-            }
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"
-                list={paymentDetailsList}
-                footer={{question: "Total", ans: `$${total.toFixed(2)}`}}
+                list={this.state.billingDetails}
+                footer={{question: "Total", ans: `$${this.state.totalPrice}`}}
               />
             </View>
              
@@ -217,7 +197,7 @@ export default class OrderSummary extends OrderSummaryController {
                   phone_number,
                   zip_code,
                   subtotal: this.state.subtotal,
-                  total: Number(total),
+                  total: this.state.totalPrice,
                   shipping: this.state.shipping,
                   discount: this.props.route.params.discount,
                   discountPercentage : this.props.route.params.discountPercentage,

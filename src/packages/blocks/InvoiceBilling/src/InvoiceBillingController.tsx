@@ -38,7 +38,8 @@ interface S {
   billingAddress: any;
   shippingAddress: any;
   pdfUrl: any;
-  deliveryDate : any;
+  deliveryDate: any;
+  billingDetails: any;
   // Customizable Area End
 }
 
@@ -85,7 +86,8 @@ export default class InvoiceBillingController extends BlockComponent<
       createdDate: '',
       subTotal:0,
       pdfUrl:'',
-      deliveryDate:''
+      deliveryDate: '',
+      billingDetails:{}
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -122,13 +124,23 @@ export default class InvoiceBillingController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!invoiceError && invoiceDetails) {
+        const billingDetails = {
+          discount: invoiceDetails?.data?.attributes?.discount_amount,
+          shippingCharge: invoiceDetails?.data?.attributes?.shipping_charge,
+          total : invoiceDetails?.data?.attributes?.total,
+          subTotal: invoiceDetails?.data?.attributes?.subtotal,
+          lifetimeSubscription: invoiceDetails?.data?.attributes?.subscription_amount,
+          deliveryCharge:12
+        }        
+        
         this.setState({
           productsList: invoiceDetails?.data?.attributes?.order_items?.data,
           showLoader: false,
           subTotal: Number(invoiceDetails?.data?.attributes?.subtotal[0]),
           billingAddress: invoiceDetails?.data?.attributes?.bill_to?.data?.attributes,
           shippingAddress:invoiceDetails?.data?.attributes?.shipping_address?.data?.attributes,
-          deliveryDate : invoiceDetails?.data?.attributes?.delivery_date,
+          deliveryDate: invoiceDetails?.data?.attributes?.delivery_date,
+          billingDetails:billingDetails
         })
       } else {
         this.setState({showLoader:false})

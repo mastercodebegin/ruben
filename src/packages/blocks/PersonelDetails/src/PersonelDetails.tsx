@@ -52,7 +52,6 @@ export default class PersonelDetails extends PersonelDetailsController {
   async componentDidMount(){
     await this.getAddressList();
     await this.getAvailableSlots();
-    this.getEstimatedDeliveryDate();
   }
   render() {
     const {address,phone_number, zip_code,name,email} = {
@@ -98,7 +97,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                     } else if (this.state.selectedAddress === null) {
                       Alert.alert("Alert", "Please select an address");
                     } else {
-                      this.setState({selectedTab:'shipping'})
+                      this.getEstimatedDeliveryDate();
                     }
                 }}
                 text="Shipping/Mailing"

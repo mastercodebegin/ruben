@@ -159,7 +159,7 @@ export default class PersonelDetailsController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && estimatedDeliverDate?.delivery_date) {
-        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date ,showLoader:false});
+        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date ,showLoader:false,selectedTab:'shipping'});
       } else {
         this.setState({ showLoader: false });
       }
@@ -361,7 +361,7 @@ export default class PersonelDetailsController extends BlockComponent<
       } else if (this.state.selectedAddress === null) {
         Alert.alert("Alert", "Please select an address");
       } else {
-        this.setState({selectedTab:'shipping'})
+        this.getEstimatedDeliveryDate();
       }
     } else if (this.state.selectedTab === 'shipping') {
       this.setState({selectedTab:'pickup'})

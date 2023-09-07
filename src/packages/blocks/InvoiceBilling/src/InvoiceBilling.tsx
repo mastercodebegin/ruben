@@ -62,7 +62,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
                   style={{ height: 0.5, backgroundColor: "grey", opacity: 0.5 }}
                 />
               )}
-              ListFooterComponent={<RenderFooter subTotal={this.props.route?.params?.subtotal} total={this.props?.route?.params?.total} params={this.props.route?.params} />}
+              ListFooterComponent={<RenderFooter subTotal={this.props.route?.params?.subtotal} total={this.props?.route?.params?.total} params={this.state.billingDetails} />}
               ListHeaderComponent={<RenderHeader billingAddress={this.state.billingAddress} shippingAddress={this.state.shippingAddress} deliveryDate={this.state.deliveryDate}/>}
             />
           </View>
