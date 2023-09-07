@@ -108,28 +108,26 @@ export default class AnimalPig extends AnalyticsController {
                   source={pigJowl}
                 />
               }
-              <TouchableOpacity onPress={() => { this.clickOnPigHead() }} style={styles.clickOnPigHead} testID="pigHead">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockRight} testID="pigHock">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigHock() }} style={styles.clickOnPigHockLeft} testID="pigHock">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigBacon() }} style={styles.clickOnPigBacon} testID="pigBacon">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigNeck() }} style={styles.clickOnPigNeck} testID="pigNeck">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPiglegham() }} style={styles.clickOnPigLegham} testID="pigLegham">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigRib() }} style={styles.clickOnPigRib} testID="pigRibs">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigLoin() }} style={styles.clickOnPigLoin} testID="pigLoin">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigShoulder() }} style={styles.clickOnPigShoulder} testID="pigShoulder">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigPicnic() }} style={styles.clickOnPigPicnic} testID="pigPicnic">
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => { this.clickOnPigJowl() }} style={styles.clickOnPigJowl} testID="pigJowl">
-              </TouchableOpacity>
+              {this.state.pigBackFat &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pig}
+                />
+              }
+              <TouchableOpacity onPress={() => { this.onPigClick('pigHead') }} style={styles.clickOnPigHead} testID="pigHead" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigHock')  }} style={styles.clickOnPigHockRight} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigHock')  }} style={styles.clickOnPigHockLeft} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigBacon')  }} style={styles.clickOnPigBacon} testID="pigBacon" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigNeck') }} style={styles.clickOnPigNeck} testID="pigNeck" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigLegham') }} style={styles.clickOnPigLegham} testID="pigLegham" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigRibs') }} style={styles.clickOnPigRib} testID="pigRibs" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigLoin')  }} style={styles.clickOnPigLoin} testID="pigLoin" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigShoulder') }} style={styles.clickOnPigShoulder} testID="pigShoulder" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigPicnic') }} style={styles.clickOnPigPicnic} testID="pigPicnic" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigJowl') }} style={styles.clickOnPigJowl} testID="pigJowl" />
+              <TouchableOpacity onPress={() => { this.onPigClick('pigBackFat') }} style={styles.clickBackFat} testID="pigBackFat" />
+
             </View>
             <View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
@@ -268,6 +266,13 @@ const styles = StyleSheet.create({
     bottom: 85,
     left: 36,
     borderTopLeftRadius: 15,
+  },
+  clickBackFat: {
+    width: 65,
+    height: 20,
+    position: 'absolute',
+    bottom: 140,
+    left: 107,
   },
   bottomContainer: {
     flexDirection: 'row',

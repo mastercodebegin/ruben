@@ -35,6 +35,41 @@ export interface SoldChartI {
   lineHeight: number;
 }
 
+export type ChickenParts = 'chicken_Defult'
+    | 'chicken_Breast'
+    | 'chicken_Back'
+    | 'chicken_leg'
+    | 'chicken_Neck'
+    | 'chicken_Thigh'
+    | 'chicken_Wing'
+    | 'chicken_tail';
+
+export type PigParts = 'pig'
+    | 'pigHead'
+    | 'pigJowl'
+    | 'pigNeck'
+    | 'pigShoulder'
+    | 'pigPicnic'
+    | 'pigHock'
+    | 'pigBacon'
+    | 'pigLegham'
+    | 'pigRibs'
+    | 'pigBackFat'
+    | 'pigLoin';
+
+export type CowParts = 'chuck'
+    | 'cow_Defult'
+    | 'cowHead'
+    | 'cow_Fore_Shank'
+    | 'cow_Short_plate'
+    | 'cow_Flank'
+    | 'cow_shank'
+    | 'cow_Round'
+    | 'cow_Sirllion'
+    | 'cow_Short_lion'
+    | 'cow_Brisket'
+    | 'cow_Rib';
+
 interface S {
   // Customizable Area Start
   chuck: boolean;
@@ -66,6 +101,7 @@ interface S {
   chicken_Back: boolean;
   chicken_Wing: boolean;
   chicken_Thigh: boolean;
+  chicken_tail: boolean;
   pig: boolean;
   pigHead: boolean;
   pigJowl: boolean;
@@ -77,6 +113,7 @@ interface S {
   pigLegham: boolean;
   pigRibs: boolean;
   pigLoin: boolean;
+  pigBackFat: boolean;
   totalCuts: number;
   usedCuts: number;
   remianingCuts: number;
@@ -175,6 +212,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       chicken_Neck: false,
       chicken_Thigh: false,
       chicken_Wing: false,
+      chicken_tail: false,
       pig: true,
       pigHead: false,
       pigJowl: false,
@@ -186,6 +224,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigLegham: false,
       pigRibs: false,
       pigLoin: false,
+      pigBackFat: false,
       chartObject: {
         labels: this.formattedDateRange(today),
         datasets: [
@@ -402,55 +441,94 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   soldChart(type: string) {
-
-    const typesProps = {
+    const typesProps:{ [type: ChickenParts | PigParts | CowParts ]: Partial<SoldChartI>} = {
       chuck: {
-        isShow: false,
+        isShow: true,
+        x: 150,
+        y:-60,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 220
+      },
+      cow_Fore_Shank: {
+        isShow: true,
+        x: 145,
+        y:-60,
+        lineHeight: 80,
+        sold: 105,
+        remaining: 220
       },
       cowHead: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 210,
+        y:-50,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 73
       },
       cow_Rib: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 120,
+        y:-50,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 22
       },
       cow_Short_lion: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 90,
+        y:-50,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 22
       },
       cow_Sirllion: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 70,
+        y:-50,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 22
       },
       cow_Round: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 50,
+        y:-50,
+        lineHeight: 15,
+        sold: 100,
+        remaining: 22
       },
       cow_shank: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 30,
+        y:-60,
+        lineHeight: 80,
+        sold: 100,
+        remaining: 80
       },
       cow_Flank: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 70,
+        y:-60,
+        lineHeight: 80,
+        sold: 20,
+        remaining: 80
       },
       cow_Short_plate: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 110,
+        y:-60,
+        lineHeight: 65,
+        sold: 20,
+        remaining: 65
       },
       cow_Brisket: {
         isShow: true,
-        x: 0,
-        y:0,
+        x: 170,
+        y:-60,
+        lineHeight: 65,
+        sold: 20,
+        remaining: 65
       },
       chicken_Defult: {
         isShow: false,
@@ -494,6 +572,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         y:-50,
         lineHeight: 100,
         sold: 90,
+        remaining: 100
+      },
+      chicken_tail: {
+        isShow: true,
+        x: 200,
+        y:-50,
+        lineHeight: 30,
+        sold: 150,
         remaining: 100
       },
       chicken_Wing: {
@@ -567,6 +653,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         x: 120,
         y: -50,
         lineHeight: 50,
+      },
+      pigBackFat: {
+        isShow: true,
+        x: 120,
+        y: -50,
+        lineHeight: 15,
       },
     }
 
@@ -645,13 +737,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     return result;
   }
 
-
   dateStringToLabelFormat = (date: string)=> {
     let _date = new Date(date);
     return moment(_date).format('MMMM, YYYY');
   }
 
-  common() {
+  onCowClick(partOfCow: CowParts){
     this.setState({
       chuck: false,
       cow_Defult: false,
@@ -665,76 +756,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Short_lion: false,
       cow_Rib: false,
       cow_Brisket: false,
+      [partOfCow]: true,
     });
+
+    this.soldChart(partOfCow);
   }
 
-  clickOnChuck() {
-    this.common();
-    this.setState({
-      chuck: true,
-    });
-  }
-  clickOnCowhead() {
-    this.common();
-    this.setState({ cowHead: true });
-  }
-
-  clickOnCowRib() {
-    this.common();
-    this.setState({
-      cow_Rib: true,
-    });
-  }
-  clickOnShortlion() {
-    this.common();
-    this.setState({
-      cow_Short_lion: true,
-    });
-  }
-  clickOnSirlion() {
-    this.common();
-    this.setState({
-      cow_Sirllion: true,
-    });
-  }
-  clickOnRound() {
-    this.common();
-    this.setState({
-      cow_Round: true,
-    });
-  }
-  clickOnShank() {
-    this.common();
-    this.setState({
-      cow_shank: true,
-    });
-  }
-  clickOnFlank() {
-    this.common();
-    this.setState({
-      cow_Flank: true,
-    });
-  }
-  clickOnShortPlate() {
-    this.common();
-    this.setState({
-      cow_Short_plate: true,
-    });
-  }
-  clickOnForeShank() {
-    this.common();
-    this.setState({
-      cow_Fore_Shank: true,
-    });
-  }
-  clickOnBrisket() {
-    this.common();
-    this.setState({
-      cow_Brisket: true,
-    });
-  }
   // Chicken
-  chickenCommn() {
+  onChickenClick(partOfChicken: ChickenParts) {
     this.setState({
       chicken_Defult: false,
       chicken_Breast: false,
@@ -743,9 +772,13 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       chicken_Neck: false,
       chicken_Thigh: false,
       chicken_Wing: false,
+      chicken_tail: false,
+      [partOfChicken]: true
     });
+    this.soldChart(partOfChicken);
   }
-  pigCommn() {
+
+  onPigClick(partOfPig: PigParts){
     this.setState({
       pig: false,
       pigHead: false,
@@ -758,127 +791,10 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigLegham: false,
       pigRibs: false,
       pigLoin: false,
-    })
-  }
-  clickOnChickenNeck() {
-    this.chickenCommn();
-    this.setState({
-      chicken_Neck: true,
+      pigBackFat: false,
+      [partOfPig]:true,
     });
-    this.soldChart('chicken_Neck');
-  }
-  clickOnChickenBack() {
-    this.chickenCommn();
-    this.soldChart('chicken_Back');
-    this.setState({
-      chicken_Back: true,
-    });
-  }
-  clickOnChickenBreast() {
-    this.chickenCommn();
-    this.soldChart('chicken_Breast');
-    this.setState({
-      chicken_Breast: true,
-    });
-  }
-  clickOnChickenWing() {
-    this.chickenCommn();
-    this.soldChart('chicken_Wing');
-    this.setState({
-      chicken_Wing: true,
-    });
-  }
-  clickOnChickenLeg() {
-    this.chickenCommn();
-    this.soldChart('chicken_leg');
-    this.setState({
-      chicken_leg: true,
-    });
-  }
-  clickOnChickenThigh() {
-    this.chickenCommn();
-    this.soldChart('chicken_Thigh');
-    this.setState({
-      chicken_Thigh: true,
-    });
-  }
-  clickOnPigHead() {
-    this.pigCommn()
-    this.soldChart('pigHead');
-    this.setState({
-      pigHead: true,
-    })
-  }
-  clickOnPigHock() {
-    this.pigCommn();
-    this.soldChart('pigHock');
-    this.setState({
-      pigHock: true
-    })
-  }
-
-  clickOnPigBacon() {
-    this.pigCommn();
-    this.soldChart('pigBacon');
-    this.setState({
-      pigBacon: true
-    })
-  }
-
-  clickOnPigNeck() {
-    this.pigCommn();
-    this.soldChart('pigNeck');
-    this.setState({
-      pigNeck: true
-    })
-  }
-
-  clickOnPiglegham() {
-    this.pigCommn();
-    this.soldChart('pigLegham');
-    this.setState({
-      pigLegham: true
-    })
-  }
-
-  clickOnPigRib() {
-    this.pigCommn();
-    this.soldChart('pigRibs');
-    this.setState({
-      pigRibs: true
-    })
-  }
-
-  clickOnPigLoin() {
-    this.pigCommn();
-    this.soldChart('pigLoin');
-    this.setState({
-      pigLoin: true
-    })
-  }
-
-  clickOnPigShoulder() {
-    this.pigCommn();
-    this.soldChart('pigShoulder');
-    this.setState({
-      pigShoulder: true
-    })
-  }
-
-  clickOnPigPicnic() {
-    this.pigCommn();
-    this.soldChart('pigPicnic');
-    this.setState({
-      pigPicnic: true
-    })
-  }
-
-  clickOnPigJowl() {
-    this.pigCommn();
-    this.soldChart('pigJowl');
-    this.setState({
-      pigJowl: true
-    })
+    this.soldChart(partOfPig);
   }
 
   getDataOfCat(item: any) {
