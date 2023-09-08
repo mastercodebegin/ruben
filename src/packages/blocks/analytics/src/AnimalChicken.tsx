@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
 
-import AnalyticsController, { Props } from "./AnalyticsController";
+import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
 
 export default class AnimalChicken extends AnalyticsController {
@@ -99,13 +99,13 @@ export default class AnimalChicken extends AnalyticsController {
                   />
               }
 
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_Neck') }} style={styles.clickOnChickenNeck} testID="chickenNeck" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_Back') }} style={styles.clickOnChickenBack} testID="chickenback" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_Breast') }} style={styles.clickOnChickenBreast} testID="chickenBreast" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_Wing') }} style={styles.clickOnChickenWing} testID="chickenWing" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_leg') }} style={styles.clickOnChickenLeg} testID="chickenLeg" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_Thigh') }} style={styles.clickOnChickenThigh} testID="chickenThigh" />
-              <TouchableOpacity onPress={() => { this.onChickenClick('chicken_tail') }} style={styles.clickOnChickenTail} testID="chickenThigh" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Neck) }} style={styles.clickOnChickenNeck} testID="chickenNeck" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Back) }} style={styles.clickOnChickenBack} testID="chickenback" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Breast) }} style={styles.clickOnChickenBreast} testID="chickenBreast" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Wing) }} style={styles.clickOnChickenWing} testID="chickenWing" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_leg) }} style={styles.clickOnChickenLeg} testID="chickenLeg" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Thigh) }} style={styles.clickOnChickenThigh} testID="chickenThigh" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_tail) }} style={styles.clickOnChickenTail} testID="chickenThigh" />
 
             </View>
 

@@ -37,40 +37,81 @@ export interface SoldChartI {
   lineHeight: number;
 }
 
-export type ChickenParts = 'chicken_Defult'
-    | 'chicken_Breast'
-    | 'chicken_Back'
-    | 'chicken_leg'
-    | 'chicken_Neck'
-    | 'chicken_Thigh'
-    | 'chicken_Wing'
-    | 'chicken_tail';
+export enum AnimalParts {
+  // chicken
+  'chicken_Defult'= 'chicken_Defult',
+  'chicken_Breast' = 'chicken_Breast',
+  'chicken_Back' = 'chicken_Back',
+  'chicken_leg' = 'chicken_leg',
+  'chicken_Neck' = 'chicken_Neck',
+  'chicken_Thigh' = 'chicken_Thigh',
+  'chicken_Wing' = 'chicken_Wing',
+  'chicken_tail' = 'chicken_tail',
+  // pig
+  'pig' = 'pig',
+  'pigHead' = 'pigHead',
+  'pigJowl' = 'pigJowl',
+  'pigNeck' = 'pigNeck',
+  'pigShoulder' = 'pigShoulder',
+  'pigPicnic' = 'pigPicnic',
+  'pigHock' = 'pigHock',
+  'pigBacon' = 'pigBacon',
+  'pigLegham' = 'pigLegham',
+  'pigRibs' = 'pigRibs',
+  'pigBackFat' = 'pigBackFat',
+  'pigLoin' = 'pigLoin',
+  // cow
+  'chuck'='chuck',
+  'cow_Defult'='cow_Defult',
+  'cowHead'='cowHead',
+  'cow_Fore_Shank'='cow_Fore_Shank',
+  'cow_Short_plate'='cow_Short_plate',
+  'cow_Flank'='cow_Flank',
+  'cow_shank'='cow_shank',
+  'cow_Round'='cow_Round',
+  'cow_Sirllion'='cow_Sirllion',
+  'cow_Short_lion'='cow_Short_lion',
+  'cow_Brisket'='cow_Brisket',
+  'cow_Rib'='cow_Rib',
+};
 
-export type PigParts = 'pig'
-    | 'pigHead'
-    | 'pigJowl'
-    | 'pigNeck'
-    | 'pigShoulder'
-    | 'pigPicnic'
-    | 'pigHock'
-    | 'pigBacon'
-    | 'pigLegham'
-    | 'pigRibs'
-    | 'pigBackFat'
-    | 'pigLoin';
+export type ChickenParts = AnimalParts.chicken_Defult
+    | AnimalParts.chicken_Breast
+    | AnimalParts.chicken_Back
+    | AnimalParts.chicken_leg
+    | AnimalParts.chicken_Neck
+    | AnimalParts.chicken_Thigh
+    | AnimalParts.chicken_Wing
+    | AnimalParts.chicken_tail;
 
-export type CowParts = 'chuck'
-    | 'cow_Defult'
-    | 'cowHead'
-    | 'cow_Fore_Shank'
-    | 'cow_Short_plate'
-    | 'cow_Flank'
-    | 'cow_shank'
-    | 'cow_Round'
-    | 'cow_Sirllion'
-    | 'cow_Short_lion'
-    | 'cow_Brisket'
-    | 'cow_Rib';
+export type PigParts = AnimalParts.pig
+    | AnimalParts.pigHead
+    | AnimalParts.pigJowl
+    | AnimalParts.pigNeck
+    | AnimalParts.pigShoulder
+    | AnimalParts.pigPicnic
+    | AnimalParts.pigHock
+    | AnimalParts.pigBacon
+    | AnimalParts.pigLegham
+    | AnimalParts.pigRibs
+    | AnimalParts.pigBackFat
+    | AnimalParts.pigLoin;
+
+export type CowParts = AnimalParts.chuck
+    | AnimalParts.cow_Defult
+    | AnimalParts.cowHead
+    | AnimalParts.cow_Fore_Shank
+    | AnimalParts.cow_Short_plate
+    | AnimalParts.cow_Flank
+    | AnimalParts.cow_shank
+    | AnimalParts.cow_Round
+    | AnimalParts.cow_Sirllion
+    | AnimalParts.cow_Short_lion
+    | AnimalParts.cow_Brisket
+    | AnimalParts.cow_Rib;
+
+
+
 // Customizable Area End
 interface S {
   // Customizable Area Start
@@ -141,7 +182,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   // Customizable Area Start
   categoaryCallId: string = '';
   myCreditCallId: string = '';
-  calendarRef:  React.RefObject<DisplayCalendar>;
+  calendarRef:  React.RefObject<DisplayCalendar> | null = null;
   showAlert() {
     Alert.alert('Alert', "something went wrong please try again", [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }])
   }
@@ -152,7 +193,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.receive = this.receive.bind(this);
 
     // Customizable Area Start
-    const today = moment(new Date(),  "YYYY-MM-DD");
+    const today = moment(new Date(),  "YYYY-MM-DD").toString();
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
@@ -163,6 +204,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.state = {
       // Customizable Area Start
       chuck: false,
+      markedDays: [],
       cowHead: false,
       cow_Defult: true,
       cow_Rib: false,
@@ -177,7 +219,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       showCalendar: false,
       selectedDate: "",
       markedDates: {},
-      startDate: today,
+      startDate: today.toString(),
       endDate: "",
       showAnimalList: false,
       showLoader: false,
@@ -229,7 +271,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigLoin: false,
       pigBackFat: false,
       chartObject: {
-        labels: this.formattedDateRange(today),
+        labels: this.formattedDateRange(today.toString()),
         datasets: [
           { data: [ 0, 0, 0, 0, 0, 0, 0 ],
             colors: [
@@ -443,9 +485,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     return result;
   }
 
-  soldChart(type: string) {
-    const typesProps:{ [type: ChickenParts | PigParts | CowParts ]: Partial<SoldChartI>} = {
-      chuck: {
+  soldChart(type: AnimalParts ) {
+    const typesProps:{ [key in AnimalParts]: Partial<SoldChartI>} = {
+      [AnimalParts.cow_Defult]: {
+        isShow: false,
+      },
+      [AnimalParts.chuck]: {
         isShow: true,
         x: 150,
         y:-60,
@@ -453,7 +498,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 220
       },
-      cow_Fore_Shank: {
+      [AnimalParts.cow_Fore_Shank]: {
         isShow: true,
         x: 145,
         y:-60,
@@ -461,7 +506,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 105,
         remaining: 220
       },
-      cowHead: {
+      [AnimalParts.cowHead]: {
         isShow: true,
         x: 210,
         y:-50,
@@ -469,7 +514,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 73
       },
-      cow_Rib: {
+      [AnimalParts.cow_Rib]: {
         isShow: true,
         x: 120,
         y:-50,
@@ -477,7 +522,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 22
       },
-      cow_Short_lion: {
+      [AnimalParts.cow_Short_lion]: {
         isShow: true,
         x: 90,
         y:-50,
@@ -485,7 +530,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 22
       },
-      cow_Sirllion: {
+      [AnimalParts.cow_Sirllion]: {
         isShow: true,
         x: 70,
         y:-50,
@@ -493,7 +538,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 22
       },
-      cow_Round: {
+      [AnimalParts.cow_Round]: {
         isShow: true,
         x: 50,
         y:-50,
@@ -501,7 +546,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 22
       },
-      cow_shank: {
+      [AnimalParts.cow_shank]: {
         isShow: true,
         x: 30,
         y:-60,
@@ -509,7 +554,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 80
       },
-      cow_Flank: {
+      [AnimalParts.cow_Flank]: {
         isShow: true,
         x: 70,
         y:-60,
@@ -517,7 +562,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 20,
         remaining: 80
       },
-      cow_Short_plate: {
+      [AnimalParts.cow_Short_plate]: {
         isShow: true,
         x: 110,
         y:-60,
@@ -525,7 +570,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 20,
         remaining: 65
       },
-      cow_Brisket: {
+      [AnimalParts.cow_Brisket]: {
         isShow: true,
         x: 170,
         y:-60,
@@ -533,12 +578,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 20,
         remaining: 65
       },
-      chicken_Defult: {
+      [AnimalParts.chicken_Defult]: {
         isShow: false,
         x: 0,
         y:0,
       },
-      chicken_Breast: {
+      [AnimalParts.chicken_Breast]: {
         isShow: true,
         x: 55,
         y:-90,
@@ -546,7 +591,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 100,
         remaining: 73
       },
-      chicken_Back: {
+      [AnimalParts.chicken_Back]: {
         isShow: true,
         x: 80,
         y:-80,
@@ -554,7 +599,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 90,
         remaining: 120
       },
-      chicken_leg: {
+      [AnimalParts.chicken_leg]: {
         isShow: true,
         x: 115,
         y:-50,
@@ -562,14 +607,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 90,
         remaining: 30
       },
-      chicken_Neck: {
+      [AnimalParts.chicken_Neck]: {
         isShow: true,
         x: 40,
         y:-90,
         sold: 28,
         remaining: 73
       },
-      chicken_Thigh: {
+      [AnimalParts.chicken_Thigh]: {
         isShow: true,
         x: 130,
         y:-50,
@@ -577,7 +622,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 90,
         remaining: 100
       },
-      chicken_tail: {
+      [AnimalParts.chicken_tail]: {
         isShow: true,
         x: 200,
         y:-50,
@@ -585,7 +630,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 150,
         remaining: 100
       },
-      chicken_Wing: {
+      [AnimalParts.chicken_Wing]: {
         isShow: true,
         x: 115,
         y:-40,
@@ -593,71 +638,71 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         sold: 90,
         remaining: 100
       },
-      pig: {
+      [AnimalParts.pig]: {
         isShow: false,
         x: 0,
         y:0,
       },
-      pigHead: {
+      [AnimalParts.pigHead]: {
         isShow: true,
         x: 30,
         y: -35,
       },
-      pigJowl: {
+      [AnimalParts.pigJowl]: {
         isShow: true,
         x: 40,
         y: -35,
         lineHeight: 65
       },
-      pigNeck: {
+      [AnimalParts.pigNeck]: {
         isShow: true,
         x: 55,
         y: -50,
         lineHeight: 30,
       },
-      pigShoulder: {
+      [AnimalParts.pigShoulder]: {
         isShow: true,
         x: 80,
         y: -50,
         lineHeight: 22,
       },
-      pigPicnic: {
+      [AnimalParts.pigPicnic]: {
         isShow: true,
         x: 85,
         y: -50,
         lineHeight: 80,
       },
-      pigHock: {
+      [AnimalParts.pigHock]: {
         isShow: true,
         x: 190,
         y: -50,
         lineHeight: 100,
       },
-      pigBacon: {
+      [AnimalParts.pigBacon]: {
         isShow: true,
         x: 140,
         y: -50,
         lineHeight: 80,
       },
-      pigLegham: {
+      [AnimalParts.pigLegham]: {
         isShow: true,
         x: 180,
         y: -50,
         lineHeight: 20,
       },
-      pigRibs: {
+      [AnimalParts.pigRibs]: {
         isShow: true,
         x: 130,
         y: -50,
         lineHeight: 70,
       },
-      pigLoin: {
+      [AnimalParts.pigLoin]: {
         isShow: true,
         x: 120,
         y: -50,
         lineHeight: 50,
       },
-      pigBackFat: {
+      [AnimalParts.pigBackFat]: {
         isShow: true,
         x: 120,
         y: -50,
@@ -667,9 +712,12 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
    this.setState({
       soldChart: {
+        isShow: false,
         sold: 1,
         remaining: 1,
         lineHeight: 30,
+        x:0,
+        y:0,
         ...typesProps[type]
       }})
   }
@@ -680,7 +728,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     endDate.setDate(startDate.getDate() + 6);
     this.setState({
       startDate: data,
-      endDate: moment(endDate, "YYYY-MM-DD"),
+      endDate: moment(endDate, "YYYY-MM-DD").toString(),
       markedDates: this.generateDateObject(startDate, endDate)
     });
     this.getAnalyticData(this.state.category_id);
@@ -746,6 +794,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   onCowClick(partOfCow: CowParts){
+
+    // @ts-ignore
     this.setState({
       chuck: false,
       cow_Defult: false,
@@ -767,6 +817,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
   // Chicken
   onChickenClick(partOfChicken: ChickenParts) {
+    // @ts-ignore
     this.setState({
       chicken_Defult: false,
       chicken_Breast: false,
@@ -782,6 +833,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   onPigClick(partOfPig: PigParts){
+    // @ts-ignore
     this.setState({
       pig: false,
       pigHead: false,

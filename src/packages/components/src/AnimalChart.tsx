@@ -10,7 +10,7 @@ export type Props = {
     sold: number;
     remaining: number;
     lineHeight: number;
-    width: number;
+    width?: number;
 }
 
 const AnimalChart = ({isShow, top, left, sold, remaining, lineHeight = 30, width = 130}: Props): JSX.Element => {
@@ -26,7 +26,7 @@ const AnimalChart = ({isShow, top, left, sold, remaining, lineHeight = 30, width
                 zIndex: 1
             }}>
                 <DoughnutChart
-                    widthAndHeight={width}
+                    widthAndHeight={width!}
                     series={[remaining, sold]}
                     sliceColor={[PRIMARY, DARK_RED]}
                     coverRadius={0.4}

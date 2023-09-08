@@ -1,7 +1,8 @@
 import React from "react";
 import {ViewStyle} from 'react-native'
 import {Svg, G, Path, Text} from 'react-native-svg'
-import * as d3 from 'd3-shape'
+// import * as d3 from 'd3-shape'
+const d3 = require ('d3-shape');
 
 export type Props = {
     widthAndHeight: number
@@ -54,11 +55,23 @@ const DoughnutChart = ({
 
     const arcs = pieGenerator(series)
 
-    const textCoordinates = [];
+    const getD = (d3: any, outerRadius:number)=>{
+        // @ts-ignore
+        return d3!
+            .arc()
+            .outerRadius(outerRadius)
+            .innerRadius(0)
+            .startAngle(0)
+            .endAngle(360)()!
+    }
+
+    const textCoordinates: {x: number, y: number, value: any}[] = [];
     return (
         <Svg style={style} width={widthAndHeight} height={widthAndHeight}>
             <G transform={`translate(${widthAndHeight / 2}, ${widthAndHeight / 2})`}>
-                {arcs.map((arc, i) => {
+                { // @ts-ignore
+                    arcs.map((arc, i) => {
+
 
 
                     let arcGenerator = d3.arc().outerRadius(radius).startAngle(arc.startAngle).endAngle(arc.endAngle)
@@ -67,21 +80,20 @@ const DoughnutChart = ({
                     } else {
                         arcGenerator = arcGenerator.innerRadius(coverRadius * radius)
                     }
+                    // @ts-ignore
                     const [x, y] = arcGenerator.centroid()!;
                     textCoordinates.push({x, y, value: 100 / sum * series[i]})
+                    // @ts-ignore
                     return <Path key={arc.index} fill={sliceColor[i]} d={arcGenerator()!}/>
                 })}
 
-                {coverRadius && coverRadius > 0 && coverFill && (
+
+                {
+                     coverRadius && coverRadius > 0 && coverFill && (
                     <Path
                         key='cover'
                         fill={coverFill}
-                        d={d3
-                            .arc()
-                            .outerRadius(coverRadius * radius)
-                            .innerRadius(0)
-                            .startAngle(0)
-                            .endAngle(360)()!}
+                        d={getD(d3, coverRadius * radius)}
                     />
                 )}
                 {showPercentage && textCoordinates.map(({x, y, value}) => {

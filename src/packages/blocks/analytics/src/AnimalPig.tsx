@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
-import AnalyticsController, { Props } from "./AnalyticsController";
+import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
 export default class AnimalPig extends AnalyticsController {
   constructor(props: Props) {
@@ -115,18 +115,18 @@ export default class AnimalPig extends AnalyticsController {
                   source={pig}
                 />
               }
-              <TouchableOpacity onPress={() => { this.onPigClick('pigHead') }} style={styles.clickOnPigHead} testID="pigHead" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigHock')  }} style={styles.clickOnPigHockRight} testID="pigHock" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigHock')  }} style={styles.clickOnPigHockLeft} testID="pigHock" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigBacon')  }} style={styles.clickOnPigBacon} testID="pigBacon" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigNeck') }} style={styles.clickOnPigNeck} testID="pigNeck" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigLegham') }} style={styles.clickOnPigLegham} testID="pigLegham" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigRibs') }} style={styles.clickOnPigRib} testID="pigRibs" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigLoin')  }} style={styles.clickOnPigLoin} testID="pigLoin" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigShoulder') }} style={styles.clickOnPigShoulder} testID="pigShoulder" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigPicnic') }} style={styles.clickOnPigPicnic} testID="pigPicnic" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigJowl') }} style={styles.clickOnPigJowl} testID="pigJowl" />
-              <TouchableOpacity onPress={() => { this.onPigClick('pigBackFat') }} style={styles.clickBackFat} testID="pigBackFat" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBacon)  }} style={styles.clickOnPigBacon} testID="pigBacon" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigNeck) }} style={styles.clickOnPigNeck} testID="pigNeck" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigLegham) }} style={styles.clickOnPigLegham} testID="pigLegham" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigRibs) }} style={styles.clickOnPigRib} testID="pigRibs" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigLoin)  }} style={styles.clickOnPigLoin} testID="pigLoin" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigShoulder) }} style={styles.clickOnPigShoulder} testID="pigShoulder" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigPicnic) }} style={styles.clickOnPigPicnic} testID="pigPicnic" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigJowl) }} style={styles.clickOnPigJowl} testID="pigJowl" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBackFat) }} style={styles.clickBackFat} testID="pigBackFat" />
 
             </View>
             <View style={styles.bottomContainer}>

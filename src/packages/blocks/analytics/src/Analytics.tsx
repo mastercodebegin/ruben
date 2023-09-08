@@ -42,7 +42,7 @@ export default class Analytics extends AnalyticsController {
     super(props);
     // Customizable Area Start
     this.calendarRef = React.createRef();
-    this.setState({chartObject: this.convertToChartFormat([], moment(new Date(), "YYYY-MM-DD"))})
+    this.setState({chartObject: this.convertToChartFormat([], moment(new Date(), "YYYY-MM-DD").toString())})
     // Customizable Area End
   }
 
@@ -139,7 +139,7 @@ export default class Analytics extends AnalyticsController {
                             <TouchableOpacity
                                 onPress={() => {
                                   this.calendarToggle(true);
-                                  this.calendarRef.current?._onButtonPress();
+                                  this.calendarRef?.current?._onButtonPress();
                                 }}
                             >
                               <View style={styles.calendarButton}>
