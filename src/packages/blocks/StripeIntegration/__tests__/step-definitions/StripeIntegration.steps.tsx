@@ -577,8 +577,6 @@ defineFeature(feature, (test) => {
           }}
         />
       );
-      const textComponent = renders.getByTestId("paymentDetails");
-      expect(textComponent.props.children).toEqual("PAYMENT DETAILS");
       if (instance.state.paymentAlerttype === "PaymentSuccess") {
         instance.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
           console.log(

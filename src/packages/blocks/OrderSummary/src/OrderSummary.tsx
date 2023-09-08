@@ -146,12 +146,12 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-              <View style={styles.deliverContainer}>
+              {this.state.fastDeliveryApplied?<></>:(<View style={styles.deliverContainer}>
                 <Text style={styles.deliverText}>Deliver in 24hrs</Text>
                 <TouchableOpacity disabled={this.state.fastDeliveryPice !== null} style={styles.deliverPrice} onPress={this.addFastDelivery.bind(this)}>
                   <Text style={styles.deliverPriceText}>{this.state.fastDeliveryPice ? "Added" : "+ $25.00"}</Text>
                 </TouchableOpacity>
-              </View>
+              </View>)}
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"

@@ -48,7 +48,8 @@ interface S {
     zip_code: string;
     name: string;
     email: string;
-  }
+  };
+  fastDeliveryApplied: boolean;
 }
 
 interface SS {
@@ -102,7 +103,8 @@ SS
         name: '',
         phone_number: '',
         zip_code:''
-      }
+      },
+      fastDeliveryApplied:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -229,7 +231,7 @@ SS
       if (fastDeliveryResponse && !error) {
         this.getBillingDetails();     
         if (typeof fastDeliveryResponse?.message === 'string') {
-          showToast(fastDeliveryResponse?.message);
+          this.setState({ fastDeliveryApplied: true });
         }
       } else {
         this.setState({ showLoader: false });
