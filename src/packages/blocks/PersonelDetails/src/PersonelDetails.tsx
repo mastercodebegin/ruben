@@ -11,7 +11,7 @@ import {
 import { styles } from "./styles";
 import { PRIMARY } from "../../../components/src/constants";
 import MileStone from "../../../components/src/MilestoneComponent";
-import PersonelDetailsController from "./PersonelDetailsController";
+import PersonalDetailsController from "./PersonelDetailsController";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./MyDetails";
 import SavedAddresses from "./SavedAddresses";
@@ -48,20 +48,12 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
     </Text>
   </TouchableOpacity>
 );
-export default class PersonelDetails extends PersonelDetailsController {
+export default class PersonelDetails extends PersonalDetailsController {
   async componentDidMount(){
     await this.getAddressList();
-    await this.getAvailableSlots();
-    this.getEstimatedDeliveryDate();
   }
   render() {
-    const {address,phone_number, zip_code,name,email} = {
-      address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
-      phone_number:this.state.addressList[this.state.selectedAddress || 0]?.attributes?.phone_number || '',
-      zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
-      name: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.name||'',
-      email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||''
-    }    
+    const { address, phone_number, zip_code, name, email } = this.getUserDetails();
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel", [
@@ -98,7 +90,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                     } else if (this.state.selectedAddress === null) {
                       Alert.alert("Alert", "Please select an address");
                     } else {
-                      this.setState({selectedTab:'shipping'})
+                      this.getEstimatedDeliveryDate();
                     }
                 }}
                 text="Shipping/Mailing"
@@ -113,7 +105,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                   } else if (this.state.selectedAddress === null) {
                     Alert.alert("Alert", "Please select an address");
                   } else {
-                    this.setState({selectedTab:'pickup'})
+                    this.getAvailableSlots();
                   }
                 }}
                 text="Pick Up"
@@ -143,7 +135,7 @@ export default class PersonelDetails extends PersonelDetailsController {
                     setShowModal={(val:boolean)=>this.setState({showAddAddress:val})}
                     addressList={this.state.addressList}
                     setSelectedAddress={(index) => {
-                      if(!(index === this.state.selectedAddress)){
+                      if(index !== this.state.selectedAddress){
                         this.addAddressToTheOrder(index)
                       }
                     }

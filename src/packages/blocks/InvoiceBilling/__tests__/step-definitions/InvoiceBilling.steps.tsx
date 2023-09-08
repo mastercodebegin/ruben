@@ -236,17 +236,6 @@ defineFeature(feature, (test) => {
     then("InvoiceBilling will load with out errors", () => {
       expect(exampleBlockA).toBeTruthy();
     });
-
-    // then('I can enter text with out errors', () => {
-    //     let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'txtInput');
-    //     textInputComponent.simulate('changeText', 'hello@aol.com');
-    // });
-
-    // then('I can select the button with with out errors', () => {
-    //     let buttonComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'btnExample');
-    //     buttonComponent.simulate('press');
-    //     expect(instance.state.txtSavedValue).toEqual("hello@aol.com");
-    // });
     then("I can see the invoice", () => {
       const props = {
         billingAddress: {},
@@ -255,7 +244,19 @@ defineFeature(feature, (test) => {
       };
       render(<InvoiceBilling {...screenProps} />);
       render(<RenderHeader {...props} />);
-      render(<RenderFooter subTotal={0} total={9} />);
+      const propsList = [{},
+        { subTotal: 10, total: 10 },
+        { params: null, subTotal: 10, total: 10 },
+        {
+          params: { discount: 20,lifetimeSubscription:20 },
+          subTotal: 10, total: 10
+        }];
+      //discount
+      propsList.forEach((item) => {
+        render(<RenderFooter {...item} />);
+      })
+      const { findByText } = render(<RenderFooter {...propsList[3]} />);
+      expect(findByText('Sub Total')).toBeTruthy();
     });
 
     then("I can share the the invoice through mail", () => {

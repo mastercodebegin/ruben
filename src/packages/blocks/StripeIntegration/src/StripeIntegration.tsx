@@ -16,20 +16,15 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from "react-native-responsive-dimensions";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-} from "react-native-simple-radio-button";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./../../PersonelDetails/src/MyDetails";
-import DoubleButton from "../../../components/src/DoubleButton";
 import MergeEngineUtilities from "../../utilities/src/MergeEngineUtilities";
 import MileStone from "../../../components/src/MilestoneComponent";
 import { LIGHT_GREY, PRIMARY, WHITE, SCREEN_WIDTH } from "../../../components/src/constants";
 import { DARK_RED } from "../../landingpage/src/colors";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import moment from "moment";
+import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
 
 //@ts-ignore
 import CustomCheckBox from "../../../components/src/CustomCheckBox";
@@ -312,39 +307,11 @@ export default class StripeIntegration extends StripeIntegrationController {
                 ]}
               />
             </View>
-            <View style={styles.paymentContainer}>
-              <Text testID="paymentDetails" style={styles.headerTextPayment}>PAYMENT DETAILS</Text>
-              <View style={styles.seperatorPayment} />
-              <View style={styles.answerContainer}>
-                <View style={styles.row}>
-                  <Text style={styles.paymentText}>Subtotal</Text>
-                  <Text style={styles.answer}>{`$${this.props.route.params.subtotal.toFixed(2)}`}</Text>
-                </View>
-               {this.props.route.params.discount ? <View style={styles.row}>
-                  <Text style={styles.paymentText}>Discount</Text>
-                  <Text style={styles.answer}>{`- $${this.props.route.params.discount.toFixed(2)} (${this.props.route.params.discountPercentage.toFixed(2)}%)`}</Text>
-                </View>:null}
-                <View style={styles.row}>
-                  <Text style={styles.paymentText}>Shipping Charges</Text>
-                  <Text style={styles.answer}>{`$${this.props.route.params.shipping.toFixed(2)}`}</Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.paymentText}>Delivery Charges</Text>
-                  <Text style={styles.answer}>{`$${this.props.route.params.deliveryCharge.toFixed(2)}`}</Text>
-                </View>
-                {this.props.route.params.storageClass !== "Basic" && (
-                  <View style={styles.row}>
-                    <Text style={styles.paymentText}>{`Meat Storage(${this.props.route.params.storageClass})`}</Text>
-                    <Text style={styles.answer}>{this.props.route.params.storageClass === "Gold" ? "$3.99" : "$9.99"}</Text>
-                  </View>
-                )}
-              </View>
-              <View style={styles.seperatorPayment} />
-              <View style={[styles.row, { paddingHorizontal: 20 }]}>
-                <Text style={styles.paymentText}>Total</Text>
-                <Text style={styles.answer}>{`${Number(this.props.route?.params.total).toFixed(2)}`}</Text>
-              </View>
-            </View>
+            <PaymentDetails
+                header="PAYMENT DETAILS"
+                list={this.props.route?.params.billingDetails || []}
+                footer={{question: "Total", ans: `$${this.props.route?.params?.total}`}}
+              />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
                 onPress={()=> {
