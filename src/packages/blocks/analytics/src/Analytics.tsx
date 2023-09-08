@@ -1,13 +1,15 @@
 import React from "react";
 
 import {
-  // Customizable Area Start
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableWithoutFeedback,
-  TouchableOpacity,
+  Button,
+  Platform
+  // Customizable Area Start
+  , TouchableOpacity,
   Image,
   SafeAreaView
   // Customizable Area End
@@ -30,10 +32,10 @@ import { store } from "../../../components/src/utils";
 import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
-import AnalyticsController, { Props } from "./AnalyticsController";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
 // Customizable Area End
 
+import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
