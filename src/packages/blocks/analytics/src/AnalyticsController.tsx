@@ -26,6 +26,7 @@ export interface Props {
   animalSelectedValue: string;
   // Customizable Area End
 }
+// Customizable Area Start
 export interface SoldChartI {
   x: number;
   y: number;
@@ -69,7 +70,7 @@ export type CowParts = 'chuck'
     | 'cow_Short_lion'
     | 'cow_Brisket'
     | 'cow_Rib';
-
+// Customizable Area End
 interface S {
   // Customizable Area Start
   chuck: boolean;
@@ -148,8 +149,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
-    const today = moment(new Date(),  "YYYY-MM-DD");
     // Customizable Area Start
+    const today = moment(new Date(),  "YYYY-MM-DD");
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start

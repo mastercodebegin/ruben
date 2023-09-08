@@ -1,6 +1,7 @@
 import React from "react";
-// Customizable Area Start
+
 import {
+  // Customizable Area Start
   StyleSheet,
   Text,
   View,
@@ -9,7 +10,9 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView
+  // Customizable Area End
 } from "react-native";
+// Customizable Area Start
 import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
 import {BarChart} from "react-native-chart-kit";
