@@ -84,6 +84,7 @@ export default class PersonelDetailsController extends BlockComponent<
   addAddressCallId: string = "";
   addAddressToOrderCallId: string = '';
   estimatedDeliveryDateCallId: string = '';
+  deliveryFeesApiCallId: string = '';
   addressId:any = null;
   async receive(from: string, message: Message) {
     if (
@@ -98,12 +99,7 @@ export default class PersonelDetailsController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (
-        !error &&
-        PersonelDetails.data &&
-        PersonelDetails.data.length &&
-        PersonelDetails.data.length > 0
-      ) {
+      if (!error && PersonelDetails?.data?.length) {        
         this.setState({ addressList: PersonelDetails.data,showLoader:false });
       } else {
         this.setState({ showLoader: false });
@@ -142,7 +138,11 @@ export default class PersonelDetailsController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && availableSlots?.avilable_sloat) {
-        this.setState({availableSlotsList:availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length -1 ]?.available_slot,showLoader:false})
+        this.setState({
+          availableSlotsList: availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length - 1]?.available_slot,
+          showLoader: false,
+          selectedTab: 'pickup'
+        })
       } else {
         this.setState({ showLoader: false });
       }
@@ -181,6 +181,24 @@ export default class PersonelDetailsController extends BlockComponent<
         this.setState({ showLoader: false });
       }
       
+    }
+    else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.deliveryFeesApiCallId != null &&
+    this.deliveryFeesApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const deliveryFeesResponse = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      console.log('fghjkl; ',error && deliveryFeesResponse);
+      
+      if (!error && deliveryFeesResponse) {
+        this.setState({ showLoader: false, show_modal: true });
+      } else {
+        this.setState({ showLoader: false});
+      }
     }
   }
   getExpectedDeliveryDate() {
@@ -354,6 +372,44 @@ export default class PersonelDetailsController extends BlockComponent<
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
   }
 
+  async addDeliveryFess() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const DeliveryFees = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.deliveryFeesApiCallId = DeliveryFees.messageId;
+    DeliveryFees.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/accounts/delivery_fees'
+    );
+
+    DeliveryFees.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    DeliveryFees.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'POST'
+    );
+    runEngine.sendMessage(DeliveryFees.id, DeliveryFees)
+  }
+
+  getUserDetails() {
+   return {
+      address: this.state.addressList[this.state.selectedAddress]?.attributes?.address || '',
+      phone_number:this.state.addressList[this.state.selectedAddress || 0]?.attributes?.phone_number || '',
+      zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
+      name: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.name||'',
+      email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||''
+    }    
+  }
+
   onPressContinue() {
     if (this.state.selectedTab === 'delivery') {
       if (!this.state.addressList.length) {
@@ -364,9 +420,9 @@ export default class PersonelDetailsController extends BlockComponent<
         this.getEstimatedDeliveryDate();
       }
     } else if (this.state.selectedTab === 'shipping') {
-      this.setState({selectedTab:'pickup'})
+       this.getAvailableSlots();
     } else {
-      this.setState({ show_modal: true });
+      this.addDeliveryFess();
     }
   }
 }

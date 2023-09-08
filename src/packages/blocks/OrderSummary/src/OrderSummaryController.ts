@@ -42,6 +42,13 @@ interface S {
   billingDetails: any[];
   fastDeliveryPice: null | number;
   screenError: boolean;
+  deliveryDetails: {
+    address: string;
+    phone_number: string;
+    zip_code: string;
+    name: string;
+    email: string;
+  }
 }
 
 interface SS {
@@ -89,6 +96,13 @@ SS
       billingDetails: [],
       fastDeliveryPice: null,
       screenError: false,
+      deliveryDetails: {
+        address: '',
+        email: '',
+        name: '',
+        phone_number: '',
+        zip_code:''
+      }
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -148,7 +162,16 @@ SS
         const prodList = productsList?.data[0];
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
-        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, error);
+        const billingAddress = {
+          address: productsList?.data[0]?.attributes?.address?.data?.attributes?.address,
+          email: productsList?.data[0]?.attributes?.address?.data?.attributes?.email,
+          name: productsList?.data[0]?.attributes?.address?.data?.attributes?.name,
+          phone_number: productsList?.data[0]?.attributes?.address?.data?.attributes?.phone_number,
+          zip_code :  productsList?.data[0]?.attributes?.address?.data?.attributes?.zip_code
+        }
+        console.log('productsList ',billingAddress);
+        
+        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress, error);
       } else {
         showToast('Something went wrong');
       }
@@ -413,7 +436,7 @@ SS
     runEngine.sendMessage(billingDetails.id, billingDetails);
   }
 
-  getCartCallBack(prodList: any, plans: any[],subTotal:number,total:number, error = false) {    
+  getCartCallBack(prodList: any, plans: any[],subTotal:number,total:number,billingAddress:any, error = false) {    
     if(error){
       this.setState({showLoader: false})
       alert('Error getting items in cart!');
@@ -457,6 +480,7 @@ SS
         orderNumber: prodList?.attributes?.order_no,
         currentPlan,
         availablePlans,
+        deliveryDetails:billingAddress
       });
       this.getBillingDetails();
     }
@@ -548,11 +572,11 @@ SS
   }
   getAddressDetails() {
     return {
-      address: this.props.route.params?.address || '',
-      phone_number:this.props.route.params?.phone_number || '',
-      zip_code: this.props.route.params?.zip_code || '',
-      name: this.props.route.params?.name || '',
-      email:this.props.route.params?.email || '',
+      address: this.state.deliveryDetails?.address || '',
+      phone_number:this.state.deliveryDetails?.phone_number || '',
+      zip_code: this.state.deliveryDetails?.zip_code || '',
+      name: this.state.deliveryDetails?.name || '',
+      email:this.state.deliveryDetails?.email || '',
     }    
   }
   getOrderDetailsArray(orderDetails:any) {

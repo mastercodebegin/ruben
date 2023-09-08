@@ -206,7 +206,8 @@ export default class OrderSummary extends OrderSummaryController {
                   orderNumber: this.state.orderNumber,
                   deliveryCharge: this.state.deliveryCharge,
                   lifetimeSubscriptionCharge: lifetimeSubscriptionCharge,
-                  email:email
+                  email: email,
+                  billingDetails:this.state.billingDetails
                 })}
               }
               button2Label="Cancel"

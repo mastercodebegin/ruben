@@ -221,10 +221,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
     } else if (discoundCode?.promo_code || (discoundCode?.sub_total &&  discoundCode?.total)) {      
       this.setState({
-        discountCode: discoundCode?.promo_code || '',
+        discountCode: (!!discoundCode?.promo_code && discoundCode?.discount) ? discoundCode?.promo_code : '',
         showLoader: false,
         discountPercentage: discoundCode?.discount,
-        discountFetched: discoundCode?.promo_code ? true : false ,
+        discountFetched: (!!discoundCode?.promo_code && discoundCode?.discount) ,
         totalPrice: discoundCode?.total || 0,
         discountPrice: discoundCode?.discount,
         shippingCharge: discoundCode?.shipping_charge || 0,
@@ -378,7 +378,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `account_block/accounts/discount`
+      'account_block/accounts/discount'
     );
 
     subcategory.addData(

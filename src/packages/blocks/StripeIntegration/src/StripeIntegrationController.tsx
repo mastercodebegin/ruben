@@ -35,7 +35,8 @@ export interface Props {
       orderId: number,
       orderNumber: number,
       deliveryCharge: number,
-      total:number
+      total: number,
+      billingDetails: any[];
     }
   }
   // Customizable Area End
