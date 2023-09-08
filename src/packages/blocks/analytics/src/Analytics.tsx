@@ -28,13 +28,12 @@ import {
 } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
 import { Dropdown } from "../../../components/src/DropDown/src";
-import DoughnutChart from "../../../components/src/DoughnutChart";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
-// Customizable Area End
-
 import AnalyticsController, { Props } from "./AnalyticsController";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
+// Customizable Area End
+
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
