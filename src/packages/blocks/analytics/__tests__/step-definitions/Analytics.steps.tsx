@@ -334,37 +334,11 @@ defineFeature(feature, (test) => {
       expect(JSON.stringify(instance.convertToChartFormat(chartData, '2023-08-09'))).toBe(JSON.stringify(testResult))
     });
     then("Check misc functions", () => {
-      instance.common();
-      instance.clickOnChuck();
-      instance.clickOnCowhead();
-      instance.clickOnCowRib();
-      instance.clickOnShortlion();
-      instance.clickOnSirlion();
-      instance.clickOnRound();
-      instance.clickOnShank();
-      instance.clickOnFlank();
-      instance.clickOnShortPlate();
-      instance.clickOnForeShank();
-      instance.clickOnBrisket();
-      instance.chickenCommn();
-      instance.clickOnChickenNeck();
-      instance.clickOnChickenBack();
-      instance.clickOnChickenBreast();
-      instance.clickOnChickenWing();
-      instance.clickOnChickenLeg();
-      instance.clickOnChickenThigh();
-      instance.clickOnPigHead()
-      instance.clickOnPigBacon()
-      instance.clickOnPigHock()
-      instance.clickOnPigJowl()
-      instance.clickOnPigLoin()
-      instance.clickOnPigNeck()
-      instance.clickOnPigPicnic()
-      instance.clickOnPigRib()
-      instance.clickOnPigShoulder()
-      instance.clickOnPiglegham()
+
       expect(instance.state.chuck).toBe(false);
     });
+
+
   });
 });
 

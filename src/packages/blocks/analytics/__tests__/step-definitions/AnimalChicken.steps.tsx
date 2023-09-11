@@ -5,6 +5,7 @@ import * as helpers from '../../../../framework/src/Helpers'
 
 import React from "react";
 import AnimalChicken from "../../src/AnimalChicken"
+import {AnimalParts} from "../../src/AnalyticsController"
 const navigation = require("react-navigation")
 
 const screenProps = {
@@ -42,37 +43,37 @@ defineFeature(feature, (test) => {
         then('I click on chicken neck',() => {
             let ChickenNeck = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenNeck');
             ChickenNeck.simulate('press')
-            instance.clickOnChickenNeck()
+            instance.onChickenClick(AnimalParts.chicken_Neck)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on chicken back',() => {
             let ChickenBack = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenback');
             ChickenBack.simulate('press')
-            instance.clickOnChickenBack()
+            instance.onChickenClick(AnimalParts.chicken_Back)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on chicken breast',() => {
             let ChickenBreast = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenBreast');
             ChickenBreast.simulate('press')
-            instance.clickOnChickenBreast()
+            instance.onChickenClick(AnimalParts.chicken_Breast)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on chicken wing',() => {
             let ChickenWing = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenWing');
             ChickenWing.simulate('press')
-            instance.clickOnChickenWing()
+            instance.onChickenClick(AnimalParts.chicken_Wing)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on chicken leg',() => {
             let ChickenLeg = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenLeg');
             ChickenLeg.simulate('press')
-            instance.clickOnChickenLeg()
+            instance.onChickenClick(AnimalParts.chicken_leg)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on chicken Thigh',() => {
             let ChickenThigh = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenThigh');
             ChickenThigh.simulate('press')
-            instance.clickOnChickenThigh()
+            instance.onChickenClick(AnimalParts.chicken_Thigh)
             expect(analyticsBlock).toBeTruthy()
         });
 

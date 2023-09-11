@@ -47,11 +47,13 @@
     "react-native-video": "file:../blocks/core/node_modules/react-native-video",
     "react-native-video-player": "file:../blocks/core/node_modules/react-native-video-player",
     "react-native-view-shot": "file:../blocks/core/node_modules/react-native-view-shot",
-    "react-native-watermark": "file:../blocks/core/node_modules/react-native-watermark"
+    "react-native-watermark": "file:../blocks/core/node_modules/react-native-watermark",
+    "d3-shape": "file:../blocks/core/node_modules/d3-shape"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "file:../blocks/core/node_modules/@react-native-community/eslint-config",
     "@react-native-community/eslint-plugin": "file:../blocks/core/node_modules/@react-native-community/eslint-plugin",
+    "@types/d3-shape": "file:../blocks/core/node_modules/@types/d3-shape",
     "@types/enzyme": "file:../blocks/core/node_modules/@types/enzyme",
     "@types/enzyme-adapter-react-16": "file:../blocks/core/node_modules/@types/enzyme-adapter-react-16",
     "@types/jest": "file:../blocks/core/node_modules/@types/jest",

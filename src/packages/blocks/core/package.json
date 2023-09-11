@@ -79,6 +79,7 @@
     "react-native-modal-datetime-picker": "13.1.2",
     "react-native-permissions": "^2.2.0",
     "react-native-print": "0.10.0",
+    "d3-shape": "3.2.0",
     "react-native-reanimated": "1.13.1",
     "react-native-radar": "3.2.3",
     "react-native-responsive-dimensions": "^3.1.1",
@@ -111,6 +112,7 @@
   "devDependencies": {
     "@react-native-community/eslint-config": "0.0.5",
     "@react-native-community/eslint-plugin": "^1.0.0",
+    "@types/d3-shape": "3.1.2",
     "@types/enzyme": "^3.1.12",
     "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/gapi": "0.0.39",

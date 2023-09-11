@@ -8,6 +8,7 @@ import {Message} from "../../../../framework/src/Message"
 import MessageEnum, {getName} from "../../../../framework/src/Messages/MessageEnum"; 
 import React from "react";
 import AnimalPig from "../../src/AnimalPig"
+import {AnimalParts} from "../../src/AnalyticsController"
 const navigation = require("react-navigation")
 
 const screenProps = {
@@ -44,48 +45,48 @@ defineFeature(feature, (test) => {
         then('I click on pig neck',() => {
             let pigHead = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHead');
             pigHead.simulate('press')
-            instance.clickOnPigHead()
+            instance.onPigClick(AnimalParts.pigHead)
             expect(analyticsBlock).toBeTruthy()
 
             let pigBacon = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigBacon');
             pigBacon.simulate('press')
-            instance.clickOnPigBacon()
+            instance.onPigClick(AnimalParts.pigBacon)
             expect(analyticsBlock).toBeTruthy()
 
             let pigNeck = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigNeck');
             pigNeck.simulate('press')
-            instance.clickOnPigNeck()
+            instance.onPigClick(AnimalParts.pigNeck)
             expect(analyticsBlock).toBeTruthy()
 
             let pigLegham = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigLegham');
             pigLegham.simulate('press')
-            instance.clickOnPiglegham()
+            instance.onPigClick(AnimalParts.pigLegham)
             expect(analyticsBlock).toBeTruthy()
 
             let pigRibs = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigRibs');
             pigRibs.simulate('press')
-            instance.clickOnPigRib()
+            instance.onPigClick(AnimalParts.pigRibs)
             expect(analyticsBlock).toBeTruthy()
 
             let pigLoin = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigLoin');
             pigLoin.simulate('press')
-            instance.clickOnPigLoin()
+            instance.onPigClick(AnimalParts.pigLoin)
             expect(analyticsBlock).toBeTruthy()
 
             let pigShoulder = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigShoulder');
             pigShoulder.simulate('press')
-            instance.clickOnPigShoulder()
+            instance.onPigClick(AnimalParts.pigShoulder)
             expect(analyticsBlock).toBeTruthy()
 
             let pigPicnic = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigPicnic');
             pigPicnic.simulate('press')
-            instance.clickOnPigPicnic()
+            instance.onPigClick(AnimalParts.pigPicnic)
             expect(analyticsBlock).toBeTruthy()
 
 
             let pigJowl = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigJowl');
             pigJowl.simulate('press')
-            instance.clickOnPigJowl()
+            instance.onPigClick(AnimalParts.pigJowl)
             expect(analyticsBlock).toBeTruthy()
 
         });
@@ -99,13 +100,13 @@ defineFeature(feature, (test) => {
         then('I click on pig breast',() => {
             let pigHead = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHead');
             pigHead.simulate('press')
-            instance.clickOnPigHead()
+            instance.onPigClick(AnimalParts.pigHead)
             expect(analyticsBlock).toBeTruthy()
         });
         then('I click on pig wing',() => {
             let pigHead = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHead');
             pigHead.simulate('press')
-            instance.clickOnPigHead()
+            instance.onPigClick(AnimalParts.pigHead)
             expect(analyticsBlock).toBeTruthy()
         });
 
