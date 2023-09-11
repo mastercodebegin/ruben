@@ -1,13 +1,13 @@
-package com.RuebensFTCApp;
+package com.Farm2URDoor;
 
 import androidx.multidex.MultiDexApplication;
 import android.content.Context;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import io.radar.react.RNRadarPackage;
+
 import io.radar.sdk.Radar;
-import com.rnfs.RNFSPackage;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -23,16 +23,14 @@ import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnabler
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 
 import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import com.horcrux.svg.SvgPackage;
 
-import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
-
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -60,6 +58,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           packages.add(new FastImageViewPackage());
           packages.add(new RNFetchBlobPackage());
           packages.add(new ReactNativeFirebaseMessagingPackage());
+          packages.add(new ReactNativePushNotificationPackage());
           // packages.add(new RNFSPackage());
           return packages;
         }
