@@ -28,4 +28,5 @@ exports.addToCart = "bx_block_shopping_cart/order_items";
 exports.favoritesEndPoint = "bx_block_favourites/favourites";
 exports.getProductListEndpoint = "bx_block_catalogue/catalogues";
 exports.deleteFavoritesEndPoint = "bx_block_favourites/favourites/destroy?id=";
+exports.searchProductsEndpoint = "/bx_block_catalogue/catalogues/search_product";
 // Customizable Area End

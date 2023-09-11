@@ -46,7 +46,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 												this.props.navigation.navigate("ProductDetailScreen", {
 													id: item?.id,
 													description: item?.attributes?.catalogue_id?.data?.attributes?.description,
-													name: item?.attributes?.catalogue_id?.data?.attributes?.name,
+													name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
 													price: item?.attributes?.catalogue_id?.data?.attributes?.price,
 												})
 											}
@@ -82,8 +82,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 											<View style={{ paddingHorizontal: 15 }}>
 											<View style={styles.priceContainer}>
 												<Text style={styles.productName}>{item?.attributes?.catalogue_id
-													?.data?.attributes?.name ? item?.attributes?.catalogue_id
-														?.data?.attributes?.name : ' '}</Text>
+														?.data?.attributes?.categoryCode ||''}</Text>
 														<Text style={styles.price}>
 														{`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}`}
 														<Text style={styles.kgStyle}>/Kg</Text>
