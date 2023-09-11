@@ -73,7 +73,7 @@ export enum AnimalParts {
   'cow_Short_lion'='cow_Short_lion',
   'cow_Brisket'='cow_Brisket',
   'cow_Rib'='cow_Rib',
-};
+}
 
 export type ChickenParts = AnimalParts.chicken_Defult
     | AnimalParts.chicken_Breast
