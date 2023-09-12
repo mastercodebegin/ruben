@@ -8,7 +8,9 @@ import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {showToast} from "../../../components/src/ShowToast";
+import { showToast } from "../../../components/src/ShowToast";
+//@ts-ignore
+import debounce from 'lodash.debounce';
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -33,6 +35,10 @@ interface S {
   },
   isSearching: boolean;
   searchResult: any[];
+  incomingTotalPage: number;
+  incomingCurrentPage: number;
+  fetchMoreIncoming: boolean;
+  showPaginationLoader: boolean;
   // Customizable Area End
 }
 
@@ -71,7 +77,11 @@ export default class OrdermanagementController extends BlockComponent<
         startDate:'',
       },
       isSearching: false,
-      searchResult:[]
+      searchResult: [],
+      incomingCurrentPage: 1,
+      incomingTotalPage: 0,
+      fetchMoreIncoming: true,
+      showPaginationLoader:false
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -111,7 +121,7 @@ export default class OrdermanagementController extends BlockComponent<
         this.setState({ showLoader: false });
       } else {
         const incomingOrders = this.filterByStatus(response?.data);
-        this.setState({ incomingOrders: incomingOrders.incomingOrders, showLoader: false });
+        this.handleIncomingPagination(incomingOrders.incomingOrders,response?.meta?.total_pages);
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -166,6 +176,26 @@ export default class OrdermanagementController extends BlockComponent<
   }
   // Customizable Area Start
 
+  handleLoadMoreDebounced = debounce(this.getIncomingOrders.bind(this), 500); 
+
+  handleIncomingPagination(res: any[], totalPage: number) {
+    if (res.length) {
+      this.setState({
+        incomingOrders: [...this.state.incomingOrders, ...res],
+        showLoader: false,
+        incomingTotalPage: totalPage,
+        incomingCurrentPage: this.state.incomingCurrentPage + 1,
+        fetchMoreIncoming:
+          this.state.incomingCurrentPage !== this.state.incomingTotalPage,
+          showPaginationLoader:false
+      });
+    } else {
+      this.setState({
+        fetchMoreIncoming:false
+      })
+    }
+    
+  }
 
   getIncomingOrdersId: string = "";
   getPreviousOrdersId: string = "";
@@ -235,7 +265,10 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   async getIncomingOrders() {
-    this.setState({ showLoader: true });
+    if (!this.state.fetchMoreIncoming) {
+      return;
+    }
+    this.setState({ showPaginationLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -247,7 +280,7 @@ export default class OrdermanagementController extends BlockComponent<
 
     getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.getIncomingOrders
+      `${configJSON.getIncomingOrders}?page=${this.state.incomingCurrentPage}&per_page=10`
     );
 
     getIncomingOrdersRequest.addData(

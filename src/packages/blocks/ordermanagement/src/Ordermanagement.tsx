@@ -1,6 +1,6 @@
 import React from "react";
 // Customizable Area Start
-import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
+import { View, StyleSheet, Text, FlatList, SafeAreaView, ActivityIndicator } from "react-native";
 import {DARK_RED, LIGHT_GREY} from "../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./Header";
@@ -22,6 +22,7 @@ export default class Ordermanagement extends OrdermanagementController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    this.getIncomingOrders = this.getIncomingOrders.bind(this);
     // Customizable Area End
   }
 
@@ -37,59 +38,71 @@ export default class Ordermanagement extends OrdermanagementController {
       <View style={styles.container}>
         {/* Customizable Area Start */}
         <SafeAreaView style={styles.main}>
-        <View style={styles.main}>
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={this.getCorrespondingArray()}
-              testID="orders_list_id"
-              keyExtractor={(item, index) => JSON.stringify(index) + item}
-              contentContainerStyle={{
-                flexGrow: 1,
-                backgroundColor: LIGHT_GREY,
-              }}
-              ListHeaderComponent={
-                <MyOrderHeader
-                  selected={this.state.selected}
-                  selectedDay={this.state.selectedDate.startDate}
-                  orderNo={this.state.searchText}
-                  setOrderNo={this.onSetOrderNo.bind(this)}
-                  searchOrder={this.searchOrder.bind(this)}
-                  minDate={this.state.selectedDate.startDate}
-                  markedDates={generateDateObject(
-                    this.state.selectedDate.startDate,
-                    this.state.selectedDate.endDate
-                      ? this.state.selectedDate.endDate
-                      : this.state.selectedDate.startDate
-                  )}
-                  onDaySelect={this.onDaySelect.bind(this)}
-                  onOpen={this.onCalendarOpen.bind(this)}
-                  setSelected={this.setSelected}
-                  navigation={this.props.navigation}
-                  onclose={this.onCloseCalendar.bind(this)}
-                />
-              }
-              ListEmptyComponent={
-                <View>
-                  <Text style={{ fontWeight: "bold", textAlign: "center" }}>
-                    No Data Found
-                  </Text>
-                </View>
-              }
-              renderItem={({ item }) => (
-                <RenderItem
-                  acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}
-                  item={item}
-                />
-              )}
+          <View style={styles.main}>
+            <View style={{ flex: 1 }}>
+              <FlatList
+                data={this.getCorrespondingArray()}
+                testID="orders_list_id"
+                keyExtractor={(item, index) => JSON.stringify(index) + item}
+                onEndReached={this.handleLoadMoreDebounced}
+                ListFooterComponent={
+                  this.state.showPaginationLoader ? (
+                    <View style={{ alignItems: "center" }}>
+                      <ActivityIndicator size={"large"} />
+                    </View>
+                  ) : (
+                    <></>
+                  )
+                }
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  backgroundColor: LIGHT_GREY,
+                }}
+                ListHeaderComponent={
+                  <MyOrderHeader
+                    selected={this.state.selected}
+                    selectedDay={this.state.selectedDate.startDate}
+                    orderNo={this.state.searchText}
+                    setOrderNo={this.onSetOrderNo.bind(this)}
+                    searchOrder={this.searchOrder.bind(this)}
+                    minDate={this.state.selectedDate.startDate}
+                    markedDates={generateDateObject(
+                      this.state.selectedDate.startDate,
+                      this.state.selectedDate.endDate
+                        ? this.state.selectedDate.endDate
+                        : this.state.selectedDate.startDate
+                    )}
+                    onDaySelect={this.onDaySelect.bind(this)}
+                    onOpen={this.onCalendarOpen.bind(this)}
+                    setSelected={this.setSelected}
+                    navigation={this.props.navigation}
+                    onclose={this.onCloseCalendar.bind(this)}
+                    handleClose={() => {
+                      if (
+                        this.state.selectedDate.startDate &&
+                        !this.state.selectedDate.endDate
+                      ) {
+                        return "no";
+                      }
+                      return "yes";
+                    }}
+                  />
+                }
+                renderItem={({ item }) => (
+                  <RenderItem
+                    acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}
+                    item={item}
+                  />
+                )}
+              />
+            </View>
+            <CommonLoader visible={this.state.showLoader} />
+            <BottomTab
+              navigation={this.props.navigation}
+              tabName="OrdersScreen"
             />
           </View>
-          <CommonLoader visible={this.state.showLoader} />
-          <BottomTab
-            navigation={this.props.navigation}
-            tabName="OrdersScreen"
-          />
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
         {/* Customizable Area End */}
       </View>
       //Merge Engine End DefaultContainer

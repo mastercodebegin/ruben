@@ -51,6 +51,8 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
 export default class PersonelDetails extends PersonalDetailsController {
   async componentDidMount(){
     await this.getAddressList();
+    await this.getEstimatedDeliveryDate();
+    await this.getAvailableSlots();
   }
   render() {
     const { address, phone_number, zip_code, name, email } = this.getUserDetails();
@@ -90,7 +92,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                     } else if (this.state.selectedAddress === null) {
                       Alert.alert("Alert", "Please select an address");
                     } else {
-                      this.getEstimatedDeliveryDate();
+                     this.setState({selectedTab:'shipping'})
                     }
                 }}
                 text="Shipping/Mailing"
@@ -105,7 +107,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                   } else if (this.state.selectedAddress === null) {
                     Alert.alert("Alert", "Please select an address");
                   } else {
-                    this.getAvailableSlots();
+                   this.setState({selectedTab:'pickup'})
                   }
                 }}
                 text="Pick Up"
@@ -156,7 +158,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               </Text> 
             </View>: <></>}
             <DoubleButton
-              button1Label={(this.state.selectedTab === 'delivery' || this.state.selectedTab === 'shipping')? "Continue" : "Continue to Summary"}
+              button1Label={"Continue to Summary"}
               button1_Onpress={this.onPressContinue.bind(this)}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}

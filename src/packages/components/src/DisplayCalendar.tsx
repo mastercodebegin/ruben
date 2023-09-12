@@ -20,7 +20,8 @@ interface Props {
   onDayPress?: (date: string) => void;
   markedDates?: any;
   onClose?: () => void;
-  minDate?:any
+  minDate?: any;
+  shouldCloseCalendar?: ()=>'no' | 'yes';
 }
 
 interface State {
@@ -91,6 +92,9 @@ export default class DisplayCalendar extends Component<Props, State> {
     return (
     <Modal transparent visible>
         <TouchableWithoutFeedback onPress={() => {
+          if (this.props.shouldCloseCalendar && this.props.shouldCloseCalendar() === 'no') {
+            return;
+          }
           if (this.props.onClose) {
             this.props.onClose()
           }

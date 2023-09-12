@@ -23,7 +23,7 @@ interface S {
   show_modal: boolean;
   addressList: Array<any>;
   productsList:Array<any>;
-  currentStorageClass: "Basic" | "Gold" | "Platinum";
+  currentStorageClass: string;
   subtotal: number;
   shipping: number;
   orderId: number;
@@ -171,7 +171,6 @@ SS
           phone_number: productsList?.data[0]?.attributes?.address?.data?.attributes?.phone_number,
           zip_code :  productsList?.data[0]?.attributes?.address?.data?.attributes?.zip_code
         }
-        console.log('productsList ',billingAddress);
         
         this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress, error);
       } else {

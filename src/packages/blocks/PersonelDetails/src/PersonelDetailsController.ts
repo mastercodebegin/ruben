@@ -141,7 +141,6 @@ export default class PersonelDetailsController extends BlockComponent<
         this.setState({
           availableSlotsList: availableSlots?.avilable_sloat[availableSlots?.avilable_sloat.length - 1]?.available_slot,
           showLoader: false,
-          selectedTab: 'pickup'
         })
       } else {
         this.setState({ showLoader: false });
@@ -159,7 +158,7 @@ export default class PersonelDetailsController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && estimatedDeliverDate?.delivery_date) {
-        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date ,showLoader:false,selectedTab:'shipping'});
+        this.setState({ estimatedDeliveryDate: estimatedDeliverDate?.delivery_date ,showLoader:false});
       } else {
         this.setState({ showLoader: false });
       }
@@ -411,18 +410,14 @@ export default class PersonelDetailsController extends BlockComponent<
   }
 
   onPressContinue() {
-    if (this.state.selectedTab === 'delivery') {
       if (!this.state.addressList.length) {
         Alert.alert("Alert", "Please add address");
       } else if (this.state.selectedAddress === null) {
         Alert.alert("Alert", "Please select an address");
       } else {
-        this.getEstimatedDeliveryDate();
-      }
-    } else if (this.state.selectedTab === 'shipping') {
-       this.getAvailableSlots();
-    } else {
       this.addDeliveryFess();
+      console.log('caled');
+      
     }
   }
 }

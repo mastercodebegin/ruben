@@ -189,7 +189,7 @@ export default class OrderSummary extends OrderSummaryController {
                 </> : null}
               
             <DoubleButton
-              button1Label={this.state.currentStorageClass !== "Basic" ? `Continue with ${this.state.currentStorageClass}` : "Continue to Payment"}
+              button1Label={String(this.state.currentPlan?.plan_name).toUpperCase() !== "BASIC" ? `Continue with ${this.state.currentPlan?.plan_name}` : "Continue to Payment"}
               button1_Onpress={() => {
                 this.props.navigation.navigate('StripeIntegration', {
                   name,
