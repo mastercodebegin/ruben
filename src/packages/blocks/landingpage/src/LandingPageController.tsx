@@ -550,6 +550,10 @@ export default class LandingPageController extends BlockComponent<
     if (error) {
       showToast("Something went wrong");
     } else if (AddToFavRes) {
+      if (AddToFavRes?.message === 'product already exists') {
+        showToast("Product already exists in favorites");
+        return;
+      }
       showToast("Product added to favorites");
       if (this.state.fetchFavorites) {        
         this.getFavorites();
@@ -1036,7 +1040,6 @@ export default class LandingPageController extends BlockComponent<
     const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
-    console.log('add products == =', headers)
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );

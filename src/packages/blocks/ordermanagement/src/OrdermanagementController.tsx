@@ -358,9 +358,7 @@ export default class OrdermanagementController extends BlockComponent<
     runEngine.sendMessage(getPreviousOrdersRequest.id, getPreviousOrdersRequest);
     
   }
-  async filterWithDate(status: any, startDate: string, endDate: string) {
-    console.log('start date and end date ',startDate , endDate);
-    
+  async filterWithDate(status: any, startDate: string, endDate: string) {    
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -370,11 +368,10 @@ export default class OrdermanagementController extends BlockComponent<
     const type = this.state.selected === 'incoming' ? 'on_going' : 'completed';
 
     const getPreviousOrdersRequest = new Message(getName(MessageEnum.RestAPIRequestMessage));
-    this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;
-
+    this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;    
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?start_date="${startDate}&end_date="${endDate}"&status=["${type}"]`
+      `bx_block_shopping_cart/orders/merchant_inventory?status=["${type}"]&start_date="${startDate}"&end_date="${endDate}"`
     );
 
     getPreviousOrdersRequest.addData(
