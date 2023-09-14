@@ -4,7 +4,7 @@ buildscript {
     ext {
         minSdkVersion = 27
         compileSdkVersion = 31
-        targetSdkVersion = 31
+        targetSdkVersion = 33
         supportLibVersion = "30.0.0"
         multiDexEnabled = true
         androidXCore = "1.6.0"

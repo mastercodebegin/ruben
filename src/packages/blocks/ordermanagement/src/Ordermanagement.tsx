@@ -1,6 +1,6 @@
 import React from "react";
 // Customizable Area Start
-import { View, StyleSheet, Text, FlatList, SafeAreaView, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, SafeAreaView, ActivityIndicator } from "react-native";
 import {DARK_RED, LIGHT_GREY} from "../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./Header";

@@ -1,8 +1,7 @@
-import { Platform } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
 import PushNotification from "react-native-push-notification";
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import { PermissionsAndroid, Platform } from "react-native";
 interface NotificationDataType {
   title?: string;
   body?: string;
@@ -11,8 +10,27 @@ export default class PushNotificationsHelper {
 
   messageInstance = messaging();
 
+  async requestPermissionAndroid() {
+    //@ts-ignore
+    const androidPermissionStatus = await PermissionsAndroid.request('android.permission.POST_NOTIFICATIONS');
+    if (androidPermissionStatus === 'granted') {
+      return 1;
+    }
+     return 0;
+  }
+
   async requestPermission() {
-    return await this.messageInstance.requestPermission();
+    const permissionStatus = await this.messageInstance.hasPermission();
+    
+    if (permissionStatus === 1) {
+      return permissionStatus;
+    }
+    if (Platform.OS === 'android') {
+      const androidPermissionStatus = await this.requestPermissionAndroid();
+      return androidPermissionStatus;
+    }
+    const pushNotificationPermission = await this.messageInstance.requestPermission();
+    return pushNotificationPermission;
   }
 
   createNotificationChannel() {
@@ -26,17 +44,7 @@ export default class PushNotificationsHelper {
     );
   }
 
-  async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) { 
-    if (Platform.OS === 'ios') {
-      await PushNotificationIOS.requestPermissions()
-      
-      PushNotificationIOS.addNotificationRequest({
-        id: 'com.Farm2URDoor',
-        body,
-        title
-      })
-      return;
-    }
+  async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
     this.createNotificationChannel();
       PushNotification.localNotification({
         title: title,

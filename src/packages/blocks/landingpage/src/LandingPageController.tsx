@@ -397,21 +397,6 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories, error)
 
     }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.addToCartId != null &&
-      this.addToCartId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      const subCategories = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-
-      this.addToCartCallBack(subCategories, error)
-    }
     else {
       this.receiveCallback(message)
       this.resDeleteFavAPI(message)
@@ -420,6 +405,7 @@ export default class LandingPageController extends BlockComponent<
       this.resOrderList(message)
       this.resAboutUs(message)
       this.filterByCategoryCallback(message);
+      this.addToCartCallBack(message)
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -538,12 +524,23 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  addToCartCallBack(cart: any, error: any) {
-    if (cart?.data) {
-      store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cart?.data?.attributes?.order_items?.data });
-      showToast('Product Added to the cart')
-    } else {
-      showToast('Something went wrong')
+  addToCartCallBack(message:Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.addToCartId != null &&
+      this.addToCartId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const cartData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      if (cartData?.data) {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
+        showToast('Product Added to the cart')
+      } else {
+        showToast('Something went wrong')
+      }
     }
   }
   addToFavCallBack(AddToFavRes: any, error: any) {
