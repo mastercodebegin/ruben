@@ -459,7 +459,16 @@ export default class OrdermanagementController extends BlockComponent<
       } else {
         this.setState({ isSearching: false, searchText: "" });
       }
-    }
+  }
+  handleCalendarClose() {
+      if (
+        this.state.selectedDate.startDate &&
+        !this.state.selectedDate.endDate
+      ) {
+        return "no";
+      }
+      return "yes";
+  }
 
   // Customizable Area End
 }

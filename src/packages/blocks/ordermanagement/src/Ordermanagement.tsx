@@ -23,6 +23,7 @@ export default class Ordermanagement extends OrdermanagementController {
     super(props);
     // Customizable Area Start
     this.getIncomingOrders = this.getIncomingOrders.bind(this);
+    this.handleCalendarClose = this.handleCalendarClose.bind(this);
     // Customizable Area End
   }
 
@@ -77,15 +78,7 @@ export default class Ordermanagement extends OrdermanagementController {
                     setSelected={this.setSelected}
                     navigation={this.props.navigation}
                     onclose={this.onCloseCalendar.bind(this)}
-                    handleClose={() => {
-                      if (
-                        this.state.selectedDate.startDate &&
-                        !this.state.selectedDate.endDate
-                      ) {
-                        return "no";
-                      }
-                      return "yes";
-                    }}
+                    handleClose={this.handleCalendarClose}
                   />
                 }
                 renderItem={({ item }) => (

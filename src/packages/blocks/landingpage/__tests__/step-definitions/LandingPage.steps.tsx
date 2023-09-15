@@ -93,18 +93,16 @@ defineFeature(feature, (test) => {
         {
           data: [
             {
-              email_validation_regexp:
-                "^[a-zA-Z0-9.!\\#$%&‘*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-              password_validation_regexp:
-                "^(?=.*[A-Z])(?=.*[#!@$&*?<>',\\[\\]}{=\\-)(^%`~+.:;_])(?=.*[0-9])(?=.*[a-z]).{8,}$",
-              password_validation_rules:
-                "Password should be a minimum of 8 characters long, contain both uppercase and lowercase characters, at least one digit, and one special character (!@#$&*?<>',[]}{=-)(^%`~+.:;_).",
+            
             },
           ],
         }
       );
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+      instance.filterProductByCategoryId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      instance.getProductByCategory();
       instance.checkValidation()
     })
 
