@@ -7,6 +7,7 @@ import MessageEnum, {
 import { runEngine } from "../../../framework/src/RunEngine";
 
 // Customizable Area Start
+import PushNotificationsHelper from "./PushNotificationsHelper";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -41,6 +42,7 @@ export default class PushnotificationsController extends BlockComponent<
 > {
   // Customizable Area Start
   apiNotificationsCallId: string = "";
+  notificationHelper: PushNotificationsHelper;
   // Customizable Area End
   constructor(props: Props) {
     super(props);
@@ -61,6 +63,7 @@ export default class PushnotificationsController extends BlockComponent<
       loading: true,
       token: "",
     };
+    this.notificationHelper = new PushNotificationsHelper();
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
