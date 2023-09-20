@@ -43,7 +43,7 @@ const mockNotifications = [
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
-    jest.doMock("react-native", () => ({ Platform: { OS: "web" } }));
+    jest.doMock("react-native", () => ({ Platform: { OS: "android" } }));
     jest.spyOn(helpers, "getOS").mockImplementation(() => "web");
   });
 
@@ -136,6 +136,12 @@ defineFeature(feature, (test) => {
       instance.apiNotificationsCallId = msgLoadFailRestAPI.messageId;
       runEngine.sendMessage("Unit Test", msgLoadFailRestAPI);
     });
+    then("users can receive notification", () => {
+      instance.notificationHelper.addListener();
+      instance.notificationHelper.getFcmToken();
+      instance.notificationHelper.requestPermissionAndroid();
+      instance.notificationHelper.handleNotificationsReceive({});
+    })
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

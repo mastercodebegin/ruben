@@ -1,50 +1,34 @@
 {
   "project_info": {
-    "project_number": "127677224137",
-    "project_id": "ruebensftcapp",
-    "storage_bucket": "ruebensftcapp.appspot.com"
+    "project_number": "767885907875",
+    "project_id": "farm2urdoordev",
+    "storage_bucket": "farm2urdoordev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:127677224137:android:2aea49f98f9019bfe1e918",
+        "mobilesdk_app_id": "1:767885907875:android:3db88e2caf24e26a702c16",
         "android_client_info": {
-          "package_name": "com.RuebensFTCApp"
+          "package_name": "com.Farm2URDoor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "127677224137-8noqen2dufdscvkhjugps39rjhaiic12.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.RuebensFTCApp",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "127677224137-sv7ijijc5algrjjang07ajhnvrl9ms1r.apps.googleusercontent.com",
+          "client_id": "767885907875-26a195vlk1638t106o2sbqlcf807rsl2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCniELE5iJTwUqfBoeiovqe6T3eIdzxDZo"
+          "current_key": "AIzaSyB0Dqt2oQNzs4tWU4aHqg-lEDGE730O0uI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "127677224137-sv7ijijc5algrjjang07ajhnvrl9ms1r.apps.googleusercontent.com",
+              "client_id": "767885907875-26a195vlk1638t106o2sbqlcf807rsl2.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "127677224137-3faobemhjo3jsi181gnv8tc4o4piqlla.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ruebensFTCApp",
-                "app_store_id": "6446011302"
-              }
             }
           ]
         }

@@ -32,7 +32,9 @@ interface Types {
   handleLoadMore?: (any);
   navigation: any;
   testID?: string;
-  productList?:Array<any>
+  productList?: Array<any>;
+  isSearch?: boolean;
+  prodList?: Array<any>;
 }
 const RenderItem = ({
   item,
@@ -41,27 +43,29 @@ const RenderItem = ({
   onPressCart,
   index,
   navigation,
-  productList
+  productList,
+  isSearch
 }: Types) => {  
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
-  const percentage = (partial / total) * 100;  
+  const percentage = ((partial / total) * 100)||0;  
+  
   return (
     <TouchableOpacity
       testID={`navigate_to_product_details_id_${index}`}
       onPress={() =>
         navigation.navigate("ProductDetailScreen", {
           id: item?.id,
-          description: item?.attributes?.description,
-          name: item?.attributes?.categoryCode,
-          price: item?.attributes?.price,
+          description: isSearch ? item?.description : item?.attributes?.description,
+          name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
+          price:  isSearch ? item?.price :item?.attributes?.price,
           productList:productList
         })
       }
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        <FastImage resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item?.attributes?.productImage} :backGroundImage} />
+        <FastImage resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage} />
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {rating ? (
@@ -90,13 +94,13 @@ const RenderItem = ({
         </View>
       </View>
       <View style={{ paddingHorizontal: 15 }}>
-        <Text style={styles.productName}>{item?.attributes?.categoryCode}</Text>
+        <Text style={styles.productName}>{isSearch ? item?.categoryCode : item?.attributes?.categoryCode}</Text>
         <Text style={styles.description} numberOfLines={1}>
-          {item?.attributes?.description}
+          {isSearch ? item?.description : item?.attributes?.description}
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>
-            {`$ ${item?.attributes?.price}` + "/Kg"}
+            {`$ ${isSearch ? item?.price : item?.attributes?.price}` + "/Kg"}
           </Text>
           <TouchableOpacity
             testID={"add_to_cart_id_" + index}
@@ -118,7 +122,9 @@ const RenderItems = ({
   onPressCart,
   handleLoadMore,
   navigation,
-  testID
+  testID,
+  isSearch,
+  prodList
 }: Types) => {
   const productList = item;
   return (
@@ -146,7 +152,8 @@ const RenderItems = ({
             item={item}
             navigation={navigation}
             index={index}
-            productList={productList}
+            productList={isSearch ? prodList : productList}
+            isSearch={isSearch}
           />
         )}
         onEndReachedThreshold={1}

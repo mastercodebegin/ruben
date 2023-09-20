@@ -21,7 +21,57 @@ const screenProps = {
   id: "LandingPage",
   route: {},
 };
-
+const searchResponse = {
+  product: [
+    {
+      id: 626,
+      brand_id: null,
+      name: null,
+      sku: null,
+      description: "Chicken Small Breast",
+      manufacture_date: null,
+      length: null,
+      breadth: null,
+      height: null,
+      availability: null,
+      stock_qty: null,
+      weight: null,
+      price: 9,
+      recommended: null,
+      on_sale: null,
+      sale_price: null,
+      discount: null,
+      created_at: "2023-07-18T11:15:50.712Z",
+      updated_at: "2023-07-18T11:15:50.712Z",
+      block_qty: null,
+      farm_description: null,
+      farm_title: null,
+      profile_images: null,
+      profile_photos: null,
+      subUoms: '[{"UOM":"EA","Qty":1,"isDefault":true}]',
+      hsnCode: "",
+      updatedBy: "Maranatha ",
+      status_desc: "Active",
+      assetTypeName: "Trading/Finished Goods Item",
+      criticality: "",
+      entityId: "792",
+      itemNo: "27",
+      categoryCode: "Chicken.",
+      updatedDate: "2023-03-24",
+      itemId: "618046",
+      manufacture: "",
+      uom: "EA",
+      assetOrConsumable: "6",
+      createdDate: "2023-03-23",
+      createdBy: null,
+      entityName: "Maranatha",
+      barcode: "",
+      status: "0",
+      category_id: 90,
+      productImage: "",
+    },
+  ],
+};
 const feature = loadFeature("./__tests__/features/explore-scenario.feature");
 
 defineFeature(feature, (test) => {
@@ -100,7 +150,26 @@ defineFeature(feature, (test) => {
       fireEvent.press(getByTestId('inventory_test_id'))
       expect(screenProps.navigation.navigate).toBeCalledWith('Inventory');
     })
-
+    then('user trying to search the products with name', () => {
+      const searchTextField = AboutUsBlock.findWhere(
+        (node) => node.prop("testID") === "productSearch");
+      searchTextField.simulate('changeText', 'chicken');
+      searchTextField.props().onSubmitEditing();
+      const msgValidationAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgValidationAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        searchResponse
+      );
+      instance.getSearchProductId = msgValidationAPI.messageId;
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+      expect(instance.state.searchText).toBe('chicken');
+    });
 
   });
 });

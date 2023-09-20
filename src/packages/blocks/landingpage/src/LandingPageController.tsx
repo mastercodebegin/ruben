@@ -62,6 +62,8 @@ interface S {
   selectedSub: any;
   selectedCat: any,
   searchText: string;
+  showSearchResults: boolean;
+  searchResults: any[];
   productsList: Array<any>;
   refresh: boolean;
   imageBlogList: Array<object>;
@@ -144,6 +146,8 @@ export default class LandingPageController extends BlockComponent<
       selectedSub: null,
       selectedCat: null,
       searchText: '',
+      searchResults: [],
+      showSearchResults: false,
       productsList: [{
         category_id: '',
         sub_category_id: '',
@@ -343,6 +347,17 @@ export default class LandingPageController extends BlockComponent<
         this.setState({ loader: false })
       }
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSearchProductId != null &&
+      this.getSearchProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const userDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.searchProductsCallback(error, userDetails);
+    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.updateProfileDetailsId != null &&
       this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -382,21 +397,6 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories, error)
 
     }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.addToCartId != null &&
-      this.addToCartId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      const subCategories = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-
-      this.addToCartCallBack(subCategories, error)
-    }
     else {
       this.receiveCallback(message)
       this.resDeleteFavAPI(message)
@@ -404,6 +404,8 @@ export default class LandingPageController extends BlockComponent<
       this.resAddFavList(message)
       this.resOrderList(message)
       this.resAboutUs(message)
+      this.filterByCategoryCallback(message);
+      this.addToCartCallBack(message)
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -412,6 +414,24 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
 
+  filterByCategoryCallback(message: Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterProductByCategoryId != null &&
+      this.filterProductByCategoryId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) { 
+      const filterByCategoryResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && filterByCategoryResponse) {
+        this.setState({productList:filterByCategoryResponse?.data})
+      }
+    }
+  }
 
   receiveCallback(message: any) {
     if (
@@ -504,18 +524,33 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  addToCartCallBack(cart: any, error: any) {
-    if (cart?.data) {
-      store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cart?.data?.attributes?.order_items?.data });
-      showToast('Product Added to the cart')
-    } else {
-      showToast('Something went wrong')
+  addToCartCallBack(message:Message) {
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.addToCartId != null &&
+      this.addToCartId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const cartData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      if (cartData?.data) {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
+        showToast('Product Added to the cart')
+      } else {
+        showToast('Something went wrong')
+      }
     }
   }
   addToFavCallBack(AddToFavRes: any, error: any) {
     if (error) {
       showToast("Something went wrong");
     } else if (AddToFavRes) {
+      if (AddToFavRes?.message === 'product already exists') {
+        showToast("Product already exists in favorites");
+        return;
+      }
       showToast("Product added to favorites");
       if (this.state.fetchFavorites) {        
         this.getFavorites();
@@ -609,6 +644,7 @@ export default class LandingPageController extends BlockComponent<
     getOrderListData: this.getOrderList
   }
   getFavoritesId: string = '';
+  getSearchProductId: string = ''
   favListProps = {
     getFavoritesList: this.getFavorites
   }
@@ -877,6 +913,32 @@ export default class LandingPageController extends BlockComponent<
 
     return true;
   }
+  async getProductByCategory() {
+    this.setState({ loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.filterProductByCategoryId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_catalogue/catalogues?query=brisket'
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
   async getSubcategories(subCategoryId: string) {
     this.setState({ show_loader: true, selectedSub: null })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -975,7 +1037,6 @@ export default class LandingPageController extends BlockComponent<
     const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
-    console.log('add products == =', headers)
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1025,21 +1086,16 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
-    console.log('catalogue_idcatalogue_id ', catalogue_id);
 
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
       'token': userDetail?.meta?.token,
-      "Content-Type": "application/json"
     };
-    const data = {
-      "data": {
-        "favouriteable_id": userDetail.data?.id,
-        favouriteable_type: "AccountBlock::Account",
-        catalogue_id
-      }
-    }
+    const formdata = new FormData();
+    formdata.append("favouriteable_id", `${userDetail.data?.id}`);
+    formdata.append("favouriteable_type", "AccountBlock::Account");
+    formdata.append("catalogue_id", `${catalogue_id}`);
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1054,7 +1110,7 @@ export default class LandingPageController extends BlockComponent<
     );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestBodyMessage),
-      JSON.stringify(data)
+      formdata
     );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
@@ -1287,7 +1343,6 @@ export default class LandingPageController extends BlockComponent<
       );
       console.log(error);
       this.setState({ orderList: orderListData?.data, show_loader: false })
-      console.log("orderListData====")
     }
   }
 
@@ -1305,7 +1360,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.aboutusCallback(aboutus, error)
-      console.log("getAboutUsId====")
     }
   }
   handleDeliverOptionChange = (item: any) => {
@@ -1337,6 +1391,39 @@ export default class LandingPageController extends BlockComponent<
   };
   showHideCreditDetailModal() {
     this.setState({ showMyCreditModal: false });
+  }
+  handleSearchProduct = async () => {
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const SearchProductRequest = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getSearchProductId = SearchProductRequest.messageId;
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.searchProductsEndpoint}?query=${this.state.searchText}`
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
+  }
+
+  searchProductsCallback = (error: any, response: any) => {
+    if (error) {
+      this.showAlert('something went wrong')
+    } else if (response) {
+      this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
+    }
   }
   
   // Customizable Area End

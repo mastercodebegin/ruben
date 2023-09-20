@@ -205,9 +205,11 @@ defineFeature(feature, (test) => {
     then('user selecting date on calendar', () => {
       instance.onDaySelect('03-04-2023');
       expect(instance.state.selectedDate.startDate).toBe('03-04-2023');
+      expect(instance.handleCalendarClose()).toBe('no')
       expect(instance.state.selectedDate.endDate).toBe('');
       instance.onDaySelect('05-04-2023');
       expect(instance.state.selectedDate.endDate).toBe('05-04-2023');
+      expect(instance.handleCalendarClose()).toBe('yes')
       instance.onCloseCalendar();
       
     })

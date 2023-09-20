@@ -108,6 +108,7 @@ export const styles = StyleSheet.create({
   estimation: {
     fontSize: 17,
     color: "grey",
+    fontStyle:'italic'
   },
   delivery: {
     borderColor: PRIMARY,

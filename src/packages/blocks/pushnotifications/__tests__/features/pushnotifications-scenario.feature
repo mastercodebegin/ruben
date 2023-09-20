@@ -9,4 +9,5 @@ Feature: pushnotifications
         And pushnotifications will load notifications from the server
         And I can click the notificatio item
         And pushnotifications failed to load data from the server
+        And users can receive notification
         And I can leave the screen with out errors

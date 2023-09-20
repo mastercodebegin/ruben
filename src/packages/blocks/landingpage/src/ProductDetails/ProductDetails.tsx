@@ -64,7 +64,7 @@ export default class ProductDetailScreen extends LandingPageController {
     return (
       <SafeAreaView style={style.flex}>
         <HeaderWithBackArrowTemplate
-          headerText="Beef Head"
+          headerText={name}
           scrollView
           showsVerticalScrollIndicator={false}
           navigation={this.props.navigation}

@@ -491,15 +491,16 @@ defineFeature(feature, (test) => {
     });
 
     then("user can see products list", () => {
-      const productList = render(
-        <RenderItems
-          rating={false}
-          item={[{}]}
-          navigation={navigation}
-          onpressFav={addtoFavMock}
-          onPressCart={addtoCartMock}
-        />
-      );
+      const propsList = [{ isSearch: true, item: [{ description: "hfg" }] }, { item: [{ attributes: { price: 20,description:'gf',productImage:" test image " ,categoryCode:'chicken'} ,id:20}] }, { item: [null] },{ item: [{attributes:null}] }];
+      propsList.forEach((val) => {
+        const { getByTestId } = render(
+          //@ts-ignore
+         <RenderItems
+           {...{...val,...{navigation}}}
+         />
+        );
+        fireEvent.press(getByTestId("navigate_to_product_details_id_0"));
+      })
       const { getByTestId } = render(
         <RenderItems
           rating={true}
@@ -509,7 +510,6 @@ defineFeature(feature, (test) => {
           onPressCart={addtoCartMock}
         />
       );
-      expect(productList).toBeTruthy();
 
       fireEvent.press(getByTestId("navigate_to_product_details_id_0"));
       fireEvent.press(getByTestId("add_to_fav_id_0"));

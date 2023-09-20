@@ -1,11 +1,44 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import DualButton from "../../../components/src/DualButton";
-import { DARK_RED,MeatImage } from "../../../components/src/constants";
+import { DARK_RED, MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
-  const deliveryDate =
-    item?.attributes?.delivery_date;
+  const deliveryDate = item?.attributes?.delivery_date;
+  const isOnGoing = item?.attributes?.status === "on_going";
+  const isCancelled = item?.attributes?.status === "cancelled";
+
+  const dataList = [
+    {
+      name: "Order ID:",
+      value: item?.attributes?.order_no,
+    },
+    {
+      name: "Due Date:",
+      value: deliveryDate ? moment(deliveryDate).format("DD-MM-YYYY") : "",
+    },
+    {
+      name: "Shipping Time:",
+      value: deliveryDate ? moment(deliveryDate).format("hh:mm A") : "",
+    },
+    {
+      name: "Subtotal:",
+      value: `$ ${(
+        (item?.attributes?.order_items?.data[0]?.attributes?.price || 0) *
+        (item?.attributes?.order_items?.data[0]?.attributes?.quantity || 0)
+      ).toFixed(2)}`,
+    },
+  ];
+  if (!isOnGoing) {
+    dataList.push({
+      name: "Status:",
+      value: (
+        <Text
+          style={{ color: isCancelled ? "red" : "green" }}
+        >{`${item?.attributes?.status}`}</Text>
+      ),
+    });
+  }
   return (
     <View
       style={{
@@ -29,46 +62,29 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
                 0
               }`}</Text>
             </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Order ID:</Text>
-              <Text style={styles.text}>{item?.attributes?.order_no}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Due Date:</Text>
-              <Text style={styles.text}>
-                {deliveryDate ? moment(deliveryDate).format("DD-MM-YYYY") : ""}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Shipping Time:</Text>
-              <Text style={styles.text}>
-                {deliveryDate ? moment(deliveryDate).format("hh:mm A") : ""}
-              </Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.qText}>Subtotal:</Text>
-              <Text style={styles.text}>{`$ ${(
-                (item?.attributes?.order_items?.data[0]?.attributes?.price ||
-                  0) *
-                (item?.attributes?.order_items?.data[0]?.attributes?.quantity ||
-                  0)
-              ).toFixed(2)}`}</Text>
-            </View>
+            {dataList.map((item) => (
+              <View key={item.name} style={styles.row}>
+                <Text style={styles.qText}>{item.name}</Text>
+                <Text style={styles.text}>{item.value}</Text>
+              </View>
+            ))}
           </View>
         </View>
 
-        {item?.attributes?.status === 'on_going' ? <DualButton
-          button1Label="Decline"
-          button2label="Accept"
-          buttn1TestID="decline_test_id"
-          buttn2TestID="accept_test_id"
-          button1Onpress={() => {
-            if (item.id) acceptDeclineOrders(item?.id, false);
-          }}
-          button2Onpress={() => {
-            if (item.id) acceptDeclineOrders(item?.id, true);
-          }}
-        /> : null }
+        {isOnGoing ? (
+          <DualButton
+            button1Label="Decline"
+            button2label="Accept"
+            buttn1TestID="decline_test_id"
+            buttn2TestID="accept_test_id"
+            button1Onpress={() => {
+              if (item.id) acceptDeclineOrders(item?.id, false);
+            }}
+            button2Onpress={() => {
+              if (item.id) acceptDeclineOrders(item?.id, true);
+            }}
+          />
+        ) : null}
       </View>
     </View>
   );

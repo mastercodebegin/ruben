@@ -29,6 +29,7 @@ interface MyOrderHeaderTypes {
   setOrderNo: (no:string) => void;
   orderNo: string;
   minDate: string | null;
+  handleClose: () => 'yes' | 'no';
 }
 export const MyOrderHeader = ({
   navigation,
@@ -41,7 +42,8 @@ export const MyOrderHeader = ({
   searchOrder,
   orderNo,
   setOrderNo,
-  minDate
+  minDate,
+  handleClose
 }: MyOrderHeaderTypes) => {
   const AnimatedValue = useRef(new Animated.Value(0)).current;
   const calendarRef = useRef();
@@ -149,6 +151,7 @@ export const MyOrderHeader = ({
             onClose={onclose}
             markedDates={markedDates}
             minDate={minDate}
+            shouldCloseCalendar={handleClose}
           >
             <TouchableOpacity
               testID="calendar_test_id"

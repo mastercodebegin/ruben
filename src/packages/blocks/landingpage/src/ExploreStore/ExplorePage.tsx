@@ -109,11 +109,15 @@ export class ExplorePage extends LandingPageController {
                       style={styles.textInput}
                       placeholder="Search any Product/Video"
                       placeholderTextColor={"#8D7D75"}
-                      value=""
+                      value={this.state.searchText}
                       testID="productSearch"
-                      onChangeText={(text) => {
-                        console.log("on change text", text);
+                      onChangeText={(searchText) => {
+                        if (!searchText) {
+                          this.setState({ showSearchResults: false });
+                        }
+                        this.setState({ searchText });
                       }}
+                      onSubmitEditing={() => this.handleSearchProduct()}
                     />
                   </View>
                   <View style={{ height: "100%" }}>
@@ -170,7 +174,22 @@ export class ExplorePage extends LandingPageController {
                 showsHorizontalScrollIndicator={false}
                 renderItem={this.renderItem}
               />
-              <RenderItems
+              {this.state.showSearchResults ? (
+                <RenderItems
+                  navigation={this.props.navigation}
+                  onPressCart={this.addToCart.bind(this)}
+                  testID="products_list_id"
+                  isSearch
+                  onpressFav={this.AddToFavorites.bind(this)}
+                  handleLoadMore={() => {
+                  }}
+                  prodList={this.state.productList}
+                  item={this.state.searchResults}
+                  rating={false}
+                />
+              ) : (
+                <>
+                  <RenderItems
                 navigation={this.props.navigation}
                 onPressCart={this.addToCart.bind(this)}
                 testID="products_list_id"
@@ -189,6 +208,8 @@ export class ExplorePage extends LandingPageController {
                 header={true}
                 rating={true}
               />
+                </>
+              )}
             </View>
           </ScrollView>
           {this.props.currentUser === "user" ? (

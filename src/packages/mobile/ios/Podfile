@@ -111,6 +111,8 @@ target 'RuebensFTCApp' do
 
   pod 'react-native-encrypted-storage', :path => '../../../node_modules/react-native-encrypted-storage'
   
+  pod 'RNCPushNotificationIOS', :path => '../../../node_modules/@react-native-community/push-notification-ios'
+
   pod 'FirebaseCore', :modular_headers => true
 
   pod 'RNFBMessaging', :path => '../../../node_modules/@react-native-firebase/messaging'

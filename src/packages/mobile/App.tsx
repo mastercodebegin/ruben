@@ -40,7 +40,8 @@ import { linking, store } from '../components/src/utils';
 import { getStorageData } from '../framework/src/Utilities';
 import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
 import ContactUs from '../blocks/contactus/src/ContactusScreen';
-import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement'
+import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement';
+import PushNotificationHelper from '../blocks/pushnotifications/src/PushNotificationsHelper'
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -148,6 +149,8 @@ export function App() {
   });
 
   const getUserDetails = async () => {
+    const notificationHelper = new PushNotificationHelper();
+    notificationHelper.addListener()
       const usr_details=  await getStorageData('userDetails',true);
       if(usr_details?.meta?.user_type === 'merchant'){
         store.dispatch({type:'UPDATE_USER',payload:'merchant'})
