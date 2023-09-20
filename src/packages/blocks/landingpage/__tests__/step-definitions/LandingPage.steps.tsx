@@ -75,6 +75,25 @@ defineFeature(feature, (test) => {
       instance.addToCart(20);
       instance.addProduct();
       instance.forceUpdate();
+      class FormDataMock {
+        constructor() {
+          this.data = {};
+        }
+        data: any;
+      
+        append(key:string, value:string) {
+          if (!this.data[key]) {
+            this.data[key] = [];
+          }
+          this.data[key].push(value);
+        }
+      
+        get(key:string) {
+          return this.data[key] || null;
+        }
+      }
+      //@ts-ignore
+      global.FormData = FormDataMock;
       instance.AddToFavorites(20);
       instance.addProduct();
       

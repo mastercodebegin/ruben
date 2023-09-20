@@ -1086,7 +1086,6 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
-    console.log('catalogue_idcatalogue_id ', catalogue_id);
 
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
