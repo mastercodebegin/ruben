@@ -36,6 +36,7 @@ import DisplayCalendar from "../../../components/src/DisplayCalendar";
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
+import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
@@ -249,6 +250,10 @@ export default class Analytics extends AnalyticsController {
                 </View>
               </View>
             </View>
+
+            {this.state.showLoader && (
+           <CommonLoader visible={this.state.showLoader} />
+        )}
           </SafeAreaView>
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
@@ -412,6 +417,6 @@ const styles = StyleSheet.create({
   },
   animalImagContainer: {
     marginBottom: 10
-  }
+  },
 });
 // Customizable Area End

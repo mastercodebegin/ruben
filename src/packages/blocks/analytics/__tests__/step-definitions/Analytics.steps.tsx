@@ -317,12 +317,12 @@ defineFeature(feature, (test) => {
         "datasets": [
           {
             "data": [
-              0,
-              0,
-              0,
               95.95,
               288.91,
               392.95,
+              0,
+              0,
+              0,
               0
             ],
             "colors": [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
