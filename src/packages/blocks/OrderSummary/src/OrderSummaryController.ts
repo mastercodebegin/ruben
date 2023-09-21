@@ -602,6 +602,9 @@ SS
       if (orderDetails?.meat_storage_amount) {
         OrderDetailsList.push({question : "Meat Storage",ans:this.numberValue(orderDetails?.meat_storage_amount)})
       }
+      if (orderDetails?.product_discount) {
+        OrderDetailsList.push({question : "Product Discount",ans:this.numberValue(orderDetails?.product_discount)})
+      }
     }
     return OrderDetailsList;
   }

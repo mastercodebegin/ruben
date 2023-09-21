@@ -29,6 +29,7 @@ interface S {
   screenError: boolean;
   shippingCharge: number;
   subTotal: number;
+  product_discount: null | number;
 }
 
 interface SS {
@@ -58,7 +59,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       discountFetched: false,
       screenError: false,
       shippingCharge: 0,
-      subTotal:0
+      subTotal: 0,
+      product_discount:null
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -228,7 +230,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         totalPrice: discoundCode?.total || 0,
         discountPrice: discoundCode?.discount,
         shippingCharge: discoundCode?.shipping_charge || 0,
-        subTotal:discoundCode?.sub_total || 0
+        subTotal: discoundCode?.sub_total || 0,
+        product_discount:discoundCode?.product_discount || null
         
       });
     }
