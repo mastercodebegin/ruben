@@ -25,6 +25,7 @@ export default class UserProfileBasicBlock extends UserProfileBasicController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    this.validateMobileAndThenUpdateUserProfile = this.validateMobileAndThenUpdateUserProfile.bind(this);
     // Customizable Area End
   }
 

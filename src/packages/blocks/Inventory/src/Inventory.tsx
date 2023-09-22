@@ -18,6 +18,10 @@ import FlatListHeader from "./FlatlistHeader";
 import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
 
 export default class Inventory extends MyCartController {
+  constructor(props:any) {
+    super(props);
+    this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
+  }
   render() {
     return (
       <SafeAreaView style={styles.main}>
@@ -68,8 +72,12 @@ export default class Inventory extends MyCartController {
                     );
                   }}
                   selectedStatus={this.state.selectedStatus}
+                  categoryList={this.state.categoryList}
                   searchText={this.state.searchText}
                   selectedDate={this.state.selectedDate}
+                  searchCategory={(categoryName:string) => {
+                    this.filterByCategoryApi(categoryName);
+                  }}
                   setSelectedDay={(date) => {
                     if (this.state.selectedDate === date) {
                       this.setState({ selectedDate: '', inventoryList: [] });

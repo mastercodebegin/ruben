@@ -18,6 +18,7 @@ import {
   responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { bellIcon, circleIcon, crossIcon } from "./assets";
+import PushNotificationsHelper from "./PushNotificationsHelper";
 // Customizable Area End
 
 import PushnotificationsController, {
@@ -29,10 +30,12 @@ export default class Pushnotifications extends PushnotificationsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    this.notificationHelper = new PushNotificationsHelper();
     // Customizable Area End
   }
 
   // Customizable Area Start
+  notificationHelper: PushNotificationsHelper;
   renderNotificationRow = (notification: any) => {
     return (
       <TouchableOpacity
