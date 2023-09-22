@@ -32,6 +32,150 @@ const screenProps = {
   route: {},
 };
 
+interface CatalogImage {
+  id: number;
+  filename: string;
+  url: string;
+}
+
+interface CatalogAttributes {
+  category_id: number;
+  brand_id: number | null;
+  name: string;
+  description: string | null;
+  length: number | null;
+  breadth: number | null;
+  height: number | null;
+  stock_qty: number | null;
+  availability: string | null;
+  weight: number | null;
+  price: number;
+  on_sale: boolean | null;
+  sale_price: number | null;
+  discount: number | null;
+  farm_description: string | null;
+  farm_title: string | null;
+  subUoms: string[] | null;
+  hsnCode: string | null;
+  updatedBy: string | null;
+  status_desc: string | null;
+  assetTypeName: string | null;
+  entityId: string | null;
+  itemNo: string | null;
+  categoryCode: string | null;
+  updatedDate: string | null;
+  itemId: string | null;
+  uom: string | null;
+  assetOrConsumable: string | null;
+  createdDate: string | null;
+  productImage: string | null;
+  createdBy: string | null;
+  entityName: string | null;
+  barcode: string | null;
+  status: string | null;
+  images: CatalogImage[];
+  profile_images: string[] | null;
+  profile_photos: string[] | null;
+  average_rating: number;
+  catalogue_variants: any[]; // You can define the proper type for this
+}
+
+interface CatalogData {
+  id: string;
+  type: string;
+  attributes: CategoryAttributes;
+}
+
+interface CategoryAttributes {
+  id: number;
+  name: string;
+  icon: string;
+  enable: boolean;
+  rank: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+  statusDescription: string | null;
+  categoryImage: string | null;
+  description: string | null;
+  categoryCode: string | null;
+  categoryId: string | null;
+  parentId: string | null;
+  status: string | null;
+  catalogue: {
+    catalogues_count: number;
+    catalogues: {
+      data: CatalogData[];
+    };
+  };
+}
+
+interface CategoryData {
+  data: CatalogData[];
+}
+
+const mockData: CategoryData = {
+  data: [
+    {
+      id: "6",
+      type: "category",
+      attributes: {
+        id: 6,
+        name: "fruits",
+        icon:"",
+        enable: true,
+        rank: null,
+        created_at: "2023-02-28T10:00:10.056Z",
+        updated_at: "2023-03-15T07:22:01.962Z",
+        statusDescription: null,
+        categoryImage: null,
+        description: null,
+        categoryCode: null,
+        categoryId: null,
+        parentId: null,
+        status: null,
+        catalogue: {
+          catalogues_count: 3,
+          catalogues: {
+            data: [],
+        },
+      },
+    },
+  },
+      ],
+    };
+
+    interface ChartData {
+      date: string;
+      sell: number;
+    }
+    
+    interface MockDataCredit {
+      chart_data: ChartData[];
+      animal: string;
+      total_cuts: number;
+      used_cuts: number;
+      remaining_cuts: number;
+      tota_amount: number;
+      no_of_spend_count: number;
+      no_of_spend: number;
+    }
+    
+    const mockDataCredit: MockDataCredit = {
+      chart_data: [
+        {
+          date: "2023-09-21",
+          sell: 1503.97,
+        },
+      ],
+      animal: "Denver Steak",
+      total_cuts: 3,
+      used_cuts: 11,
+      remaining_cuts: -8,
+      tota_amount: 59544.56,
+      no_of_spend_count: 61,
+      no_of_spend: 9627.01,
+    };
+    
 const feature = loadFeature("./__tests__/features/Analytics-scenario.feature");
 
 defineFeature(feature, (test) => {
@@ -85,7 +229,13 @@ defineFeature(feature, (test) => {
         }
       );
       instance.myCreditCallId = msgValidationAPI.messageId;
+      instance.categoaryCallId = msgValidationAPI.messageId;
+      
       runEngine.sendMessage("Unit Test Api", msgValidationAPI);
+      const list:any  = mockData
+      instance.setState({categoryList:list})
+      // let amount = mockDataCredit.tota_amount.toFixed(2);  
+      // instance.setState({chartObject: instance.convertToChartFormat(mockData_Credit.chart_data,  '2023-08-09')})     
     });
     then("Analytics will load with out errors", async () => {
 
