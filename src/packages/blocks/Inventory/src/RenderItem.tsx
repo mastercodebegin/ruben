@@ -38,7 +38,7 @@ OnHand:3
 const RenderItem = ({item}: any) => {  
   const selectedStatus = item?.data?.attributes?.status === 'scheduled' ?
     'pending' : item?.data?.attributes?.status === 'completed' ?
-      'success' : item?.data?.attributes?.status;
+      'success' : item?.data?.attributes?.status === "on_going" ? "Pending" : item?.data?.attributes?.status;
   const [show, setShow] = useState(false);
   return (
     <View style={{ paddingVertical: 10,

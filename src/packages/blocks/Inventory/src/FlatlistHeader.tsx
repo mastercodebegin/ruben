@@ -11,6 +11,8 @@ interface HeaderTypes {
   selectedDate: string;
   setSelectedStatus: (status: string) => void;
   selectedStatus: string;
+  categoryList: any[];
+  searchCategory?: (name:string) => void;
 }
 const FlatListHeader = ({
   onChangeText,
@@ -18,7 +20,9 @@ const FlatListHeader = ({
   setSelectedDay,
   selectedDate,
   setSelectedStatus,
-  selectedStatus
+  selectedStatus,
+  categoryList,
+  searchCategory
 }: HeaderTypes) => {
   return (
     <>
@@ -39,7 +43,7 @@ const FlatListHeader = ({
             onpress={() => {}}
             label="Date"
           />
-          <Dropdown selectedDate="" data={[1, 2, 3, 4, 5]} label="Offers" />
+          <Dropdown searchCategory={searchCategory} isCategory selectedDate="" data={categoryList} label="Category" />
           <Dropdown
             selectedDate=""
             selectedStatus={selectedStatus}

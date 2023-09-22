@@ -13,7 +13,9 @@ interface DropDownTypes {
   setSelectedDay?: (date: string) => void;
   selectedDate: string;
   selectedStatus?: string;
-  setSelectedStatus?: (status:string) => void;
+  setSelectedStatus?: (status: string) => void;
+  isCategory?: boolean;
+  searchCategory?: (name: string) => void;
 }
 
 const Dropdown = ({
@@ -25,6 +27,8 @@ const Dropdown = ({
   selectedDate,
   selectedStatus,
   setSelectedStatus,
+  isCategory = false,
+  searchCategory
 }: DropDownTypes) => {
   const dropdownCategoryref: any = React.createRef();
   const [selected,setSelected]=useState(label)
@@ -46,24 +50,27 @@ const Dropdown = ({
           ref={dropdownCategoryref}
           setSelectedDay={setSelectedDay}
           selectedDate={selectedDate}
-          dropdownStyle={{ height: 200 }}
+          dropdownStyle={{ height: isCategory ? 250:200 }}
         >
           <RenderIcon />
         </DisplayCalendar>
       ) : (
         <ModalDropdownComp
-          onSelect={(_:any,res2:string) => {
-              // setSelected(res2)
+            onSelect={(_: any, res2: any) => {
+              if (isCategory && searchCategory) {
+                searchCategory(res2?.attributes?.name);
+                return;
+              }
               if (setSelectedStatus) {
                 setSelectedStatus(res2)
               }
           }}
           options={data}
           isFullWidth
-          ref={dropdownCategoryref}
+            ref={dropdownCategoryref}
           keySearchObject="name"
-          renderRow={(props: any) => {
-            return <Text style={[styles.rendertext,{fontWeight:selectedStatus=== props ?'bold':'normal'}]}>{props}</Text>;
+            renderRow={(props: any) => {            
+            return <Text style={[styles.rendertext,{fontWeight:selectedStatus=== props ?'bold':'normal'}]}>{isCategory? props?.attributes?.name || '' :props}</Text>;
           }}
           dropdownStyle={styles.dropDown}
           renderSeparator={(obj: any) => null}
