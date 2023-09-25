@@ -337,9 +337,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        console.log("error===>", error);
         Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
-      } else {
+      } else {        
+        if(list.message !="No Data For This Category" && list.message != "No Order Present for this category"){
        this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
         let amount = list.tota_amount.toFixed(2);        
         let numberOfSpend = list.no_of_spend.toFixed(2)
@@ -351,6 +351,27 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         this.setState({ numberOfSpendCount: numberOfSpendCount });
         this.setState({ numberOfSpend: numberOfSpend });
         this.setState({ showLoader: false });
+        }else{
+          const today = moment(new Date(),  "YYYY-MM-DD").toString();
+          this.setState({ showLoader: false,usedCuts:0,remianingCuts:0,totalCuts:0,totaAmount:0 ,numberOfSpendCount:0,numberOfSpend:0});
+        this.setState({
+          chartObject:{
+            labels: this.formattedDateRange(today.toString()),
+            datasets: [
+              { data: [ 0, 0, 0, 0, 0, 0, 0 ],
+                colors: [
+                  (opacity = 1) => `#F8F4F4`,
+                  (opacity = 1) => `#F8F4F4`,
+                  (opacity = 1) => `#F8F4F4`,
+                  (opacity = 1) => `#F8F4F4`,
+                  (opacity = 1) => `#ee5e5d`,
+                  (opacity = 1) => `#F8F4F4`,
+                  (opacity = 1) => `#F8F4F4`]
+              }
+            ]
+          }
+        })
+        }
       }
     }
 
@@ -400,6 +421,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   async getAnalyticData(categoryId: number) {
+    this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -434,18 +456,21 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
       this.setState({endDate: endDate})
+    }else{
+      const datePart = endDate.split("'")[0];
+      formattedEndDate = moment(datePart).format("YYYY-MM-DD");      
     }
     let params: string;    
     if (store.getState().currentUser === "user") {
-      params = `?category_id=${categoryId}`
+      params = `${configJSON.getAnalytic}?category_id=${categoryId}`
     } else {
       // params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
-      params = `?category_id=${categoryId}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
+      params = `${configJSON.getAnalytic}?category_id=${categoryId}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
     }
-
+    
     analytics.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}?category_id=${94}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
+      params
     );
 
     analytics.addData(
@@ -744,7 +769,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   handleDropdownChange = (item: any) => {
     this.setState({ category_id: item?.id });
     this.setState({ category_title: item?.attributes?.name });
-    this.getAnalyticData(this.state.category_id);
+    this.getAnalyticData(item.id);
     this.getDataOfCat(item);
   };
 
@@ -756,7 +781,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     
     let maxSell = 0;
     let maxSellIdx = 0;
-    chartData.forEach(item => {
+    chartData?.forEach(item => {
         const date = new Date(item.date)
         const chartDataMMDD = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
         const dataIdx = labels.indexOf(chartDataMMDD);
@@ -778,8 +803,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         }
     ]
     
-    console.log("checking lables", labels);
-    console.log("checking, dataset", datasets);
     return {
         labels,
         datasets
