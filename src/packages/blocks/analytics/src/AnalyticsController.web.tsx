@@ -50,7 +50,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       // Customizable Area End
     };
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
-
     // Customizable Area Start
     // Customizable Area End
     if (firebase.apps.length !== 0) {
