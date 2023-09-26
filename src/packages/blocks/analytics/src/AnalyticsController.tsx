@@ -356,7 +356,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       button: "doButtonPressed",
       screen: "AnalyticsController"
     });
-    // alert("Analytics Sent!");
   }
 
   // Customizable Area Start
@@ -474,15 +473,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
          chartObject:{
            labels: this.formattedDateRange(today.toString()),
            datasets: [
-             { data: [ 0, 0, 0, 0, 0, 0, 0 ],
-               colors: [
-                 (opacity = 1) => `#F8F4F4`,
-                 (opacity = 1) => `#F8F4F4`,
-                 (opacity = 1) => `#F8F4F4`,
-                 (opacity = 1) => `#F8F4F4`,
-                 (opacity = 1) => `#ee5e5d`,
-                 (opacity = 1) => `#F8F4F4`,
-                 (opacity = 1) => `#F8F4F4`]
+             { data: [ 0, 0, 0, 0, 0, 0, 0 ]
              }
            ]
          }

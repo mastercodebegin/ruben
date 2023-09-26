@@ -193,7 +193,7 @@ defineFeature(feature, (test) => {
 
     given("I am a User loading Analytics", () => {
       analyticsBlock = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics animalSelectedValue={""} {...screenProps}/>
       );
     });
 
@@ -228,12 +228,28 @@ defineFeature(feature, (test) => {
           data: [{}],
         }
       );
-      instance.myCreditCallId = msgValidationAPI.messageId;
       instance.categoaryCallId = msgValidationAPI.messageId;
-      
       runEngine.sendMessage("Unit Test Api", msgValidationAPI);
+
+      const msgError = new Message(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      msgError.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        msgValidationAPI.messageId
+      );
+      msgError.addData(getName(MessageEnum.RestAPIResponceErrorMessage), {
+        data: []
+      });
+
+      instance.categoaryCallId = msgValidationAPI.messageId;
+
+      instance.showAlert()
+      runEngine.sendMessage("Unit Test", msgValidationAPI);
+
       const list:any  = mockData
       instance.setState({categoryList:list})
+
       // let amount = mockDataCredit.tota_amount.toFixed(2);  
       // instance.setState({chartObject: instance.convertToChartFormat(mockData_Credit.chart_data,  '2023-08-09')})     
     });
