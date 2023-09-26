@@ -262,7 +262,8 @@ defineFeature(feature, (test) => {
       const mockedSendMessage = jest.spyOn(runEngine, 'sendMessage');
 
       // Call the function
-      await instance.getAnalyticData(123);
+      instance.setState({startDate:""})
+      await instance.getAnalyticData(56);
 
       // Assertions
       expect(mockedAsyncStorageGetItem).toHaveBeenCalledWith("userDetails");
@@ -378,6 +379,22 @@ defineFeature(feature, (test) => {
       instance.btnExampleProps.onPress()
       expect(instance).toBeTruthy();
 
+    });
+
+    then("analyticsRes", () => {
+      let analyticsWrapper: ShallowWrapper;
+      analyticsWrapper = shallow(
+        <Analytics animalSelectedValue={""} {...screenProps} />
+      );
+      let instanceWapper = analyticsWrapper.instance() as Analytics;
+      instanceWapper.analyticsRes({});
+      let list = {message:"No Data For This Category"}
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 2)
+      instanceWapper.analyticsRes(list);
+      instanceWapper.calendarToggle(true);
+      instanceWapper.dateStringToLabelFormat("2023-09-25");
+      instanceWapper.generateDateObject(currentDate, new Date());
     });
 
     then("show_calendar", () => {

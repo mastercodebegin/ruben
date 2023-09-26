@@ -138,6 +138,7 @@ export default class Analytics extends AnalyticsController {
                               // onDaySelect={this.handleDateSelected}
                           >
                             <TouchableOpacity
+                                testID="calender_toggle"
                                 onPress={() => {
                                   this.calendarToggle(true);
                                   this.calendarRef?.current?._onButtonPress();

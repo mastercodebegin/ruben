@@ -338,40 +338,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       );
       if (error) {
         Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
-      } else {        
-        if(list.message !="No Data For This Category" && list.message != "No Order Present for this category"){
-       this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
-        let amount = list.tota_amount.toFixed(2);        
-        let numberOfSpend = list.no_of_spend.toFixed(2)
-        let numberOfSpendCount = list.no_of_spend_count.toFixed(2)
-        this.setState({ usedCuts: list.used_cuts });
-        this.setState({ remianingCuts: list.remaining_cuts });
-        this.setState({ totalCuts: list.total_cuts });
-        this.setState({ totaAmount: amount });
-        this.setState({ numberOfSpendCount: numberOfSpendCount });
-        this.setState({ numberOfSpend: numberOfSpend });
-        this.setState({ showLoader: false });
-        }else{
-          const today = moment(new Date(),  "YYYY-MM-DD").toString();
-          this.setState({ showLoader: false,usedCuts:0,remianingCuts:0,totalCuts:0,totaAmount:0 ,numberOfSpendCount:0,numberOfSpend:0});
-        this.setState({
-          chartObject:{
-            labels: this.formattedDateRange(today.toString()),
-            datasets: [
-              { data: [ 0, 0, 0, 0, 0, 0, 0 ],
-                colors: [
-                  (opacity = 1) => `#F8F4F4`,
-                  (opacity = 1) => `#F8F4F4`,
-                  (opacity = 1) => `#F8F4F4`,
-                  (opacity = 1) => `#F8F4F4`,
-                  (opacity = 1) => `#ee5e5d`,
-                  (opacity = 1) => `#F8F4F4`,
-                  (opacity = 1) => `#F8F4F4`]
-              }
-            ]
-          }
-        })
-        }
+      } else {   
+        this.analyticsRes(list)     
+       
       }
     }
 
@@ -387,7 +356,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       button: "doButtonPressed",
       screen: "AnalyticsController"
     });
-    alert("Analytics Sent!");
+    // alert("Analytics Sent!");
   }
 
   // Customizable Area Start
@@ -483,6 +452,42 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(analytics.id, analytics);
+  }
+
+  analyticsRes(list:any){
+    if(list.message !="No Data For This Category" && list.message != "No Order Present for this category"){
+      this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
+       let amount = list.tota_amount?.toFixed(2);        
+       let numberOfSpend = list.no_of_spend?.toFixed(2)
+       let numberOfSpendCount = list.no_of_spend_count?.toFixed(2)
+       this.setState({ usedCuts: list.used_cuts });
+       this.setState({ remianingCuts: list.remaining_cuts });
+       this.setState({ totalCuts: list.total_cuts });
+       this.setState({ totaAmount: amount });
+       this.setState({ numberOfSpendCount: numberOfSpendCount });
+       this.setState({ numberOfSpend: numberOfSpend });
+       this.setState({ showLoader: false });
+       }else{
+         const today = moment(new Date(),  "YYYY-MM-DD").toString();
+         this.setState({ showLoader: false,usedCuts:0,remianingCuts:0,totalCuts:0,totaAmount:0 ,numberOfSpendCount:0,numberOfSpend:0});
+       this.setState({
+         chartObject:{
+           labels: this.formattedDateRange(today.toString()),
+           datasets: [
+             { data: [ 0, 0, 0, 0, 0, 0, 0 ],
+               colors: [
+                 (opacity = 1) => `#F8F4F4`,
+                 (opacity = 1) => `#F8F4F4`,
+                 (opacity = 1) => `#F8F4F4`,
+                 (opacity = 1) => `#F8F4F4`,
+                 (opacity = 1) => `#ee5e5d`,
+                 (opacity = 1) => `#F8F4F4`,
+                 (opacity = 1) => `#F8F4F4`]
+             }
+           ]
+         }
+       })
+       }
   }
 
   calendarToggle (value: boolean){
