@@ -33,10 +33,9 @@ import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
-// Customizable Area End
-
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 import CommonLoader from "../../../components/src/CommonLoader";
+// Customizable Area End
+import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
