@@ -356,6 +356,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       button: "doButtonPressed",
       screen: "AnalyticsController"
     });
+    alert("Analytics Sent!");
   }
 
   // Customizable Area Start
