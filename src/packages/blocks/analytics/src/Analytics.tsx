@@ -6,10 +6,8 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
-  Button,
-  Platform
   // Customizable Area Start
-  , TouchableOpacity,
+  TouchableOpacity,
   Image,
   SafeAreaView
   // Customizable Area End
@@ -33,10 +31,10 @@ import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
+import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
-import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
