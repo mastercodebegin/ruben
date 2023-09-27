@@ -9,7 +9,7 @@ import {
   Button,
   Platform
   // Customizable Area Start
-  ,TouchableOpacity,
+  , TouchableOpacity,
   Image,
   SafeAreaView
   // Customizable Area End
@@ -35,6 +35,7 @@ import AnimalPig from "./AnimalPig";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
 import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
+
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
