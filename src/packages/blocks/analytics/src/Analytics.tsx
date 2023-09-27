@@ -158,7 +158,6 @@ export default class Analytics extends AnalyticsController {
                             </TouchableOpacity>
                           </DisplayCalendar>
 
-
                         </View>
                       </TouchableOpacity>
                     </View>
