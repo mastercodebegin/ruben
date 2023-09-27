@@ -43,7 +43,7 @@
                 "client_id": "649592030497-1p8g6ec1k5ssja8sqirs2du94cu6auno.apps.googleusercontent.com",
                 "client_type": 2,
                 "ios_info": {
-                  "bundle_id": "org.reactjs.native.example.RuebensFTCApp"
+                  "bundle_id": "org.reactjs.native.RuebensFTCApp"
                 }
               }
             ]

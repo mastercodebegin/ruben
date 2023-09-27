@@ -21,7 +21,7 @@
   "ios": {
     "port": 3010,
     "deviceName": "iPhone 11",
-    "packageName": "org.reactjs.native.example.RuebensFTCApp",
+    "packageName": "org.reactjs.native.RuebensFTCApp",
     "snapshotsPath": "./vqa-rn-mobile/snapshots/ios",
     "dev": {},
     "debug": {
