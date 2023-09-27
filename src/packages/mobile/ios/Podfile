@@ -149,11 +149,12 @@ post_install do |installer|
   find_and_replace("../../../node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm",
   "RCTBridgeModuleNameForClass(strongModule))", "RCTBridgeModuleNameForClass(Class(strongModule)))")
   find_and_replace("../../../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
-  "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
-  installer.pods_project.build_configurations.each do |config|
-    config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "arm64"
+    "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+    end
   end
-end
 
 def find_and_replace(dir, findstr, replacestr)
   Dir[dir].each do |name|
