@@ -1104,6 +1104,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.RuebensFTCApp.app;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
@@ -1134,6 +1135,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.RuebensFTCApp.app;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
