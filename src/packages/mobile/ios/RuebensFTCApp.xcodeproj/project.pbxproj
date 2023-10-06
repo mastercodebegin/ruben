@@ -603,7 +603,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = SQ7JR6B45W;
 						LastSwiftMigration = 1250;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1090,10 +1090,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RuebensFTCApp/RuebensFTCApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = SQ7JR6B45W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = SQ7JR6B45W;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = RuebensFTCApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1107,6 +1110,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Farm2URDoor;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Farm2URDoor;
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1122,9 +1126,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = RuebensFTCApp/RuebensFTCApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SQ7JR6B45W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = SQ7JR6B45W;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = armv7;
 				INFOPLIST_FILE = RuebensFTCApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1138,6 +1145,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Farm2URDoor;
 				PRODUCT_NAME = RuebensFTCApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Farm2URDoor;
 				SWIFT_OBJC_BRIDGING_HEADER = "RuebensFTCApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
