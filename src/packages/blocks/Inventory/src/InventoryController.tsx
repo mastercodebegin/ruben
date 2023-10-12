@@ -27,8 +27,9 @@ interface S {
   loading: boolean;
   selectedDate: string;
   selectedStatus: any;
-  categoryList: any[];
+  categoryList: any;
   isFilter: boolean;
+  category:any
 }
 
 interface SS {
@@ -56,7 +57,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       selectedDate: '',
       selectedStatus: null,
       categoryList:[],
-      isFilter:false
+      isFilter:false,
+      category:'brisket'
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -72,7 +74,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     
     const { currentPage, totalPages } = this.state;
     if ((currentPage+1) <= totalPages) {
-      this.getInventoryData(currentPage +1)
+     // this.getInventoryData(currentPage +1)
+      this.newfilterByCategoryApi(currentPage +1,this.state.category)
     }
   }
   async componentDidMount() {
@@ -123,14 +126,18 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterByCategoryApiId != null &&
       this.filterByCategoryApiId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) { 
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
+      { 
         const filteredList = message.getData(
           getName(MessageEnum.RestAPIResponceSuccessMessage)
         );
       const error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
+      console.log("LandingPageController FilteredList--",filteredList)
+      
       if (filteredList?.message === 'No Inventory Present') {
         showToast('No order present');
       }
+      
       if (filteredList?.inventory?.data?.length) {
         const list = filteredList.inventory.data.map((item:any)=>({data:item}))
         this.setState({ showLoader: false, inventoryList:list });
@@ -152,6 +159,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     }
   }
   async getInventoryData(page: number,date='') {
+    console.log("category---",this.state.category)
     this.setState({loading:true})
     const usr_details = await getStorageData("userDetails", true);
 
@@ -164,11 +172,19 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     this.getInventoryDataCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
+      // `account_block/accounts/search_on_inventory?query=${this.state.category}&page=2&per=10${this.state.selectedDate ?
+      //   `&date=${date}` : ''}${this.state.selectedStatus
+      //   ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
       `account_block/accounts/view_inventory?page=${page}&per=10${this.state.selectedDate ?
         `&date=${date}` : ''}${this.state.selectedStatus
         ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
     );
-
+  //   getName(MessageEnum.RestAPIResponceEndPointMessage),
+  //   `accounts/search_on_inventory?query=${this.state.selectedStatus
+  //     ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''} &per=10${this.state.selectedDate ?
+  //     `&date=${date}` : ''}`
+  // );
+    //accounts/search_on_inventory?query=brisketp&page=2&per=10
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(header)
@@ -204,8 +220,40 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(category.id, category);
   }
+
+  async newfilterByCategoryApi(page: number ,categoryName: string) {
+// alert('hi')
+    this.setState({loading:true,category:categoryName})
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const filterCategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getInventoryDataCallId = filterCategory.messageId;
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `account_block/accounts/view_inventory?page=${1}&per=10${this.state.selectedDate ?
+        `&date=${this.state.selectedDate}` : ''}${this.state.selectedStatus
+        ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'GET'
+    );
+    runEngine.sendMessage(filterCategory.id, filterCategory);
+  }
+
   async filterByCategoryApi(categoryName: string) {
-    this.setState({showLoader:true})
+
+    this.setState({showLoader:true,category:categoryName})
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -218,7 +266,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     this.filterByCategoryApiId = filterCategory.messageId;
     filterCategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `account_block/accounts/search_on_inventory?query=${categoryName}`
+      `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
+      // `account_block/accounts/view_inventory?page=${1}&per=10${this.state.selectedDate ?
+      //   `&date=${this.state.selectedDate}` : ''}${this.state.selectedStatus
+      //   ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

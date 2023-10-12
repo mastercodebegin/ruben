@@ -33,6 +33,7 @@ export default class Inventory extends MyCartController {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => <RenderItem item={item} />}
               onEndReached={this.handleLoadMoreDebounced.bind(this)}
+             // onEndReached={()=>alert('test')}
               onEndReachedThreshold={0.1}
               ListEmptyComponent={() => (
                 <>
@@ -56,7 +57,7 @@ export default class Inventory extends MyCartController {
                   ) : (
                     <></>
                   )}
-                </>
+                </> 
               }
               ListHeaderComponent={
                 <FlatListHeader
