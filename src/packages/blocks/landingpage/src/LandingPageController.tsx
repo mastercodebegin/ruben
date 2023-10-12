@@ -350,9 +350,7 @@ export default class LandingPageController extends BlockComponent<
             id
           }
         })
-      } else {
-        this.setState({ loader: false })
-      }
+      } 
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -540,9 +538,7 @@ export default class LandingPageController extends BlockComponent<
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+     
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -566,7 +562,6 @@ export default class LandingPageController extends BlockComponent<
       const filteredList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    const error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
     
     if (filteredList?.message === 'No Inventory Present') {
       showToast('No order present');
@@ -667,9 +662,7 @@ export default class LandingPageController extends BlockComponent<
       }]);
     }
   }
-componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<S>, snapshot?: SS | undefined): void {
 
-}
   aboutusCallback(aboutus: any, error: any) {
     if (error) {
       this.setState({ show_loader: false })
