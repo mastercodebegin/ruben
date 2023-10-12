@@ -1696,7 +1696,7 @@ this.setState({aboutUsData:aboutus})
 
   searchProductsCallback = (error: any, response: any) => {
     if (error) {
-      this.showAlert('something went wrong')
+      this.showAlert('something went wrong ')
     } else if (response) {
       this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
     }
