@@ -20,7 +20,7 @@ import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
 export default class Inventory extends MyCartController {
   constructor(props:any) {
     super(props);
-    this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
+    //this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
   }
   render() {
     return (
@@ -33,7 +33,6 @@ export default class Inventory extends MyCartController {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => <RenderItem item={item} />}
               onEndReached={this.handleLoadMoreDebounced.bind(this)}
-             // onEndReached={()=>alert('test')}
               onEndReachedThreshold={0.1}
               ListEmptyComponent={() => (
                 <>
@@ -66,7 +65,9 @@ export default class Inventory extends MyCartController {
                       selectedStatus:
                         this.state.selectedStatus === res ? "" : res,
                       inventoryList: [],
+                      category:''
                     });
+                    
                     this.getInventoryData.bind(this)(
                       1,
                       this.state.selectedDate
@@ -76,12 +77,20 @@ export default class Inventory extends MyCartController {
                   categoryList={this.state.categoryList}
                   searchText={this.state.searchText}
                   selectedDate={this.state.selectedDate}
-                  searchCategory={(categoryName:string) => {
-                    this.filterByCategoryApi(categoryName);
+                  searchCategory={(name:string) => {
+                    this.setState({
+                     
+                      inventoryList: [],
+                      category:name
+                    });
+                    this.filterByCategory.bind(this)(
+                      1,
+                      name)
                   }}
                   setSelectedDay={(date) => {
                     if (this.state.selectedDate === date) {
-                      this.setState({ selectedDate: '', inventoryList: [] });
+                      this.setState({ selectedDate: '', inventoryList: [], category:''
+                    });
                       this.getInventoryData.bind(this)(1);
                       return;
                     }

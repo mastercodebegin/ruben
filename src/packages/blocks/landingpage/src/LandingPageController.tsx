@@ -102,6 +102,7 @@ interface S {
   nearestLocation: string;
   setAddressOption: boolean;
   fetchFavorites: boolean;
+  selectedCategoryID:any
   // Customizable Area End
 }
 
@@ -295,7 +296,9 @@ export default class LandingPageController extends BlockComponent<
       selectedAnimalSlot: "10:00 AM",
       nearestLocation: "",
       setAddressOption: false,
-      fetchFavorites:false
+      fetchFavorites:false,
+      selectedCategoryID:'',
+
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -315,7 +318,6 @@ export default class LandingPageController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(error);
       if (profileDetails?.data?.attributes) {
         const {
           about_me,
@@ -416,11 +418,11 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
         
       );
-      console.log("remaining products response--",remainingProducts)
+      //console.log("remaining products response--",remainingProducts)
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-        console.log("error in getRemainingProduct--",)
+        //console.log("error in getRemainingProduct--",)
         this.remainingProductCallback(message)
       // this.getSubcategoryCallback(subCategories, error)
       
@@ -447,7 +449,7 @@ export default class LandingPageController extends BlockComponent<
  
 
   filterByCategoryCallback(message: Message) {
-    console.log('api call------')
+    //console.log('api call------')
     
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -468,7 +470,6 @@ export default class LandingPageController extends BlockComponent<
   }
 
   recommendProductCallback(message: Message) {
-    console.log('data call------')
     
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -483,7 +484,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        console.log('updated data---',filterByCategoryResponse?.data);
+       // console.log('updated data---',filterByCategoryResponse?.data);
         
         this.setState({productList:filterByCategoryResponse?.data,loader:false})
       }
@@ -491,7 +492,7 @@ export default class LandingPageController extends BlockComponent<
   }
 
   remainingProductCallback(message: Message) {
-    console.log('reaminingProduct data call  back------',message)
+    //console.log('reaminingProduct data call  back------',message)
     
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -506,13 +507,13 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
-        console.log('updated data---',remainingProductResponse);
+        //console.log('updated data---',remainingProductResponse);
         // alert(remainingProductResponse?.amount)
-        console.log(remainingProductResponse?.amount)
+        //console.log(remainingProductResponse?.amount)
         const arr =[]
         arr.push(remainingProductResponse)
-        console.log('final state remaining---',remainingProductResponse?.amount)
-        console.log('final state remaining---',arr)
+        //console.log('final state remaining---',remainingProductResponse?.amount)
+        //console.log('final state remaining---',arr)
 
         this.setState({remainingproduct:arr,loader:false})
       }
@@ -532,7 +533,7 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(error);
+      //console.log(error);
       this.setState({ imageBlogList: imageBlogPosts?.data, show_loader: false })
 
     } else if (
@@ -575,7 +576,7 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(" error == == ", error);
+     // console.log(" error == == ", error);
       // const productList1 = [...this.state.productList];
       // const productList2 = productListData?.data;
       // const finalproductList = productList1.concat(productList2)
@@ -589,7 +590,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
     const error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
-    console.log("LandingPageController FilteredList--",filteredList)
+    //console.log("LandingPageController FilteredList--",filteredList)
     
     if (filteredList?.message === 'No Inventory Present') {
       showToast('No order present');
@@ -691,14 +692,12 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<S>, snapshot?: SS | undefined): void {
-  console.warn('remainingproduct update---',this.state.remainingproduct)
 
 }
   aboutusCallback(aboutus: any, error: any) {
     if (error) {
       this.setState({ show_loader: false })
     } else {
-      console.warn('about us---',aboutus)
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
 this.setState({aboutUsData:aboutus})
     }
@@ -1175,7 +1174,8 @@ this.setState({aboutUsData:aboutus})
     this.remainingProductApiCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.remainingProductEndPoint
+      `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
+      // `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

@@ -35,7 +35,7 @@ const ImageData = [
 export default class AboutUs extends LandingPageController {
   async componentDidMount(): Promise<void> {
     this.getAboutUs.bind(this)();
-    this.getProductList(false)
+   // this.getProductList(false)
   }
   renderItem = (item: any) => {
     return (
@@ -58,15 +58,15 @@ export default class AboutUs extends LandingPageController {
                 <View style={styles.imageDescription}>
                   <View style={styles.imageContainer}>
                     <Image
-                      source={ this.state.aboutus?.attributes?.photo?.url !== null && this.state.aboutus?.attributes?.photo?.url !== undefined ? {
-                        uri: this.state.aboutus?.attributes?.photo?.url 
-                      }: require("../../assets/food.jpg")}
+                      source={ {
+                        uri: this.state.aboutUsData?.data?.attributes?.images[0]?.url 
+                      }}
                       style={styles.imageStyle}
                     />
                   </View>
                   <View style={{ marginVertical: 10 }}>
                     <Text style={styles.desc}>
-                      {this.state.aboutus?.attributes?.description}
+                      {this.state.aboutUsData?.data?.attributes?.description}
                     </Text>
                   </View>
                 </View>
@@ -76,7 +76,7 @@ export default class AboutUs extends LandingPageController {
                 <View style={styles.featuredFarmContainer}>
                   <View style={{ flexDirection: "row" }}>
                     <Image
-                      source={MEAT_IMAGE2}
+                      source={{uri:this.state.aboutUsData?.data?.attributes?.images[0]?.url}}
                       style={{ height: 70, width: 70, borderRadius: 20 }}
                     />
                     <View style={{ left: 10 }}>
@@ -88,10 +88,7 @@ export default class AboutUs extends LandingPageController {
                   </View>
                   <View style={{ marginVertical: 10 }}>
                     <Text style={styles.descr}>
-                      the original words and form of a written or printedw work
-                      . an edited on ambede copy of a original work containing
-                      such text . 2a : the main body of printed or written
-                      matter on a page
+                    {this.state.aboutus?.attributes?.description}
                     </Text>
                   </View>
                   <View>
@@ -113,7 +110,7 @@ export default class AboutUs extends LandingPageController {
                   </View>
                   <View style={{ marginVertical: 5 }}>
                     <Image
-                      source={this.state.productList[0]?.attributes?.images[0]?.url}
+                      source={{uri:this.state.productList[0]?.attributes?.images[0]?.url}}
                       style={[styles.productImageStyle,!this.state.productList[0]?.attributes?.images[0]?.url && {backgroundColor:MID_PEACH}]}
                     />
                   </View>
