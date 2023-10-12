@@ -39,7 +39,6 @@ export default class MyCreditScreen extends LandingPageController {
             showsVerticalScrollIndicator={false}
             bounces={false}
             renderItem={({item}) => {
-              {alert(this.state.remainingproduct?.amount)}
               console.log("remianingProdut--",this.state.remainingproduct.length)
               return (
                 <View style={styles.main}>
