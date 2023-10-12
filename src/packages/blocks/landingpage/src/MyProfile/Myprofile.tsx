@@ -31,7 +31,6 @@ import CommonStyle from "../commonStyles";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import Modal from "./UpdateProfileModal";
 import RenderProducts from "./RenderProducts";
-import FlatListHeader from "../../../Inventory/src/FlatlistHeader";
 import Dropdown from "../../../Inventory/src/DropDown";
 
 
@@ -56,7 +55,6 @@ export default class Myprofile extends LandingPageController {
       });
     } else {
       this.getProfileDetails();
-      // this.getOrderList();
       this.props.navigation.addListener('focus', () => {
         this.getFavorites();
       });
@@ -105,7 +103,6 @@ export default class Myprofile extends LandingPageController {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
   renderItem({ item }: any) {
-    { console.log('hellooo---', ) }
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
@@ -179,7 +176,6 @@ export default class Myprofile extends LandingPageController {
   }
 
   render() {
-    const  searchCategory =this.props;
     return (
       <SafeAreaView style={styles.main}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>

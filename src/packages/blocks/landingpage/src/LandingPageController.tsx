@@ -308,16 +308,12 @@ export default class LandingPageController extends BlockComponent<
     // Customizable Area Start    
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getprofileDetailsId != null &&
-      this.getprofileDetailsId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
+      this.getprofileDetailsId != null && this.getprofileDetailsId === message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+   ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+     
       if (profileDetails?.data?.attributes) {
         const {
           about_me,
@@ -414,17 +410,8 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-      const remainingProducts = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-        
-      );
-      //console.log("remaining products response--",remainingProducts)
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-        //console.log("error in getRemainingProduct--",)
+     
         this.remainingProductCallback(message)
-      // this.getSubcategoryCallback(subCategories, error)
       
 
     }
@@ -449,7 +436,6 @@ export default class LandingPageController extends BlockComponent<
  
 
   filterByCategoryCallback(message: Message) {
-    //console.log('api call------')
     
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -484,7 +470,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-       // console.log('updated data---',filterByCategoryResponse?.data);
         
         this.setState({productList:filterByCategoryResponse?.data,loader:false})
       }
@@ -492,7 +477,6 @@ export default class LandingPageController extends BlockComponent<
   }
 
   remainingProductCallback(message: Message) {
-    //console.log('reaminingProduct data call  back------',message)
     
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -507,13 +491,10 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
-        //console.log('updated data---',remainingProductResponse);
-        // alert(remainingProductResponse?.amount)
-        //console.log(remainingProductResponse?.amount)
+       
         const arr =[]
         arr.push(remainingProductResponse)
-        //console.log('final state remaining---',remainingProductResponse?.amount)
-        //console.log('final state remaining---',arr)
+   
 
         this.setState({remainingproduct:arr,loader:false})
       }
@@ -533,7 +514,6 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      //console.log(error);
       this.setState({ imageBlogList: imageBlogPosts?.data, show_loader: false })
 
     } else if (
@@ -576,10 +556,7 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-     // console.log(" error == == ", error);
-      // const productList1 = [...this.state.productList];
-      // const productList2 = productListData?.data;
-      // const finalproductList = productList1.concat(productList2)
+
       this.setState({ productList: productListData.data, show_loader: false })
     }else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.filterByCategoryApiId != null &&
@@ -590,7 +567,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
     const error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
-    //console.log("LandingPageController FilteredList--",filteredList)
     
     if (filteredList?.message === 'No Inventory Present') {
       showToast('No order present');
@@ -1144,9 +1120,7 @@ this.setState({aboutUsData:aboutus})
     filterCategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
-      // `account_block/accounts/view_inventory?page=${1}&per=10${this.state.selectedDate ?
-      //   `&date=${this.state.selectedDate}` : ''}${this.state.selectedStatus
-      //   ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
+    
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1175,7 +1149,6 @@ this.setState({aboutUsData:aboutus})
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
-      // `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1582,10 +1555,7 @@ this.setState({aboutUsData:aboutus})
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+    
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
@@ -1614,10 +1584,7 @@ this.setState({aboutUsData:aboutus})
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+    
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
   }
@@ -1696,7 +1663,7 @@ this.setState({aboutUsData:aboutus})
 
   searchProductsCallback = (error: any, response: any) => {
     if (error) {
-      this.showAlert('something went wrong ')
+      this.showAlert('something went wrong')
     } else if (response) {
       this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
     }
