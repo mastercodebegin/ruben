@@ -81,6 +81,7 @@ interface S {
   sortAscending: boolean,
   setProductPage: number,
   showFavoriteList: Array<object>;
+  viewAllProductList: Array<object>;
   priceTotal: number;
   priceDiscount: number;
   percentage: number;
@@ -204,6 +205,7 @@ export default class LandingPageController extends BlockComponent<
       cartList: [],
       setProductPage: 1,
       showFavoriteList: [],
+      viewAllProductList:[],
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
@@ -462,7 +464,20 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.videoLibraryCallback(videoLibrary, error)
-
+    } 
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getViewAllProductId != null &&
+      this.getViewAllProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getProductId != null &&
@@ -476,10 +491,10 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(" error == == ", error);
-      const productList1 = [...this.state.productList];
-      const productList2 = productListData?.data;
-      const finalproductList = productList1.concat(productList2)
-      this.setState({ productList: finalproductList, show_loader: false })
+      // const productList1 = [...this.state.productList];
+      // const productList2 = productListData?.data;
+      // const finalproductList = productList1.concat(productList2)
+      this.setState({ productList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
@@ -632,6 +647,7 @@ export default class LandingPageController extends BlockComponent<
     getuserDetails: this.getProfileDetails
   }
   getProductId: string = '';
+  getViewAllProductId: string = '';
   productListProps = {
     getProductLists: this.getProductList
   }
@@ -1058,6 +1074,32 @@ export default class LandingPageController extends BlockComponent<
       configJSON.exampleAPiMethod
     );
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
+  }
+
+  async getViewAllProduct(id:number){
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const getViewAllProductListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getViewAllProductId = getViewAllProductListMsg.messageId;
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.getViewAllProductListEndpoint}?category_id=${id}`
+    );
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getViewAllProductListMsg.id, getViewAllProductListMsg);
   }
 
   async getProductList(type: boolean) {

@@ -26,7 +26,8 @@ exports.getAboutUs = "bx_block_content_management/contents/show?id=20";
 exports.getOrderDetails = "bx_block_shopping_cart/orders/order_alerts";
 exports.addToCart = "bx_block_shopping_cart/order_items";
 exports.favoritesEndPoint = "bx_block_favourites/favourites";
-exports.getProductListEndpoint = "bx_block_catalogue/catalogues";
+exports.getProductListEndpoint = "bx_block_catalogue/catalogues/catalogues_by_category_8_items";
+exports.getViewAllProductListEndpoint = "bx_block_catalogue/catalogues/catalogues_by_category";
 exports.deleteFavoritesEndPoint = "bx_block_favourites/favourites/destroy?id=";
 exports.searchProductsEndpoint = "/bx_block_catalogue/catalogues/search_product";
 // Customizable Area End
