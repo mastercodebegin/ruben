@@ -217,7 +217,6 @@ export class ExplorePage extends LandingPageController {
                       />
                     </View>
                 )
-  
               })}
             </View>
           </ScrollView>
