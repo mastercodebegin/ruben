@@ -68,12 +68,16 @@ interface S {
   refresh: boolean;
   imageBlogList: Array<object>;
   videoLibrary: Array<object>;
+  aboutUsData:any
   visibleCard: number;
   categoryItem: string;
   subCategoryItem: string;
   categoryList: Array<object>;
   subCategoryList: Array<object>;
   productList: Array<any>;
+  recommentproduct: Array<any>;
+  remainingproduct: any;
+  filterByCategoryApiId: any;
   aboutus: any;
   orderList: Array<any>;
   cartList: Array<any>;
@@ -81,6 +85,7 @@ interface S {
   sortAscending: boolean,
   setProductPage: number,
   showFavoriteList: Array<object>;
+  viewAllProductList: Array<object>;
   priceTotal: number;
   priceDiscount: number;
   percentage: number;
@@ -97,6 +102,7 @@ interface S {
   nearestLocation: string;
   setAddressOption: boolean;
   fetchFavorites: boolean;
+  selectedCategoryID:any
   // Customizable Area End
 }
 
@@ -123,6 +129,7 @@ export default class LandingPageController extends BlockComponent<
     this.state = {
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
+      aboutUsData:{},
       profileImage: '',
       name: '',
       email: '',
@@ -163,6 +170,8 @@ export default class LandingPageController extends BlockComponent<
       categoryItem: '',
       subCategoryItem: '',
       productList: [],
+      recommentproduct: [],
+      remainingproduct:[],
       orderList: [],
       categoryList: [
         {
@@ -204,6 +213,7 @@ export default class LandingPageController extends BlockComponent<
       cartList: [],
       setProductPage: 1,
       showFavoriteList: [],
+      viewAllProductList:[],
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
@@ -286,7 +296,9 @@ export default class LandingPageController extends BlockComponent<
       selectedAnimalSlot: "10:00 AM",
       nearestLocation: "",
       setAddressOption: false,
-      fetchFavorites:false
+      fetchFavorites:false,
+      selectedCategoryID:'',
+
     };
     // Customizable Area End
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -296,17 +308,12 @@ export default class LandingPageController extends BlockComponent<
     // Customizable Area Start    
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getprofileDetailsId != null &&
-      this.getprofileDetailsId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
+      this.getprofileDetailsId != null && this.getprofileDetailsId === message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+   ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+     
       if (profileDetails?.data?.attributes) {
         const {
           about_me,
@@ -343,9 +350,7 @@ export default class LandingPageController extends BlockComponent<
             id
           }
         })
-      } else {
-        this.setState({ loader: false })
-      }
+      } 
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -397,6 +402,17 @@ export default class LandingPageController extends BlockComponent<
       this.getSubcategoryCallback(subCategories, error)
 
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.remainingProductApiCallId != null &&
+      this.remainingProductApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+     
+        this.remainingProductCallback(message)
+      
+
+    }
     else {
       this.receiveCallback(message)
       this.resDeleteFavAPI(message)
@@ -405,6 +421,8 @@ export default class LandingPageController extends BlockComponent<
       this.resOrderList(message)
       this.resAboutUs(message)
       this.filterByCategoryCallback(message);
+      this.recommendProductCallback(message);
+      this.remainingProductCallback(message);
       this.addToCartCallBack(message)
     }
 
@@ -413,8 +431,10 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
+ 
 
   filterByCategoryCallback(message: Message) {
+    
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterProductByCategoryId != null &&
@@ -433,6 +453,52 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
+  recommendProductCallback(message: Message) {
+    
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.recommendProductApiCallId != null &&
+      this.recommendProductApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) { 
+      const filterByCategoryResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && filterByCategoryResponse) {
+        
+        this.setState({productList:filterByCategoryResponse?.data,loader:false})
+      }
+    }
+  }
+
+  remainingProductCallback(message: Message) {
+    
+    if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.remainingProductApiCallId != null &&
+      this.remainingProductApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) { 
+      const remainingProductResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (!error && remainingProductResponse) {
+       
+        const arr =[]
+        arr.push(remainingProductResponse)
+   
+
+        this.setState({remainingproduct:arr,loader:false})
+      }
+    }
+  }
+
   receiveCallback(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -446,7 +512,6 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(error);
       this.setState({ imageBlogList: imageBlogPosts?.data, show_loader: false })
 
     } else if (
@@ -463,6 +528,18 @@ export default class LandingPageController extends BlockComponent<
       );
       this.videoLibraryCallback(videoLibrary, error)
 
+    } 
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getViewAllProductId != null &&
+      this.getViewAllProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+     
+      this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getProductId != null &&
@@ -475,12 +552,20 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log(" error == == ", error);
-      const productList1 = [...this.state.productList];
-      const productList2 = productListData?.data;
-      const finalproductList = productList1.concat(productList2)
-      this.setState({ productList: finalproductList, show_loader: false })
-    } else if (
+
+      this.setState({ productList: productListData.data, show_loader: false })
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.filterByCategoryApiId != null &&
+    this.filterByCategoryApiId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
+    { 
+      const filteredList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+    this.filterCategoryCallBack(filteredList)
+    }
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
       this.getAddProductId ===
@@ -498,7 +583,18 @@ export default class LandingPageController extends BlockComponent<
       this.cartCallBack(message)
     }
   }
-
+filterCategoryCallBack(filteredList:any){
+  if (filteredList?.message === 'No Inventory Present') {
+    showToast('No order present');
+  }
+  
+  if (filteredList?.inventory?.data?.length) {
+    const list = filteredList.inventory.data.map((item:any)=>({data:item}))
+    this.setState({ showLoader: false, inventoryList:list });
+    return
+  }
+  this.setState({ showLoader: false });
+}
   cartCallBack(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -575,6 +671,7 @@ export default class LandingPageController extends BlockComponent<
       this.setState({ show_loader: false })
     } else {
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
+this.setState({aboutUsData:aboutus})
     }
   }
   videoLibraryCallback(videoLibrary: any, error: any) {
@@ -628,10 +725,14 @@ export default class LandingPageController extends BlockComponent<
   getCartId: string = '';
   addToCartId: string = '';
   filterProductByCategoryId: string = '';
+  filterByCategoryApiId = '';
+  recommendProductApiCallId: string = '';
+  remainingProductApiCallId: string = '';
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
   getProductId: string = '';
+  getViewAllProductId: string = '';
   productListProps = {
     getProductLists: this.getProductList
   }
@@ -673,6 +774,38 @@ export default class LandingPageController extends BlockComponent<
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_categories/categories?page=${page}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async getCategories() {
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getCategoriesId = getValidationsMsg.messageId;
+
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_categories/categories`
     );
 
     getValidationsMsg.addData(
@@ -939,6 +1072,92 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
+
+  async getRecommendProduct(v:any) {
+    this.setState({ loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.recommendProductApiCallId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.recommenProductEndPoint
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async filterByCategoryApi(categoryName: string) {
+
+    this.setState({showLoader:true,category:categoryName})
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const filterCategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.filterByCategoryApiId = filterCategory.messageId;
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
+    
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'GET'
+    );
+    runEngine.sendMessage(filterCategory.id, filterCategory);
+  }
+
+  
+  async getRemainingProduct() {
+    this.setState({ loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.remainingProductApiCallId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+
   async getSubcategories(subCategoryId: string) {
     this.setState({ show_loader: true, selectedSub: null })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1058,6 +1277,32 @@ export default class LandingPageController extends BlockComponent<
       configJSON.exampleAPiMethod
     );
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
+  }
+
+  async getViewAllProduct(id:number){
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const getViewAllProductListMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getViewAllProductId = getViewAllProductListMsg.messageId;
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.getViewAllProductListEndpoint}?category_id=${id}`
+    );
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getViewAllProductListMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getViewAllProductListMsg.id, getViewAllProductListMsg);
   }
 
   async getProductList(type: boolean) {
@@ -1306,10 +1551,7 @@ export default class LandingPageController extends BlockComponent<
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+    
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
@@ -1338,10 +1580,7 @@ export default class LandingPageController extends BlockComponent<
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+    
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
   }
@@ -1420,7 +1659,7 @@ export default class LandingPageController extends BlockComponent<
 
   searchProductsCallback = (error: any, response: any) => {
     if (error) {
-      this.showAlert('something went wrong')
+      this.showAlert('something went wrong ')
     } else if (response) {
       this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
     }

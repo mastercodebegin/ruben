@@ -36,6 +36,7 @@ OnHand:3
   }
 ]
 const RenderItem = ({item}: any) => {  
+  {`item in the renderItem ${item}`}
   const selectedStatus = item?.data?.attributes?.status === 'scheduled' ?
     'pending' : item?.data?.attributes?.status === 'completed' ?
       'success' : item?.data?.attributes?.status === "on_going" ? "Pending" : item?.data?.attributes?.status;
@@ -52,7 +53,7 @@ const RenderItem = ({item}: any) => {
       <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10,marginRight:10}} />
         </View>
       <View style={styles.flex}>
-        <Text style={styles.text}>{`ID:${item?.data?.attributes?.ID}`}</Text>
+      <Text style={styles.text}>{`ID:${item?.data?.attributes?.order_number?item?.data?.attributes?.order_number:item?.data?.id}`}</Text>
         <Text style={styles.name}>{`${item?.data?.attributes?.name}`}</Text>
         <Text style={styles.text}>{`Date : ${ moment(new Date(item?.data?.attributes?.Date)).format('DD/MM/YYYY')}`}</Text>
         <Text style={styles.text}>{`Item :x${item?.data?.attributes?.items}`}</Text>

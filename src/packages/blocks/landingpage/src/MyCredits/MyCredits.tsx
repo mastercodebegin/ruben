@@ -22,6 +22,10 @@ export default class MyCreditScreen extends LandingPageController {
   constructor(props: Props) {
     super(props);
   }
+  async componentDidMount(): Promise<void> {
+    this.getRemainingProduct.bind(this)();
+   // this.getProductList(false)
+  }
   render() {
     return (
       //@ts-ignore
@@ -31,10 +35,11 @@ export default class MyCreditScreen extends LandingPageController {
       >
         <View style={{ flex: 1 }}>
           <FlatList
-            data={[1, 2]}
+            data={this.state.remainingproduct}
             showsVerticalScrollIndicator={false}
             bounces={false}
-            renderItem={() => {
+            renderItem={({item}) => {
+              console.log("remianingProdut--",this.state.remainingproduct.length)
               return (
                 <View style={styles.main}>
                   <Image
@@ -42,21 +47,22 @@ export default class MyCreditScreen extends LandingPageController {
                     style={styles.image}
                     source={cow}
                   />
+                  
                   <View style={styles.flexContainer}>
                     <Text style={styles.text}>Purchased Animal</Text>
-                    <Text style={styles.desText}>Cow</Text>
+                    <Text style={styles.desText}>{item?.purchased_animal}</Text>
                   </View>
                   <View style={styles.flexContainer}>
                     <Text style={styles.text}>Total Cuts</Text>
-                    <Text style={styles.desText}>10</Text>
+                    <Text style={styles.desText}>{item?.total_cuts}</Text>
                   </View>
                   <View style={styles.flexContainer}>
                     <Text style={styles.text}>Used Cuts</Text>
-                    <Text style={styles.desText}>7</Text>
+                    <Text style={styles.desText}>{item?.used_cuts}</Text>
                   </View>
                   <View style={styles.flexContainer}>
                     <Text style={styles.text}>Remaining Cuts</Text>
-                    <Text style={styles.desText}>3</Text>
+                    <Text style={styles.desText}>{item?.remaining_cuts}</Text>
                   </View>
                   <TouchableOpacity
                     style={styles.pickButton}
