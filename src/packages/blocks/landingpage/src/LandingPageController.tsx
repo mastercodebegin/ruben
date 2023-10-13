@@ -477,6 +477,7 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log(error);
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -491,9 +492,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       console.log(" error == == ", error);
-      // const productList1 = [...this.state.productList];
-      // const productList2 = productListData?.data;
-      // const finalproductList = productList1.concat(productList2)
       this.setState({ productList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
