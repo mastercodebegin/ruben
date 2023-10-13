@@ -33,6 +33,7 @@ import { Dropdown } from "../../../components/src/DropDown/src";
 import AnimalChicken from "./AnimalChicken";
 import AnimalPig from "./AnimalPig";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
+import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
 import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
@@ -137,6 +138,7 @@ export default class Analytics extends AnalyticsController {
                               // onDaySelect={this.handleDateSelected}
                           >
                             <TouchableOpacity
+                                testID="calender_toggle"
                                 onPress={() => {
                                   this.calendarToggle(true);
                                   this.calendarRef?.current?._onButtonPress();
@@ -155,7 +157,6 @@ export default class Analytics extends AnalyticsController {
                               </View>
                             </TouchableOpacity>
                           </DisplayCalendar>
-
 
                         </View>
                       </TouchableOpacity>
@@ -249,6 +250,10 @@ export default class Analytics extends AnalyticsController {
                 </View>
               </View>
             </View>
+
+            {this.state.showLoader && (
+           <CommonLoader visible={this.state.showLoader} />
+        )}
           </SafeAreaView>
           {/* Customizable Area End */}
         </TouchableWithoutFeedback>
@@ -412,6 +417,6 @@ const styles = StyleSheet.create({
   },
   animalImagContainer: {
     marginBottom: 10
-  }
+  },
 });
 // Customizable Area End

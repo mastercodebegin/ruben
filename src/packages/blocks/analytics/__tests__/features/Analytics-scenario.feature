@@ -7,6 +7,7 @@ Feature: Analytics
         Then Analytics will load with out errors
         Then go back navigation
         Then load chart data
+        Then analyticsRes
         Then show_calendar
         Then load calendar
         Then load dropdown
