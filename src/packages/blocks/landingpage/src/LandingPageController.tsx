@@ -554,7 +554,8 @@ export default class LandingPageController extends BlockComponent<
       );
 
       this.setState({ productList: productListData.data, show_loader: false })
-    }else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.filterByCategoryApiId != null &&
     this.filterByCategoryApiId ===
     message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
@@ -562,18 +563,9 @@ export default class LandingPageController extends BlockComponent<
       const filteredList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
-    if (filteredList?.message === 'No Inventory Present') {
-      showToast('No order present');
+    this.filterCategoryCallBack(filteredList)
     }
-    
-    if (filteredList?.inventory?.data?.length) {
-      const list = filteredList.inventory.data.map((item:any)=>({data:item}))
-      this.setState({ showLoader: false, inventoryList:list });
-      return
-    }
-    this.setState({ showLoader: false });
-    }else if (
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
       this.getAddProductId ===
@@ -591,7 +583,18 @@ export default class LandingPageController extends BlockComponent<
       this.cartCallBack(message)
     }
   }
-
+filterCategoryCallBack(filteredList:any){
+  if (filteredList?.message === 'No Inventory Present') {
+    showToast('No order present');
+  }
+  
+  if (filteredList?.inventory?.data?.length) {
+    const list = filteredList.inventory.data.map((item:any)=>({data:item}))
+    this.setState({ showLoader: false, inventoryList:list });
+    return
+  }
+  this.setState({ showLoader: false });
+}
   cartCallBack(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
