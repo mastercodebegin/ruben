@@ -25,6 +25,7 @@ import { DARK_RED } from "../../landingpage/src/colors";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import moment from "moment";
 import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
+import { getStorageData, setStorageData } from "../../../framework/src/Utilities";
 
 //@ts-ignore
 import CustomCheckBox from "../../../components/src/CustomCheckBox";
@@ -54,7 +55,6 @@ import PaymentCustomeAlert from "./PaymentCustomeAlert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
-
 export default class StripeIntegration extends StripeIntegrationController {
   constructor(props: Props) {
     super(props);
@@ -72,6 +72,12 @@ export default class StripeIntegration extends StripeIntegrationController {
   }
 
   // Customizable Area Start
+  
+  async componentDidMount() {
+    const saveCard_Details = await getStorageData("saveCardDetails", true);
+    this.setState({saveCard: saveCard_Details.cardNumber!="" ? true : false})
+  }
+
   handleExpiryDate = (text: string) => {
     let year: string = moment().format("YY");
     let textTemp: any = text;
@@ -186,7 +192,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <Text style={styles.headerTextPayment}>CHOOSE PAYMENT METHOD</Text>
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
-                <View style={styles.addressContainer}>
+                <View style={[styles.addressContainer,{justifyContent:this.state.saveCard ? 'space-between': "flex-start"}]}>
                   <TouchableOpacity style={styles.padding} testID="cardButton" onPress={() => {
                     this.setState({ paymentMethodType: "Card" })
                   }}>
@@ -198,6 +204,8 @@ export default class StripeIntegration extends StripeIntegrationController {
                     />
                   </TouchableOpacity>
                   <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>
+                  {this.state.saveCard && 
+                  <Text onPress={()=>this.fetchCardDetails()} style={[styles.question, styles.fetchDetails]}>{`Fetch Details`}</Text>}
                 </View>
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
@@ -314,8 +322,20 @@ export default class StripeIntegration extends StripeIntegrationController {
               />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
-                onPress={()=> {
+                onPress={async ()=> {
                   if (this.state.paymentMethodType === "Card") {
+                    if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
+                      return Alert.alert("Alert", "Please add card details");
+                    }
+                    await setStorageData(
+                      "saveCardDetails",
+                      JSON.stringify({
+                        cardNumber:this.state.cardNumber,
+                        cardName:this.state.cardName,
+                        cvv:this.state.cvv,
+                        expirtyDate:this.state.expirtyDate                  
+                      })
+                    );
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Payment In Process.." });
                     this.setState({ showPaymentAlert: true })
@@ -450,7 +470,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   myDetail: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 20,
     borderRadius: 20,
     paddingBottom: 20,
@@ -484,13 +504,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     opacity: 0.6,
     borderRadius: 15,
   },
   checkBoxContainer: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     elevation: 1,
     paddingVertical: 15,
     paddingHorizontal: 15,
@@ -518,6 +538,7 @@ const styles = StyleSheet.create({
   addressContainer: { flexDirection: "row", alignItems: "center" },
   padding: { padding: 3 },
   addressText: { paddingVertical: 10, paddingLeft: 10 },
+  fetchDetails:{backgroundColor:"#A0272A",borderRadius:5,color:WHITE,paddingHorizontal:10},
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
   checkContainer: { paddingHorizontal: 20 },
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
@@ -546,7 +567,7 @@ const styles = StyleSheet.create({
   },
   paymentText: { fontSize: 17, color: "grey" },
   paymentContainer: {
-    backgroundColor: "white",
+    backgroundColor:WHITE,
     paddingVertical: 20,
     borderRadius: 20,
     paddingTop: 20,
@@ -579,12 +600,12 @@ const styles = StyleSheet.create({
   },
   bottomRadius: {
     height: 20,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   headerContainer: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderTopLeftRadius: 20,

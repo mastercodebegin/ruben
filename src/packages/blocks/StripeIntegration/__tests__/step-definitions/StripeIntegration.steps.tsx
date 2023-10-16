@@ -1144,6 +1144,12 @@ defineFeature(feature, (test) => {
         (node) => node.prop("testID") === "doneFirstButtonEvent"
       );
       buttonComponent.simulate("press");
+      instance.setState({ cardNumber: "4242" });
+      instance.setState({ cardName: "4242" });
+
+      instance.setState({ cvv: "4242" });
+
+      instance.setState({ expirtyDate: "4242" });
       expect(instance.state.showPaymentLoading).toBe(true);
       expect(instance.state.customAlertText).toBe("Payment In Process..");
       expect(instance.state.showPaymentAlert).toBe(true);

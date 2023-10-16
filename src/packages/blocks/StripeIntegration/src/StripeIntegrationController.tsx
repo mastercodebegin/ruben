@@ -11,6 +11,7 @@ import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { showToast } from "../../../components/src/ShowToast";
+import { getStorageData } from "../../../framework/src/Utilities";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
@@ -50,6 +51,7 @@ interface S {
   showPaymentLoading: boolean;
   customAlertText: string;
   customAlertDesc: string;
+  saveCard:boolean;
   cardName: string;
   cardNumber: string;
   backspaceFlag: boolean;
@@ -94,6 +96,7 @@ export default class StripeIntegrationController extends BlockComponent<
       enableField: false,
       showPaymentAlert: false,
       showPaymentLoading: false,
+      saveCard:false,
       cardName: "",
       cardNumber: "",
       backspaceFlag: false,
@@ -212,6 +215,16 @@ export default class StripeIntegrationController extends BlockComponent<
   btnExampleProps = {
     onPress: () => this.doButtonPressed(),
   };
+
+  async fetchCardDetails(){
+    const saveCard_Details = await getStorageData("saveCardDetails", true);
+    console.log("saveCardDetails==>",saveCard_Details);
+    this.setState({cardName:saveCard_Details.cardName, 
+                   cardNumber:saveCard_Details.cardNumber,
+                   cvv:saveCard_Details.cvv,
+                   expirtyDate:saveCard_Details.expirtyDate,
+    })
+  }
 
   doButtonPressed() {
     let msg = new Message(getName(MessageEnum.AccoutLoginSuccess));
