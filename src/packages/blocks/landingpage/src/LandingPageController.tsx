@@ -228,7 +228,7 @@ export default class LandingPageController extends BlockComponent<
           id: 1
         },
         {
-          title: "Shipping",
+          title: "Shipping ",
           id: 3
         }
       ],
