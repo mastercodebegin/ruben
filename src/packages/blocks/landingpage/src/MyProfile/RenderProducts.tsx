@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import { CART, badge } from "../assets";
+import { CART, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
   navigate: (params:any)=>void;
@@ -50,9 +50,7 @@ const RenderProducts = ({
         <ImageBackground
           resizeMode="stretch"
           style={image ? styles.itemImage : styles.itemNoImage}
-          source={{
-            uri: image,
-          }}
+          source={image?{uri:image}:backGroundImage}
         >
           <View style={styles.offerContainer}>
             <Text style={styles.offer}>{`${discount || " "}` + " % off"}</Text>
