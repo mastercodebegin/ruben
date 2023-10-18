@@ -43,7 +43,7 @@ export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
-    
+
   }
   async componentDidMount() {
     if (this.props?.route?.params?.firstTime) {
@@ -307,10 +307,11 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>{ this.setState({ selectedTab: "remaining" })
-              this.getCategories()
-            console.log("categories----",this.state.categories);
-            }}
+                onPress={() => {
+                  this.setState({ selectedTab: "remaining" })
+                  this.getCategories()
+                  console.log("categories----", this.state.categories);
+                }}
               >
                 <Text
                   style={[
@@ -324,16 +325,17 @@ export default class Myprofile extends LandingPageController {
             </ScrollView>
             {this.state.selectedTab == "remaining" ? (
               <View style={styles.remainingInvContainer}>
-               
-                     <Dropdown searchCategory={(categoryName:string) => {
-                    this.filterByCategoryApi(categoryName);
-                  }}
-          isCategory selectedDate="" data={this.state.categories} label="Category" />
+
+                <Dropdown searchCategory={(categoryName: string) => {
+                  const data = this.state.categories.filter((name) => name?.attributes?.name == categoryName)
+                  this.setState({ selectedCategoryID: data[0].id })
+                }}
+                  isCategory selectedDate="" data={this.state.categories} label="Category" />
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}
                 >
-                 
-                   
+
+
                   <View style={styles.invImageContainer}>
                     <Image
                       resizeMode="contain"
@@ -350,7 +352,7 @@ export default class Myprofile extends LandingPageController {
                   style={styles.CreditsButton}
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
-                    this.props.navigation.navigate("MyCreditScreen");
+                    this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID});
                     //this.getRemainingProduct()
                   }}
                 >
@@ -382,7 +384,7 @@ export default class Myprofile extends LandingPageController {
 
                 {this.showButton() ? <TouchableOpacity
                   testID="see_all_button"
-                  onPress={() =>{
+                  onPress={() => {
                     console.log(`selected tab${this.state.selectedTab}`)
                     this.props.navigation.navigate(this.state.selectedTab)
                   }
