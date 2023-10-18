@@ -670,6 +670,8 @@ filterCategoryCallBack(filteredList:any){
     if (error) {
       this.setState({ show_loader: false })
     } else {
+      console.log('data==================================',aboutus?.data?.length);
+      
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
 this.setState({aboutUsData:aboutus})
     }
@@ -1144,7 +1146,7 @@ this.setState({aboutUsData:aboutus})
     this.remainingProductApiCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
+      `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

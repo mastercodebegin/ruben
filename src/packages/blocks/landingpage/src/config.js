@@ -22,7 +22,7 @@ exports.getVideoBlog = "bx_block_posts/posts/get_videos";
 exports.addProductEndpoint = "bx_block_catalogue/catalogues?price=";
 exports.addToFavEndPoint = "bx_block_favourites/favourites";
 exports.getCart = "bx_block_shopping_cart/orders/order_alerts";
-exports.getAboutUs = "bx_block_content_management/contents/show?id=22";
+exports.getAboutUs = "bx_block_content_management/contents";
 exports.recommenProductEndPoint = "bx_block_catalogue/catalogues/recommendation_products";
 exports.remainingProductEndPoint = "bx_block_catalogue/catalogues/my_credits?category_id=94";
 exports.getOrderDetails = "bx_block_shopping_cart/orders/order_alerts";
@@ -33,3 +33,5 @@ exports.getViewAllProductListEndpoint = "/bx_block_catalogue/catalogues/catalogu
 exports.deleteFavoritesEndPoint = "bx_block_favourites/favourites/destroy?id=";
 exports.searchProductsEndpoint = "/bx_block_catalogue/catalogues/search_product";
 // Customizable Area End
+
+
