@@ -1318,6 +1318,19 @@ defineFeature(feature, (test) => {
       // expect(explorePageWrapper.state('customAlertDesc')).toBe("Please contact to admin Or Try again.");
     });
 
+    then('I can check whether card details enter', () => {
+      instance.setState({paymentMethodType:"Card",cardNumber:"",cardName:"",cvv:"",expirtyDate:""})
+      let plans4 = exampleBlockA.findWhere((node) => node.prop('testID') === "doneFirstButtonEvent");
+      plans4.simulate('press')
+    });
+
+    then('I can check once card details filled up', () => {
+      instance.setState({paymentMethodType:"Card",saveCard:true,cardNumber:"4242 4242 4242 4242",cardName:"Test",cvv:"225",expirtyDate:"16/25"})
+      let plans4 = exampleBlockA.findWhere((node) => node.prop('testID') === "doneFirstButtonEvent");
+      plans4.simulate('press')
+    });
+
+
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
       expect(exampleBlockA).toBeTruthy();
