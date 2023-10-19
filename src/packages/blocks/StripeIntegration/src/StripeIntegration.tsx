@@ -9,9 +9,7 @@ import {
   StyleSheet,
   ImageSourcePropType,
   TouchableOpacity,
-  Alert,
-  ToastAndroid,
-  Platform
+  Alert
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
