@@ -353,7 +353,6 @@ export default class Myprofile extends LandingPageController {
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
                     this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID});
-                    //this.getRemainingProduct()
                   }}
                 >
                   <Text style={styles.viewDetail}>My Credits</Text>
