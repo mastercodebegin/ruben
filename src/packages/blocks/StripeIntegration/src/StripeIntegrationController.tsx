@@ -216,16 +216,6 @@ export default class StripeIntegrationController extends BlockComponent<
     onPress: () => this.doButtonPressed(),
   };
 
-  async fetchCardDetails(){
-    const saveCard_Details = await getStorageData("saveCardDetails", true);
-    console.log("saveCardDetails==>",saveCard_Details);
-    this.setState({cardName:saveCard_Details.cardName, 
-                   cardNumber:saveCard_Details.cardNumber,
-                   cvv:saveCard_Details.cvv,
-                   expirtyDate:saveCard_Details.expirtyDate,
-    })
-  }
-
   doButtonPressed() {
     let msg = new Message(getName(MessageEnum.AccoutLoginSuccess));
     msg.addData(
@@ -245,6 +235,10 @@ export default class StripeIntegrationController extends BlockComponent<
   };
 
   // Customizable Area Start
+
+  onSaveCard(){
+    this.setState({saveCard:!this.state.saveCard})
+  }
   async paymentApi(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);

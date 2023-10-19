@@ -33,6 +33,7 @@ defineFeature(feature, (test) => {
     jest.doMock("react-native", () => ({
       Platform: { OS: "web" },
       nativeModule: {},
+      ToastAndroid: { show: jest.fn() },
     }));
   });
 
@@ -1039,6 +1040,14 @@ defineFeature(feature, (test) => {
       buttonSecondComponent.simulate("press");
       expect(exampleBlockA).toBeTruthy();
       instance.setState({ paymentMethodType: "Card" });
+         instance.setState({ cardNumber: "4242" });
+      instance.setState({ cardName: "Test" });
+      instance.setState({ cvv: "424" });
+      instance.setState({ expirtyDate: "16/28" });
+      instance.setState({ saveCard: true });
+
+      console.log("setstate==>",instance.state);
+      
       const { queryByTestId } = render(
         <StripeIntegration
           route={{
@@ -1066,6 +1075,7 @@ defineFeature(feature, (test) => {
       instance.setState({ showPaymentLoading: true });
       instance.setState({ customAlertText: "Payment In Process.." });
       instance.setState({ showPaymentAlert: true });
+      instance.setState({ saveCard: true });
       fireEvent.press(closeDropdown);
       buttonComponent.simulate("press");
       expect(instance.state.showPaymentLoading).toEqual(true);

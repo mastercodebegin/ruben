@@ -10,6 +10,8 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
+  Platform
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
@@ -26,7 +28,7 @@ import CheckBox from "../../../components/src/CustomRadioBtn";
 import moment from "moment";
 import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
 import { getStorageData, setStorageData } from "../../../framework/src/Utilities";
-
+import { showToast } from "../../../components/src/ShowToast";
 //@ts-ignore
 import CustomCheckBox from "../../../components/src/CustomCheckBox";
 
@@ -44,8 +46,6 @@ interface ImageBoxType {
   selected: boolean;
   onpress: () => void;
 }
-
-
 
 import StripeIntegrationController, {
   Props,
@@ -75,7 +75,8 @@ export default class StripeIntegration extends StripeIntegrationController {
   
   async componentDidMount() {
     const saveCard_Details = await getStorageData("saveCardDetails", true);
-    this.setState({saveCard: saveCard_Details.cardNumber!="" ? true : false})
+    console.log("saveCard_Details",saveCard_Details);
+    this.setState({cardName:saveCard_Details.cardName,cardNumber:saveCard_Details.cardNumber,cvv:saveCard_Details.cvv,expirtyDate:saveCard_Details.expirtyDate})
   }
 
   handleExpiryDate = (text: string) => {
@@ -192,7 +193,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               <Text style={styles.headerTextPayment}>CHOOSE PAYMENT METHOD</Text>
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
-                <View style={[styles.addressContainer,{justifyContent:this.state.saveCard ? 'space-between': "flex-start"}]}>
+                <View style={styles.addressContainer}>
                   <TouchableOpacity style={styles.padding} testID="cardButton" onPress={() => {
                     this.setState({ paymentMethodType: "Card" })
                   }}>
@@ -203,9 +204,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       setChecked={() => { }}
                     />
                   </TouchableOpacity>
-                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>
-                  {this.state.saveCard && 
-                  <Text onPress={()=>this.fetchCardDetails()} style={[styles.question, styles.fetchDetails]}>{`Fetch Details`}</Text>}
+                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>                
                 </View>
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
@@ -295,6 +294,17 @@ export default class StripeIntegration extends StripeIntegrationController {
                         />
                       </View>
                     </View>
+                    <View style={styles.addressContainer}>
+                    <TouchableOpacity style={styles.padding} onPress={this.onSaveCard}>
+                      <CheckBox
+                        backgroundColor={LIGHT_GREY}
+                        checked={this.state.saveCard}
+                        disabled
+                        setChecked={() => {}}
+                      />
+                    </TouchableOpacity>
+                    <Text style={[styles.question, styles.addressText]}>Save Card Details</Text>
+                  </View>
                   </View>
                 </View>
               </View>
@@ -327,6 +337,8 @@ export default class StripeIntegration extends StripeIntegrationController {
                     if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
                       return Alert.alert("Alert", "Please add card details");
                     }
+                    if(this.state.saveCard){ 
+                      showToast("Card details will be automatically removed upon logout for security reasons")           
                     await setStorageData(
                       "saveCardDetails",
                       JSON.stringify({
@@ -336,6 +348,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                         expirtyDate:this.state.expirtyDate                  
                       })
                     );
+                    }
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Payment In Process.." });
                     this.setState({ showPaymentAlert: true })
