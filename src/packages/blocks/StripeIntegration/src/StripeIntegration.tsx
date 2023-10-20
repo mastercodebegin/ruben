@@ -293,7 +293,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       </View>
                     </View>
                     <View style={styles.addressContainer}>
-                    <TouchableOpacity style={styles.padding} onPress={this.onSaveCard}>
+                    <TouchableOpacity style={styles.padding} onPress={()=>{this.onSaveCard()}}>
                       <CheckBox
                         backgroundColor={LIGHT_GREY}
                         checked={this.state.saveCard}
