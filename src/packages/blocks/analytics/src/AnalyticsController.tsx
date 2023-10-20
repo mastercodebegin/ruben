@@ -337,19 +337,10 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        console.log("error===>", error);
         Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
-      } else {
-       this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
-        let amount = list.tota_amount.toFixed(2);
-        let numberOfSpend = list.no_of_spend.toFixed(2)
-        let numberOfSpendCount = list.no_of_spend_count.toFixed(2)
-        this.setState({ usedCuts: list.used_cuts });
-        this.setState({ remianingCuts: list.remaining_cuts });
-        this.setState({ totalCuts: list.total_cuts });
-        this.setState({ totaAmount: amount });
-        this.setState({ numberOfSpendCount: numberOfSpendCount });
-        this.setState({ numberOfSpend: numberOfSpend });
+      } else {   
+        this.analyticsRes(list)     
+       
       }
     }
 
@@ -407,51 +398,88 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       token: data?.meta?.token,
     };
 
-    const category = new Message(getName(MessageEnum.RestAPIRequestMessage));
-    this.myCreditCallId = category.messageId;
+    const analytics = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.myCreditCallId = analytics.messageId;
     let startDate = this.state.startDate
+    let formattedStartDate;
     if (!startDate) {
       let date = new Date();
       date.setDate(date.getDate() - 7);
+      formattedStartDate  = moment(date).format("YYYY-MM-DD");
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
       let startDateString = moment(momentObj).format("YYYY-MM-DD");
       startDate = startDateString
       this.setState({startDate: startDate})
     } else {
-      let momentObj = moment(startDate, "YYYY-MM-DD");
-      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
+       formattedStartDate  = moment(startDate).format("YYYY-MM-DD");
+      let momentObj = moment(startDate).format("YYYY-MM-DD");
+      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");      
       startDate = startDateString
-      console.log("cehcking start-->", startDate)
     }
     let endDate = this.state.endDate
+    let formattedEndDate;    
     if (!endDate) {
-      let date = new Date();
+      let date = new Date();    
+      formattedEndDate = moment(date).format("YYYY-MM-DD");
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
       this.setState({endDate: endDate})
+    }else{
+      const datePart = endDate.split("'")[0];
+      formattedEndDate = moment(datePart).format("YYYY-MM-DD");      
     }
-    let params: string;
+    let params: string;    
     if (store.getState().currentUser === "user") {
-      params = `?category_id=${categoryId}`
+      params = `${configJSON.getAnalytic}?category_id=${categoryId}`
     } else {
-      params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      // params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      params = `${configJSON.getAnalytic}?category_id=${categoryId}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
     }
-    category.addData(
+    
+    analytics.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getAnalytic}?query=${this.state.category_title}&id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
+      params
     );
 
-    category.addData(
+    analytics.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
 
-    category.addData(
+    analytics.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
     );
-    runEngine.sendMessage(category.id, category);
+    runEngine.sendMessage(analytics.id, analytics);
+  }
+
+  analyticsRes(list:any){
+    if(list.message !="No Data For This Category" && list.message != "No Order Present for this category"){
+      this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
+       let amount = list.tota_amount?.toFixed(2);        
+       let numberOfSpend = list.no_of_spend?.toFixed(2)
+       let numberOfSpendCount = list.no_of_spend_count?.toFixed(2)
+       this.setState({ usedCuts: list.used_cuts });
+       this.setState({ remianingCuts: list.remaining_cuts });
+       this.setState({ totalCuts: list.total_cuts });
+       this.setState({ totaAmount: amount });
+       this.setState({ numberOfSpendCount: numberOfSpendCount });
+       this.setState({ numberOfSpend: numberOfSpend });
+       this.setState({ showLoader: false });
+       }else{
+         const today = moment(new Date(),  "YYYY-MM-DD").toString();
+         this.setState({ showLoader: false,usedCuts:0,remianingCuts:0,totalCuts:0,totaAmount:0 ,numberOfSpendCount:0,numberOfSpend:0});
+       this.setState({
+         chartObject:{
+           labels: this.formattedDateRange(today.toString()),
+           datasets: [
+             { data: [ 0, 0, 0, 0, 0, 0, 0 ]
+             }
+           ]
+         }
+       })
+       }
   }
 
   calendarToggle (value: boolean){
@@ -738,7 +766,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   handleDropdownChange = (item: any) => {
     this.setState({ category_id: item?.id });
     this.setState({ category_title: item?.attributes?.name });
-    this.getAnalyticData(this.state.category_id);
+    this.getAnalyticData(item.id);
     this.getDataOfCat(item);
   };
 
@@ -750,14 +778,16 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     
     let maxSell = 0;
     let maxSellIdx = 0;
-    chartData.forEach(item => {
+    chartData?.forEach(item => {
         const date = new Date(item.date)
-        const day = date.getDay();
-        data[day] = item.sell;
-        
+        const chartDataMMDD = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+        const dataIdx = labels.indexOf(chartDataMMDD);
+        if (dataIdx !== -1) {
+          data[dataIdx] = item.sell;
+        }
         if((parseFloat(item.sell)) > maxSell) {
             maxSell = parseFloat(item.sell);
-            maxSellIdx = day;
+            maxSellIdx = dataIdx;
         }
     })
     
@@ -770,8 +800,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         }
     ]
     
-    console.log("checking lables", labels);
-    console.log("checking, dataset", datasets);
     return {
         labels,
         datasets

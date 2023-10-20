@@ -3,4 +3,4 @@ Object.defineProperty(exports, "__esModule", {
   });
   exports.validationApiContentType = "application/json";
   exports.getMethod = "GET";
-  exports.recomentationUrl='bx_block_catalogue/catalogues/index_share';
+  exports.recomentationUrl='bx_block_catalogue/catalogues/recommendation_products';
