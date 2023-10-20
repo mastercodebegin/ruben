@@ -24,15 +24,23 @@ import {
 import { BLACK } from "../colors";
 import LandingPageController, { Props } from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
+import { scaledSize } from "../../../../framework/src/Utilities";
 export default class MyCreditDetailsModal extends LandingPageController {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
   }
 
-  handleAddressOptionChange = () => {
-    this.setState({ setAddressOption: !this.state.setAddressOption });
+  handleAddressOptionChange = (isUser:any,id:any) => {
+   if(isUser)
+   {
+    this.setState({userAddressID:id})
+   }
   };
+  async componentDidMount() {
+      console.log('props===================',this.props.remainingCuts);
+      
+  }
 
   render() {
     return (
@@ -55,7 +63,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 </View>
                 <View style={styles.invDesContainer}>
                   <Text style={styles.invDesText}>Available cuts</Text>
-                  <Text style={styles.invTotalText}>10</Text>
+                  <Text style={styles.invTotalText}>{this.props.remainingCuts}</Text>
                 </View>
               </View>
               <Text style={styles.pickHeading}>
@@ -102,31 +110,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     Eg: {this.state.selectedAnimalCuts}
                   </Text>
                   <View style={styles.cutsDropDown}>
-                    <TouchableOpacity
-                      style={styles.pmButton}
-                      onPress={() => {
-                        this.handleIncreaseAnimalCuts();
-                      }}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        style={styles.buttonImg}
-                        source={plus}
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.cutsNumberTitle}>
-                      {this.state.animalCutsNumber}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.pmButton}
-                      onPress={this.handleDecreaseAnimalCuts}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        style={styles.buttonImg}
-                        source={minus}
-                      />
-                    </TouchableOpacity>
+
                     <TouchableOpacity
                       style={styles.animalCutsDropDown}
                       onPress={() => {
@@ -147,7 +131,10 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       />
                     </TouchableOpacity>
                   </View>
+
                 </View>
+             
+                
                 {this.state.handleAnimalCutsDropDown && (
                   <View style={styles.optionDropContainer}>
                     <FlatList
@@ -160,22 +147,61 @@ export default class MyCreditDetailsModal extends LandingPageController {
                         borderRadius: 10,
                         marginBottom: 15
                       }}
-                      renderItem={({ item }: any) => {
+                      renderItem={({ item,index }: any) => {
                         return (
                           <TouchableOpacity
                             style={styles.selectAnimalCuts}
                             onPress={() => {
-                              this.handleAnimalCutsOption(item.title);
+                              this.handleAnimalCutsOption(item.title,this.props.remainingCuts,this.state.animalCutsCount);
                             }}
                           >
                             <Text style={styles.chooseTitle}>{item.title}</Text>
                           </TouchableOpacity>
                         );
                       }}
-                      keyExtractor={(item: any) => item.id.toString()}
+                      keyExtractor={(item: any,index:any) => index+''+1}
                     />
                   </View>
                 )}
+                {/* **********************************************} */}
+                   <FlatList
+                data={this.state.animalPortions}
+                renderItem={({item,index})=><View style={{ flex: 1, flexDirection: 'row', backgroundColor: LIGHT_GREY, marginTop: scaledSize(6), padding: scaledSize(6), borderRadius: scaledSize(8) }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={[styles.chooseTitle,]}>
+                    {item?.name}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <TouchableOpacity
+                    style={styles.pmButton}
+                    onPress={() => {
+                      this.handleIncreaseAnimalCuts(item,index,this.props.remainingCuts,this.state.animalCutsCount);
+                    }}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      style={styles.buttonImg}
+                      source={plus}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.cutsNumberTitle}>
+                    {item.quantity}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.pmButton}
+                    onPress={()=>this.handleDecreaseAnimalCuts(item,index,this.props.remainingCuts)}
+                  >
+                    <Image
+                      resizeMode="contain"
+                      style={styles.buttonImg}
+                      source={minus}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+              </View>}
+                />
                 <View style={styles.optionContainer}>
                   <Text style={styles.optionLabel}>
                     Enter Nearest Location to Pick Up
@@ -186,30 +212,62 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       value={this.state.nearestLocation}
                       testID="name_test_id"
                       onchangeText={location => this.setState({ nearestLocation: location })}
-                      placeholder="Eg: " label={""}                    />
+                      placeholder="Eg: " label={""} />
                   </View>
                 </View>
                 <View style={styles.addressContinerStyle}>
-                  <View style={styles.addressContiner}>
-                    <View
-                      style={[styles.clickOptionContainer, { paddingRight: 6 }]}
+                   {this.state.setDeliverOption == 'Deliver' ?<FlatList
+                  data={this.state.userAddress}
+                  renderItem={({item})=><View style={styles.addressContiner}>
+                  <View
+                    style={[styles.clickOptionContainer, { paddingRight: 6 }]}
+                  >
+                    <TouchableOpacity
+                      style={styles.checkBoxStyle}
+                      onPress={() => {
+                        this.handleAddressOptionChange(true,item.id);
+                      }}
                     >
-                      <TouchableOpacity
-                        style={styles.checkBoxStyle}
-                        onPress={() => {
-                          this.handleAddressOptionChange();
-                        }}
-                      >
-                        {this.state.setAddressOption ? (
-                          <View style={styles.checked}></View>
-                        ) : (
-                          <View style={styles.unChecked}></View>
-                        )}
-                      </TouchableOpacity>
-                      <Text style={styles.chooseTitle}>address</Text>
-                    </View>
+                      {this.state.userAddressID==item.id ? (
+                        <View style={styles.checked}></View>
+                      ) : (
+                        <View style={styles.unChecked}></View>
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
                   </View>
-                  <View style={styles.slotsContainer}>
+                </View>}
+                  />:null}
+                  
+                
+                  {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
+
+
+                  <FlatList
+                  data={this.state.userAddress}
+                  renderItem={({item})=><View style={styles.addressContiner}>
+                  <View
+                    style={[styles.clickOptionContainer, { paddingRight: 6 }]}
+                  >
+                    <TouchableOpacity
+                      style={styles.checkBoxStyle}
+                      onPress={() => {
+                        this.handleAddressOptionChange(false,item.id);
+                      }}
+                    >
+                      {this.state.merchantAddressID==item.id ? (
+                        <View style={styles.checked}></View>
+                      ) : (
+                        <View style={styles.unChecked}></View>
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
+                  </View>
+                </View>}
+                  />
+
+
+
                     <Text style={styles.slotsTitle}>Available Slots</Text>
                     <FlatList
                       data={this.state.animalAvailableSlots}
@@ -218,43 +276,43 @@ export default class MyCreditDetailsModal extends LandingPageController {
                         return (
                           <View
                             style={
-                              this.state.selectedAnimalSlot === item.time
+                              this.state.selectedAnimalSlot === item
                                 ? [
-                                    styles.selectSlots,
-                                    { backgroundColor: PRIMARY }
-                                  ]
+                                  styles.selectSlots,
+                                  { backgroundColor: PRIMARY }
+                                ]
                                 : [
-                                    styles.selectSlots,
-                                    { backgroundColor: WHITE }
-                                  ]
+                                  styles.selectSlots,
+                                  { backgroundColor: WHITE }
+                                ]
                             }
                           >
                             <TouchableOpacity
                               onPress={() => {
-                                this.handleAnimalSelectSlots(item.time);
+                                this.handleAnimalSelectSlots(item);
                               }}
                             >
                               <Text
                                 style={
-                                  this.state.selectedAnimalSlot === item.time
+                                  this.state.selectedAnimalSlot === item
                                     ? [styles.slotsTime, { color: WHITE }]
                                     : [styles.slotsTime, { color: MID_PEACH }]
                                 }
                               >
-                                {item.time}
+                                {item}
                               </Text>
                             </TouchableOpacity>
                           </View>
                         );
                       }}
-                      keyExtractor={(item: any) => item.id.toString()}
+                      keyExtractor={(item: any) => item}
                     />
-                  </View>
+                  </View> : null}
                 </View>
                 <View style={styles.buttomButtonRow}>
                   <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={() => {}}
+                    onPress={() => { }}
                   >
                     <Text style={styles.submitButtonText}>
                       Submit Pickup Request
@@ -262,7 +320,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
-                    onPress={this.props?.setCreditDetailModal}
+                    onPress={() => this.props?.setCreditDetailModal()}
                   >
                     <Text style={styles.cancelButtonText}>Cancel</Text>
                   </TouchableOpacity>
@@ -356,7 +414,8 @@ const styles = StyleSheet.create({
   chooseTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: PRIMARY
+    color: PRIMARY,
+    marginLeft:scaledSize(4)
   },
   inputContainerStyle: {
     backgroundColor: LIGHT_GREY,

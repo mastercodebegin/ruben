@@ -326,11 +326,14 @@ export default class Myprofile extends LandingPageController {
             {this.state.selectedTab == "remaining" ? (
               <View style={styles.remainingInvContainer}>
 
-                <Dropdown searchCategory={(categoryName: string) => {
+                <Dropdown 
+                searchCategory={(categoryName: string) => {
                   const data = this.state.categories.filter((name) => name?.attributes?.name == categoryName)
-                  this.setState({ selectedCategoryID: data[0].id })
+                  this.setState({ selectedCategoryID: data[0].id,selectedCategory:categoryName })
+                  this.getRemainingProduct(data[0].id)
                 }}
-                  isCategory selectedDate="" data={this.state.categories} label="Category" />
+                  isCategory selectedDate="" data={this.state.categories} selectedStatus={this.state.selectedCategory}
+                  />
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}
                 >
@@ -345,14 +348,24 @@ export default class Myprofile extends LandingPageController {
                   </View>
                   <View style={styles.invDesContainer}>
                     <Text style={styles.invDesText}>Total Available cuts</Text>
-                    <Text style={styles.invTotalText}>10</Text>
+                    <Text style={styles.invTotalText}>{this.state.remainingproduct[0]?.remaining_cuts}</Text>
                   </View>
                 </View>
                 <TouchableOpacity
                   style={styles.CreditsButton}
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
-                    this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID});
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>',this.state.remainingproduct[0])
+                    
+                    if(this.state.remainingproduct[0]?.total_cuts!=undefined)
+                    {
+                      console.log('remaining-----',this.state.remainingproduct);
+                      console.log('name-----',this.state.selectedCategory);
+                      
+                      this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
+
+                    }
+                    else{alert("You Do'nt have order")}
                   }}
                 >
                   <Text style={styles.viewDetail}>My Credits</Text>

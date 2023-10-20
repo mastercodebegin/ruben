@@ -18,12 +18,20 @@ import {
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class MyCreditScreen extends LandingPageController {
   constructor(props: Props) {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)();
+    this.getRemainingProduct.bind(this)(this.props?.route?.params?.category);
+    this.getSlotsAndMerchantAddressHandler()
+    this.getUserAddress()
+    console.log('param------------',this.props?.route?.params);
+    
+   
+    
+
    // this.getProductList(false)
   }
   render() {
@@ -84,6 +92,7 @@ export default class MyCreditScreen extends LandingPageController {
           <Modal
             setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
             visible={this.state.showMyCreditModal}
+            remainingCuts={this.props?.route?.params?.remainingCuts}
             navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {

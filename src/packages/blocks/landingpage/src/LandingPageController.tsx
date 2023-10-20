@@ -34,6 +34,7 @@ export interface Props {
   updateCartDetails: (data: any) => void;
   cartDetails: Array<any>;
   setCreditDetailModal: () => void;
+  remainingCuts:any
   // Customizable Area End
 }
 
@@ -68,7 +69,7 @@ interface S {
   refresh: boolean;
   imageBlogList: Array<object>;
   videoLibrary: Array<object>;
-  aboutUsData:any
+  aboutUsData: any
   visibleCard: number;
   categoryItem: string;
   subCategoryItem: string;
@@ -76,7 +77,7 @@ interface S {
   subCategoryList: Array<object>;
   productList: Array<any>;
   recommentproduct: Array<any>;
-  remainingproduct: any;
+  remainingproduct: Array<any>;
   filterByCategoryApiId: any;
   aboutus: any;
   orderList: Array<any>;
@@ -102,7 +103,14 @@ interface S {
   nearestLocation: string;
   setAddressOption: boolean;
   fetchFavorites: boolean;
-  selectedCategoryID:any
+  selectedCategoryID: any
+  animalPortions: Array<any>;
+  merchantAddress: string;
+  userAddress: Array<any>
+  userAddressID:any
+  merchantAddressID:any
+  selectedCategory:any
+  animalCutsCount: number;
   // Customizable Area End
 }
 
@@ -129,7 +137,7 @@ export default class LandingPageController extends BlockComponent<
     this.state = {
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
-      aboutUsData:{},
+      aboutUsData: {},
       profileImage: '',
       name: '',
       email: '',
@@ -171,7 +179,7 @@ export default class LandingPageController extends BlockComponent<
       subCategoryItem: '',
       productList: [],
       recommentproduct: [],
-      remainingproduct:[],
+      remainingproduct: [],
       orderList: [],
       categoryList: [
         {
@@ -213,7 +221,7 @@ export default class LandingPageController extends BlockComponent<
       cartList: [],
       setProductPage: 1,
       showFavoriteList: [],
-      viewAllProductList:[],
+      viewAllProductList: [],
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
@@ -255,49 +263,41 @@ export default class LandingPageController extends BlockComponent<
         }
       ],
       selectedAnimalCuts: "Head",
-      animalAvailableSlots: [
-        {
-          time: "06:00 AM",
-          id: 0
-        },
-        {
-          time: "07:00 AM",
-          id: 1
-        },
-        {
-          time: "08:00 AM",
-          id: 2
-        },
-        {
-          time: "09:00 AM",
-          id: 3
-        },
-        {
-          time: "10:00 AM",
-          id: 4
-        },
-        {
-          time: "11:00 AM",
-          id: 5
-        },
-        {
-          time: "12:00 AM",
-          id: 6
-        },
-        {
-          time: "01:00 PM",
-          id: 7
-        },
-        {
-          time: "02:00 PM",
-          id: 8
-        }
-      ],
+      animalAvailableSlots: [],
       selectedAnimalSlot: "10:00 AM",
       nearestLocation: "",
       setAddressOption: false,
-      fetchFavorites:false,
-      selectedCategoryID:'',
+      fetchFavorites: false,
+      selectedCategoryID: '',
+      merchantAddress: '',
+      animalPortions: [],
+      userAddress: [
+        {
+          "id": "1",
+          "type": "addresses",
+          "attributes": {
+            "id": 303,
+            "name": "Reeva singh",
+            "flat_no": "3",
+            "address": "navi Peth pune",
+          }
+        },
+        {
+          "id": "2",
+          "type": "addresses",
+          "attributes": {
+            "id": 303,
+            "name": "Reeva singh",
+            "flat_no": "3",
+            "address": "navi Peth pune",
+          }
+        }
+      ],
+      userAddressID:0,
+      merchantAddressID:0,
+      selectedCategory:'Select Category',
+      animalCutsCount:0
+
 
     };
     // Customizable Area End
@@ -309,11 +309,11 @@ export default class LandingPageController extends BlockComponent<
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null && this.getprofileDetailsId === message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-   ) {
+    ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
+
       if (profileDetails?.data?.attributes) {
         const {
           about_me,
@@ -350,7 +350,7 @@ export default class LandingPageController extends BlockComponent<
             id
           }
         })
-      } 
+      }
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -362,7 +362,8 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.searchProductsCallback(error, userDetails);
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.updateProfileDetailsId != null &&
       this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -375,6 +376,20 @@ export default class LandingPageController extends BlockComponent<
       );
       this.updateProfileCallback(error, userDetails)
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSlotsAndMerchantAddressCallId != null &&
+      this.getSlotsAndMerchantAddressCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const slotsAndMerchantRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      // this.props.setState({ show_loader: false })
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+    }
+
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getCategoriesId != null &&
       this.getCategoriesId ===
@@ -408,9 +423,9 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-     
-        this.remainingProductCallback(message)
-      
+
+      this.remainingProductCallback(message)
+
 
     }
     else {
@@ -431,16 +446,16 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
- 
+
 
   filterByCategoryCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterProductByCategoryId != null &&
       this.filterProductByCategoryId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -448,19 +463,19 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        this.setState({productList:filterByCategoryResponse?.data})
+        this.setState({ productList: filterByCategoryResponse?.data })
       }
     }
   }
 
   recommendProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.recommendProductApiCallId != null &&
       this.recommendProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -468,20 +483,20 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        
-        this.setState({productList:filterByCategoryResponse?.data,loader:false})
+
+        this.setState({ productList: filterByCategoryResponse?.data, loader: false })
       }
     }
   }
 
   remainingProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.remainingProductApiCallId != null &&
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const remainingProductResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -489,12 +504,12 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
-       
-        const arr =[]
-        arr.push(remainingProductResponse)
-   
 
-        this.setState({remainingproduct:arr,loader:false})
+        const arr = []
+        arr.push(remainingProductResponse)
+
+
+        this.setState({ remainingproduct: arr, loader: false })
       }
     }
   }
@@ -528,7 +543,44 @@ export default class LandingPageController extends BlockComponent<
       );
       this.videoLibraryCallback(videoLibrary, error)
 
-    } 
+    }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.userAddressApiCallId != null &&
+      this.userAddressApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const userAddress = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('callid: ======================================' + userAddress);
+
+      this.userAddressCallback(userAddress, error)
+
+    }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.submitPickupRequestCallId != null &&
+      this.submitPickupRequestCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const submitRequest = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('submitRequest: ======================================' + submitRequest);
+
+      this.submitRequestCallback (submitRequest, error)
+
+    }
+
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getViewAllProductId != null &&
@@ -538,7 +590,7 @@ export default class LandingPageController extends BlockComponent<
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
+
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -556,14 +608,13 @@ export default class LandingPageController extends BlockComponent<
       this.setState({ productList: productListData.data, show_loader: false })
     }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.filterByCategoryApiId != null &&
-    this.filterByCategoryApiId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
-    { 
+      this.filterByCategoryApiId != null &&
+      this.filterByCategoryApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const filteredList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    this.filterCategoryCallBack(filteredList)
+      this.filterCategoryCallBack(filteredList)
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -583,18 +634,18 @@ export default class LandingPageController extends BlockComponent<
       this.cartCallBack(message)
     }
   }
-filterCategoryCallBack(filteredList:any){
-  if (filteredList?.message === 'No Inventory Present') {
-    showToast('No order present');
+  filterCategoryCallBack(filteredList: any) {
+    if (filteredList?.message === 'No Inventory Present') {
+      showToast('No order present');
+    }
+
+    if (filteredList?.inventory?.data?.length) {
+      const list = filteredList.inventory.data.map((item: any) => ({ data: item }))
+      this.setState({ showLoader: false, inventoryList: list });
+      return
+    }
+    this.setState({ showLoader: false });
   }
-  
-  if (filteredList?.inventory?.data?.length) {
-    const list = filteredList.inventory.data.map((item:any)=>({data:item}))
-    this.setState({ showLoader: false, inventoryList:list });
-    return
-  }
-  this.setState({ showLoader: false });
-}
   cartCallBack(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -615,12 +666,12 @@ filterCategoryCallBack(filteredList:any){
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
       } else {
-        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload:[] });
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
       }
     }
   }
 
-  addToCartCallBack(message:Message) {
+  addToCartCallBack(message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToCartId != null &&
@@ -648,7 +699,7 @@ filterCategoryCallBack(filteredList:any){
         return;
       }
       showToast("Product added to favorites");
-      if (this.state.fetchFavorites) {        
+      if (this.state.fetchFavorites) {
         this.getFavorites();
       }
     }
@@ -670,10 +721,10 @@ filterCategoryCallBack(filteredList:any){
     if (error) {
       this.setState({ show_loader: false })
     } else {
-      console.log('data==================================',aboutus?.data?.length);
-      
+      console.log('data==================================', aboutus?.data?.length);
+
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
-this.setState({aboutUsData:aboutus})
+      this.setState({ aboutUsData: aboutus })
     }
   }
   videoLibraryCallback(videoLibrary: any, error: any) {
@@ -681,6 +732,25 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('Something went wrong, please try again later')
     } else {
       this.setState({ videoLibrary: videoLibrary?.data, show_loader: false })
+    }
+  }
+  userAddressCallback(userAddress: any, error: any) {
+    if (error) {
+      this.showAlert('Something went wrong, please try again later')
+    } else {
+      console.log('User Address=========================', userAddress)
+      this.setState({userAddress:userAddress})
+
+    }
+  }
+
+  submitRequestCallback(userAddress: any, error: any) {
+    if (error) {
+      this.showAlert('Something went wrong, please try again later')
+    } else {
+      console.log('User Address=========================', userAddress)
+      this.setState({userAddress:userAddress})
+
     }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
@@ -715,6 +785,17 @@ this.setState({aboutUsData:aboutus})
       }
     }
   }
+
+  slotsAndMerchantRes(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    }
+    else {
+      this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
+
+    }
+  }
+
   getprofileDetailsId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
@@ -726,10 +807,12 @@ this.setState({aboutUsData:aboutus})
   addToFavId: string = ''
   getCartId: string = '';
   addToCartId: string = '';
+  submitPickupRequestCallId: string = '';
   filterProductByCategoryId: string = '';
   filterByCategoryApiId = '';
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
+  userAddressApiCallId: string = '';
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -748,6 +831,7 @@ this.setState({aboutUsData:aboutus})
   }
   getFavoritesId: string = '';
   getSearchProductId: string = ''
+  getSlotsAndMerchantAddressCallId: string = ''
   favListProps = {
     getFavoritesList: this.getFavorites
   }
@@ -886,6 +970,38 @@ this.setState({aboutUsData:aboutus})
   showAlert(message: string) {
     Alert.alert('Alert', message)
   }
+  async getUserAddress() {
+    console.log('getUserAddress============================================================')
+
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.userAddressApiCallId = subcategory.messageId;
+
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_order_management/addresses'
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async getblogPosts() {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1075,7 +1191,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getRecommendProduct(v:any) {
+  async getRecommendProduct(v: any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1104,7 +1220,7 @@ this.setState({aboutUsData:aboutus})
 
   async filterByCategoryApi(categoryName: string) {
 
-    this.setState({showLoader:true,category:categoryName})
+    this.setState({ showLoader: true, category: categoryName })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1118,7 +1234,7 @@ this.setState({aboutUsData:aboutus})
     filterCategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
-    
+
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1131,11 +1247,13 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(filterCategory.id, filterCategory);
   }
 
-  
-  async getRemainingProduct() {
+
+  async getRemainingProduct(id:any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
+    console.log('id==================================',id)
+    
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
@@ -1146,12 +1264,14 @@ this.setState({aboutUsData:aboutus})
     this.remainingProductApiCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
+      `bx_block_catalogue/catalogues/my_credits?category_id=${id}&start_date=2023-08-04&end_date=2023-08-11`
+      // `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
+
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
@@ -1281,7 +1401,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getViewAllProduct(id:number){
+  async getViewAllProduct(id: number) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1389,6 +1509,54 @@ this.setState({aboutUsData:aboutus})
       getName(MessageEnum.RestAPIRequestMessage)
     );
 
+    this.submitPickupRequestCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.addToCart
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(httpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+  }
+  async submitPickupRequest(id: number) {
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetail: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': userDetail?.meta?.token
+    };
+
+    const httpBody = {
+      "order_items":{
+          "catalogue_id":13, 
+          "quantity":2,
+          "address": "test Office address",
+          "taxable":"true",
+          "slot": "4:00PM",
+          "taxable_value":0.1233,
+          "other_charges":0.124
+      }
+  }
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
     this.addToCartId = requestMessage.messageId;
     requestMessage.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -1413,6 +1581,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
+
   shareProducts(id: number) {
     Clipboard.setString(
       `${deepLinkingURL}?/product=${1}`
@@ -1553,7 +1722,7 @@ this.setState({aboutUsData:aboutus})
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
@@ -1582,7 +1751,7 @@ this.setState({aboutUsData:aboutus})
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
   }
@@ -1605,29 +1774,78 @@ this.setState({aboutUsData:aboutus})
   }
   handleDeliverOptionChange = (item: any) => {
     console.log("selected deliver option", item);
+    if(item=='Pickup'){
+      this.getSlotsAndMerchantAddressHandler()
+    }
     this.setState({ setDeliverOption: item });
   };
 
-  handleIncreaseAnimalCuts = () => {
-    console.log(
-      "selected handleDecreaseAnimalCuts",
-      this.state.animalCutsNumber
-    );
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
+  handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => {
+    if(avilable_cuts<remainingCuts)
+    {
+    console.log('in if remainingCuts',remainingCuts);
+    console.log('in if avilable_cuts',avilable_cuts);
+    
+    const selectedObj = this.state.animalPortions[index]
+    const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 }
+    const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+    filteredArray.splice(index, 0, obj)
+    this.setState({ animalPortions: filteredArray });
+    this.setState({animalCutsCount:this.state.animalCutsCount+1})
+  }
+  else{
+    console.log('in else remainingCuts',remainingCuts);
+    console.log('in else avilable_cuts',avilable_cuts);
+
+    alert('you exceeded the maximum')
+  }
+    
   };
 
 
-  handleDecreaseAnimalCuts = () => {
-    console.log("selected handleDecreaseAnimalCuts");
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
+  handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
+    if (item.quantity > 1) {
+      const selectedObj = this.state.animalPortions[index]
+      const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity - 1 }
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      filteredArray.splice(index, 0, obj)
+      this.setState({ animalPortions: filteredArray });
+     
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+      console.log('================================',this.state.animalCutsCount);
+      
+    
+    }
+    else {
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      this.setState({ animalPortions: filteredArray });
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+
+
+    }
   };
-  handleAnimalCutsOption = (item: any) => {
+  handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
+    if(used_cuts<remainingCuts)
+    {
+
+    
     console.log("option", item);
+    const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
-      selectedAnimalCuts: item
+      selectedAnimalCuts: item,
+      handleAnimalCutsDropDown: false,
+      animalPortions: [...this.state.animalPortions, obj]
     });
+    this.setState({animalCutsCount:this.state.animalCutsCount+1})
+  }
+  else{
+    alert('you have exceed the limit');
+  }
+
   };
   handleAnimalSelectSlots = (item: any) => {
+    console.log('selected slots', item);
+
     this.setState({ selectedAnimalSlot: item });
   };
   showHideCreditDetailModal() {
@@ -1659,13 +1877,41 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
   }
 
+  getSlotsAndMerchantAddressHandler = async () => {
+    console.log('merchantAddressHandler=================')
+    
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const SearchProductRequest = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getSlotsAndMerchantAddressCallId = SearchProductRequest.messageId;
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `/bx_block_shippingchargecalculator/pickups`
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
+  }
+
   searchProductsCallback = (error: any, response: any) => {
     if (error) {
       this.showAlert('something went wrong ')
     } else if (response) {
-      this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
+      this.setState({ showSearchResults: true, searchResults: response?.product, show_loader: false })
     }
   }
-  
+
   // Customizable Area End
 }
