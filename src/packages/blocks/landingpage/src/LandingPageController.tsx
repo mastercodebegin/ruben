@@ -34,6 +34,7 @@ export interface Props {
   updateCartDetails: (data: any) => void;
   cartDetails: Array<any>;
   setCreditDetailModal: () => void;
+  submitCreditDetailModal: () => void;
   remainingCuts:any
   // Customizable Area End
 }
@@ -550,7 +551,8 @@ export default class LandingPageController extends BlockComponent<
       this.userAddressApiCallId != null &&
       this.userAddressApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
+    ) 
+    {
       const userAddress = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -592,12 +594,11 @@ export default class LandingPageController extends BlockComponent<
       );
 
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getProductId != null &&
-      this.getProductId ===
+    } 
+    else if ( this.getProductId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
+    ) 
+    {
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -607,15 +608,14 @@ export default class LandingPageController extends BlockComponent<
 
       this.setState({ productList: productListData.data, show_loader: false })
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.filterByCategoryApiId != null &&
-      this.filterByCategoryApiId ===
+    else if ( this.filterByCategoryApiId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const filteredList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       this.filterCategoryCallBack(filteredList)
     }
+
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
@@ -645,6 +645,10 @@ export default class LandingPageController extends BlockComponent<
       return
     }
     this.setState({ showLoader: false });
+  }
+
+  subAsyncRecieve(){
+
   }
   cartCallBack(message: any) {
     if (
@@ -1487,6 +1491,7 @@ export default class LandingPageController extends BlockComponent<
   }
 
   async addToCart(id: number) {
+   
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1533,7 +1538,9 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-  async submitPickupRequest(id: number) {
+  async submitPickupRequestHandler() {
+    alert('submit')
+    return false
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {

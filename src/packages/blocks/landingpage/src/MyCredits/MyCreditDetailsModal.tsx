@@ -312,7 +312,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 <View style={styles.buttomButtonRow}>
                   <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={() => { }}
+                    onPress={() => this.props?.submitCreditDetailModal()}
                   >
                     <Text style={styles.submitButtonText}>
                       Submit Pickup Request

@@ -18,7 +18,6 @@ import {
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class MyCreditScreen extends LandingPageController {
   constructor(props: Props) {
     super(props);
@@ -91,6 +90,7 @@ export default class MyCreditScreen extends LandingPageController {
           />
           <Modal
             setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
+            submitCreditDetailModal={this.submitPickupRequestHandler}
             visible={this.state.showMyCreditModal}
             remainingCuts={this.props?.route?.params?.remainingCuts}
             navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
