@@ -239,9 +239,9 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <Text style={styles.optionLabel}>
                     Enter Nearest Location to Pick Up
                   </Text>
-                  <View style={styles.inputContainerStyle}>
+                  <View style={[styles.inputContainerStyle]}>
                     <TextInput
-                      textInputStyle={styles.locationInputStyle}
+                      textInputStyle={[styles.locationInputStyle,{paddingVertical:0,bottom:10}]}
                       value={this.state.nearestLocation}
                       testID="name_test_id"
                       onchangeText={location => this.setState({ nearestLocation: location })}
@@ -249,9 +249,10 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </View>
                 </View>
                 <View style={styles.addressContinerStyle}>
+                  <Text style={{alignSelf:'center',fontSize:scaledSize(16),fontWeight:'bold'}}>CHOOSE FROM SAVED ADDRESS</Text>
                    {this.state.setDeliverOption == 'Deliver' ?<FlatList
                   data={this.state.userAddress}
-                  renderItem={({item})=><View style={styles.addressContiner}>
+                  renderItem={({item})=><View style={[styles.addressContiner]}>
                   <View
                     style={[styles.clickOptionContainer, { paddingRight: 6 }]}
                   >
@@ -524,7 +525,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   addressContinerStyle: {
-    backgroundColor: "#F9F9F9",
+    backgroundColor: LIGHT_GREY,
     borderRadius: 10
   },
   addressContiner: {

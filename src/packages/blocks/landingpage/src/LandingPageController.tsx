@@ -1277,7 +1277,7 @@ export default class LandingPageController extends BlockComponent<
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_catalogue/catalogues/my_credits?category_id=${id}&start_date=2023-08-04&end_date=2023-08-11`
-      // `bx_block_catalogue/catalogues/my_credits?category_id=${this.props?.route?.params?.category}&start_date=2023-08-04&end_date=2023-08-11`
+      //`bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
