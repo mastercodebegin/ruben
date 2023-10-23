@@ -41,6 +41,39 @@ export default class MyCreditDetailsModal extends LandingPageController {
       console.log('props===================',this.props.remainingCuts);
       
   }
+  slotsRender(item:any){
+    return (
+      <View
+        style={
+          this.state.selectedAnimalSlot === item
+            ? [
+              styles.selectSlots,
+              { backgroundColor: PRIMARY }
+            ]
+            : [
+              styles.selectSlots,
+              { backgroundColor: WHITE }
+            ]
+        }
+      >
+        <TouchableOpacity
+          onPress={() => {
+            this.handleAnimalSelectSlots(item);
+          }}
+        >
+          <Text
+            style={
+              this.state.selectedAnimalSlot === item
+                ? [styles.slotsTime, { color: WHITE }]
+                : [styles.slotsTime, { color: MID_PEACH }]
+            }
+          >
+            {item}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   render() {
     return (
@@ -202,7 +235,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
               </View>}
                 />
-                <View style={styles.optionContainer}>
+                <View style={[styles.optionContainer,{padding:0}]}>
                   <Text style={styles.optionLabel}>
                     Enter Nearest Location to Pick Up
                   </Text>
@@ -243,28 +276,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
 
 
-                  <FlatList
-                  data={this.state.userAddress}
-                  renderItem={({item})=><View style={styles.addressContiner}>
-                  <View
-                    style={[styles.clickOptionContainer, { paddingRight: 6 }]}
-                  >
-                    <TouchableOpacity
-                      style={styles.checkBoxStyle}
-                      onPress={() => {
-                        this.handleAddressOptionChange(false,item.id);
-                      }}
-                    >
-                      {this.state.merchantAddressID==item.id ? (
-                        <View style={styles.checked}></View>
-                      ) : (
-                        <View style={styles.unChecked}></View>
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
-                  </View>
-                </View>}
-                  />
+                 
 
 
 
@@ -272,39 +284,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     <FlatList
                       data={this.state.animalAvailableSlots}
                       numColumns={3}
-                      renderItem={({ item }: any) => {
-                        return (
-                          <View
-                            style={
-                              this.state.selectedAnimalSlot === item
-                                ? [
-                                  styles.selectSlots,
-                                  { backgroundColor: PRIMARY }
-                                ]
-                                : [
-                                  styles.selectSlots,
-                                  { backgroundColor: WHITE }
-                                ]
-                            }
-                          >
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.handleAnimalSelectSlots(item);
-                              }}
-                            >
-                              <Text
-                                style={
-                                  this.state.selectedAnimalSlot === item
-                                    ? [styles.slotsTime, { color: WHITE }]
-                                    : [styles.slotsTime, { color: MID_PEACH }]
-                                }
-                              >
-                                {item}
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        );
-                      }}
+                      renderItem={({ item }: any) => this.slotsRender(item)}
                       keyExtractor={(item: any) => item}
                     />
                   </View> : null}

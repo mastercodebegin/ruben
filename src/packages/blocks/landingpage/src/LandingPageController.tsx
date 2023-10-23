@@ -583,39 +583,17 @@ export default class LandingPageController extends BlockComponent<
 
     }
 
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getViewAllProductId != null &&
-      this.getViewAllProductId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const productListData = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
 
-      this.setState({ viewAllProductList: productListData.data, show_loader: false })
-    } 
-    else if ( this.getProductId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) 
+    else if(message)
     {
-      const productListData = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-
-      this.setState({ productList: productListData.data, show_loader: false })
-    }
-    else if ( this.filterByCategoryApiId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const filteredList = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      this.filterCategoryCallBack(filteredList)
+      this.subAsyncRecieve(message)
     }
 
+
+
+
+
+ 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
@@ -647,7 +625,39 @@ export default class LandingPageController extends BlockComponent<
     this.setState({ showLoader: false });
   }
 
-  subAsyncRecieve(){
+  subAsyncRecieve(message: Message){
+     if ( this.getProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) 
+    {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+
+      this.setState({ productList: productListData.data, show_loader: false })
+    }
+    else if ( this.filterByCategoryApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const filteredList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.filterCategoryCallBack(filteredList)
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getViewAllProductId != null &&
+      this.getViewAllProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      this.setState({ viewAllProductList: productListData.data, show_loader: false })
+    } 
 
   }
   cartCallBack(message: any) {
@@ -752,9 +762,7 @@ export default class LandingPageController extends BlockComponent<
     if (error) {
       this.showAlert('Something went wrong, please try again later')
     } else {
-      console.log('User Address=========================', userAddress)
-      this.setState({userAddress:userAddress})
-
+      console.log('submit response=========================', userAddress)
     }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
@@ -1539,8 +1547,7 @@ export default class LandingPageController extends BlockComponent<
 
   }
   async submitPickupRequestHandler() {
-    alert('submit')
-    return false
+   
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
