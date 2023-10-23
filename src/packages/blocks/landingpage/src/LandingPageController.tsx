@@ -237,7 +237,7 @@ export default class LandingPageController extends BlockComponent<
           id: 1
         },
         {
-          title: "Shipping ",
+          title: "Shipping",
           id: 3
         }
       ],
@@ -273,26 +273,7 @@ export default class LandingPageController extends BlockComponent<
       merchantAddress: '',
       animalPortions: [],
       userAddress: [
-        {
-          "id": "1",
-          "type": "addresses",
-          "attributes": {
-            "id": 303,
-            "name": "Reeva singh",
-            "flat_no": "3",
-            "address": "navi Peth pune",
-          }
-        },
-        {
-          "id": "2",
-          "type": "addresses",
-          "attributes": {
-            "id": 303,
-            "name": "Reeva singh",
-            "flat_no": "3",
-            "address": "navi Peth pune",
-          }
-        }
+      
       ],
       userAddressID:0,
       merchantAddressID:0,
@@ -753,7 +734,7 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('Something went wrong, please try again later')
     } else {
       console.log('User Address=========================', userAddress)
-      this.setState({userAddress:userAddress})
+      this.setState({userAddress:userAddress?.data})
 
     }
   }
@@ -1791,6 +1772,15 @@ export default class LandingPageController extends BlockComponent<
     if(item=='Pickup'){
       this.getSlotsAndMerchantAddressHandler()
     }
+    if(item=='Shipping'||item=='Deliver')
+    {
+      console.log('in if====');
+      
+      this.getUserAddress()
+    }
+
+    
+    
     this.setState({ setDeliverOption: item });
   };
 

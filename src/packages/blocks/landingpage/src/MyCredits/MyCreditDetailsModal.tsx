@@ -249,8 +249,9 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </View>
                 </View>
                 <View style={styles.addressContinerStyle}>
-                  <Text style={{alignSelf:'center',fontSize:scaledSize(16),fontWeight:'bold'}}>CHOOSE FROM SAVED ADDRESS</Text>
-                   {this.state.setDeliverOption == 'Deliver' ?<FlatList
+                {this.state.setDeliverOption == 'Shipping' || this.state.setDeliverOption == 'Deliver' ?  <>
+                  <Text style={{alignSelf:'center',fontSize:scaledSize(16),fontWeight:'bold',color:PRIMARY}}>CHOOSE FROM SAVED ADDRESS</Text>
+                   <FlatList
                   data={this.state.userAddress}
                   renderItem={({item})=><View style={[styles.addressContiner]}>
                   <View
@@ -268,18 +269,16 @@ export default class MyCreditDetailsModal extends LandingPageController {
                         <View style={styles.unChecked}></View>
                       )}
                     </TouchableOpacity>
+                    <View>
+                    <Text style={[styles.chooseTitle,{color:MID_PEACH}]}>{item.attributes.address_type}</Text>
                     <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
+                      </View>
                   </View>
                 </View>}
-                  />:null}
-                  
+                  />
+                  </>:null}
                 
                   {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
-
-
-                 
-
-
 
                     <Text style={styles.slotsTitle}>Available Slots</Text>
                     <FlatList
