@@ -527,7 +527,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.videoLibraryCallback(videoLibrary, error)
-
     } 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -538,7 +537,10 @@ export default class LandingPageController extends BlockComponent<
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log(error);
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
