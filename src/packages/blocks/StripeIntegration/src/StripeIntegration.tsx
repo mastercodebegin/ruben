@@ -9,7 +9,7 @@ import {
   StyleSheet,
   ImageSourcePropType,
   TouchableOpacity,
-  Alert,
+  Alert
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
@@ -25,7 +25,8 @@ import { DARK_RED } from "../../landingpage/src/colors";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import moment from "moment";
 import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
-
+import { getStorageData, setStorageData } from "../../../framework/src/Utilities";
+import { showToast } from "../../../components/src/ShowToast";
 //@ts-ignore
 import CustomCheckBox from "../../../components/src/CustomCheckBox";
 
@@ -44,15 +45,12 @@ interface ImageBoxType {
   onpress: () => void;
 }
 
-
-
 import StripeIntegrationController, {
   Props,
   configJSON,
 } from "./StripeIntegrationController";
 import PaymentCustomeAlert from "./PaymentCustomeAlert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 
 
 export default class StripeIntegration extends StripeIntegrationController {
@@ -72,6 +70,13 @@ export default class StripeIntegration extends StripeIntegrationController {
   }
 
   // Customizable Area Start
+  
+  async componentDidMount() {
+    const saveCard_Details = await getStorageData("saveCardDetails", true);
+    console.log("saveCard_Details",saveCard_Details);
+    this.setState({cardName:saveCard_Details?.cardName,cardNumber:saveCard_Details?.cardNumber,cvv:saveCard_Details?.cvv,expirtyDate:saveCard_Details?.expirtyDate})
+  }
+
   handleExpiryDate = (text: string) => {
     let year: string = moment().format("YY");
     let textTemp: any = text;
@@ -197,7 +202,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       setChecked={() => { }}
                     />
                   </TouchableOpacity>
-                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>
+                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>                
                 </View>
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
@@ -287,6 +292,17 @@ export default class StripeIntegration extends StripeIntegrationController {
                         />
                       </View>
                     </View>
+                    <View style={styles.addressContainer}>
+                    <TouchableOpacity style={styles.padding} onPress={()=>{this.onSaveCard()}}>
+                      <CheckBox
+                        backgroundColor={LIGHT_GREY}
+                        checked={this.state.saveCard}
+                        disabled
+                        setChecked={() => {}}
+                      />
+                    </TouchableOpacity>
+                    <Text style={[styles.question, styles.addressText]}>Save Card Details</Text>
+                  </View>
                   </View>
                 </View>
               </View>
@@ -314,8 +330,23 @@ export default class StripeIntegration extends StripeIntegrationController {
               />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
-                onPress={()=> {
+                onPress={async ()=> {
                   if (this.state.paymentMethodType === "Card") {
+                    if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
+                      return Alert.alert("Alert", "Please add card details");
+                    }
+                    if(this.state.saveCard){ 
+                      showToast("Card details will be automatically removed upon logout for security reasons")           
+                    await setStorageData(
+                      "saveCardDetails",
+                      JSON.stringify({
+                        cardNumber:this.state.cardNumber,
+                        cardName:this.state.cardName,
+                        cvv:this.state.cvv,
+                        expirtyDate:this.state.expirtyDate                  
+                      })
+                    );
+                    }
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Payment In Process.." });
                     this.setState({ showPaymentAlert: true })
@@ -450,7 +481,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   myDetail: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 20,
     borderRadius: 20,
     paddingBottom: 20,
@@ -484,13 +515,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     opacity: 0.6,
     borderRadius: 15,
   },
   checkBoxContainer: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     elevation: 1,
     paddingVertical: 15,
     paddingHorizontal: 15,
@@ -518,6 +549,7 @@ const styles = StyleSheet.create({
   addressContainer: { flexDirection: "row", alignItems: "center" },
   padding: { padding: 3 },
   addressText: { paddingVertical: 10, paddingLeft: 10 },
+  fetchDetails:{backgroundColor:"#A0272A",borderRadius:5,color:WHITE,paddingHorizontal:10},
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
   checkContainer: { paddingHorizontal: 20 },
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
@@ -546,7 +578,7 @@ const styles = StyleSheet.create({
   },
   paymentText: { fontSize: 17, color: "grey" },
   paymentContainer: {
-    backgroundColor: "white",
+    backgroundColor:WHITE,
     paddingVertical: 20,
     borderRadius: 20,
     paddingTop: 20,
@@ -579,12 +611,12 @@ const styles = StyleSheet.create({
   },
   bottomRadius: {
     height: 20,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   headerContainer: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderTopLeftRadius: 20,
