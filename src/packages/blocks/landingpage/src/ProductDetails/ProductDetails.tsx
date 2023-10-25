@@ -51,6 +51,7 @@ export const sampleText =
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
+    this.getViewAllProduct(this.props?.route?.params?.id)
   }
   
   render() {

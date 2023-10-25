@@ -1407,7 +1407,7 @@ export default class LandingPageController extends BlockComponent<
     this.getViewAllProductId = getViewAllProductListMsg.messageId;
     getViewAllProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getViewAllProductListEndpoint}?category_id=${id}`
+      `${configJSON.getViewAllProductListEndpoint}?id=${id}`
     );
     getViewAllProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1773,9 +1773,7 @@ export default class LandingPageController extends BlockComponent<
       this.getSlotsAndMerchantAddressHandler()
     }
     if(item=='Shipping'||item=='Deliver')
-    {
-      console.log('in if====');
-      
+    {      
       this.getUserAddress()
     }
 
