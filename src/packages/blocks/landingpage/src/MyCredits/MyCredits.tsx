@@ -41,7 +41,6 @@ export default class MyCreditScreen extends LandingPageController {
             showsVerticalScrollIndicator={false}
             bounces={false}
             renderItem={({item}) => {
-              console.log("remianingProdut--",this.state.remainingproduct.length)
               return (
                 <View style={styles.main}>
                   <Image
@@ -93,16 +92,7 @@ export default class MyCreditScreen extends LandingPageController {
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
             } } cartDetails={[]} />
-            <PaymentCustomeAlert 
-            visible={this.state.isSuccessPopUp}
-            onpressContinue={()=>alert('continue')}
-            onpressClose={()=>alert('continue')}
-            customeText="Thank you for your order!"
-            customeDescription=""
-            paymentAlerttype="PaymentSuccess"
-            isLoading={false}
-            testID="p"
-            />
+            
         </View>
       </HeaderWithBackArrowTemplate>
     );

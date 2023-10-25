@@ -25,6 +25,10 @@ import { BLACK } from "../colors";
 import LandingPageController, { Props } from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import { scaledSize } from "../../../../framework/src/Utilities";
+import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
+import { StackActions } from "@react-navigation/native";
+import Loader from "../../../../components/src/Loader";
+import CommonLoader from "../../../../components/src/CommonLoader";
 export default class MyCreditDetailsModal extends LandingPageController {
   constructor(props: Props) {
     super(props);
@@ -78,6 +82,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
   render() {
     return (
+      <>
       <Modal transparent visible={this.props.visible}>
         <View style={styles.blur} />
         <View style={styles.innerContainer}>
@@ -320,6 +325,22 @@ export default class MyCreditDetailsModal extends LandingPageController {
           </ScrollView>
         </View>
       </Modal>
+      <PaymentCustomeAlert
+            visible={this.state.isSuccessPopUp}
+            onpressContinue={()=>{this.setState(
+              {isSuccessPopUp:false,showMyCreditModal:false})
+            this.props.navigation.dispatch(StackActions.replace('MyOrdersScreen'))}
+          }
+
+            onpressClose={()=>alert('continue')}
+            customeText="Thank you for your order!"
+            customeDescription=""
+            paymentAlerttype="PaymentSuccess"
+            isLoading={false}
+            testID="p"
+            />
+           {this.state.isLoading && <CommonLoader visible={this.state.isLoading}/>}
+      </>
     );
   }
 }

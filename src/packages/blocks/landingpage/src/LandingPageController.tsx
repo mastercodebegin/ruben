@@ -113,6 +113,7 @@ interface S {
   selectedCategory:any
   animalCutsCount: number;
   isSuccessPopUp:boolean
+  isLoading:boolean
   // Customizable Area End
 }
 
@@ -281,6 +282,7 @@ export default class LandingPageController extends BlockComponent<
       selectedCategory:'Select Category',
       animalCutsCount:0,
       isSuccessPopUp:false,
+      isLoading:false
 
 
     };
@@ -742,13 +744,14 @@ export default class LandingPageController extends BlockComponent<
   }
 
   submitRequestCallback(userAddress: any, error: any) {
-    this.setState({isSuccessPopUp:true,showMyCreditModal:false})
+    
    // alert('test')
     // if (error) {
     //   this.showAlert('Something went wrong, please try again later')
     // } else {
+      this.setState({isLoading:false,isSuccessPopUp:true})
       console.log('submit response=========================', userAddress)
-      this.props.navigation.navigate('ExplorePage')
+      
 
       
     // }
@@ -763,16 +766,12 @@ export default class LandingPageController extends BlockComponent<
       let arr=[]
       for(let i=0;i<subCategories?.data.length;i++)
       {
-        let obj={
+          let obj={
           id:subCategories?.data[i].attributes?.id,
           title:subCategories?.data[i].attributes?.name
         }
         arr.push(obj)
-      }
-
-
-      console.log('sub-cateogory========',subCategories?.data[0].attributes?.name);
-      
+      }      
       this.setState({ subcategories: subCategories?.data, show_loader: false,animalCutsOptionsList:arr })
     }
   }
@@ -1584,6 +1583,7 @@ console.log('user address ====',this.state.userAddress);
       }
       
     }
+    this.setState({isLoading:true})
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
