@@ -41,6 +41,7 @@ interface S {
   // Customizable Area Start
   selectedTab: string
   showProfileModal: boolean
+  showRecurringModal: boolean
   profileImage: any;
   name: string;
   email: string;
@@ -129,6 +130,7 @@ export default class LandingPageController extends BlockComponent<
     this.state = {
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
+      showRecurringModal:false,
       aboutUsData:{},
       profileImage: '',
       name: '',

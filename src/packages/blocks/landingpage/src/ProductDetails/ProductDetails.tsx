@@ -26,6 +26,7 @@ import RenderSteps from "./RenderSteps";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import RenderCategoriesList from "../RenderCategoriesList";
 import RenderAboutThisFarm from "./RenderAboutThisFarm";
+import {RecurringModal} from "../ProductDetails/RecurringModal";
 import { showToast } from "../../../../components/src/ShowToast";
 
 export const ImageData = [
@@ -70,6 +71,12 @@ export default class ProductDetailScreen extends LandingPageController {
           navigation={this.props.navigation}
         >
           <>
+          {this.state.showRecurringModal && (
+            <RecurringModal 
+            visible={this.state.showRecurringModal}
+            setVisible={()=>this.setState({showRecurringModal:false})}/>
+          )}
+
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
@@ -132,7 +139,9 @@ export default class ProductDetailScreen extends LandingPageController {
                 <Text style={style.text}>$</Text>
                 <Text style={style.price}>{price}</Text>/kg
               </Text>
-              <View style={{ flexDirection: "row" }}>
+              
+            </View>
+            <View style={{ flexDirection: "row",marginVertical:10 }}>
                 <TouchableOpacity
                   testID="copy_link_test_id"
                   onPress={() => {
@@ -153,8 +162,13 @@ export default class ProductDetailScreen extends LandingPageController {
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.setState({showRecurringModal:true})}
+                  style={style.subsciptionButton}
+                >
+                  <Text style={style.cartText}>Subsciptions</Text>
+                </TouchableOpacity>
               </View>
-            </View>
             <RenderSteps
               images={ImageData}
               header="Step 01:"
@@ -207,6 +221,12 @@ const style = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     marginLeft: 20,
+  },
+  subsciptionButton:{
+    backgroundColor: PRIMARY,
+    justifyContent: "center",
+    borderRadius: 20,
+    marginLeft: 10,
   },
   imageContainer: {
     flexDirection: "row",
