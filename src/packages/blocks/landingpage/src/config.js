@@ -15,7 +15,7 @@ exports.textInputPlaceHolder = "Enter Text";
 exports.labelTitleText = "LandingPage";
 exports.labelBodyText = "LandingPage Body";
 exports.getCategory = "bx_block_categories/categories";
-exports.subCategory = "bx_block_categories/sub_categories?category_id=";
+exports.subCategory = "bx_block_catalogue/catalogues/sub_category";
 exports.btnExampleTitle = "CLICK ME";
 exports.getImageBlog = "bx_block_posts/posts/get_images";
 exports.getVideoBlog = "bx_block_posts/posts/get_videos";

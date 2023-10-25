@@ -112,6 +112,7 @@ interface S {
   merchantAddressID:any
   selectedCategory:any
   animalCutsCount: number;
+  isSuccessPopUp:boolean
   // Customizable Area End
 }
 
@@ -265,7 +266,7 @@ export default class LandingPageController extends BlockComponent<
       ],
       selectedAnimalCuts: "Head",
       animalAvailableSlots: [],
-      selectedAnimalSlot: "10:00 AM",
+      selectedAnimalSlot: "",
       nearestLocation: "",
       setAddressOption: false,
       fetchFavorites: false,
@@ -275,10 +276,11 @@ export default class LandingPageController extends BlockComponent<
       userAddress: [
       
       ],
-      userAddressID:0,
+      userAddressID:'',
       merchantAddressID:0,
       selectedCategory:'Select Category',
-      animalCutsCount:0
+      animalCutsCount:0,
+      isSuccessPopUp:false,
 
 
     };
@@ -740,18 +742,38 @@ export default class LandingPageController extends BlockComponent<
   }
 
   submitRequestCallback(userAddress: any, error: any) {
-    if (error) {
-      this.showAlert('Something went wrong, please try again later')
-    } else {
+    this.setState({isSuccessPopUp:true,showMyCreditModal:false})
+   // alert('test')
+    // if (error) {
+    //   this.showAlert('Something went wrong, please try again later')
+    // } else {
       console.log('submit response=========================', userAddress)
-    }
+      this.props.navigation.navigate('ExplorePage')
+
+      
+    // }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
+    console.log('sub-cateogory call back========');
+
     if (error) {
       this.setState({ show_loader: false })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      this.setState({ subcategories: subCategories?.data, show_loader: false })
+      let arr=[]
+      for(let i=0;i<subCategories?.data.length;i++)
+      {
+        let obj={
+          id:subCategories?.data[i].attributes?.id,
+          title:subCategories?.data[i].attributes?.name
+        }
+        arr.push(obj)
+      }
+
+
+      console.log('sub-cateogory========',subCategories?.data[0].attributes?.name);
+      
+      this.setState({ subcategories: subCategories?.data, show_loader: false,animalCutsOptionsList:arr })
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
@@ -1289,7 +1311,7 @@ export default class LandingPageController extends BlockComponent<
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.subCategory}${subCategoryId}`
+      `${configJSON.subCategory}`
     );
 
     subcategory.addData(
@@ -1503,7 +1525,7 @@ export default class LandingPageController extends BlockComponent<
       getName(MessageEnum.RestAPIRequestMessage)
     );
 
-    this.submitPickupRequestCallId = requestMessage.messageId;
+    this.addToCartId = requestMessage.messageId;
     requestMessage.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.addToCart
@@ -1527,8 +1549,41 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-  async submitPickupRequestHandler() {
+async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any) {
+console.log('submit====',item);
+console.log('Selected slot====',selectedSlot);
+console.log('animalCuts ====',animalCuts);
+console.log('address id====',userAddressID);
+console.log('user address ====',this.state.userAddress);
+
+    if(item.length==0)
+    {
+      alert('please select an option')
+      return false
+    }
+    if(animalCuts==0)
+    {
+      alert('please select animalCuts')
+      return false
+    }
    
+    if(this.state.setDeliverOption=='Pickup')
+    {
+      if(selectedSlot.length==0)
+      {
+        alert('please select Pickup slot')
+        return false
+      }
+    }
+    if(this.state.setDeliverOption=='Deliver' || this.state.setDeliverOption=='Shipping')
+    {
+      if(userAddressID.length==0)
+      {
+        alert('please select address')
+        return false
+      }
+      
+    }
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1552,10 +1607,10 @@ export default class LandingPageController extends BlockComponent<
       getName(MessageEnum.RestAPIRequestMessage)
     );
 
-    this.addToCartId = requestMessage.messageId;
+    this.submitPickupRequestCallId = requestMessage.messageId;
     requestMessage.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.addToCart
+      'bx_block_shopping_cart/order_items/pickup'
     );
 
     requestMessage.addData(
@@ -1772,7 +1827,7 @@ export default class LandingPageController extends BlockComponent<
     if(item=='Pickup'){
       this.getSlotsAndMerchantAddressHandler()
     }
-    if(item=='Shipping'||item=='Deliver')
+    if(item=='Shipping'|| item=='Deliver')
     {      
       this.getUserAddress()
     }
@@ -1819,18 +1874,29 @@ export default class LandingPageController extends BlockComponent<
     
     }
     else {
+      //const filterd = this.state.animalCutsOptionsList.filter((v)=>v.title==item)
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
-      this.setState({ animalPortions: filteredArray });
+      this.setState({ animalPortions: filteredArray, });
       this.setState({animalCutsCount:this.state.animalCutsCount-1})
 
 
     }
   };
   handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
+    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
+    console.log("==============================",filterd);
+    
+    if(filterd.length>0)
+    {
+      this.setState({
+      handleAnimalCutsDropDown: false})
+      alert('You already added '+item)
+
+      return false
+    }
+
     if(used_cuts<remainingCuts)
     {
-
-    
     console.log("option", item);
     const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
@@ -1838,7 +1904,9 @@ export default class LandingPageController extends BlockComponent<
       handleAnimalCutsDropDown: false,
       animalPortions: [...this.state.animalPortions, obj]
     });
-    this.setState({animalCutsCount:this.state.animalCutsCount+1})
+    
+    this.setState({animalCutsCount:this.state.animalCutsCount+1,
+    })
   }
   else{
     alert('you have exceed the limit');

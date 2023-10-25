@@ -39,6 +39,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
   };
   async componentDidMount() {
       console.log('props===================',this.props.remainingCuts);
+      this.getSubcategories('0')
       
   }
   slotsRender(item:any){
@@ -173,15 +174,18 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     <FlatList
                       data={this.state.animalCutsOptionsList}
                       style={{
-                        height: 200,
-                        backgroundColor: WHITE,
+                        height: 300,
+                           backgroundColor: WHITE,
                         borderTopLeftRadius: 0,
                         borderTopRightRadius: 0,
                         borderRadius: 10,
-                        marginBottom: 15
+                        marginBottom: 15,
+                        
                       }}
+                      contentContainerStyle={{flexGrow:1}}
                       renderItem={({ item,index }: any) => {
                         return (
+
                           <TouchableOpacity
                             style={styles.selectAnimalCuts}
                             onPress={() => {
@@ -190,6 +194,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                           >
                             <Text style={styles.chooseTitle}>{item.title}</Text>
                           </TouchableOpacity>
+
                         );
                       }}
                       keyExtractor={(item: any,index:any) => index+''+1}
@@ -292,7 +297,12 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 <View style={styles.buttomButtonRow}>
                   <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={() => this.props?.submitCreditDetailModal()}
+                    onPress={() => this.submitPickupRequestHandler(
+                      this.state.setDeliverOption,
+                      this.state.animalPortions.length,
+                      this.state.selectedAnimalSlot,
+                      this.state.userAddressID)
+                    }
                   >
                     <Text style={styles.submitButtonText}>
                       Submit Pickup Request

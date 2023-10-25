@@ -365,7 +365,7 @@ export default class Myprofile extends LandingPageController {
                       this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
 
                     }
-                    else{alert("You Do'nt have order")}
+                    else{alert(" Place an order to display the values of the cuts")}
                   }}
                 >
                   <Text style={styles.viewDetail}>My Credits</Text>

@@ -18,6 +18,7 @@ import {
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
+import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
 export default class MyCreditScreen extends LandingPageController {
   constructor(props: Props) {
     super(props);
@@ -26,13 +27,7 @@ export default class MyCreditScreen extends LandingPageController {
     this.getRemainingProduct.bind(this)(this.props?.route?.params?.category);
     this.getSlotsAndMerchantAddressHandler()
     this.getUserAddress()
-    console.log('param------------',this.props?.route?.params);
-    
-   
-    
-
-   // this.getProductList(false)
-  }
+    }
   render() {
     return (
       //@ts-ignore
@@ -90,14 +85,24 @@ export default class MyCreditScreen extends LandingPageController {
           />
           <Modal
             setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
-            submitCreditDetailModal={this.submitPickupRequestHandler}
+            submitCreditDetailModal={()=>this.submitPickupRequestHandler.bind(this)()}
             visible={this.state.showMyCreditModal}
             remainingCuts={this.props?.route?.params?.remainingCuts}
             navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
-            } } cartDetails={[]}          />
+            } } cartDetails={[]} />
+            <PaymentCustomeAlert 
+            visible={this.state.isSuccessPopUp}
+            onpressContinue={()=>alert('continue')}
+            onpressClose={()=>alert('continue')}
+            customeText="Thank you for your order!"
+            customeDescription=""
+            paymentAlerttype="PaymentSuccess"
+            isLoading={false}
+            testID="p"
+            />
         </View>
       </HeaderWithBackArrowTemplate>
     );
