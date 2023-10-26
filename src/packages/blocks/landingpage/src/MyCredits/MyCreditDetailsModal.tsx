@@ -177,9 +177,10 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 {this.state.handleAnimalCutsDropDown && (
                   <View style={styles.optionDropContainer}>
                     <FlatList
+                    nestedScrollEnabled
                       data={this.state.animalCutsOptionsList}
                       style={{
-                        height: 310,
+                        height: 210,
                            backgroundColor: WHITE,
                         borderTopLeftRadius: 0,
                         borderTopRightRadius: 0,
