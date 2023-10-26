@@ -1593,7 +1593,7 @@ console.log('user address ====',this.state.userAddress);
 
     const httpBody = {
       "order_items":{
-          "catalogue_id":13, 
+          "catalogue_id":96, 
           "quantity":2,
           "address": "test Office address",
           "taxable":"true",

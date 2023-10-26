@@ -179,7 +179,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     <FlatList
                       data={this.state.animalCutsOptionsList}
                       style={{
-                        height: 300,
+                        height: 310,
                            backgroundColor: WHITE,
                         borderTopLeftRadius: 0,
                         borderTopRightRadius: 0,

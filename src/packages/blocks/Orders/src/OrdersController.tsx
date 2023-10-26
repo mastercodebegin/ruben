@@ -143,7 +143,9 @@ export default class OrdersController extends BlockComponent<
       let cancelOrderErrorResponse = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (cancelOrderResponse?.message === "cancelled order successfully" && !cancelOrderErrorResponse) {
+      console.log('cancelOrderResponse?.message====',cancelOrderResponse?.message);
+      
+      if (cancelOrderResponse?.message === "remove order successfully" && !cancelOrderErrorResponse) {
         Alert.alert('Success', 'Order cancelled successfully', [{
           text: 'okay', onPress: () => {
             if (this.state.selectedTab === "completed") {
@@ -154,7 +156,7 @@ export default class OrdersController extends BlockComponent<
             this.setState({ ongoingOrdersList:[],showLoader:false})
         }}])
       } else {
-        Alert.alert('Error', 'Something went wrong', [{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+        Alert.alert('Error', 'Something Eent Wrong', [{text:'OK',onPress:()=>this.setState({showLoader:false})}])
       }
     }
     else {

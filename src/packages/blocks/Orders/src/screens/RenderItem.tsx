@@ -5,6 +5,7 @@ import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/consta
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
 import moment from 'moment';
+import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
 const RenderProducts = ({ item, index }: any) => {        
     return (
         <View key={index} style={rstyles.imageContainer}>
@@ -51,10 +52,24 @@ const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
     }
 }
 const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {     
+    const [isModal,setIsModal ]= React.useState(false)
     const isCompleted = item?.attributes?.status === 'completed';
     const isCanceled = item?.attributes?.status === 'cancelled';    
     const onPressCancel = () => {
-        Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>cancelOrder(item?.id)}])
+        // return(<PaymentCustomeAlert
+        //     visible={true}
+        //     onpressContinue={
+        //         ()=>cancelOrder(item?.id)          }
+
+        //     onpressClose={()=>alert('continue')}
+        //     customeText="Thank you for your order!"
+        //     customeDescription=""
+        //     paymentAlerttype="PaymentSuccess"
+        //     isLoading={false}
+        //     testID="p"
+        //     />)
+        setIsModal(true)
+        //Alert.alert('Alert', "Are you sure to cancel order", [{ text: 'cancel' },{text:"yes",onPress:()=>cancelOrder(item?.id)}])
     }
     const date = new Date(item?.attributes?.created_at);    
     const deliveryDate = new Date(item?.attributes?.delivery_date);
@@ -64,6 +79,7 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
     if ((selectedStatus === 'ongoing' && (isCompleted || isCanceled))) {
         return <></>;
     }
+
     return (
         <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
@@ -96,6 +112,20 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
                             </View>
                         </>}
         </View>
+        {isModal?
+        <PaymentCustomeAlert
+        visible={isModal}
+        onpressContinue={()=>{
+        cancelOrder(item?.id)
+        setIsModal(false)}}
+        onpressClose={()=>setIsModal(false)}
+        customeText="Order Cancellation"
+        customeDescription="Are you sure you want to send a cancellation Request?"
+        paymentAlerttype="cancel"
+        isLoading={false}
+        testID="p"
+        label="Proceed"
+        />:null}
         </View>
     )
 }
