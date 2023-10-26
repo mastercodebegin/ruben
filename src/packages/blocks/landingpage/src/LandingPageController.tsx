@@ -76,6 +76,7 @@ interface S {
   categoryList: Array<object>;
   subCategoryList: Array<object>;
   productList: Array<any>;
+  productDetails:any;
   recommentproduct: Array<any>;
   remainingproduct: any;
   filterByCategoryApiId: any;
@@ -127,6 +128,44 @@ export default class LandingPageController extends BlockComponent<
       getName(MessageEnum.CountryCodeMessage),
     ];
 
+    const pDetails = 
+      {
+                  "id": "8",
+                  "type": "farm",
+                  "attributes": {
+                      "title": "about this farm",
+                      "sub_title": "some sub title",
+                      "step_1": "some step 1",
+                      "step_2": "some step_2",
+                      "created_at": "2023-10-23T10:16:26.823Z",
+                      "updated_at": "2023-10-23T10:16:26.933Z",
+                      "images": [
+                          {
+                              "id": 170,
+                              "filename": "pexels-jane-doan-1132047.jpg",
+                              "url": "http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYW89IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--43c9712261b3e02f977045d6f6a8c898da9c5441/pexels-jane-doan-1132047.jpg",
+                              "type": "image"
+                          }
+                      ],
+                      "step1_images": [
+                          {
+                              "id": 171,
+                              "filename": "pexels-valeria-boltneva-15913452.jpg",
+                              "url": "http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYXM9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--64506f43fcc4ebd9b5e1b53c22ae514a2f795ee3/pexels-valeria-boltneva-15913452.jpg",
+                              "type": "image"
+                          }
+                      ],
+                      "step2_images": [
+                          {
+                              "id": 172,
+                              "filename": "pexels-jane-doan-1132047.jpg",
+                              "url": "http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBYXc9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d3c03d697ef49e80ce07aca90e980b607b1acc22/pexels-jane-doan-1132047.jpg",
+                              "type": "image"
+                          }
+      ]
+      }
+    }
+
     this.state = {
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
@@ -165,6 +204,7 @@ export default class LandingPageController extends BlockComponent<
         images: [],
         desciption: ''
       }],
+      productDetails:pDetails,
       refresh: false,
       imageBlogList: [],
       videoLibrary: [],

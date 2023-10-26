@@ -55,12 +55,13 @@ export default class ProductDetailScreen extends LandingPageController {
   }
   
   render() {
-    const { id = '', description = '', name = '', price = '' ,productList=[]} = {
+    const { id = '', description = '', name = '', price = '' ,productList=[],image=""} = {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
       price: this.props?.route?.params?.price,
-      productList:this.props?.route?.params?.productList
+      productList:this.props?.route?.params?.productList,
+      image:this.props?.route?.params?.image
     }
     return (
       <SafeAreaView style={style.flex}>
@@ -170,16 +171,16 @@ export default class ProductDetailScreen extends LandingPageController {
                 </TouchableOpacity>
               </View>
             <RenderSteps
-              images={ImageData}
+              images={this.state.productDetails?.attributes?.step1_images}
               header="Step 01:"
-              description={sampleText}
+              description={this.state.productDetails?.attributes?.step_1}
             />
             <RenderSteps
-              images={ImageData}
+             images={this.state.productDetails?.attributes?.step2_images}
               header="Step 02:"
-              description={sampleText}
+              description={this.state.productDetails?.attributes?.step_2}
             />
-            <RenderSteps
+            {/* <RenderSteps
               images={ImageData}
               header="Step 03:"
               description={sampleText}
@@ -193,8 +194,8 @@ export default class ProductDetailScreen extends LandingPageController {
               images={ImageData}
               header="Step 05:"
               description={sampleText}
-            />
-            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} /> :<></>}
+            /> */}
+            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} details={this.state.productDetails} props={this.props.route.params}/> :<></>}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>

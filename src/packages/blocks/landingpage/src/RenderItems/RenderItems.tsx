@@ -59,6 +59,7 @@ const RenderItem = ({
           description: isSearch ? item?.description : item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
           price:  isSearch ? item?.price :item?.attributes?.price,
+          image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
           productList:productList
         })
       }
