@@ -329,7 +329,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
             visible={this.state.isSuccessPopUp}
             onpressContinue={()=>{this.setState(
               {isSuccessPopUp:false,showMyCreditModal:false})
-            this.props.navigation.dispatch(StackActions.replace('MyOrdersScreen'))}
+            this.props.navigation.dispatch(StackActions.replace('ExplorePage'))}
           }
 
             onpressClose={()=>alert('continue')}
