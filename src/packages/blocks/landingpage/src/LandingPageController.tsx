@@ -528,9 +528,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.videoLibraryCallback(videoLibrary, error)
-
-    }
-
+    } 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.userAddressApiCallId != null &&

@@ -167,7 +167,8 @@ export default class Settings5Controller extends BlockComponent<
    clearStorage = () => {
     store.dispatch({ type: "UPDATE_USER", payload: "user" });
     store.dispatch({ type: "UPDATE_CART_DETAILS", payload: [] });
-    AsyncStorage.removeItem("userDetails")
+    const keys = ['userDetails', 'saveCardDetails']
+    AsyncStorage.multiRemove(keys)
       .then(() => {
         this.props.navigation.reset({
           index: 0,

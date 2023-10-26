@@ -126,14 +126,6 @@ const RenderItems = ({
   const productList = item;
   return (
     <View>
-      {header && (
-        <View style={styles.itemHeader}>
-          <Text style={styles.itemCategory}>PORK</Text>
-          <TouchableOpacity>
-            <Text style={styles.seeAll}>{""}</Text>
-          </TouchableOpacity>
-        </View>
-      )}
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={styles.flatList}
@@ -154,7 +146,6 @@ const RenderItems = ({
           />
         )}
         onEndReachedThreshold={1}
-        onEndReached={handleLoadMore}
         pagingEnabled={false}
         data={item}
       />
@@ -164,7 +155,7 @@ const RenderItems = ({
 export default RenderItems;
 
 const styles = StyleSheet.create({
-  flatList: { marginLeft: 20, paddingTop: 20 },
+  flatList: { marginLeft: 0, paddingTop: 20 },
   renderContainer: {
     backgroundColor: WHITE,
     width: deviceWidth * 0.77,
@@ -175,7 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   description: {
-    fontSize: 17,
+    fontSize: 15,
+    marginTop:8,
     color: MID_PEACH,
     paddingBottom: 15,
   },
@@ -197,6 +189,22 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: MID_PEACH,
   },
+  itemHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  itemCategory: {
+    color: MID_PEACH,
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+  seeAll: {
+    color: DARK_RED,
+    fontWeight: "bold",
+    fontSize: 17,
+  },
   priceContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -209,12 +217,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  itemHeader: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   offer: {
     color: WHITE,
@@ -251,15 +253,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: PRIMARY,
   },
-  cart: { height: 20, width: 20 },
-  itemCategory: {
-    color: MID_PEACH,
-    fontWeight: "bold",
-    fontSize: 17,
-  },
-  seeAll: {
-    color: DARK_RED,
-    fontWeight: "bold",
-    fontSize: 17,
-  },
+  cart: { height: 20, width: 20 }
 });
