@@ -281,7 +281,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       )}
                     </TouchableOpacity>
                     <View>
-                    <Text style={[styles.chooseTitle,{color:MID_PEACH}]}>{item.attributes.address_type}</Text>
+                    <Text style={[styles.chooseTitle]}>{item.attributes.address_type}</Text>
                     <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
                       </View>
                   </View>
