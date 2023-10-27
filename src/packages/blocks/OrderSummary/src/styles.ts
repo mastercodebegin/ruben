@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     width: 45,
     aspectRatio: 1,
   },
+  calenderImage:{height:35,width:35,alignSelf:'center'},
   cartImage: { height: 20, width: 20 },
   lifetimeSubContent: {
     flex: 1,
@@ -92,6 +93,34 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: { flexDirection: "row", paddingTop: 20 },
+  close: { height: 15, width: 15 },
+  closeBtn: {
+    alignSelf: "flex-end",
+    backgroundColor: "#FFE3D4",
+    padding: 10,
+    borderRadius: 20,
+  },
+  innerContainer: {
+    backgroundColor: "white",
+    marginHorizontal: responsiveWidth(10),
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    borderRadius: 20,
+    paddingBottom: 10,
+  },
+  mainWrap: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  blur: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: "black",
+    opacity: 0.6,
+  },
   answer: { textAlign: "right", color: DARK_RED, fontSize: 15 },
   question: { color: "grey", fontSize: 15 },
   headerText: {
