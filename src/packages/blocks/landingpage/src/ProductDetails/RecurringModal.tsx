@@ -1,12 +1,10 @@
 import React from "react";
 import {
-  Alert,
   View,
   Modal,
   StyleSheet,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   Text,
 } from "react-native";
 import Button from "../../../../components/src/CustomButton";
