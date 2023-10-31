@@ -362,7 +362,7 @@ export default class Myprofile extends LandingPageController {
                       console.log('remaining-----',this.state.remainingproduct);
                       console.log('name-----',this.state.selectedCategory);
                       
-                      this.props.navigation.navigate("MyCreditScreen",{category:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
+                      this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
 
                     }
                     else{alert(" Place an order to display the values of the cuts")}

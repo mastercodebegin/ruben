@@ -36,6 +36,7 @@ export interface Props {
   setCreditDetailModal: () => void;
   submitCreditDetailModal: () => void;
   remainingCuts:any
+  categoryId:any
   // Customizable Area End
 }
 
@@ -1546,7 +1547,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any) {
+async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any,categoryId:any) {
 console.log('submit====',item);
 console.log('Selected slot====',selectedSlot);
 console.log('animalCuts ====',animalCuts);
@@ -1591,7 +1592,7 @@ console.log('user address ====',this.state.userAddress);
 
     const httpBody = {
       "order_items":{
-          "catalogue_id":96, 
+          "catalogue_id":categoryId, 
           "quantity":2,
           "address": "test Office address",
           "taxable":"true",

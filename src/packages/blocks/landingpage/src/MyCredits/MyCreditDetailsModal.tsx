@@ -43,6 +43,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
   };
   async componentDidMount() {
       console.log('props===================',this.props.remainingCuts);
+      console.log('props===================',this.props.categoryId);
       this.getSubcategories('0')
       
   }
@@ -307,8 +308,9 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       this.state.setDeliverOption,
                       this.state.animalPortions.length,
                       this.state.selectedAnimalSlot,
-                      this.state.userAddressID)
-                    }
+                      this.state.userAddressID,
+                     this.props.categoryId
+                      )}
                   >
                     <Text style={styles.submitButtonText}>
                       Submit Pickup Request

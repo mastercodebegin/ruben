@@ -24,7 +24,7 @@ export default class MyCreditScreen extends LandingPageController {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)(this.props?.route?.params?.category);
+    this.getRemainingProduct.bind(this)(this.props?.route?.params?.categoryId);
     this.getSlotsAndMerchantAddressHandler()
     this.getUserAddress()
     }
@@ -87,6 +87,7 @@ export default class MyCreditScreen extends LandingPageController {
             submitCreditDetailModal={()=>this.submitPickupRequestHandler.bind(this)()}
             visible={this.state.showMyCreditModal}
             remainingCuts={this.props?.route?.params?.remainingCuts}
+            categoryId={this.props?.route?.params?.categoryId}
             navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
