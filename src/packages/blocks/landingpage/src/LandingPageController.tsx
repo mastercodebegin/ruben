@@ -115,6 +115,7 @@ interface S {
   animalCutsCount: number;
   isSuccessPopUp:boolean
   isLoading:boolean
+  order_number:string
   // Customizable Area End
 }
 
@@ -283,7 +284,8 @@ export default class LandingPageController extends BlockComponent<
       selectedCategory:'Select Category',
       animalCutsCount:0,
       isSuccessPopUp:false,
-      isLoading:false
+      isLoading:false,
+      order_number:''
 
 
     };
@@ -561,8 +563,6 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('submitRequest: ======================================' + submitRequest);
-
       this.submitRequestCallback (submitRequest, error)
 
     }
@@ -742,14 +742,14 @@ export default class LandingPageController extends BlockComponent<
     }
   }
 
-  submitRequestCallback(userAddress: any, error: any) {
+  submitRequestCallback(orderResponse: any, error: any) {
     
    // alert('test')
     // if (error) {
     //   this.showAlert('Something went wrong, please try again later')
     // } else {
-      this.setState({isLoading:false,isSuccessPopUp:true})
-      console.log('submit response=========================', userAddress)
+      this.setState({isLoading:false,isSuccessPopUp:true,order_number:orderResponse?.data?.attributes?.order_no})
+       console.log('submit response3=========================', orderResponse?.data?.attributes?.order_no)
       
 
       
@@ -1547,12 +1547,14 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any,categoryId:any) {
-console.log('submit====',item);
-console.log('Selected slot====',selectedSlot);
-console.log('animalCuts ====',animalCuts);
-console.log('address id====',userAddressID);
-console.log('user address ====',this.state.userAddress);
+async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any,selectedPortion:any) {
+const sub_category_id=selectedPortion.map((item:any)=>item.id)
+const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
+console.log('option====',this.state.setDeliverOption);
+console.log('submitID====',sub_category_id);
+console.log(' sub_category_quantity====',sub_category_quantity);
+
+console.log();
 
     if(item.length==0)
     {
@@ -1592,8 +1594,8 @@ console.log('user address ====',this.state.userAddress);
 
     const httpBody = {
       "order_items":{
-          "catalogue_id":categoryId, 
-          "quantity":2,
+          "catalogue_id":sub_category_id, 
+          "quantity":sub_category_quantity,
           "address": "test Office address",
           "taxable":"true",
           "slot": "4:00PM",
@@ -1837,10 +1839,8 @@ console.log('user address ====',this.state.userAddress);
   };
 
   handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => {
-    if(avilable_cuts<remainingCuts)
-    {
-    console.log('in if remainingCuts',remainingCuts);
-    console.log('in if avilable_cuts',avilable_cuts);
+    //if(avilable_cuts<remainingCuts)
+    
     
     const selectedObj = this.state.animalPortions[index]
     const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 }
@@ -1848,13 +1848,7 @@ console.log('user address ====',this.state.userAddress);
     filteredArray.splice(index, 0, obj)
     this.setState({ animalPortions: filteredArray });
     this.setState({animalCutsCount:this.state.animalCutsCount+1})
-  }
-  else{
-    console.log('in else remainingCuts',remainingCuts);
-    console.log('in else avilable_cuts',avilable_cuts);
-
-    alert('you exceeded the maximum')
-  }
+  
     
   };
 
@@ -1894,8 +1888,7 @@ console.log('user address ====',this.state.userAddress);
       return false
     }
 
-    if(used_cuts<remainingCuts)
-    {
+    
     console.log("option", item);
     const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
@@ -1906,10 +1899,8 @@ console.log('user address ====',this.state.userAddress);
     
     this.setState({animalCutsCount:this.state.animalCutsCount+1,
     })
-  }
-  else{
-    alert('you have exceed the limit');
-  }
+  
+  
 
   };
   handleAnimalSelectSlots = (item: any) => {
