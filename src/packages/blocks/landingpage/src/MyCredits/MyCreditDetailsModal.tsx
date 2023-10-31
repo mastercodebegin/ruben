@@ -27,7 +27,6 @@ import TextInput from "../../../../components/src/CustomTextInput";
 import { scaledSize } from "../../../../framework/src/Utilities";
 import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
 import { StackActions } from "@react-navigation/native";
-import Loader from "../../../../components/src/Loader";
 import CommonLoader from "../../../../components/src/CommonLoader";
 export default class MyCreditDetailsModal extends LandingPageController {
   constructor(props: Props) {

@@ -365,18 +365,10 @@ export default class LandingPageController extends BlockComponent<
       );
       this.updateProfileCallback(error, userDetails)
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getSlotsAndMerchantAddressCallId != null &&
-      this.getSlotsAndMerchantAddressCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const slotsAndMerchantRes = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      // this.props.setState({ show_loader: false })
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+    
+    else if(message)
+    {
+      this.subAsyncRecieve(message)
     }
 
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -532,6 +524,7 @@ export default class LandingPageController extends BlockComponent<
       );
       this.videoLibraryCallback(videoLibrary, error)
     } 
+
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.userAddressApiCallId != null &&
@@ -617,9 +610,7 @@ export default class LandingPageController extends BlockComponent<
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+    
 
       this.setState({ productList: productListData.data, show_loader: false })
     }
@@ -642,6 +633,18 @@ export default class LandingPageController extends BlockComponent<
 
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } 
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSlotsAndMerchantAddressCallId != null &&
+      this.getSlotsAndMerchantAddressCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const slotsAndMerchantRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+    }
 
   }
   cartCallBack(message: any) {
@@ -743,17 +746,7 @@ export default class LandingPageController extends BlockComponent<
   }
 
   submitRequestCallback(orderResponse: any, error: any) {
-    
-   // alert('test')
-    // if (error) {
-    //   this.showAlert('Something went wrong, please try again later')
-    // } else {
       this.setState({isLoading:false,isSuccessPopUp:true,order_number:orderResponse?.data?.attributes?.order_no})
-       console.log('submit response3=========================', orderResponse?.data?.attributes?.order_no)
-      
-
-      
-    // }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
     console.log('sub-cateogory call back========');
@@ -1867,7 +1860,6 @@ console.log();
     
     }
     else {
-      //const filterd = this.state.animalCutsOptionsList.filter((v)=>v.title==item)
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
       this.setState({ animalPortions: filteredArray, });
       this.setState({animalCutsCount:this.state.animalCutsCount-1})
@@ -1876,9 +1868,7 @@ console.log();
     }
   };
   handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
-    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
-    console.log("==============================",filterd);
-    
+    const filterd = this.state.animalPortions.filter((v)=>v.name==item)    
     if(filterd.length>0)
     {
       this.setState({
@@ -1889,7 +1879,6 @@ console.log();
     }
 
     
-    console.log("option", item);
     const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
       selectedAnimalCuts: item,

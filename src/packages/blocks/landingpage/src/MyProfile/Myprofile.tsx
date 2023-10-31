@@ -102,6 +102,15 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params = {}) {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
+
+  navigateToNext() {
+
+    if(this.state.remainingproduct[0]?.total_cuts!=undefined)
+    {                      
+      this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
+    }
+    else{alert(" Place an order to display the values of the cuts")}
+  }
   renderItem({ item }: any) {
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
@@ -355,17 +364,8 @@ export default class Myprofile extends LandingPageController {
                   style={styles.CreditsButton}
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>',this.state.remainingproduct[0])
                     
-                    if(this.state.remainingproduct[0]?.total_cuts!=undefined)
-                    {
-                      console.log('remaining-----',this.state.remainingproduct);
-                      console.log('name-----',this.state.selectedCategory);
-                      
-                      this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
-
-                    }
-                    else{alert(" Place an order to display the values of the cuts")}
+                   this.navigateToNext() 
                   }}
                 >
                   <Text style={styles.viewDetail}>My Credits</Text>

@@ -18,7 +18,6 @@ import {
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
-import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
 export default class MyCreditScreen extends LandingPageController {
   constructor(props: Props) {
     super(props);
