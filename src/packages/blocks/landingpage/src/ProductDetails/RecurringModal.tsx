@@ -14,6 +14,7 @@ import { close, DARK_RED } from "../../../landingpage/src/assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { BLACK, LIGHT_GREY,PRIMARY, WHITE } from "../../assets/constants";
 import { Dropdown } from "../../../../components/src/DropDown/src";
+import { COLORS } from "../../../../framework/src/Globals";
 
 interface S {
   quantity: number;
@@ -54,6 +55,10 @@ export class RecurringModal extends React.Component<P, S> {
                 source={close}
               />
             </TouchableOpacity>
+
+            <Text style={[styles.label,{fontSize:21, marginTop:5}]}>Recurring Order</Text>
+            <Text style={styles.desc}>You may set up a recurring order by selecting the</Text>
+
 
           <View style={{flexDirection:'row',marginVertical:20,justifyContent:'center'}}>
             <Text style={styles.label}>Quantity</Text>
@@ -129,10 +134,18 @@ const styles = StyleSheet.create({
   },
   label:{
     flex:0.5,
-    fontSize:16,
+    fontSize:15,
     color:PRIMARY,
     fontWeight:'bold',
     alignSelf:'center'
+  },
+  desc:{
+    width:'80%',
+    fontSize:14,
+    marginVertical:8,
+    color:COLORS.darkGray,
+    alignSelf:'center',
+    textAlign:'center'
   },
   counterContainer: { flexDirection: "row", alignItems: "center" },
   contentContainer: { flexGrow: 1 },
@@ -180,7 +193,7 @@ const styles = StyleSheet.create({
   dropdown: {
     width:'45%',
     height: 50,
-    backgroundColor: WHITE,
+    backgroundColor: LIGHT_GREY,
     borderRadius: 10,
     padding: 12,
     shadowColor: BLACK,
@@ -190,7 +203,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-    elevation: 2,
   },
   itemListStyle: {
     padding: 8,

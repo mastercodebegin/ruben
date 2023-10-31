@@ -204,7 +204,7 @@ export default class LandingPageController extends BlockComponent<
         images: [],
         desciption: ''
       }],
-      productDetails:pDetails,
+      productDetails:{},
       refresh: false,
       imageBlogList: [],
       videoLibrary: [],
@@ -429,6 +429,20 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback.bind(this)(error, categories?.data)
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getFarmId != null &&
+    this.getFarmId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const farmDetails = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+        
+    this.setState({ show_loader: false,productDetails: farmDetails.data[0]})
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.categoryCallback.bind(this)(error, farmDetails?.data)
+  }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -758,6 +772,7 @@ this.setState({aboutUsData:aboutus})
   getprofileDetailsId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
+  getFarmId:string='';
   getAboutUsId: any;
   getSubCategoryId: string = '';
   getBlogPostsId: string = '';
@@ -854,6 +869,37 @@ this.setState({aboutUsData:aboutus})
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async farmDetails( loader = true){    
+    this.setState({ show_loader: loader })
+     const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getFarmId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.farmsEndpoint
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType

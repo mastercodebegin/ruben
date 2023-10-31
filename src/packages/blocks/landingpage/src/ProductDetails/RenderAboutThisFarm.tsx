@@ -18,20 +18,21 @@ const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
         <View style={styles.row}>
           <Image style={styles.farmImage} source={MEAT_IMAGE3} />
           <View style={styles.headerInnerContainer}>
-            <Text style={styles.farmName}>{details?.attributes.title}</Text>
+            <Text style={styles.farmName}>{details?.attributes?.title}</Text>
             <Text style={styles.address}>
-              7460 Redwood BLVD , California USA
+              {details?.attributes?.address}
             </Text>
           </View>
         </View>
-        <Text style={styles.description}>{details?.attributes.sub_title}</Text>
+        <Text style={styles.description}>{details?.attributes?.sub_title}</Text>
         <Text style={styles.photos}>PHOTOS</Text>
         <FlatList
           data={details?.attributes?.images}
           horizontal
-          renderItem={({ item }:any) => (
-            <Image style={styles.image} source={item?.url} />
-          )}
+          renderItem={({ item }:any) => {
+          return (
+            <Image style={styles.image} source={{uri:item?.url}} />
+          )}}
         />
         <Text style={styles.photos}>PRODUCTS</Text>
 
