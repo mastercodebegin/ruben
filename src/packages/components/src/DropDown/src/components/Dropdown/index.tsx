@@ -371,9 +371,7 @@ const DropdownComponent: <T>(
               ]}
               {...selectedTextProps}
             >
-              {isSelected !== null
-                ? _.get(currentValue, labelField)
-                : placeholder}
+              {placeholder}
             </Text>
             {renderRightIcon ? (
               renderRightIcon(visible)
