@@ -365,15 +365,20 @@ export default class LandingPageController extends BlockComponent<
       );
       this.updateProfileCallback(error, userDetails)
     }
-    
-  
 
-    else if(message)
-    {
-      this.subAsyncRecieve(message)
+
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getCategoriesId != null &&
+      this.getCategoriesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const categories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.categoryCallback.bind(this)(error, categories?.data)
     }
-
-  
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -515,7 +520,6 @@ export default class LandingPageController extends BlockComponent<
       );
       this.videoLibraryCallback(videoLibrary, error)
     } 
-
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.userAddressApiCallId != null &&
@@ -535,11 +539,14 @@ export default class LandingPageController extends BlockComponent<
 
     }
 
-    
 
-    
 
-    
+
+    else if(message)
+    {
+      this.subAsyncRecieve(message)
+    }
+
 
 
 
@@ -588,50 +595,6 @@ export default class LandingPageController extends BlockComponent<
 
       this.setState({ productList: productListData.data, show_loader: false })
     }
-    else if ( this.filterByCategoryApiId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const filteredList = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      this.filterCategoryCallBack(filteredList)
-    }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getCategoriesId != null &&
-    this.getCategoriesId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const categories = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.categoryCallback.bind(this)(error, categories?.data)
-  }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getViewAllProductId != null &&
-      this.getViewAllProductId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const productListData = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-
-      this.setState({ viewAllProductList: productListData.data, show_loader: false })
-    } 
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getSlotsAndMerchantAddressCallId != null &&
-      this.getSlotsAndMerchantAddressCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const slotsAndMerchantRes = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.slotsAndMerchantRes(error, slotsAndMerchantRes)
-    }
-
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.submitPickupRequestCallId != null &&
@@ -647,6 +610,37 @@ export default class LandingPageController extends BlockComponent<
       this.submitRequestCallback (submitRequest, error)
 
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getSlotsAndMerchantAddressCallId != null &&
+    this.getSlotsAndMerchantAddressCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const slotsAndMerchantRes = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+  }
+    else if ( this.filterByCategoryApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const filteredList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.filterCategoryCallBack(filteredList)
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getViewAllProductId != null &&
+      this.getViewAllProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      this.setState({ viewAllProductList: productListData.data, show_loader: false })
+    } 
 
   }
   cartCallBack(message: any) {
@@ -1862,6 +1856,7 @@ console.log();
     
     }
     else {
+      //const filterd = this.state.animalCutsOptionsList.filter((v)=>v.title==item)
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
       this.setState({ animalPortions: filteredArray, });
       this.setState({animalCutsCount:this.state.animalCutsCount-1})
@@ -1870,7 +1865,8 @@ console.log();
     }
   };
   handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
-    const filterd = this.state.animalPortions.filter((v)=>v.name==item)    
+    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
+    
     if(filterd.length>0)
     {
       this.setState({
@@ -1881,6 +1877,7 @@ console.log();
     }
 
     
+    console.log("option", item);
     const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
       selectedAnimalCuts: item,
