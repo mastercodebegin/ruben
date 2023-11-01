@@ -366,10 +366,7 @@ export default class LandingPageController extends BlockComponent<
       this.updateProfileCallback(error, userDetails)
     }
     
-    else if(message)
-    {
-      this.subAsyncRecieve(message)
-    }
+  
 
     else if(message)
     {
@@ -540,17 +537,9 @@ export default class LandingPageController extends BlockComponent<
 
     
 
-    else if(message)
-    {
-      this.subAsyncRecieve(message)
-    }
+    
 
-
-    else if(message)
-    {
-      this.subAsyncRecieve(message)
-    }
-
+    
 
 
 
