@@ -544,20 +544,11 @@ export default class LandingPageController extends BlockComponent<
 
     }
 
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.submitPickupRequestCallId != null &&
-      this.submitPickupRequestCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const submitRequest = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.submitRequestCallback (submitRequest, error)
+    
 
+    else if(message)
+    {
+      this.subAsyncRecieve(message)
     }
 
 
@@ -644,6 +635,22 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+    }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.submitPickupRequestCallId != null &&
+      this.submitPickupRequestCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const submitRequest = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.submitRequestCallback (submitRequest, error)
+
     }
 
   }
