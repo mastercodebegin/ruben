@@ -293,7 +293,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
                     {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
 
-                      <Text style={styles.slotsTitle}>Available Slots</Text>
+                      <Text style={styles.slotsTitle}>Available Slots </Text>
                       <FlatList
                         data={this.state.animalAvailableSlots}
                         numColumns={3}
