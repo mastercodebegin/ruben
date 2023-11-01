@@ -34,9 +34,12 @@ export default class MyCreditDetailsModal extends LandingPageController {
     this.receive = this.receive.bind(this);
   }
 
-  handleAddressOptionChange = (isUser: any, id: any) => {
+  handleAddressOptionChange = (isUser: any, item: any) => {
+    console.log('address====',item.id);
+    console.log('address====',item.attributes.address);
+    
     if (isUser) {
-      this.setState({ userAddressID: id })
+      this.setState({ userAddressID: item.id,selectedUserAddress:item.attributes.address})
     }
   };
   async componentDidMount() {
@@ -270,7 +273,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                             <TouchableOpacity
                               style={styles.checkBoxStyle}
                               onPress={() => {
-                                this.handleAddressOptionChange(true, item.id);
+                                this.handleAddressOptionChange(true, item);
                               }}
                             >
                               {this.state.userAddressID == item.id ? (
@@ -307,7 +310,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
                         this.state.animalPortions.length,
                         this.state.selectedAnimalSlot,
                         this.state.userAddressID,
-                        this.state.animalPortions
+                        this.state.animalPortions,
+                        this.state.selectedUserAddress
                       )}
                     >
                       <Text style={styles.submitButtonText}>

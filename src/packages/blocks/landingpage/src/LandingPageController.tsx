@@ -110,6 +110,7 @@ interface S {
   merchantAddress: string;
   userAddress: Array<any>
   userAddressID:any
+  selectedUserAddress:string
   merchantAddressID:any
   selectedCategory:any
   animalCutsCount: number;
@@ -280,12 +281,15 @@ export default class LandingPageController extends BlockComponent<
       
       ],
       userAddressID:'',
+      selectedUserAddress:'',
       merchantAddressID:0,
       selectedCategory:'Select Category',
       animalCutsCount:0,
       isSuccessPopUp:false,
       isLoading:false,
-      order_number:''
+      order_number:'',
+      filterByCategoryApiId:''
+      
 
 
     };
@@ -540,15 +544,10 @@ export default class LandingPageController extends BlockComponent<
     }
 
 
-
-
     else if(message)
     {
       this.subAsyncRecieve(message)
     }
-
-
-
 
 
  
@@ -1536,16 +1535,19 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
-async submitPickupRequestHandler(item:any,animalCuts:any,selectedSlot:any,userAddressID:any,selectedPortion:any) {
+async submitPickupRequestHandler(deliverOption:any,animalCuts:any,
+  selectedSlot:any,userAddressID:any,selectedPortion:any,userAddress:string) {
 const sub_category_id=selectedPortion.map((item:any)=>item.id)
 const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
 console.log('option====',this.state.setDeliverOption);
 console.log('submitID====',sub_category_id);
 console.log(' sub_category_quantity====',sub_category_quantity);
+console.log(' sub_category_quantity====',userAddress);
+console.log(' sub_category_quantity====',this.state.selectedUserAddress);
 
 console.log();
 
-    if(item.length==0)
+    if(deliverOption.length==0)
     {
       alert('please select an option')
       return false
@@ -1581,17 +1583,24 @@ console.log();
       'token': userDetail?.meta?.token
     };
 
-    const httpBody = {
+    const httpBody =
+    {
       "order_items":{
           "catalogue_id":sub_category_id, 
           "quantity":sub_category_quantity,
           "address": "test Office address",
           "taxable":"true",
           "slot": "4:00PM",
-          "taxable_value":0.1233,
-          "other_charges":0.124
-      }
-  }
+          // "taxable_value":0.1233,
+          // "other_charges":0.124
+      }}
+      
+     const userHttpBody= {
+        "order_items":{
+            "catalogue_id":sub_category_id, 
+            "quantity":sub_category_quantity,
+            "address": userAddress,
+            "taxable":"true",}}
 
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1610,7 +1619,7 @@ console.log();
 
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestBodyMessage),
-      JSON.stringify(httpBody)
+      JSON.stringify( deliverOption=='Pickup'?httpBody:userHttpBody)
     );
 
     requestMessage.addData(
