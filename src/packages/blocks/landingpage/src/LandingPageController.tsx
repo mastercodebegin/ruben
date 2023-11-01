@@ -371,18 +371,12 @@ export default class LandingPageController extends BlockComponent<
       this.subAsyncRecieve(message)
     }
 
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getCategoriesId != null &&
-      this.getCategoriesId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const categories = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.categoryCallback.bind(this)(error, categories?.data)
+    else if(message)
+    {
+      this.subAsyncRecieve(message)
     }
+
+  
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -612,6 +606,18 @@ export default class LandingPageController extends BlockComponent<
       );
       this.filterCategoryCallBack(filteredList)
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getCategoriesId != null &&
+    this.getCategoriesId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const categories = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.categoryCallback.bind(this)(error, categories?.data)
+  }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getViewAllProductId != null &&
