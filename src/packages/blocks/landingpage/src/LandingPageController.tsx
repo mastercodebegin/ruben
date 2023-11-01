@@ -398,11 +398,10 @@ export default class LandingPageController extends BlockComponent<
     const farmDetails = message.getData(
       getName(MessageEnum.RestAPIResponceSuccessMessage)
     );
-        
-    this.setState({ show_loader: false,productDetails: farmDetails.data[0]})
     let error = message.getData(
       getName(MessageEnum.RestAPIResponceErrorMessage)
     );
+    this.getFarmCallBack(farmDetails,error)
   }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -696,6 +695,16 @@ this.setState({aboutUsData:aboutus})
       this.setState({ videoLibrary: videoLibrary?.data, show_loader: false })
     }
   }
+
+  getFarmCallBack(farmDetails:any,error:any){
+    if (error) {
+      this.setState({ show_loader: false })
+      Alert.alert('Error', 'Something went wrong, Please try again later')
+    } else {
+      this.setState({ productDetails: farmDetails.data[0], show_loader: false })
+    }
+  }
+
   getSubcategoryCallback(subCategories: any, error: any) {
     if (error) {
       this.setState({ show_loader: false })
