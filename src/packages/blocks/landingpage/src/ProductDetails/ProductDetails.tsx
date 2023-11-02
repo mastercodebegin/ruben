@@ -76,7 +76,14 @@ export default class ProductDetailScreen extends LandingPageController {
           {this.state.showRecurringModal && (
             <RecurringModal 
             visible={this.state.showRecurringModal}
-            setVisible={()=>this.setState({showRecurringModal:false})}/>
+            setVisible={()=>this.setState({showRecurringModal:false})}
+            recurringOrder={(quantity,frequency)=>{              
+              this.addToCart(id,quantity,frequency);
+              this.setState({showRecurringModal:false})
+              setTimeout(() => {
+                this.props.navigation.navigate('MyCart');
+              }, 1000);
+            }}/>
           )}
 
             <View

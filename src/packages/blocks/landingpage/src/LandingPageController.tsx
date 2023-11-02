@@ -1424,7 +1424,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number) {
+  async addToCart(id: number,quantity?:number,frequency?:string) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1435,11 +1435,12 @@ this.setState({aboutUsData:aboutus})
     const httpBody = {
       "order_items": {
         "catalogue_id": id,
-        "quantity": 1,
+        "quantity": quantity ? quantity : 1,
         "taxable": "true",
         "taxable_value": 0.1233,
         "other_charges": 0.124,
-        "delivered_at": "2023-04-21T12:27:59.395Z"
+        "delivered_at": "2023-04-21T12:27:59.395Z",
+        "frequency":frequency
       }
     }
 

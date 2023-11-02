@@ -21,7 +21,7 @@ interface S {
 interface P {
   visible: boolean;
   setVisible: () => void;
-  //   addAddress: (atrs: any) => void;
+  recurringOrder: (quantity:number, frequency:string) => void;
 }
 export class RecurringModal extends React.Component<P, S> {
   constructor(props: any) {
@@ -106,7 +106,7 @@ export class RecurringModal extends React.Component<P, S> {
             <Button
               style={{ marginTop: 20 }}
               testID="add_subscription"
-              onPress={() => alert("call")}
+              onPress={()=>this.props.recurringOrder(this.state.quantity,this.state.frequency)}
               label={"Add Subscription"}
             />
           </KeyboardAwareScrollView>
