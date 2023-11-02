@@ -1860,12 +1860,10 @@ console.log();
       this.setState({ animalPortions: filteredArray });
      
       this.setState({animalCutsCount:this.state.animalCutsCount-1})
-      console.log('================================',this.state.animalCutsCount);
       
     
     }
     else {
-      //const filterd = this.state.animalCutsOptionsList.filter((v)=>v.title==item)
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
       this.setState({ animalPortions: filteredArray, });
       this.setState({animalCutsCount:this.state.animalCutsCount-1})
