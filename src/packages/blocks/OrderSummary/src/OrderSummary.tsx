@@ -116,10 +116,12 @@ export default class OrderSummary extends OrderSummaryController {
               </View>
               <View style={styles.addedItems}>
                 {this.state.productsList.map((item,index) => { 
+                   const frequency = item.attributes?.frequency; 
                   return (
                     <View key={index}>
                       <ProductDetailComponent
                       name={item.attributes?.catalogue?.data?.attributes?.categoryCode}
+                      subscriptionProduct={frequency!="" && frequency != null ? true : false}
                       price={item.attributes?.catalogue?.data?.attributes?.price}
                       quantity={item.attributes?.quantity}
                       index={index}
