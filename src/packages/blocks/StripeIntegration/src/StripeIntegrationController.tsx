@@ -9,8 +9,6 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
-import { showToast } from "../../../components/src/ShowToast";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
