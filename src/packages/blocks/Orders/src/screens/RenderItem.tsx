@@ -5,7 +5,8 @@ import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/consta
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
 import moment from 'moment';
-const RenderProducts = ({ item, index }: any) => {        
+const RenderProducts = ({ item, index }: any) => {       
+    const frequency = item.attributes?.frequency; 
     return (
         <View key={index} style={rstyles.imageContainer}>
         <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
@@ -13,6 +14,7 @@ const RenderProducts = ({ item, index }: any) => {
             <View style={styles.row}>
                 <Text style={[styles.productName,{fontWeight:"bold"}]}>
                     {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
+                        {frequency &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}
                     </Text>
                     <View>
                 <Text style={styles.price}>
@@ -77,7 +79,7 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
         <View style={rstyles.main}>
                 {
                     item?.attributes?.order_items?.data.map((item:any,i:number) => {
-                        return <RenderProducts  item={item} index={i} />
+                        return <RenderProducts item={item} index={i} />
                         
                     })
            }

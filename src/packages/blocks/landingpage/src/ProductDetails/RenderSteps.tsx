@@ -26,7 +26,7 @@ const RenderSteps = ({ header, description, images }: RenderStepsTypes) => {
                   borderRadius: 10,
                   marginRight: 10,
                 }}
-                source={item?.image}
+                source={{uri:item?.url}}
               />
             );
           }}

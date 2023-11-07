@@ -19,7 +19,3 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
 }));
 
 jest.mock("react-native-keyboard-aware-scroll-view",()=>({KeyboardAwareScrollView:({children})=>(<>{children}</>)}))
-jest.mock("../../framework/src/Utilities", () => ({
-  getStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
-  setStorageData: jest.fn(() => { }),
-}));

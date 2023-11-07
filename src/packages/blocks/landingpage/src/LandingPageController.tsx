@@ -41,6 +41,7 @@ interface S {
   // Customizable Area Start
   selectedTab: string
   showProfileModal: boolean
+  showRecurringModal: boolean
   profileImage: any;
   name: string;
   email: string;
@@ -75,6 +76,7 @@ interface S {
   categoryList: Array<object>;
   subCategoryList: Array<object>;
   productList: Array<any>;
+  productDetails:any;
   recommentproduct: Array<any>;
   remainingproduct: any;
   filterByCategoryApiId: any;
@@ -129,6 +131,7 @@ export default class LandingPageController extends BlockComponent<
     this.state = {
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
+      showRecurringModal:false,
       aboutUsData:{},
       profileImage: '',
       name: '',
@@ -163,6 +166,7 @@ export default class LandingPageController extends BlockComponent<
         images: [],
         desciption: ''
       }],
+      productDetails:{},
       refresh: false,
       imageBlogList: [],
       videoLibrary: [],
@@ -313,44 +317,7 @@ export default class LandingPageController extends BlockComponent<
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
-      if (profileDetails?.data?.attributes) {
-        const {
-          about_me,
-          email_address,
-          facebook_link,
-          full_name,
-          instagram_link,
-          phone_number,
-          photo,
-          whatsapp_link,
-          id
-        } = profileDetails.data.attributes;
-        this.setState({
-          about_me, email: email_address,
-          facebook_link, name: full_name,
-          instagram_link, phone_number: String(phone_number),
-          profileImage: photo?.url,
-          whatsapp_link,
-          id: id,
-          loader: false
-        })
-        const dispatch = store?.dispatch;
-        dispatch({
-          type: 'PROFILE_DETAILS',
-          payload: {
-            about_me,
-            email_address,
-            facebook_link,
-            full_name,
-            instagram_link,
-            phone_number,
-            photo,
-            whatsapp_link,
-            id
-          }
-        })
-      } 
+      this.profileDetailsCallback(profileDetails);
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -385,8 +352,20 @@ export default class LandingPageController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.categoryCallback.bind(this)(error, categories?.data)
+      this.categoryCallback.bind(this)(error, categories.data)
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getFarmId != null &&
+    this.getFarmId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const farmDetails = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.getFarmCallBack(farmDetails,error)
+  }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -410,8 +389,6 @@ export default class LandingPageController extends BlockComponent<
     ) {
      
         this.remainingProductCallback(message)
-      
-
     }
     else {
       this.receiveCallback(message)
@@ -527,6 +504,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.videoLibraryCallback(videoLibrary, error)
+
     } 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -537,10 +515,7 @@ export default class LandingPageController extends BlockComponent<
       const productListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log(error);
+     
       this.setState({ viewAllProductList: productListData.data, show_loader: false })
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -683,6 +658,16 @@ this.setState({aboutUsData:aboutus})
       this.setState({ videoLibrary: videoLibrary?.data, show_loader: false })
     }
   }
+
+  getFarmCallBack(farmDetails:any,error:any){
+    if (error) {
+      this.setState({ show_loader: false })
+      Alert.alert('Error', 'Something went wrong, Please try again later')
+    } else {
+      this.setState({ productDetails: farmDetails.data[0], show_loader: false })
+    }
+  }
+
   getSubcategoryCallback(subCategories: any, error: any) {
     if (error) {
       this.setState({ show_loader: false })
@@ -704,6 +689,47 @@ this.setState({aboutUsData:aboutus})
       }
     }
   }
+
+  profileDetailsCallback(profileDetails:any){
+    if (profileDetails?.data?.attributes) {
+      const {
+        about_me,
+        email_address,
+        facebook_link,
+        full_name,
+        instagram_link,
+        phone_number,
+        photo,
+        whatsapp_link,
+        id
+      } = profileDetails.data.attributes;
+      this.setState({
+        about_me, email: email_address,
+        facebook_link, name: full_name,
+        instagram_link, phone_number: String(phone_number),
+        profileImage: photo?.url,
+        whatsapp_link,
+        id: id,
+        loader: false
+      })
+      const dispatch = store?.dispatch;
+      dispatch({
+        type: 'PROFILE_DETAILS',
+        payload: {
+          about_me,
+          email_address,
+          facebook_link,
+          full_name,
+          instagram_link,
+          phone_number,
+          photo,
+          whatsapp_link,
+          id
+        }
+      })
+    } 
+  }
+  
   updateProfileCallback(error: any, response: any) {
     if (error) {
       this.showAlert('something went wrong')
@@ -718,6 +744,7 @@ this.setState({aboutUsData:aboutus})
   getprofileDetailsId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
+  getFarmId:string='';
   getAboutUsId: any;
   getSubCategoryId: string = '';
   getBlogPostsId: string = '';
@@ -814,6 +841,37 @@ this.setState({aboutUsData:aboutus})
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async farmDetails( loader = true){    
+    this.setState({ show_loader: loader })
+     const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getFarmId = getValidationsMsg.messageId;
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.farmsEndpoint
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
@@ -1366,7 +1424,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number) {
+  async addToCart(id: number,quantity?:number,frequency?:string) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1377,11 +1435,12 @@ this.setState({aboutUsData:aboutus})
     const httpBody = {
       "order_items": {
         "catalogue_id": id,
-        "quantity": 1,
+        "quantity": quantity ? quantity : 1,
         "taxable": "true",
         "taxable_value": 0.1233,
         "other_charges": 0.124,
-        "delivered_at": "2023-04-21T12:27:59.395Z"
+        "delivered_at": "2023-04-21T12:27:59.395Z",
+        "frequency":frequency
       }
     }
 

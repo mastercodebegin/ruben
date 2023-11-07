@@ -245,7 +245,9 @@ export default class Analytics extends AnalyticsController {
                   <View style={styles.seperator} />
                   <View style={styles.box}>
                     <Text style={styles.boxHeader}>Remaining Cuts</Text>
-                    <Text style={styles.boxText}>{'3 (10%)'}</Text>
+                    <Text style={styles.boxText}>{this.state.totalCuts} ({this.state.totalCuts === 0
+                    ? '0%)'
+                    : `${((this.state.totalCuts - this.state.usedCuts) / this.state.totalCuts) * 100}%)`}</Text>
                   </View>
                 </View>
               </View>

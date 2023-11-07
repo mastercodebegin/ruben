@@ -15,7 +15,7 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY } from "../assets";
+import { SEARCH, EXPLORE_BTN, CHICKEN } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
@@ -174,50 +174,42 @@ export class ExplorePage extends LandingPageController {
                 showsHorizontalScrollIndicator={false}
                 renderItem={this.renderItem}
               />
-             {this.state.productList?.map((item:any,index:number)=>{
-                const {attributes} = item;         
-                return(
-                  this.state.selectedCat == null ?
-                  <>
-                  {attributes?.catalogue?.catalogues?.data.length > 0 &&
-                  <View style={styles.productWrap}>
-                    <View style={styles.productContainer}>
-                      <Text style={styles.itemCategory}>{attributes.name}</Text>
-                      {attributes?.catalogue.catalogues_count > 8 &&
-                      <Text onPress={()=>this.props.navigation.navigate("ViewProduct",{category: attributes})} style={styles.seeText}>SEE ALL</Text>}
-                    </View>
-                    <RenderItems
-                      navigation={this.props.navigation}
-                      onPressCart={this.addToCart.bind(this)}
-                      onpressFav={this.AddToFavorites.bind(this)}
-                      testID="products_list_id2"
-                      handleLoadMore={() => { this.handleLoadMore() }}
-                      item={attributes?.catalogue?.catalogues?.data}
-                      header={true}
-                      rating={true}
-                    />
-                  </View>}
-                  </>:
-                (this.state.selectedCat ==  attributes?.id) &&
-                    <View style={styles.productWrap}>
-                      <View style={styles.productContainer}>
-                        <Text style={styles.itemCategory}>{attributes.name}</Text>
-                        {attributes?.catalogue.catalogues_count > 8 &&
-                        <Text onPress={()=>this.props.navigation.navigate("ViewProduct",{category: attributes})} style={styles.seeText}>SEE ALL</Text>}
-                      </View>
-                      <RenderItems
-                        navigation={this.props.navigation}
-                        onPressCart={this.addToCart.bind(this)}
-                        onpressFav={this.AddToFavorites.bind(this)}
-                        testID="products_list_id2"
-                        handleLoadMore={() => { this.handleLoadMore() }}
-                        item={attributes?.catalogue?.catalogues?.data}
-                        header={true}
-                        rating={true}
-                      />
-                    </View>
-                )
-              })}
+              {this.state.showSearchResults ? (
+                <RenderItems
+                  navigation={this.props.navigation}
+                  onPressCart={this.addToCart.bind(this)}
+                  testID="products_list_id"
+                  isSearch
+                  onpressFav={this.AddToFavorites.bind(this)}
+                  handleLoadMore={() => {
+                  }}
+                  prodList={this.state.productList}
+                  item={this.state.searchResults}
+                  rating={false}
+                />
+              ) : (
+                <>
+                  <RenderItems
+                navigation={this.props.navigation}
+                onPressCart={this.addToCart.bind(this)}
+                testID="products_list_id"
+                onpressFav={this.AddToFavorites.bind(this)}
+                handleLoadMore={() => { this.handleLoadMore() }}
+                item={this.state.productList}
+                rating={false}
+              />
+              <RenderItems
+                navigation={this.props.navigation}
+                onPressCart={this.addToCart.bind(this)}
+                onpressFav={this.AddToFavorites.bind(this)}
+                testID="products_list_id2"
+                handleLoadMore={() => { this.handleLoadMore() }}
+                item={this.state.productList}
+                header={true}
+                rating={true}
+              />
+                </>
+              )}
             </View>
           </ScrollView>
           {this.props.currentUser === "user" ? (
@@ -387,20 +379,4 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
   },
-  productWrap:{
-    padding:20
-  },
-  productContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between'
-  },
-  itemCategory: {
-    color: MID_PEACH,
-    fontWeight: "bold",
-    fontSize: 17,
-  },
-  seeText:{
-    color:PRIMARY,
-    fontWeight: "bold",
-  }
 });
