@@ -19,7 +19,7 @@ const SortingDropdown = ({
     testID = "sortingDropdown"
 
 }: Props) => {
-    const RenderItem = ({ item, index }: any): ReactElement<any, any> => {
+    const RenderItem = ({ item, index }: any) => {
         return (
             <TouchableOpacity 
             style={styles.item} 

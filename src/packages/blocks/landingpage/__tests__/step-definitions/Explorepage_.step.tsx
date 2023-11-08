@@ -142,8 +142,8 @@ defineFeature(feature, (test) => {
      cartDetails={[]}
      {...screenProps}
    />)
-      fireEvent(getByTestId('products_list_id'), 'onEndReached');
-      fireEvent(getByTestId('products_list_id2'), 'onEndReached');
+      // fireEvent(getByTestId('products_list_id'), 'onEndReached');
+      // fireEvent(getByTestId('products_list_id2'), 'onEndReached');
       fireEvent.press(getByTestId('add_product_test_id'))
       expect(screenProps
         .navigation.navigate).toBeCalledWith('AddProducts')

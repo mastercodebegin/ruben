@@ -39,7 +39,7 @@ const statusBarHeight: number = StatusBar.currentHeight || 0;
 
 const DropdownComponent: <T>(
   props: DropdownProps<T>
-) => ReactElement<any, string | JSXElementConstructor<any>> | null =
+) => any =
   React.forwardRef((props, currentRef) => {
     const orientation = useDeviceOrientation();
     const {
@@ -462,6 +462,7 @@ const DropdownComponent: <T>(
           });
         } else {
           return (
+            //@ts-ignore
             <CInput
               testID={testID + ' input'}
               accessibilityLabel={accessibilityLabel + ' input'}

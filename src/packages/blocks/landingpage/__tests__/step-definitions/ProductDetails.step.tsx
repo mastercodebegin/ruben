@@ -74,13 +74,16 @@ defineFeature(feature, (test) => {
         item: { attributes: { categoryCode :"product name",price:45,description:'test description'},id:'d134',image:'https://testimage.com' }
         
       }
+      //@ts-ignore
       const { getByTestId } = render(<RenderAboutThisFarm {...RenderAboutThisFarmProps} />);
       const data = [ { item: null }, { item: { attributes: null } }]
       data.map((item) => {
+        //@ts-ignore
         render(<RenderAboutThisFarm {...{ ...RenderAboutThisFarmProps, ...item }} />)
       })
       fireEvent.press(getByTestId('add_to_fav_test_id'));
       expect(RenderAboutThisFarmProps.AddToFavorites).toBeCalled()
+      //@ts-ignore
       render(<RenderSteps header={""} description={""} images={[]}/>);
     })
   });

@@ -19,10 +19,9 @@ interface PaymentModalTypes {
   visible: boolean;
   customeText: string;
   customeDescription: string;
-  paymentAlerttype: 'cancel'|"PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
+  paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   isLoading: boolean;
   testID: string;
-  label?:string
 }
 const PaymentCustomeAlert = ({
   onpressClose,
@@ -33,19 +32,13 @@ const PaymentCustomeAlert = ({
   isLoading,
   testID="paymentAlert",
   paymentAlerttype,
-  label
 }: PaymentModalTypes) => {
   const getImageAsperAlert = () => {
     if (paymentAlerttype === "PaymentSuccess" || paymentAlerttype === "ThankYouForYourOder" || paymentAlerttype === "CodConfirmation") {
       return require("../../StripeIntegration/assets/ic_check_circle_icon.png")
-    } 
-    else if (paymentAlerttype === "PaymentFailed") {
+    } else if (paymentAlerttype === "PaymentFailed") {
       return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
-    } 
-    else if (paymentAlerttype === "cancel") {
-      return require("../../../components/src/blocked.png")
-    } 
-    else {
+    } else {
       return require("../../StripeIntegration/assets/ic_email_icon.png")
     }
   }
@@ -78,7 +71,7 @@ const PaymentCustomeAlert = ({
             {customeDescription}
           </Text>
           {isLoading === false && (
-               <Button label={label?label:"Continue"} testID="clickButton" onPress={onpressContinue}/>
+               <Button label="Continue" testID="clickButton" onPress={onpressContinue}/>
           )}
           <Text>{}</Text>
         </View>

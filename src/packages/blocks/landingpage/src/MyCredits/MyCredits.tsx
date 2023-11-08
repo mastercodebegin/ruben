@@ -23,10 +23,9 @@ export default class MyCreditScreen extends LandingPageController {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)(this.props?.route?.params?.categoryId);
-    this.getSlotsAndMerchantAddressHandler()
-    this.getUserAddress()
-    }
+    this.getRemainingProduct.bind(this)();
+   // this.getProductList(false)
+  }
   render() {
     return (
       //@ts-ignore
@@ -39,7 +38,8 @@ export default class MyCreditScreen extends LandingPageController {
             data={this.state.remainingproduct}
             showsVerticalScrollIndicator={false}
             bounces={false}
-            renderItem={({item}) => {
+            renderItem={({item}:any) => {
+              console.log("remianingProdut--",this.state.remainingproduct.length)
               return (
                 <View style={styles.main}>
                   <Image
@@ -83,16 +83,12 @@ export default class MyCreditScreen extends LandingPageController {
           />
           <Modal
             setCreditDetailModal={() => this.setState({ showMyCreditModal: false })}
-            submitCreditDetailModal={()=>this.submitPickupRequestHandler.bind(this)()}
             visible={this.state.showMyCreditModal}
-            remainingCuts={this.props?.route?.params?.remainingCuts}
-            categoryId={this.props?.route?.params?.categoryId}
             navigation={this.props.navigation} id={""} setVisibleProfileModal={function (): void {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
-            } } cartDetails={[]} />
-            
+            } } cartDetails={[]}          />
         </View>
       </HeaderWithBackArrowTemplate>
     );

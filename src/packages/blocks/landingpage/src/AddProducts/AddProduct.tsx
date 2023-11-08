@@ -54,12 +54,13 @@ export default class AddProducts extends LandingPageController {
         <KeyboardAvoidingView behavior="padding" style={styles.main}>
           <View style={styles.headerContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <TouchableOpacity testID="goBack" onPress={() => this.props.navigation.goBack()}>
                 <Image style={{ height: 15, width: 15 }} source={backArrow} />
               </TouchableOpacity>
               <Text style={styles.header}>{ADD_PRODUCTS}</Text>
             </View>
             <TouchableOpacity
+              testID="addMore" 
               onPress={() =>
                 this.setState({
                   productsList: [
@@ -73,6 +74,7 @@ export default class AddProducts extends LandingPageController {
             </TouchableOpacity>
           </View>
           <FlatList
+            testID="Product_list_id"
             data={this.state.productsList}
             bounces={false}
             contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
@@ -109,8 +111,8 @@ export default class AddProducts extends LandingPageController {
                       containerStyle={styles.containerStyle}
                       data={this.state.categoryList}
                       maxHeight={400}
-                      labelField={"title"}
-                      valueField={'title'}
+                      labelField="title"
+                      valueField="title"
                       placeholder="Select item"
                       onChange={(item: any) => {
                         const list = this.state.productsList;
@@ -141,8 +143,8 @@ export default class AddProducts extends LandingPageController {
                       containerStyle={styles.containerStyle}
                       data={this.state.subCategoryList}
                       maxHeight={400}
-                      labelField={"title"}
-                      valueField={'title'}
+                      labelField="title"
+                      valueField="title"
                       placeholder="Select item"
                       onChange={(item: any) => {
                         const list = this.state.productsList;

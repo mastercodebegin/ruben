@@ -140,7 +140,7 @@ export default class MyCart extends MyCartController {
                 {"No items added in the cart"}
                 </Text>)}
             renderItem={({item,index}:any) => { 
-              const frequency = item.attributes?.frequency;              
+              const frequency = item.attributes?.frequency;    
               return (
                 <ProductDetailComponent
                 name={item?.attributes?.catalogue?.data?.attributes?.categoryCode}
