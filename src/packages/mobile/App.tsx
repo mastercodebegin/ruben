@@ -42,8 +42,6 @@ import InvoiceBilling from '../blocks/InvoiceBilling/src/InvoiceBilling';
 import ContactUs from '../blocks/contactus/src/ContactusScreen';
 import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement';
 import PushNotificationHelper from '../blocks/pushnotifications/src/PushNotificationsHelper'
-import ViewProduct from '../blocks/landingpage/src/ExploreStore/ViewProduct';
-
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,
@@ -118,7 +116,6 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="ExplorePage" component={ExplorePage} />
-        <Stack.Screen name="ViewProduct" component={ViewProduct} />
         <Stack.Screen name="LandingPage" component={ReduxLandingPage} />
         <Stack.Screen name="Alert" component={Alert} />
         <Stack.Screen name="Inventory" component={Inventory} />

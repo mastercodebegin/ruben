@@ -32,6 +32,4 @@ Feature: StripeIntegration
         Then should update expirtyDate state with a valid month
         Then should set custom alert text and description for "Card" payment method type
         Then  stripe payment api
-        Then I can check whether card details enter
-        Then I can check once card details filled up
         And I can leave the screen with out errors

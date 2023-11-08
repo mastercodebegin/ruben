@@ -10,6 +10,7 @@ const ProductDetailComponent = ({
   onpressRemove,
   onpressIncrease,
   index,
+  subscriptionProduct
 }: any) => {
   return (
     <View style={styles.main}>
@@ -17,7 +18,7 @@ const ProductDetailComponent = ({
         <Image style={styles.image} source={MeatImage} />
         <View style={styles.innerContainer}>
           <View style={styles.row}>
-            <Text style={styles.productName}>{name}</Text>
+            <Text style={styles.productName}>{name} {subscriptionProduct &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}</Text>
             <Text style={styles.price}>{`$ ${price} X ${quantity}`}</Text>
           </View>
           <View style={[styles.row,{paddingTop:7}]}>

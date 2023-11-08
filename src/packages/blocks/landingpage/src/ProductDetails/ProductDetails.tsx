@@ -26,6 +26,7 @@ import RenderSteps from "./RenderSteps";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import RenderCategoriesList from "../RenderCategoriesList";
 import RenderAboutThisFarm from "./RenderAboutThisFarm";
+import {RecurringModal} from "../ProductDetails/RecurringModal";
 import { showToast } from "../../../../components/src/ShowToast";
 
 export const ImageData = [
@@ -51,16 +52,17 @@ export const sampleText =
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
-    this.getViewAllProduct(this.props?.route?.params?.id)
+    this.farmDetails();
   }
   
   render() {
-    const { id = '', description = '', name = '', price = '' ,productList=[]} = {
+    const { id = '', description = '', name = '', price = '' ,productList=[],image=""} = {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
       price: this.props?.route?.params?.price,
-      productList:this.props?.route?.params?.productList
+      productList:this.props?.route?.params?.productList,
+      image:this.props?.route?.params?.image
     }
     return (
       <SafeAreaView style={style.flex}>
@@ -71,6 +73,19 @@ export default class ProductDetailScreen extends LandingPageController {
           navigation={this.props.navigation}
         >
           <>
+          {this.state.showRecurringModal && (
+            <RecurringModal 
+            visible={this.state.showRecurringModal}
+            setVisible={()=>this.setState({showRecurringModal:false})}
+            recurringOrder={(quantity,frequency)=>{              
+              this.addToCart(id,quantity,frequency);
+              this.setState({showRecurringModal:false})
+              setTimeout(() => {
+                this.props.navigation.navigate('MyCart');
+              }, 1000);
+            }}/>
+          )}
+
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
@@ -133,7 +148,9 @@ export default class ProductDetailScreen extends LandingPageController {
                 <Text style={style.text}>$</Text>
                 <Text style={style.price}>{price}</Text>/kg
               </Text>
-              <View style={{ flexDirection: "row" }}>
+              
+            </View>
+            <View style={{ flexDirection: "row",marginVertical:10 }}>
                 <TouchableOpacity
                   testID="copy_link_test_id"
                   onPress={() => {
@@ -154,19 +171,24 @@ export default class ProductDetailScreen extends LandingPageController {
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.setState({showRecurringModal:true})}
+                  style={style.subsciptionButton}
+                >
+                  <Text style={style.cartText}>Subsciptions</Text>
+                </TouchableOpacity>
               </View>
-            </View>
             <RenderSteps
-              images={ImageData}
+              images={this.state.productDetails?.attributes?.step1_images}
               header="Step 01:"
-              description={sampleText}
+              description={this.state.productDetails?.attributes?.step_1}
             />
             <RenderSteps
-              images={ImageData}
+             images={this.state.productDetails?.attributes?.step2_images}
               header="Step 02:"
-              description={sampleText}
+              description={this.state.productDetails?.attributes?.step_2}
             />
-            <RenderSteps
+            {/* <RenderSteps
               images={ImageData}
               header="Step 03:"
               description={sampleText}
@@ -180,8 +202,8 @@ export default class ProductDetailScreen extends LandingPageController {
               images={ImageData}
               header="Step 05:"
               description={sampleText}
-            />
-            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} /> :<></>}
+            /> */}
+            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} details={this.state.productDetails} props={this.props.route.params}/> :<></>}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>
@@ -208,6 +230,12 @@ const style = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     marginLeft: 20,
+  },
+  subsciptionButton:{
+    backgroundColor: PRIMARY,
+    justifyContent: "center",
+    borderRadius: 20,
+    marginLeft: 10,
   },
   imageContainer: {
     flexDirection: "row",

@@ -112,12 +112,12 @@ const SignupComponent = ({
             />
             <TextInput
               secureTextEntry
-              label="Set Password"
+              label="Password"
               keyBoardtype="default"
               value={password}
               testID="user_password"
               onchangeText={onchangePassword}
-              placeholder="Set Password"
+              placeholder="Password"
               labeStyle={styles.label}
               containerStyle={styles.containerStyle}
             />
@@ -138,12 +138,12 @@ const SignupComponent = ({
               secureTextEntry
               keyBoardtype="default"
               onchangeText={onChangeMPassword}
-              label="set Password"
+              label="Password"
               value={mPassword}
               labeStyle={styles.label}
               testID="merchant_password_text_input_id"
               containerStyle={styles.containerStyle}
-              placeholder="Set Password"
+              placeholder="Passsword"
             />
             <TextInput
               keyBoardtype="default"

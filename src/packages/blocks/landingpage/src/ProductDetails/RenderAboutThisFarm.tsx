@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { DARK_RED, MEAT_IMAGE3, PRIMARY, badge } from "../assets";
 import { sampleText, ImageData } from "./ProductDetails";
-const RenderAboutThisFarm = ({ item , AddToFavorites}: any) => {
+const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
   return (
     <View style={styles.main}>
       <Text style={styles.header}>{"About this farm"}</Text>
@@ -18,25 +18,26 @@ const RenderAboutThisFarm = ({ item , AddToFavorites}: any) => {
         <View style={styles.row}>
           <Image style={styles.farmImage} source={MEAT_IMAGE3} />
           <View style={styles.headerInnerContainer}>
-            <Text style={styles.farmName}>Mark John's Farm</Text>
+            <Text style={styles.farmName}>{details?.attributes?.title}</Text>
             <Text style={styles.address}>
-              7460 Redwood BLVD , California USA
+              {details?.attributes?.address}
             </Text>
           </View>
         </View>
-        <Text style={styles.description}>{sampleText}</Text>
+        <Text style={styles.description}>{details?.attributes?.sub_title}</Text>
         <Text style={styles.photos}>PHOTOS</Text>
         <FlatList
-          data={ImageData}
+          data={details?.attributes?.images}
           horizontal
-          renderItem={({ item }) => (
-            <Image style={styles.image} source={item?.image} />
-          )}
+          renderItem={({ item }:any) => {
+          return (
+            <Image style={styles.image} source={{uri:item?.url}} />
+          )}}
         />
         <Text style={styles.photos}>PRODUCTS</Text>
 
         <View>
-          <Image style={styles.productImage} source={MEAT_IMAGE3} />
+          <Image style={styles.productImage} source={props?.image} />
           <View style={styles.productContainer}>
             <Text style={styles.productName}>{  item?.attributes?.categoryCode }</Text>
             <Text style={styles.price}>{`$ ${ item?.attributes?.price }/kg`}</Text>
