@@ -48,7 +48,7 @@ const RenderItem = ({
 }: Types) => {  
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
-  const percentage = ((partial / total) * 100)||0;  
+  const percentage = ((partial / total) * 100)||10;  
   
   return (
     <TouchableOpacity

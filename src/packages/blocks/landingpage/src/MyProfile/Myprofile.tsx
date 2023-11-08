@@ -102,7 +102,7 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params = {}) {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
-  renderItem({ item }: any) {
+  renderItem({ item }: any) {    
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
@@ -128,7 +128,7 @@ export default class Myprofile extends LandingPageController {
       discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
-      price: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.price,
+      price: item?.attributes?.price,
       onPressRemoveFromFav: () => {
         this.setState({ fetchFavorites: true })
         this.AddToFavorites(item?.id)
