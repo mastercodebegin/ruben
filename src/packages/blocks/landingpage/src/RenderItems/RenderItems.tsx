@@ -71,12 +71,9 @@ const RenderItem = ({
         <View style={styles.offerContainer}>
           {rating ? (
             <View style={styles.ratingContainer}>
-              <TouchableOpacity style={styles.badgeContainer}>
-                <Image style={styles.badge} source={RATING} />
-              </TouchableOpacity>
-              <Text style={styles.rating}>
-                {item?.attributes?.average_rating + "/5"}
-              </Text>
+              <Text style={styles.offer}>
+              {"-" + percentage + "% off"}
+            </Text>
             </View>
           ) : (
             <Text style={styles.offer}>

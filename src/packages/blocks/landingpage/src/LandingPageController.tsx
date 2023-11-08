@@ -34,6 +34,9 @@ export interface Props {
   updateCartDetails: (data: any) => void;
   cartDetails: Array<any>;
   setCreditDetailModal: () => void;
+  submitCreditDetailModal: () => void;
+  remainingCuts:any
+  categoryId:any
   // Customizable Area End
 }
 
@@ -69,7 +72,7 @@ interface S {
   refresh: boolean;
   imageBlogList: Array<object>;
   videoLibrary: Array<object>;
-  aboutUsData:any
+  aboutUsData: any
   visibleCard: number;
   categoryItem: string;
   subCategoryItem: string;
@@ -78,7 +81,7 @@ interface S {
   productList: Array<any>;
   productDetails:any;
   recommentproduct: Array<any>;
-  remainingproduct: any;
+  remainingproduct: Array<any>;
   filterByCategoryApiId: any;
   aboutus: any;
   orderList: Array<any>;
@@ -104,7 +107,18 @@ interface S {
   nearestLocation: string;
   setAddressOption: boolean;
   fetchFavorites: boolean;
-  selectedCategoryID:any
+  selectedCategoryID: any
+  animalPortions: Array<any>;
+  merchantAddress: string;
+  userAddress: Array<any>
+  userAddressID:any
+  selectedUserAddress:string
+  merchantAddressID:any
+  selectedCategory:any
+  animalCutsCount: number;
+  isSuccessPopUp:boolean
+  isLoading:boolean
+  order_number:string
   // Customizable Area End
 }
 
@@ -175,7 +189,7 @@ export default class LandingPageController extends BlockComponent<
       subCategoryItem: '',
       productList: [],
       recommentproduct: [],
-      remainingproduct:[],
+      remainingproduct: [],
       orderList: [],
       categoryList: [
         {
@@ -217,7 +231,7 @@ export default class LandingPageController extends BlockComponent<
       cartList: [],
       setProductPage: 1,
       showFavoriteList: [],
-      viewAllProductList:[],
+      viewAllProductList: [],
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
@@ -259,49 +273,28 @@ export default class LandingPageController extends BlockComponent<
         }
       ],
       selectedAnimalCuts: "Head",
-      animalAvailableSlots: [
-        {
-          time: "06:00 AM",
-          id: 0
-        },
-        {
-          time: "07:00 AM",
-          id: 1
-        },
-        {
-          time: "08:00 AM",
-          id: 2
-        },
-        {
-          time: "09:00 AM",
-          id: 3
-        },
-        {
-          time: "10:00 AM",
-          id: 4
-        },
-        {
-          time: "11:00 AM",
-          id: 5
-        },
-        {
-          time: "12:00 AM",
-          id: 6
-        },
-        {
-          time: "01:00 PM",
-          id: 7
-        },
-        {
-          time: "02:00 PM",
-          id: 8
-        }
-      ],
-      selectedAnimalSlot: "10:00 AM",
+      animalAvailableSlots: [],
+      selectedAnimalSlot: "",
       nearestLocation: "",
       setAddressOption: false,
-      fetchFavorites:false,
-      selectedCategoryID:'',
+      fetchFavorites: false,
+      selectedCategoryID: '',
+      merchantAddress: '',
+      animalPortions: [],
+      userAddress: [
+      
+      ],
+      userAddressID:'',
+      selectedUserAddress:'',
+      merchantAddressID:0,
+      selectedCategory:'Select Category',
+      animalCutsCount:0,
+      isSuccessPopUp:false,
+      isLoading:false,
+      order_number:'',
+      filterByCategoryApiId:''
+      
+
 
     };
     // Customizable Area End
@@ -313,7 +306,7 @@ export default class LandingPageController extends BlockComponent<
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null && this.getprofileDetailsId === message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-   ) {
+    ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -329,7 +322,8 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.searchProductsCallback(error, userDetails);
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.updateProfileDetailsId != null &&
       this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -342,6 +336,8 @@ export default class LandingPageController extends BlockComponent<
       );
       this.updateProfileCallback(error, userDetails)
     }
+
+
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getCategoriesId != null &&
       this.getCategoriesId ===
@@ -387,8 +383,10 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-     
-        this.remainingProductCallback(message)
+
+      this.remainingProductCallback(message)
+
+
     }
     else {
       this.receiveCallback(message)
@@ -408,16 +406,16 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
- 
+
 
   filterByCategoryCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterProductByCategoryId != null &&
       this.filterProductByCategoryId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -425,19 +423,19 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        this.setState({productList:filterByCategoryResponse?.data})
+        this.setState({ productList: filterByCategoryResponse?.data })
       }
     }
   }
 
   recommendProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.recommendProductApiCallId != null &&
       this.recommendProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -445,20 +443,20 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        
-        this.setState({productList:filterByCategoryResponse?.data,loader:false})
+
+        this.setState({ productList: filterByCategoryResponse?.data, loader: false })
       }
     }
   }
 
   remainingProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.remainingProductApiCallId != null &&
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const remainingProductResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -466,12 +464,12 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
-       
-        const arr =[]
-        arr.push(remainingProductResponse)
-   
 
-        this.setState({remainingproduct:arr,loader:false})
+        const arr = []
+        arr.push(remainingProductResponse)
+
+
+        this.setState({ remainingproduct: arr, loader: false })
       }
     }
   }
@@ -508,40 +506,31 @@ export default class LandingPageController extends BlockComponent<
     } 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getViewAllProductId != null &&
-      this.getViewAllProductId ===
+      this.userAddressApiCallId != null &&
+      this.userAddressApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const productListData = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-     
-      this.setState({ viewAllProductList: productListData.data, show_loader: false })
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getProductId != null &&
-      this.getProductId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      const productListData = message.getData(
+    ) 
+    {
+      const userAddress = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
+      console.log('callid: ======================================' + userAddress);
 
-      this.setState({ productList: productListData.data, show_loader: false })
+      this.userAddressCallback(userAddress, error)
+
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.filterByCategoryApiId != null &&
-    this.filterByCategoryApiId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
-    { 
-      const filteredList = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-    this.filterCategoryCallBack(filteredList)
+
+
+    else if(message)
+    {
+      this.subAsyncRecieve(message)
     }
+
+
+ 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAddProductId != null &&
@@ -560,18 +549,79 @@ export default class LandingPageController extends BlockComponent<
       this.cartCallBack(message)
     }
   }
-filterCategoryCallBack(filteredList:any){
-  if (filteredList?.message === 'No Inventory Present') {
-    showToast('No order present');
+  filterCategoryCallBack(filteredList: any) {
+    if (filteredList?.message === 'No Inventory Present') {
+      showToast('No order present');
+    }
+
+    if (filteredList?.inventory?.data?.length) {
+      const list = filteredList.inventory.data.map((item: any) => ({ data: item }))
+      this.setState({ showLoader: false, inventoryList: list });
+      return
+    }
+    this.setState({ showLoader: false });
   }
-  
-  if (filteredList?.inventory?.data?.length) {
-    const list = filteredList.inventory.data.map((item:any)=>({data:item}))
-    this.setState({ showLoader: false, inventoryList:list });
-    return
+
+  subAsyncRecieve(message: Message){
+     if ( this.getProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) 
+    {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+    
+
+      this.setState({ productList: productListData.data, show_loader: false })
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.submitPickupRequestCallId != null &&
+      this.submitPickupRequestCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const submitRequest = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.submitRequestCallback (submitRequest, error)
+
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getSlotsAndMerchantAddressCallId != null &&
+    this.getSlotsAndMerchantAddressCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const slotsAndMerchantRes = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
   }
-  this.setState({ showLoader: false });
-}
+    else if ( this.filterByCategoryApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const filteredList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.filterCategoryCallBack(filteredList)
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getViewAllProductId != null &&
+      this.getViewAllProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const productListData = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      this.setState({ viewAllProductList: productListData.data, show_loader: false })
+    } 
+
+  }
   cartCallBack(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -592,12 +642,12 @@ filterCategoryCallBack(filteredList:any){
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
       } else {
-        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload:[] });
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
       }
     }
   }
 
-  addToCartCallBack(message:Message) {
+  addToCartCallBack(message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToCartId != null &&
@@ -625,7 +675,7 @@ filterCategoryCallBack(filteredList:any){
         return;
       }
       showToast("Product added to favorites");
-      if (this.state.fetchFavorites) {        
+      if (this.state.fetchFavorites) {
         this.getFavorites();
       }
     }
@@ -647,8 +697,10 @@ filterCategoryCallBack(filteredList:any){
     if (error) {
       this.setState({ show_loader: false })
     } else {
+      console.log('data==================================', aboutus?.data?.length);
+
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
-this.setState({aboutUsData:aboutus})
+      this.setState({ aboutUsData: aboutus })
     }
   }
   videoLibraryCallback(videoLibrary: any, error: any) {
@@ -657,6 +709,19 @@ this.setState({aboutUsData:aboutus})
     } else {
       this.setState({ videoLibrary: videoLibrary?.data, show_loader: false })
     }
+  }
+  userAddressCallback(userAddress: any, error: any) {
+    if (error) {
+      this.showAlert('Something went wrong, please try again later')
+    } else {
+      console.log('User Address=========================', userAddress)
+      this.setState({userAddress:userAddress?.data})
+
+    }
+  }
+
+  submitRequestCallback(orderResponse: any, error: any) {
+      this.setState({isLoading:false,isSuccessPopUp:true,order_number:orderResponse?.data?.attributes?.order_no})
   }
 
   getFarmCallBack(farmDetails:any,error:any){
@@ -669,11 +734,22 @@ this.setState({aboutUsData:aboutus})
   }
 
   getSubcategoryCallback(subCategories: any, error: any) {
+    console.log('sub-cateogory call back========');
+
     if (error) {
       this.setState({ show_loader: false })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      this.setState({ subcategories: subCategories?.data, show_loader: false })
+      let arr=[]
+      for(let i=0;i<subCategories?.data.length;i++)
+      {
+          let obj={
+          id:subCategories?.data[i].attributes?.id,
+          title:subCategories?.data[i].attributes?.name
+        }
+        arr.push(obj)
+      }      
+      this.setState({ subcategories: subCategories?.data, show_loader: false,animalCutsOptionsList:arr })
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
@@ -741,6 +817,17 @@ this.setState({aboutUsData:aboutus})
       }
     }
   }
+
+  slotsAndMerchantRes(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    }
+    else {
+      this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
+
+    }
+  }
+
   getprofileDetailsId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
@@ -753,10 +840,12 @@ this.setState({aboutUsData:aboutus})
   addToFavId: string = ''
   getCartId: string = '';
   addToCartId: string = '';
+  submitPickupRequestCallId: string = '';
   filterProductByCategoryId: string = '';
   filterByCategoryApiId = '';
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
+  userAddressApiCallId: string = '';
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -775,6 +864,7 @@ this.setState({aboutUsData:aboutus})
   }
   getFavoritesId: string = '';
   getSearchProductId: string = ''
+  getSlotsAndMerchantAddressCallId: string = ''
   favListProps = {
     getFavoritesList: this.getFavorites
   }
@@ -944,6 +1034,38 @@ this.setState({aboutUsData:aboutus})
   showAlert(message: string) {
     Alert.alert('Alert', message)
   }
+  async getUserAddress() {
+    console.log('getUserAddress============================================================')
+
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.userAddressApiCallId = subcategory.messageId;
+
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_order_management/addresses'
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async getblogPosts() {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1133,7 +1255,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getRecommendProduct(v:any) {
+  async getRecommendProduct(v: any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1162,7 +1284,7 @@ this.setState({aboutUsData:aboutus})
 
   async filterByCategoryApi(categoryName: string) {
 
-    this.setState({showLoader:true,category:categoryName})
+    this.setState({ showLoader: true, category: categoryName })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1176,7 +1298,7 @@ this.setState({aboutUsData:aboutus})
     filterCategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
-    
+
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1189,11 +1311,13 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(filterCategory.id, filterCategory);
   }
 
-  
-  async getRemainingProduct() {
+
+  async getRemainingProduct(id:any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
+    console.log('id==================================',id)
+    
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
@@ -1204,12 +1328,14 @@ this.setState({aboutUsData:aboutus})
     this.remainingProductApiCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
+      `bx_block_catalogue/catalogues/my_credits?category_id=${id}&start_date=2023-08-04&end_date=2023-08-11`
+      //`bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
+
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       configJSON.validationApiMethodType
@@ -1234,7 +1360,7 @@ this.setState({aboutUsData:aboutus})
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.subCategory}${subCategoryId}`
+      `${configJSON.subCategory}`
     );
 
     subcategory.addData(
@@ -1339,7 +1465,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getViewAllProduct(id:number){
+  async getViewAllProduct(id: number) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1352,7 +1478,7 @@ this.setState({aboutUsData:aboutus})
     this.getViewAllProductId = getViewAllProductListMsg.messageId;
     getViewAllProductListMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getViewAllProductListEndpoint}?category_id=${id}`
+      `${configJSON.getViewAllProductListEndpoint}?id=${id}`
     );
     getViewAllProductListMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1472,6 +1598,102 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(requestMessage.id, requestMessage);
 
   }
+async submitPickupRequestHandler(deliverOption:any,animalCuts:any,
+  selectedSlot:any,userAddressID:any,selectedPortion:any,userAddress:string) {
+const sub_category_id=selectedPortion.map((item:any)=>item.id)
+const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
+console.log('option====',this.state.setDeliverOption);
+console.log('submitID====',sub_category_id);
+console.log(' sub_category_quantity====',sub_category_quantity);
+console.log(' sub_category_quantity====',userAddress);
+console.log(' sub_category_quantity====',this.state.selectedUserAddress);
+
+console.log();
+
+    if(deliverOption.length==0)
+    {
+      alert('please select an option')
+      return false
+    }
+    if(animalCuts==0)
+    {
+      alert('please select animalCuts')
+      return false
+    }
+   
+    if(this.state.setDeliverOption=='Pickup')
+    {
+      if(selectedSlot.length==0)
+      {
+        alert('please select Pickup slot')
+        return false
+      }
+    }
+    if(this.state.setDeliverOption=='Deliver' || this.state.setDeliverOption=='Shipping')
+    {
+      if(userAddressID.length==0)
+      {
+        alert('please select address')
+        return false
+      }
+      
+    }
+    this.setState({isLoading:true})
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetail: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': userDetail?.meta?.token
+    };
+
+    const httpBody =
+    {
+      "order_items":{
+          "catalogue_id":sub_category_id, 
+          "quantity":sub_category_quantity,
+          "address": "test Office address",
+          "taxable":"true",
+          "slot": "4:00PM",
+          // "taxable_value":0.1233,
+          // "other_charges":0.124
+      }}
+      
+     const userHttpBody= {
+        "order_items":{
+            "catalogue_id":sub_category_id, 
+            "quantity":sub_category_quantity,
+            "address": userAddress,
+            "taxable":"true",}}
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.submitPickupRequestCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_shopping_cart/order_items/pickup'
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify( deliverOption=='Pickup'?httpBody:userHttpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+  }
+
   shareProducts(id: number) {
     Clipboard.setString(
       `${deepLinkingURL}?/product=${1}`
@@ -1612,7 +1834,7 @@ this.setState({aboutUsData:aboutus})
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
@@ -1641,7 +1863,7 @@ this.setState({aboutUsData:aboutus})
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
   }
@@ -1664,29 +1886,84 @@ this.setState({aboutUsData:aboutus})
   }
   handleDeliverOptionChange = (item: any) => {
     console.log("selected deliver option", item);
+    if(item=='Pickup'){
+      this.getSlotsAndMerchantAddressHandler()
+    }
+    if(item=='Shipping'|| item=='Deliver')
+    {      
+      this.getUserAddress()
+    }
+
+    
+    
     this.setState({ setDeliverOption: item });
   };
 
-  handleIncreaseAnimalCuts = () => {
-    console.log(
-      "selected handleDecreaseAnimalCuts",
-      this.state.animalCutsNumber
-    );
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
+  handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => {
+    //if(avilable_cuts<remainingCuts)
+    
+    
+    const selectedObj = this.state.animalPortions[index]
+    const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 }
+    const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+    filteredArray.splice(index, 0, obj)
+    this.setState({ animalPortions: filteredArray });
+    this.setState({animalCutsCount:this.state.animalCutsCount+1})
+  
+    
   };
 
 
-  handleDecreaseAnimalCuts = () => {
-    console.log("selected handleDecreaseAnimalCuts");
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
+  handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
+    if (item.quantity > 1) {
+      const selectedObj = this.state.animalPortions[index]
+      const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity - 1 }
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      filteredArray.splice(index, 0, obj)
+      this.setState({ animalPortions: filteredArray });
+     
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+      
+    
+    }
+    else {
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      this.setState({ animalPortions: filteredArray, });
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+
+
+    }
   };
-  handleAnimalCutsOption = (item: any) => {
+  handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
+    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
+    
+    if(filterd.length>0)
+    {
+      this.setState({
+      handleAnimalCutsDropDown: false})
+      alert('You already added '+item)
+
+      return false
+    }
+
+    
     console.log("option", item);
+    const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
-      selectedAnimalCuts: item
+      selectedAnimalCuts: item,
+      handleAnimalCutsDropDown: false,
+      animalPortions: [...this.state.animalPortions, obj]
     });
+    
+    this.setState({animalCutsCount:this.state.animalCutsCount+1,
+    })
+  
+  
+
   };
   handleAnimalSelectSlots = (item: any) => {
+    console.log('selected slots', item);
+
     this.setState({ selectedAnimalSlot: item });
   };
   showHideCreditDetailModal() {
@@ -1718,13 +1995,41 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
   }
 
+  getSlotsAndMerchantAddressHandler = async () => {
+    console.log('merchantAddressHandler=================')
+    
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const SearchProductRequest = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getSlotsAndMerchantAddressCallId = SearchProductRequest.messageId;
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `/bx_block_shippingchargecalculator/pickups`
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
+  }
+
   searchProductsCallback = (error: any, response: any) => {
     if (error) {
       this.showAlert('something went wrong ')
     } else if (response) {
-      this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
+      this.setState({ showSearchResults: true, searchResults: response?.product, show_loader: false })
     }
   }
-  
+
   // Customizable Area End
 }
