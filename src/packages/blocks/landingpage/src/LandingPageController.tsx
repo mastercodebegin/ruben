@@ -322,44 +322,6 @@ export default class LandingPageController extends BlockComponent<
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
-      // if (profileDetails?.data?.attributes) {
-      //   const {
-      //     about_me,
-      //     email_address,
-      //     facebook_link,
-      //     full_name,
-      //     instagram_link,
-      //     phone_number,
-      //     photo,
-      //     whatsapp_link,
-      //     id
-      //   } = profileDetails.data.attributes;
-      //   this.setState({
-      //     about_me, email: email_address,
-      //     facebook_link, name: full_name,
-      //     instagram_link, phone_number: String(phone_number),
-      //     profileImage: photo?.url,
-      //     whatsapp_link,
-      //     id: id,
-      //     loader: false
-      //   })
-      //   const dispatch = store?.dispatch;
-      //   dispatch({
-      //     type: 'PROFILE_DETAILS',
-      //     payload: {
-      //       about_me,
-      //       email_address,
-      //       facebook_link,
-      //       full_name,
-      //       instagram_link,
-      //       phone_number,
-      //       photo,
-      //       whatsapp_link,
-      //       id
-      //     }
-      //   })
-      // } 
       this.profileDetailsCallback(profileDetails);
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&

@@ -153,26 +153,21 @@ defineFeature(feature, (test) => {
     });
     then('users can see available product list', () => {
         const productList = AddProductBlock.findWhere(
-            (node) => node.prop("testID") === "product_list_id"
+            (node) => node.prop("testID") === "Product_list_id"
           );
-        //   const wrapper= shallow(instance.renderItem({item:{},index:1}))
-        //   const touchableOpacity = wrapper.findWhere(
-        //    (node) => node.prop("testID") === "1selectedSubscategory")
-        //    touchableOpacity.simulate("press");
-
-        // instance.setState({ isSearching: true, searchResult: [] });
-        // productList.render();
-        // // fireEvent.press(getByTestId('incoming_orders_test_id'));
-        // const data = [null, {}, { attributes: {} }]
-        // data.forEach((data) => {
-        //   render(<RenderItem item={data} />);
-        // })
-        // const increaseBtn = jest.fn();
-        // const { getByTestId } = render(<RenderItem item={apiResponse.data[0]} acceptDeclineOrders={increaseBtn} />);
-        // fireEvent.press(getByTestId('decline_test_id'));
-        // fireEvent.press(getByTestId('accept_test_id'));
-        // expect(increaseBtn).toBeCalled()
-  
+          productList.renderProp('renderItem')({
+            item: {
+              id: 2,
+              attributes: {
+                id: 2,
+                duration: 'Monthly',
+                currency: 'USD',
+                amount: '250',
+                plan_name: 'Monthly'
+              }
+            }, index: 0
+          })
+          productList.renderProp("keyExtractor")({id:0})
       });
   });
 });

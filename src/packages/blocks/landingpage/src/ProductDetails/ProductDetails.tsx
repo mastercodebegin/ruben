@@ -163,6 +163,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <Image style={style.shareImage} source={shareIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity
+                testID="adToCart"
                   onPress={() =>
                     this.addToCart.bind(this)(this.props?.route?.params?.id)
                   }
@@ -171,6 +172,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                 testID="Subscription"
                   onPress={() => this.setState({showRecurringModal:true})}
                   style={style.subsciptionButton}
                 >

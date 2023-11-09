@@ -68,6 +68,21 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
     });
 
+    then("user can click on btn adToCart", () => {
+      let adToCart = SettingsBlock.findWhere((node) => node.prop('testID') === "adToCart");
+      adToCart.simulate('press')
+    })
+
+    then("user can click on btn subscription", () => {
+      let Subscription = SettingsBlock.findWhere((node) => node.prop('testID') === "Subscription");
+      Subscription.simulate('press')
+    })
+
+    then("user can see product details", () => {
+      instance.setState({showRecurringModal:true})  
+      instance.addToCart(1,1,"weekly")    
+    })
+
     then("user can see about this farm", () => {
       const RenderAboutThisFarmProps = {
         AddToFavorites: jest.fn(),
