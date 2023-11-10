@@ -121,8 +121,10 @@ defineFeature(feature, (test) => {
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
+      instance.onpressExploreStore();
       instance.getProductByCategory();
-      instance.checkValidation()
+      instance.checkValidation();
+      instance.postCard();
     })
 
     then("I can leave the screen with out errors", () => {
