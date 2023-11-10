@@ -36,9 +36,9 @@ export interface DropdownProps<T> {
   data: T[];
   value?: T | string | null;
   placeholder?: string;
-  labelField?: keyof T;
-  valueField?: keyof T;
-  searchField?: keyof T;
+  labelField?: string;
+  valueField?: string;
+  searchField?: string;
   search?: boolean;
   searchPlaceholder?: string;
   disable?: boolean;
