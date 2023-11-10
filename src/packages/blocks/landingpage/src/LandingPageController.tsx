@@ -1533,7 +1533,6 @@ this.setState({aboutUsData:aboutus})
   }
 
   handleLoadMore() {
-    console.log("loadMore called");
     this.setState({ setProductPage: this.state.setProductPage + 1 }, () => {
       this.getProductList(true)
     });
@@ -1673,20 +1672,13 @@ this.setState({aboutUsData:aboutus})
   };
 
   handleIncreaseAnimalCuts = () => {
-    console.log(
-      "selected handleDecreaseAnimalCuts",
-      this.state.animalCutsNumber
-    );
     this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
   };
 
-
   handleDecreaseAnimalCuts = () => {
-    console.log("selected handleDecreaseAnimalCuts");
     this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
   };
   handleAnimalCutsOption = (item: any) => {
-    console.log("option", item);
     this.setState({
       selectedAnimalCuts: item
     });

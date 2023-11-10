@@ -117,14 +117,29 @@ defineFeature(feature, (test) => {
           ],
         }
       );
+      instance.setState({productsList:[{title:"abc",category:"wing",price:"20"}]})
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
+      instance.getBlogPostsId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
-      instance.onpressExploreStore();
       instance.getProductByCategory();
-      instance.checkValidation();
-      instance.postCard();
+      instance.checkValidation()
+      instance.receiveCallback("message");
+      instance.getOrderList();
+      instance.handleLoadMore();
+      instance.handleDeliverOptionChange({});
+      instance.handleIncreaseAnimalCuts();
+      instance.handleDecreaseAnimalCuts();
+      instance.handleAnimalCutsOption({});
+      instance.handleAnimalSelectSlots({});
+      instance.showHideCreditDetailModal();
+      instance.searchProductsCallback(true,{});
+      instance.updateProfileCallback(true,{});
+      instance.getFarmCallBack({},true);
+      instance.profileDetailsCallback({data:{attributes:{}}});
+      instance.getSubcategories("3");
+      instance.addProduct();
     })
 
     then("I can leave the screen with out errors", () => {
