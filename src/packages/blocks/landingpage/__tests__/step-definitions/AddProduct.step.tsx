@@ -154,7 +154,12 @@ defineFeature(feature, (test) => {
     then('users can see available product list', () => {
         const productList = AddProductBlock.findWhere(
             (node) => node.prop("testID") === "Product_list_id"
-          );
+          );          
+           const productsList= [
+              { id: 1, name: 'Product 1' },
+              { id: 2, name: 'Product 2' },
+            ];
+          instance.setState({productsList:productsList})
           productList.renderProp('renderItem')({
             item: {
               id: 2,

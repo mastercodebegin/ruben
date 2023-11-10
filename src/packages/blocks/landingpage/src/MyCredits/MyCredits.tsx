@@ -35,11 +35,11 @@ export default class MyCreditScreen extends LandingPageController {
       >
         <View style={{ flex: 1 }}>
           <FlatList
+            testID="remaningProduct"
             data={this.state.remainingproduct}
             showsVerticalScrollIndicator={false}
             bounces={false}
             renderItem={({item}:any) => {
-              console.log("remianingProdut--",this.state.remainingproduct.length)
               return (
                 <View style={styles.main}>
                   <Image
@@ -69,7 +69,6 @@ export default class MyCreditScreen extends LandingPageController {
                     testID="detailsModal"
                     onPress={() => {
                       this.setState({ showMyCreditModal: true });
-                      console.log("my credit details modal == === ");
                     }}
                   >
                     <Text style={styles.pickText}>Pickup / Deliver </Text>
