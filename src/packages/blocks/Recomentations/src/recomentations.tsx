@@ -59,9 +59,9 @@ export default class Recomentations extends RecomentationsController {
                   <View
                     style={styles.row}
                   >
-                    <Text style={styles.text}>{item?.attributes?.categoryCode}</Text>
+                    <Text style={styles.text}>{item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode}</Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={styles.text}>$ {item?.attributes?.price}</Text>
+                      <Text style={styles.text}>$ {item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
                     </View>
                   </View>
