@@ -33,6 +33,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 				>
 					<View>
 						<FlatList
+						testID="favoirteList"
 							data={this.state.showFavoriteList}
 							numColumns={1}
 							contentContainerStyle={styles.contentContainer}

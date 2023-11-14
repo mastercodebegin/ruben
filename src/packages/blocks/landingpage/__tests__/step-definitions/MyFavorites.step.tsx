@@ -82,6 +82,31 @@ defineFeature(feature, (test) => {
       } } {...screenProps} />);
       instance = SettingsBlock.instance() as MyFavorites;
       instance.componentDidMount();
+      const list = SettingsBlock.findWhere(
+        (node) => node.prop("testID") === "favoirteList");   
+
+      // const navigate = SettingsBlock.find('favoirteList').
+      // dive().
+      // findWhere(
+      //   (node) => node.prop("testID") === "navigateToProductDetailScreen");   
+      //   navigate.simulate('press')
+      list.renderProp('renderItem')({
+      item: {
+        id: 2,
+        attributes: {
+          id: 2,
+          duration: 'Monthly',
+          currency: 'USD',
+          amount: '250',
+          plan_name: 'Monthly'
+        }
+      }, index: 0
+    })
+    list.renderProp("keyExtractor")({id:0})  
+      // animalCutsDropDown.simulate('press')
+
+      // console.log('data====',animalCutsDropDown);
+      //console.log('data====',SettingsBlock);
     });
     then("user can see the favorite products list", () => {
       const msgValidationAPI = new Message(
