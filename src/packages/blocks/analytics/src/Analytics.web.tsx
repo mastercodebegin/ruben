@@ -25,19 +25,7 @@ export default class Analytics extends AnalyticsController {
       // Customizable Area Start
       <ThemeProvider theme={theme}>
         <Container maxWidth={"sm"}>
-          <Box sx={webStyle.mainWrapper}>
-            <Typography variant="h6">{configJSON.labelTitleText}</Typography>
-            <Typography variant="subtitle1" component="div">
-              {configJSON.labelBodyText}
-            </Typography>
-            <Box
-              onClick={() => this.doButtonPressed()}
-              component="button"
-              sx={webStyle.buttonStyle}
-            >
-              <Button color={"primary"}>{configJSON.btnExampleTitle}</Button>
-            </Box>
-          </Box>
+          
         </Container>
       </ThemeProvider>
       // Customizable Area End
