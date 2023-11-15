@@ -25,7 +25,7 @@ export default class Analytics extends AnalyticsController {
       // Customizable Area Start
       <ThemeProvider theme={theme}>
         <Container maxWidth={"sm"}>
-          
+        <Button variant="text" {...this.btnExampleProps}>Text</Button>
         </Container>
       </ThemeProvider>
       // Customizable Area End

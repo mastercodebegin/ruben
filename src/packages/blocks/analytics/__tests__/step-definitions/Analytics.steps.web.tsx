@@ -39,11 +39,60 @@ defineFeature(feature, (test) => {
         });
 
         then('Analytics will load with out errors', () => {
+           instance.doButtonPressed()
             expect(analyticsBlock).toBeTruthy()
         });
 
         then('I can leave the screen with out errors', () => {
-            instance.componentWillUnmount()
+           
+                console.log("check working or not---->>>>>>>>>>>>>>");
+                let paymentparam = {
+                  query: "chicken",
+                  id: 1,
+                  categoryId: 31,
+                  startDate: "2023-07-23",
+                  endDate: "2023-07-31",
+                };
+                
+                const msgValidationAPI = new Message(
+                  getName(MessageEnum.RestAPIResponceMessage)
+                );
+                msgValidationAPI.addData(
+                  getName(MessageEnum.RestAPIResponceDataMessage),
+                  msgValidationAPI.messageId
+                );
+                msgValidationAPI.addData(
+                  getName(MessageEnum.RestAPIResponceEndPointMessage),
+                  `${paymentparam}`
+                );
+                msgValidationAPI.addData(
+                  getName(MessageEnum.RestAPIResponceSuccessMessage),
+                  {
+                    data: [{}],
+                  }
+                );
+                
+                runEngine.sendMessage("Unit Test Api", msgValidationAPI);
+          
+                const msgError = new Message(
+                  getName(MessageEnum.RestAPIResponceErrorMessage)
+                );
+                msgError.addData(
+                  getName(MessageEnum.RestAPIResponceDataMessage),
+                  msgValidationAPI.messageId
+                );
+                msgError.addData(getName(MessageEnum.RestAPIResponceErrorMessage), {
+                  data: []
+                });
+          
+             
+                runEngine.sendMessage("Unit Test", msgValidationAPI);
+          
+          
+                // let amount = mockDataCredit.tota_amount.toFixed(2);  
+                // instance.setState({chartObject: instance.convertToChartFormat(mockData_Credit.chart_data,  '2023-08-09')})     
+                instance.componentWillUnmount()
+
             expect(analyticsBlock).toBeTruthy()
         });
     });
