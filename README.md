@@ -16,7 +16,7 @@ The template included a bare bones rails application that can be contanarised an
 
 The repository is setup with a Dockerfile and will build and image and push it to the internal repository.
 
-A helm chart in the `app-deploy-fe` folder will also deploy the application to your kubernetes cluster.
+A helm chart in the `app-deploy-fe` folder will also deploy the application to your kubernetes (k8s) cluster.
 
 ## Deployment
 
