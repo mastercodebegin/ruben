@@ -96,6 +96,8 @@ defineFeature(feature, (test) => {
       global.FormData = FormDataMock;
       instance.AddToFavorites(20);
       instance.addProduct();
+      instance.videoLibraryCallback({},{})
+      instance.getSubcategoryCallback({},{})
       
     });
 
@@ -140,6 +142,13 @@ defineFeature(feature, (test) => {
       instance.profileDetailsCallback({data:{attributes:{}}});
       instance.getSubcategories("3");
       instance.addProduct();
+      instance.categoryCallback(null,[])
+      instance.updateProfileCallback(null,[])
+      instance.getCategory(1,true)
+      instance.getCategories()
+      instance.farmDetails(true)
+      instance.getAboutUs()
+
     })
 
     then("I can leave the screen with out errors", () => {
