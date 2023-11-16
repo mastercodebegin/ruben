@@ -502,6 +502,7 @@ defineFeature(feature, (test) => {
         fireEvent.press(getByTestId("navigate_to_product_details_id_0"));
       })
       const { getByTestId } = render(
+        //@ts-ignore
         <RenderItems
           rating={true}
           item={[{}, {}]}

@@ -85,7 +85,6 @@ export default class ProductDetailScreen extends LandingPageController {
               }, 1000);
             }}/>
           )}
-
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
@@ -164,6 +163,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <Image style={style.shareImage} source={shareIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity
+                testID="adToCart"
                   onPress={() =>
                     this.addToCart.bind(this)(this.props?.route?.params?.id)
                   }
@@ -172,6 +172,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                 testID="Subscription"
                   onPress={() => this.setState({showRecurringModal:true})}
                   style={style.subsciptionButton}
                 >
@@ -184,7 +185,7 @@ export default class ProductDetailScreen extends LandingPageController {
               description={this.state.productDetails?.attributes?.step_1}
             />
             <RenderSteps
-             images={this.state.productDetails?.attributes?.step2_images}
+              images={this.state.productDetails?.attributes?.step2_images}
               header="Step 02:"
               description={this.state.productDetails?.attributes?.step_2}
             />

@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Modal,
   ImageSourcePropType,
 } from "react-native";
 import { styles } from "./styles";
@@ -19,6 +20,8 @@ import OrderSummaryController from "./OrderSummaryController";
 import PaymentDetails from "./PaymentDetails";
 import {BLACK, DARK_RED, WHITE} from "../../landingpage/src/colors";
 import CommonLoader from "../../../components/src/CommonLoader";
+import Button from "../../../components/src/CustomButton";
+import { close } from "../../landingpage/src/assets";
 const deliveryIcon = require("../../../components/src/deliveryIcon.png");
 const pickupIcon = require('../../../components/src/shippingIcon.png');
 const shippingIcon = require('../../../components/src/package.png');
@@ -65,6 +68,40 @@ export default class OrderSummary extends OrderSummaryController {
 
     return (
       <SafeAreaView style={styles.safearea}>
+
+      <Modal visible={this.state.showSubscriptionModal} transparent>
+        <View style={styles.blur} />
+        <View style={styles.mainWrap}>
+        <View style={styles.innerContainer}>
+            <TouchableOpacity
+              onPress={() => this.setState({showSubscriptionModal:false})}
+              style={styles.closeBtn}
+            >
+              <Image
+                resizeMode="contain"
+                style={styles.close}
+                source={close}
+              />
+            </TouchableOpacity>
+            <Image resizeMode="contain" style={styles.calenderImage} source={require('../assets/calendar.png')}/>
+
+            <Text style={[styles.lifetimeSubHeading,{textAlign:"center",marginTop:30,lineHeight:30}]}>Lifetime Subscription {'\n'} $5</Text>
+          <Text style={[styles.lifetimeSubText,{textAlign:'center'}]}>
+            {
+              "One-time purchase and lasts a lifetime."
+            }
+          </Text>
+
+            <Button
+              style={{ marginTop: 20 }}
+              testID="add_to_cart"
+              onPress={this.addLifeTimeSubscription.bind(this)}
+              label={"Add to cart"}
+            />
+        </View>
+        </View>
+      </Modal>
+
         <HeaderWithBackArrowTemplate
           headerText="Summary"
           navigation={this.props.navigation}
@@ -105,7 +142,7 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.lifetimeSubContent}>
                 <Text style={styles.lifetimeSubHeading}>Lifetime Subscription</Text>
                 <Text style={styles.lifetimeSubText}>one-time purchase and lasts a lifetime</Text>
-                <TouchableOpacity disabled={this.state.lifetimeSubscription} style={styles.lifetimeSubButton} onPress={this.addLifeTimeSubscription.bind(this)}>
+                <TouchableOpacity disabled={this.state.lifetimeSubscription} style={styles.lifetimeSubButton} onPress={()=>this.setState({showSubscriptionModal:true})}>
                   <Text style={styles.lifetimeSubPrice}>{this.state.lifetimeSubscription ? "Added": "$5.00"}</Text>
                 </TouchableOpacity>
               </View>
@@ -116,7 +153,7 @@ export default class OrderSummary extends OrderSummaryController {
               </View>
               <View style={styles.addedItems}>
                 {this.state.productsList.map((item,index) => { 
-                   const frequency = item.attributes?.frequency; 
+                  const frequency = item.attributes?.frequency; 
                   return (
                     <View key={index}>
                       <ProductDetailComponent
@@ -223,4 +260,3 @@ export default class OrderSummary extends OrderSummaryController {
     );
   }
 }
-

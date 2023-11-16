@@ -24,119 +24,226 @@ import {
 import { BLACK } from "../colors";
 import LandingPageController, { Props } from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
-import { scaledSize } from "../../../../framework/src/Utilities";
-import PaymentCustomeAlert from "../../../StripeIntegration/src/PaymentCustomeAlert";
-import { StackActions } from "@react-navigation/native";
-import CommonLoader from "../../../../components/src/CommonLoader";
 export default class MyCreditDetailsModal extends LandingPageController {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
   }
 
-  handleAddressOptionChange = (isUser: any, item: any) => {
-    console.log('address====',item.id);
-    console.log('address====',item.attributes.address);
-    
-    if (isUser) {
-      this.setState({ userAddressID: item.id,selectedUserAddress:item.attributes.address})
-    }
+  handleAddressOptionChange = () => {
+    this.setState({ setAddressOption: !this.state.setAddressOption });
   };
-  async componentDidMount() {
-    console.log('props===================', this.props.remainingCuts);
-    console.log('props===================', this.props.categoryId);
-    this.getSubcategories('0')
-
-  }
-  slotsRender(item: any) {
-    return (
-      <View
-        style={
-          this.state.selectedAnimalSlot === item
-            ? [
-              styles.selectSlots,
-              { backgroundColor: PRIMARY }
-            ]
-            : [
-              styles.selectSlots,
-              { backgroundColor: WHITE }
-            ]
-        }
-      >
-        <TouchableOpacity
-          onPress={() => {
-            this.handleAnimalSelectSlots(item);
-          }}
-        >
-          <Text
-            style={
-              this.state.selectedAnimalSlot === item
-                ? [styles.slotsTime, { color: WHITE }]
-                : [styles.slotsTime, { color: MID_PEACH }]
-            }
-          >
-            {item}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 
   render() {
     return (
-      <>
-        <Modal transparent visible={this.props.visible}>
-          <View style={styles.blur} />
-          <View style={styles.innerContainer}>
-            <ScrollView
-              bounces={false}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.contentContainer}
-            >
-              <View style={styles.mainContainer}>
-                <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                  <View style={styles.invImageContainer}>
-                    <Image
-                      resizeMode="contain"
-                      style={styles.invImgStyle}
-                      source={cow}
-                    />
-                  </View>
-                  <View style={styles.invDesContainer}>
-                    <Text style={styles.invDesText}>Available cuts</Text>
-                    <Text style={styles.invTotalText}>{this.props.remainingCuts}</Text>
+      <Modal transparent visible={this.props.visible}>
+        <View style={styles.blur} />
+        <View style={styles.innerContainer}>
+          <ScrollView
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainer}
+          >
+            <View style={styles.mainContainer}>
+              <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                <View style={styles.invImageContainer}>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.invImgStyle}
+                    source={cow}
+                  />
+                </View>
+                <View style={styles.invDesContainer}>
+                  <Text style={styles.invDesText}>Available cuts</Text>
+                  <Text style={styles.invTotalText}>10</Text>
+                </View>
+              </View>
+              <Text style={styles.pickHeading}>
+                Pickup / Deliver Remaining Cuts
+              </Text>
+              <View style={styles.optionContainer}>
+                <Text style={styles.optionLabel}>Choose an option</Text>
+                <View style={styles.optionContainerIn}>
+                  <FlatList
+                    data={this.state.deliverOption}
+                    horizontal
+                    renderItem={({ item }: any) => {
+                      return (
+                        <View
+                          style={[
+                            styles.clickOptionContainer,
+                            { paddingRight: 6 }
+                          ]}
+                        >
+                          <TouchableOpacity
+                            style={styles.checkBoxStyle}
+                            onPress={() => {
+                              this.handleDeliverOptionChange(item.title);
+                            }}
+                          >
+                            {this.state.setDeliverOption === item?.title ? (
+                              <View style={styles.checked}></View>
+                            ) : (
+                              <View style={styles.unChecked}></View>
+                            )}
+                          </TouchableOpacity>
+                          <Text style={styles.chooseTitle}>{item.title}</Text>
+                        </View>
+                      );
+                    }}
+                    keyExtractor={(item: any) => item.id.toString()}
+                  />
+                </View>
+              </View>
+              <View style={styles.optionContainer}>
+                <Text style={styles.optionLabel}>Enter cuts to pick up</Text>
+                <View style={styles.optionContainerIn}>
+                  <Text style={styles.chooseTitle}>
+                    Eg: {this.state.selectedAnimalCuts}
+                  </Text>
+                  <View style={styles.cutsDropDown}>
+                    <TouchableOpacity
+                      style={styles.pmButton}
+                      onPress={() => {
+                        this.handleIncreaseAnimalCuts();
+                      }}
+                    >
+                      <Image
+                        resizeMode="contain"
+                        style={styles.buttonImg}
+                        source={plus}
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.cutsNumberTitle}>
+                      {this.state.animalCutsNumber}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.pmButton}
+                      onPress={this.handleDecreaseAnimalCuts}
+                    >
+                      <Image
+                        resizeMode="contain"
+                        style={styles.buttonImg}
+                        source={minus}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.animalCutsDropDown}
+                      onPress={() => {
+                        this.setState({
+                          handleAnimalCutsDropDown: !this.state
+                            .handleAnimalCutsDropDown
+                        });
+                      }}
+                    >
+                      <Image
+                        resizeMode="contain"
+                        style={styles.buttonImg}
+                        source={
+                          !this.state.handleAnimalCutsDropDown
+                            ? downArrow
+                            : upArrow
+                        }
+                      />
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <Text style={styles.pickHeading}>
-                  Pickup / Deliver Remaining Cuts
-                </Text>
-                <View style={styles.optionContainer}>
-                  <Text style={styles.optionLabel}>Choose an option</Text>
-                  <View style={styles.optionContainerIn}>
+                {this.state.handleAnimalCutsDropDown && (
+                  <View style={styles.optionDropContainer}>
                     <FlatList
-                      data={this.state.deliverOption}
-                      horizontal
+                      data={this.state.animalCutsOptionsList}
+                      style={{
+                        height: 200,
+                        backgroundColor: WHITE,
+                        borderTopLeftRadius: 0,
+                        borderTopRightRadius: 0,
+                        borderRadius: 10,
+                        marginBottom: 15
+                      }}
+                      renderItem={({ item }: any) => {
+                        return (
+                          <TouchableOpacity
+                            style={styles.selectAnimalCuts}
+                            onPress={() => {
+                              this.handleAnimalCutsOption(item.title);
+                            }}
+                          >
+                            <Text style={styles.chooseTitle}>{item.title}</Text>
+                          </TouchableOpacity>
+                        );
+                      }}
+                      keyExtractor={(item: any) => item.id.toString()}
+                    />
+                  </View>
+                )}
+                <View style={styles.optionContainer}>
+                  <Text style={styles.optionLabel}>
+                    Enter Nearest Location to Pick Up
+                  </Text>
+                  <View style={styles.inputContainerStyle}>
+                    <TextInput
+                      textInputStyle={styles.locationInputStyle}
+                      value={this.state.nearestLocation}
+                      testID="name_test_id"
+                      onchangeText={location => this.setState({ nearestLocation: location })}
+                      placeholder="Eg: " label={""}                    />
+                  </View>
+                </View>
+                <View style={styles.addressContinerStyle}>
+                  <View style={styles.addressContiner}>
+                    <View
+                      style={[styles.clickOptionContainer, { paddingRight: 6 }]}
+                    >
+                      <TouchableOpacity
+                        style={styles.checkBoxStyle}
+                        onPress={() => {
+                          this.handleAddressOptionChange();
+                        }}
+                      >
+                        {this.state.setAddressOption ? (
+                          <View style={styles.checked}></View>
+                        ) : (
+                          <View style={styles.unChecked}></View>
+                        )}
+                      </TouchableOpacity>
+                      <Text style={styles.chooseTitle}>address</Text>
+                    </View>
+                  </View>
+                  <View style={styles.slotsContainer}>
+                    <Text style={styles.slotsTitle}>Available Slots</Text>
+                    <FlatList
+                      data={this.state.animalAvailableSlots}
+                      numColumns={3}
                       renderItem={({ item }: any) => {
                         return (
                           <View
-                            style={[
-                              styles.clickOptionContainer,
-                              { paddingRight: 6 }
-                            ]}
+                            style={
+                              this.state.selectedAnimalSlot === item.time
+                                ? [
+                                    styles.selectSlots,
+                                    { backgroundColor: PRIMARY }
+                                  ]
+                                : [
+                                    styles.selectSlots,
+                                    { backgroundColor: WHITE }
+                                  ]
+                            }
                           >
                             <TouchableOpacity
-                              style={styles.checkBoxStyle}
                               onPress={() => {
-                                this.handleDeliverOptionChange(item.title);
+                                this.handleAnimalSelectSlots(item.time);
                               }}
                             >
-                              {this.state.setDeliverOption === item?.title ? (
-                                <View style={styles.checked}></View>
-                              ) : (
-                                <View style={styles.unChecked}></View>
-                              )}
+                              <Text
+                                style={
+                                  this.state.selectedAnimalSlot === item.time
+                                    ? [styles.slotsTime, { color: WHITE }]
+                                    : [styles.slotsTime, { color: MID_PEACH }]
+                                }
+                              >
+                                {item.time}
+                              </Text>
                             </TouchableOpacity>
-                            <Text style={styles.chooseTitle}>{item.title}</Text>
                           </View>
                         );
                       }}
@@ -144,214 +251,27 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     />
                   </View>
                 </View>
-                <View style={styles.optionContainer}>
-                  <Text style={styles.optionLabel}>Enter cuts to pick up</Text>
-                  <View style={styles.optionContainerIn}>
-                    <Text style={styles.chooseTitle}>
-                      Eg: {this.state.selectedAnimalCuts}
+                <View style={styles.buttomButtonRow}>
+                  <TouchableOpacity
+                    style={styles.submitButton}
+                    onPress={() => {}}
+                  >
+                    <Text style={styles.submitButtonText}>
+                      Submit Pickup Request
                     </Text>
-                    <View style={styles.cutsDropDown}>
-
-                      <TouchableOpacity
-                        style={styles.animalCutsDropDown}
-                        onPress={() => {
-                          this.setState({
-                            handleAnimalCutsDropDown: !this.state
-                              .handleAnimalCutsDropDown
-                          });
-                        }}
-                      >
-                        <Image
-                          resizeMode="contain"
-                          style={styles.buttonImg}
-                          source={
-                            !this.state.handleAnimalCutsDropDown
-                              ? downArrow
-                              : upArrow
-                          }
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                  </View>
-
-
-                  {this.state.handleAnimalCutsDropDown && (
-                    <View style={styles.optionDropContainer}>
-                      <FlatList
-                        nestedScrollEnabled
-                        data={this.state.animalCutsOptionsList}
-                        style={{
-                          height: 210,
-                          backgroundColor: WHITE,
-                          borderTopLeftRadius: 0,
-                          borderTopRightRadius: 0,
-                          borderRadius: 10,
-                          marginBottom: 15,
-
-                        }}
-                        contentContainerStyle={{ flexGrow: 1 }}
-                        renderItem={({ item, index }: any) => {
-                          return (
-
-                            <TouchableOpacity
-                              style={styles.selectAnimalCuts}
-                              onPress={() => {
-                                this.handleAnimalCutsOption(item.title, this.props.remainingCuts, this.state.animalCutsCount);
-                              }}
-                            >
-                              <Text style={styles.chooseTitle}>{item.title}</Text>
-                            </TouchableOpacity>
-
-                          );
-                        }}
-                        keyExtractor={(item: any, index: any) => index + '' + 1}
-                      />
-                    </View>
-                  )}
-                  {/* **********************************************} */}
-                  <FlatList
-                    data={this.state.animalPortions}
-                    renderItem={({ item, index }) => <View style={{ flex: 1, flexDirection: 'row', backgroundColor: LIGHT_GREY, marginTop: scaledSize(6), padding: scaledSize(6), borderRadius: scaledSize(8) }}>
-                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={[styles.chooseTitle,]}>
-                          {item?.name}
-                        </Text>
-                      </View>
-                      <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <TouchableOpacity
-                          style={styles.pmButton}
-                          onPress={() => {
-                            this.handleIncreaseAnimalCuts(item, index, this.props.remainingCuts, this.state.animalCutsCount);
-                          }}
-                        >
-                          <Image
-                            resizeMode="contain"
-                            style={styles.buttonImg}
-                            source={plus}
-                          />
-                        </TouchableOpacity>
-                        <Text style={styles.cutsNumberTitle}>
-                          {item.quantity}
-                        </Text>
-                        <TouchableOpacity
-                          style={styles.pmButton}
-                          onPress={() => this.handleDecreaseAnimalCuts(item, index, this.props.remainingCuts)}
-                        >
-                          <Image
-                            resizeMode="contain"
-                            style={styles.buttonImg}
-                            source={minus}
-                          />
-                        </TouchableOpacity>
-                      </View>
-
-                    </View>}
-                  />
-                  <View style={[styles.optionContainer, { padding: 0 }]}>
-                    <Text style={styles.optionLabel}>
-                      Enter Nearest Location to Pick Up
-                    </Text>
-                    <View style={[styles.inputContainerStyle]}>
-                      <TextInput
-                        textInputStyle={[styles.locationInputStyle, { paddingVertical: 0, bottom: 10 }]}
-                        value={this.state.nearestLocation}
-                        testID="name_test_id"
-                        onchangeText={location => this.setState({ nearestLocation: location })}
-                        placeholder="Eg: " label={""} />
-                    </View>
-                  </View>
-                  <View style={styles.addressContinerStyle}>
-                    {this.state.setDeliverOption == 'Shipping' || this.state.setDeliverOption == 'Deliver' ? <>
-                      <Text style={{ alignSelf: 'center', fontSize: scaledSize(16), fontWeight: 'bold', color: PRIMARY }}>CHOOSE FROM SAVED ADDRESS</Text>
-                      <FlatList
-                        data={this.state.userAddress}
-                        renderItem={({ item }) => <View style={[styles.addressContiner]}>
-                          <View
-                            style={[styles.clickOptionContainer, { paddingRight: 6 }]}
-                          >
-                            <TouchableOpacity
-                              style={styles.checkBoxStyle}
-                              onPress={() => {
-                                this.handleAddressOptionChange(true, item);
-                              }}
-                            >
-                              {this.state.userAddressID == item.id ? (
-                                <View style={styles.checked}></View>
-                              ) : (
-                                <View style={styles.unChecked}></View>
-                              )}
-                            </TouchableOpacity>
-                            <View>
-                              <Text style={[styles.chooseTitle]}>{item.attributes.address_type}</Text>
-                              <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
-                            </View>
-                          </View>
-                        </View>}
-                      />
-                    </> : null}
-
-                    {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
-
-                      <Text style={styles.slotsTitle}>Available Slots </Text>
-                      <FlatList
-                        data={this.state.animalAvailableSlots}
-                        numColumns={3}
-                        renderItem={({ item }: any) => this.slotsRender(item)}
-                        keyExtractor={(item: any) => item}
-                      />
-                    </View> : null}
-                  </View>
-                  <View style={styles.buttomButtonRow}>
-                    <TouchableOpacity
-                      style={styles.submitButton}
-                      onPress={() => this.submitPickupRequestHandler(
-                        this.state.setDeliverOption,
-                        this.state.animalPortions.length,
-                        this.state.selectedAnimalSlot,
-                        this.state.userAddressID,
-                        this.state.animalPortions,
-                        this.state.selectedUserAddress
-                      )}
-                    >
-                      <Text style={styles.submitButtonText}>
-                        Submit Pickup Request
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.cancelButton}
-                      onPress={() => this.props?.setCreditDetailModal()}
-                    >
-                      <Text style={styles.cancelButtonText}>Cancel</Text>
-                    </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={this.props?.setCreditDetailModal}
+                  >
+                    <Text style={styles.cancelButtonText}>Cancel</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-            </ScrollView>
-          </View>
-        </Modal>
-        <PaymentCustomeAlert
-          visible={this.state.isSuccessPopUp}
-          onpressContinue={() => {
-            this.setState(
-              { isSuccessPopUp: false, showMyCreditModal: false })
-            this.props.navigation.dispatch(StackActions.replace('MyOrdersScreen'))
-          }
-          }
-
-          onpressClose={() => {
-            this.setState(
-              { isSuccessPopUp: false, showMyCreditModal: false })
-            this.props.navigation.dispatch(StackActions.replace('MyOrdersScreen'))
-          }}
-          customeText="Thank you for your order!"
-          customeDescription={`Your order number is ${this.state.order_number}`}
-          paymentAlerttype="PaymentSuccess"
-          isLoading={false}
-          testID="p"
-        />
-        {this.state.isLoading && <CommonLoader visible={this.state.isLoading} />}
-      </>
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
     );
   }
 }
@@ -436,8 +356,7 @@ const styles = StyleSheet.create({
   chooseTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: PRIMARY,
-    marginLeft: scaledSize(4)
+    color: PRIMARY
   },
   inputContainerStyle: {
     backgroundColor: LIGHT_GREY,
@@ -566,7 +485,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   addressContinerStyle: {
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: "#F9F9F9",
     borderRadius: 10
   },
   addressContiner: {

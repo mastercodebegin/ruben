@@ -48,6 +48,7 @@ interface S {
   showPaymentLoading: boolean;
   customAlertText: string;
   customAlertDesc: string;
+  saveCard:boolean;
   cardName: string;
   cardNumber: string;
   backspaceFlag: boolean;
@@ -92,6 +93,7 @@ export default class StripeIntegrationController extends BlockComponent<
       enableField: false,
       showPaymentAlert: false,
       showPaymentLoading: false,
+      saveCard:false,
       cardName: "",
       cardNumber: "",
       backspaceFlag: false,
@@ -230,6 +232,10 @@ export default class StripeIntegrationController extends BlockComponent<
   };
 
   // Customizable Area Start
+
+  onSaveCard(){
+    this.setState({saveCard:!this.state.saveCard})
+  }
   async paymentApi(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);

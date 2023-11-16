@@ -50,10 +50,10 @@ const RenderProducts = ({
         <ImageBackground
           resizeMode="stretch"
           style={image ? styles.itemImage : styles.itemNoImage}
-          source={image?{uri:image}:backGroundImage}
+          source={backGroundImage}
         >
           <View style={styles.offerContainer}>
-            <Text style={styles.offer}>{`${discount || " "}` + " % off"}</Text>
+            <Text style={styles.offer}>{`${discount || " "}` + " 10% off"}</Text>
 
             <TouchableOpacity
               testID={"removeFavList"}

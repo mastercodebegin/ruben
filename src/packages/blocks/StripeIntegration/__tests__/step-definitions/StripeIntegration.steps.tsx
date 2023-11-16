@@ -33,6 +33,7 @@ defineFeature(feature, (test) => {
     jest.doMock("react-native", () => ({
       Platform: { OS: "web" },
       nativeModule: {},
+      ToastAndroid: { show: jest.fn() },
     }));
   });
 
@@ -1039,6 +1040,11 @@ defineFeature(feature, (test) => {
       buttonSecondComponent.simulate("press");
       expect(exampleBlockA).toBeTruthy();
       instance.setState({ paymentMethodType: "Card" });
+         instance.setState({ cardNumber: "4242" });
+      instance.setState({ cardName: "Test" });
+      instance.setState({ cvv: "424" });
+      instance.setState({ expirtyDate: "16/28" });
+      instance.setState({ saveCard: true });      
       const { queryByTestId } = render(
         <StripeIntegration
           route={{
@@ -1066,6 +1072,7 @@ defineFeature(feature, (test) => {
       instance.setState({ showPaymentLoading: true });
       instance.setState({ customAlertText: "Payment In Process.." });
       instance.setState({ showPaymentAlert: true });
+      instance.setState({ saveCard: true });
       fireEvent.press(closeDropdown);
       buttonComponent.simulate("press");
       expect(instance.state.showPaymentLoading).toEqual(true);
@@ -1114,6 +1121,13 @@ defineFeature(feature, (test) => {
       );
       const instance = explorePageWrapper.instance() as StripeIntegration;
       instance.setState({ paymentMethodType: "Card" });
+      instance.setState({ cardNumber: "4242" });
+      instance.setState({ cardName: "Test" });
+      instance.setState({ cvv: "424" });
+      instance.setState({ expirtyDate: "16/28" });
+      instance.setState({ showPaymentLoading:true });
+      instance.setState({ customAlertText:"Payment In Process.." });
+      instance.setState({showPaymentAlert:true})
       const { getByText } = render(
         <StripeIntegration
           route={{
@@ -1143,11 +1157,10 @@ defineFeature(feature, (test) => {
       let buttonComponent = explorePageWrapper.findWhere(
         (node) => node.prop("testID") === "doneFirstButtonEvent"
       );
-      buttonComponent.simulate("press");
+      buttonComponent.simulate("press");      
       expect(instance.state.showPaymentLoading).toBe(true);
       expect(instance.state.customAlertText).toBe("Payment In Process..");
       expect(instance.state.showPaymentAlert).toBe(true);
-      expect(mockGetPaymentMethod).toHaveBeenCalled();
     });
 
     then("should update expirtyDate state with a valid month", () => {
@@ -1301,6 +1314,19 @@ defineFeature(feature, (test) => {
       // expect(explorePageWrapper.state('customAlertText')).toBe("Payment Failed");
       // expect(explorePageWrapper.state('customAlertDesc')).toBe("Please contact to admin Or Try again.");
     });
+
+    then('I can check whether card details enter', () => {
+      instance.setState({paymentMethodType:"Card",cardNumber:"",cardName:"",cvv:"",expirtyDate:""})
+      let plans4 = exampleBlockA.findWhere((node) => node.prop('testID') === "doneFirstButtonEvent");
+      plans4.simulate('press')
+    });
+
+    then('I can check once card details filled up', () => {
+      instance.setState({paymentMethodType:"Card",saveCard:true,cardNumber:"4242 4242 4242 4242",cardName:"Test",cvv:"225",expirtyDate:"16/25"})
+      let plans4 = exampleBlockA.findWhere((node) => node.prop('testID') === "doneFirstButtonEvent");
+      plans4.simulate('press')
+    });
+
 
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

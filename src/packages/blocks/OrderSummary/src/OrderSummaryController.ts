@@ -42,6 +42,7 @@ interface S {
   billingDetails: any[];
   fastDeliveryPice: null | number;
   screenError: boolean;
+  showSubscriptionModal:boolean;
   deliveryDetails: {
     address: string;
     phone_number: string;
@@ -97,6 +98,7 @@ SS
       billingDetails: [],
       fastDeliveryPice: null,
       screenError: false,
+      showSubscriptionModal:false,
       deliveryDetails: {
         address: '',
         email: '',
@@ -259,6 +261,7 @@ SS
           fastDeliveryPice: fastDelivery || null,
           lifetimeSubscription: lifetimeSubscription,
           showLoader: false,
+          showSubscriptionModal:false,
           totalPrice
         });
       } else {
@@ -279,7 +282,7 @@ SS
       if (!error && lifetimeSubscriptionResponse?.data?.type === 'subscription') {
         this.getBillingDetails();     
       } else {
-        this.setState({ screenError: true});
+        this.setState({ screenError: true,showSubscriptionModal:false});
       }
     }
   }
