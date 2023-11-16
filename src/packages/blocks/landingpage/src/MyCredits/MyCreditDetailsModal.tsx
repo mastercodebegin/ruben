@@ -129,6 +129,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.animalCutsDropDown}
+                      testID="animalCutsDropDown"
                       onPress={() => {
                         this.setState({
                           handleAnimalCutsDropDown: !this.state
@@ -151,6 +152,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 {this.state.handleAnimalCutsDropDown && (
                   <View style={styles.optionDropContainer}>
                     <FlatList
+                    testID="animalCutsOptionsListId"
                       data={this.state.animalCutsOptionsList}
                       style={{
                         height: 200,

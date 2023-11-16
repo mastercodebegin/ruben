@@ -207,7 +207,7 @@ const CalendarTemplate = ({
         ListHeaderComponentStyle={{ zIndex: 1000, elevation: 1 }}
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }: any) => (
-          //@ts-ignore
+          //@ts-ignoreyarn
           <Calendarcontext.Provider value={{ ...contextValue, item: item }}>
             <TouchableWithoutFeedback onPress={() => setShowCalendar(false)}>
               <View>{children}</View>

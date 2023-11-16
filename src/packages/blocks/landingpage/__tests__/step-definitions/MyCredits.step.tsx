@@ -204,6 +204,34 @@ defineFeature(feature, (test) => {
       productList.renderProp("keyExtractor")({id:0})  
   });
 
+  then("user can select value from  drop down",()=>{
+          instance.getRemainingProduct()
+    // const animalCutsDropDown = SettingsBlock.findWhere(
+    //   (node) => node.prop("testID") === "animalCutsDropDown"
+    // );   
+    // console.log('data====',animalCutsDropDown);
+    //console.log('data====',SettingsBlock);
+    
+    // animalCutsDropDown.simulate('press');
+
+    // const animalCutsOption = SettingsBlock.findWhere(
+    //   (node) => node.prop("testID") === "animalCutsOptionsListId"
+    // ); 
+    // animalCutsOption.renderProp('renderItem')({
+    //   item: {
+    //     id: 2,
+    //     attributes: {
+    //       id: 2,
+    //       duration: 'Monthly',
+    //       currency: 'USD',
+    //       amount: '250',
+    //       plan_name: 'Monthly'
+    //     }
+    //   }, index: 0
+    // })
+    // animalCutsOption.renderProp("keyExtractor")({id:0})  
+});
+
     then("user can see my credits modal", () => {
       const MycreditsModal = render(<Modal navigation={undefined} id={""} visible={false} setVisibleProfileModal={function (): void {
         throw new Error("Function not implemented.");
