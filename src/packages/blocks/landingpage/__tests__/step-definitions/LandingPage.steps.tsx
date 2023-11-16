@@ -148,6 +148,9 @@ defineFeature(feature, (test) => {
       instance.getCategories()
       instance.farmDetails(true)
       instance.getAboutUs()
+      instance.getVideoBlog()
+      instance.updateProfileDetails(true)
+
 
     })
 
