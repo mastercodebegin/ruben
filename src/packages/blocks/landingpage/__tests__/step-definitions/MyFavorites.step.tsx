@@ -9,6 +9,7 @@ import { render } from "@testing-library/react-native";
 import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
+import { TouchableOpacity } from "react-native";
 const navigation = {
   navigate: jest.fn(),
   reset: jest.fn(),
@@ -75,13 +76,43 @@ defineFeature(feature, (test) => {
     given("users loading About us screen", () => {
       SettingsBlock = shallow(<MyFavorites visible={false} setVisibleProfileModal={function (): void {
         throw new Error("Function not implemented.");
-      } } setState={undefined} state={undefined} firstTime={false} currentUser={""} updateCartDetails={function (data: any): void {
+      }} setState={undefined} state={undefined} firstTime={false} currentUser={""} updateCartDetails={function (data: any): void {
         throw new Error("Function not implemented.");
-      } } cartDetails={[]} setCreditDetailModal={function (): void {
+      }} cartDetails={[]} setCreditDetailModal={function (): void {
         throw new Error("Function not implemented.");
-      } } {...screenProps} />);
+      }} {...screenProps} />);
       instance = SettingsBlock.instance() as MyFavorites;
       instance.componentDidMount();
+
+      const list = SettingsBlock.findWhere(
+        (node) => node.prop("testID") === "favoirteList");
+      console.log('========', list);
+
+
+      // item?.attributes.catalogue_id
+      // .data.attributes.images[0].url
+      const data = list.renderProp('renderItem')({
+      item:{id:1,
+          attributes: {
+            catalogue_id: {
+              data: {
+                attributes: {
+                  images: [{ uri: '' }]
+                }
+              }
+            }
+          }
+        }
+        , index: 0,
+      })
+      const navigate = data.findWhere(
+        (node) => node.prop("testID") === "navigateToProductDetailScreen");
+      const navigate1 = data.findWhere(
+        (node) => node.prop("testID") === "removeFavList");
+
+      navigate.simulate('press')
+      navigate1.simulate('press')
+      list.renderProp("keyExtractor")({ id: 0 })
     });
     then("user can see the favorite products list", () => {
       const msgValidationAPI = new Message(
@@ -100,11 +131,11 @@ defineFeature(feature, (test) => {
       instance.forceUpdate();
       const MyFavoritesRender = render(<MyFavorites visible={false} setVisibleProfileModal={function (): void {
         throw new Error("Function not implemented.");
-      } } setState={undefined} state={undefined} firstTime={false} currentUser={""} updateCartDetails={function (data: any): void {
+      }} setState={undefined} state={undefined} firstTime={false} currentUser={""} updateCartDetails={function (data: any): void {
         throw new Error("Function not implemented.");
-      } } cartDetails={[]} setCreditDetailModal={function (): void {
+      }} cartDetails={[]} setCreditDetailModal={function (): void {
         throw new Error("Function not implemented.");
-      } } {...screenProps} />)
+      }} {...screenProps} />)
       expect(MyFavoritesRender).toBeTruthy()
     });
     then("I can leave the screen with out errors", () => {
