@@ -150,6 +150,9 @@ defineFeature(feature, (test) => {
       instance.getAboutUs()
       instance.getVideoBlog()
       instance.updateProfileDetails(true)
+      instance.getRecommendProduct(true)
+      instance.getRemainingProduct()
+      
 
 
     })
