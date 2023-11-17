@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  Alert,
 } from "react-native";
 import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED } from "../../../landingpage/src/assets";
@@ -30,6 +31,14 @@ export class RecurringModal extends React.Component<P, S> {
       quantity: 0,
       frequency: "Select",
     };
+  }
+
+  AddSubscription=()=>{
+    if(this.state.quantity == 0 || this.state.frequency == "Select"){
+      Alert.alert("Error","Please select Quantity and Frequrncy",[{text:"OK"}])
+      return;
+    }
+    this.props.recurringOrder(this.state.quantity,this.state.frequency)
   }
 
   render() {
@@ -106,7 +115,7 @@ export class RecurringModal extends React.Component<P, S> {
             <Button
               style={{ marginTop: 20 }}
               testID="add_subscription"
-              onPress={()=>this.props.recurringOrder(this.state.quantity,this.state.frequency)}
+              onPress={()=>this.AddSubscription()}
               label={"Add Subscription"}
             />
           </KeyboardAwareScrollView>
