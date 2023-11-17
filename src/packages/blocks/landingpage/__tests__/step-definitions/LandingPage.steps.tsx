@@ -152,6 +152,11 @@ defineFeature(feature, (test) => {
       instance.updateProfileDetails(true)
       instance.getRecommendProduct(true)
       instance.getRemainingProduct()
+      instance.getProfileDetails()
+      instance.getViewAllProduct(5)
+      instance.shareProducts(5)
+      instance.getFavorites()
+      instance.removeFavListProduct(true)
       
 
 
