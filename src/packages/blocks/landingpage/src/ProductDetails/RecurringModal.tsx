@@ -90,16 +90,16 @@ export class RecurringModal extends React.Component<P, S> {
             <Text style={styles.label}>Frequency</Text>
 
             <Dropdown
-                    style={styles.dropdown}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    iconStyle={styles.iconStyle}
-                    containerStyle={styles.containerStyle}
-                    data={FrequencyList}
-                    maxHeight={400}
-                    placeholder={this.state.frequency}
-                    onChange={(e)=>this.setState({frequency:e})
-                    }
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  iconStyle={styles.iconStyle}
+                  containerStyle={styles.containerStyle}
+                  data={FrequencyList}
+                  maxHeight={400}
+                  placeholder={this.state.frequency}
+                  onChange={(e)=>this.setState({frequency:e})
+                  }
                     renderItem={(item: any) => {
                       return (
                         <View>
