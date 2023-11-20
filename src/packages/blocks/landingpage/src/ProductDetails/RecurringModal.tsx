@@ -66,7 +66,6 @@ export class RecurringModal extends React.Component<P, S> {
             <Text style={[styles.label,{fontSize:21, marginTop:5}]}>Recurring Order</Text>
             <Text style={styles.desc}>You may set up a recurring order by selecting the</Text>
 
-
           <View style={{flexDirection:'row',marginVertical:20,justifyContent:'center'}}>
             <Text style={styles.label}>Quantity</Text>
             <View style={styles.counterContainer}>
