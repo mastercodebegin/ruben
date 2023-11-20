@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   counterContainer: { flexDirection: "row", alignItems: "center" },
   contentContainer: { flexGrow: 1 },
   innerContainer: {
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderRadius: 24,
     paddingHorizontal: 20,
     paddingTop: 20,
