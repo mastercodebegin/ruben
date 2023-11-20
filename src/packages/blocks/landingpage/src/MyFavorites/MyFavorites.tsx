@@ -9,7 +9,7 @@ import {
 	FlatList,
 	ImageBackground,
 } from "react-native";
-import { CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, WHITE, badge } from "../assets";
+import { CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, WHITE, backGroundImage, badge } from "../assets";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import { deviceHeight, deviceWidth } from "../../../../framework/src/Utilities";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -64,10 +64,12 @@ export default class MyFavoritesScreen extends LandingPageController {
 														? styles.itemImage
 														: styles.itemNoImage,
 												]}
-												source={{
-													uri: item?.attributes.catalogue_id
-														.data.attributes.images[0].url
-												}}
+												source={item?.data?.attributes?.images[0]?.url?{
+													
+												
+													uri: item?.attributes?.catalogue_id
+														?.data?.attributes?.images[0]?.url
+												}:backGroundImage}
 											>
 												<View style={styles.offerContainer}>
 													<TouchableOpacity

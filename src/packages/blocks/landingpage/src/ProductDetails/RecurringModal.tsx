@@ -35,7 +35,7 @@ export class RecurringModal extends React.Component<P, S> {
 
   AddSubscription=()=>{
     if(this.state.quantity == 0 || this.state.frequency == "Select"){
-      Alert.alert("Error","Please select Quantity and Frequrncy",[{text:"OK"}])
+      Alert.alert("Error","Please Select Quantity and Frequency",[{text:"OK"}])
       return;
     }
     this.props.recurringOrder(this.state.quantity,this.state.frequency)
