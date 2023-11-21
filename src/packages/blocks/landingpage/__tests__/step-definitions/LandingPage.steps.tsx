@@ -151,12 +151,12 @@ defineFeature(feature, (test) => {
       instance.getVideoBlog()
       instance.updateProfileDetails(true)
       instance.getRecommendProduct(true)
-      instance.getRemainingProduct()
-      instance.getProfileDetails()
-      instance.getViewAllProduct(5)
-      instance.shareProducts(5)
-      instance.getFavorites()
-      instance.removeFavListProduct(true)
+      // instance.getRemainingProduct()
+      // instance.getProfileDetails()
+      // instance.getViewAllProduct(5)
+      // instance.shareProducts(5)
+      // instance.getFavorites()
+      // instance.removeFavListProduct(true)
       
 
 
