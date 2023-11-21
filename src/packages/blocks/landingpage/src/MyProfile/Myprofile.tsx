@@ -121,14 +121,14 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode,
+      name: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode,
       image: Array.isArray(item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.images)
         ? item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.images[0]?.url : '',
       description: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.description,
-      discount: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
+      discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
-      price: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.price,
+      price: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.price,
       onPressRemoveFromFav: () => {
         this.setState({ fetchFavorites: true })
         this.AddToFavorites(item?.id)
