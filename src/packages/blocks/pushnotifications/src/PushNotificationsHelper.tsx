@@ -92,6 +92,7 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
+      alert(fcmToken)
     }
 
     return fcmToken;
