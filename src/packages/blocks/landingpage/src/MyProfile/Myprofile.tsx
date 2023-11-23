@@ -24,6 +24,7 @@ import {
   facebook,
   CART,
   cow,
+  profile_pic,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -149,14 +150,14 @@ export default class Myprofile extends LandingPageController {
     return productsList;
   }
   getImage() {
-    return this.state.profileImage?.path
-      ? this.state.profileImage.path
+    return this.state.profileImage
+      ? this.state.profileImage
       : this.state.profileImage
   }
   renderProfileImage() {
     return (
       <>
-        {this.state.profileImage != "" ? (
+        {this.state.profileImage ? (
           <Image
             style={styles.profileImage}
             testID="updated_profile_id"
@@ -164,7 +165,11 @@ export default class Myprofile extends LandingPageController {
               uri: this.getImage(),
             }}
           />
-        ) : <></>}
+        ) : <Image
+        style={styles.profileImage}
+        testID="updated_profile_id"
+        source={profile_pic}
+      />}
       </>
     )
   }
