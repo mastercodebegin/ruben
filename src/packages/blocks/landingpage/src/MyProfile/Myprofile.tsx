@@ -151,8 +151,7 @@ export default class Myprofile extends LandingPageController {
   }
   getImage() {
     return this.state.profileImage
-      ? this.state.profileImage
-      : this.state.profileImage
+      
   }
   renderProfileImage() {
     return (
