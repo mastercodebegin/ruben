@@ -2,7 +2,7 @@ import React from "react";
 
 // Customizable Area Start
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-import { View, StyleSheet, FlatList, Alert, Platform } from "react-native";
+import { View, StyleSheet, FlatList, Alert, Platform,BackHandler } from "react-native";
 import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
 import RenderHeader from "./RenderHeader";
 import RenderPoducts from "./RenderProducts";
@@ -28,7 +28,23 @@ export default class InvoiceBilling extends InvoiceBillingController {
   // Customizable Area Start
   async componentDidMount() {
     this.getInvoiceDetails();
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackPress
+    );
   }
+
+  async componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  handleBackPress = () => {
+    this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: 'LandingPage' }],
+    })
+    return true;
+  };
   // Customizable Area End
 
   render() {

@@ -190,11 +190,11 @@ export default class Analytics extends AnalyticsController {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
-                      {`${this.state.numberOfSpend}`}
-                    </Text>
                     <Text style={{ fontSize: 20, color: PRIMARY }}>
-                      {`$${this.state.numberOfSpendCount}`}
+                      {`${Math.floor(this.state.numberOfSpendCount)}`}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
+                      {`$${this.state.numberOfSpend}`}
                     </Text>
                   </View>
                 </View>
