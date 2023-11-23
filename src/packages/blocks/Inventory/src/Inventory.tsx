@@ -20,7 +20,7 @@ import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
 export default class Inventory extends MyCartController {
   constructor(props:any) {
     super(props);
-    //this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
+    this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
   }
   render() {
     return (

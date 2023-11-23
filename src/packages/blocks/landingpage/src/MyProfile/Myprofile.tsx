@@ -150,13 +150,14 @@ export default class Myprofile extends LandingPageController {
     return productsList;
   }
   getImage() {
-    return this.state.profileImage
-      
+    return this.state.profileImage?.path
+     ? this.state.profileImage.path
+     : this.state.profileImage
   }
   renderProfileImage() {
     return (
       <>
-        {this.state.profileImage ? (
+        {this.state.profileImage!='' && this.state.profileImage!=null  ? (
           <Image
             style={styles.profileImage}
             testID="updated_profile_id"
