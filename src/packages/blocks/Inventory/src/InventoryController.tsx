@@ -89,7 +89,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     }
   }
   async componentDidUpdate() {
-    console.log(this.state.inventoryList)
+    console.log('============================',this.state.inventoryList)
 
   }
   async componentDidMount() {

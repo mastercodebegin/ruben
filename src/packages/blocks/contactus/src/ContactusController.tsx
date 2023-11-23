@@ -343,10 +343,10 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
      })
   }
   handlePressWebIcon() {
-    this.openURL('https://ruebensftcapp-263982-react.b263982.dev.eastus.az.svc.builder.cafe/')
+    this.openURL('https://wwww.maranathafarmsva.com')
   }
   handlePressInstagram() {
-    this.openURL('https://www.instagram.com/');
+    Linking.openURL('instagram://user?username=maranathafarmsva')
   }
   handlePressEmail() {
       const recipient = 'meatlocker@maranathafarms.com';

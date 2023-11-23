@@ -322,6 +322,7 @@ export default class LandingPageController extends BlockComponent<
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
+      this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
     } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
@@ -590,10 +591,7 @@ filterCategoryCallBack(filteredList:any){
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (error) {
-        Alert.alert('Error', "Something went wrong please try again.")
-      }
-      else if (cartDetails?.data[0]?.attributes?.order_items?.data) {
+      if (cartDetails?.data[0]?.attributes?.order_items?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
       } else {
@@ -1006,10 +1004,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
   checkValidation() {
-    if (this.props.state.profileImage === '') {
-      this.showAlert('Please select your profile picture ');
-      return false;
-    }
+    
     if (this.props.state.name === '') {
       this.showAlert('Name can not be blank')
       return false;
@@ -1026,18 +1021,9 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('please provide your phone number')
       return false;
     }
-    if (this.props.state.about_me === '') {
-      this.showAlert('please provide information about you')
-      return false;
-    }
-    if (this.props.state.instagram_link === '') {
-      this.showAlert('please provide your Instagram link')
-      return false;
-    }
-    if (!validInstagramLink.test(this.props.state.instagram_link)) {
-      this.showAlert('please provide valid Instagram link')
-      return false;
-    }
+   
+   
+   
     return true
   }
 
@@ -1045,22 +1031,8 @@ this.setState({aboutUsData:aboutus})
     if (!this.checkValidation()) {
       return
     }
-    if (this.props.state.whatsapp_link === '') {
-      this.showAlert('please provide your WhatsApp link')
-      return
-    }
-    if (!validWhatssappLink.test(this.props.state.whatsapp_link)) {
-      this.showAlert('please provide valid Whats app link')
-      return
-    }
-    if (this.props.state.facebook_link === '') {
-      this.showAlert('please provide your Facebook link')
-      return
-    }
-    if (!validFacebookLink.test(this.props.state.facebook_link)) {
-      this.showAlert('please provide valid facebook profile link')
-      return
-    }
+   
+  
     this.props.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails');
     const data: any = JSON.parse(userDetails);
