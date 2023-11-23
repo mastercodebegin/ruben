@@ -45,6 +45,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
     })
     return true;
   };
+  
   // Customizable Area End
 
   render() {
