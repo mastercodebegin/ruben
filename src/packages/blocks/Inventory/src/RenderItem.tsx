@@ -86,22 +86,23 @@ const RenderItem = ({item}: any) => {
           </TouchableOpacity>
       </View>
     </View>
-     {show&& <View style={{backgroundColor:LIGHT_GREY,padding:10,borderRadius:20,marginTop:10}}>
+    {show&& <View style={{backgroundColor:LIGHT_GREY,padding:10,borderRadius:20,marginTop:10}}>
         {
-          sampleData.map((item,i) => {
+          
+          item?.data?.attributes?.order_items?.data?.map((citem:any,i:number) => {
             return (
               <View style={{paddingVertical:3}} key={i}>
               <View style={{ flexDirection: 'row' }}>
                   <Image style={{ height: 70, width: 70, borderRadius: 8 }} source={MEAT_IMAGE1} />
                   <View style={{paddingHorizontal:20,flex:1,justifyContent:"space-between",paddingVertical:12}}>
-                    <Text style={{color:DARK_RED,fontSize:18,fontWeight:"bold"}}>{item.name}</Text>
-                    <Text style={{color:DARK_RED,fontSize:16}}>{"PN -"+ item.PN}</Text>
+                    <Text style={{color:DARK_RED,fontSize:18,fontWeight:"bold"}}>{citem?.attributes?.product_name}</Text>
+                    <Text style={{color:DARK_RED,fontSize:16}}>{"PN -"+ item?.data?.attributes?.order_number}</Text>
 
                     </View>
                 </View>
                 <Text style={styles.question}>{"Pick : "} <Text style={styles.answer}>{3}</Text></Text>
-                <Text style={styles.question}>{"Vendor : "} <Text style={styles.answer}>{"test name"}</Text></Text>
-                <Text style={styles.question}>{"On hand : "} <Text style={styles.answer}>{3}</Text></Text>
+                <Text style={styles.question}>{"Vendor : "} <Text style={styles.answer}>{item?.data?.attributes?.order_items?.data[0]?.attributes?.vendor}</Text></Text>
+                <Text style={styles.question}>{"On hand : "} <Text style={styles.answer}>{item?.data?.attributes?.order_items?.data[0]?.attributes?.on_hand}</Text></Text>
 
                 </View>
             )

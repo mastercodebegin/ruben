@@ -24,6 +24,7 @@ import {
   facebook,
   CART,
   cow,
+  profile_pic,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -121,14 +122,14 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode,
+      name: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode,
       image: Array.isArray(item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.images)
         ? item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.images[0]?.url : '',
       description: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.description,
-      discount: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
+      discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
-      price: item?.attributes?.order_items.data[0]?.attributes?.catalogue?.data?.attributes?.price,
+      price: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.price,
       onPressRemoveFromFav: () => {
         this.setState({ fetchFavorites: true })
         this.AddToFavorites(item?.id)
@@ -150,13 +151,13 @@ export default class Myprofile extends LandingPageController {
   }
   getImage() {
     return this.state.profileImage?.path
-      ? this.state.profileImage.path
-      : this.state.profileImage
+     ? this.state.profileImage.path
+     : this.state.profileImage
   }
   renderProfileImage() {
     return (
       <>
-        {this.state.profileImage != "" ? (
+        {this.state.profileImage!='' && this.state.profileImage!=null  ? (
           <Image
             style={styles.profileImage}
             testID="updated_profile_id"
@@ -164,7 +165,11 @@ export default class Myprofile extends LandingPageController {
               uri: this.getImage(),
             }}
           />
-        ) : <></>}
+        ) : <Image
+        style={styles.profileImage}
+        testID="updated_profile_id"
+        source={profile_pic}
+      />}
       </>
     )
   }
