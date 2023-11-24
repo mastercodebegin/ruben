@@ -39,7 +39,6 @@ export default class MyFavoritesScreen extends LandingPageController {
 							contentContainerStyle={styles.contentContainer}
 							bounces={false}
 							renderItem={({ item }: any) => {
-								console.log('============================',item);
 								
 								return (
 									
