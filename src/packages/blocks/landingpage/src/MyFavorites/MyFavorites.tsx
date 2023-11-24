@@ -48,10 +48,10 @@ export default class MyFavoritesScreen extends LandingPageController {
 											testID={'navigateToProductDetailScreen'}
 											onPress={() =>
 												this.props.navigation.navigate("ProductDetailScreen", {
-													id: item.id,
-													description: item.attributes.catalogue_id.data.attributes.description,
-													name: item.attributes.catalogue_id.data.attributes.categoryCode,
-													price: item.attributes.catalogue_id.data.attributes.price,
+													id: item?.id,
+													description: item?.attributes?.catalogue_id?.data?.attributes?.description,
+													name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
+													price: item?.attributes?.catalogue_id?.data?.attributes?.price,
 												})
 											}
 											style={styles.renderContainer}
@@ -60,7 +60,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 												resizeMode="stretch"
 												style={[
 													item?.attributes?.catalogue_id
-														?.data.attributes.images[0]?.url
+														?.data?.attributes?.images[0]?.url
 														? styles.itemImage
 														: styles.itemNoImage,
 												]}
@@ -87,10 +87,10 @@ export default class MyFavoritesScreen extends LandingPageController {
 											</ImageBackground>
 											<View style={{ paddingHorizontal: 15 }}>
 											<View style={styles.priceContainer}>
-												<Text style={styles.productName}>{item?.attributes.catalogue_id
+												<Text style={styles.productName}>{item?.attributes?.catalogue_id
 														?.data?.attributes?.categoryCode ||''}</Text>
 														<Text style={styles.price}>
-														{`$ ${item?.attributes.catalogue_id.data.attributes.price}`}
+														{`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}`}
 														<Text style={styles.kgStyle}>/Kg</Text>
 													</Text>
 												</View>
@@ -101,7 +101,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 													</Text>
 													<TouchableOpacity
 														testID={"addtocart"}
-														onPress={() =>{ this.addToCart(item?.attributes.catalogue_id.data.id)
+														onPress={() =>{ this.addToCart(item?.attributes?.catalogue_id?.data.id)
 														}}
 														style={styles.FavcartContainer}
 													>
