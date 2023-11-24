@@ -2,6 +2,7 @@ import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
 import PushNotification from "react-native-push-notification";
 import { PermissionsAndroid, Platform } from "react-native";
+import { setStorageData } from "../../../framework/src/Utilities";
 interface NotificationDataType {
   title?: string;
   body?: string;
@@ -92,6 +93,8 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
+      console.log("fcm token==>",fcmToken);
+      setStorageData('fcmToken', fcmToken);
     }
 
     return fcmToken;
