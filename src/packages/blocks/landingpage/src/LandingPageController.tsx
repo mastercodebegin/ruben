@@ -1017,8 +1017,8 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('Email can not be blank')
       return false;
     }
-    if (this.props.state.phone_number === '') {
-      this.showAlert('please provide your phone number')
+    if (this.props.state.phone_number === '' || this.props.state.phone_number.length<10 || this.props.state.phone_number.length>10) {
+      this.showAlert('please provide 10 digit valid phone number')
       return false;
     }
    
