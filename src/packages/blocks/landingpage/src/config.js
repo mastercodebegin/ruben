@@ -33,4 +33,5 @@ exports.getViewAllProductListEndpoint = "bx_block_catalogue/catalogues/catalogue
 exports.deleteFavoritesEndPoint = "bx_block_favourites/favourites/destroy?id=";
 exports.searchProductsEndpoint = "/bx_block_catalogue/catalogues/search_product";
 exports.farmsEndpoint = "/bx_block_farm/farms";
+exports.getToken = "/account_block/accounts/get_token";
 // Customizable Area End

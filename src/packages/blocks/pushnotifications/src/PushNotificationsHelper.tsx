@@ -93,8 +93,7 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
-      console.log("fcm token==>",fcmToken);
-      setStorageData('fcmToken', fcmToken);
+      setStorageData('fcm_token', fcmToken);
     }
 
     return fcmToken;

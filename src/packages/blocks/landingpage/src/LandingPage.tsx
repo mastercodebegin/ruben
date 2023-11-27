@@ -41,6 +41,7 @@ export default class LandingPage extends LandingPageController {
     super.componentDidMount();
     await this.getblogPosts.bind(this)();
     this.getCart.bind(this)();
+    this.setNotificationToken.bind(this)();
   }
   // Customizable Area End
 
