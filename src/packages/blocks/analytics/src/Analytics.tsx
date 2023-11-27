@@ -211,9 +211,7 @@ export default class Analytics extends AnalyticsController {
                     onChange={this.handleDropdownChange}
                     renderItem={(item: any) => {
                       return (
-                        <View>
                           <Text style={styles.textItem}>{item?.attributes?.name}</Text>
-                        </View>
                       )
                     }}
                     value={this.state.category_title}
@@ -415,7 +413,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: 0,
+    top: -25,
   },
   animalImagContainer: {
     marginBottom: 10

@@ -1473,10 +1473,6 @@ this.setState({aboutUsData:aboutus})
     const fcm_token: any = await AsyncStorage.getItem("fcm_token");
     const data: any = JSON.parse(userDetails);
 
-    console.log("fcm===>",fcm_token);
-    console.log("data token==>", data.meta.token);
-    
-    
     const headers = {
       token: data?.meta?.token,
       "Content-Type": "application/json",
