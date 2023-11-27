@@ -324,17 +324,6 @@ export default class LandingPageController extends BlockComponent<
       );
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
-    } else if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.setTokenId != null &&
-    this.setTokenId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){
-      const response = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log("response==>",response,error);
     }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
@@ -404,10 +393,7 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-     
         this.remainingProductCallback(message)
-      
-
     }
     else {
       this.receiveCallback(message)
@@ -420,6 +406,7 @@ export default class LandingPageController extends BlockComponent<
       this.recommendProductCallback(message);
       this.remainingProductCallback(message);
       this.addToCartCallBack(message)
+      this.getNotification(message);
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -659,6 +646,22 @@ filterCategoryCallBack(filteredList:any){
         }
       })
     } 
+  }
+
+  getNotification(message:Message){
+      if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.setTokenId != null &&
+      this.setTokenId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
+      {
+        const response = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        console.log("response==>",response,error);
+      }
   }
 
   addToCartCallBack(message:Message) {
@@ -1479,10 +1482,7 @@ this.setState({aboutUsData:aboutus})
     };
 
     const notificationToken = new Message(getName(MessageEnum.RestAPIRequestMessage));
-    this.setTokenId = notificationToken.messageId;
-
-    console.log("ccccc===>",configJSON.getToken);
-    
+    this.setTokenId = notificationToken.messageId;    
 
     notificationToken.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
