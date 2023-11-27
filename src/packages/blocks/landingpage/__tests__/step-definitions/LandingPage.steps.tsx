@@ -24,6 +24,16 @@ const feature = loadFeature(
   "./__tests__/features/LandingPage-scenario.feature"
 );
 
+const filteredList = {
+  inventory: {
+    data: [
+      { id: 1, name: 'Item 1', price: 10.99 },
+      { id: 2, name: 'Item 2', price: 20.49 },
+      { id: 3, name: 'Item 3', price: 5.99 },
+    ]
+  }
+};
+
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
@@ -142,6 +152,9 @@ defineFeature(feature, (test) => {
       instance.profileDetailsCallback({data:{attributes:{}}});
       instance.getSubcategories("3");
       instance.addProduct();
+      instance.setNotificationToken();
+      instance.filterCategoryCallBack(filteredList);
+      instance.shareProducts(2);
       // instance.categoryCallback(null,[])
       // instance.updateProfileCallback(null,[])
       // instance.getCategory(1,true)
