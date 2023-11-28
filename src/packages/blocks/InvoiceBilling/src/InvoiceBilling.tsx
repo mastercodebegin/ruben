@@ -18,6 +18,7 @@ import InvoiceBillingController, {
 import QuerySubmittedModal from "../../contactus/src/QuerySubmittedModal";
 
 export default class InvoiceBilling extends InvoiceBillingController {
+  backHandler: any;
   constructor(props: Props) {
     super(props);
     // Customizable Area Start

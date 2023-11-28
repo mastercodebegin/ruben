@@ -31,6 +31,17 @@ const feature = loadFeature(
   "./__tests__/features/InvoiceBilling-scenario.feature"
 );
 
+const sampleResponse = {
+  attributes: {
+    order_items: {
+      data: [
+        { id: 1, name: 'Product A', price: 20.0 },
+        { id: 2, name: 'Product B', price: 15.0 },
+      ]
+    },
+  },
+}
+
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
@@ -282,6 +293,15 @@ defineFeature(feature, (test) => {
       buttonComponent.simulate("press");
       jest.runAllTimers();
     });
+
+    then("I can write function cases", () => {
+      instance.doButtonPressed();
+      instance.downloadInvoice();
+      instance.setEnableField();
+      instance.setInputValue("");
+      instance.getCartCallBack(sampleResponse);
+      instance.btnShowHideProps.onPress();
+  });
 
     then("I can leave the screen with out errors", () => {
       const showAlert = jest.spyOn(Alert, "alert");
