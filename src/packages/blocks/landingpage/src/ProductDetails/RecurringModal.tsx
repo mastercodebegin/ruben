@@ -53,6 +53,7 @@ export class RecurringModal extends React.Component<P, S> {
           >
 
             <TouchableOpacity
+              testID="closebtn"
               onPress={() => this.props.setVisible()}
               style={styles.closeBtn}
             >
@@ -70,6 +71,7 @@ export class RecurringModal extends React.Component<P, S> {
             <Text style={styles.label}>Quantity</Text>
             <View style={styles.counterContainer}>
               <TouchableOpacity
+                testID="minusbtn"
                 disabled={this.state.quantity == 0 ? true : false}
                 onPress={() => this.setState({ quantity: this.state.quantity - 1 })}
                 style={styles.button}
@@ -78,6 +80,7 @@ export class RecurringModal extends React.Component<P, S> {
               </TouchableOpacity>
               <Text style={styles.counter}>{this.state.quantity}</Text>
               <TouchableOpacity
+                testID="plusbtn"
                 onPress={() => this.setState({ quantity: this.state.quantity + 1 })}
                 style={styles.button}
               >

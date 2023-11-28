@@ -80,7 +80,7 @@ defineFeature(feature, (test) => {
 
     then("user can see product details", () => {
       instance.setState({showRecurringModal:true})  
-      instance.addToCart(1,1,"weekly")    
+      instance.addToCart(1,1,"weekly")
     })
 
     then("user can see about this farm", () => {
