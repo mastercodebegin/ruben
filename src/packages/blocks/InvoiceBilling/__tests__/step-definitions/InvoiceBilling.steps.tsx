@@ -301,6 +301,9 @@ defineFeature(feature, (test) => {
       instance.setInputValue("");
       instance.getCartCallBack(sampleResponse);
       instance.btnShowHideProps.onPress();
+      instance.btnExampleProps.onPress();
+      instance.txtInputWebProps.onChangeText('');
+      instance.getCartCallBack([],true);
   });
 
     then("I can leave the screen with out errors", () => {
