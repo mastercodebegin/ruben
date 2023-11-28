@@ -143,7 +143,12 @@ defineFeature(feature, (test) => {
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
-      instance.getBlogPostsId = msgValidationAPI.messageId;
+      instance.recommendProductApiCallId= msgValidationAPI.messageId;
+      // instance.remainingProductApiCallId = msgValidationAPI.messageId;
+      // instance.getBlogPostsId =  msgValidationAPI.messageId;
+      // instance.getVideoLibraryId = msgValidationAPI.messageId;
+      // instance.getBlogPostsId = msgValidationAPI.messageId;
+      // instance.getprofileDetailsId== msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.getProductByCategory();
       instance.checkValidation()
@@ -181,9 +186,6 @@ defineFeature(feature, (test) => {
       // instance.shareProducts(5)
       // instance.getFavorites()
       // instance.removeFavListProduct(true)
-      
-
-
     })
 
     then("I can leave the screen with out errors", () => {
