@@ -180,7 +180,7 @@ export default class LandingPageController extends BlockComponent<
       subCategoryItem: '',
       productList: [],
       recommentproduct: [],
-      remainingproduct:[],
+      remainingproduct:[{}],
       orderList: [],
       categoryList: [
         {

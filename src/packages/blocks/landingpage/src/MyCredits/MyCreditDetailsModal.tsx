@@ -28,6 +28,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
+    
   }
 
   handleAddressOptionChange = () => {
