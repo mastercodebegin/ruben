@@ -34,6 +34,10 @@ const filteredList = {
   }
 };
 
+const newFilterList = {
+  message: "No Inventory Present"
+}
+
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
@@ -82,9 +86,15 @@ defineFeature(feature, (test) => {
     });
     then("I can see the blog posts on landingPage", () => {
       instance.setState({ imageBlogList: [{}] });
-      instance.addToCart(20);
+      instance.setState({productsList:[{title:"",category:"",price:""}]})
       instance.addProduct();
+      instance.addToCart(20);
       instance.forceUpdate();
+      instance.setState({productsList:[{category:""}]})
+      instance.addProduct();
+      instance.setState({productsList:[{price:""}]})
+      instance.addProduct();
+      instance.filterByCategoryApi("");
       class FormDataMock {
         constructor() {
           this.data = {};
@@ -154,6 +164,7 @@ defineFeature(feature, (test) => {
       instance.addProduct();
       instance.setNotificationToken();
       instance.filterCategoryCallBack(filteredList);
+      instance.filterCategoryCallBack(newFilterList);
       instance.shareProducts(2);
       // instance.categoryCallback(null,[])
       // instance.updateProfileCallback(null,[])
