@@ -3,7 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
-
+console.disableYellowBox=true
 interface LoginComponentTypes {
   onpressSignup: () => void;
   onchangePassword: (text: string) => void;
