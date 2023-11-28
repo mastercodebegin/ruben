@@ -313,7 +313,6 @@ defineFeature(feature, (test) => {
 
       // expect(showAlert).toHaveBeenCalledTimes(1);
       // expect(showAlert).toBeCalled();
-
       instance.componentWillUnmount();
       expect(exampleBlockA).toBeTruthy();
     });
