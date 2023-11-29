@@ -95,11 +95,9 @@ export default class PushnotificationsController extends BlockComponent<
 
   async componentDidMount() {
     this.getToken();
-    if (this.isPlatformWeb() === false) {
       this.props.navigation.addListener("willFocus", () => {
         this.getToken();
       });
-    }
     // Customizable Area Start
     // Customizable Area End
   }
