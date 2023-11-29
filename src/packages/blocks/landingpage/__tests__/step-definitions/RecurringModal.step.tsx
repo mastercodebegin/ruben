@@ -43,6 +43,7 @@ defineFeature(feature, (test) => {
     let instance: RecurringModal;
     given("recurringModal component", () => {
         ModalBlock = shallow(
+            //@ts-ignore
         <RecurringModal
                 visible={false} recurringOrder={function (quantity: number, frequency: string): void {
                     throw new Error("Function not implemented.");
@@ -53,6 +54,7 @@ defineFeature(feature, (test) => {
     });
 
     then("user can click on close for btn hide modal", () => {
+    instance.setState({quantity:0,frequency:"Select"})
     instance.AddSubscription();
       let closeBtn = ModalBlock.findWhere((node) => node.prop('testID') === "closebtn");
       closeBtn.simulate('press')
