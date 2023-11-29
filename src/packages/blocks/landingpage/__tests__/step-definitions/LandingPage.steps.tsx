@@ -188,6 +188,21 @@ defineFeature(feature, (test) => {
       instance.removeFavListProduct(true)
     })
 
+    then("user can see imgBlogPost",()=>{
+      const imgBlogPost = landingPageBlock.findWhere(
+        (node) => node.prop("testID") === "imgBlogPost"
+      );
+      imgBlogPost.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            time: 'Monthly'          }
+        }, index: 0
+      })
+      imgBlogPost.renderProp("keyExtractor")({id:0})
+    })
+
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
       expect(landingPageBlock).toBeTruthy();
