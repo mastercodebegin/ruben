@@ -13,7 +13,12 @@ import { runEngine } from "../../../../framework/src/RunEngine";
 import { Alert } from "react-native";
 import RenderHeader from "../../src/RenderHeader";
 import RenderFooter from "../../src/RenderFooter";
-const navigation = require("react-navigation");
+
+const navigation = {
+  navigate: jest.fn(),
+  reset: jest.fn(),
+  goBack: jest.fn(),
+};
 
 const screenProps = {
   navigation: navigation,
@@ -47,6 +52,11 @@ defineFeature(feature, (test) => {
     jest.resetModules();
     jest.doMock("react-native", () => ({ Platform: { OS: "web" } }));
     jest.spyOn(helpers, "getOS").mockImplementation(() => "web");
+    jest.mock('@react-navigation/native', () => ({
+      navigation: () => ({
+        reset: jest.fn(),
+      }),
+    }));
   });
 
   test("User navigates to InvoiceBilling", ({ given, when, then }) => {
@@ -242,6 +252,8 @@ defineFeature(feature, (test) => {
         (node) => node.prop("testID") === "render_product_list_id"
       );
       termsCondsList.render();
+      termsCondsList.renderProp("keyExtractor")({ id: 0 })
+      termsCondsList.renderProp("ItemSeparatorComponent")({id:0})
     });
 
     then("InvoiceBilling will load with out errors", () => {
@@ -314,6 +326,7 @@ defineFeature(feature, (test) => {
       // expect(showAlert).toHaveBeenCalledTimes(1);
       // expect(showAlert).toBeCalled();
       instance.componentWillUnmount();
+      instance.handleBackPress();
       expect(exampleBlockA).toBeTruthy();
     });
   });
