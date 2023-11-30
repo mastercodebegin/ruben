@@ -17,6 +17,7 @@ jest.mock("../../components/src/utils", () => ({
   generateDateObject: jest.fn()
 }));
 jest.mock("react-native-simple-toast", () => {});
+jest.mock("../../components/src/ShowToast", () => ({ showToast: jest.fn() }))
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn((key) => {
     return new Promise((resolve) => {

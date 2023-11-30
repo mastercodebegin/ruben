@@ -115,6 +115,21 @@ defineFeature(feature, (test) => {
       touchableOpacity.simulate("press");
       expect(showAlert).toBeDefined();
     });
+    then('users can see available photo list', () => {
+      const photosList = AboutUsBlock.findWhere(
+          (node) => node.prop("testID") === "photosList"
+        );          
+          photosList.renderProp('renderItem')({
+          item: {
+            id: 2,
+            attributes: {
+              id: 2,
+              name: 'photosList 1'
+            }
+          }, index: 0
+        })
+        photosList.renderProp("keyExtractor")({id:0})
+    });
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();
       expect(AboutUsBlock).toBeTruthy();

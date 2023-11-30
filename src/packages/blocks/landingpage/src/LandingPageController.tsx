@@ -324,7 +324,8 @@ export default class LandingPageController extends BlockComponent<
       );
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -385,7 +386,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.getSubcategoryCallback(subCategories, error)
-
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -393,10 +393,7 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-     
         this.remainingProductCallback(message)
-      
-
     }
     else {
       this.receiveCallback(message)
@@ -409,6 +406,7 @@ export default class LandingPageController extends BlockComponent<
       this.recommendProductCallback(message);
       this.remainingProductCallback(message);
       this.addToCartCallBack(message)
+      this.getNotification(message);
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -650,6 +648,22 @@ filterCategoryCallBack(filteredList:any){
     } 
   }
 
+  getNotification(message:Message){
+      if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.setTokenId != null &&
+      this.setTokenId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
+      {
+        const response = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        let error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        console.log("response==>",response,error);
+      }
+  }
+
   addToCartCallBack(message:Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -744,6 +758,7 @@ this.setState({aboutUsData:aboutus})
     }
   }
   getprofileDetailsId: string = '';
+  setTokenId:string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
   getFarmId:string='';
@@ -1017,8 +1032,8 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('Email can not be blank')
       return false;
     }
-    if (this.props.state.phone_number === '' || this.props.state.phone_number.length<10 || this.props.state.phone_number.length>10) {
-      this.showAlert('please provide 10 digit valid phone number')
+    if (this.props.state.phone_number === '') {
+      this.showAlert('please provide your phone number')
       return false;
     }
    
@@ -1455,6 +1470,44 @@ this.setState({aboutUsData:aboutus})
     );
     showToast('Link Copied')
   }
+
+  async setNotificationToken(){
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const fcm_token: any = await AsyncStorage.getItem("fcm_token");
+    const data: any = JSON.parse(userDetails);
+
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json",
+    };
+
+    const notificationToken = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.setTokenId = notificationToken.messageId;    
+
+    notificationToken.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getToken
+    );
+
+    notificationToken.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    notificationToken.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify({
+        "fcm_token": fcm_token
+      })
+    );
+
+    notificationToken.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+    runEngine.sendMessage(notificationToken.id, notificationToken);
+  }
+
   async getCart() {
     this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");

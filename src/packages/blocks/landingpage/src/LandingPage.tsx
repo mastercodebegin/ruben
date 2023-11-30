@@ -41,6 +41,7 @@ export default class LandingPage extends LandingPageController {
     super.componentDidMount();
     await this.getblogPosts.bind(this)();
     this.getCart.bind(this)();
+    this.setNotificationToken.bind(this)();
   }
   // Customizable Area End
 
@@ -50,6 +51,7 @@ export default class LandingPage extends LandingPageController {
         {/* Customizable Area Start */}
         <View style={{ flex: 1 }}>
           <FlatList
+            testID="imgBlogPost"
             data={this.state.imageBlogList}
             bounces={false}
             showsVerticalScrollIndicator={false}

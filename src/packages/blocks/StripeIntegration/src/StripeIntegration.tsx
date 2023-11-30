@@ -74,7 +74,7 @@ export default class StripeIntegration extends StripeIntegrationController {
   async componentDidMount() {
     const saveCard_Details = await getStorageData("saveCardDetails", true);
     console.log("saveCard_Details",saveCard_Details);
-    this.setState({cardName:saveCard_Details?.cardName,cardNumber:saveCard_Details?.cardNumber,cvv:saveCard_Details?.cvv,expirtyDate:saveCard_Details?.expirtyDate})
+    this.setState({cardName:saveCard_Details?.cardName || "",cardNumber:saveCard_Details?.cardNumber || "",cvv:saveCard_Details?.cvv|| "",expirtyDate:saveCard_Details?.expirtyDate|| ""})
   }
 
   handleExpiryDate = (text: string) => {

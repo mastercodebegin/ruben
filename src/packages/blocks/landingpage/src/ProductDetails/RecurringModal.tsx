@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  Alert,
 } from "react-native";
 import Button from "../../../../components/src/CustomButton";
 import { close, DARK_RED } from "../../../landingpage/src/assets";
@@ -32,6 +33,14 @@ export class RecurringModal extends React.Component<P, S> {
     };
   }
 
+  AddSubscription=()=>{
+    if(this.state.quantity == 0 || this.state.frequency == "Select"){
+      Alert.alert("Error","Please Select Quantity and Frequency",[{text:"OK"}])
+      return;
+    }
+    this.props.recurringOrder(this.state.quantity,this.state.frequency)
+  }
+
   render() {
     return (
       <Modal visible={this.props.visible} transparent>
@@ -44,6 +53,7 @@ export class RecurringModal extends React.Component<P, S> {
           >
 
             <TouchableOpacity
+              testID="closebtn"
               onPress={() => this.props.setVisible()}
               style={styles.closeBtn}
             >
@@ -57,11 +67,11 @@ export class RecurringModal extends React.Component<P, S> {
             <Text style={[styles.label,{fontSize:21, marginTop:5}]}>Recurring Order</Text>
             <Text style={styles.desc}>You may set up a recurring order by selecting the</Text>
 
-
           <View style={{flexDirection:'row',marginVertical:20,justifyContent:'center'}}>
             <Text style={styles.label}>Quantity</Text>
             <View style={styles.counterContainer}>
               <TouchableOpacity
+                testID="minusbtn"
                 disabled={this.state.quantity == 0 ? true : false}
                 onPress={() => this.setState({ quantity: this.state.quantity - 1 })}
                 style={styles.button}
@@ -70,6 +80,7 @@ export class RecurringModal extends React.Component<P, S> {
               </TouchableOpacity>
               <Text style={styles.counter}>{this.state.quantity}</Text>
               <TouchableOpacity
+                testID="plusbtn"
                 onPress={() => this.setState({ quantity: this.state.quantity + 1 })}
                 style={styles.button}
               >
@@ -82,16 +93,16 @@ export class RecurringModal extends React.Component<P, S> {
             <Text style={styles.label}>Frequency</Text>
 
             <Dropdown
-                    style={styles.dropdown}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    iconStyle={styles.iconStyle}
-                    containerStyle={styles.containerStyle}
-                    data={FrequencyList}
-                    maxHeight={400}
-                    placeholder={this.state.frequency}
-                    onChange={(e)=>this.setState({frequency:e})
-                    }
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  iconStyle={styles.iconStyle}
+                  containerStyle={styles.containerStyle}
+                  data={FrequencyList}
+                  maxHeight={400}
+                  placeholder={this.state.frequency}
+                  onChange={(e)=>this.setState({frequency:e})
+                  }
                     renderItem={(item: any) => {
                       return (
                         <View>
@@ -106,7 +117,7 @@ export class RecurringModal extends React.Component<P, S> {
             <Button
               style={{ marginTop: 20 }}
               testID="add_subscription"
-              onPress={()=>this.props.recurringOrder(this.state.quantity,this.state.frequency)}
+              onPress={()=>this.AddSubscription()}
               label={"Add Subscription"}
             />
           </KeyboardAwareScrollView>
@@ -148,8 +159,7 @@ const styles = StyleSheet.create({
   counterContainer: { flexDirection: "row", alignItems: "center" },
   contentContainer: { flexGrow: 1 },
   innerContainer: {
-    // flex: 1,
-    backgroundColor: "white",
+    backgroundColor: WHITE,
     borderRadius: 24,
     paddingHorizontal: 20,
     paddingTop: 20,

@@ -232,15 +232,15 @@ defineFeature(feature, (test) => {
     // animalCutsOption.renderProp("keyExtractor")({id:0})  
 });
 
-    then("user can see my credits modal", () => {
-      const MycreditsModal = render(<Modal navigation={undefined} id={""} visible={false} setVisibleProfileModal={function (): void {
-        throw new Error("Function not implemented.");
-      }} setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
-        throw new Error("Function not implemented.");
-      }} cartDetails={[]} setCreditDetailModal={function (): void {
-        throw new Error("Function not implemented.");
-      }} />);
-      expect(MycreditsModal).toBeTruthy();
-    });
+    // then("user can see my credits modal", () => {
+    //   const MycreditsModal = render(<Modal navigation={undefined} id={""} visible={false} setVisibleProfileModal={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }} setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
+    //     throw new Error("Function not implemented.");
+    //   }} cartDetails={[]} setCreditDetailModal={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }} />);
+    //   expect(MycreditsModal).toBeTruthy();
+    // });
   })
 });

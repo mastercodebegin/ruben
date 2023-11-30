@@ -66,6 +66,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 <Text style={styles.optionLabel}>Choose an option</Text>
                 <View style={styles.optionContainerIn}>
                   <FlatList
+                     testID="deliverOption"
                     data={this.state.deliverOption}
                     horizontal
                     renderItem={({ item }: any) => {
@@ -104,6 +105,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </Text>
                   <View style={styles.cutsDropDown}>
                     <TouchableOpacity
+                      testID="handleAnimatCuts"
                       style={styles.pmButton}
                       onPress={() => {
                         this.handleIncreaseAnimalCuts();
@@ -198,6 +200,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       style={[styles.clickOptionContainer, { paddingRight: 6 }]}
                     >
                       <TouchableOpacity
+                        testID="address_change"
                         style={styles.checkBoxStyle}
                         onPress={() => {
                           this.handleAddressOptionChange();
@@ -215,6 +218,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <View style={styles.slotsContainer}>
                     <Text style={styles.slotsTitle}>Available Slots</Text>
                     <FlatList
+                      testID="avaialbleSlots"
                       data={this.state.animalAvailableSlots}
                       numColumns={3}
                       renderItem={({ item }: any) => {
@@ -257,7 +261,6 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 <View style={styles.buttomButtonRow}>
                   <TouchableOpacity
                     style={styles.submitButton}
-                    onPress={() => {}}
                   >
                     <Text style={styles.submitButtonText}>
                       Submit Pickup Request
