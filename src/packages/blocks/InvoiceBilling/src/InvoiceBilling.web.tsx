@@ -56,7 +56,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
       // Customizable Area Start
       <ThemeProvider theme={theme}>
         <Container maxWidth={"sm"}>
-          <Box sx={webStyle.mainWrapper}>
+          {/* <Box sx={webStyle.mainWrapper}>
             <Typography variant="h6">{configJSON.labelTitleText}</Typography>
             <Typography variant="subtitle1" component="div">
               {configJSON.labelBodyText}
@@ -98,7 +98,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
             >
               <Button color={"primary"}>{configJSON.btnExampleTitle}</Button>
             </Box>
-          </Box>
+          </Box> */}
         </Container>
       </ThemeProvider>
       // Customizable Area End

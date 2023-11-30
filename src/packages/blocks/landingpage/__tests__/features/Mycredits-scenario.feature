@@ -5,4 +5,3 @@ Feature: MyCredits
         Then click on my credit detail modal
         Then user can see remaning Products
         Then user can select value from  drop down
-        Then user can see my credits modal

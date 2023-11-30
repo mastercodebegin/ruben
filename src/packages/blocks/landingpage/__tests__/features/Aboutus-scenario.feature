@@ -5,4 +5,5 @@ Feature: AboutUs
         And user can see the farm image
         Then user can see the description
         Then user can add the product into cart
+        Then users can see available photo list
         And I can leave the screen with out errors

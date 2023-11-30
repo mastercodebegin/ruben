@@ -190,11 +190,11 @@ export default class Analytics extends AnalyticsController {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
-                      {`${this.state.numberOfSpend}`}
-                    </Text>
                     <Text style={{ fontSize: 20, color: PRIMARY }}>
-                      {`$${this.state.numberOfSpendCount}`}
+                      {`${Math.floor(this.state.numberOfSpendCount)}`}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
+                      {`$${this.state.numberOfSpend}`}
                     </Text>
                   </View>
                 </View>
@@ -211,9 +211,7 @@ export default class Analytics extends AnalyticsController {
                     onChange={this.handleDropdownChange}
                     renderItem={(item: any) => {
                       return (
-                        <View>
                           <Text style={styles.textItem}>{item?.attributes?.name}</Text>
-                        </View>
                       )
                     }}
                     value={this.state.category_title}
@@ -415,7 +413,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    top: 0,
+    top: -25,
   },
   animalImagContainer: {
     marginBottom: 10

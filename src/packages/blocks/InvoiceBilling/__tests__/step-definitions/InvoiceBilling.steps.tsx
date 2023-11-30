@@ -13,7 +13,12 @@ import { runEngine } from "../../../../framework/src/RunEngine";
 import { Alert } from "react-native";
 import RenderHeader from "../../src/RenderHeader";
 import RenderFooter from "../../src/RenderFooter";
-const navigation = require("react-navigation");
+
+const navigation = {
+  navigate: jest.fn(),
+  reset: jest.fn(),
+  goBack: jest.fn(),
+};
 
 const screenProps = {
   navigation: navigation,
@@ -31,11 +36,27 @@ const feature = loadFeature(
   "./__tests__/features/InvoiceBilling-scenario.feature"
 );
 
+const sampleResponse = {
+  attributes: {
+    order_items: {
+      data: [
+        { id: 1, name: 'Product A', price: 20.0 },
+        { id: 2, name: 'Product B', price: 15.0 },
+      ]
+    },
+  },
+}
+
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
     jest.doMock("react-native", () => ({ Platform: { OS: "web" } }));
     jest.spyOn(helpers, "getOS").mockImplementation(() => "web");
+    jest.mock('@react-navigation/native', () => ({
+      navigation: () => ({
+        reset: jest.fn(),
+      }),
+    }));
   });
 
   test("User navigates to InvoiceBilling", ({ given, when, then }) => {
@@ -231,6 +252,8 @@ defineFeature(feature, (test) => {
         (node) => node.prop("testID") === "render_product_list_id"
       );
       termsCondsList.render();
+      termsCondsList.renderProp("keyExtractor")({ id: 0 })
+      termsCondsList.renderProp("ItemSeparatorComponent")({id:0})
     });
 
     then("InvoiceBilling will load with out errors", () => {
@@ -283,6 +306,18 @@ defineFeature(feature, (test) => {
       jest.runAllTimers();
     });
 
+    then("I can write function cases", () => {
+      instance.doButtonPressed();
+      instance.downloadInvoice();
+      instance.setEnableField();
+      instance.setInputValue("");
+      instance.getCartCallBack(sampleResponse);
+      instance.btnShowHideProps.onPress();
+      instance.btnExampleProps.onPress();
+      instance.txtInputWebProps.onChangeText('');
+      instance.getCartCallBack([],true);
+  });
+
     then("I can leave the screen with out errors", () => {
       const showAlert = jest.spyOn(Alert, "alert");
       // const { getByTestId } = render(<InvoiceBilling {...screenProps} />);
@@ -290,8 +325,8 @@ defineFeature(feature, (test) => {
 
       // expect(showAlert).toHaveBeenCalledTimes(1);
       // expect(showAlert).toBeCalled();
-
       instance.componentWillUnmount();
+      instance.handleBackPress();
       expect(exampleBlockA).toBeTruthy();
     });
   });

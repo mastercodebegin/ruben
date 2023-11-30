@@ -54,7 +54,7 @@ const RenderItem = ({item}: any) => {
         </View>
       <View style={styles.flex}>
       <Text style={styles.text}>{`ID:${item?.data?.attributes?.order_number?item?.data?.attributes?.order_number:item?.data?.id}`}</Text>
-        <Text style={styles.name}>{`${item?.data?.attributes?.name}`}</Text>
+        <Text style={styles.name}>{`${item?.data?.attributes?.order_items?.data[0]?.attributes?.vendor}`}</Text>   
         <Text style={styles.text}>{`Date : ${ moment(new Date(item?.data?.attributes?.Date)).format('DD/MM/YYYY')}`}</Text>
         <Text style={styles.text}>{`Item :x${item?.data?.attributes?.items}`}</Text>
       </View>
@@ -100,7 +100,6 @@ const RenderItem = ({item}: any) => {
 
                     </View>
                 </View>
-                <Text style={styles.question}>{"Pick : "} <Text style={styles.answer}>{3}</Text></Text>
                 <Text style={styles.question}>{"Vendor : "} <Text style={styles.answer}>{item?.data?.attributes?.order_items?.data[0]?.attributes?.vendor}</Text></Text>
                 <Text style={styles.question}>{"On hand : "} <Text style={styles.answer}>{item?.data?.attributes?.order_items?.data[0]?.attributes?.on_hand}</Text></Text>
 

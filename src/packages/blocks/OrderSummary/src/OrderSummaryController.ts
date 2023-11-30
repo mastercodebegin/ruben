@@ -280,8 +280,11 @@ SS
           getName(MessageEnum.RestAPIResponceErrorMessage)
         );
       if (!error && lifetimeSubscriptionResponse?.data?.type === 'subscription') {
-        this.getBillingDetails();     
-      } else {
+        this.getBillingDetails(); 
+      }else if(!error){        
+        Alert.alert("Success",lifetimeSubscriptionResponse.message,[{text:"OK",onPress:()=>this.setState({showSubscriptionModal:false,showLoader:false})}])
+      }
+       else {
         this.setState({ screenError: true,showSubscriptionModal:false});
       }
     }

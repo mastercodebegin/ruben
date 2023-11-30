@@ -43,7 +43,7 @@ import ContactUs from '../blocks/contactus/src/ContactusScreen';
 import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement';
 import PushNotificationHelper from '../blocks/pushnotifications/src/PushNotificationsHelper';
 import ViewProduct from '../blocks/landingpage/src/ExploreStore/ViewProduct';
-console.disableYellowBox=true
+
 if (!HomeScreen.instance) {
   const defaultProps = {
     navigation: null,

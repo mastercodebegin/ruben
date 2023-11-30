@@ -95,6 +95,7 @@ export default class AboutUs extends LandingPageController {
                     <Text style={styles.photos}>PHOTOS</Text>
                     <View>
                       <FlatList
+                        testID="photosList"
                         horizontal
                         bounces={false}
                         showsHorizontalScrollIndicator={false}

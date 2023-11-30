@@ -24,6 +24,20 @@ const feature = loadFeature(
   "./__tests__/features/LandingPage-scenario.feature"
 );
 
+const filteredList = {
+  inventory: {
+    data: [
+      { id: 1, name: 'Item 1', price: 10.99 },
+      { id: 2, name: 'Item 2', price: 20.49 },
+      { id: 3, name: 'Item 3', price: 5.99 },
+    ]
+  }
+};
+
+const newFilterList = {
+  message: "No Inventory Present"
+}
+
 defineFeature(feature, (test) => {
   beforeEach(() => {
     jest.resetModules();
@@ -72,9 +86,15 @@ defineFeature(feature, (test) => {
     });
     then("I can see the blog posts on landingPage", () => {
       instance.setState({ imageBlogList: [{}] });
-      instance.addToCart(20);
+      instance.setState({productsList:[{title:"",category:"",price:""}]})
       instance.addProduct();
+      instance.addToCart(20);
       instance.forceUpdate();
+      instance.setState({productsList:[{category:""}]})
+      instance.addProduct();
+      instance.setState({productsList:[{price:""}]})
+      instance.addProduct();
+      instance.filterByCategoryApi("");
       class FormDataMock {
         constructor() {
           this.data = {};
@@ -123,7 +143,12 @@ defineFeature(feature, (test) => {
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
-      instance.getBlogPostsId = msgValidationAPI.messageId;
+      instance.recommendProductApiCallId= msgValidationAPI.messageId;
+      // instance.remainingProductApiCallId = msgValidationAPI.messageId;
+      // instance.getBlogPostsId =  msgValidationAPI.messageId;
+      // instance.getVideoLibraryId = msgValidationAPI.messageId;
+      // instance.getBlogPostsId = msgValidationAPI.messageId;
+      // instance.getprofileDetailsId== msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.getProductByCategory();
       instance.checkValidation()
@@ -142,24 +167,40 @@ defineFeature(feature, (test) => {
       instance.profileDetailsCallback({data:{attributes:{}}});
       instance.getSubcategories("3");
       instance.addProduct();
-      // instance.categoryCallback(null,[])
-      // instance.updateProfileCallback(null,[])
-      // instance.getCategory(1,true)
-      // instance.getCategories()
-      // instance.farmDetails(true)
-      // instance.getAboutUs()
-      // instance.getVideoBlog()
-      // instance.updateProfileDetails(true)
-      // instance.getRecommendProduct(true)
-      // instance.getRemainingProduct()
-      // instance.getProfileDetails()
-      // instance.getViewAllProduct(5)
-      // instance.shareProducts(5)
-      // instance.getFavorites()
-      // instance.removeFavListProduct(true)
-      
+      instance.setNotificationToken();
+      instance.filterCategoryCallBack(filteredList);
+      instance.filterCategoryCallBack(newFilterList);
+      instance.shareProducts(2);
+      instance.categoryCallback(null,[])
+      instance.updateProfileCallback(null,[])
+      instance.getCategory(1,true)
+      instance.getCategories()
+      instance.farmDetails(true)
+      instance.getAboutUs()
+      instance.getVideoBlog()
+      instance.updateProfileDetails(true)
+      instance.getRecommendProduct(true)
+      instance.getRemainingProduct()
+      instance.getProfileDetails()
+      instance.getViewAllProduct(5)
+      instance.shareProducts(5)
+      instance.getFavorites()
+      instance.removeFavListProduct(true)
+    })
 
-
+    then("user can see imgBlogPost",()=>{
+      const imgBlogPost = landingPageBlock.findWhere(
+        (node) => node.prop("testID") === "imgBlogPost"
+      );
+      imgBlogPost.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            time: 'Monthly'          }
+        }, index: 0
+      })
+      imgBlogPost.renderProp("keyExtractor")({id:0})
     })
 
     then("I can leave the screen with out errors", () => {
