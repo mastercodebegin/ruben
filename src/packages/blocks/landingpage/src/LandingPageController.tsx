@@ -327,18 +327,7 @@ export default class LandingPageController extends BlockComponent<
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getSlotsAndMerchantAddressCallId != null &&
-    this.getSlotsAndMerchantAddressCallId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const slotsAndMerchantRes = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
-  }
+ 
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -847,15 +836,7 @@ this.setState({aboutUsData:aboutus})
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
-  slotsAndMerchantRes(error: any, response: any) {
-    if (error) {
-      this.showAlert('something went wrong')
-    }
-    else {
-      this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
-
-    }
-  }
+ 
 
   async getCategories() {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
