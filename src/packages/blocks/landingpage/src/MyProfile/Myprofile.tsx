@@ -104,6 +104,7 @@ export default class Myprofile extends LandingPageController {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
   renderItem({ item }: any) {    
+    
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:

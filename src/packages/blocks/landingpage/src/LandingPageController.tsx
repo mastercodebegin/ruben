@@ -107,6 +107,7 @@ interface S {
   setAddressOption: boolean;
   fetchFavorites: boolean;
   selectedCategoryID:any
+  merchantAddress:any
   // Customizable Area End
 }
 
@@ -131,6 +132,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      merchantAddress:'',
       showLoader:false,
       inventoryList:[],
       category:"",
@@ -325,6 +327,18 @@ export default class LandingPageController extends BlockComponent<
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getSlotsAndMerchantAddressCallId != null &&
+    this.getSlotsAndMerchantAddressCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const slotsAndMerchantRes = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+  }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -774,6 +788,7 @@ this.setState({aboutUsData:aboutus})
   filterByCategoryApiId:string = '';
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
+  getSlotsAndMerchantAddressCallId:string=''
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -831,6 +846,15 @@ this.setState({aboutUsData:aboutus})
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+  slotsAndMerchantRes(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    }
+    else {
+      this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
+
+    }
   }
 
   async getCategories() {
@@ -1746,6 +1770,34 @@ this.setState({aboutUsData:aboutus})
     } else if (response) {
       this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
     }
+  }
+
+  getSlotsAndMerchantAddressHandler = async () => {
+    console.log('merchantAddressHandler=================')
+    
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const SearchProductRequest = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getSlotsAndMerchantAddressCallId = SearchProductRequest.messageId;
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `/bx_block_shippingchargecalculator/pickups`
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
   }
   
   // Customizable Area End
