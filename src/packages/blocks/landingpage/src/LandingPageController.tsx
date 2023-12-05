@@ -108,6 +108,7 @@ interface S {
   fetchFavorites: boolean;
   selectedCategoryID:any
   merchantAddress:any
+  userAddress:[]
   // Customizable Area End
 }
 
@@ -133,6 +134,7 @@ export default class LandingPageController extends BlockComponent<
 
     this.state = {
       merchantAddress:'',
+      userAddress:[],
       showLoader:false,
       inventoryList:[],
       category:"",
@@ -327,7 +329,24 @@ export default class LandingPageController extends BlockComponent<
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
     }
- 
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.userAddressApiCallId != null &&
+      this.userAddressApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) 
+    {
+      const userAddress = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+
+      this.setState({userAddress:userAddress?.data})
+
+    }
+
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
