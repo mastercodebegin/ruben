@@ -778,6 +778,7 @@ this.setState({aboutUsData:aboutus})
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
   getSlotsAndMerchantAddressCallId:string=''
+  userAddressApiCallId:string=''
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -1779,6 +1780,37 @@ this.setState({aboutUsData:aboutus})
       configJSON.validationApiMethodType
     );
     runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
+  }
+
+  async getUserAddress() {
+
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.userAddressApiCallId = subcategory.messageId;
+
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_order_management/addresses'
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
   }
   
   // Customizable Area End

@@ -187,6 +187,7 @@ defineFeature(feature, (test) => {
       instance.getFavorites()
       instance.removeFavListProduct(true)
       instance.getSlotsAndMerchantAddressHandler()
+      instance.getUserAddress()
     })
 
     then("user can see imgBlogPost",()=>{
