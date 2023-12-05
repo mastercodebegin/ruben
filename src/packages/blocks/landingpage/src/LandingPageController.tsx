@@ -457,64 +457,21 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
  
-  handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => {
-    //if(avilable_cuts<remainingCuts)
-    
-    
-    const selectedObj:any = this.state.animalPortions[index]
-    const obj:any = { id: item?.id, name: selectedObj?.name, quantity: selectedObj?.quantity + 1 }
-    const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj?.name != item?.name)
-    filteredArray.splice(index, 0, obj)
-    this.setState({ animalPortions: filteredArray });
-    this.setState({animalCutsCount:this.state.animalCutsCount+1})
-  
-    
+  handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => { 
+    console.log(item);
+
   };
 
 
   handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
-    if (item.quantity > 1) {
-      const selectedObj:any = this.state.animalPortions[index]
-      const obj:any = { id: item?.id, name: selectedObj?.name, quantity: selectedObj.quantity - 1 }
-      const filteredArray:any = this.state.animalPortions.filter((selectedObj: any) => selectedObj?.name != item?.name)
-      filteredArray.splice(index, 0, obj)
-      this.setState({ animalPortions: filteredArray });
-     
-      this.setState({animalCutsCount:this.state.animalCutsCount-1})
-      
-    
-    }
-    else {
-      const filteredArray:any = this.state.animalPortions.filter((selectedObj: any) => selectedObj?.name != item?.name)
-      this.setState({ animalPortions: filteredArray, });
-      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+    console.log(item);
 
-
-    }
   };
   handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
-    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
-    
-    if(filterd.length>0)
-    {
-      this.setState({
-      handleAnimalCutsDropDown: false})
-      alert('You already added '+item)
+console.log(item);
+ 
 
-      return false
-    }
-
-    
-    console.log("option", item);
-    const obj = { id: 1, name: item, quantity: 1 }
-    this.setState({
-      selectedAnimalCuts: item,
-      handleAnimalCutsDropDown: false,
-      animalPortions: [...this.state.animalPortions, obj]
-    });
-    
-    this.setState({animalCutsCount:this.state.animalCutsCount+1,
-    })
+   
   
   
 
