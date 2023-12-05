@@ -1768,7 +1768,7 @@ this.setState({aboutUsData:aboutus})
     this.getSlotsAndMerchantAddressCallId = SearchProductRequest.messageId;
     SearchProductRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `/bx_block_shippingchargecalculator/pickups`
+      "/bx_block_shippingchargecalculator/pickups"
     );
     SearchProductRequest.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
