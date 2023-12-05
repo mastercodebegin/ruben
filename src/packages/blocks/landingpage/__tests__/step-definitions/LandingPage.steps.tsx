@@ -156,10 +156,8 @@ defineFeature(feature, (test) => {
       instance.getOrderList();
       instance.handleLoadMore();
       instance.handleDeliverOptionChange({});
-      instance.handleIncreaseAnimalCuts();
-      instance.handleDecreaseAnimalCuts();
-      instance.handleAnimalCutsOption({});
-      instance.handleAnimalSelectSlots({});
+      instance.handleIncreaseAnimalCuts(1,2,3,4);
+      instance.handleDecreaseAnimalCuts(1,2,3,);
       instance.showHideCreditDetailModal();
       instance.searchProductsCallback(true,{});
       instance.updateProfileCallback(true,{});
