@@ -1019,11 +1019,17 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
   checkValidation() {
-    
+    const whitespaceRegex = /^\s+|\s+$/;
     if (this.props.state.name === '') {
       this.showAlert('Name can not be blank')
       return false;
     }
+
+    if (whitespaceRegex.test(this.props.state.name)) {
+      this.showAlert('The name cannot have leading or trailing white spaces.');
+      return false;
+    }
+
     if (!validName(this.props.state.name)) {
       this.showAlert('The name cannot be empty and should not contain any numbers or special characters');
       return false;

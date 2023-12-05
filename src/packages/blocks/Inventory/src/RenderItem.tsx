@@ -54,7 +54,7 @@ const RenderItem = ({item}: any) => {
         </View>
       <View style={styles.flex}>
       <Text style={styles.text}>{`ID:${item?.data?.attributes?.order_number?item?.data?.attributes?.order_number:item?.data?.id}`}</Text>
-        <Text style={styles.name}>{`${item?.data?.attributes?.order_items?.data[0]?.attributes?.vendor}`}</Text>   
+        <Text style={styles.name}>{`${item?.data?.attributes?.order_items?.data[0]?.attributes?.vendor}`}</Text>
         <Text style={styles.text}>{`Date : ${ moment(new Date(item?.data?.attributes?.Date)).format('DD/MM/YYYY')}`}</Text>
         <Text style={styles.text}>{`Item :x${item?.data?.attributes?.items}`}</Text>
       </View>
