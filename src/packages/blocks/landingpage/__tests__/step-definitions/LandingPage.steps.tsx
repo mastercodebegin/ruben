@@ -156,7 +156,7 @@ defineFeature(feature, (test) => {
       instance.getOrderList();
       instance.handleLoadMore();
       instance.handleDeliverOptionChange({});
-      instance.handleIncreaseAnimalCuts();
+      instance.handleIncreaseAnimalCuts(1,2,3,4);
       instance.handleDecreaseAnimalCuts();
       instance.handleAnimalCutsOption({});
       instance.handleAnimalSelectSlots({});

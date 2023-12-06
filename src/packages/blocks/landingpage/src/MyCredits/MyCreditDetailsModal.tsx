@@ -108,7 +108,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       testID="handleAnimatCuts"
                       style={styles.pmButton}
                       onPress={() => {
-                        this.handleIncreaseAnimalCuts();
+                        this.handleIncreaseAnimalCuts(1,2,3,4);
                       }}
                     >
                       <Image
