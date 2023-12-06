@@ -28,6 +28,7 @@
     "@react-native-firebase/analytics": "^11.0.0",
     "@react-native-firebase/app": "^11.0.0",
     "@types/react-native-document-picker": "^3.1.1",
+    "@stripe/stripe-react-native": "0.23.0",
     "react-native-safe-area-context": "^3.2.0",
     "@unimodules/core": "^5.0.0",
     "@unimodules/react-native-adapter": "^5.0.0",
