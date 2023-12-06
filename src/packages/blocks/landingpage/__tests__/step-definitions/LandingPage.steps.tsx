@@ -139,8 +139,8 @@ defineFeature(feature, (test) => {
           ],
         }
       );
-      instance.setState({productsList:[{title:"abc",category:"wing",price:"20"}]})
-      instance.setState({animalPortions:[{name:"abc",category:"wing",quantity:"20"}]})
+      instance.setState({productsList:[{title:"abc",category:"wing",price:20}],
+      animalPortions:[{name:"abc",category:"wing",quantity:20},{name:"abc",category:"wing",quantity:20}]})
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
@@ -157,9 +157,10 @@ defineFeature(feature, (test) => {
       instance.getOrderList();
       instance.handleLoadMore();
       instance.handleDeliverOptionChange({});
-      instance.handleIncreaseAnimalCuts({id:1},0,0,0);
-      instance.handleDecreaseAnimalCuts();
-      instance.handleAnimalCutsOption({});
+
+      instance.handleIncreaseAnimalCuts({id:1},0,1,1);
+      instance.handleDecreaseAnimalCuts({id:1,name:'abc',quantity:20},1,4);
+      instance.handleAnimalCutsOption('abc',9,9);
       instance.handleAnimalSelectSlots({});
       instance.showHideCreditDetailModal();
       instance.searchProductsCallback(true,{});
@@ -204,6 +205,12 @@ defineFeature(feature, (test) => {
         }, index: 0
       })
       imgBlogPost.renderProp("keyExtractor")({id:0})
+      instance.setState({animalPortions:[{name:"abc",category:"wing",quantity:0},{name:"abc",category:"wing",quantity:0}]})
+
+      instance.handleDecreaseAnimalCuts({id:1,name:'abc',quantity:0},1,4);
+      instance.handleAnimalCutsOption('abc1',9,9);
+
+
     })
 
     then("I can leave the screen with out errors", () => {
