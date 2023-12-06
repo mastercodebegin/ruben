@@ -108,7 +108,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       testID="handleAnimatCuts"
                       style={styles.pmButton}
                       onPress={() => {
-                        this.handleIncreaseAnimalCuts(1,2,3,4);
+                        this.handleIncreaseAnimalCuts();
                       }}
                     >
                       <Image
@@ -122,7 +122,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     </Text>
                     <TouchableOpacity
                       style={styles.pmButton}
-                      onPress={()=>this.handleDecreaseAnimalCuts(1,2,3)}
+                      onPress={this.handleDecreaseAnimalCuts}
                     >
                       <Image
                         resizeMode="contain"
@@ -170,7 +170,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                           <TouchableOpacity
                             style={styles.selectAnimalCuts}
                             onPress={() => {
-                              this.handleAnimalCutsOption(item.title,3,3);
+                              this.handleAnimalCutsOption(item.title);
                             }}
                           >
                             <Text style={styles.chooseTitle}>{item.title}</Text>

@@ -457,30 +457,20 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
  
-  handleIncreaseAnimalCuts = (item: any, index: any,remainingCuts:any,avilable_cuts:any) => { 
-    const selectedObj:any = this.state.animalPortions[index]
-    const obj:any = { id: item?.id, name: selectedObj?.name, quantity: selectedObj?.quantity + 1 }
-    const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj?.name != item?.name)
-    filteredArray.splice(index, 0, obj)
-    this.setState({ animalPortions: filteredArray });
-    this.setState({animalCutsCount:this.state.animalCutsCount+1})
-
+  handleIncreaseAnimalCuts = () => {
+    this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
   };
 
-
-  handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
-    console.log(item);
-
+  handleDecreaseAnimalCuts = () => {
+    this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
   };
-  handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
-console.log(item);
+  handleAnimalCutsOption = (item: any) => {
+    this.setState({
+      selectedAnimalCuts: item
+    });
+  };
+
  
-
-   
-  
-  
-
-  };
 
   filterByCategoryCallback(message: Message) {
     
