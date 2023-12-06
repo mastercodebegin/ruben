@@ -403,6 +403,7 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback.bind(this)(error, categories.data)
     }
+    
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getFarmId != null &&
     this.getFarmId ===
