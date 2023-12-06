@@ -140,6 +140,7 @@ defineFeature(feature, (test) => {
         }
       );
       instance.setState({productsList:[{title:"abc",category:"wing",price:"20"}]})
+      instance.setState({animalPortions:[{name:"abc",category:"wing",quantity:"20"}]})
       instance.addToCartId = msgValidationAPI.messageId;
       runEngine.sendMessage("Unit Test", msgValidationAPI);
       instance.filterProductByCategoryId = msgValidationAPI.messageId;
@@ -156,7 +157,7 @@ defineFeature(feature, (test) => {
       instance.getOrderList();
       instance.handleLoadMore();
       instance.handleDeliverOptionChange({});
-      instance.handleIncreaseAnimalCuts(1,2,3,4);
+      instance.handleIncreaseAnimalCuts({id:1},0,0,0);
       instance.handleDecreaseAnimalCuts();
       instance.handleAnimalCutsOption({});
       instance.handleAnimalSelectSlots({});
