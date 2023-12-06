@@ -45,6 +45,7 @@
 	<string>ruebensftcapp.page.link</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+	  <string>instagram</string>
 		<string>fbapi</string>
 		<string>fbapi20130214</string>
 		<string>fbapi20130410</string>
