@@ -169,6 +169,7 @@ export function App() {
   useEffect(() => {
     getUserDetails()
   }, [])
+  
   return (
     <Provider store={store}>
       <View style={{ flex: 1 }}>
