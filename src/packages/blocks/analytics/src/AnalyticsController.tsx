@@ -520,88 +520,88 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       },
       [AnimalParts.chuck]: {
         isShow: true,
-        x: 150,
-        y:-60,
+        x: 140,
+        y:5,
         lineHeight: 15,
         sold: 100,
         remaining: 220
       },
       [AnimalParts.cow_Fore_Shank]: {
         isShow: true,
-        x: 145,
-        y:-60,
+        x: 125,
+        y:3,
         lineHeight: 80,
         sold: 105,
         remaining: 220
       },
       [AnimalParts.cowHead]: {
         isShow: true,
-        x: 210,
-        y:-50,
+        x: 175,
+        y:15,
         lineHeight: 15,
         sold: 100,
         remaining: 73
       },
       [AnimalParts.cow_Rib]: {
         isShow: true,
-        x: 120,
-        y:-50,
+        x: 100,
+        y: 5,
         lineHeight: 15,
         sold: 100,
         remaining: 22
       },
       [AnimalParts.cow_Short_lion]: {
         isShow: true,
-        x: 90,
-        y:-50,
+        x: 80,
+        y:10,
         lineHeight: 15,
         sold: 100,
         remaining: 22
       },
       [AnimalParts.cow_Sirllion]: {
         isShow: true,
-        x: 70,
-        y:-50,
+        x: 55,
+        y:10,
         lineHeight: 15,
         sold: 100,
         remaining: 22
       },
       [AnimalParts.cow_Round]: {
         isShow: true,
-        x: 50,
-        y:-50,
+        x: 20,
+        y: 5,
         lineHeight: 15,
         sold: 100,
         remaining: 22
       },
       [AnimalParts.cow_shank]: {
         isShow: true,
-        x: 30,
-        y:-60,
+        x: 20,
+        y: 5,
         lineHeight: 80,
         sold: 100,
         remaining: 80
       },
       [AnimalParts.cow_Flank]: {
         isShow: true,
-        x: 70,
-        y:-60,
+        x: 55,
+        y: 10,
         lineHeight: 80,
         sold: 20,
         remaining: 80
       },
       [AnimalParts.cow_Short_plate]: {
         isShow: true,
-        x: 110,
-        y:-60,
+        x: 90,
+        y:10,
         lineHeight: 65,
         sold: 20,
         remaining: 65
       },
       [AnimalParts.cow_Brisket]: {
         isShow: true,
-        x: 170,
-        y:-60,
+        x: 150,
+        y:5,
         lineHeight: 65,
         sold: 20,
         remaining: 65
