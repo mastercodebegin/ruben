@@ -114,6 +114,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <Text style={styles.optionLabel}>Choose an option</Text>
                   <View style={styles.optionContainerIn}>
                     <FlatList
+                    testID="deliverOption"
                       data={this.state.deliverOption}
                       horizontal
                       renderItem={({ item }: any) => {
@@ -153,6 +154,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     <View style={styles.cutsDropDown}>
 
                       <TouchableOpacity
+                      testID="animalCutsDropDown"
                         style={styles.animalCutsDropDown}
                         onPress={() => {
                           this.setState({
@@ -179,6 +181,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   {this.state.handleAnimalCutsDropDown && (
                     <View style={styles.optionDropContainer}>
                       <FlatList
+                      testID="animalCutsOptionsListId"
                         nestedScrollEnabled
                         data={this.state.animalCutsOptionsList}
                         style={{
@@ -195,6 +198,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                           return (
 
                             <TouchableOpacity
+                            testID="handleAnimatCuts"
                               style={styles.selectAnimalCuts}
                               onPress={() => {
                                 this.handleAnimalCutsOption(item.title, this.props.remainingCuts, this.state.animalCutsCount);
@@ -263,14 +267,16 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </View>
                   <View style={styles.addressContinerStyle}>
                     {this.state.setDeliverOption == 'Shipping' || this.state.setDeliverOption == 'Deliver' ? <>
-                      <Text style={{ alignSelf: 'center', fontSize: scaledSize(16), fontWeight: 'bold', color: PRIMARY }}>CHOOSE FROM SAVED ADDRESS</Text>
+                      <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: PRIMARY }}>CHOOSE FROM SAVED ADDRESS</Text>
                       <FlatList
+                      testID="addressFlatList"
                         data={this.state.userAddress}
                         renderItem={({ item }) => <View style={[styles.addressContiner]}>
                           <View
                             style={[styles.clickOptionContainer, { paddingRight: 6 }]}
                           >
                             <TouchableOpacity
+                            testID="address_change"
                               style={styles.checkBoxStyle}
                               onPress={() => {
                                 this.handleAddressOptionChange(true, item);
@@ -295,6 +301,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
                       <Text style={styles.slotsTitle}>Available Slots </Text>
                       <FlatList
+                      testID="avaialbleSlots"
                         data={this.state.animalAvailableSlots}
                         numColumns={3}
                         renderItem={({ item }: any) => this.slotsRender(item)}

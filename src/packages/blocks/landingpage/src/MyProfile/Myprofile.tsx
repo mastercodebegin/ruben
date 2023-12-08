@@ -124,7 +124,9 @@ export default class Myprofile extends LandingPageController {
       },
     } : {
       name: item?.attributes?.name,
-      image:item?.attributes?.images[0]?.url,
+      image:item?.attributes?.images && item.attributes.images.length > 0
+      ? item.attributes.images[0]?.url
+      : undefined,
       description: item?.attributes?.description,
       discount: item?.attributes?.discount,
       id: item?.id,

@@ -87,7 +87,12 @@ export default class MyCreditScreen extends LandingPageController {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
-            } } cartDetails={[]}          />
+            } } cartDetails={[]}   
+            submitCreditDetailModal={()=>console.log()
+            }
+             remainingCuts={3}
+              categoryId={2}
+            />
         </View>
       </HeaderWithBackArrowTemplate>
     );
