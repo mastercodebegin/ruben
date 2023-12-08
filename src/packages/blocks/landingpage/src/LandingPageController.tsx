@@ -205,7 +205,7 @@ export default class LandingPageController extends BlockComponent<
       subCategoryItem: '',
       productList: [],
       recommentproduct: [],
-      remainingproduct:[{}],
+      remainingproduct:[],
       orderList: [],
       categoryList: [
         {
@@ -289,45 +289,8 @@ export default class LandingPageController extends BlockComponent<
         }
       ],
       selectedAnimalCuts: "Head",
-      animalAvailableSlots: [
-        {
-          time: "06:00 AM",
-          id: 0
-        },
-        {
-          time: "07:00 AM",
-          id: 1
-        },
-        {
-          time: "08:00 AM",
-          id: 2
-        },
-        {
-          time: "09:00 AM",
-          id: 3
-        },
-        {
-          time: "10:00 AM",
-          id: 4
-        },
-        {
-          time: "11:00 AM",
-          id: 5
-        },
-        {
-          time: "12:00 AM",
-          id: 6
-        },
-        {
-          time: "01:00 PM",
-          id: 7
-        },
-        {
-          time: "02:00 PM",
-          id: 8
-        }
-      ],
-      selectedAnimalSlot: "10:00 AM",
+      animalAvailableSlots:[],
+      selectedAnimalSlot: "",
       nearestLocation: "",
       setAddressOption: false,
       fetchFavorites:false,
@@ -464,19 +427,26 @@ export default class LandingPageController extends BlockComponent<
 
   handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
     
-    
-    const selectedObj: any = this.state.animalPortions[index];
-  
-   
+     if(availableCuts<remainingCuts)
+     {
+      
+     
+     const selectedObj: any = this.state.animalPortions[index];
+     
+     
       const obj: any = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 };
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name !== item.name);
       filteredArray.splice(index, 0, obj);
-  
+      
       this.setState({ animalPortions: filteredArray });
       this.setState({ animalCutsCount: this.state.animalCutsCount + 1 });
+     }
+     else{
+      this.showAlert('you  have consumed available cuts')
+     }
     
   };
-
+  
   handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
     if (item.quantity > 1) {
       const selectedObj = this.state.animalPortions[index]
@@ -580,6 +550,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
+       console.log('remainingProductResponse=============================',remainingProductResponse)
        
         const arr =[]
         arr.push(remainingProductResponse)
@@ -668,8 +639,47 @@ export default class LandingPageController extends BlockComponent<
       );
       this.addProductCallback(addProductListData, error)
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.submitPickupRequestCallId != null &&
+      this.submitPickupRequestCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const submitRequest = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.setState({isLoading:false,isSuccessPopUp:true,order_number:submitRequest?.data?.attributes?.order_no})
+
+
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getSlotsAndMerchantAddressCallId != null &&
+    this.getSlotsAndMerchantAddressCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const slotsAndMerchantRes = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+  }
     else {
       this.cartCallBack(message)
+    }
+  }
+  slotsAndMerchantRes(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    }
+    else {
+      console.log('slots=======',response?.avilable_sloat)
+      
+      this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
+
     }
   }
 filterCategoryCallBack(filteredList:any){
@@ -834,11 +844,25 @@ this.setState({aboutUsData:aboutus})
     }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
+   
     if (error) {
       this.setState({ show_loader: false })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      this.setState({ subcategories: subCategories?.data, show_loader: false })
+      console.log('subCategories============================================',subCategories)
+      
+      let arr=[]
+      for(let i=0;i<subCategories?.data.length;i++)
+      {
+        console.log('subCategories loop ============================================',subCategories)
+
+          let obj={
+          id:subCategories?.data[i].attributes?.id,
+          title:subCategories?.data[i].attributes?.name
+        }
+        arr.push(obj)
+      }      
+      this.setState({ subcategories: subCategories?.data, show_loader: false,animalCutsOptionsList:arr })
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
@@ -884,6 +908,8 @@ this.setState({aboutUsData:aboutus})
   remainingProductApiCallId: string = '';
   getSlotsAndMerchantAddressCallId:string=''
   userAddressApiCallId:string=''
+  submitPickupRequestCallId: string = '';
+
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -1293,7 +1319,7 @@ this.setState({aboutUsData:aboutus})
   }
 
   
-  async getRemainingProduct() {
+  async getRemainingProduct(id:any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1307,7 +1333,7 @@ this.setState({aboutUsData:aboutus})
     this.remainingProductApiCallId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_catalogue/catalogues/my_credits?category_id=94&start_date=2023-08-04&end_date=2023-08-11`
+      `bx_block_catalogue/catalogues/my_credits?category_id=${id}&start_date=2023-08-04&end_date=2023-08-11`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1322,6 +1348,8 @@ this.setState({aboutUsData:aboutus})
 
 
   async getSubcategories(subCategoryId: string) {
+    console.log('function called=========================',subCategoryId);
+
     this.setState({ show_loader: true, selectedSub: null })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1337,7 +1365,7 @@ this.setState({aboutUsData:aboutus})
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.subCategory}${subCategoryId}`
+      `${configJSON.subCategory}`
     );
 
     subcategory.addData(
@@ -1802,8 +1830,113 @@ this.setState({aboutUsData:aboutus})
       this.aboutusCallback(aboutus, error)
     }
   }
+  async submitPickupRequestHandler(deliverOption:any,animalCuts:any,
+    selectedSlot:any,userAddressID:any,selectedPortion:any,userAddress:string) {
+  const sub_category_id=selectedPortion.map((item:any)=>item.id)
+  const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
+  console.log('option====',this.state.setDeliverOption);
+  console.log('submitID====',sub_category_id);
+  console.log(' sub_category_quantity====',sub_category_quantity);
+  console.log(' sub_category_quantity====',userAddress);
+  console.log(' sub_category_quantity====',this.state.selectedUserAddress);
+  
+  console.log();
+  
+      if(deliverOption.length==0)
+      {
+        alert('please select an option')
+        return false
+      }
+      if(animalCuts==0)
+      {
+        alert('please select animalCuts')
+        return false
+      }
+     
+      if(this.state.setDeliverOption=='Pickup')
+      {
+        if(selectedSlot.length==0)
+        {
+          alert('please select Pickup slot')
+          return false
+        }
+      }
+      if(this.state.setDeliverOption=='Deliver' || this.state.setDeliverOption=='Shipping')
+      {
+        if(userAddressID.length==0)
+        {
+          alert('please select address')
+          return false
+        }
+        
+      }
+      this.setState({isLoading:true})
+      const userDetails: any = await AsyncStorage.getItem('userDetails')
+      const userDetail: any = JSON.parse(userDetails)
+      const headers = {
+        "Content-Type": configJSON.validationApiContentType,
+        'token': userDetail?.meta?.token
+      };
+  
+      const httpBody =
+      {
+        "order_items":{
+            "catalogue_id":sub_category_id, 
+            "quantity":sub_category_quantity,
+            "address": "test Office address",
+            "taxable":"true",
+            "slot": "4:00PM",
+            // "taxable_value":0.1233,
+            // "other_charges":0.124
+        }}
+        
+       const userHttpBody= {
+          "order_items":{
+              "catalogue_id":sub_category_id, 
+              "quantity":sub_category_quantity,
+              "address": userAddress,
+              "taxable":"true",}}
+  
+      const requestMessage = new Message(
+        getName(MessageEnum.RestAPIRequestMessage)
+      );
+  
+      this.submitPickupRequestCallId = requestMessage.messageId;
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIResponceEndPointMessage),
+        'bx_block_shopping_cart/order_items/pickup'
+      );
+  
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestHeaderMessage),
+        JSON.stringify(headers)
+      );
+  
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestBodyMessage),
+        JSON.stringify( deliverOption=='Pickup'?httpBody:userHttpBody)
+      );
+  
+      requestMessage.addData(
+        getName(MessageEnum.RestAPIRequestMethodMessage),
+        configJSON.exampleAPiMethod
+      );
+  
+      runEngine.sendMessage(requestMessage.id, requestMessage);
+  
+    }
+  
   handleDeliverOptionChange = (item: any) => {
-    console.log("selected deliver option", item);
+    if(item=='Pickup'){
+      this.getSlotsAndMerchantAddressHandler()
+    }
+    if(item=='Shipping'|| item=='Deliver')
+    {      
+      this.getUserAddress()
+    }
+
+    
+    
     this.setState({ setDeliverOption: item });
   };
 

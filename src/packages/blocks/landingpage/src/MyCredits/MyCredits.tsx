@@ -23,8 +23,7 @@ export default class MyCreditScreen extends LandingPageController {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)();
-   // this.getProductList(false)
+    this.getRemainingProduct.bind(this)(this.props?.route?.params?.selectedCategoryId);
   }
   render() {
     return (
@@ -90,8 +89,8 @@ export default class MyCreditScreen extends LandingPageController {
             } } cartDetails={[]}   
             submitCreditDetailModal={()=>console.log()
             }
-             remainingCuts={3}
-              categoryId={2}
+            remainingCuts={this.props?.route?.params?.remainingCuts}
+            categoryId={this.props?.route?.params?.selectedCategoryId}
             />
         </View>
       </HeaderWithBackArrowTemplate>

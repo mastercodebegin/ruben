@@ -24,7 +24,6 @@ import {
   facebook,
   CART,
   cow,
-  profile_pic,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -44,7 +43,7 @@ export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
-    
+
   }
   async componentDidMount() {
     if (this.props?.route?.params?.firstTime) {
@@ -103,8 +102,16 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params = {}) {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
-  renderItem({ item }: any) {    
-    
+
+  navigateToNext() {
+
+    if(this.state.remainingproduct[0]?.total_cuts!=undefined)
+    {                      
+      this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
+    }
+    else{alert(" Place an order to display the values of the cuts")}
+  }
+  renderItem({ item }: any) {
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
@@ -123,12 +130,12 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.name,
-      image:item?.attributes?.images && item.attributes.images.length > 0
+      name: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.name,
+      image:  item?.attributes?.images && item.attributes.images.length > 0
       ? item.attributes.images[0]?.url
       : undefined,
-      description: item?.attributes?.description,
-      discount: item?.attributes?.discount,
+      description: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.description,
+      discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
       price: item?.attributes?.price,
@@ -153,13 +160,13 @@ export default class Myprofile extends LandingPageController {
   }
   getImage() {
     return this.state.profileImage?.path
-     ? this.state.profileImage.path
-     : this.state.profileImage
+      ? this.state.profileImage.path
+      : this.state.profileImage
   }
   renderProfileImage() {
     return (
       <>
-        {this.state.profileImage!='' && this.state.profileImage!=null  ? (
+        {this.state.profileImage != "" ? (
           <Image
             style={styles.profileImage}
             testID="updated_profile_id"
@@ -167,11 +174,7 @@ export default class Myprofile extends LandingPageController {
               uri: this.getImage(),
             }}
           />
-        ) : <Image
-        style={styles.profileImage}
-        testID="updated_profile_id"
-        source={profile_pic}
-      />}
+        ) : <></>}
       </>
     )
   }
@@ -314,10 +317,11 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>{ this.setState({ selectedTab: "remaining" })
-              this.getCategories()
-            console.log("categories----",this.state.categories);
-            }}
+                onPress={() => {
+                  this.setState({ selectedTab: "remaining" })
+                  this.getCategories()
+                  console.log("categories----", this.state.categories);
+                }}
               >
                 <Text
                   style={[
@@ -331,16 +335,23 @@ export default class Myprofile extends LandingPageController {
             </ScrollView>
             {this.state.selectedTab == "remaining" ? (
               <View style={styles.remainingInvContainer}>
-               
-                     <Dropdown searchCategory={(categoryName:string) => {
-                    this.filterByCategoryApi(categoryName);
-                  }}
-          isCategory selectedDate="" data={this.state.categories} label="Category" />
+
+                <Dropdown 
+                searchCategory={(categoryName: string) => {
+                  const data:any = this.state.categories.filter((name:any) => name?.attributes?.name == categoryName)
+                  this.setState({ selectedCategoryID: data[0].id,selectedCategory:categoryName })
+                  console.log('id====================',data[0].id)
+                  
+                  this.getRemainingProduct(data[0].id)
+                }}
+                  isCategory selectedDate="" data={this.state.categories} selectedStatus={this.state.selectedCategory}
+                  label="Select Categoryy"
+                  />
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}
                 >
-                 
-                   
+
+
                   <View style={styles.invImageContainer}>
                     <Image
                       resizeMode="contain"
@@ -350,15 +361,15 @@ export default class Myprofile extends LandingPageController {
                   </View>
                   <View style={styles.invDesContainer}>
                     <Text style={styles.invDesText}>Total Available cuts</Text>
-                    <Text style={styles.invTotalText}>10</Text>
+                    <Text style={styles.invTotalText}>{this.state.remainingproduct[0]?.remaining_cuts}</Text>
                   </View>
                 </View>
                 <TouchableOpacity
                   style={styles.CreditsButton}
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
-                    this.props.navigation.navigate("MyCreditScreen");
-                    //this.getRemainingProduct()
+                    
+                   this.navigateToNext() 
                   }}
                 >
                   <Text style={styles.viewDetail}>My Credits</Text>
@@ -389,7 +400,7 @@ export default class Myprofile extends LandingPageController {
 
                 {this.showButton() ? <TouchableOpacity
                   testID="see_all_button"
-                  onPress={() =>{
+                  onPress={() => {
                     console.log(`selected tab${this.state.selectedTab}`)
                     this.props.navigation.navigate(this.state.selectedTab)
                   }

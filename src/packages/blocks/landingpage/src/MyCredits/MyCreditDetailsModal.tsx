@@ -43,9 +43,9 @@ export default class MyCreditDetailsModal extends LandingPageController {
     }
   };
   async componentDidMount() {
-    console.log('props===================', this.props.remainingCuts);
-    console.log('props===================', this.props.categoryId);
-    this.getSubcategories('0')
+    console.log('componentDidMount=========================',this.props.categoryId);
+    
+    this.getSubcategories('61')
 
   }
   slotsRender(item: any) {
@@ -71,8 +71,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
           <Text
             style={
               this.state.selectedAnimalSlot === item
-                ? [styles.slotsTime, { color: WHITE }]
-                : [styles.slotsTime, { color: MID_PEACH }]
+                ? [styles.slotsTime, { color: WHITE,alignSelf:'center' }]
+                : [styles.slotsTime, { color: MID_PEACH,alignSelf:'center' }]
             }
           >
             {item}
@@ -149,7 +149,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <Text style={styles.optionLabel}>Enter cuts to pick up</Text>
                   <View style={styles.optionContainerIn}>
                     <Text style={styles.chooseTitle}>
-                      Eg: {this.state.selectedAnimalCuts}
+                      {this.state.selectedAnimalCuts}
                     </Text>
                     <View style={styles.cutsDropDown}>
 
@@ -312,7 +312,14 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <View style={styles.buttomButtonRow}>
                     <TouchableOpacity
                       style={styles.submitButton}
-                    
+                      onPress={() => this.submitPickupRequestHandler(
+                        this.state.setDeliverOption,
+                        this.state.animalPortions.length,
+                        this.state.selectedAnimalSlot,
+                        this.state.userAddressID,
+                        this.state.animalPortions,
+                        this.state.selectedUserAddress
+                      )}
 
                     >
                       <Text style={styles.submitButtonText}>
@@ -520,12 +527,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8
   },
   selectSlots: {
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    backgroundColor: WHITE,
-    borderRadius: 6,
-    marginVertical: 6,
-    marginHorizontal: 4
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+     borderRadius: 6,
+     marginLeft:4,
+    width:76,
+    margin:8
+
   },
   slotsTime: {
     fontSize: 16,
