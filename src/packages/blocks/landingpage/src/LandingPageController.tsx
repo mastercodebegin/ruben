@@ -34,6 +34,9 @@ export interface Props {
   updateCartDetails: (data: any) => void;
   cartDetails: Array<any>;
   setCreditDetailModal: () => void;
+  submitCreditDetailModal: () => void;
+  remainingCuts:any
+  categoryId:any
   // Customizable Area End
 }
 
@@ -108,7 +111,7 @@ interface S {
   fetchFavorites: boolean;
   selectedCategoryID:any
   merchantAddress:any
-  userAddress:[]
+  userAddress: Array<any>
   userAddressID:any
   selectedUserAddress:string
   merchantAddressID:any
