@@ -43,7 +43,6 @@ import ContactUs from '../blocks/contactus/src/ContactusScreen';
 import Ordermanagement from '../blocks/ordermanagement/src/Ordermanagement';
 import PushNotificationHelper from '../blocks/pushnotifications/src/PushNotificationsHelper';
 import ViewProduct from '../blocks/landingpage/src/ExploreStore/ViewProduct';
-import { StripeProvider } from '@stripe/stripe-react-native';
 
 if (!HomeScreen.instance) {
   const defaultProps = {
@@ -177,10 +176,9 @@ export function App() {
           <AppLauncher />
         ) : (
           <>
-          <StripeProvider
-                  publishableKey="pk_test_51BTUDGJAJfZb9HEBwDg86TN1KNprHjkfipXmEDMb0gSCassK5T3ZfxsAbcgKVmAIXF7oZ6ItlZZbXO6idTHE67IM007EwQ4uN3">
+          
               <RootNavigator initialScreen={initialScreen.initialRoute} />
-              </StripeProvider>
+              
             </>
         )}
           </View>

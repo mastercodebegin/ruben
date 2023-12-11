@@ -62,7 +62,7 @@ export default class OrdersController extends BlockComponent<Props, S, SS> {
         this.setState({show_loader:false})
         Alert.alert('Alert',"Something went wrong")
       }else{
-        console.log(JSON.stringify(receomentedProduct?.data[0]))
+        console.log('data===========================',JSON.stringify(receomentedProduct?.data[0]))
         
         this.setState({recomentedProducts:receomentedProduct?.data,show_loader:false})
       }
