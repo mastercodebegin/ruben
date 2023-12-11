@@ -68,8 +68,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   removeItemCallId: string = "";
   getInventoryDataCallId: string = "";
   getCategoriesId = '';
-  filterByCategoryApiId = '';
   handleLoadMoreDebounced = debounce(this.fetchMore, 500);
+  filterByCategoryApiId = '';
+  getOrderByOrderIdApiId = '';
 
 
   fetchMore() {
@@ -157,6 +158,30 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         return
       }
       this.setState({ showLoader: false });
+    }
+
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getOrderByOrderIdApiId != null &&
+      this.getOrderByOrderIdApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const filteredList = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
+      console.log("<===============================getOrderByOrderIdApiId ===================", filteredList)
+      console.log("<===============================getOrderByOrderIdApiId ===================", filteredList?.orders)
+
+      if (filteredList?.message === 'No Inventory Present') {
+        showToast('No order present');
+      }
+
+      if (filteredList?.orders?.data?.length) {
+        console.log('if block>>>>>>>>>>>>>>>')
+        const list = filteredList.orders?.data.map((item: any) => ({ data: item }))
+        this.setState({ showLoader: false, inventoryList: list,loading:false });
+        return
+      }
+      this.setState({ showLoader: false,loading:false });
     }
   }
   getStatus(status: string) {
@@ -291,6 +316,34 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       `account_block/accounts/view_inventory?page=${1}&per=10${this.state.selectedDate ?
         `&date=${this.state.selectedDate}` : ''}${this.state.selectedStatus
           ? `&status=${this.getStatus(this.state.selectedStatus)}` : ''}`
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'GET'
+    );
+    runEngine.sendMessage(filterCategory.id, filterCategory);
+  }
+  async getOrderByOrderId(orderId: string) {
+    console.log('get order function called ===========>>>>>>>>>>>>>>>>>>>>>>>>>>',orderId);
+    
+    this.setState({ loading: true, category: orderId })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+    const filterCategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getOrderByOrderIdApiId = filterCategory.messageId;
+    filterCategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `account_block/accounts/search_order?order_no=${orderId}`
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

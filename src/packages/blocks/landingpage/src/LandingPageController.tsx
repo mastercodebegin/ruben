@@ -492,9 +492,6 @@ export default class LandingPageController extends BlockComponent<
   handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
     
     const filterd = this.state.animalPortions.filter((v)=>v.name==item)
-    console.log(item,'item----------------------');
-    console.log(filterd,'filterd----------------------');
-    console.log('this.state.animalPortions----------------------',this.state.animalPortions);
 
     if(filterd.length>0)
     {

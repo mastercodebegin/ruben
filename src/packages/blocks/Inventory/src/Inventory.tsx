@@ -21,6 +21,8 @@ export default class Inventory extends MyCartController {
   constructor(props:any) {
     super(props);
     this.filterByCategoryApi = this.filterByCategoryApi.bind(this);
+    this.getOrderByOrderId=this.getOrderByOrderId.bind(this)
+    
   }
   render() {
     return (
@@ -98,6 +100,7 @@ export default class Inventory extends MyCartController {
                     this.getInventoryData.bind(this)(1, date);
                   }}
                   onChangeText={(text) => this.setState({ searchText: text })}
+                  searchCategoryById={()=>this.getOrderByOrderId(this.state.searchText)}
                 />
               }
               keyExtractor={(_, i) => `key${i}`}
