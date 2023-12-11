@@ -50,7 +50,7 @@ const RenderProducts = ({
         <ImageBackground
           resizeMode="stretch"
           style={image ? styles.itemImage : styles.itemNoImage}
-          source={backGroundImage}
+          source={image?{uri:image}:backGroundImage}
         >
           <View style={styles.offerContainer}>
             <Text style={styles.offer}>{`${discount || " "}` + " 10% off"}</Text>

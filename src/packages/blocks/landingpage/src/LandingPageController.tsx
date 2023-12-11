@@ -107,6 +107,18 @@ interface S {
   setAddressOption: boolean;
   fetchFavorites: boolean;
   selectedCategoryID:any
+  merchantAddress:any
+  userAddress:[]
+  userAddressID:any
+  selectedUserAddress:string
+  merchantAddressID:any
+  selectedCategory:any
+  animalCutsCount: number;
+  isSuccessPopUp:boolean
+  isLoading:boolean
+  order_number:string
+  animalPortions: Array<any>;
+
   // Customizable Area End
 }
 
@@ -131,6 +143,16 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      userAddressID:'',
+      selectedUserAddress:'',
+      merchantAddressID:0,
+      selectedCategory:'Select Category',
+      animalCutsCount:0,
+      isSuccessPopUp:false,
+      isLoading:false,
+      order_number:'',
+      merchantAddress:'',
+      userAddress:[],
       showLoader:false,
       inventoryList:[],
       category:"",
@@ -307,6 +329,8 @@ export default class LandingPageController extends BlockComponent<
       setAddressOption: false,
       fetchFavorites:false,
       selectedCategoryID:'',
+      animalPortions: []
+
 
     };
     // Customizable Area End
@@ -325,6 +349,24 @@ export default class LandingPageController extends BlockComponent<
       this.setState({loader:false})
       this.profileDetailsCallback(profileDetails);
     }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.userAddressApiCallId != null &&
+      this.userAddressApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) 
+    {
+      const userAddress = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+
+      this.setState({userAddress:userAddress?.data})
+
+    }
+
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSearchProductId != null &&
       this.getSearchProductId ===
@@ -361,6 +403,7 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback.bind(this)(error, categories.data)
     }
+    
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getFarmId != null &&
     this.getFarmId ===
@@ -414,6 +457,68 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
+ 
+
+  handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
+    
+    
+    const selectedObj: any = this.state.animalPortions[index];
+  
+   
+      const obj: any = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 };
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name !== item.name);
+      filteredArray.splice(index, 0, obj);
+  
+      this.setState({ animalPortions: filteredArray });
+      this.setState({ animalCutsCount: this.state.animalCutsCount + 1 });
+    
+  };
+
+  handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
+    if (item.quantity > 1) {
+      const selectedObj = this.state.animalPortions[index]
+      const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity - 1 }
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      filteredArray.splice(index, 0, obj)
+      this.setState({ animalPortions: filteredArray });
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+  }
+    else {
+      const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
+      this.setState({ animalPortions: filteredArray, });
+      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+    }
+  };
+  handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
+    
+    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
+    console.log(item,'item----------------------');
+    console.log(filterd,'filterd----------------------');
+    console.log('this.state.animalPortions----------------------',this.state.animalPortions);
+
+    if(filterd.length>0)
+    {
+
+      this.setState({
+      handleAnimalCutsDropDown: false})
+      this.showAlert('You already added '+item)
+
+      return false
+    }
+
+    
+    console.log("option", item);
+    const obj = { id: 1, name: item, quantity: 1 }
+    this.setState({
+      selectedAnimalCuts: item,
+      handleAnimalCutsDropDown: false,
+      animalPortions: [...this.state.animalPortions, obj]
+    });
+    
+    this.setState({animalCutsCount:this.state.animalCutsCount+1,
+    })};
+
+
  
 
   filterByCategoryCallback(message: Message) {
@@ -774,6 +879,8 @@ this.setState({aboutUsData:aboutus})
   filterByCategoryApiId:string = '';
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
+  getSlotsAndMerchantAddressCallId:string=''
+  userAddressApiCallId:string=''
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
   }
@@ -832,6 +939,7 @@ this.setState({aboutUsData:aboutus})
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
+ 
 
   async getCategories() {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1702,18 +1810,7 @@ this.setState({aboutUsData:aboutus})
     this.setState({ setDeliverOption: item });
   };
 
-  handleIncreaseAnimalCuts = () => {
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber + 1 });
-  };
-
-  handleDecreaseAnimalCuts = () => {
-    this.setState({ animalCutsNumber: this.state.animalCutsNumber - 1 });
-  };
-  handleAnimalCutsOption = (item: any) => {
-    this.setState({
-      selectedAnimalCuts: item
-    });
-  };
+  
   handleAnimalSelectSlots = (item: any) => {
     this.setState({ selectedAnimalSlot: item });
   };
@@ -1752,6 +1849,65 @@ this.setState({aboutUsData:aboutus})
     } else if (response) {
       this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
     }
+  }
+
+  getSlotsAndMerchantAddressHandler = async () => {
+    console.log('merchantAddressHandler=================')
+    
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data.meta.token,
+    };
+    const SearchProductRequest = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.getSlotsAndMerchantAddressCallId = SearchProductRequest.messageId;
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      "/bx_block_shippingchargecalculator/pickups"
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    SearchProductRequest.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(SearchProductRequest.id, SearchProductRequest);
+  }
+
+  async getUserAddress() {
+
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.userAddressApiCallId = subcategory.messageId;
+
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_order_management/addresses'
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
   }
   
   // Customizable Area End

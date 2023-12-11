@@ -17,8 +17,8 @@ const MyDetails = ({ header, list }: MyDetailsTypes) => (
                     <View>
                         <Text style={styles.question}>{item?.question}</Text>
                     </View>
-                    <View style={styles.flex}>
-                        <Text  style={styles.answer}>{item?.ans}</Text>
+                    <View style={{width:'70%',}}>
+                        <Text  style={[styles.answer,{alignSelf:'flex-start',marginLeft:22}]}>{item?.ans}</Text>
                     </View>
                 </View>)
             })

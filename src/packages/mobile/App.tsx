@@ -177,7 +177,9 @@ export function App() {
           <AppLauncher />
         ) : (
           <>
+          
               <RootNavigator initialScreen={initialScreen.initialRoute} />
+              
             </>
         )}
           </View>

@@ -167,12 +167,13 @@ SS
         const prodList = productsList?.data[0];
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
+        
         const billingAddress = {
-          address: productsList?.data[0]?.attributes?.address?.data?.attributes?.address,
-          email: productsList?.data[0]?.attributes?.address?.data?.attributes?.email,
-          name: productsList?.data[0]?.attributes?.address?.data?.attributes?.name,
-          phone_number: productsList?.data[0]?.attributes?.address?.data?.attributes?.phone_number,
-          zip_code :  productsList?.data[0]?.attributes?.address?.data?.attributes?.zip_code
+          address: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.address,
+          email: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.email,
+          name: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.name,
+          phone_number: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.phone_number,
+          zip_code :  productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.zip_code
         }
         
         this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress, error);

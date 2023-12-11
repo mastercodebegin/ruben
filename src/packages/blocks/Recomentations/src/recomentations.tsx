@@ -54,14 +54,14 @@ export default class Recomentations extends RecomentationsController {
                   <Image
                     resizeMode="stretch"
                     style={styles.image}
-                    source={backGroundImage}
+                    source={item?.attributes?.images[0]?.url?{uri:item?.attributes?.images[0]?.url}:backGroundImage}
                   />
                   <View
                     style={styles.row}
                   >
-                    <Text style={styles.text}>{item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.categoryCode}</Text>
+                    <Text style={styles.text}>{item?.attributes?.name}</Text>
                     <View style={{ flexDirection: "row" }}>
-                      <Text style={styles.text}>$ {item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.price}</Text>
+                      <Text style={styles.text}>$ {item?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
                     </View>
                   </View>

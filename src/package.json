@@ -31,6 +31,7 @@
     "@react-navigation/native-stack": "^6.9.10",
     "@react-navigation/stack": "^5.14.3",
     "@unimodules/core": "file:./packages/blocks/core/node_modules/@unimodules/core",
+    "@stripe/stripe-react-native":"file:./packages/blocks/core/node_modules/@stripe/stripe-react-native",
     "@unimodules/react-native-adapter": "file:./packages/blocks/core/node_modules/@unimodules/react-native-adapter",
     "formik": "file:./packages/blocks/core/node_modules/formik",
     "i18n-js": "file:./packages/blocks/core/node_modules/i18n-js",
