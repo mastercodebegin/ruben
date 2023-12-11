@@ -172,7 +172,7 @@ export default class OrderSummary extends OrderSummaryController {
             </View>
             <View style={{ paddingTop: 20 }}>
               <MyDetails
-                header="MY DETAILS"
+                header="MY DETAILS-"
                 list={[
                   { question: "Name", ans: name  },
                   { question: "Email", ans:email },
