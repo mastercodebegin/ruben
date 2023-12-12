@@ -72,7 +72,14 @@ defineFeature(feature, (test) => {
         });
         then('I click on chicken Thigh',() => {
             let ChickenThigh = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenThigh');
-            // ChickenThigh.simulate('press')
+            ChickenThigh.simulate('press')
+            instance.onChickenClick(AnimalParts.chicken_Thigh)
+            expect(analyticsBlock).toBeTruthy()
+        });
+
+        then('I click on chicken Tail',() => {
+            let ChickenThigh = analyticsBlock.findWhere((node) => node.prop('testID') === 'chickenTail');
+            ChickenThigh.simulate('press')
             instance.onChickenClick(AnimalParts.chicken_Thigh)
             expect(analyticsBlock).toBeTruthy()
         });

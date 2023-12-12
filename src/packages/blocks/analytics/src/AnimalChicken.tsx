@@ -105,7 +105,7 @@ export default class AnimalChicken extends AnalyticsController {
               <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Wing) }} style={styles.clickOnChickenWing} testID="chickenWing" />
               <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_leg) }} style={styles.clickOnChickenLeg} testID="chickenLeg" />
               <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_Thigh) }} style={styles.clickOnChickenThigh} testID="chickenThigh" />
-              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_tail) }} style={styles.clickOnChickenTail} testID="chickenThigh" />
+              <TouchableOpacity onPress={() => { this.onChickenClick(AnimalParts.chicken_tail) }} style={styles.clickOnChickenTail} testID="chickenTail" />
 
             </View>
 

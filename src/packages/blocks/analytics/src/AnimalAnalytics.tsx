@@ -27,7 +27,7 @@ export default class AnimalAnalytics extends AnalyticsController {
     return (
       // Customizable Area Start
       <View style={styles.container} testID="animalView">
-        {this.props?.animalSelectedValue == 'Chuck Eye Steak' &&
+        {this.props?.animalSelectedValue == 'Cow' &&
           <View style={styles.animalImgContainer}>
             <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
             <View style={styles.animalImgCont}>
