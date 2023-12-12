@@ -116,8 +116,8 @@ export default class AnimalPig extends AnalyticsController {
                 />
               }
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
-              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHock" />
-              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHockRight" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHockLeft" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBacon)  }} style={styles.clickOnPigBacon} testID="pigBacon" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigNeck) }} style={styles.clickOnPigNeck} testID="pigNeck" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigLegham) }} style={styles.clickOnPigLegham} testID="pigLegham" />

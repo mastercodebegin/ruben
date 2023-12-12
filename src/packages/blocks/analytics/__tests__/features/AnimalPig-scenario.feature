@@ -5,7 +5,9 @@ Feature: AnimalPig
         When I navigate to the Animal pig
         Then Animal pig will load with out errors
         Then I click on pig neck
-        Then I click on pig back
+        Then I click on pig hock right
+        Then I click on pig hock left
+        Then I click on pig hock back fat
         Then I click on pig breast
         Then I click on pig wing
         And I can leave the pig screen with out errors
