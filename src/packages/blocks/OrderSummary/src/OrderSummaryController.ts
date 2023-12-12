@@ -120,6 +120,7 @@ SS
   lifeTimeSubscriptionCallId: string = '';
   addFastDeliveryApiCallId: string = '';
   getBillingDetailsCallId: string = '';
+  checkLifeTimeSubscriptionCallId: string = '';
 
   componentDidUpdate(){
     if (this.state.screenError) {
@@ -219,7 +220,31 @@ SS
       } else {
         this.getCart();
       }
-    } else if (   getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.checkLifeTimeSubscriptionCallId != null &&
+      this.checkLifeTimeSubscriptionCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+          console.log('lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
+          
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+          let data = message.getData(
+            getName(MessageEnum.RestAPIResponceSuccessMessage)
+          ); 
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        console.log('lifeTimeSubscriptionCallId============',data)
+        
+      }
+    }
+    
+    else if (   getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addFastDeliveryApiCallId != null &&
     this.addFastDeliveryApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
@@ -282,7 +307,11 @@ SS
         );
       if (!error && lifetimeSubscriptionResponse?.data?.type === 'subscription') {
         this.getBillingDetails(); 
-      }else if(!error){        
+      }
+      
+      
+
+      else if(!error){        
         Alert.alert("Success",lifetimeSubscriptionResponse.message,[{text:"OK",onPress:()=>this.setState({showSubscriptionModal:false,showLoader:false})}])
       }
        else {
@@ -519,6 +548,35 @@ SS
     runEngine.sendMessage(fastDelivery.id, fastDelivery);
   }
 
+  async checkLifeTimeSubscription() {
+    console.log('lifetime start==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const billingDetails = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.checkLifeTimeSubscriptionCallId = billingDetails.messageId;
+
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_subscriptions/subscriptions'
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(billingDetails.id, billingDetails);
+  }
+
+  
   async addLifeTimeSubscription() { 
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");

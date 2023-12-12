@@ -516,7 +516,7 @@ export default class LandingPageController extends BlockComponent<
     })};
 
 
- 
+                                                                      
 
   filterByCategoryCallback(message: Message) {
     

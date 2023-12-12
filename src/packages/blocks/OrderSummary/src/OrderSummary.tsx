@@ -54,6 +54,7 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
     this.getCart();
+    this.checkLifeTimeSubscription()
   }
   render() {
     const {address,phone_number, zip_code,name,email} = this.getAddressDetails()
@@ -92,12 +93,12 @@ export default class OrderSummary extends OrderSummaryController {
             }
           </Text>
 
-            <Button
+            {/* <Button
               style={{ marginTop: 20 }}
               testID="add_to_cart"
               onPress={this.addLifeTimeSubscription.bind(this)}
               label={"Add to cart"}
-            />
+            /> */}
         </View>
         </View>
       </Modal>
