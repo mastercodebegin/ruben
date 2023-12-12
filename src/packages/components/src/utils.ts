@@ -134,6 +134,11 @@ const reducer = (state = initialState, action: any) => {
     return nameRegex.test(name);
   }
 
+  export const whiteSpace = (name:string)=> {
+    const nameRegex = /^\s+|\s+$/;
+    return nameRegex.test(name);
+  }
+
   export function encryptText(text:string, key:string) {
     var encryptedText = "";
     for (var i = 0; i < text.length; i++) {

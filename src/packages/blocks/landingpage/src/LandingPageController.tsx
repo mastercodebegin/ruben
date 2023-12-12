@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Animated, Alert, Clipboard } from 'react-native';
 import ImagePicker from "react-native-image-crop-picker";
 import { deepLinkingURL } from '../../../components/src/constants';
-import { store, validName } from "../../../components/src/utils";
+import { store, validName, whiteSpace } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
@@ -1127,13 +1127,12 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
   checkValidation() {
-    const whitespaceRegex = /^\s+|\s+$/;
     if (this.props.state.name === '') {
       this.showAlert('Name can not be blank')
       return false;
     }
 
-    if (whitespaceRegex.test(this.props.state.name)) {
+    if (whiteSpace(this.props.state.name)) {
       this.showAlert('The name cannot have leading or trailing white spaces.');
       return false;
     }
