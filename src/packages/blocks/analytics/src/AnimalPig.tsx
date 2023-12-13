@@ -9,7 +9,7 @@ import {
   Text
   // Customizable Area End
 } from "react-native";
-import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
+import { pig, pigBackfat, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -112,7 +112,7 @@ export default class AnimalPig extends AnalyticsController {
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
-                  source={pig}
+                  source={pigBackfat}
                 />
               }
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   animalImgContainer: {
     backgroundColor: "white",
     paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingVertical: 75,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40

@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   animalImgContainer: {
     backgroundColor: "white",
     paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingVertical: 90,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
@@ -167,12 +167,13 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop:20
   },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: 20
+    paddingRight: 20,
   },
   redDot: {
     width: 10,
