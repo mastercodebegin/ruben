@@ -298,7 +298,6 @@ export default class StripeIntegration extends StripeIntegrationController {
                         backgroundColor={LIGHT_GREY}
                         checked={this.state.saveCard}
                         disabled
-                        setChecked={() => {}}
                       />
                     </TouchableOpacity>
                     <Text style={[styles.question, styles.addressText]}>Save Card Details</Text>

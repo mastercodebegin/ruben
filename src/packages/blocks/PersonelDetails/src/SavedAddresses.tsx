@@ -23,7 +23,6 @@ const RenderAddress = ({ title, setChecked, checked, address }: RenderAddressTyp
           backgroundColor={LIGHT_GREY}
           checked={checked}
           disabled
-          setChecked={() => {}}
         />
       </TouchableOpacity>
       <Text style={[styles.question, styles.addressText]}>{title}</Text>

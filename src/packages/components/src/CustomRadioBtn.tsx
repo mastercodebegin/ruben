@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 interface CheckBoxTypes {
   checked: boolean;
-  setChecked: (value: boolean) => void;
+  setChecked?: (value: boolean) => void;
   testID?: string;
   backgroundColor?: string;
   disabled?: boolean;
