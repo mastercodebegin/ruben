@@ -33,7 +33,7 @@ const PaymentDetails = ({ header, list, footer,isSubscribed }: MyDetailsTypes) =
               <Text style={styles.question}>{footer?.question}</Text>
           </View>}
           <View style={styles.flex}>
-              <Text style={styles.answer}>{footer?.ans}</Text>
+              <Text style={styles.answer}>{isSubscribed?`$${Number(footer?.ans?.slice(1))+5}`:footer?.ans}</Text>
           </View>
         </View>
     </View>
