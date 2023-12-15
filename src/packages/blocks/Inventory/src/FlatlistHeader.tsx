@@ -12,7 +12,8 @@ interface HeaderTypes {
   setSelectedStatus: (status: string) => void;
   selectedStatus: string;
   categoryList: any[];
-  searchCategory?: (name:string) => void;
+  searchCategory: (name:string) => void;
+  searchCategoryById: (name:string) => void;
 }
 const FlatListHeader = ({
   onChangeText,
@@ -22,7 +23,8 @@ const FlatListHeader = ({
   setSelectedStatus,
   selectedStatus,
   categoryList,
-  searchCategory
+  searchCategory,
+  searchCategoryById
 }: HeaderTypes) => {
   return (
     <>
@@ -34,6 +36,7 @@ const FlatListHeader = ({
           searchText={searchText}
           hideFilter
           onChangeText={onChangeText}
+          onPressSearchIcon={searchCategoryById}
         />
         <View style={styles.filterContainer}>
           <Dropdown

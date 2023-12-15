@@ -17,11 +17,14 @@ interface SearchBarWithFilterTyes {
   testID?: string;
   searchText: string;
   hideFilter?: boolean;
+  onPressSearchIcon:()=>void
+
 }
 const SearchBarWithFilter = ({
   onChangeText = () => {},
   testID,
   searchText,
+  onPressSearchIcon,
   hideFilter=false
 }: SearchBarWithFilterTyes) => {
   const dropdownCategoryref: any = React.createRef();
@@ -29,7 +32,9 @@ const SearchBarWithFilter = ({
   return (
     <View style={styles.textInputContainer}>
       <View style={styles.searchContainer}>
+        <TouchableOpacity onPress={onPressSearchIcon}>
         <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
+        </TouchableOpacity>
         <TextInput
           style={styles.textInput}
           placeholder="Search any Product/Video"
