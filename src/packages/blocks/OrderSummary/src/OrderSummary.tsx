@@ -93,12 +93,13 @@ export default class OrderSummary extends OrderSummaryController {
             }
           </Text>
 
-            {/* <Button
+            <Button
               style={{ marginTop: 20 }}
               testID="add_to_cart"
-              onPress={this.addLifeTimeSubscription.bind(this)}
-              label={"Add to cart"}
-            /> */}
+              //onPress={this.state.isUserSubscriptionRequested?()=>this.setState({isUserSubscriptionRequested:false,showSubscriptionModal:false}):this.applyLifeTimeSubscription.bind(this)}
+               onPress={this.state.isUserSubscriptionRequested?this.removeLifeTimeSubscription.bind(this):this.applyLifeTimeSubscription.bind(this)}
+              label={this.state.isUserSubscriptionRequested?"Remove":"Add to cart"}
+            />
         </View>
         </View>
       </Modal>
@@ -143,8 +144,9 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.lifetimeSubContent}>
                 <Text style={styles.lifetimeSubHeading}>Lifetime Subscription</Text>
                 <Text style={styles.lifetimeSubText}>one-time purchase and lasts a lifetime</Text>
-                <TouchableOpacity disabled={this.state.lifetimeSubscription} style={styles.lifetimeSubButton} onPress={()=>this.setState({showSubscriptionModal:true})}>
-                  <Text style={styles.lifetimeSubPrice}>{this.state.lifetimeSubscription ? "Added": "$5.00"}</Text>
+                <TouchableOpacity disabled={this.state.isUserHasSubsCription} style={styles.lifetimeSubButton}
+                 onPress={()=>this.checkUserAddedSubscription()}>
+                  <Text style={styles.lifetimeSubPrice}>{this.state.isUserHasSubsCription ? "Added": this.state.isUserSubscriptionRequested ?"Remove":"$5.00"}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -197,6 +199,7 @@ export default class OrderSummary extends OrderSummaryController {
                 header="PAYMENT DETAILS"
                 list={this.state.billingDetails}
                 footer={{question: "Total", ans: `$${this.state.totalPrice}`}}
+                isSubscribed={this.state.isUserHasSubsCription?true:this.state.isUserSubscriptionRequested?true:false}
               />
             </View>
              

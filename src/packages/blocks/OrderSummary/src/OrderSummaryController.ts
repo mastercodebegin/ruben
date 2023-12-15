@@ -51,6 +51,8 @@ interface S {
     email: string;
   };
   fastDeliveryApplied: boolean;
+  isUserHasSubsCription:boolean;
+  isUserSubscriptionRequested:boolean
 }
 
 interface SS {
@@ -121,11 +123,19 @@ SS
   addFastDeliveryApiCallId: string = '';
   getBillingDetailsCallId: string = '';
   checkLifeTimeSubscriptionCallId: string = '';
+  applyLifeTimeSubscriptionCallId: string = '';
+  removeLifeTimeSubscriptionCallId: string = '';
 
   componentDidUpdate(){
     if (this.state.screenError) {
       Alert.alert("Error","Something went wrong please try again later",[{text:"OK",onPress:()=>this.props.navigation.goBack()}])
       }
+  }
+  async checkUserAddedSubscription(){
+    this.state.isUserSubscriptionRequested?
+    this.setState({showSubscriptionModal:true}):
+    // this.setState({isUserSubscriptionRequested:false}):
+     this.setState({showSubscriptionModal:true})
   }
 
   async receive(from: string, message: Message) {
@@ -239,11 +249,58 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('lifeTimeSubscriptionCallId============',data)
+        console.log('lifeTimeSubscriptionCallId============',data?.message)
+        this.setState({isUserHasSubsCription:data?.subscribed})
+        
+      }
+    }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.applyLifeTimeSubscriptionCallId != null &&
+      this.applyLifeTimeSubscriptionCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+          console.log('apply lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
+          
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+          let data = message.getData(
+            getName(MessageEnum.RestAPIResponceSuccessMessage)
+          ); 
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        console.log('apply lifeTimeSubscriptionCallId============',)
+        this.setState({isUserSubscriptionRequested:true,showLoader:false,showSubscriptionModal:false})
         
       }
     }
     
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.removeLifeTimeSubscriptionCallId != null &&
+      this.removeLifeTimeSubscriptionCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+          console.log('remove lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
+          
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+          let data = message.getData(
+            getName(MessageEnum.RestAPIResponceSuccessMessage)
+          ); 
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        console.log('remove lifeTimeSubscriptionCallId============',)
+        this.setState({isUserSubscriptionRequested:false,showLoader:false,showSubscriptionModal:false})
+        
+      }
+    }
+
     else if (   getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addFastDeliveryApiCallId != null &&
     this.addFastDeliveryApiCallId ===
@@ -548,7 +605,7 @@ SS
     runEngine.sendMessage(fastDelivery.id, fastDelivery);
   }
 
-  async checkLifeTimeSubscription() {
+  async removeLifeTimeSubscription() {
     console.log('lifetime start==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     
     this.setState({ showLoader: true });
@@ -559,11 +616,11 @@ SS
     };
     const billingDetails = new Message(getName(MessageEnum.RestAPIRequestMessage));
 
-    this.checkLifeTimeSubscriptionCallId = billingDetails.messageId;
+    this.removeLifeTimeSubscriptionCallId = billingDetails.messageId;
 
     billingDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_subscriptions/subscriptions'
+      'bx_block_subscriptions/subscriptions/destroy'
     );
     billingDetails.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -571,11 +628,86 @@ SS
     );
     billingDetails.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.httpGetMethod
+      configJSON.httpDeleteMethod
     );
     runEngine.sendMessage(billingDetails.id, billingDetails);
   }
 
+
+
+  async applyLifeTimeSubscription() { 
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json"
+    };
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.applyLifeTimeSubscriptionCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_subscriptions/subscriptions'
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify({
+        "subscription": {
+            "name": "",
+            "subscrible_id": 1,
+            "enable": true
+        }
+    })
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'POST'
+    );
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+  }
+
+  async checkLifeTimeSubscription() { 
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json"
+    };
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+    this.checkLifeTimeSubscriptionCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_subscriptions/subscriptions'
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify({
+        "subscription": {
+            "name": "",
+            "subscrible_id": 1,
+            "enable": true
+        }
+    })
+    );
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      'POST'
+    );
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+  }
   
   async addLifeTimeSubscription() { 
     this.setState({ showLoader: true });

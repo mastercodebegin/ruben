@@ -160,14 +160,15 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if (!error && discountPrice?.message === "discount fetched") {
       this.fetchDiscountCallBack()
     } else {
-      this.setState({ screenError: true, showLoader: false });
+      this.showDiscountMessage("Discount not present")
+      this.setState({ screenError: false, showLoader: false });
       }
   }
   }
 
   componentDidUpdate() {    
     if (this.state.screenError) {
-      Alert.alert('Error','Something went wrong, please try again later',[{text:'OK',onPress:()=>this.props.navigation.goBack()}])
+      Alert.alert('Error','Something went wrong, please try again later---',[{text:'OK',onPress:()=>this.props.navigation.goBack()}])
     }
       
   }
@@ -220,7 +221,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   }
   discoundCodeCallback(discoundCode:any,error=false){
     if (error) {
-      Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+      this.showDiscountMessage("Discount not present")
+      this.setState({showLoader:false})
     } else if (discoundCode?.promo_code || (discoundCode?.sub_total &&  discoundCode?.total)) {      
       this.setState({
         discountCode: (!!discoundCode?.promo_code && discoundCode?.discount) ? discoundCode?.promo_code : '',
