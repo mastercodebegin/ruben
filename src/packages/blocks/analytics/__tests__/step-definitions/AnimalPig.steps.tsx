@@ -91,12 +91,26 @@ defineFeature(feature, (test) => {
 
         });
         
-        then('I click on pig back',() => {
-        //     let pigHock = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHock');
-        //     pigHock.simulate('press')
-        //    instance.clickOnPigHock()
+        then('I click on pig hock right',() => {
+            let pigHock = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHockRight');
+            pigHock.simulate('press')
+           instance.onPigClick(AnimalParts.pigHock)
             expect(analyticsBlock).toBeTruthy()
         });
+        then('I click on pig hock left',() => {
+            let pigHock = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHockLeft');
+            pigHock.simulate('press')
+           instance.onPigClick(AnimalParts.pigHock)
+            expect(analyticsBlock).toBeTruthy()
+        });
+
+        then('I click on pig hock back fat',() => {
+            let pigHock = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigBackFat');
+            pigHock.simulate('press')
+           instance.onPigClick(AnimalParts.pigBackFat)
+            expect(analyticsBlock).toBeTruthy()
+        });
+
         then('I click on pig breast',() => {
             let pigHead = analyticsBlock.findWhere((node) => node.prop('testID') === 'pigHead');
             pigHead.simulate('press')

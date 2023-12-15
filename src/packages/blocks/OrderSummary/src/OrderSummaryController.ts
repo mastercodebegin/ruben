@@ -121,6 +121,7 @@ SS
   applyStoragePlanId: string = '';
   lifeTimeSubscriptionCallId: string = '';
   addFastDeliveryApiCallId: string = '';
+  removeFastDeliveryApiCallId: string = '';
   getBillingDetailsCallId: string = '';
   checkLifeTimeSubscriptionCallId: string = '';
   applyLifeTimeSubscriptionCallId: string = '';
@@ -321,7 +322,29 @@ SS
         this.setState({ showLoader: false });
         showToast('Something went wrong');
       }
-    }else if (  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    }
+    else if (   getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.removeFastDeliveryApiCallId != null &&
+    this.removeFastDeliveryApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
+    {
+      const fastDeliveryResponse = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );     
+      const error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );      
+      if (fastDeliveryResponse && !error) {
+        this.getBillingDetails();     
+        if (typeof fastDeliveryResponse?.message === 'string') {
+          this.setState({ fastDeliveryApplied: false });
+        }
+      } else {
+        this.setState({ showLoader: false });
+        showToast('Something went wrong');
+      }
+    }
+    else if (  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getBillingDetailsCallId != null &&
     this.getBillingDetailsCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
@@ -578,6 +601,32 @@ SS
       });
       this.getBillingDetails();
     }
+  }
+
+  async removeFastDelivery(){
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const removefastDelivery = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.removeFastDeliveryApiCallId = removefastDelivery.messageId;
+
+    removefastDelivery.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/accounts/remove_delivery_hrs'
+    );
+    removefastDelivery.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    removefastDelivery.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+     configJSON.httpPostMethod
+    );
+    runEngine.sendMessage(removefastDelivery.id, removefastDelivery);
+
   }
   async addFastDelivery() {
     this.setState({ showLoader: true });

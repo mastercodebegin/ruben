@@ -37,7 +37,7 @@ defineFeature(feature, (test) => {
         let instance:AnimalAnalytics; 
 
         given('I am a User loading AnimalAnalytics', () => {
-            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Eggs"} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Cow"} {...screenProps}/>)
         });
 
         when('I navigate to the AnimalAnalytics', () => {

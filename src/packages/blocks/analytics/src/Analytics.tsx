@@ -416,6 +416,7 @@ const styles = StyleSheet.create({
     top: -25,
   },
   animalImagContainer: {
+    // marginTop:50,
     marginBottom: 10
   },
 });

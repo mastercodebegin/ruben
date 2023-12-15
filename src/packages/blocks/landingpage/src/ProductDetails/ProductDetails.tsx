@@ -149,7 +149,8 @@ export default class ProductDetailScreen extends LandingPageController {
               </Text>
               
             </View>
-            <View style={{ flexDirection: "row",marginVertical:10 }}>
+            <View style={{ flexDirection: "row",marginVertical:10}}>
+              <View style={{flex:0.15,justifyContent:"center"}}>
                 <TouchableOpacity
                   testID="copy_link_test_id"
                   onPress={() => {
@@ -162,6 +163,8 @@ export default class ProductDetailScreen extends LandingPageController {
                 >
                   <Image style={style.shareImage} source={shareIcon} />
                 </TouchableOpacity>
+                </View>
+                <View style={{flex:0.4,justifyContent:"center"}}>
                 <TouchableOpacity
                 testID="adToCart"
                   onPress={() =>
@@ -171,13 +174,16 @@ export default class ProductDetailScreen extends LandingPageController {
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
+                </View>
+                <View style={{flex:0.45,justifyContent:"center"}}>
                 <TouchableOpacity
                  testID="Subscription"
                   onPress={() => this.setState({showRecurringModal:true})}
                   style={style.subsciptionButton}
                 >
-                  <Text style={style.cartText}>Subsciptions</Text>
+                  <Text style={style.cartText}>Subscriptions</Text>
                 </TouchableOpacity>
+                </View>
               </View>
             <RenderSteps
               images={this.state.productDetails?.attributes?.step1_images}
@@ -222,21 +228,24 @@ const style = StyleSheet.create({
   desc: { color: "grey", fontSize: 16, paddingTop: 10 },
   cartText: {
     color: "white",
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "bold",
-    paddingHorizontal: 20,
+    padding:8,
+    paddingHorizontal: 18,
   },
   cartButton: {
     backgroundColor: PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
-    marginLeft: 20,
+    width:'95%',
+    alignSelf:"center"
   },
   subsciptionButton:{
     backgroundColor: PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
-    marginLeft: 10,
+    width:'95%',
+    alignSelf:"center"
   },
   imageContainer: {
     flexDirection: "row",
@@ -264,6 +273,7 @@ const style = StyleSheet.create({
     backgroundColor: PRIMARY,
     padding: 7,
     borderRadius: 21,
+    alignSelf:"center"
   },
   shareImage: {
     height: "100%",
