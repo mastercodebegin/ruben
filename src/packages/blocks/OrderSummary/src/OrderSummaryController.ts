@@ -238,7 +238,6 @@ SS
       this.checkLifeTimeSubscriptionCallId != null &&
       this.checkLifeTimeSubscriptionCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-          console.log('lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
           
           let error = message.getData(
@@ -250,7 +249,6 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('lifeTimeSubscriptionCallId============',data?.message)
         this.setState({isUserHasSubsCription:data?.subscribed})
         
       }
@@ -282,7 +280,6 @@ SS
       this.removeLifeTimeSubscriptionCallId != null &&
       this.removeLifeTimeSubscriptionCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-          console.log('remove lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
           
           let error = message.getData(
@@ -294,7 +291,6 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('remove lifeTimeSubscriptionCallId============',)
         this.setState({isUserSubscriptionRequested:false,showLoader:false,showSubscriptionModal:false})
         
       }
