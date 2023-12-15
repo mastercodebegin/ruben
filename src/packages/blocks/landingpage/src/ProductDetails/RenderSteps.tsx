@@ -10,7 +10,7 @@ interface RenderStepsTypes {
 const RenderSteps = ({ header, description, images }: RenderStepsTypes) => {
   return (
     <View style={styles.row}>
-      <CustomRadioBtn checked setChecked={() => {}} />
+      <CustomRadioBtn checked />
       <View style={styles.flex}>
         <Text style={styles.header}>{header}</Text>
         <Text style={styles.description}>{description}</Text>

@@ -126,7 +126,7 @@ export default class OrdersController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (ongoingOrders?.data && !ongoingOrdersError) {
-        this.setState({ongoingOrdersList:[ongoingOrders?.data],showLoader:false})
+        this.setState({ongoingOrdersList:ongoingOrders?.data,showLoader:false})
 
       } else {
         this.setState({ongoingOrdersList:[],showLoader:false})

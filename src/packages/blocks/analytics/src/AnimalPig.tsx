@@ -9,7 +9,7 @@ import {
   Text
   // Customizable Area End
 } from "react-native";
-import { pig, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
+import { pig, pigBackfat, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, pigRibs, pigShoulder, pigbacon, pigpicnis } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -112,12 +112,12 @@ export default class AnimalPig extends AnalyticsController {
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
-                  source={pig}
+                  source={pigBackfat}
                 />
               }
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
-              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHock" />
-              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHock" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHockRight" />
+              <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHockLeft" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBacon)  }} style={styles.clickOnPigBacon} testID="pigBacon" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigNeck) }} style={styles.clickOnPigNeck} testID="pigNeck" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigLegham) }} style={styles.clickOnPigLegham} testID="pigLegham" />
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   animalImgContainer: {
     backgroundColor: "white",
     paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingVertical: 75,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40

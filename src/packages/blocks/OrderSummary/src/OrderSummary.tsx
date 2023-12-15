@@ -185,12 +185,12 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-              {this.state.fastDeliveryApplied?<></>:(<View style={styles.deliverContainer}>
+              <View style={styles.deliverContainer}>
                 <Text style={styles.deliverText}>Deliver in 24hrs</Text>
-                <TouchableOpacity disabled={this.state.fastDeliveryPice !== null} style={styles.deliverPrice} onPress={this.addFastDelivery.bind(this)}>
-                  <Text style={styles.deliverPriceText}>{this.state.fastDeliveryPice ? "Added" : "+ $25.00"}</Text>
+                <TouchableOpacity style={[styles.deliverPrice,{backgroundColor:this.state.fastDeliveryPice ? PRIMARY : WHITE}]} onPress={this.state.fastDeliveryPice? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
+                  <Text style={[styles.deliverPriceText,{color:this.state.fastDeliveryPice ? WHITE : PRIMARY }]}>{this.state.fastDeliveryPice ? "Remove" : "+ $25.00"}</Text>
                 </TouchableOpacity>
-              </View>)}
+              </View>
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"

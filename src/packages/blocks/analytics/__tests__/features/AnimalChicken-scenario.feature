@@ -10,5 +10,6 @@ Feature: AnimalChicken
         Then I click on chicken wing
         Then I click on chicken leg
         Then I click on chicken Thigh
+        Then I click on chicken Tail
         And I can leave the chicken screen with out errors
 
