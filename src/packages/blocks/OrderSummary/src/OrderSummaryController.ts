@@ -261,7 +261,6 @@ SS
       this.applyLifeTimeSubscriptionCallId != null &&
       this.applyLifeTimeSubscriptionCallId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-          console.log('apply lifetime response==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
           
           let error = message.getData(
@@ -273,7 +272,6 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('apply lifeTimeSubscriptionCallId============',)
         this.setState({isUserSubscriptionRequested:true,showLoader:false,showSubscriptionModal:false})
         
       }

@@ -96,7 +96,6 @@ export default class OrderSummary extends OrderSummaryController {
             <Button
               style={{ marginTop: 20 }}
               testID="add_to_cart"
-              //onPress={this.state.isUserSubscriptionRequested?()=>this.setState({isUserSubscriptionRequested:false,showSubscriptionModal:false}):this.applyLifeTimeSubscription.bind(this)}
                onPress={this.state.isUserSubscriptionRequested?this.removeLifeTimeSubscription.bind(this):this.applyLifeTimeSubscription.bind(this)}
               label={this.state.isUserSubscriptionRequested?"Remove":"Add to cart"}
             />
