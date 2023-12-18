@@ -51,7 +51,7 @@ defineFeature(feature, (test) => {
     });
 
     then("user can change handleAddressOptionChange", () => {
-      instance.handleAddressOptionChange();
+      instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
       const productList = ModalBlock.findWhere(
         (node) => node.prop("testID") === "deliverOption"
       );
@@ -72,8 +72,25 @@ defineFeature(feature, (test) => {
     })
 
     then("user can click on handleAnimatCuts", () => {
-      let handleAnimatCuts = ModalBlock.findWhere((node) => node.prop('testID') === "handleAnimatCuts");
-      handleAnimatCuts.simulate('press')
+      instance.setState({handleAnimalCutsDropDown:true})
+      const animalCutsOptionsListId = ModalBlock.findWhere(
+        (node) => node.prop("testID") === "animalCutsOptionsListId"
+      );
+     const data= animalCutsOptionsListId.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            duration: 'Monthly',
+            currency: 'USD',
+            amount: '250',
+            plan_name: 'Monthly'
+          }
+        }, index: 0
+      })
+            let handleAnimatCuts = data.findWhere((node) => node.prop('testID') === "handleAnimatCuts");
+
+            handleAnimatCuts.simulate('press')
     });
 
     then("user can click on animalCutsDropDown", () => {
@@ -83,7 +100,7 @@ defineFeature(feature, (test) => {
 
 
     then("list of animalCutsOptionsListId", () => {
-      instance.handleAddressOptionChange();
+      instance.handleAddressOptionChange(false ,{id:1,attributes:{address:'test'}});
       const animalCutsOptionsListId = ModalBlock.findWhere(
         (node) => node.prop("testID") === "animalCutsOptionsListId"
       );
@@ -109,12 +126,23 @@ defineFeature(feature, (test) => {
     });
   
     then("user can click on address_change", () => {
-      let address_change = ModalBlock.findWhere((node) => node.prop('testID') === "address_change");
+instance.setState({setDeliverOption:'Shipping'})
+      let addressFlatList = ModalBlock.findWhere((node) => node.prop('testID') === "addressFlatList");
+      const data=addressFlatList.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            time: 'Monthly'          }
+        }, index: 0
+      })
+      let address_change = data.findWhere((node) => node.prop('testID') === "address_change");
       address_change.simulate('press')
     });
 
     then("list of avaialbleSlots", () => {
-      instance.handleAddressOptionChange();
+      instance.setState({setDeliverOption:'Pickup'})
+      instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
       const avaialbleSlots = ModalBlock.findWhere(
         (node) => node.prop("testID") === "avaialbleSlots"
       );

@@ -23,8 +23,7 @@ export default class MyCreditScreen extends LandingPageController {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)();
-   // this.getProductList(false)
+    this.getRemainingProduct.bind(this)(this.props?.route?.params?.selectedCategoryId);
   }
   render() {
     return (
@@ -87,7 +86,12 @@ export default class MyCreditScreen extends LandingPageController {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
-            } } cartDetails={[]}          />
+            } } cartDetails={[]}   
+            submitCreditDetailModal={()=>console.log()
+            }
+            remainingCuts={this.props?.route?.params?.remainingCuts}
+            categoryId={this.props?.route?.params?.selectedCategoryId}
+            />
         </View>
       </HeaderWithBackArrowTemplate>
     );
