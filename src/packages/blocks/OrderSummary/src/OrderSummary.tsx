@@ -174,7 +174,7 @@ export default class OrderSummary extends OrderSummaryController {
             </View>
             <View style={{ paddingTop: 20 }}>
               <MyDetails
-                header="MY DETAILS-"
+                header="MY DETAILS"
                 list={[
                   { question: "Name", ans: name  },
                   { question: "Email", ans:email },
@@ -247,7 +247,7 @@ export default class OrderSummary extends OrderSummaryController {
                   orderId: this.state.orderId,
                   orderNumber: this.state.orderNumber,
                   deliveryCharge: this.state.deliveryCharge,
-                  lifetimeSubscriptionCharge: lifetimeSubscriptionCharge,
+                  lifetimeSubscriptionCharge: this.state.isUserHasSubsCription?true:this.state.isUserSubscriptionRequested?true:false,
                   email: email,
                   billingDetails:this.state.billingDetails
                 })}

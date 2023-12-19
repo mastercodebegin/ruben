@@ -249,7 +249,16 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        this.setState({isUserHasSubsCription:data?.subscribed})
+        console.log('checkLifeTimeSubscriptionCallId>>>>>>>>>>>>>>>>>>>>>>',data)
+        if(data?.message!='Subscription already created for this user')
+        {
+          console.log('if checkLifeTimeSubscriptionCallId>>>>>>>>>>>>>>>>>>>>>>',data)
+        this.setState({isUserHasSubsCription:true})
+        }
+        else{
+          this.setState({isUserHasSubsCription:false})
+
+        }
         
       }
     }
@@ -350,7 +359,11 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if ((!error && billingDetails)) {
+        console.log('billingdetails===================',billingDetails);
+        
         const list = this.getOrderDetailsArray(billingDetails);
+        console.log('list========================',list);
+        
         const totalPrice = billingDetails?.total;
         const fastDelivery = billingDetails?.delivery_hrs;
         const lifetimeSubscription = billingDetails?.life_time_subscription !== null;
@@ -821,14 +834,17 @@ SS
     }    
   }
   getOrderDetailsArray(orderDetails:any) {
-    const OrderDetailsList: any[] = [];    
+    const OrderDetailsList: any[] = [];   
+ 
     if (orderDetails?.sub_total && orderDetails?.total) {
       OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.sub_total)});
+
       if (orderDetails?.shipping_charge) {
         OrderDetailsList.push({ question: "Shipping Charges", ans: this.numberValue(orderDetails?.shipping_charge) });
       }
       if (orderDetails?.delivery_fees) {
         OrderDetailsList.push({ question: "Delivery Fees", ans: this.numberValue(orderDetails?.delivery_fees)});
+
       }
       if (orderDetails?.discount) {
         OrderDetailsList.push({ question: "Discount", ans: this.numberValue(orderDetails?.discount) });
@@ -836,11 +852,13 @@ SS
       if (orderDetails?.delivery_hrs) {
         OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(orderDetails?.delivery_hrs) });
       }
-      if (orderDetails?.life_time_subscription) {
-        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(orderDetails?.life_time_subscription)})
-      }
+      // if (orderDetails?.life_time_subscription) {
+      //   OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(orderDetails?.life_time_subscription)})
+      // }
       if (orderDetails?.meat_storage_amount) {
         OrderDetailsList.push({question : "Meat Storage",ans:this.numberValue(orderDetails?.meat_storage_amount)})
+        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(5)})
+
       }
       if (orderDetails?.product_discount) {
         OrderDetailsList.push({question : "Product Discount",ans:this.numberValue(orderDetails?.product_discount)})

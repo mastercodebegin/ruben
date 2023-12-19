@@ -15,13 +15,15 @@ const PaymentDetails = ({ header, list, footer,isSubscribed }: MyDetailsTypes) =
             </View>}
         {
             list.map((item) => {
+                console.log('item======================================',item,isSubscribed)
+                
                 return ( item.question=='Lifetime Subscription' && !isSubscribed?null:
                   <View style={styles.myDetailContainer} key={item?.question}>
                     <View style={styles.flex}>
                         <Text style={styles.question}>{item?.question}</Text>
                     </View>
                     <View style={styles.flex}>
-                        <Text style={styles.answer}>{item?.ans}</Text>
+                        <Text style={styles.answer}>{`$${item?.ans}`}</Text>
                     </View>
                   </View>
                 )
