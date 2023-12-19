@@ -34,6 +34,7 @@ export interface Props {
       orderNumber: number,
       deliveryCharge: number,
       total?: number,
+      lifetimeSubscriptionCharge:boolean
       billingDetails?: any[];
     }
   }

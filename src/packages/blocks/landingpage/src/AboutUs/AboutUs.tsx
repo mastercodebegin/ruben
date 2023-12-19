@@ -59,14 +59,17 @@ export default class AboutUs extends LandingPageController {
                   <View style={styles.imageContainer}>
                     <Image
                       source={ {
-                        uri: this.state.aboutUsData?.data?.attributes?.images[0]?.url 
+                        uri: this.state.aboutUsData?.data?.length?
+                        this.state.aboutUsData?.data[0]?.attributes?.images[0]?.url :''
                       }}
                       style={styles.imageStyle}
                     />
+                    {console.log('',this.state.aboutUsData?.data?.length?this.state.aboutUsData?.data[0]?.attributes:null)
+                    }
                   </View>
                   <View style={{ marginVertical: 10 }}>
                     <Text style={styles.desc}>
-                      {this.state.aboutUsData?.data?.attributes?.description}
+                      {this.state.aboutUsData?.data?.length?this.state.aboutUsData?.data[0]?.attributes.description:''}
                     </Text>
                   </View>
                 </View>
@@ -76,11 +79,17 @@ export default class AboutUs extends LandingPageController {
                 <View style={styles.featuredFarmContainer}>
                   <View style={{ flexDirection: "row" }}>
                     <Image
-                      source={{uri:this.state.aboutUsData?.data?.attributes?.images[0]?.url}}
+                      source={ {
+                        uri: this.state.aboutUsData?.data?.length?
+                        this.state.aboutUsData?.data[0]?.attributes?.images[0]?.url :''
+                      }}
                       style={{ height: 70, width: 70, borderRadius: 20 }}
                     />
                     <View style={{ left: 10 }}>
-                      <Text style={styles.farmName}>Mark Jhon's Farm</Text>
+                      <Text style={styles.farmName}>
+                      {this.state.aboutUsData?.data?.length?this.state.aboutUsData?.data[0]?.attributes.title:''}
+
+                      </Text>
                       <Text style={styles.farmAdd}>
                         7460 Redwood Blvd California, 94945 , USA
                       </Text>
