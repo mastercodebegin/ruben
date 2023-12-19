@@ -20,7 +20,8 @@ const CheckBox = ({
     <TouchableOpacity
       disabled={disabled}
       testID={testID}
-      onPress={() => setChecked(!checked)}
+      //@ts-ignore
+      onPress={() =>  setChecked(!checked)}
       style={{ ...styles.checkBox, backgroundColor: backgroundColor }}
     >
       {checked && <View testID={selectorTestID} style={styles.dot} />}

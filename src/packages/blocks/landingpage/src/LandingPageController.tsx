@@ -442,7 +442,7 @@ export default class LandingPageController extends BlockComponent<
       this.setState({ animalCutsCount: this.state.animalCutsCount + 1 });
      }
      else{
-      this.showAlert('you  have consumed available cuts')
+      this.showAlert('You have consumed available cuts')
      }
     
   };
@@ -466,6 +466,11 @@ export default class LandingPageController extends BlockComponent<
     
     const filterd = this.state.animalPortions.filter((v)=>v.name==item)
 
+    console.log('remaini',remainingCuts);
+    console.log('used',used_cuts);
+    
+    if(used_cuts<remainingCuts)
+    {
     if(filterd.length>0)
     {
 
@@ -475,9 +480,9 @@ export default class LandingPageController extends BlockComponent<
 
       return false
     }
+    
 
     
-    console.log("option", item);
     const obj = { id: 1, name: item, quantity: 1 }
     this.setState({
       selectedAnimalCuts: item,
@@ -486,7 +491,11 @@ export default class LandingPageController extends BlockComponent<
     });
     
     this.setState({animalCutsCount:this.state.animalCutsCount+1,
-    })};
+    })}
+    else{
+      this.showAlert('You have consumed available cuts')
+    }
+  };
 
 
                                                                       
@@ -547,7 +556,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && remainingProductResponse) {
-       console.log('remainingProductResponse=============================',remainingProductResponse)
        
         const arr =[]
         arr.push(remainingProductResponse)
@@ -673,7 +681,6 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('something went wrong')
     }
     else {
-      console.log('slots=======',response?.avilable_sloat)
       
       this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
 
@@ -846,12 +853,10 @@ this.setState({aboutUsData:aboutus})
       this.setState({ show_loader: false })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      console.log('subCategories============================================',subCategories)
       
       let arr=[]
       for(let i=0;i<subCategories?.data.length;i++)
       {
-        console.log('subCategories loop ============================================',subCategories)
 
           let obj={
           id:subCategories?.data[i].attributes?.id,
@@ -1157,11 +1162,11 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('Name can not be blank')
       return false;
     }
-
-    if (whiteSpace(this.props.state.name)) {
-      this.showAlert('The name cannot have leading or trailing white spaces.');
-      return false;
-    }
+    
+    // if (whiteSpace(this.props.state.name)) {
+    //   this.showAlert('The name cannot have leading or trailing white spaces.');
+    //   return false;
+    // }
 
     if (!validName(this.props.state.name)) {
       this.showAlert('The name cannot be empty and should not contain any numbers or special characters');
@@ -1350,7 +1355,6 @@ this.setState({aboutUsData:aboutus})
 
 
   async getSubcategories(subCategoryId: string) {
-    console.log('function called=========================',subCategoryId);
 
     this.setState({ show_loader: true, selectedSub: null })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1836,22 +1840,15 @@ this.setState({aboutUsData:aboutus})
     selectedSlot:any,userAddressID:any,selectedPortion:any,userAddress:string) {
   const sub_category_id=selectedPortion.map((item:any)=>item.id)
   const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
-  console.log('option====',this.state.setDeliverOption);
-  console.log('submitID====',sub_category_id);
-  console.log(' sub_category_quantity====',sub_category_quantity);
-  console.log(' sub_category_quantity====',userAddress);
-  console.log(' sub_category_quantity====',this.state.selectedUserAddress);
-  
-  console.log();
   
       if(deliverOption.length==0)
       {
-        alert('please select an option')
+        alert('Please select an option')
         return false
       }
       if(animalCuts==0)
       {
-        alert('please select animalCuts')
+        alert('Please select animal cuts')
         return false
       }
      
@@ -1859,7 +1856,7 @@ this.setState({aboutUsData:aboutus})
       {
         if(selectedSlot.length==0)
         {
-          alert('please select Pickup slot')
+          alert('Please select Pickup slot')
           return false
         }
       }
@@ -1867,7 +1864,7 @@ this.setState({aboutUsData:aboutus})
       {
         if(userAddressID.length==0)
         {
-          alert('please select address')
+          alert('Please select address')
           return false
         }
         
@@ -1984,7 +1981,6 @@ this.setState({aboutUsData:aboutus})
   }
 
   getSlotsAndMerchantAddressHandler = async () => {
-    console.log('merchantAddressHandler=================')
     
     this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");

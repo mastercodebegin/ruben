@@ -109,7 +109,7 @@ export default class Myprofile extends LandingPageController {
     {                      
       this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
     }
-    else{alert(" Place an order to display the values of the cuts")}
+    else{this.showAlert(" Place an order to display the values of the cuts")}
   }
   renderItem({ item }: any) {
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
