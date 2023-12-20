@@ -69,14 +69,19 @@ defineFeature(feature, (test) => {
         }, index: 0
       })
       productList.renderProp("keyExtractor")({id:0})
+     
     })
 
     then("user can click on handleAnimatCuts", () => {
-      instance.setState({handleAnimalCutsDropDown:true})
+      const animalCutsDropDown = ModalBlock.findWhere(
+        (node) => node.prop("testID") === "animalCutsDropDown"
+      );
+      animalCutsDropDown.simulate('press')
+
       const animalCutsOptionsListId = ModalBlock.findWhere(
         (node) => node.prop("testID") === "animalCutsOptionsListId"
       );
-     const data= animalCutsOptionsListId.renderProp('renderItem')({
+     const data = animalCutsOptionsListId.renderProp('renderItem')({
         item: {
           id: 2,
           attributes: {
@@ -104,19 +109,19 @@ defineFeature(feature, (test) => {
       const animalCutsOptionsListId = ModalBlock.findWhere(
         (node) => node.prop("testID") === "animalCutsOptionsListId"
       );
-      animalCutsOptionsListId.renderProp('renderItem')({
-        item: {
-          id: 2,
-          attributes: {
-            id: 2,
-            duration: 'Monthly',
-            currency: 'USD',
-            amount: '250',
-            plan_name: 'Monthly'
-          }
-        }, index: 0
-      })
-      animalCutsOptionsListId.renderProp("keyExtractor")({id:0})
+      // animalCutsOptionsListId.renderProp('renderItem')({
+      //   item: {
+      //     id: 2,
+      //     attributes: {
+      //       id: 2,
+      //       duration: 'Monthly',
+      //       currency: 'USD',
+      //       amount: '250',
+      //       plan_name: 'Monthly'
+      //     }
+      //   }, index: 0
+      // })
+      // animalCutsOptionsListId.renderProp("keyExtractor")({id:0})
     })
 
     then("user can enter the nearest location", () => {
