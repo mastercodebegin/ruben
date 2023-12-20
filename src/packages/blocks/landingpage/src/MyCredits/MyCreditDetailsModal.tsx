@@ -157,6 +157,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       testID="animalCutsDropDown"
                         style={styles.animalCutsDropDown}
                         onPress={() => {
+                          console.log('press===============');
+                          
                           this.setState({
                             handleAnimalCutsDropDown: !this.state
                               .handleAnimalCutsDropDown
@@ -179,7 +181,10 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
 
                   {this.state.handleAnimalCutsDropDown && (
+                    
                     <View style={styles.optionDropContainer}>
+                      {console.log('List===================')
+                      }
                       <FlatList
                       testID="animalCutsOptionsListId"
                         nestedScrollEnabled

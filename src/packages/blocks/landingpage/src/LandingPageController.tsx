@@ -653,14 +653,20 @@ export default class LandingPageController extends BlockComponent<
       const submitRequest = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+    
       this.setState({isLoading:false,isSuccessPopUp:true,order_number:submitRequest?.data?.attributes?.order_no})
 
 
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+  
+    else {
+      this.getSlotsAndMerchantAddressApiResponce(message)
+      this.cartCallBack(message)
+    }
+  }
+
+  getSlotsAndMerchantAddressApiResponce(message:Message){
+     if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getSlotsAndMerchantAddressCallId != null &&
     this.getSlotsAndMerchantAddressCallId ===
     message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -672,9 +678,6 @@ export default class LandingPageController extends BlockComponent<
     );
     this.slotsAndMerchantRes(error, slotsAndMerchantRes)
   }
-    else {
-      this.cartCallBack(message)
-    }
   }
   slotsAndMerchantRes(error: any, response: any) {
     if (error) {
@@ -708,9 +711,7 @@ filterCategoryCallBack(filteredList:any){
       const cartDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      const error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+      
       if (cartDetails?.data[0]?.attributes?.order_items?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
@@ -1163,10 +1164,10 @@ this.setState({aboutUsData:aboutus})
       return false;
     }
     
-    // if (whiteSpace(this.props.state.name)) {
-    //   this.showAlert('The name cannot have leading or trailing white spaces.');
-    //   return false;
-    // }
+    if (whiteSpace(this.props.state.name)) {
+      this.showAlert('The name cannot have leading or trailing white spaces.');
+      return false;
+    }
 
     if (!validName(this.props.state.name)) {
       this.showAlert('The name cannot be empty and should not contain any numbers or special characters');
