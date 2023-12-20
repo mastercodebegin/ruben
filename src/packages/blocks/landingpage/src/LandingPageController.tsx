@@ -1159,7 +1159,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(videoLibrary.id, videoLibrary);
   }
   checkValidation() {
-    if (this.props.state.name === '') {
+    if (this.props?.state?.name === '') {
       this.showAlert('Name can not be blank')
       return false;
     }

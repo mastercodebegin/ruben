@@ -53,6 +53,7 @@ defineFeature(feature, (test) => {
     //   expect(SettingsBlock).toBeTruthy();
     // });
     SettingsBlock = shallow(
+      //@ts-ignore
       <MyCredits
         setCreditDetailModal={jest.fn()}
         visible={false}
@@ -167,7 +168,9 @@ defineFeature(feature, (test) => {
   });
 
     then("click on my credit detail modal", () => {
-      SettingsBlock = shallow(<MyCredits visible={false} setVisibleProfileModal={function (): void {
+      SettingsBlock = shallow(
+      //@ts-ignore
+      <MyCredits visible={false} setVisibleProfileModal={function (): void {
         throw new Error("Function not implemented.");
       }} setState={undefined} state={undefined} firstTime={false} currentUser={""} updateCartDetails={function (data: any): void {
         throw new Error("Function not implemented.");
@@ -181,6 +184,45 @@ defineFeature(feature, (test) => {
     })
 
     then("user can see remaning Products",()=>{
+      instance.getProductByCategory();
+      instance.checkValidation()
+      instance.receiveCallback("message");
+      instance.getOrderList();
+      instance.handleLoadMore();
+      instance.handleDeliverOptionChange({});
+
+      instance.handleIncreaseAnimalCuts({id:1},0,1,1);
+      instance.handleDecreaseAnimalCuts({id:1,name:'abc',quantity:20},1,4);
+      instance.handleAnimalCutsOption('abc',9,9);
+      instance.handleAnimalSelectSlots({});
+      instance.showHideCreditDetailModal();
+      instance.searchProductsCallback(true,{});
+      instance.updateProfileCallback(true,{});
+      instance.getFarmCallBack({},true);
+      instance.profileDetailsCallback({data:{attributes:{}}});
+      instance.getSubcategories("3");
+      instance.addProduct();
+      instance.setNotificationToken();
+      instance.shareProducts(2);
+      instance.categoryCallback(null,[])
+      instance.updateProfileCallback(null,[])
+      instance.getCategory(1,true)
+      instance.getCategories()
+      instance.farmDetails(true)
+      instance.getAboutUs()
+      instance.getVideoBlog()
+      instance.updateProfileDetails(true)
+      instance.getRecommendProduct(true)
+      instance.getRemainingProduct(9)
+      instance.getProfileDetails()
+      instance.getViewAllProduct(5)
+      instance.shareProducts(5)
+      instance.getFavorites()
+      instance.removeFavListProduct(true)
+      instance.getSlotsAndMerchantAddressHandler()
+      instance.getUserAddress()
+      instance.setState({animalPortions:[{id:1,name:'test','quantity':6}]})
+      instance.handleIncreaseAnimalCuts(0,0,80,9)
       const productList = SettingsBlock.findWhere(
         (node) => node.prop("testID") === "remaningProduct"
       );          
@@ -205,7 +247,7 @@ defineFeature(feature, (test) => {
   });
 
   then("user can select value from  drop down",()=>{
-          instance.getRemainingProduct()
+          instance.getRemainingProduct(8)
     // const animalCutsDropDown = SettingsBlock.findWhere(
     //   (node) => node.prop("testID") === "animalCutsDropDown"
     // );   

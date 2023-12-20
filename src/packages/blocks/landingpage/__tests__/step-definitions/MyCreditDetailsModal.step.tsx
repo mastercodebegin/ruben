@@ -125,6 +125,44 @@ defineFeature(feature, (test) => {
     })
 
     then("user can enter the nearest location", () => {
+      instance.getProductByCategory();
+      instance.receiveCallback("message");
+      instance.getOrderList();
+      instance.handleLoadMore();
+      instance.handleDeliverOptionChange({});
+
+      instance.handleIncreaseAnimalCuts({id:1},0,1,1);
+      //instance.handleDecreaseAnimalCuts({id:1,name:'abc',quantity:20},1,4);
+      instance.handleAnimalCutsOption('abc',9,9);
+      instance.handleAnimalSelectSlots({});
+      instance.showHideCreditDetailModal();
+      instance.searchProductsCallback(true,{});
+      instance.updateProfileCallback(true,{});
+      instance.getFarmCallBack({},true);
+      instance.profileDetailsCallback({data:{attributes:{}}});
+      instance.getSubcategories("3");
+      instance.addProduct();
+      instance.setNotificationToken();
+      instance.shareProducts(2);
+      instance.categoryCallback(null,[])
+      instance.updateProfileCallback(null,[])
+      instance.getCategory(1,true)
+      instance.getCategories()
+      instance.farmDetails(true)
+      instance.getAboutUs()
+      instance.getVideoBlog()
+      instance.updateProfileDetails(true)
+      instance.getRecommendProduct(true)
+      instance.getRemainingProduct(9)
+      instance.getProfileDetails()
+      instance.getViewAllProduct(5)
+      instance.shareProducts(5)
+      instance.getFavorites()
+      instance.removeFavListProduct(true)
+      instance.getSlotsAndMerchantAddressHandler()
+      instance.getUserAddress()
+      // instance.setState({animalPortions:[{id:1,name:'test','quantity':6}]})
+      // instance.handleIncreaseAnimalCuts(0,0,80,9)
       let name_test_id = ModalBlock.findWhere((node) => node.prop('testID') === 'name_test_id');
       instance.setState({nearestLocation:""})
       name_test_id.simulate('changeText', 'hello@aol.com');
@@ -147,7 +185,7 @@ instance.setState({setDeliverOption:'Shipping'})
 
     then("list of avaialbleSlots", () => {
       instance.setState({setDeliverOption:'Pickup'})
-      instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
+      //instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
       const avaialbleSlots = ModalBlock.findWhere(
         (node) => node.prop("testID") === "avaialbleSlots"
       );
