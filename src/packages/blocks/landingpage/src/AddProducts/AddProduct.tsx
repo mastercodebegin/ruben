@@ -11,7 +11,8 @@ import {
   Image,
   ImageBackground,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ActivityIndicator
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import {
@@ -113,14 +114,16 @@ export default class AddProducts extends LandingPageController {
                       maxHeight={400}
                       labelField="title"
                       valueField="title"
-                      placeholder="Select item"
+                      placeholder={this.state.categoryItem?this.state.categoryItem:'Select item'}
+                      
                       onChange={(item: any) => {
+                      console.warn('',item)
                         const list = this.state.productsList;
                         list[index] = {
                           ...list[index],
                           category_id: item?.id,
                         };
-                        this.setState({ productsList: list })
+                        this.setState({ productsList: list,categoryItem:item.title })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -262,6 +265,7 @@ export default class AddProducts extends LandingPageController {
             )}
           />
         </KeyboardAvoidingView>
+        <ActivityIndicator animating={this.state.showLoader} size='large'/>
       </SafeAreaView>
     );
   }

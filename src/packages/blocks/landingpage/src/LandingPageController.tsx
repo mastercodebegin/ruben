@@ -869,16 +869,28 @@ this.setState({aboutUsData:aboutus})
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
+    
+    
+    
     if (error) {
       Alert.alert('Error', 'Something went wrong, Please try again later')
       this.setState({ show_loader: false, refresh: false });
     } else {
-      if (categories?.length === 0) {
+      if (categories) {
+        let arr = []
+        for(let i=0;i<categories.length;i++)
+        {
+
+         const obj= {'id':categories[i]?.attributes?.id,'title':categories[i]?.attributes?.name}
+         arr.push(obj)
+
+        }
         this.categoryPage = null;
-        this.setState({ show_loader: false })
-      } else {
-        this.setState({ show_loader: false, categories: this.categoryPage > 1 ? [...this.state.categories, ...categories] : categories, refresh: false })
-      }
+        this.setState({ show_loader: false,categoryList:arr })
+      } 
+      // else {
+      //   this.setState({ show_loader: false, categories: this.categoryPage > 1 ? [...this.state.categories, ...categories] : categories, refresh: false })
+      // }
     }
   }
   updateProfileCallback(error: any, response: any) {
