@@ -43,6 +43,7 @@ interface ImageBoxType {
   image: ImageSourcePropType;
   selected: boolean;
   onpress: () => void;
+  
 }
 
 import StripeIntegrationController, {
