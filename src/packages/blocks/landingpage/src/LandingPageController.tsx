@@ -35,16 +35,16 @@ export interface Props {
   cartDetails: Array<any>;
   setCreditDetailModal: () => void;
   submitCreditDetailModal: () => void;
-  remainingCuts:any
-  categoryId:any
+  remainingCuts: any
+  categoryId: any
   // Customizable Area End
 }
 
 interface S {
   // Customizable Area Start
-  showLoader:boolean;
-  inventoryList:any;
-  category:string;
+  showLoader: boolean;
+  inventoryList: any;
+  category: string;
   selectedTab: string;
   showProfileModal: boolean;
   showRecurringModal: boolean;
@@ -75,14 +75,14 @@ interface S {
   refresh: boolean;
   imageBlogList: Array<object>;
   videoLibrary: Array<object>;
-  aboutUsData:any
+  aboutUsData: any
   visibleCard: number;
   categoryItem: string;
   subCategoryItem: string;
   categoryList: Array<object>;
   subCategoryList: Array<object>;
   productList: Array<any>;
-  productDetails:any;
+  productDetails: any;
   recommentproduct: Array<any>;
   remainingproduct: any;
   aboutus: any;
@@ -109,18 +109,19 @@ interface S {
   nearestLocation: string;
   setAddressOption: boolean;
   fetchFavorites: boolean;
-  selectedCategoryID:any
-  merchantAddress:any
+  selectedCategoryID: any
+  merchantAddress: any
   userAddress: Array<any>
-  userAddressID:any
-  selectedUserAddress:string
-  merchantAddressID:any
-  selectedCategory:any
+  userAddressID: any
+  selectedUserAddress: string
+  merchantAddressID: any
+  selectedCategory: any
   animalCutsCount: number;
-  isSuccessPopUp:boolean
-  isLoading:boolean
-  order_number:string
+  isSuccessPopUp: boolean
+  isLoading: boolean
+  order_number: string
   animalPortions: Array<any>;
+  isMyProfile: boolean
 
   // Customizable Area End
 }
@@ -146,23 +147,24 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
-      userAddressID:'',
-      selectedUserAddress:'',
-      merchantAddressID:0,
-      selectedCategory:'Select Category',
-      animalCutsCount:0,
-      isSuccessPopUp:false,
-      isLoading:false,
-      order_number:'',
-      merchantAddress:'',
-      userAddress:[],
-      showLoader:false,
-      inventoryList:[],
-      category:"",
+      isMyProfile: false,
+      userAddressID: '',
+      selectedUserAddress: '',
+      merchantAddressID: 0,
+      selectedCategory: 'Select Category',
+      animalCutsCount: 0,
+      isSuccessPopUp: false,
+      isLoading: false,
+      order_number: '',
+      merchantAddress: '',
+      userAddress: [],
+      showLoader: false,
+      inventoryList: [],
+      category: "",
       selectedTab: 'MyFavoritesScreen',
       showProfileModal: false,
-      showRecurringModal:false,
-      aboutUsData:{},
+      showRecurringModal: false,
+      aboutUsData: {},
       profileImage: '',
       name: '',
       email: '',
@@ -196,7 +198,7 @@ export default class LandingPageController extends BlockComponent<
         images: [],
         desciption: ''
       }],
-      productDetails:{},
+      productDetails: {},
       refresh: false,
       imageBlogList: [],
       videoLibrary: [],
@@ -205,7 +207,7 @@ export default class LandingPageController extends BlockComponent<
       subCategoryItem: '',
       productList: [],
       recommentproduct: [],
-      remainingproduct:[],
+      remainingproduct: [],
       orderList: [],
       categoryList: [
         {
@@ -247,7 +249,7 @@ export default class LandingPageController extends BlockComponent<
       cartList: [],
       setProductPage: 1,
       showFavoriteList: [],
-      viewAllProductList:[],
+      viewAllProductList: [],
       priceTotal: 0,
       priceDiscount: 0,
       percentage: 0,
@@ -289,12 +291,12 @@ export default class LandingPageController extends BlockComponent<
         }
       ],
       selectedAnimalCuts: "Head",
-      animalAvailableSlots:[],
+      animalAvailableSlots: [],
       selectedAnimalSlot: "",
       nearestLocation: "",
       setAddressOption: false,
-      fetchFavorites:false,
-      selectedCategoryID:'',
+      fetchFavorites: false,
+      selectedCategoryID: '',
       animalPortions: []
 
 
@@ -308,11 +310,11 @@ export default class LandingPageController extends BlockComponent<
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getprofileDetailsId != null && this.getprofileDetailsId === message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-   ) {
+    ) {
       let profileDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.setState({loader:false})
+      this.setState({ loader: false })
       this.profileDetailsCallback(profileDetails);
     }
     else if (
@@ -320,8 +322,7 @@ export default class LandingPageController extends BlockComponent<
       this.userAddressApiCallId != null &&
       this.userAddressApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) 
-    {
+    ) {
       const userAddress = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -329,7 +330,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
 
-      this.setState({userAddress:userAddress?.data})
+      this.setState({ userAddress: userAddress?.data })
 
     }
 
@@ -369,19 +370,19 @@ export default class LandingPageController extends BlockComponent<
       );
       this.categoryCallback.bind(this)(error, categories.data)
     }
-    
+
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getFarmId != null &&
-    this.getFarmId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const farmDetails = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.getFarmCallBack(farmDetails,error)
-  }
+      this.getFarmId != null &&
+      this.getFarmId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const farmDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.getFarmCallBack(farmDetails, error)
+    }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -402,7 +403,7 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
-        this.remainingProductCallback(message)
+      this.remainingProductCallback(message)
     }
     else {
       this.receiveCallback(message)
@@ -423,91 +424,91 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
- 
+
 
   handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
-    
-     if(availableCuts<remainingCuts)
-     {
-      
-     
-     const selectedObj: any = this.state.animalPortions[index];
-     
-     
+
+    if (availableCuts < remainingCuts) {
+
+
+      const selectedObj: any = this.state.animalPortions[index];
+
+
       const obj: any = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity + 1 };
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name !== item.name);
       filteredArray.splice(index, 0, obj);
-      
+
       this.setState({ animalPortions: filteredArray });
       this.setState({ animalCutsCount: this.state.animalCutsCount + 1 });
-     }
-     else{
+    }
+    else {
       this.showAlert('You have consumed available cuts')
-     }
-    
+    }
+
   };
-  
-  handleDecreaseAnimalCuts = (item: any, index: any,remainingCuts:any) => {
+
+  handleDecreaseAnimalCuts = (item: any, index: any, remainingCuts: any) => {
     if (item.quantity > 1) {
       const selectedObj = this.state.animalPortions[index]
       const obj = { id: item.id, name: selectedObj.name, quantity: selectedObj.quantity - 1 }
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
       filteredArray.splice(index, 0, obj)
       this.setState({ animalPortions: filteredArray });
-      this.setState({animalCutsCount:this.state.animalCutsCount-1})
-  }
+      this.setState({ animalCutsCount: this.state.animalCutsCount - 1 })
+    }
     else {
       const filteredArray = this.state.animalPortions.filter((selectedObj: any) => selectedObj.name != item.name)
       this.setState({ animalPortions: filteredArray, });
-      this.setState({animalCutsCount:this.state.animalCutsCount-1})
+      this.setState({ animalCutsCount: this.state.animalCutsCount - 1 })
     }
   };
-  handleAnimalCutsOption = (item: any,remainingCuts:any,used_cuts:any) => {
-    
-    const filterd = this.state.animalPortions.filter((v)=>v.name==item)
+  handleAnimalCutsOption = (item: any, remainingCuts: any, used_cuts: any) => {
 
-    console.log('remaini',remainingCuts);
-    console.log('used',used_cuts);
-    
-    if(used_cuts<remainingCuts)
-    {
-    if(filterd.length>0)
-    {
+    const filterd = this.state.animalPortions.filter((v) => v.name == item)
+
+    console.log('remaini', remainingCuts);
+    console.log('used', used_cuts);
+
+    if (used_cuts < remainingCuts) {
+      if (filterd.length > 0) {
+
+        this.setState({
+          handleAnimalCutsDropDown: false
+        })
+        this.showAlert('You already added ' + item)
+
+        return false
+      }
+
+
+
+      const obj = { id: 1, name: item, quantity: 1 }
+      this.setState({
+        selectedAnimalCuts: item,
+        handleAnimalCutsDropDown: false,
+        animalPortions: [...this.state.animalPortions, obj]
+      });
 
       this.setState({
-      handleAnimalCutsDropDown: false})
-      this.showAlert('You already added '+item)
-
-      return false
+        animalCutsCount: this.state.animalCutsCount + 1,
+      })
     }
-    
-
-    
-    const obj = { id: 1, name: item, quantity: 1 }
-    this.setState({
-      selectedAnimalCuts: item,
-      handleAnimalCutsDropDown: false,
-      animalPortions: [...this.state.animalPortions, obj]
-    });
-    
-    this.setState({animalCutsCount:this.state.animalCutsCount+1,
-    })}
-    else{
+    else {
       this.showAlert('You have consumed available cuts')
     }
   };
 
 
-                                                                      
+
 
   filterByCategoryCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterProductByCategoryId != null &&
       this.filterProductByCategoryId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -515,19 +516,19 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        this.setState({productList:filterByCategoryResponse?.data})
+        this.setState({ productList: filterByCategoryResponse?.data })
       }
     }
   }
 
   recommendProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.recommendProductApiCallId != null &&
       this.recommendProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const filterByCategoryResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -535,33 +536,43 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        
-        this.setState({productList:filterByCategoryResponse?.data,loader:false})
+
+        this.setState({ productList: filterByCategoryResponse?.data, loader: false })
       }
     }
   }
 
   remainingProductCallback(message: Message) {
-    
+
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.remainingProductApiCallId != null &&
       this.remainingProductApiCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) { 
+    ) {
       const remainingProductResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      if (!error && remainingProductResponse) {
-       
-        const arr =[]
-        arr.push(remainingProductResponse)
-   
+      console.log('remainingProductResponse=================', remainingProductResponse);
 
-        this.setState({remainingproduct:arr,loader:false})
+      if (!error && remainingProductResponse) {
+        const arr = []
+
+        if (remainingProductResponse.message=='No Order Present for this category')
+        {
+          alert(remainingProductResponse.message)
+        }
+else{
+
+  arr.push(remainingProductResponse)
+}
+       
+
+
+        this.setState({ remainingproduct: arr, loader: false })
       }
     }
   }
@@ -594,7 +605,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.videoLibraryCallback(videoLibrary, error)
-    } 
+    }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getViewAllProductId != null &&
@@ -621,14 +632,13 @@ export default class LandingPageController extends BlockComponent<
       this.setState({ productList: productListData.data, show_loader: false })
     }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.filterByCategoryApiId != null &&
-    this.filterByCategoryApiId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
-    { 
+      this.filterByCategoryApiId != null &&
+      this.filterByCategoryApiId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
       const filteredList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    this.filterCategoryCallBack(filteredList)
+      this.filterCategoryCallBack(filteredList)
     }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -653,54 +663,54 @@ export default class LandingPageController extends BlockComponent<
       const submitRequest = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
-      this.setState({isLoading:false,isSuccessPopUp:true,order_number:submitRequest?.data?.attributes?.order_no})
+
+      this.setState({ isLoading: false, isSuccessPopUp: true, order_number: submitRequest?.data?.attributes?.order_no })
 
 
     }
-  
+
     else {
       this.getSlotsAndMerchantAddressApiResponce(message)
       this.cartCallBack(message)
     }
   }
 
-  getSlotsAndMerchantAddressApiResponce(message:Message){
-     if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getSlotsAndMerchantAddressCallId != null &&
-    this.getSlotsAndMerchantAddressCallId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const slotsAndMerchantRes = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.slotsAndMerchantRes(error, slotsAndMerchantRes)
-  }
+  getSlotsAndMerchantAddressApiResponce(message: Message) {
+    if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSlotsAndMerchantAddressCallId != null &&
+      this.getSlotsAndMerchantAddressCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const slotsAndMerchantRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.slotsAndMerchantRes(error, slotsAndMerchantRes)
+    }
   }
   slotsAndMerchantRes(error: any, response: any) {
     if (error) {
       this.showAlert('something went wrong')
     }
     else {
-      
+
       this.setState({ animalAvailableSlots: response?.avilable_sloat[0]?.available_slot, merchantAddress: response?.merchant_address })
 
     }
   }
-filterCategoryCallBack(filteredList:any){
-  if (filteredList?.message === 'No Inventory Present') {
-    showToast('No order present');
+  filterCategoryCallBack(filteredList: any) {
+    if (filteredList?.message === 'No Inventory Present') {
+      showToast('No order present');
+    }
+
+    if (filteredList?.inventory?.data?.length) {
+      const list = filteredList.inventory.data.map((item: any) => ({ data: item }))
+      this.setState({ showLoader: false, inventoryList: list });
+      return
+    }
+    this.setState({ showLoader: false });
   }
-  
-  if (filteredList?.inventory?.data?.length) {
-    const list = filteredList.inventory.data.map((item:any)=>({data:item}))
-    this.setState({ showLoader: false, inventoryList:list });
-    return
-  }
-  this.setState({ showLoader: false });
-}
   cartCallBack(message: any) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -711,18 +721,18 @@ filterCategoryCallBack(filteredList:any){
       const cartDetails = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      
+
       if (cartDetails?.data[0]?.attributes?.order_items?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartDetails?.data[0]?.attributes?.order_items?.data });
         this.props.updateCartDetails(cartDetails?.data[0]?.attributes?.order_items?.data)
       } else {
-        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload:[] });
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
       }
     }
   }
 
 
-  getFarmCallBack(farmDetails:any,error:any){
+  getFarmCallBack(farmDetails: any, error: any) {
     if (error) {
       this.setState({ show_loader: false })
       Alert.alert('Error', 'Something went wrong, Please try again later')
@@ -731,7 +741,7 @@ filterCategoryCallBack(filteredList:any){
     }
   }
 
-  profileDetailsCallback(profileDetails:any){
+  profileDetailsCallback(profileDetails: any) {
     if (profileDetails?.data?.attributes) {
       const {
         about_me,
@@ -768,26 +778,25 @@ filterCategoryCallBack(filteredList:any){
           id
         }
       })
-    } 
+    }
   }
 
-  getNotification(message:Message){
-      if(getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+  getNotification(message: Message) {
+    if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.setTokenId != null &&
       this.setTokenId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage)))
-      {
-        const response = message.getData(
-          getName(MessageEnum.RestAPIResponceSuccessMessage)
-        );
-        let error = message.getData(
-          getName(MessageEnum.RestAPIResponceErrorMessage)
-        );
-        console.log("response==>",response,error);
-      }
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log("response==>", response, error);
+    }
   }
 
-  addToCartCallBack(message:Message) {
+  addToCartCallBack(message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.addToCartId != null &&
@@ -815,7 +824,7 @@ filterCategoryCallBack(filteredList:any){
         return;
       }
       showToast("Product added to favorites");
-      if (this.state.fetchFavorites) {        
+      if (this.state.fetchFavorites) {
         this.getFavorites();
       }
     }
@@ -838,7 +847,7 @@ filterCategoryCallBack(filteredList:any){
       this.setState({ show_loader: false })
     } else {
       this.setState({ show_loader: false, aboutus: aboutus?.data?.length && aboutus?.data[aboutus?.data?.length - 1] })
-this.setState({aboutUsData:aboutus})
+      this.setState({ aboutUsData: aboutus })
     }
   }
   videoLibraryCallback(videoLibrary: any, error: any) {
@@ -849,45 +858,75 @@ this.setState({aboutUsData:aboutus})
     }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
-   
+    console.log('error========', JSON.stringify(subCategories?.data))
+    if (subCategories?.data == null) {
+      Alert.alert('No sub category is available for the selected catetgory')
+      this.setState({ show_loader: false })
+
+      return
+    }
     if (error) {
       this.setState({ show_loader: false })
-      Alert.alert('Error', 'Something went wrong, Please try again later')
+      Alert.alert('No sub category is available for the selected catetgory')
     } else {
-      
-      let arr=[]
-      for(let i=0;i<subCategories?.data.length;i++)
-      {
+      if (subCategories?.data?.length) {
+        let arr = []
+        for (let i = 0; i < subCategories?.data.length; i++) {
 
-          let obj={
-          id:subCategories?.data[i].attributes?.id,
-          title:subCategories?.data[i].attributes?.name
+          let obj = {
+            id: subCategories?.data[i].attributes?.id,
+            title: subCategories?.data[i].attributes?.name
+          }
+          arr.push(obj)
+        }
+        this.setState({
+          subcategories: subCategories?.data,
+          show_loader: false, animalCutsOptionsList: arr, subCategoryList: arr
+        })
+      }
+      else {
+        let arr = []
+        let obj = {
+          id: subCategories?.data.attributes?.id,
+          title: subCategories?.data.attributes?.name
         }
         arr.push(obj)
-      }      
-      this.setState({ subcategories: subCategories?.data, show_loader: false,animalCutsOptionsList:arr })
+
+        this.setState({
+          subcategories: subCategories?.data,
+          show_loader: false, animalCutsOptionsList: arr, subCategoryList: arr
+        })
+      }
+
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
-    
-    
-    
+    console.log('categories===', categories[0]);
+
+
     if (error) {
       Alert.alert('Error', 'Something went wrong, Please try again later')
       this.setState({ show_loader: false, refresh: false });
     } else {
       if (categories) {
         let arr = []
-        for(let i=0;i<categories.length;i++)
-        {
+        for (let i = 0; i < categories.length; i++) {
 
-         const obj= {'id':categories[i]?.attributes?.id,'title':categories[i]?.attributes?.name}
-         arr.push(obj)
+          if (this.state.isMyProfile) {
+            const obj = { 'id': categories[i]?.attributes?.categoryId, 'attributes':{'name': categories[i]?.attributes?.name }}
+            arr.push(obj)
+          }
+          else{
+          
+              const obj = { 'id': categories[i]?.attributes?.categoryId, 'title': categories[i]?.attributes?.name }
+              arr.push(obj)
+            
+          }
 
         }
         this.categoryPage = null;
-        this.setState({ show_loader: false,categoryList:arr })
-      } 
+        this.setState({ show_loader: false, categoryList: arr,categories:arr })
+      }
       // else {
       //   this.setState({ show_loader: false, categories: this.categoryPage > 1 ? [...this.state.categories, ...categories] : categories, refresh: false })
       // }
@@ -905,10 +944,10 @@ this.setState({aboutUsData:aboutus})
     }
   }
   getprofileDetailsId: string = '';
-  setTokenId:string = '';
+  setTokenId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
-  getFarmId:string='';
+  getFarmId: string = '';
   getAboutUsId: any;
   getSubCategoryId: string = '';
   getBlogPostsId: string = '';
@@ -918,11 +957,11 @@ this.setState({aboutUsData:aboutus})
   getCartId: string = '';
   addToCartId: string = '';
   filterProductByCategoryId: string = '';
-  filterByCategoryApiId:string = '';
+  filterByCategoryApiId: string = '';
   recommendProductApiCallId: string = '';
   remainingProductApiCallId: string = '';
-  getSlotsAndMerchantAddressCallId:string=''
-  userAddressApiCallId:string=''
+  getSlotsAndMerchantAddressCallId: string = ''
+  userAddressApiCallId: string = ''
   submitPickupRequestCallId: string = '';
 
   userdetailsProps = {
@@ -983,9 +1022,10 @@ this.setState({aboutUsData:aboutus})
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
- 
+
 
   async getCategories() {
+    alert('hi')
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1017,9 +1057,9 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async farmDetails( loader = true){    
+  async farmDetails(loader = true) {
     this.setState({ show_loader: loader })
-     const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
@@ -1175,7 +1215,7 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('Name can not be blank')
       return false;
     }
-    
+
     if (whiteSpace(this.props.state.name)) {
       this.showAlert('The name cannot have leading or trailing white spaces.');
       return false;
@@ -1193,9 +1233,9 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('please provide your phone number')
       return false;
     }
-   
-   
-   
+
+
+
     return true
   }
 
@@ -1203,12 +1243,12 @@ this.setState({aboutUsData:aboutus})
     if (!this.checkValidation()) {
       return
     }
-   
-  
+
+
     this.props.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails');
     const data: any = JSON.parse(userDetails);
-    const formdata:any = new FormData();
+    const formdata: any = new FormData();
     if (this.props.state?.profileImage?.path) {
       const imagePath = this.props.state.profileImage.path
       const imageName = this.props.state?.profileImage?.filename ?
@@ -1282,7 +1322,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getRecommendProduct(v:any) {
+  async getRecommendProduct(v: any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1311,7 +1351,7 @@ this.setState({aboutUsData:aboutus})
 
   async filterByCategoryApi(categoryName: string) {
 
-    this.setState({showLoader:true,category:categoryName})
+    this.setState({ showLoader: true, category: categoryName })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1325,7 +1365,7 @@ this.setState({aboutUsData:aboutus})
     filterCategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `account_block/accounts/search_on_inventory?query=brisket&page=2&per=10`
-    
+
     );
     filterCategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -1338,8 +1378,8 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(filterCategory.id, filterCategory);
   }
 
-  
-  async getRemainingProduct(id:any) {
+
+  async getRemainingProduct(id: any) {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1384,7 +1424,7 @@ this.setState({aboutUsData:aboutus})
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.subCategory}`
+      `${configJSON.subCategory}${subCategoryId}`
     );
 
     subcategory.addData(
@@ -1489,7 +1529,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(addProductMsg.id, addProductMsg);
   }
 
-  async getViewAllProduct(id:number){
+  async getViewAllProduct(id: number) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1574,7 +1614,7 @@ this.setState({aboutUsData:aboutus})
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number,quantity?:number,frequency?:string) {
+  async addToCart(id: number, quantity?: number, frequency?: string) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
     const headers = {
@@ -1590,7 +1630,7 @@ this.setState({aboutUsData:aboutus})
         "taxable_value": 0.1233,
         "other_charges": 0.124,
         "delivered_at": "2023-04-21T12:27:59.395Z",
-        "frequency":frequency
+        "frequency": frequency
       }
     }
 
@@ -1629,7 +1669,7 @@ this.setState({aboutUsData:aboutus})
     showToast('Link Copied')
   }
 
-  async setNotificationToken(){
+  async setNotificationToken() {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const fcm_token: any = await AsyncStorage.getItem("fcm_token");
     const data: any = JSON.parse(userDetails);
@@ -1640,7 +1680,7 @@ this.setState({aboutUsData:aboutus})
     };
 
     const notificationToken = new Message(getName(MessageEnum.RestAPIRequestMessage));
-    this.setTokenId = notificationToken.messageId;    
+    this.setTokenId = notificationToken.messageId;
 
     notificationToken.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
@@ -1742,7 +1782,7 @@ this.setState({aboutUsData:aboutus})
     );
     Favorites.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.validationApiMethodType
+      configJSON.exampleAPiMethod
     );
     runEngine.sendMessage(Favorites.id, Favorites);
   }
@@ -1799,7 +1839,7 @@ this.setState({aboutUsData:aboutus})
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
       console.log("fav list = === == =", this.state.showFavoriteList);
     }
@@ -1828,7 +1868,7 @@ this.setState({aboutUsData:aboutus})
       const orderListData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-    
+
       this.setState({ orderList: orderListData?.data, show_loader: false })
     }
   }
@@ -1849,110 +1889,106 @@ this.setState({aboutUsData:aboutus})
       this.aboutusCallback(aboutus, error)
     }
   }
-  async submitPickupRequestHandler(deliverOption:any,animalCuts:any,
-    selectedSlot:any,userAddressID:any,selectedPortion:any,userAddress:string) {
-  const sub_category_id=selectedPortion.map((item:any)=>item.id)
-  const sub_category_quantity=selectedPortion.map((item:any)=>item.quantity)
-  
-      if(deliverOption.length==0)
-      {
-        alert('Please select an option')
-        return false
-      }
-      if(animalCuts==0)
-      {
-        alert('Please select animal cuts')
-        return false
-      }
-     
-      if(this.state.setDeliverOption=='Pickup')
-      {
-        if(selectedSlot.length==0)
-        {
-          alert('Please select Pickup slot')
-          return false
-        }
-      }
-      if(this.state.setDeliverOption=='Deliver' || this.state.setDeliverOption=='Shipping')
-      {
-        if(userAddressID.length==0)
-        {
-          alert('Please select address')
-          return false
-        }
-        
-      }
-      this.setState({isLoading:true})
-      const userDetails: any = await AsyncStorage.getItem('userDetails')
-      const userDetail: any = JSON.parse(userDetails)
-      const headers = {
-        "Content-Type": configJSON.validationApiContentType,
-        'token': userDetail?.meta?.token
-      };
-  
-      const httpBody =
-      {
-        "order_items":{
-            "catalogue_id":sub_category_id, 
-            "quantity":sub_category_quantity,
-            "address": "test Office address",
-            "taxable":"true",
-            "slot": "4:00PM",
-            // "taxable_value":0.1233,
-            // "other_charges":0.124
-        }}
-        
-       const userHttpBody= {
-          "order_items":{
-              "catalogue_id":sub_category_id, 
-              "quantity":sub_category_quantity,
-              "address": userAddress,
-              "taxable":"true",}}
-  
-      const requestMessage = new Message(
-        getName(MessageEnum.RestAPIRequestMessage)
-      );
-  
-      this.submitPickupRequestCallId = requestMessage.messageId;
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIResponceEndPointMessage),
-        'bx_block_shopping_cart/order_items/pickup'
-      );
-  
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestHeaderMessage),
-        JSON.stringify(headers)
-      );
-  
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestBodyMessage),
-        JSON.stringify( deliverOption=='Pickup'?httpBody:userHttpBody)
-      );
-  
-      requestMessage.addData(
-        getName(MessageEnum.RestAPIRequestMethodMessage),
-        configJSON.exampleAPiMethod
-      );
-  
-      runEngine.sendMessage(requestMessage.id, requestMessage);
-  
+  async submitPickupRequestHandler(deliverOption: any, animalCuts: any,
+    selectedSlot: any, userAddressID: any, selectedPortion: any, userAddress: string) {
+    const sub_category_id = selectedPortion.map((item: any) => item.id)
+    const sub_category_quantity = selectedPortion.map((item: any) => item.quantity)
+
+    if (deliverOption.length == 0) {
+      alert('Please select an option')
+      return false
     }
-  
+    if (animalCuts == 0) {
+      alert('Please select animal cuts')
+      return false
+    }
+
+    if (this.state.setDeliverOption == 'Pickup') {
+      if (selectedSlot.length == 0) {
+        alert('Please select Pickup slot')
+        return false
+      }
+    }
+    if (this.state.setDeliverOption == 'Deliver' || this.state.setDeliverOption == 'Shipping') {
+      if (userAddressID.length == 0) {
+        alert('Please select address')
+        return false
+      }
+
+    }
+    this.setState({ isLoading: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const userDetail: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': userDetail?.meta?.token
+    };
+
+    const httpBody =
+    {
+      "order_items": {
+        "catalogue_id": sub_category_id,
+        "quantity": sub_category_quantity,
+        "address": "test Office address",
+        "taxable": "true",
+        "slot": "4:00PM",
+        // "taxable_value":0.1233,
+        // "other_charges":0.124
+      }
+    }
+
+    const userHttpBody = {
+      "order_items": {
+        "catalogue_id": sub_category_id,
+        "quantity": sub_category_quantity,
+        "address": userAddress,
+        "taxable": "true",
+      }
+    }
+
+    const requestMessage = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.submitPickupRequestCallId = requestMessage.messageId;
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_shopping_cart/order_items/pickup'
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      JSON.stringify(deliverOption == 'Pickup' ? httpBody : userHttpBody)
+    );
+
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+
+    runEngine.sendMessage(requestMessage.id, requestMessage);
+
+  }
+
   handleDeliverOptionChange = (item: any) => {
-    if(item=='Pickup'){
+    if (item == 'Pickup') {
       this.getSlotsAndMerchantAddressHandler()
     }
-    if(item=='Shipping'|| item=='Deliver')
-    {      
+    if (item == 'Shipping' || item == 'Deliver') {
       this.getUserAddress()
     }
 
-    
-    
+
+
     this.setState({ setDeliverOption: item });
   };
 
-  
+
   handleAnimalSelectSlots = (item: any) => {
     this.setState({ selectedAnimalSlot: item });
   };
@@ -1989,12 +2025,12 @@ this.setState({aboutUsData:aboutus})
     if (error) {
       this.showAlert('something went wrong ')
     } else if (response) {
-      this.setState({showSearchResults: true, searchResults: response?.product, show_loader: false})
+      this.setState({ showSearchResults: true, searchResults: response?.product, show_loader: false })
     }
   }
 
   getSlotsAndMerchantAddressHandler = async () => {
-    
+
     this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -2050,6 +2086,6 @@ this.setState({aboutUsData:aboutus})
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  
+
   // Customizable Area End
 }

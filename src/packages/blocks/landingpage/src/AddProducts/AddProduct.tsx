@@ -40,6 +40,7 @@ import {
 } from "../../../../components/src/constants";
 import Button from "../../../../components/src/CustomButton";
 import { Dropdown } from "../../../../components/src/DropDown/src";
+import CommonLoader from "../../../../components/src/CommonLoader";
 
 export default class AddProducts extends LandingPageController {
   constructor(props: any) {
@@ -61,7 +62,7 @@ export default class AddProducts extends LandingPageController {
               <Text style={styles.header}>{ADD_PRODUCTS}</Text>
             </View>
             <TouchableOpacity
-              testID="addMore" 
+              testID="addMore"
               onPress={() =>
                 this.setState({
                   productsList: [
@@ -114,16 +115,18 @@ export default class AddProducts extends LandingPageController {
                       maxHeight={400}
                       labelField="title"
                       valueField="title"
-                      placeholder={this.state.categoryItem?this.state.categoryItem:'Select item'}
-                      
+                      placeholder={this.state.categoryItem ? this.state.categoryItem : 'Select item'}
+
                       onChange={(item: any) => {
-                      console.warn('',item)
+                        console.log('', item)
+
+                        this.getSubcategories(item?.id)
                         const list = this.state.productsList;
                         list[index] = {
                           ...list[index],
                           category_id: item?.id,
                         };
-                        this.setState({ productsList: list,categoryItem:item.title })
+                        this.setState({ productsList: list, categoryItem: item.title })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -148,14 +151,14 @@ export default class AddProducts extends LandingPageController {
                       maxHeight={400}
                       labelField="title"
                       valueField="title"
-                      placeholder="Select item"
+                      placeholder={this.state.subCategoryItem ? this.state.subCategoryItem : 'Select item'}
                       onChange={(item: any) => {
                         const list = this.state.productsList;
                         list[index] = {
                           ...list[index],
                           sub_category_id: item?.id,
                         };
-                        this.setState({ productsList: list })
+                        this.setState({ productsList: list, subCategoryItem: item?.title })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -264,9 +267,12 @@ export default class AddProducts extends LandingPageController {
               </View>
             )}
           />
+          {this.state.show_loader && (
+          <CommonLoader visible={this.state.show_loader}/>
+        )}  
         </KeyboardAvoidingView>
-        <ActivityIndicator animating={this.state.showLoader} size='large'/>
-      </SafeAreaView>
+            
+        </SafeAreaView>
     );
   }
 }

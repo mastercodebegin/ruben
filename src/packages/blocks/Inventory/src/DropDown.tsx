@@ -1,4 +1,4 @@
-import React ,{useState}from "react";
+import React ,{useEffect, useState}from "react";
 import { Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { DARK_RED } from "../../landingpage/assets/constants";
 import { arrowLeft } from "../../landingpage/src/assets";
@@ -32,6 +32,10 @@ const Dropdown = ({
 }: DropDownTypes) => {
   const dropdownCategoryref: any = React.createRef();
   const [selected,setSelected]=useState(label)
+  useEffect(()=>{
+    console.log('data==============',data);
+    
+  })
   const RenderIcon = () => (
     <TouchableOpacity
       onPress={() => {

@@ -10,7 +10,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
 
   const dataList = [
     {
-      name: "Order ID:",
+      name: "Order Number:",
       value: item?.attributes?.order_no,
     },
     {
@@ -54,7 +54,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
           />
           <View style={styles.innerCon}>
             <View style={styles.row}>
-              <Text style={styles.headerText}>{item?.id}</Text>
+              <Text style={styles.headerText}>{item?.attributes?.order_no}</Text>
               <Text style={styles.text}>{`$ ${(
                 item?.attributes?.order_items?.data[0]?.attributes?.price || 0
               ).toFixed(2)} x ${

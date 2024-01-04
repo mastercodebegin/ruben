@@ -130,11 +130,11 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.name,
+      name: item?.attributes?.category_cutsname,
       image:  item?.attributes?.images && item.attributes.images.length > 0
       ? item.attributes.images[0]?.url
       : undefined,
-      description: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.description,
+      description: item?.attributes?.description,
       discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
@@ -318,7 +318,7 @@ export default class Myprofile extends LandingPageController {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  this.setState({ selectedTab: "remaining" })
+                  this.setState({ selectedTab: "remaining",isMyProfile:true })
                   this.getCategories()
                   console.log("categories----", this.state.categories);
                 }}
@@ -338,14 +338,17 @@ export default class Myprofile extends LandingPageController {
 
                 <Dropdown 
                 searchCategory={(categoryName: string) => {
+
                   const data:any = this.state.categories.filter((name:any) => name?.attributes?.name == categoryName)
                   this.setState({ selectedCategoryID: data[0].id,selectedCategory:categoryName })
                   console.log('id====================',data[0].id)
                   
                   this.getRemainingProduct(data[0].id)
                 }}
-                  isCategory selectedDate="" data={this.state.categories} selectedStatus={this.state.selectedCategory}
-                  label="Select Categoryy"
+                  isCategory selectedDate=""
+                   data={this.state.categories} 
+                   selectedStatus={this.state.selectedCategory}
+                  label="Select Category"
                   />
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}

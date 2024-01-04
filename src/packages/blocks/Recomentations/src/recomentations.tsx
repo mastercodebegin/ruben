@@ -59,7 +59,7 @@ export default class Recomentations extends RecomentationsController {
                   <View
                     style={styles.row}
                   >
-                    <Text style={styles.text}>{item?.attributes?.name}</Text>
+                    <Text style={styles.text}>{item?.attributes?.category_cutsname}</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.text}>$ {item?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
