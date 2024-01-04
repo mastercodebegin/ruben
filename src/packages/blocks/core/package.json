@@ -7,7 +7,9 @@
     "testBackend": "echo npm core no tests"
   },
   "resolutions": {
-    "@types/node": "18.11.19"
+    "@types/node": "18.11.19",
+    "@types/react-native": "0.66.1",
+    "react-native": "0.64.4"
   },
   "dependencies": {
     "@date-io/moment": "1.1.0",
