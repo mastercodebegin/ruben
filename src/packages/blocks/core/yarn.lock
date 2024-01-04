@@ -1487,8 +1487,6 @@
 
 "@date-io/moment@1.1.0":
   version "1.1.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@date-io/moment/-/moment-1.1.0.tgz#993c71b77f52f078de6a28e61ddfae757d39dc64"
-  integrity sha512-U7Vrhk7nlrKMtlLuNs7DAWmMsMBTgWFAvgpKg6Z5Opo/U7ab5DvI8nLks5dqJbeEFQDSlO+KCmJWfsL9hVI3Jw==
   dependencies:
     "@date-io/core" "^1.1.0"
 
@@ -1574,8 +1572,6 @@
 
 "@firebase/analytics@0.2.18":
   version "0.2.18"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@firebase/analytics/-/analytics-0.2.18.tgz#c6b8b3c5684237b0d8b08a8047cb18e18a671a54"
-  integrity sha512-sw8TO7YYRnrcqQGYWjWHw6PTNpwWPSZzMaFgLp5oJKsKM7CoOz5K/fxEIfZIF36Zzf0Xky3oU8msek/Zjc5Phg==
   dependencies:
     "@firebase/analytics-types" "0.2.8"
     "@firebase/component" "0.1.8"
@@ -2655,8 +2651,6 @@
 
 "@react-native-community/google-signin@5.0.0":
   version "5.0.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@react-native-community/google-signin/-/google-signin-5.0.0.tgz#d1d89c697cc214c10017fa283817e84bd03b2d76"
-  integrity sha512-MvFHImmtlmE1kJZgZ9XaULm/OBuQ/AQWOCPr3NzYTUv2cCqyGwfFrealo5PS/fuL/InCGcfqK1k/1dZ+67Hjmg==
 
 "@react-native-community/netinfo@5.9.10":
   version "5.9.10"
@@ -2680,8 +2674,6 @@
 
 "@react-native-firebase/messaging@^18.7.3":
   version "18.7.3"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@react-native-firebase/messaging/-/messaging-18.7.3.tgz#ac24cd5a33a6910facd79f04e6d9125d2b4d8ce9"
-  integrity sha512-K2l8k9wif5mni85WP940uJjW3agnBqhgSTqtg7y+39EOnYJZ3WhIDpArHttTSbtTVB5OyJ8qLiOQm3gpkaKqPg==
 
 "@react-native-picker/picker@2.5.1":
   version "2.5.1"
@@ -2725,8 +2717,6 @@
 
 "@react-navigation/native@5.9.8":
   version "5.9.8"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@react-navigation/native/-/native-5.9.8.tgz#ac76ee6390ea7ce807486ca5c38d903e23433a97"
-  integrity sha512-DNbcDHXQPSFDLn51kkVVJjT3V7jJy2GztNYZe/2bEg29mi5QEcHHcpifjMCtyFKntAOWzKlG88UicIQ17UEghg==
   dependencies:
     "@react-navigation/core" "^5.16.1"
     escape-string-regexp "^4.0.0"
@@ -2931,15 +2921,11 @@
 
 "@testing-library/react-native@9.2.0":
   version "9.2.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@testing-library/react-native/-/react-native-9.2.0.tgz#28137b0261cfc75fea54c6461c5e90f33d0241b4"
-  integrity sha512-uimTtPAi0lvz1BJmz1dg4WS5mqmzahnJuBlpuuX0aNfiICjhhlsRM8YH2XDeAjKvGokmhshEM7EB2MeAyTCetQ==
   dependencies:
     pretty-format "^27.0.0"
 
 "@testing-library/react@12.1.5":
   version "12.1.5"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@testing-library/react/-/react-12.1.5.tgz#bb248f72f02a5ac9d949dea07279095fa577963b"
-  integrity sha512-OfTXCJUFgjd/digLUuPxa0+/3ZxsQmE7ub9kcbW/wi96Bh3o/p5vrETcBGfP17NWPGqeYYl5LTRpwyGoMC4ysg==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.0.0"
@@ -3061,8 +3047,6 @@
 
 "@types/gapi@0.0.39":
   version "0.0.39"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@types/gapi/-/gapi-0.0.39.tgz#bc7fa8cd0cb175b36e3609790fb2ed73a33f6881"
-  integrity sha512-R1TZeZbvvbIC60DBJMhuOEivQHzOQtzl3uMDOOENTYQTSSDB6oEMpJo8HVPOTWivdUTbyEcB5qQOVr/JCKRlCQ==
 
 "@types/geojson@^7946.0.7":
   version "7946.0.13"
@@ -3195,8 +3179,6 @@
 
 "@types/react-facebook-login@4.1.5":
   version "4.1.5"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@types/react-facebook-login/-/react-facebook-login-4.1.5.tgz#a27c7c54e9d4b53f098dc4cb0fd84c0fb4d4e12c"
-  integrity sha512-adYUfzgeOa0I0dtgFsG/KzigvslSEY8KWXyAp9RjjPp7aWzbpNbkw8KR1RaGb98m+xO0udf9OnjDlpGsPcfCvA==
   dependencies:
     "@types/react" "*"
 
@@ -3276,8 +3258,6 @@
 
 "@types/react-router-dom@5.3.3":
   version "5.3.3"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@types/react-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
-  integrity sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==
   dependencies:
     "@types/history" "^4.7.11"
     "@types/react" "*"
@@ -3385,8 +3365,6 @@
 
 "@types/uuid@7.0.5":
   version "7.0.5"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@types/uuid/-/uuid-7.0.5.tgz#b1d2f772142a301538fae9bdf9cf15b9f2573a29"
-  integrity sha512-hKB88y3YHL8oPOs/CNlaXtjWn93+Bs48sDQR37ZUqG2tLeCS7EA1cmnkKsuQsub9OKEB/y/Rw9zqJqqNSbqVlQ==
 
 "@types/xdate@*":
   version "0.8.35"
@@ -3421,8 +3399,6 @@
 
 "@types/yup@0.26.37":
   version "0.26.37"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@types/yup/-/yup-0.26.37.tgz#7a52854ac602ba0dc969bebc960559f7464a1686"
-  integrity sha512-cDqR/ez4+iAVQYOwadXjKX4Dq1frtnDGV2GNVKj3aUVKVCKRvsr8esFk66j+LgeeJGmrMcBkkfCf3zk13MjV7A==
 
 "@typescript-eslint/eslint-plugin@1.13.0":
   version "1.13.0"
@@ -3437,8 +3413,6 @@
 
 "@typescript-eslint/eslint-plugin@2.20.0":
   version "2.20.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.20.0.tgz#a522d0e1e4898f7c9c6a8e1ed3579b60867693fa"
-  integrity sha512-cimIdVDV3MakiGJqMXw51Xci6oEDEoPkvh8ggJe2IIzcc0fYqAxOXN6Vbeanahz6dLZq64W+40iUEc9g32FLDQ==
   dependencies:
     "@typescript-eslint/experimental-utils" "2.20.0"
     eslint-utils "^1.4.3"
@@ -4555,8 +4529,6 @@ babel-helper-replace-supers@^6.24.1:
 
 babel-jest@26.6.3, babel-jest@^26.6.3:
   version "26.6.3"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/babel-jest/-/babel-jest-26.6.3.tgz#d87d25cb0037577a0c89f82e5755c5d293c01056"
-  integrity sha512-pl4Q+GAVOHwvjrck6jKjvmGhnO3jHX/xuB9d27f+EJZ/6k+6nMuPjorrYp7s++bKKdANwzElBWnLWaObvTnaZA==
   dependencies:
     "@jest/transform" "^26.6.2"
     "@jest/types" "^26.6.2"
@@ -5086,7 +5058,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base-64@^0.1.0:
+base-64@0.1.0, base-64@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
   integrity sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==
@@ -6113,8 +6085,6 @@ compressible@~2.0.16:
 
 compression-webpack-plugin@3.1.0:
   version "3.1.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/compression-webpack-plugin/-/compression-webpack-plugin-3.1.0.tgz#9f510172a7b5fae5aad3b670652e8bd7997aeeca"
-  integrity sha512-iqTHj3rADN4yHwXMBrQa/xrncex/uEQy8QHlaTKxGchT/hC0SdlJlmL/5eRqffmWq2ep0/Romw6Ld39JjTR/ug==
   dependencies:
     cacache "^13.0.1"
     find-cache-dir "^3.0.0"
@@ -6713,8 +6683,6 @@ d3-path@^3.1.0:
 
 d3-shape@^3.2.0:
   version "3.2.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/d3-shape/-/d3-shape-3.2.0.tgz#a1a839cbd9ba45f28674c69d7f855bcf91dfc6a5"
-  integrity sha512-SaLBuwGm3MOViRq2ABk3eLoxwZELpH6zhl3FbAoJ7Vm1gofKx6El1Ib5z23NUEhF9AsGl7y+dzLe5Cw2AArGTA==
   dependencies:
     d3-path "^3.1.0"
 
@@ -7509,8 +7477,6 @@ envinfo@^7.7.2:
 
 enzyme-adapter-react-16@1.15.7:
   version "1.15.7"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.7.tgz#a737e6d8e2c147e9da5acf957755be7634f76201"
-  integrity sha512-LtjKgvlTc/H7adyQcj+aq0P0H07LDL480WQl1gU512IUyaDo/sbOaNDdZsJXYW2XaoPqrLLE9KbZS+X2z6BASw==
   dependencies:
     enzyme-adapter-utils "^1.14.1"
     enzyme-shallow-equal "^1.0.5"
@@ -7808,8 +7774,6 @@ eslint-config-airbnb-base@^14.0.0:
 
 eslint-config-airbnb@18.0.1:
   version "18.0.1"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/eslint-config-airbnb/-/eslint-config-airbnb-18.0.1.tgz#a3a74cc29b46413b6096965025381df8fb908559"
-  integrity sha512-hLb/ccvW4grVhvd6CT83bECacc+s4Z3/AEyWQdIT2KeTsG9dR7nx1gs7Iw4tDmGKozCNHFn4yZmRm3Tgy+XxyQ==
   dependencies:
     eslint-config-airbnb-base "^14.0.0"
     object.assign "^4.1.0"
@@ -7911,8 +7875,6 @@ eslint-plugin-import@2.18.2:
 
 eslint-plugin-import@2.20.0:
   version "2.20.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/eslint-plugin-import/-/eslint-plugin-import-2.20.0.tgz#d749a7263fb6c29980def8e960d380a6aa6aecaa"
-  integrity sha512-NK42oA0mUc8Ngn4kONOPsPB1XhbUvNHqF+g307dPV28aknPoiNnKLFd9em4nkswwepdF5ouieqv5Th/63U7YJQ==
   dependencies:
     array-includes "^3.0.3"
     array.prototype.flat "^1.2.1"
@@ -7934,8 +7896,6 @@ eslint-plugin-jest@22.4.1:
 
 eslint-plugin-jest@23.7.0:
   version "23.7.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/eslint-plugin-jest/-/eslint-plugin-jest-23.7.0.tgz#84d5603b6e745b59898cb6750df6a44782a39b04"
-  integrity sha512-zkiyGlvJeHNjAEz8FaIxTXNblJJ/zj3waNbYbgflK7K6uy0cpE5zJBt/JpJtOBGM/UGkC6BqsQ4n0y7kQ2HA8w==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
@@ -7956,8 +7916,6 @@ eslint-plugin-jsx-a11y@6.2.3:
 
 eslint-plugin-jsx-a11y@6.7.1:
   version "6.7.1"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.7.1.tgz#fca5e02d115f48c9a597a6894d5bcec2f7a76976"
-  integrity sha512-63Bog4iIethyo8smBklORknVjB0T2dwB8Mr/hIC+fBS0uyHdYYpzM/Ed+YC8VxTjlXHEWFOdmgwcDn1U2L9VCA==
   dependencies:
     "@babel/runtime" "^7.20.7"
     aria-query "^5.1.3"
@@ -8000,8 +7958,6 @@ eslint-plugin-react-native-globals@^0.1.1:
 
 eslint-plugin-react-native@3.11.0, eslint-plugin-react-native@^3.8.1:
   version "3.11.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/eslint-plugin-react-native/-/eslint-plugin-react-native-3.11.0.tgz#c73b0886abb397867e5e6689d3a6a418682e6bac"
-  integrity sha512-7F3OTwrtQPfPFd+VygqKA2VZ0f2fz0M4gJmry/TRE18JBb94/OtMxwbL7Oqwu7FGyrdeIOWnXQbBAveMcSTZIA==
   dependencies:
     "@babel/traverse" "^7.7.4"
     eslint-plugin-react-native-globals "^0.1.1"
@@ -8059,8 +8015,6 @@ eslint-plugin-react@^7.20.0:
 
 eslint-plugin-sonarjs@0.5.0:
   version "0.5.0"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.5.0.tgz#ce17b2daba65a874c2862213a9e38e8986ad7d7d"
-  integrity sha512-XW5MnzlRjhXpIdbULC/qAdJYHWw3rRLws/DyawdlPU/IdVr9AmRK1r2LaCvabwKOAW2XYYSo3kDX58E4MrB7PQ==
 
 eslint-rule-composer@^0.3.0:
   version "0.3.0"
@@ -9319,6 +9273,18 @@ glob-to-regexp@^0.3.0:
   resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.3.0.tgz#8c5a1494d2066c570cc3bfe4496175acc4d502ab"
   integrity sha512-Iozmtbqv0noj0uDDqoL0zNq0VBEfK2YFoMAZoxJe4cwphvLR+JskfF30QhXHOR4m3KrE6NLRYw+U9MRXvifyig==
 
+glob@7.0.6:
+  version "7.0.6"
+  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/glob/-/glob-7.0.6.tgz#211bafaf49e525b8cd93260d14ab136152b3f57a"
+  integrity sha512-f8c0rE8JiCxpa52kWPAOa3ZaYEnzofDzCQLCn3Vdk0Z5OVLq3BsRFJI4S4ykpeVW6QMGBUkMeUpoEgWnMTnw5Q==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.2"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
 glob@7.1.6:
   version "7.1.6"
   resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
@@ -10152,8 +10118,6 @@ invariant@*, invariant@2.2.4, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2
 
 invert-color@2.0.0:
   version "2.0.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/invert-color/-/invert-color-2.0.0.tgz#894ab1f7494a6e45f5e74c2f99ec042cd67dd23e"
-  integrity sha512-9s6IATlhOAr0/0MPUpLdMpk81ixIu8IqwPwORssXBauFT/4ff/iyEOcojd0UYuPwkDbJvL1+blIZGhqVIaAm5Q==
 
 invert-kv@^2.0.0:
   version "2.0.0"
@@ -15440,8 +15404,6 @@ react-app-polyfill@^1.0.2:
 
 react-app-rewired@2.1.4:
   version "2.1.4"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-app-rewired/-/react-app-rewired-2.1.4.tgz#7d8bb1f6559693f893cadc890d40b540402400cc"
-  integrity sha512-OEd3xWIqk+6HJyi4/uogBphbZqaZXOIv+Mz/DWLZKdzmWdYpXJgeatHcFUjWfj/vsJIDLMI2KaS/FwdAwlkTGw==
   dependencies:
     semver "^5.6.0"
 
@@ -15556,8 +15518,6 @@ react-google-maps@^9.4.5:
 
 react-images-upload@1.2.8:
   version "1.2.8"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-images-upload/-/react-images-upload-1.2.8.tgz#d1e993c50a0ca266aa7a9c7b7456167d80e9e6ab"
-  integrity sha512-d5mhAE0BfkLTlG5MLvKVw+q76LL8r5easgWW0TTBvXD8n6HXeLMZLwCuPiOibY1a3NRMXI4AnM1r34dqLOBjng==
   dependencies:
     react "^16.12.0"
     react-flip-move "^3.0.4"
@@ -15613,8 +15573,6 @@ react-native-calendars@1.1297.0:
 
 react-native-canvas@0.1.39:
   version "0.1.39"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-canvas/-/react-native-canvas-0.1.39.tgz#2f9d14d7cda77cdc0c9cc13d3b6d12d4ce777c9c"
-  integrity sha512-UYAMoNvmGgBU+gk2WVg+GVDotMH+tujlsw9TR8FFLlcCqAzhdEnh5tQRA0G12DkusjwfJNiEiDagRX/MhKLLMA==
   dependencies:
     ctx-polyfill "^1.1.4"
 
@@ -15665,8 +15623,6 @@ react-native-document-picker@*:
 
 react-native-document-picker@8.0.0:
   version "8.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-8.0.0.tgz#f760f89049cda668be8b1cfb31a484af19716f35"
-  integrity sha512-4O1FNOJHzfZ7BBFOJhNoeCKHSjthFtZyMEWJsAxX1ORdShGSa6miLvTHtQjpCDMNWSoPU1C7fXLNNPrv8GAarQ==
   dependencies:
     invariant "^2.2.4"
 
@@ -15686,8 +15642,6 @@ react-native-drawer-layout@1.3.2:
 
 react-native-elements@3.4.0:
   version "3.4.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-elements/-/react-native-elements-3.4.0.tgz#6717a9de89fc037b9cb3b0ff1dc45f1fd0526276"
-  integrity sha512-SJKqqb+B028VZbWOw5/VBxc1eKUqbjhR/O//uaglUDrJSqm2c/dSdKR+FcNNlm/Zlc4Mr6pzxQwEY9hAJsDZgQ==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.6"
     color "^3.1.2"
@@ -15700,16 +15654,12 @@ react-native-elements@3.4.0:
 
 react-native-fast-image@7.0.2:
   version "7.0.2"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-fast-image/-/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
-  integrity sha512-MfuzJbC0RjYobR2gFCdqe1I7jvNOCfDkjQ7VGOHXniqjohhULMkcWNBE9Umovi9Dx93lJ6t5utcE2wf/09zvlg==
 
 react-native-fbsdk@1.1.2:
   version "1.1.2"
 
 react-native-file-viewer@2.1.5:
   version "2.1.5"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-file-viewer/-/react-native-file-viewer-2.1.5.tgz#cd4544f573108e79002b5c7e1ebfce4371885250"
-  integrity sha512-MGC6sx9jsqHdefhVQ6o0akdsPGpkXgiIbpygb2Sg4g4bh7v6K1cardLV1NwGB9A6u1yICOSDT/MOC//9Ez6EUg==
 
 react-native-fs@2.18.0:
   version "2.18.0"
@@ -15736,8 +15686,6 @@ react-native-html-to-pdf@0.12.0:
 
 react-native-image-crop-picker@0.37.3:
   version "0.37.3"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.3.tgz#f260e40b6a6ba8e98f4db3dde25a8f09e0936385"
-  integrity sha512-ih+0pWWRUNEFQyaHwGbH9rqJNOb7EBYMwKJhTY0VmsKIA9E+usfwMmQXAFIfOnee7fTn0A2vOXkBCPQZwyvnQw==
 
 react-native-image-marker@0.6.3:
   version "0.6.3"
@@ -15746,8 +15694,6 @@ react-native-image-marker@0.6.3:
 
 react-native-image-picker@5.3.1:
   version "5.3.1"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-image-picker/-/react-native-image-picker-5.3.1.tgz#836ab13c228174728a0bd68293b27dc5e1affa0f"
-  integrity sha512-zRCjtlE3KOeaWDM8gXzTwXfvo3ZeF2XMkHceU7CVCtKRleKxna/E4XWIPu/lXO2qlMdnSx1WvfPSbqzAX0qxpA==
 
 react-native-image-to-pdf@1.2.0:
   version "1.2.0"
@@ -15765,8 +15711,6 @@ react-native-localize@1.4.3:
 
 react-native-maps@0.29.4:
   version "0.29.4"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-maps/-/react-native-maps-0.29.4.tgz#eb4a446104ed2aca5361422d06712f26d4c0d562"
-  integrity sha512-Td2KE8+KODcHOxfB1GBNnzFo4/89rlLiC7yTvqQZh0tGVrEzIcgSleUZRrjtq/WvSWSR4rql4AS+0VsBgDkYrw==
   dependencies:
     "@types/geojson" "^7946.0.7"
 
@@ -15780,8 +15724,6 @@ react-native-material-buttons@^0.5.0:
 
 react-native-material-dropdown@0.11.1:
   version "0.11.1"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-material-dropdown/-/react-native-material-dropdown-0.11.1.tgz#c0fe434a8e617941ef910ba44d2f07c8f37584fe"
-  integrity sha512-GoY3bHUzLnHM2OWM2jWeFssJCU8Uwml7z6OpVeC/RqUPhRwvPCd0UeEZKI6QU5/U8SoS6VJWdWA1Vp1WB1ze7Q==
   dependencies:
     prop-types "^15.5.9"
     react-native-material-buttons "^0.5.0"
@@ -15836,8 +15778,6 @@ react-native-paper@5.9.0:
 
 react-native-permissions@2.2.2:
   version "2.2.2"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-permissions/-/react-native-permissions-2.2.2.tgz#3d2a63f6b7d6be52fc86e30f77412a9566283028"
-  integrity sha512-ihf4shQDSX5Oo9ChQXb9kr13mmyyNem5MaEvOpr3dCjhBOBWyEMztXm9/uPK1Qg5PsNpaYLa1KpcPZDCw87LXg==
 
 react-native-print@0.10.0:
   version "0.10.0"
@@ -15859,8 +15799,6 @@ react-native-ratings@^7.3.0:
 
 react-native-reanimated@1.13.1:
   version "1.13.1"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-reanimated/-/react-native-reanimated-1.13.1.tgz#c370c32cc4d447ae896cb029bb9c6a2f7608c5b4"
-  integrity sha512-3sF46jts9MbktgIasf0sTM8uhOYO5a5Q3YyQ4X1jjSE82n/fY2nW3XTFsLGfLEpK2ir4XSDhQWVgFHazaXZTww==
   dependencies:
     fbjs "^1.0.0"
 
@@ -15876,13 +15814,9 @@ react-native-redash@^12.0.3:
 
 react-native-responsive-dimensions@3.1.1:
   version "3.1.1"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-responsive-dimensions/-/react-native-responsive-dimensions-3.1.1.tgz#c4daf977b30a909f21164de53a8ba4c9451efefc"
-  integrity sha512-Vo2OhWsphq0HgKsmeZOeyW+c+vsFn1ZaCFkGDgdeCEEiLriT76jGA1JlUjtrj27hvyo/xzeTlBZ+vBso1A84fw==
 
 react-native-safe-area-context@4.6.4:
   version "4.6.4"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-safe-area-context/-/react-native-safe-area-context-4.6.4.tgz#84a324f28209a91a9a5b802f9339428f2366ebe3"
-  integrity sha512-UWYsokTLZmj8g0cluzoUeGUjQrCTW4slKr2xKmuwQCurAuvSJq/QvfhCrqyea++XrXo46+1Q3wSoP50YXG24jA==
 
 "react-native-safe-area-view@https://github.com/Snailapp/react-native-safe-area-view.git#0.14.8":
   version "0.14.8"
@@ -16001,8 +15935,6 @@ react-native-video@5.2.1:
 
 react-native-view-shot@3.0.2:
   version "3.0.2"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-view-shot/-/react-native-view-shot-3.0.2.tgz#daccaec5b8038a680b17533ff7e72876e68c7d0d"
-  integrity sha512-JZOkGo2jzSX2b7N6N2uDr0wQjSz+QmBtY8jzeo0XJY6bLOfaY5nmWyYxDmDRoSpKiFkGTCkyhUqNnjo6lXOtEw==
 
 react-native-watermark@0.0.1:
   version "0.0.1"
@@ -16014,8 +15946,6 @@ react-native-web-maps@0.3.0:
 
 react-native-web@0.18.12:
   version "0.18.12"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-web/-/react-native-web-0.18.12.tgz#d4bb3a783ece2514ba0508d7805b09c0a98f5a8e"
-  integrity sha512-fboP7yqobJ8InSr4fP+bQ3scOtSQtUoPcR+HWasH8b/fk/RO+mWcJs/8n+lewy9WTZc2D68ha7VwRDviUshEWA==
   dependencies:
     "@babel/runtime" "^7.18.6"
     create-react-class "^15.7.0"
@@ -16027,8 +15957,6 @@ react-native-web@0.18.12:
 
 react-native-webview@11.26.0:
   version "11.26.0"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-webview/-/react-native-webview-11.26.0.tgz#e524992876fe4a79e69905f0fab8949b470e9f16"
-  integrity sha512-4T4CKRm8xlaQDz9h/bCMPGAvtkesrhkRWqCX9FDJEzBToaVUIsV0ZOqtC4w/JSnCtFKKYiaC1ReJtCGv+4mFeQ==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
@@ -16151,8 +16079,6 @@ react-router-dom@4.3.1:
 
 react-router-modal@1.5.2:
   version "1.5.2"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-router-modal/-/react-router-modal-1.5.2.tgz#64fa736b0457339415785e086cf3498d5bf61536"
-  integrity sha512-q1a0KJaDI7pJbmMZV/bJYcr2BqsePOAyCgCl8xN7t5IA+3LFQyqFJwvLrMvmPnsjVKR0vaUSrqgObOslgpxs7A==
 
 react-router@^4.3.1:
   version "4.3.1"
@@ -16879,6 +16805,14 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rn-fetch-blob@^0.12.0:
+  version "0.12.0"
+  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/rn-fetch-blob/-/rn-fetch-blob-0.12.0.tgz#ec610d2f9b3f1065556b58ab9c106eeb256f3cba"
+  integrity sha512-+QnR7AsJ14zqpVVUbzbtAjq0iI8c9tCg49tIoKO2ezjzRunN7YL6zFSFSWZm6d+mE/l9r+OeDM3jmb2tBb2WbA==
+  dependencies:
+    base-64 "0.1.0"
+    glob "7.0.6"
 
 rst-selector-parser@^2.2.3:
   version "2.2.3"
@@ -19836,8 +19770,6 @@ yocto-queue@^0.1.0:
 
 yup@0.28.5:
   version "0.28.5"
-  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/yup/-/yup-0.28.5.tgz#85cabb4000d3623ef69be81551190692e631a8a5"
-  integrity sha512-7JZcvpUGUxMKoaEtcoMEM8lCWRaueGNH/A3EhL/UWqfbFm3uloiI+x59Yq4nzhbbYWUTwAsCteaZOJ+VbqI1uw==
   dependencies:
     "@babel/runtime" "^7.9.6"
     fn-name "~3.0.0"
