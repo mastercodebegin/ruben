@@ -116,7 +116,7 @@ export default class Myprofile extends LandingPageController {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
         Array.isArray(item?.attributes?.catalogue_id?.data?.attributes?.images) ?
-          item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.uri :
+          item?.attributes?.catalogue_id?.data?.attributes?.productImage :
           '',
       description: item?.attributes?.catalogue_id?.data?.attributes?.description,
       discount: item?.attributes?.catalogue_id?.data?.attributes?.discount,
