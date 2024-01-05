@@ -744,25 +744,25 @@ SS
     this.checkLifeTimeSubscriptionCallId = requestMessage.messageId;
     requestMessage.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_subscriptions/subscriptions'
+      'account_block/accounts/check_user'
     );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestBodyMessage),
-      JSON.stringify({
-        "subscription": {
-            "name": "",
-            "subscrible_id": 1,
-            "enable": true
-        }
-    })
-    );
+    // requestMessage.addData(
+    //   getName(MessageEnum.RestAPIRequestBodyMessage),
+    //   JSON.stringify({
+    //     "subscription": {
+    //         "name": "",
+    //         "subscrible_id": 1,
+    //         "enable": true
+    //     }
+    // })
+    // );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      'POST'
+      'GET'
     );
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
