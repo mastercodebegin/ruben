@@ -1829,7 +1829,6 @@ else{
       );
 
       this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
-      console.log("fav list = === == =", this.state.showFavoriteList);
     }
   }
   resAddFavList(message: any) {
