@@ -750,16 +750,7 @@ SS
       getName(MessageEnum.RestAPIRequestHeaderMessage),
       JSON.stringify(headers)
     );
-    // requestMessage.addData(
-    //   getName(MessageEnum.RestAPIRequestBodyMessage),
-    //   JSON.stringify({
-    //     "subscription": {
-    //         "name": "",
-    //         "subscrible_id": 1,
-    //         "enable": true
-    //     }
-    // })
-    // );
+   
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
       'GET'

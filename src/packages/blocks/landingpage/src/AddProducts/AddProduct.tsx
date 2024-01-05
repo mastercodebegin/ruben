@@ -126,7 +126,7 @@ export default class AddProducts extends LandingPageController {
                           ...list[index],
                           category_id: item?.id,
                         };
-                        this.setState({ productsList: list, categoryItem: item.title })
+                        this.setState({ productsList: list, categoryItem: item.title,subCategoryList:[],subCategoryItem:'' })
                       }}
                       renderItem={(item: any) => {
                         return (

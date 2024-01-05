@@ -210,40 +210,10 @@ export default class LandingPageController extends BlockComponent<
       remainingproduct: [],
       orderList: [],
       categoryList: [
-        {
-          title: 'Lamb',
-          id: 0
-        },
-        {
-          title: 'Pork',
-          id: 1
-        },
-        {
-          title: 'Wholesale',
-          id: 2
-        },
-        {
-          title: 'Chicken',
-          id: 3,
-        },
+        
       ],
       subCategoryList: [
-        {
-          title: 'Lamb',
-          id: 0
-        },
-        {
-          title: 'Lamb1',
-          id: 1
-        },
-        {
-          title: 'Lamb2',
-          id: 2
-        },
-        {
-          title: 'Lamb3',
-          id: 3,
-        },
+        
       ],
       aboutus: null,
       cartList: [],
@@ -925,11 +895,9 @@ else{
 
         }
         this.categoryPage = null;
-        this.setState({ show_loader: false, categoryList: arr,categories:arr })
+        this.setState({ show_loader: false, categoryList: arr,categories:arr,subCategoryList:[] })
       }
-      // else {
-      //   this.setState({ show_loader: false, categories: this.categoryPage > 1 ? [...this.state.categories, ...categories] : categories, refresh: false })
-      // }
+   
     }
   }
   updateProfileCallback(error: any, response: any) {
@@ -1484,19 +1452,38 @@ else{
   }
 
   async addProduct() {
-    if (this.state.productsList[0].title === '') {
+    // if (this.state.productsList[0].title.length ==0 ) {
+    //   this.showAlert('Please provide title')
+    //   return
+    // }
+    console.log('raw===',this.state.productsList);
+
+    if (this.state.productsList[0].name.length==0) {
       this.showAlert('Please provide title')
       return
     }
-    if (this.state.productsList[0].category === '') {
+    if (this.state.productsList[0].category_id.length ==0) {
       this.showAlert('Please provide category')
       return
     }
-    if (this.state.productsList[0].price === '') {
+    if (this.state.productsList[0].sub_category_id.length ==0) {
+      this.showAlert('Please provide sub-category')
+      return
+    }
+    if (this.state.productsList[0].price.length ==0) {
       this.showAlert('Please provide price')
       return
     }
+    if (this.state.productsList[0].desciption.length ==0) {
+      this.showAlert('Please provide description')
+      return
+    }
+    if (this.state.productsList[0].images.length ==0) {
+      this.showAlert('Please add image')
+      return
+    }
     this.setState({ show_loader: true })
+
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1506,6 +1493,7 @@ else{
     const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
+    
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
