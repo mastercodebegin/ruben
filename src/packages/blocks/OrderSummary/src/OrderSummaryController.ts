@@ -249,13 +249,15 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('checkLifeTimeSubscriptionCallId>>>>>>>>>>>>>>>>>>>>>>',data)
-        if(data?.message!='Subscription already created for this user')
+        console.log('checkLifeTimeSubscriptionCallId>>>>>>>',data)
+        console.log('checkLifeTimeSubscriptionCallId message>>>>>>>>>>',data?.message)
+        if(data?.message=='Subscription already created for this user')
         {
           console.log('if checkLifeTimeSubscriptionCallId>>>>>>>>>>>>>>>>>>>>>>',data)
         this.setState({isUserHasSubsCription:true})
         }
         else{
+          console.log('else  checkLifeTime>>>>>>>>>>>>>>',data)
           this.setState({isUserHasSubsCription:false})
 
         }

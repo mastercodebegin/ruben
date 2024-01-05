@@ -5,9 +5,10 @@ interface MyDetailsTypes {
     header: string,
     list: Array<any>
     footer: any,
-    isSubscribed:any
+    isSubscribed:any,
+    isUserAlreadySubscribed:boolean
 }
-const PaymentDetails = ({ header, list, footer,isSubscribed }: MyDetailsTypes) => (
+const PaymentDetails = ({ header, list, footer,isSubscribed,isUserAlreadySubscribed }: MyDetailsTypes) => (
     <View style={styles.myDetail}>
         {Boolean(header) &&
             <View style={styles.seperatorLine}>
@@ -16,8 +17,9 @@ const PaymentDetails = ({ header, list, footer,isSubscribed }: MyDetailsTypes) =
         {
             list.map((item) => {
                 console.log('item======================================',item,isSubscribed)
+                console.log('isUserAlreadySubscribed======================================',isUserAlreadySubscribed)
                 
-                return ( item.question=='Lifetime Subscription' && !isSubscribed?null:
+                return ( item.question=='Lifetime Subscription' && !isSubscribed || item.question=='Lifetime Subscription' && isUserAlreadySubscribed?null:
                   <View style={styles.myDetailContainer} key={item?.question}>
                     <View style={styles.flex}>
                         <Text style={styles.question}>{item?.question}</Text>
@@ -35,7 +37,10 @@ const PaymentDetails = ({ header, list, footer,isSubscribed }: MyDetailsTypes) =
               <Text style={styles.question}>{footer?.question}</Text>
           </View>}
           <View style={styles.flex}>
+              {isUserAlreadySubscribed?
+              <Text style={styles.answer}>{footer?.ans}</Text>:
               <Text style={styles.answer}>{isSubscribed?`$${Number(footer?.ans?.slice(1))+5}`:footer?.ans}</Text>
+            }
           </View>
         </View>
     </View>

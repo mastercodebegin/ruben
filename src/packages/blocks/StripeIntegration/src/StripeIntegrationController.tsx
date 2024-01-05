@@ -34,8 +34,9 @@ export interface Props {
       orderNumber: number,
       deliveryCharge: number,
       total?: number,
-      lifetimeSubscriptionCharge:boolean
+      lifetimeSubscriptionCharge:any
       billingDetails?: any[];
+      isUserAlreadySubscribed:boolean
     }
   }
   // Customizable Area End

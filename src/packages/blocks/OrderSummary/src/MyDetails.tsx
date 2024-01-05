@@ -17,7 +17,7 @@ const MyDetails = ({ header, list }: MyDetailsTypes) => (
                     <View style={{width:'26%',backgroundColor:'white'}}>
                         <Text style={styles.question}>{item?.question}</Text>
                     </View>
-                    <View style={{width:'80%',backgroundColor:'white'}}>
+                    <View style={{width:'80%',}}>
                         <Text style={styles.answer}>{item?.ans}</Text>
                     </View>
                 </View>)
