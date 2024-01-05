@@ -16022,10 +16022,10 @@ react-native-screens@^2.18.1:
 "react-native-simple-radio-button@file:packages/blocks/core/node_modules/react-native-simple-radio-button":
   version "2.7.4"
 
-react-native-simple-toast@1.1.4:
-  version "1.1.4"
-  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-simple-toast/-/react-native-simple-toast-1.1.4.tgz#6a962beea87b86228a4f8c51bc93761108740b1c"
-  integrity sha512-7D8o8L445XDz7Rdh0pMgCIWuevv1FnGyuD7F8Nz/XhzMInmU4jL5VFJI25VVqQ2uGTaUSuo2ogXSgKnv6p9NJg==
+react-native-simple-toast@^3.2.0:
+  version "3.2.0"
+  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-simple-toast/-/react-native-simple-toast-3.2.0.tgz#61ade1a87ffdc506855b7ecaa5a716f09b5e0e7d"
+  integrity sha512-aiv162Zr4fRAy1RY6fjrl3zZV1DVQJhvKAoS7d+Vylm7SgYEnt/MKrQcXDT21SVmunONvKx7KpDylzfSpgnDPw==
 
 react-native-size-matters@^0.3.1:
   version "0.3.1"
