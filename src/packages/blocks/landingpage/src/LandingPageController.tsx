@@ -839,7 +839,6 @@ else{
     }
   }
   getSubcategoryCallback(subCategories: any, error: any) {
-    console.log('error========', JSON.stringify(subCategories?.data))
     if (subCategories?.data == null) {
       Alert.alert('No sub category is available for the selected catetgory')
       this.setState({ show_loader: false })
@@ -882,7 +881,6 @@ else{
     }
   }
   categoryCallback(error: any, categories: Array<object>) {
-    console.log('categories===', categories[0]);
 
 
     if (error) {
@@ -1496,11 +1494,6 @@ else{
   }
 
   async addProduct() {
-    // if (this.state.productsList[0].title.length ==0 ) {
-    //   this.showAlert('Please provide title')
-    //   return
-    // }
-    console.log('raw===',this.state.productsList);
 
     if (this.state.productsList[0].name.length==0) {
       this.showAlert('Please provide title')
