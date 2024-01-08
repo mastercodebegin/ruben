@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Image,
@@ -29,12 +29,11 @@ const SearchBarWithFilter = ({
 }: SearchBarWithFilterTyes) => {
   const dropdownCategoryref: any = React.createRef();
 
+
   return (
     <View style={styles.textInputContainer}>
       <View style={styles.searchContainer}>
-        <TouchableOpacity onPress={onPressSearchIcon}>
         <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
-        </TouchableOpacity>
         <TextInput
           style={styles.textInput}
           placeholder="Search any Product/Video"
@@ -42,6 +41,8 @@ const SearchBarWithFilter = ({
           value={searchText}
           testID={testID}
           onChangeText={onChangeText}
+          keyboardType="numeric"
+          onSubmitEditing={onPressSearchIcon}
         />
       </View>
       {hideFilter?null:<View style={{ height: "100%" }}>
