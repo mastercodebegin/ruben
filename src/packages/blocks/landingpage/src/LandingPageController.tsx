@@ -658,6 +658,21 @@ else{
       );
       this.slotsAndMerchantRes(error, slotsAndMerchantRes)
     }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.updateProductViewCountCallId != null &&
+      this.updateProductViewCountCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const updateProductViewCount = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.setState({ show_loader: false })
+
+      
+    }
+
   }
   slotsAndMerchantRes(error: any, response: any) {
     if (error) {
@@ -931,6 +946,7 @@ else{
   getSlotsAndMerchantAddressCallId: string = ''
   userAddressApiCallId: string = ''
   submitPickupRequestCallId: string = '';
+  updateProductViewCountCallId: string = '';
 
   userdetailsProps = {
     getuserDetails: this.getProfileDetails
@@ -978,6 +994,38 @@ else{
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_categories/categories?page=${page}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+  async updateProductViewCount(id: number, loader = true) {
+    this.setState({ show_loader: loader })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.updateProductViewCountCallId = getValidationsMsg.messageId;
+
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_catalogue/catalogues/product_views_by_user?id=${id}`
     );
 
     getValidationsMsg.addData(
@@ -1569,7 +1617,7 @@ else{
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
-
+alert(catalogue_id)
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
