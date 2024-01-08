@@ -53,6 +53,7 @@ export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
     this.farmDetails();
+    this.updateProductViewCount(this.props?.route?.params?.id)
   }
   
   render() {
