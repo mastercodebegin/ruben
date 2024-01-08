@@ -436,8 +436,6 @@ export default class LandingPageController extends BlockComponent<
 
     const filterd = this.state.animalPortions.filter((v) => v.name == item)
 
-    console.log('remaini', remainingCuts);
-    console.log('used', used_cuts);
 
     if (used_cuts < remainingCuts) {
       if (filterd.length > 0) {
@@ -526,7 +524,6 @@ export default class LandingPageController extends BlockComponent<
       const error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('remainingProductResponse=================', remainingProductResponse);
 
       if (!error && remainingProductResponse) {
         const arr = []
@@ -818,7 +815,6 @@ else{
     if (error) {
       this.showAlert('something went wrong')
     } else {
-      console.log("response = = =", response)
       Alert.alert('Success', 'Hey! your product create successfully', [{
         text: 'OK', onPress: () => {
           this.props.navigation.navigate('ExplorePage')
