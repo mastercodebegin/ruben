@@ -226,7 +226,7 @@ export default class PersonelDetailsController extends BlockComponent<
     } else {
     suffix = "th";
     }
-    return `Within ${Math.round(findDateDifference(currentDate,date))} days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
+    return `Within 3 days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
   }
   async addAddress(attrs:any) {
     this.setState({ showLoader: true })
