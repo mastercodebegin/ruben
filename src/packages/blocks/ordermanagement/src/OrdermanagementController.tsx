@@ -283,27 +283,27 @@ export default class OrdermanagementController extends BlockComponent<
 
   acceptDeclineCallback(error=null) {
     if (error) {
-      showToast("Some error occurred!");
-      this.setState({showLoader: true})
+      this.getIncomingOrders();
+    
+
     } else {
       if (this.state.selected === 'incoming') {   
-        console.log('orders===',this.state.selected);
-        
         this.getIncomingOrders();
       } else {
-        // this.props.navigation.goBack()  
-        console.log('else===',this.state.selected);
-     
         this.getPreviousOrders();
       }
     }
+      setTimeout(() => {
+          this.setState({showLoader: false})
+  
+        }, 4000);
+
   }
 
   async getIncomingOrders() {
     if (!this.state.fetchMoreIncoming) {
       return;
     }
-    console.log('getIncomingOrders=======================');
     
     this.setState({ showPaginationLoader: true, });
     const userDetails: any = await AsyncStorage.getItem("userDetails");

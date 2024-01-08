@@ -249,18 +249,7 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        console.log('checkLifeTimeSubscriptionCallId>>>>>>>',data)
-        console.log('checkLifeTimeSubscriptionCallId message>>>>>>>>>>',data?.message)
-        if(data?.message=='Subscription already created for this user')
-        {
-          console.log('if checkLifeTimeSubscriptionCallId>>>>>>>>>>>>>>>>>>>>>>',data)
-        this.setState({isUserHasSubsCription:true})
-        }
-        else{
-          console.log('else  checkLifeTime>>>>>>>>>>>>>>',data)
-          this.setState({isUserHasSubsCription:false})
-
-        }
+          this.setState({isUserHasSubsCription:data?.subscribed})
         
       }
     }
@@ -361,10 +350,8 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if ((!error && billingDetails)) {
-        console.log('billingdetails===================',billingDetails);
         
         const list = this.getOrderDetailsArray(billingDetails);
-        console.log('list========================',list);
         
         const totalPrice = billingDetails?.total;
         const fastDelivery = billingDetails?.delivery_hrs;
@@ -562,6 +549,32 @@ SS
     runEngine.sendMessage(billingDetails.id, billingDetails);
   }
 
+  async checkLifeTimeSubscription(){
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const billingDetails = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.checkLifeTimeSubscriptionCallId = billingDetails.messageId;
+
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/accounts/check_user'
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(billingDetails.id, billingDetails);
+  }
+
   getCartCallBack(prodList: any, plans: any[],subTotal:number,total:number,billingAddress:any, error = false) {    
     if(error){
       this.setState({showLoader: false})
@@ -611,6 +624,7 @@ SS
       this.getBillingDetails();
     }
   }
+
 
   async removeFastDelivery(){
     this.setState({ showLoader: true });
@@ -664,7 +678,6 @@ SS
   }
 
   async removeLifeTimeSubscription() {
-    console.log('lifetime start==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -730,33 +743,7 @@ SS
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async checkLifeTimeSubscription() { 
-    this.setState({ showLoader: true });
-    const userDetails: any = await AsyncStorage.getItem("userDetails");
-    const data: any = JSON.parse(userDetails);
-    const headers = {
-      token: data?.meta?.token,
-      "Content-Type": "application/json"
-    };
-    const requestMessage = new Message(
-      getName(MessageEnum.RestAPIRequestMessage)
-    );
-    this.checkLifeTimeSubscriptionCallId = requestMessage.messageId;
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'account_block/accounts/check_user'
-    );
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(headers)
-    );
-   
-    requestMessage.addData(
-      getName(MessageEnum.RestAPIRequestMethodMessage),
-      'GET'
-    );
-    runEngine.sendMessage(requestMessage.id, requestMessage);
-  }
+
   
   async addLifeTimeSubscription() { 
     this.setState({ showLoader: true });
@@ -845,9 +832,9 @@ SS
       if (orderDetails?.delivery_hrs) {
         OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(orderDetails?.delivery_hrs) });
       }
-      // if (orderDetails?.life_time_subscription) {
-      //   OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(orderDetails?.life_time_subscription)})
-      // }
+      if (orderDetails?.life_time_subscription) {
+        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(0)})
+      }
       if (orderDetails?.meat_storage_amount) {
         OrderDetailsList.push({question : "Meat Storage",ans:this.numberValue(orderDetails?.meat_storage_amount)})
         OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(5)})
