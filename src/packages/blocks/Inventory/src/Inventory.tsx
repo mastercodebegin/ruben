@@ -100,7 +100,9 @@ export default class Inventory extends MyCartController {
                     this.getInventoryData.bind(this)(1, date);
                   }}
                   onChangeText={(text) => this.setState({ searchText: text })}
-                  searchCategoryById={()=>this.getOrderByOrderId(this.state.searchText)}
+                  searchCategoryById={this.state.searchText.length>0?
+                    ()=>this.getOrderByOrderId(this.state.searchText) : ()=>this.getInventoryData(1)
+                  }
                 />
               }
               keyExtractor={(_, i) => `key${i}`}

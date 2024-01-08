@@ -33,15 +33,15 @@ export default class MyFavoritesScreen extends LandingPageController {
 				>
 					<View>
 						<FlatList
-						testID="favoirteList"
+							testID="favoirteList"
 							data={this.state.showFavoriteList}
 							numColumns={1}
 							contentContainerStyle={styles.contentContainer}
 							bounces={false}
 							renderItem={({ item }: any) => {
-								
+
 								return (
-									
+
 									<View style={styles.FavContainer}>
 										<TouchableOpacity
 											testID={'navigateToProductDetailScreen'}
@@ -63,20 +63,17 @@ export default class MyFavoritesScreen extends LandingPageController {
 														? styles.itemImage
 														: styles.itemNoImage,
 												]}
-												source={item?.data?.attributes?.images[0]?.url?{
-													
-												
-													uri: item?.attributes?.catalogue_id
-														?.data?.attributes?.images[0]?.url
-												}:backGroundImage}
+												source={ item?.attributes?.catalogue_id?.data?.attributes?.productImage ?
+													{uri:item?.attributes?.catalogue_id?.data?.attributes?.productImage} : backGroundImage}
 											>
 												<View style={styles.offerContainer}>
 													<TouchableOpacity
 														testID={"removeFavList"}
-														onPress={() =>{this.removeFavListProduct(item?.id)
-														setTimeout(() => {
-															this.getFavorites()
-														}, 500);	
+														onPress={() => {
+															this.removeFavListProduct(item?.id)
+															setTimeout(() => {
+																this.getFavorites()
+															}, 500);
 														}}
 														style={styles.badgeContainer}
 													>
@@ -85,29 +82,30 @@ export default class MyFavoritesScreen extends LandingPageController {
 												</View>
 											</ImageBackground>
 											<View style={{ paddingHorizontal: 15 }}>
-											<View style={styles.priceContainer}>
-												<Text style={styles.productName}>{item?.attributes?.catalogue_id
-														?.data?.attributes?.categoryCode ||''}</Text>
-														<Text style={styles.price}>
+												<View style={styles.priceContainer}>
+													<Text style={styles.productName}>{item?.attributes?.catalogue_id
+														?.data?.attributes?.categoryCode || ''}</Text>
+													<Text style={styles.price}>
 														{`$ ${item?.attributes?.catalogue_id?.data?.attributes?.price}`}
 														<Text style={styles.kgStyle}>/Kg</Text>
 													</Text>
 												</View>
 												<View style={styles.priceContainer}>
 													<Text style={styles.favdescription}>
-													{item?.attributes?.catalogue_id
-														?.data?.attributes?.description}
+														{item?.attributes?.catalogue_id
+															?.data?.attributes?.description}
 													</Text>
 													<TouchableOpacity
 														testID={"addtocart"}
-														onPress={() =>{ this.addToCart(item?.attributes?.catalogue_id?.data.id)
+														onPress={() => {
+															this.addToCart(item?.attributes?.catalogue_id?.data.id)
 														}}
 														style={styles.FavcartContainer}
 													>
 														<Image resizeMode="contain" style={styles.Favcart} source={CART} />
 													</TouchableOpacity>
 												</View>
-												
+
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -137,7 +135,7 @@ export const styles = StyleSheet.create({
 	},
 	FavContainer: {
 		padding: 0,
-		marginBottom:20,
+		marginBottom: 20,
 	},
 	renderContainer: {
 		backgroundColor: WHITE,
@@ -151,7 +149,7 @@ export const styles = StyleSheet.create({
 		fontSize: 17,
 		color: MID_PEACH,
 		// paddingBottom: 5,
-		width:'80%'
+		width: '80%'
 	},
 	price: {
 		fontSize: 22,
@@ -159,7 +157,7 @@ export const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginTop: 10,
 	},
-	kgStyle:{
+	kgStyle: {
 		fontSize: 17,
 		color: DARK_RED,
 		fontWeight: "500",

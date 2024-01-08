@@ -293,7 +293,7 @@ export default class Myprofile extends LandingPageController {
                     styles.selected,
                   ]}
                 >
-                  My Favorites
+                  My Favorites 
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
