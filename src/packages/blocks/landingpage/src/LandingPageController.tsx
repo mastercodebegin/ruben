@@ -662,9 +662,9 @@ else{
       const updateProductViewCount = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
+     
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',updateProductViewCount)
+      
       this.setState({ show_loader: false })
 
       
@@ -1035,7 +1035,6 @@ else{
 
 
   async getCategories() {
-    alert('hi')
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
