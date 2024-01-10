@@ -9,10 +9,10 @@ const RenderCategories = ({ item, index, onpress, selectedCategory }: any) => {
         onpress(item?.attributes?.id)
       }}
       key={index}
-      style={[styles.scrollerItemContainer, {backgroundColor: selectedCategory === item?.attributes?.id ? "#A0272A" : WHITE}]}
+      style={[styles.scrollerItemContainer, {backgroundColor: selectedCategory === item?.id ? "#A0272A" : WHITE}]}
     >
-      <Image style={[styles.scrollerImg, { tintColor: selectedCategory === item?.attributes?.id ? "white" : DARK_RED}]} source={CHICKEN} />
-      <Text style={[styles.scrollerText, {color: selectedCategory === item?.attributes?.id ? "white" : DARK_RED}]}>{item?.attributes?.name}</Text>
+      <Image style={[styles.scrollerImg, { tintColor: selectedCategory === item?.id ? "white" : DARK_RED}]} source={CHICKEN} />
+      <Text style={[styles.scrollerText, {color: selectedCategory === item?.id ? "white" : DARK_RED}]}>{item?.title}</Text>
     </TouchableOpacity>
   );
 };

@@ -122,7 +122,7 @@ interface S {
   order_number: string
   animalPortions: Array<any>;
   isMyProfile: boolean
-
+  isCallingFromStore:boolean
   // Customizable Area End
 }
 
@@ -147,6 +147,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      isCallingFromStore:false,
       isMyProfile: false,
       userAddressID: '',
       selectedUserAddress: '',
@@ -840,14 +841,31 @@ else{
   }
   getSubcategoryCallback(subCategories: any, error: any) {
     if (subCategories?.data == null) {
-      Alert.alert('No sub category is available for the selected catetgory')
+      showToast(' No sub category is available for the selected catetgory')
       this.setState({ show_loader: false })
-
       return
     }
+    if(this.state.isCallingFromStore )
+    {
+      if(subCategories?.data?.attributes.catalogue?.catalogues.length>0)
+      {
+        this.setState({
+          subcategories: subCategories?.data?.attributes.catalogue?.catalogues,
+          show_loader: false, 
+        })     
+       }
+       else{
+        this.setState({
+          show_loader: false, 
+        })  
+        showToast('  No sub category is available for the selected catetgory')
+        return
+       }
+    }
+    if(subCategories)
     if (error) {
       this.setState({ show_loader: false })
-      Alert.alert('No sub category is available for the selected catetgory')
+      showToast(' No sub category is available for the selected catetgory')
     } else {
       if (subCategories?.data?.length) {
         let arr = []
@@ -873,7 +891,7 @@ else{
         arr.push(obj)
 
         this.setState({
-          subcategories: subCategories?.data,
+          subcategories: subCategories?.data?.attributes.catalogue?.catalogues,
           show_loader: false, animalCutsOptionsList: arr, subCategoryList: arr
         })
       }

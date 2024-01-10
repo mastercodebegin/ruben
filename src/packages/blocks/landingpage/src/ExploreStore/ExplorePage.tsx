@@ -83,16 +83,16 @@ export class ExplorePage extends LandingPageController {
             showsVerticalScrollIndicator={false}
             testID="scrollview"
             contentContainerStyle={{ paddingBottom: 80 }}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refresh}
-                testID="refereshcontrol"
-                onRefresh={() => {
-                  this.setState({ refresh: true });
-                  this.getCategory.bind(this)(1, false);
-                }}
-              />
-            }
+            // refreshControl={
+            //   <RefreshControl
+            //     refreshing={this.state.refresh}
+            //     testID="refereshcontrol"
+            //     onRefresh={() => {
+            //       this.setState({ refresh: true });
+            //       this.getCategory.bind(this)(1, false);
+            //     }}
+            //   />
+            // }
             style={styles.main}
           >
             <View style={styles.innerContainer}>
@@ -152,11 +152,15 @@ export class ExplorePage extends LandingPageController {
                   this.getCategory.bind(this)(this.categoryPage);
                 }}
                 renderItem={({ item, index }:any) => {
+                  console.log('item=======================',item)
+                  
                   return (
                     <RenderCategories
                       onpress={() => {
-                        this.setState({selectedCat: item?.attributes?.id})
-                        this.getSubcategories(item?.attributes?.id)
+                    
+                          this.setState({selectedCat: item?.id,isCallingFromStore:true})
+                        this.getSubcategories(item?.id)
+                        
                       }}
                       item={item}
                       index={index}
