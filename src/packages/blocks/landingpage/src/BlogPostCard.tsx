@@ -9,7 +9,7 @@ import {
   Clipboard,
   Platform,
 } from "react-native";
-import {  shareIcon, playIcon } from "./assets";
+import {  shareIcon, playIcon, splashScreenImage } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
@@ -47,7 +47,7 @@ const BlogPostCard = ({ item, type }: Types) => {
             <Image
               style={styles.profile}
               resizeMode="contain"
-              source={sampleProfile}
+              source={splashScreenImage}
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{item?.attributes?.name}</Text>
