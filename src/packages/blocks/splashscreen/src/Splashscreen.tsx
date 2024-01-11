@@ -43,7 +43,7 @@ export default class Splashscreen extends SplashscreenController {
           onPress={this.onPressContinue}
           style={styles.continue}
         >
-          <Text style={styles.text}>Continue1</Text>
+          <Text style={styles.text}>Continue</Text>
         </TouchableOpacity>
         <Image resizeMode="stretch"
          source={redShadow}
