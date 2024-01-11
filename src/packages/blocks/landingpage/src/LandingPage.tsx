@@ -64,7 +64,7 @@ export default class LandingPage extends LandingPageController {
                   source={homeBackground}
                 >
                   <Image
-                    style={styles.appLogo}
+                    style={[styles.appLogo,]}
                     resizeMode="contain"
                     source={splashScreenImage}
                   />
@@ -243,8 +243,7 @@ const styles = StyleSheet.create({
   },
   appLogo: {
     height: 80,
-    width: 85,
-    marginTop: 20,
+    width:100,
     marginBottom: 30,
   },
   imageBgr: { paddingHorizontal: 20 },

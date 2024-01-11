@@ -130,7 +130,7 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.category_cutsname,
+      name: item?.attributes?.categoryCode,
       image:  item?.attributes?.images && item.attributes.images.length > 0
       ? item.attributes.images[0]?.url
       : undefined,

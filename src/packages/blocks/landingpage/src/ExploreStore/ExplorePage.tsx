@@ -15,7 +15,7 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY } from "../assets";
+import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY, TEXT_COLOR, SECONDARY_COLOR } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
@@ -47,8 +47,8 @@ export class ExplorePage extends LandingPageController {
           {
             backgroundColor:
               this.state.selectedSub === item?.attributes?.id
-                ? "#A0272A"
-                : WHITE,
+                ? PRIMARY
+                : SECONDARY_COLOR,
           },
         ]}
       >
@@ -83,21 +83,21 @@ export class ExplorePage extends LandingPageController {
             showsVerticalScrollIndicator={false}
             testID="scrollview"
             contentContainerStyle={{ paddingBottom: 80 }}
-            // refreshControl={
-            //   <RefreshControl
-            //     refreshing={this.state.refresh}
-            //     testID="refereshcontrol"
-            //     onRefresh={() => {
-            //       this.setState({ refresh: true });
-            //       this.getCategory.bind(this)(1, false);
-            //     }}
-            //   />
-            // }
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                testID="refereshcontrol"
+                onRefresh={() => {
+                  this.setState({ refresh: true });
+                  this.getCategory.bind(this)(1, false);
+                }}
+              />
+            }
             style={styles.main}
           >
             <View style={styles.innerContainer}>
               <View style={{ paddingHorizontal: 20 }}>
-                <Text style={styles.header}>Store </Text>
+                <Text style={styles.header}>Store1 </Text>
                 <View style={styles.textInputContainer}>
                   <View style={styles.searchContainer}>
                     <Image
@@ -326,7 +326,7 @@ export const styles = StyleSheet.create({
   header: {
     fontWeight: "700",
     fontSize: 24,
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   textInput: {
     backgroundColor: WHITE,
@@ -399,12 +399,12 @@ export const styles = StyleSheet.create({
     justifyContent:'space-between'
   },
   itemCategory: {
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
   seeText:{
-    color:PRIMARY,
+    color:TEXT_COLOR,
     fontWeight: "bold",
   }
 });

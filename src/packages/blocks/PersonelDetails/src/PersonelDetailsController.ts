@@ -201,12 +201,12 @@ export default class PersonelDetailsController extends BlockComponent<
     }
   }
   getExpectedDeliveryDate() {
-    const date = new Date(this.state.estimatedDeliveryDate);
-    const findDateDifference = (startDate: Date, endDate: Date) => {
-      const timeDifferenceMillisecond = endDate.getTime() - startDate.getTime();
-      return (timeDifferenceMillisecond / (1000 * 60 * 60 * 24));
-  }
-    const currentDate = new Date();
+    const date = new Date();
+
+// Add 3 days to the current date
+date.setDate(date.getDate() + 3);
+
+  
     const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
