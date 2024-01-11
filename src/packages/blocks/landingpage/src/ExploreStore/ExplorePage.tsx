@@ -15,7 +15,7 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY, TEXT_COLOR, SECONDARY_COLOR } from "../assets";
+import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
@@ -34,21 +34,23 @@ export class ExplorePage extends LandingPageController {
     this.getProductList(this.state.sortAscending);
   }
    renderItem = ({ item, index }: any) => {
-    const seleceted =
-      this.state.selectedSub === item?.attributes?.id;
+    console.log('sub-category----',item);
+    
+
     return (
       <TouchableOpacity
         testID={index + "selectedSubscategory"}
         onPress={() =>
-          this.setState({ selectedSub: item?.attributes?.id })
+          {this.getProductBySubcategory.bind(this)(item?.id)
+          this.setState({ selectedSub: item?.id })}
         }
         style={[
           styles.subcategory,
           {
             backgroundColor:
-              this.state.selectedSub === item?.attributes?.id
-                ? PRIMARY
-                : SECONDARY_COLOR,
+              this.state.selectedSub === item?.id
+                ? "#A0272A"
+                : WHITE,
           },
         ]}
       >
@@ -57,7 +59,7 @@ export class ExplorePage extends LandingPageController {
             height: 25,
             width: 25,
             marginRight: 10,
-            tintColor: seleceted ? "white" : DARK_RED,
+            tintColor: this.state.selectedSub==item?.id ? "white" : DARK_RED,
           }}
           source={CHICKEN}
         />
@@ -65,11 +67,11 @@ export class ExplorePage extends LandingPageController {
           numberOfLines={1}
           style={{
             fontSize: 20,
-            color: seleceted ? "white" : DARK_RED,
+            color: this.state.selectedSub==item?.id ? "white" : DARK_RED,
             fontWeight: "500",
           }}
         >
-          {item?.attributes?.name}
+          {item?.title}
         </Text>
       </TouchableOpacity>
     );
@@ -97,7 +99,7 @@ export class ExplorePage extends LandingPageController {
           >
             <View style={styles.innerContainer}>
               <View style={{ paddingHorizontal: 20 }}>
-                <Text style={styles.header}>Store1 </Text>
+                <Text style={styles.header}>Store </Text>
                 <View style={styles.textInputContainer}>
                   <View style={styles.searchContainer}>
                     <Image
@@ -151,15 +153,13 @@ export class ExplorePage extends LandingPageController {
                   this.categoryPage = this.categoryPage + 1;
                   this.getCategory.bind(this)(this.categoryPage);
                 }}
-                renderItem={({ item, index }:any) => {
-                  console.log('item=======================',item)
-                  
+                renderItem={({ item, index }:any) => {                  
                   return (
                     <RenderCategories
                       onpress={() => {
                     
-                          this.setState({selectedCat: item?.id,isCallingFromStore:true})
-                        this.getSubcategories(item?.id)
+                        this.setState({selectedCat: item?.id,isCallingFromStore:true,subCategoryList:[]})
+                        this.getSubcategories.bind(this)(item?.id)
                         
                       }}
                       item={item}
@@ -170,7 +170,7 @@ export class ExplorePage extends LandingPageController {
                 }}
               />
               <FlatList
-                data={this.state.subcategories}
+                data={this.state.subCategoryList}
                 horizontal
                 bounces={false}
                 testID="subcategoryList"
@@ -181,7 +181,7 @@ export class ExplorePage extends LandingPageController {
              {this.state.productList?.map((item:any,index:number)=>{
                 const {attributes} = item;         
                 return(
-                  this.state.selectedCat == null ?
+                  this.state.selectedCat || this.state.selectedSub == '' ?
                   <>
                   {attributes?.catalogue?.catalogues?.data.length > 0 &&
                   <View style={styles.productWrap}>
@@ -222,6 +222,7 @@ export class ExplorePage extends LandingPageController {
                     </View>
                 )
               })}
+              
             </View>
           </ScrollView>
           {this.props.currentUser === "user" ? (
@@ -326,7 +327,7 @@ export const styles = StyleSheet.create({
   header: {
     fontWeight: "700",
     fontSize: 24,
-    color: TEXT_COLOR,
+    color: DARK_RED,
   },
   textInput: {
     backgroundColor: WHITE,
@@ -399,12 +400,12 @@ export const styles = StyleSheet.create({
     justifyContent:'space-between'
   },
   itemCategory: {
-    color: TEXT_COLOR,
+    color: MID_PEACH,
     fontWeight: "bold",
     fontSize: 17,
   },
   seeText:{
-    color:TEXT_COLOR,
+    color:PRIMARY,
     fontWeight: "bold",
   }
 });
