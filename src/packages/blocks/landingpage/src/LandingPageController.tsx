@@ -66,7 +66,7 @@ interface S {
   lifeTimeSubscription: boolean;
   categories: Array<object>;
   subcategories: Array<object>;
-  selectedSub: any;
+  selectedSub: string;
   selectedCat: any,
   searchText: string;
   showSearchResults: boolean;
@@ -123,6 +123,7 @@ interface S {
   animalPortions: Array<any>;
   isMyProfile: boolean
   isCallingFromStore:boolean
+  subCategoryProductList:any
   // Customizable Area End
 }
 
@@ -186,7 +187,7 @@ export default class LandingPageController extends BlockComponent<
       lifeTimeSubscription: true,
       categories: [],
       subcategories: [],
-      selectedSub: null,
+      selectedSub: '',
       selectedCat: null,
       searchText: '',
       searchResults: [],
@@ -268,7 +269,8 @@ export default class LandingPageController extends BlockComponent<
       setAddressOption: false,
       fetchFavorites: false,
       selectedCategoryID: '',
-      animalPortions: []
+      animalPortions: [],
+      subCategoryProductList:[]
 
 
     };
@@ -388,6 +390,7 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductCallback(message);
       this.addToCartCallBack(message)
       this.getNotification(message);
+      this.getSubCategoryProductResponce(message)
     }
 
     runEngine.debugLog("Message Recived", message);
@@ -779,6 +782,22 @@ else{
     }
   }
 
+  getSubCategoryProductResponce(message: Message) {
+    if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getSubCategoryProductId != null &&
+      this.getSubCategoryProductId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.setState({productList:this.state.productList,show_loader:false})
+      
+    }
+  }
+
   addToCartCallBack(message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -845,25 +864,7 @@ else{
       this.setState({ show_loader: false })
       return
     }
-    if(this.state.isCallingFromStore )
-    {
-      if(subCategories?.data?.attributes.catalogue?.catalogues.length>0)
-      {
-        this.setState({
-          subcategories: subCategories?.data?.attributes.catalogue?.catalogues,
-          show_loader: false, 
-        })     
-       }
-       else{
-        this.setState({
-          show_loader: false, 
-        })  
-        showToast('  No sub category is available for the selected catetgory')
-        return
-       }
-    }
-    if(subCategories)
-    if (error) {
+        if (error) {
       this.setState({ show_loader: false })
       showToast(' No sub category is available for the selected catetgory')
     } else {
@@ -945,6 +946,7 @@ else{
   getFarmId: string = '';
   getAboutUsId: any;
   getSubCategoryId: string = '';
+  getSubCategoryProductId:string=''
   getBlogPostsId: string = '';
   getVideoLibraryId: string = '';
   categoryPage: any = 1;
@@ -987,7 +989,7 @@ else{
     getUpDateFavList: this.removeFavListProduct
   }
   async getCategory(page: number, loader = true) {
-    this.setState({ show_loader: loader })
+    this.setState({ show_loader: loader,subCategoryList:[] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1435,8 +1437,7 @@ else{
 
 
   async getSubcategories(subCategoryId: string) {
-
-    this.setState({ show_loader: true, selectedSub: null })
+    this.setState({ show_loader: true, selectedSub: '', })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1464,6 +1465,37 @@ else{
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
+
+  async getProductBySubcategory(subCategoryId: string) {
+    this.setState({ show_loader: true, selectedSub:subCategoryId })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      'token': data?.meta?.token
+    };
+    const subcategory = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getSubCategoryProductId = subcategory.messageId;
+
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `${configJSON.subCategory}${subCategoryId}`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async getProfileDetails() {
     this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1623,7 +1655,6 @@ else{
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
-alert(catalogue_id)
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
