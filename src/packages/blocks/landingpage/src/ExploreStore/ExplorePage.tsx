@@ -41,7 +41,7 @@ export class ExplorePage extends LandingPageController {
       <TouchableOpacity
         testID={index + "selectedSubscategory"}
         onPress={() =>
-          {this.getProductBySubcategory.bind(this)(item?.id)
+          {this.getProductBySubcategory.bind(this)(this.state.selectedCat)
           this.setState({ selectedSub: item?.id })}
         }
         style={[
@@ -157,11 +157,9 @@ export class ExplorePage extends LandingPageController {
                   return (
                     <RenderCategories
                       onpress={() => {
-                    
                         this.setState({selectedCat: item?.id,isCallingFromStore:true,subCategoryList:[]})
                         this.getSubcategories.bind(this)(item?.id)
-                        
-                      }}
+                        }}
                       item={item}
                       index={index}
                       selectedCategory={this.state.selectedCat}

@@ -122,8 +122,8 @@ interface S {
   order_number: string
   animalPortions: Array<any>;
   isMyProfile: boolean
-  isCallingFromStore:boolean
-  subCategoryProductList:any
+  isCallingFromStore: boolean
+  subCategoryProductList: any
   // Customizable Area End
 }
 
@@ -148,7 +148,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
-      isCallingFromStore:false,
+      isCallingFromStore: false,
       isMyProfile: false,
       userAddressID: '',
       selectedUserAddress: '',
@@ -212,10 +212,10 @@ export default class LandingPageController extends BlockComponent<
       remainingproduct: [],
       orderList: [],
       categoryList: [
-        
+
       ],
       subCategoryList: [
-        
+
       ],
       aboutus: null,
       cartList: [],
@@ -270,7 +270,7 @@ export default class LandingPageController extends BlockComponent<
       fetchFavorites: false,
       selectedCategoryID: '',
       animalPortions: [],
-      subCategoryProductList:[]
+      subCategoryProductList: []
 
 
     };
@@ -532,15 +532,14 @@ export default class LandingPageController extends BlockComponent<
       if (!error && remainingProductResponse) {
         const arr = []
 
-        if (remainingProductResponse.message=='No Order Present for this category')
-        {
+        if (remainingProductResponse.message == 'No Order Present for this category') {
           alert(remainingProductResponse.message)
         }
-else{
+        else {
 
-  arr.push(remainingProductResponse)
-}
-       
+          arr.push(remainingProductResponse)
+        }
+
 
 
         this.setState({ remainingproduct: arr, loader: false })
@@ -666,12 +665,12 @@ else{
       const updateProductViewCount = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-     
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',updateProductViewCount)
-      
+
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', updateProductViewCount)
+
       this.setState({ show_loader: false })
 
-      
+
     }
 
   }
@@ -793,8 +792,18 @@ else{
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.setState({productList:this.state.productList,show_loader:false})
-      
+      console.log('response=================================', response?.data[0].attributes?.catalogue?.catalogues?.data)
+      if (response?.data[0].attributes?.catalogue?.catalogues?.data.length > 0) {
+        this.setState({ productList: response.data, show_loader: false })
+
+      }
+      else {
+        showToast('No product found ')
+        this.setState({ productList:[], show_loader: false })
+
+      }
+
+
     }
   }
 
@@ -865,7 +874,7 @@ else{
       this.setState({ show_loader: false })
       return
     }
-        if (error) {
+    if (error) {
       this.setState({ show_loader: false })
       showToast(' No sub category is available for the selected catetgory')
     } else {
@@ -912,21 +921,21 @@ else{
         for (let i = 0; i < categories.length; i++) {
 
           if (this.state.isMyProfile) {
-            const obj = { 'id': categories[i]?.attributes?.categoryId, 'attributes':{'name': categories[i]?.attributes?.name }}
+            const obj = { 'id': categories[i]?.attributes?.categoryId, 'attributes': { 'name': categories[i]?.attributes?.name } }
             arr.push(obj)
           }
-          else{
-          
-              const obj = { 'id': categories[i]?.attributes?.categoryId, 'title': categories[i]?.attributes?.name }
-              arr.push(obj)
-            
+          else {
+
+            const obj = { 'id': categories[i]?.attributes?.categoryId, 'title': categories[i]?.attributes?.name }
+            arr.push(obj)
+
           }
 
         }
         this.categoryPage = null;
-        this.setState({ show_loader: false, categoryList: arr,categories:arr,subCategoryList:[] })
+        this.setState({ show_loader: false, categoryList: arr, categories: arr, subCategoryList: [] })
       }
-   
+
     }
   }
   updateProfileCallback(error: any, response: any) {
@@ -947,7 +956,7 @@ else{
   getFarmId: string = '';
   getAboutUsId: any;
   getSubCategoryId: string = '';
-  getSubCategoryProductId:string=''
+  getSubCategoryProductId: string = ''
   getBlogPostsId: string = '';
   getVideoLibraryId: string = '';
   categoryPage: any = 1;
@@ -990,7 +999,7 @@ else{
     getUpDateFavList: this.removeFavListProduct
   }
   async getCategory(page: number, loader = true) {
-    this.setState({ show_loader: loader,subCategoryList:[] })
+    this.setState({ show_loader: loader, subCategoryList: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1474,7 +1483,7 @@ else{
   }
 
   async getProductBySubcategory(subCategoryId: string) {
-    this.setState({ show_loader: true, selectedSub:subCategoryId })
+    this.setState({ show_loader: true, selectedSub: subCategoryId })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1551,27 +1560,27 @@ else{
 
   async addProduct() {
 
-    if (this.state.productsList[0].name.length==0) {
+    if (this.state.productsList[0].name.length == 0) {
       this.showAlert('Please provide title')
       return
     }
-    if (this.state.productsList[0].category_id.length ==0) {
+    if (this.state.productsList[0].category_id.length == 0) {
       this.showAlert('Please provide category')
       return
     }
-    if (this.state.productsList[0].sub_category_id.length ==0) {
+    if (this.state.productsList[0].sub_category_id.length == 0) {
       this.showAlert('Please provide sub-category')
       return
     }
-    if (this.state.productsList[0].price.length ==0) {
+    if (this.state.productsList[0].price.length == 0) {
       this.showAlert('Please provide price')
       return
     }
-    if (this.state.productsList[0].desciption.length ==0) {
+    if (this.state.productsList[0].desciption.length == 0) {
       this.showAlert('Please provide description')
       return
     }
-    if (this.state.productsList[0].images.length ==0) {
+    if (this.state.productsList[0].images.length == 0) {
       this.showAlert('Please add image')
       return
     }
@@ -1586,7 +1595,7 @@ else{
     const raw = JSON.stringify({
       "catalogues": this.state.productsList
     });
-    
+
     const addProductMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
