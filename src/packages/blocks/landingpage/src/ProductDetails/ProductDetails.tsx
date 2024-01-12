@@ -228,10 +228,11 @@ const style = StyleSheet.create({
   desc: { color: "grey", fontSize: 16, paddingTop: 10 },
   cartText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     padding:8,
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
+    textAlign:'center'
   },
   cartButton: {
     backgroundColor: PRIMARY,

@@ -1150,6 +1150,12 @@ this.setState({aboutUsData:aboutus})
       this.showAlert('please provide your phone number')
       return false;
     }
+
+    if (this.props.state.phone_number.length < 10) {
+      this.showAlert('please enter correct phone number')
+      return false;
+    }
+
    
    
    

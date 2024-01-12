@@ -12,7 +12,7 @@ import {
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
 import { close, DARK_RED } from "../../landingpage/src/assets";
-import { validName } from "../../../components/src/utils";
+import { validName,whiteSpace } from "../../../components/src/utils";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 interface S {
   name: string;
@@ -121,6 +121,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 value={this.state.zipCode}
                 onchangeText={(zipCode) => this.setState({ zipCode })}
                 label="Zip Code"
+                keyBoardtype="number-pad"
               />
               <TextInput
                 textInputStyle={styles.textInput}
@@ -131,6 +132,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 }
                 keyBoardtype="number-pad"
                 label="Phone Number"
+                maxLenth={10}
               />
               <TextInput
                 textInputStyle={styles.textInput}
@@ -162,7 +164,12 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                   flatNo,
                   phoneNumber,
                 } = this.state;
-                if (!validName(name)) {
+
+                if (whiteSpace(name)) {
+                  this.showAlert('The name cannot have leading or trailing white spaces.');
+                  return false;
+                }
+                else if (!validName(name)) {
                   this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
                 }
                 else if (

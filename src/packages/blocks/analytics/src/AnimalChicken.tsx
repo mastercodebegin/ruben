@@ -9,7 +9,7 @@ import {
   Text
   // Customizable Area End
 } from "react-native";
-import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
+import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Tail, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -95,7 +95,7 @@ export default class AnimalChicken extends AnalyticsController {
                   <Image
                       style={styles.animalImg}
                       resizeMode="contain"
-                      source={chicken}
+                      source={chicken_Tail}
                   />
               }
 
