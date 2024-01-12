@@ -813,7 +813,8 @@ else{
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
         showToast('Product Added to the cart')
       } else {
-        showToast('Something went wrong')
+        const errorMessage = cartData.errors[0].errors;
+        showToast(errorMessage)
       }
     }
   }
@@ -1263,8 +1264,14 @@ else{
       return false;
     }
 
+    if (this.props.state.phone_number.length < 10) {
+      this.showAlert('please enter correct phone number')
+      return false;
+    }
 
-
+   
+   
+   
     return true
   }
 

@@ -95,11 +95,11 @@ export default class MyCart extends MyCartController {
                   <View style={styles.answerContainer}>
                     {this.state.subTotal ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Subtotal</Text>
-                      <Text style={styles.answer}>{`$ ${this.state.subTotal.toFixed(2)}`}</Text>
+                      <Text style={styles.answer}>{`$${this.state.subTotal.toFixed(2)}`}</Text>
                     </View> : null }
                    {this.state.discountFetched ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{`-$${getDiscountPrice()} (${getDicountPercentage()}%)`}</Text>
+                      <Text style={styles.answer}>{`-$${Math.abs(getDiscountPrice())} (${getDicountPercentage()}%)`}</Text>
                     </View> : null}
                     {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>

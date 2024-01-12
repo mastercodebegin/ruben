@@ -117,6 +117,7 @@ export default class UpdateProfileModal extends LandingPageController {
                 labeStyle={styles.label}
                 value={this.props.state.phone_number}
                 testID="phone_number_test_id"
+                maxLenth={10}
                 onchangeText={(num) =>
                   this.props.setState({ phone_number: num })
                 }

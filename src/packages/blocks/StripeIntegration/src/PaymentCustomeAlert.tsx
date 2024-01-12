@@ -39,7 +39,7 @@ const PaymentCustomeAlert = ({
     } else if (paymentAlerttype === "PaymentFailed") {
       return require("../../StripeIntegration/assets/ic_exclamation_icon.png")
     } else {
-      return require("../../StripeIntegration/assets/ic_email_icon.png")
+      return require("../../StripeIntegration/assets/email.png")
     }
   }
 

@@ -142,6 +142,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     let discountPrice = message.getData(
       getName(MessageEnum.RestAPIResponceSuccessMessage)
     );
+
+    console.log("discountPrice===>",discountPrice);
+    
     if (discountPrice?.discount === "Discount not present") {
       this.setState({ showLoader: false }, ()=>this.showDiscountMessage("Discount not present"))
     }
@@ -318,6 +321,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async applyDiscountCode(code:string) {
+    console.log("code===>",code);
+    
     this.setState({showLoader:true})
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
