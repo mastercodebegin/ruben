@@ -1,7 +1,7 @@
 import React ,{useEffect, useState}from "react";
 import { Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { DARK_RED } from "../../landingpage/assets/constants";
-import { arrowLeft } from "../../landingpage/src/assets";
+import { TEXT_COLOR, arrowLeft } from "../../landingpage/src/assets";
 //@ts-ignore
 import ModalDropdownComp from "../../../components/src/ModalDropdownComp";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
@@ -88,7 +88,7 @@ const Dropdown = ({
 const styles = StyleSheet.create({
   text: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingVertical: 15,
     paddingRight: 20,
   },

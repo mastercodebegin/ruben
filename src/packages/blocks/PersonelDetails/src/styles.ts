@@ -111,13 +111,11 @@ export const styles = StyleSheet.create({
     fontStyle:'italic'
   },
   delivery: {
-    borderColor: PRIMARY,
-    borderWidth: 1,
     alignItems: "center",
     marginTop: 20,
     paddingVertical: 12,
     borderRadius: 20,
-    backgroundColor: LIGHT_GREY,
+    elevation:1
   },
   emptySlot: { flex: 1, marginHorizontal: 5, marginVertical: 5 },
   addressContainer: { flexDirection: "row", alignItems: "center" },

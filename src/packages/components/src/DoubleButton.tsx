@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { PRIMARY, LIGHT_GREY, WHITE } from "./constants";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 interface ButtonTypes {
   button1Label: string;
   button2Label: string;
@@ -26,10 +27,11 @@ const DoubleButton = ({
     <View style={[styles.container, containerStyle]} testID="doubleButton">
       <TouchableOpacity
         onPress={button1_Onpress}
-        style={[styles.button, styles.button1Style] }
+        style={[styles.button, styles.button1Style,
+          {backgroundColor:BUTTON_COLOR_PRIMARY,elevation:1}] }
         testID="doneFirstButtonEvent"
       >
-        <Text style={[styles.textStyles, { color: WHITE }]}>
+        <Text style={[styles.textStyles, { color: BUTTON_TEXT_COLOR_PRIMARY }]}>
           {button1Label}
         </Text>
       </TouchableOpacity>
@@ -37,7 +39,7 @@ const DoubleButton = ({
         onPress={button2_Onpress}
         style={[styles.button, styles.button2Style]}
       >
-        <Text style={[styles.textStyles, { color: PRIMARY }]}>
+        <Text style={[styles.textStyles, { color: BUTTON_TEXT_COLOR_SECONDARY }]}>
           {button2Label}
         </Text>
       </TouchableOpacity>
@@ -54,11 +56,12 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   button2Style: {
-    backgroundColor: LIGHT_GREY,
     borderRadius: 30,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
     marginTop: 10,
+    elevation:1,
+    backgroundColor:'white'
   },
   button1Style: { backgroundColor: PRIMARY, borderRadius: 30 },
 });

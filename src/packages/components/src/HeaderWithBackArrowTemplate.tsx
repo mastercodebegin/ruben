@@ -12,6 +12,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { LIGHT_GREY, DARK_RED } from "../../blocks/landingpage/src/colors";
+import { TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 const arrowLeft = require("./arrow_left.png");
 interface HeaderWithBackArrowTemplateTypes {
   children: ReactElement<any, any>;
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
     paddingLeft: 20,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "400",
   },
   backImage: { height: 15, width: 15 },

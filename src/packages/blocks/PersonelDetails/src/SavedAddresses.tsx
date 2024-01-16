@@ -8,6 +8,7 @@ import {
   PRIMARY,
 } from "../../../components/src/constants";
 import AddAddressModal from './AddAddressModal'
+import { APP_BACKGROUND, BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const closeIcon =  require("../assets/add.png")
 interface RenderAddressTypes {
   title: string;
@@ -20,14 +21,14 @@ const RenderAddress = ({ title, setChecked, checked, address }: RenderAddressTyp
     <View style={styles.addressContainer}>
       <TouchableOpacity style={styles.padding} onPress={setChecked}>
         <CheckBox
-          backgroundColor={LIGHT_GREY}
+          backgroundColor={SECONDARY_COLOR}
           checked={checked}
           disabled
         />
       </TouchableOpacity>
-      <Text style={[styles.question, styles.addressText]}>{title}</Text>
+      <Text style={[styles.question, styles.addressText,{color:TEXT_COLOR}]}>{title}</Text>
     </View>
-    <Text style={{ color: DARK_RED }}>
+    <Text style={{ color: SECONDARY_TEXT_COLOR }}>
       {address}
     </Text>
   </View>
@@ -60,7 +61,7 @@ export default class SavedAddresses extends Component<Props, State> {
             <TouchableOpacity onPress={() => {
               this.props.setShowModal(true)
             }} style={{marginLeft:10}}>
-            <Image style={{height:25,width:25, tintColor:PRIMARY}} source={closeIcon}/>
+            <Image style={{height:25,width:25, tintColor:PRIMARY_COLOR}} source={closeIcon}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -90,8 +91,8 @@ export default class SavedAddresses extends Component<Props, State> {
         
 
         <TouchableOpacity onPress={() => {
-        }} style={styles.delivery}>
-          <Text style={{ color: PRIMARY }}>{'Delivery'}</Text>
+        }} style={[styles.delivery,{backgroundColor:BUTTON_COLOR_PRIMARY}]}>
+          <Text style={{ color: BUTTON_TEXT_COLOR_PRIMARY }}>{'Delivery'}</Text>
         </TouchableOpacity>
         {this.props.showModal ? <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  /> : null}
       </View>

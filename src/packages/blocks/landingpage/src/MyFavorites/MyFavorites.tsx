@@ -9,7 +9,7 @@ import {
 	FlatList,
 	ImageBackground,
 } from "react-native";
-import { CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, WHITE, backGroundImage, badge } from "../assets";
+import { APP_BACKGROUND, CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, TEXT_COLOR, WHITE, backGroundImage, badge } from "../assets";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import { deviceHeight, deviceWidth } from "../../../../framework/src/Utilities";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -147,19 +147,19 @@ export const styles = StyleSheet.create({
 	},
 	favdescription: {
 		fontSize: 17,
-		color: MID_PEACH,
+		color: TEXT_COLOR,
 		// paddingBottom: 5,
 		width: '80%'
 	},
 	price: {
 		fontSize: 22,
-		color: DARK_RED,
+		color: TEXT_COLOR,
 		fontWeight: "bold",
 		marginTop: 10,
 	},
 	kgStyle: {
 		fontSize: 17,
-		color: DARK_RED,
+		color: TEXT_COLOR,
 		fontWeight: "500",
 		marginTop: 10,
 	},
@@ -212,17 +212,17 @@ export const styles = StyleSheet.create({
 	badge: {
 		height: 20,
 		width: 20,
-		tintColor: WHITE
+		tintColor: APP_BACKGROUND
 	},
 	rating: {
-		color: "white",
+		color: APP_BACKGROUND,
 		paddingLeft: 10,
 		fontSize: 17,
 		fontWeight: "bold",
 	},
 	productName: {
 		fontSize: 22,
-		color: DARK_RED,
+		color: TEXT_COLOR,
 		fontWeight: "bold",
 		marginTop: 10,
 	},

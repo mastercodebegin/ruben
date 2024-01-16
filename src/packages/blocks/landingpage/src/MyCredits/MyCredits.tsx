@@ -14,7 +14,10 @@ import {
   cow,
   LIGHT_GREY,
   PRIMARY,
-  MID_PEACH
+  MID_PEACH,
+  TEXT_COLOR,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_TEXT_COLOR_PRIMARY
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -64,7 +67,7 @@ export default class MyCreditScreen extends LandingPageController {
                     <Text style={styles.desText}>{item?.remaining_cuts}</Text>
                   </View>
                   <TouchableOpacity
-                    style={styles.pickButton}
+                    style={[styles.pickButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
                     testID="detailsModal"
                     onPress={() => {
                       this.setState({ showMyCreditModal: true });
@@ -114,13 +117,13 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   text: {
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     fontWeight: "normal",
     fontSize: 16
   },
   desText: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold"
   },
   flexContainer: {
@@ -137,13 +140,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: BUTTON_COLOR_PRIMARY,
     marginHorizontal: 20,
     marginTop: 10
   },
   pickText: {
     fontSize: 16,
-    color: PRIMARY,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontWeight: "700"
   }
 });

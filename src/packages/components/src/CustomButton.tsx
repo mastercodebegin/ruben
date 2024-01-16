@@ -9,6 +9,7 @@ import {
   View,
   TextStyle,
 } from "react-native";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY } from "../../blocks/landingpage/src/assets";
 
 interface ButtonType {
   style?: StyleProp<ViewStyle>;
@@ -37,6 +38,7 @@ const Button = ({
           styles.continue,
           style,
           transparentBackground && styles.transparentContinue,
+          {elevation:1}
         ]}
       >
         {transparentBackground && (
@@ -78,13 +80,13 @@ const styles = StyleSheet.create({
   continue: {
     borderRadius: 28,
     alignItems: "center",
-    backgroundColor: "#a0272a",
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     overflow: "hidden",
   },
   text: {
-    color: "white",
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 18,
     paddingVertical: 15,
   },
   shadow: { height: 20, width: "100%", top: -10, zIndex: -10 },

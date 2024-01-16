@@ -11,6 +11,7 @@ import {
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { DARK_RED, LIGHT_GREY } from "../../landingpage/assets/constants";
 import Button from "../../../components/src/CustomButton";
+import { PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const closeIcon = require("../../PersonelDetails/assets/close.png");
 
 interface PaymentModalTypes {
@@ -50,7 +51,7 @@ const PaymentCustomeAlert = ({
         <View style={styles.innerContainer}>
           <TouchableOpacity onPress={onpressClose} testID="closePaymentAlert" style={styles.closeButton} >
             <Image
-              style={styles.closeImage}
+              style={[styles.closeImage,{tintColor:PRIMARY_COLOR}]}
               resizeMode="contain"
               source={closeIcon}
             />
@@ -61,13 +62,13 @@ const PaymentCustomeAlert = ({
             </>
           ) : (
             <Image
-            style={styles.mainImage}
+            style={[styles.mainImage,{tintColor:PRIMARY_COLOR}]}
             resizeMode="contain"
             source={getImageAsperAlert()}
           />
           )}
-          <Text style={styles.headerText}>{customeText}</Text>
-          <Text style={styles.description}>
+          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{customeText}</Text>
+          <Text style={[styles.description,{color:SECONDARY_TEXT_COLOR}]}>
             {customeDescription}
           </Text>
           {isLoading === false && (

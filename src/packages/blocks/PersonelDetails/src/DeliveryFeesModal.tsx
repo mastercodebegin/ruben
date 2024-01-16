@@ -10,6 +10,7 @@ import {
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { DARK_RED, LIGHT_GREY } from "../../landingpage/assets/constants";
 import Button from "../../../components/src/CustomButton";
+import { PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const closeIcon = require("../assets/close.png");
 interface DeliveryFeesModalTypes {
   onpressClose: () => void;
@@ -28,13 +29,13 @@ const DeliveryFeesModal = ({
         <View style={styles.innerContainer}>
           <TouchableOpacity onPress={onpressClose} style={styles.closeButton}>
             <Image
-              style={styles.closeImage}
+              style={[styles.closeImage,{tintColor:PRIMARY_COLOR}]}
               resizeMode="contain"
               source={closeIcon}
             />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Delivery Fees</Text>
-          <Text style={styles.description}>
+          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>Delivery Fees</Text>
+          <Text style={[styles.description,{color:SECONDARY_TEXT_COLOR}]}>
             {
               "You'll be charge $12.00 to deliver this products at your selected location."
             }

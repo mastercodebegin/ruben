@@ -15,7 +15,7 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, DARK_RED, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY } from "../assets";
+import { SEARCH, EXPLORE_BTN, CHICKEN, MID_PEACH, PRIMARY, TEXT_COLOR, APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, SECONDARY_TEXT_COLOR, BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, BUTTON_COLOR_SECONDARY, SECONDARY_COLOR, BUTTON_TEXT_COLOR_SECONDARY } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
@@ -34,7 +34,6 @@ export class ExplorePage extends LandingPageController {
     this.getProductList(this.state.sortAscending);
   }
    renderItem = ({ item, index }: any) => {
-    console.log('sub-category----',item);
     
 
     return (
@@ -49,8 +48,8 @@ export class ExplorePage extends LandingPageController {
           {
             backgroundColor:
               this.state.selectedSub === item?.id
-                ? "#A0272A"
-                : WHITE,
+                ? BUTTON_COLOR_PRIMARY
+                : BUTTON_COLOR_SECONDARY,
           },
         ]}
       >
@@ -59,15 +58,15 @@ export class ExplorePage extends LandingPageController {
             height: 25,
             width: 25,
             marginRight: 10,
-            tintColor: this.state.selectedSub==item?.id ? "white" : DARK_RED,
+            tintColor: this.state.selectedSub==item?.id ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY ,
           }}
           source={CHICKEN}
         />
         <Text
           numberOfLines={1}
           style={{
-            fontSize: 20,
-            color: this.state.selectedSub==item?.id ? "white" : DARK_RED,
+            fontSize: 16,
+            color: this.state.selectedSub==item?.id ? BUTTON_TEXT_COLOR_PRIMARY :BUTTON_TEXT_COLOR_SECONDARY,
             fontWeight: "500",
           }}
         >
@@ -104,13 +103,13 @@ export class ExplorePage extends LandingPageController {
                   <View style={styles.searchContainer}>
                     <Image
                       resizeMode="stretch"
-                      style={styles.search}
+                      style={[styles.search,{tintColor:PRIMARY_COLOR}]}
                       source={SEARCH}
                     />
                     <TextInput
                       style={styles.textInput}
                       placeholder="Search any Product/Video"
-                      placeholderTextColor={"#8D7D75"}
+                      placeholderTextColor={TEXT_COLOR}
                       value={this.state.searchText}
                       testID="productSearch"
                       onChangeText={(searchText) => {
@@ -131,7 +130,7 @@ export class ExplorePage extends LandingPageController {
                       }
                     >
                       <Image
-                        style={styles.explore}
+                        style={[styles.explore,{tintColor:BUTTON_COLOR_PRIMARY}]}
                         resizeMode="contain"
                         source={EXPLORE_BTN}
                       />
@@ -325,7 +324,7 @@ export const styles = StyleSheet.create({
   header: {
     fontWeight: "700",
     fontSize: 24,
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   textInput: {
     backgroundColor: WHITE,
@@ -353,12 +352,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 22,
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
   },
   exploreBtn: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     paddingHorizontal: 12,
     marginHorizontal: 10,
     borderRadius: 25,
@@ -367,14 +366,14 @@ export const styles = StyleSheet.create({
   explore: { height: 25, width: 25 },
 
   rating: {
-    color: "white",
+    color: APP_BACKGROUND,
     paddingLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
   },
   dropdown: {
     position: "absolute",
-    backgroundColor: "#fff",
+    backgroundColor: APP_BACKGROUND,
     width: "50%",
     shadowColor: "#000000",
     shadowRadius: 4,
@@ -398,12 +397,12 @@ export const styles = StyleSheet.create({
     justifyContent:'space-between'
   },
   itemCategory: {
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
   seeText:{
-    color:PRIMARY,
+    color:SECONDARY_TEXT_COLOR,
     fontWeight: "bold",
   }
 });

@@ -19,7 +19,14 @@ import {
   plus,
   upArrow,
   PRIMARY,
-  WHITE
+  WHITE,
+  TEXT_COLOR,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_COLOR_SECONDARY,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  BUTTON_TEXT_COLOR_SECONDARY
 } from "../assets";
 import { BLACK } from "../colors";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -55,11 +62,11 @@ export default class MyCreditDetailsModal extends LandingPageController {
           this.state.selectedAnimalSlot === item
             ? [
               styles.selectSlots,
-              { backgroundColor: PRIMARY }
+              { backgroundColor: BUTTON_COLOR_PRIMARY }
             ]
             : [
               styles.selectSlots,
-              { backgroundColor: WHITE }
+              { backgroundColor: BUTTON_COLOR_SECONDARY }
             ]
         }
       >
@@ -71,8 +78,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
           <Text
             style={
               this.state.selectedAnimalSlot === item
-                ? [styles.slotsTime, { color: WHITE,alignSelf:'center' }]
-                : [styles.slotsTime, { color: MID_PEACH,alignSelf:'center' }]
+                ? [styles.slotsTime, { color: BUTTON_TEXT_COLOR_PRIMARY,alignSelf:'center' }]
+                : [styles.slotsTime, { color: BUTTON_TEXT_COLOR_SECONDARY,alignSelf:'center' }]
             }
           >
             {item}
@@ -137,7 +144,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                                 <View style={styles.unChecked}></View>
                               )}
                             </TouchableOpacity>
-                            <Text style={styles.chooseTitle}>{item.title}</Text>
+                            <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>{item.title}</Text>
                           </View>
                         );
                       }}
@@ -147,11 +154,11 @@ export default class MyCreditDetailsModal extends LandingPageController {
                 </View>
                 <View style={styles.optionContainer}>
                   <Text style={styles.optionLabel}>Enter cuts to pick up</Text>
-                  <View style={styles.optionContainerIn}>
-                    <Text style={styles.chooseTitle}>
+                  <View style={[styles.optionContainerIn]}>
+                    <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>
                       {this.state.selectedAnimalCuts}
                     </Text>
-                    <View style={styles.cutsDropDown}>
+                    <View style={[styles.cutsDropDown]}>
 
                       <TouchableOpacity
                       testID="animalCutsDropDown"
@@ -182,7 +189,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
                   {this.state.handleAnimalCutsDropDown && (
                     
-                    <View style={styles.optionDropContainer}>
+                    <View style={[styles.optionDropContainer]}>
                       {console.log('List===================')
                       }
                       <FlatList
@@ -209,7 +216,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                                 this.handleAnimalCutsOption(item.title, this.props.remainingCuts, this.state.animalCutsCount);
                               }}
                             >
-                              <Text style={styles.chooseTitle}>{item.title}</Text>
+                              <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>{item.title}</Text>
                             </TouchableOpacity>
 
                           );
@@ -223,7 +230,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                     data={this.state.animalPortions}
                     renderItem={({ item, index }) => <View style={{ flex: 1, flexDirection: 'row', backgroundColor: LIGHT_GREY, marginTop: scaledSize(6), padding: scaledSize(6), borderRadius: scaledSize(8) }}>
                       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={[styles.chooseTitle,]}>
+                        <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>
                           {item?.name}
                         </Text>
                       </View>
@@ -272,7 +279,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </View>
                   <View style={styles.addressContinerStyle}>
                     {this.state.setDeliverOption == 'Shipping' || this.state.setDeliverOption == 'Deliver' ? <>
-                      <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold', color: PRIMARY }}>CHOOSE FROM SAVED ADDRESS</Text>
+                      <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold',
+                       color: TEXT_COLOR }}>CHOOSE FROM SAVED ADDRESS</Text>
                       <FlatList
                       testID="addressFlatList"
                         data={this.state.userAddress}
@@ -294,8 +302,8 @@ export default class MyCreditDetailsModal extends LandingPageController {
                               )}
                             </TouchableOpacity>
                             <View>
-                              <Text style={[styles.chooseTitle]}>{item.attributes?.address_type}</Text>
-                              <Text style={styles.chooseTitle}>{item.attributes.address}</Text>
+                              <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>{item.attributes?.address_type}</Text>
+                              <Text style={[styles.chooseTitle,{color:TEXT_COLOR}]}>{item.attributes.address}</Text>
                             </View>
                           </View>
                         </View>}
@@ -304,7 +312,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
 
                     {this.state.setDeliverOption == 'Pickup' ? <View style={styles.slotsContainer}>
 
-                      <Text style={styles.slotsTitle}>Available Slots </Text>
+                      <Text style={[styles.slotsTitle,{color:TEXT_COLOR}]}>Available Slots </Text>
                       <FlatList
                       testID="avaialbleSlots"
                         data={this.state.animalAvailableSlots}
@@ -316,7 +324,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   </View>
                   <View style={styles.buttomButtonRow}>
                     <TouchableOpacity
-                      style={styles.submitButton}
+                      style={[styles.submitButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
                       onPress={() => this.submitPickupRequestHandler(
                         this.state.setDeliverOption,
                         this.state.animalPortions.length,
@@ -327,15 +335,15 @@ export default class MyCreditDetailsModal extends LandingPageController {
                       )}
 
                     >
-                      <Text style={styles.submitButtonText}>
+                      <Text style={[styles.submitButtonText,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>
                         Submit Pickup Request
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={styles.cancelButton}
+                      style={[styles.cancelButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
                       onPress={() => this.props?.setCreditDetailModal()}
                     >
-                      <Text style={styles.cancelButtonText}>Cancel</Text>
+                      <Text style={[styles.cancelButtonText,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>Cancel</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -438,7 +446,7 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     fontSize: 18,
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     paddingBottom: 10,
     fontWeight: "500"
   },
@@ -475,7 +483,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   checked: {
-    backgroundColor: PRIMARY,
+    backgroundColor: PRIMARY_COLOR,
     width: 14,
     height: 14,
     borderRadius: 15
@@ -570,8 +578,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     textAlign: "center",
     justifyContent: "center",
-    borderWidth: 1,
-    borderColor: DARK_RED
+ 
   },
   cancelButtonText: {
     color: PRIMARY,

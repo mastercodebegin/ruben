@@ -19,6 +19,7 @@ import AvailableSlots from "./AvailableSlots";
 import DoubleButton from "../../../components/src/DoubleButton";
 import DeliveryFeesModal from "./DeliveryFeesModal";
 import CommonLoader from "../../../components/src/CommonLoader";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY } from "../../landingpage/src/assets";
 const deliveryIcon = require('../../../components/src/deliveryIcon.png');
 const pickupIcon = require('../../../components/src/shippingIcon.png');
 const shippingIcon = require('../../../components/src/package.png');
@@ -31,11 +32,11 @@ interface ImageBoxType {
 const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   <TouchableOpacity
     onPress={onpress}
-    style={[styles.boxContainer, selected && { backgroundColor: PRIMARY }]}
+    style={[styles.boxContainer, selected ? { backgroundColor: BUTTON_COLOR_PRIMARY }:{ backgroundColor: BUTTON_COLOR_SECONDARY }]}
   >
     <Image
       resizeMode="stretch"
-      style={[{ height: 20, width: 20 ,tintColor:selected ? "white":PRIMARY}]}
+      style={[{ height: 20, width: 20 ,tintColor:selected ?BUTTON_TEXT_COLOR_PRIMARY: BUTTON_TEXT_COLOR_SECONDARY}]}
       source={image}
     />
     <Text

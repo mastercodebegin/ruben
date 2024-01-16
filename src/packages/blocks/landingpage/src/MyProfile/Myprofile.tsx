@@ -24,6 +24,11 @@ import {
   facebook,
   CART,
   cow,
+  TEXT_COLOR,
+  SECONDARY_TEXT_COLOR,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  PRIMARY_COLOR,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -109,7 +114,10 @@ export default class Myprofile extends LandingPageController {
     {                      
       this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
     }
-    else{this.showAlert(" Place an order to display the values of the cuts")}
+    else{
+
+      this.showAlert(" Place an order to display the values of the cuts")
+    }
   }
   renderItem({ item }: any) {
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
@@ -204,14 +212,14 @@ export default class Myprofile extends LandingPageController {
                   />
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.alertHeader}>New Order Alert</Text>
-                  <Text style={styles.deliverydate}>Est.Delivery:</Text>
+                  <Text style={[styles.alertHeader,{color:TEXT_COLOR}]}>New Order Alert</Text>
+                  <Text style={[styles.deliverydate,{color:SECONDARY_TEXT_COLOR}]}>Est.Delivery:</Text>
                   <TouchableOpacity
                     testID="navigate_myorder_id"
                     onPress={() =>
                       this.props.navigation.navigate("MyOrdersScreen")
                     }
-                    style={styles.detailsButton}
+                    style={[styles.detailsButton]}
                   >
                     <Text style={styles.viewDetail}>View Details</Text>
                   </TouchableOpacity>
@@ -231,7 +239,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.socialbutton}
                       onPress={this.redirectToInstagramProfile}
                     >
-                      <Image style={styles.socialIcon} source={instagram} />
+                      <Image style={[styles.socialIcon,{tintColor:PRIMARY}]} source={instagram} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.socialbutton}
@@ -375,7 +383,7 @@ export default class Myprofile extends LandingPageController {
                    this.navigateToNext() 
                   }}
                 >
-                  <Text style={styles.viewDetail}>My Credits</Text>
+                  <Text style={[styles.viewDetail,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>My Credits</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -452,11 +460,11 @@ export const styles = StyleSheet.create({
     marginRight: 20,
   },
   cart: { height: 30, width: 30 },
-  seeText: { color: PRIMARY, fontSize: 17 },
+  seeText: { color: BUTTON_TEXT_COLOR_PRIMARY, fontSize: 17 },
   seeBtn: {
     marginHorizontal: 20,
     alignItems: "center",
-    backgroundColor: WHITE,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     paddingVertical: 15,
     marginVertical: 20,
     borderRadius: 25,
@@ -467,11 +475,11 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
-  selected: { color: DARK_RED, fontWeight: "bold" },
-  historyText: { fontSize: 17, color: PRIMARY },
+  selected: { color: TEXT_COLOR, fontWeight: "bold" },
+  historyText: { fontSize: 17, color: TEXT_COLOR },
   contactText: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingLeft: 20,
   },
   contact: {
@@ -506,10 +514,10 @@ export const styles = StyleSheet.create({
   selections: {
     marginRight: 15,
     fontSize: 17,
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
   },
   description: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 16,
     marginTop: 20,
   },
@@ -526,14 +534,14 @@ export const styles = StyleSheet.create({
   headerText: {
     fontSize: 17,
     fontWeight: "bold",
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     marginTop: 20,
   },
 
   name: {
     fontSize: 19,
     fontWeight: "bold",
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   main: {
     flex: 1,
@@ -572,14 +580,14 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
   detailsButton: {
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     alignSelf: "flex-start",
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 24,
   },
   viewDetail: {
-    color: WHITE,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 17,
   },
   innerContainer: { flex: 1, paddingHorizontal: 20 },
@@ -608,12 +616,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   invDesText: {
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 14,
     textTransform: "uppercase",
   },
   invTotalText: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 18,
     fontWeight: "bold",
     paddingTop: 8,
@@ -621,7 +629,7 @@ export const styles = StyleSheet.create({
   CreditsButton: {
     width: "100%",
     alignItems: "center",
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 24,
@@ -647,12 +655,12 @@ export const styles = StyleSheet.create({
   },
   favdescription: {
     fontSize: 17,
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
     paddingBottom: 15,
   },
   price: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
   },
   itemImage: {
@@ -714,7 +722,7 @@ export const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     marginTop: 15,
   },

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 interface CheckBoxTypes {
   checked: boolean;
   setChecked?: (value: boolean) => void;
@@ -37,9 +38,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: 9,
+    borderWidth:.1
   },
   dot: {
-    backgroundColor: "#A0272A",
+    backgroundColor: PRIMARY_COLOR,
     height: 9,
     width: 9,
     borderRadius: 4.5,

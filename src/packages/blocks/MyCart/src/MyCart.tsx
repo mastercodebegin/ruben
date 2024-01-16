@@ -14,6 +14,7 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY } from "../../landingpage/src/assets";
 export default class MyCart extends MyCartController {
   constructor(props:Props ) {
     super(props);
@@ -165,12 +166,12 @@ const styles = StyleSheet.create({
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15, fontStyle: "italic" },
   contentContainer: { paddingBottom: 20,paddingHorizontal:20 },
   buttonText: {
-    color: "#A0272A",
+    color: BUTTON_TEXT_COLOR_SECONDARY,
     textAlign: "center",
     fontSize: 17,
   },
   button: {
-    borderColor: "#A0272A",
+    borderColor: BUTTON_COLOR_PRIMARY,
     borderWidth: 1,
     borderRadius: 30,
     paddingVertical: 15,
