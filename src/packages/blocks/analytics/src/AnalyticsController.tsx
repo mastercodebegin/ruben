@@ -321,7 +321,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       } else {
         this.setState({ categoryList: list.data });
         this.setState({ category_id: list.data[0]?.id })
-        this.setState({ category_title: list.data[0]?.attributes?.name })
+        this.setState({ category_title: list.data[0]?.attributes?.name, animalSelectedValue:list.data[0]?.attributes?.name })
         this.getAnalyticData(list.data[0]?.id)
       }
     } else if (

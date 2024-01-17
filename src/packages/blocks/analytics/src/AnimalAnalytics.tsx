@@ -9,7 +9,7 @@ import {
   Image
   // Customizable Area End
 } from "react-native";
-import { cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_shortplate, cow_sirlion } from "./assets";
+import { cow_brisket, cow_chuch, cow_default, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_shortplate, cow_sirlion } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -27,7 +27,7 @@ export default class AnimalAnalytics extends AnalyticsController {
     return (
       // Customizable Area Start
       <View style={styles.container} testID="animalView">
-        {this.props?.animalSelectedValue == 'Cow' &&
+        {this.props?.animalSelectedValue == 'Beef Bacon(Naval)' &&
           <View style={styles.animalImgContainer}>
             <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
             <View style={styles.animalImgCont}>
@@ -35,7 +35,7 @@ export default class AnimalAnalytics extends AnalyticsController {
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
-                  source={cow_head}
+                  source={cow_default}
                 />
               }
               {this.state.cowHead &&

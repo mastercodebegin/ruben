@@ -172,6 +172,12 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 else if (!validName(name)) {
                   this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
                 }
+
+                else if  (phoneNumber.length < 10) {
+                  this.showAlert('please enter correct phone number')
+                  return false;
+                }
+                
                 else if (
                   name &&
                   address &&

@@ -14,11 +14,11 @@ const MyDetails = ({ header, list }: MyDetailsTypes) => (
         {
             list.map((item, i) => {
                 return (<View style={styles.myDetailContainer} key={item?.question}>
-                    <View style={{width:'26%',backgroundColor:'white'}}>
+                    <View>
                         <Text style={styles.question}>{item?.question}</Text>
                     </View>
-                    <View style={{width:'80%',}}>
-                        <Text style={styles.answer}>{item?.ans}</Text>
+                     <View style={{width:'70%'}}>
+                        <Text  style={[styles.answer,{alignSelf:'flex-start',marginLeft:22}]}>{item?.ans}</Text>
                     </View>
                 </View>)
             })

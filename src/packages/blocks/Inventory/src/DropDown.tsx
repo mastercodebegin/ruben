@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   rendertext: {
     paddingVertical: 8,
     paddingHorizontal: 15,
-    fontSize: 20,
+    fontSize: 16,
     color: "black",
   },
   dropDown: {

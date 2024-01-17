@@ -7,18 +7,15 @@ export const Header = (props: any) => {
   // const [selected, setSelected] = useState(
   //   props?.selected ? props?.selected : "blog"
   // );
-
-  console.log("props====>",props.selected);
   
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
       testID="navigate_to_blogpost_id"
-        // onPress={() => {
-        //   setSelected("blog");
-        //   props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
-        // }}
-        onPress={()=>props.onPress("blog")}
+        onPress={() => {
+          // setSelected("blog");
+          props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
+        }}
       >
         <Text
           style={[
@@ -31,11 +28,10 @@ export const Header = (props: any) => {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
       testID="navigate_to_video_library_id"
-        // onPress={() => {
-        //   setSelected("video");
-        //   props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
-        // }}
-        onPress={()=>props.onPress("video")}
+        onPress={() => {
+          // setSelected("video");
+          props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
+        }}
       >
         <Text
           style={[
