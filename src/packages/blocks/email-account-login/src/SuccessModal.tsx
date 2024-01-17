@@ -13,6 +13,7 @@ import {
 import Button from "../../../components/src/CustomButton";
 import { close, copy, emoji } from "./assets";
 import Toast from "react-native-simple-toast";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 interface ModalTypes {
   visible: boolean;
@@ -44,16 +45,16 @@ const SuccessModal = ({
           <TouchableOpacity
             testID={onCloseTestID}
             onPress={onpressClose}
-            style={styles.close}
+            style={[styles.close,{backgroundColor:APP_BACKGROUND}]}
           >
             <Image
               resizeMode="contain"
-              style={styles.closeIcon}
+              style={[styles.closeIcon,{tintColor:PRIMARY_COLOR}]}
               source={close}
             />
           </TouchableOpacity>
           <View style={styles.congratulationContainer}>
-            <Text style={styles.congratulation}>{"Congratulations "}</Text>
+            <Text style={[styles.congratulation,{color:TEXT_COLOR}]}>{"Congratulations "}</Text>
             <Image style={styles.emoji} source={emoji} />
           </View>
           <Text style={styles.description}>
@@ -68,8 +69,8 @@ const SuccessModal = ({
             onPress={onpressCopy}
             style={styles.copyContainer}
           >
-            <Text style={styles.copy}>COPY COUPON CODE</Text>
-            <Image style={styles.copyImg} source={copy} />
+            <Text style={[styles.copy,{color:TEXT_COLOR}]}>COPY COUPON CODE</Text>
+            <Image style={[styles.copyImg,{tintColor:PRIMARY_COLOR}]} source={copy} />
           </TouchableOpacity>
           <Button onPress={onpressContinue} label={"Continue"} />
         </View>
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     alignSelf: "center",
-    borderBottomColor: "#A0272A",
+    borderBottomColor: PRIMARY_COLOR,
     borderBottomWidth: 2,
   },
   closeIcon: { height: 15, width: 15 },
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 20,
   },
-  description: { color: "#8D7D75", textAlign: "center", fontSize: 15 },
+  description: { color: TEXT_COLOR, textAlign: "center", fontSize: 15 },
   copyImg: {
     height: 27,
     width: 27,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   discount: {
-    color: "#8D7D75",
+    color: SECONDARY_TEXT_COLOR,
     paddingTop: 20,
     textAlign: "center",
     fontSize: 15,

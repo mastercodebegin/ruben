@@ -13,7 +13,7 @@ import {  redShadow,  } from "./assets";
 
 import SplashscreenController, { Props } from "./SplashscreenController";
 
-import { splashScreenImage } from "../../landingpage/src/assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, splashScreenImage } from "../../landingpage/src/assets";
 
 export default class Splashscreen extends SplashscreenController {
   constructor(props: Props) {
@@ -41,9 +41,9 @@ export default class Splashscreen extends SplashscreenController {
         </View>
         <TouchableOpacity
           onPress={this.onPressContinue}
-          style={styles.continue}
+          style={[styles.continue,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
         >
-          <Text style={styles.text}>Continue</Text>
+          <Text style={[styles.text,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>Continue</Text>
         </TouchableOpacity>
         <Image resizeMode="stretch"
          source={redShadow}
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   continue: {
     borderRadius: 28,
     alignItems: "center",
-    backgroundColor: "#a0272a",
+    backgroundColor: PRIMARY_COLOR,
     marginHorizontal: 20,
   },
   text: {

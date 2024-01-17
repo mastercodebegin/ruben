@@ -9,6 +9,7 @@ import {
   Platform,
 } from "react-native";
 import Button from "./CustomButton";
+import { SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 //@ts-ignore
 
 const meatImage1 = require("./meatimage@1.jpg");
@@ -86,12 +87,12 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: "700",
     fontSize: 27,
-    color: "#5C2221",
+    color: TEXT_COLOR,
   },
   text: {
     fontSize: 17,
     paddingVertical: 10,
-    color: "#8D7D75",
+    color: SECONDARY_TEXT_COLOR,
   },
   shadow: { height: 50 },
   images: {

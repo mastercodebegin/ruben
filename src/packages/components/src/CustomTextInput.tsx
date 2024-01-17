@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { ShowPassword } from "../../blocks/email-account-login/src/assets";
 import { hidePassword } from "../../blocks/email-account-login/src/assets";
+import { PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 
 interface TextInputType {
   label: string;
@@ -66,7 +67,7 @@ const TextInput = ({
           <View style={styles.showContainer}>
             <TouchableOpacity onPress={() => setSecureEntry(!secureEntry)}>
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{ height: 20, width: 20,tintColor:PRIMARY_COLOR }}
                 resizeMode="contain"
                 source={secureEntry ? hidePassword : ShowPassword}
               />
