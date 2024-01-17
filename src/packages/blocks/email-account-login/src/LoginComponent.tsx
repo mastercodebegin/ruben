@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
+import { SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 console.disableYellowBox=true
 interface LoginComponentTypes {
   onpressSignup: () => void;
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     paddingTop: 10,
   },
-  text: { fontSize: 17, color: "#8D7D75" },
+  text: { fontSize: 17, color: SECONDARY_TEXT_COLOR },
   header: {
     fontSize: 22,
     fontWeight: "bold",
@@ -118,10 +119,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F4F4",
   },
-  rememberText: { paddingLeft: 15, color: "#A0272A", fontSize: 16 },
+  rememberText: { paddingLeft: 15, color: TEXT_COLOR, fontSize: 16 },
   mainContainer: { paddingTop: 40, paddingHorizontal: 20 },
   signup: {
-    color: "#A0272A",
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
