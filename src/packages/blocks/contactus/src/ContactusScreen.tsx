@@ -6,7 +6,7 @@ import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackA
 import { LIGHT_GREY, PRIMARY } from "../../../components/src/constants";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
-import { instagram,mail } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR, instagram,mail } from "../../landingpage/src/assets";
 import QuerySubmittedModal from "./QuerySubmittedModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const webIcon = require('../assets/web.png')
@@ -63,7 +63,7 @@ export default class Contactus extends ContactusController {
             <Button
               label="cancel"
               labelStyle={{
-                color: PRIMARY,
+                color: BUTTON_TEXT_COLOR_SECONDARY,
                 fontSize: 17,
                 fontWeight: "normal",
               }}
@@ -93,7 +93,7 @@ export default class Contactus extends ContactusController {
                 onPress={this.handlePressInstagram.bind(this)}
                 style={styles.socialBtn}
               >
-                <Image style={styles.image} source={instagram} />
+                <Image style={[styles.image]} source={instagram} />
               </TouchableOpacity>
               <TouchableOpacity
                 testID="open_web_test_id"
@@ -126,10 +126,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingHorizontal: 20,
     paddingTop: 20,
+    backgroundColor:APP_BACKGROUND
   },
-  mainContainer: { flex: 1, backgroundColor: LIGHT_GREY, paddingTop: 20,paddingBottom:20 },
+  mainContainer: { flex: 1, backgroundColor: APP_BACKGROUND, paddingTop: 20,paddingBottom:20 },
   container: {
-    backgroundColor: "white",
+    backgroundColor: APP_BACKGROUND,
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderRadius: 20,
@@ -137,21 +138,21 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
   },
   socialBtn: {
     height: 40,
     width: 40,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
   },
-  image: { height: 20, width: 20 },
+  image: { height: 20, width: 20,tintColor:PRIMARY_COLOR },
   textinput: {
-    color: "#5C2221",
+    color: TEXT_COLOR,
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: SECONDARY_COLOR,
     paddingHorizontal: 10,
     fontSize: 15,
     fontWeight: "bold",
@@ -160,12 +161,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    color: "#8D7D75",
+    color: TEXT_COLOR,
     paddingVertical: 10,
   },
   reachOut:{
     textAlign: "center",
     fontSize: 16,
-    color: "grey",
+    color: TEXT_COLOR,
   }
 });

@@ -19,6 +19,7 @@ element_unmarked,
 profile_marked,
 profile_unmarked,
 Bill,
+PRIMARY_COLOR,
 } from "../assets";
 import { store } from "../../../../components/src/utils"; 
 type BottomTabType = {
@@ -34,11 +35,11 @@ const BottomTab = ({ tabName, navigation }: BottomTabType) => {
             navigation?.navigate(navigate)}} style={styles.iconContainer}>
             <View style={{ alignItems: "center" }}>
               <Image
-                style={{...styles.icon, tintColor:selected?PRIMARY:'grey'}}
+                style={{...styles.icon, tintColor:selected?PRIMARY_COLOR:'grey'}}
                 resizeMode='contain'
                 source={image}
               />
-              {selected && <View style={styles.dot} />}
+              {selected && <View style={[styles.dot,{backgroundColor:PRIMARY_COLOR}]} />}
             </View>
           </TouchableOpacity>
         );

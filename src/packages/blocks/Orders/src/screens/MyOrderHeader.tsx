@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { styles } from "../../../../components/src/CalendarTemplate";
-import { SEARCH, backArrow } from "../../../landingpage/src/assets";
+import { PRIMARY_COLOR, SEARCH, TEXT_COLOR, backArrow } from "../../../landingpage/src/assets";
 import { styles as expStyles } from "../../../landingpage/src/ExploreStore/ExplorePage";
 import { DARK_RED, calendarIcon } from "../../../../components/src/constants";
 import DisplayCalendar from "../../../../components/src/DisplayCalendar";
@@ -61,7 +61,7 @@ export const MyOrderHeader = ({
         >
           <Image style={{ height: 20, width: 20 }} source={backArrow} />
         </TouchableOpacity>
-        <Text style={styles.header}>{"My Orders"}</Text>
+        <Text style={[styles.header,{color:TEXT_COLOR}]}>{"My Orders"}</Text>
       </View>
       <View style={styles.animatedContainer}>
         <Animated.View
@@ -102,12 +102,12 @@ export const MyOrderHeader = ({
         </TouchableOpacity>
       </View>
       <View style={expStyles.textInputContainer}>
-        <View style={[expStyles.searchContainer, { height: 50, paddingHorizontal: 20 }]}>
+        <View style={[expStyles.searchContainer, { height: 50, paddingHorizontal: 20,borderWidth:1,borderColor:PRIMARY_COLOR }]}>
        {(orderNo.length ===0)?<Image
             resizeMode="stretch"
             style={[
               {
-                tintColor: DARK_RED,
+                tintColor: PRIMARY_COLOR,
                 height: 20,
                 width: 20,
                 marginRight:10
@@ -116,21 +116,21 @@ export const MyOrderHeader = ({
             source={SEARCH}
           />:null}
           <TextInput
-            style={{flex:1,height:"100%",marginRight:1}}
+            style={{flex:1,height:"100%",marginRight:1,}}
             onChangeText={(text) => {
               setOrderNo(text)
             }}
             value={orderNo}
             keyboardType="number-pad"
             placeholder="Search any product..."
-            placeholderTextColor={"#8D7D75"}
+            placeholderTextColor={TEXT_COLOR}
           />
           <TouchableOpacity onPress={()=>searchOrder(orderNo)}>
           {(orderNo.length)? <Image
             resizeMode="stretch"
             style={[
               {
-                tintColor: DARK_RED,
+                tintColor: PRIMARY_COLOR,
                 height: 20,
                 width:20
               },
@@ -166,7 +166,7 @@ export const MyOrderHeader = ({
               }}
             >
               <Image
-                style={expStyles.explore}
+                style={[expStyles.explore,{tintColor:PRIMARY_COLOR}]}
                 resizeMode="contain"
                 source={calendarIcon}
               />

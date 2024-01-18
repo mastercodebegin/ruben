@@ -4,6 +4,7 @@ import { styles } from "./Inventory";
 import Dropdown from "./DropDown";
 import SearchBarWithFilter from "../../../components/src/SearchBarWithFilter";
 import { LIGHT_GREY, WHITE } from "../../../components/src/constants";
+import { APP_BACKGROUND, PRIMARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 interface HeaderTypes {
   onChangeText: (text: string) => void;
   searchText: string;
@@ -28,9 +29,9 @@ const FlatListHeader = ({
 }: HeaderTypes) => {
   return (
     <>
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer,{backgroundColor:APP_BACKGROUND}]}>
         <View style={styles.headerTextContainer}>
-          <Text style={styles.header}>Inventory</Text>
+          <Text style={[styles.header,{color:TEXT_COLOR}]}>Inventory</Text>
         </View>
         <SearchBarWithFilter
           searchText={searchText}
@@ -58,7 +59,7 @@ const FlatListHeader = ({
       </View>
       <View style={{ backgroundColor: WHITE }}>
         <View style={styles.statusContainer}>
-          <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10}} />
+          <View style={{backgroundColor:PRIMARY_COLOR,height:20,width:20,borderRadius:10}} />
           <View style={styles.containerHeader}>
             <Text style={styles.headerList}>#Details</Text>
           </View>

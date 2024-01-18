@@ -16,6 +16,8 @@ import {
 import RenderItem from "./RenderItem";
 import FlatListHeader from "./FlatlistHeader";
 import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
+import { APP_BACKGROUND, SECONDARY_TEXT_COLOR } from "../../landingpage/src/assets";
+import CommonLoader from "../../../components/src/CommonLoader";
 
 export default class Inventory extends MyCartController {
   constructor(props:any) {
@@ -53,7 +55,7 @@ export default class Inventory extends MyCartController {
                 <>
                   {this.state.loading ? (
                     <View style={{ alignItems: "center", paddingVertical: 20 }}>
-                      <ActivityIndicator size="large" />
+                      <CommonLoader visible={true}/>
                     </View>
                   ) : (
                     <></>
@@ -115,7 +117,7 @@ export default class Inventory extends MyCartController {
   }
 }
 export const styles = StyleSheet.create({
-  main: { flex: 1, backgroundColor: LIGHT_GREY },
+  main: { flex: 1, backgroundColor: APP_BACKGROUND },
   container: {
     flex: 1,
   },
@@ -138,7 +140,7 @@ export const styles = StyleSheet.create({
   seperator: { width: 10 },
   filterContainer: { flexDirection: "row", justifyContent: "space-between" },
   headerList: {
-    color: "gray",
+    color: SECONDARY_TEXT_COLOR,
   },
   containerHeader: { flex: 1, alignItems: "center" },
   statusContainer: {

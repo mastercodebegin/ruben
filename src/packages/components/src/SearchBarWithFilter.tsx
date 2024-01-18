@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 import { WHITE } from "./constants";
-import { EXPLORE_BTN, SEARCH } from "../../blocks/landingpage/src/assets";
+import { EXPLORE_BTN, PRIMARY_COLOR, SEARCH, SECONDARY_TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 //@ts-ignore
 import ModalDropdownComp from "./ModalDropdownComp";
 interface SearchBarWithFilterTyes {
@@ -32,12 +32,12 @@ const SearchBarWithFilter = ({
 
   return (
     <View style={styles.textInputContainer}>
-      <View style={styles.searchContainer}>
-        <Image resizeMode="stretch" style={styles.search} source={SEARCH} />
+      <View style={[styles.searchContainer,{borderWidth:.6,borderColor:PRIMARY_COLOR}]}>
+        <Image resizeMode="stretch" style={[styles.search,{tintColor:PRIMARY_COLOR}]} source={SEARCH} />
         <TextInput
           style={styles.textInput}
           placeholder="Search any Product/Video"
-          placeholderTextColor={"#8D7D75"}
+          placeholderTextColor={SECONDARY_TEXT_COLOR}
           value={searchText}
           testID={testID}
           onChangeText={onChangeText}

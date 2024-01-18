@@ -24,6 +24,7 @@ import Settings5Controller, {
   Props,
   configJSON,
 } from "./Settings5Controller";
+import { APP_BACKGROUND, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {
@@ -146,7 +147,7 @@ export default class Settings5 extends Settings5Controller {
                 testID="delete_account_id"
                 style={styles.button}
               >
-                <Text style={[styles.options, { color: "#A0272A" }]}>
+                <Text style={[styles.options, { color: TEXT_COLOR }]}>
                   Delete My Account
                 </Text>
               </TouchableOpacity>
@@ -165,7 +166,7 @@ export default class Settings5 extends Settings5Controller {
 // Customizable Area Start
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: WHITE,
+    backgroundColor: SECONDARY_COLOR,
     paddingVertical: 25,
     marginBottom: 10,
     paddingLeft: 20,
@@ -173,12 +174,12 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
   },
   innercontainer: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
   options: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "400",
   },
   triggerContainer: {

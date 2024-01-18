@@ -17,6 +17,7 @@ import OrdermanagementController, {
 import Moment from "moment";
 
 import { emptyMyOrdersIcon } from "./assets";
+import { APP_BACKGROUND } from "../../landingpage/src/assets";
 
 export default class Ordermanagement extends OrdermanagementController {
   constructor(props: Props) {
@@ -57,7 +58,7 @@ export default class Ordermanagement extends OrdermanagementController {
                 }
                 contentContainerStyle={{
                   flexGrow: 1,
-                  backgroundColor: LIGHT_GREY,
+                  backgroundColor: APP_BACKGROUND,
                 }}
                 ListHeaderComponent={
                   <MyOrderHeader

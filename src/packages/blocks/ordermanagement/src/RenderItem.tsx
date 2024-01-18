@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import DualButton from "../../../components/src/DualButton";
 import { DARK_RED, MeatImage } from "../../../components/src/constants";
 import moment from "moment";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
   const deliveryDate = item?.attributes?.delivery_date;
   const isOnGoing = item?.attributes?.status === "on_going";
@@ -46,7 +47,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item }: any) => {
         marginHorizontal: 20,
       }}
     >
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
           <Image
             style={{ height: 75, width: 75, borderRadius: 20 }}
@@ -94,23 +95,23 @@ export default ChildrenComponent;
 
 const styles = StyleSheet.create({
   qText: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 17,
     paddingVertical: 5,
   },
   text: {
-    color: DARK_RED,
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 17,
     fontWeight: "400",
   },
   headerText: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
     paddingBottom: 10,
   },
   header: {
-    color: "grey",
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 16,
   },
   innerCon: {
@@ -119,10 +120,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   container: {
-    backgroundColor: "white",
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 15,
+    borderWidth:.4,
+    borderColor:PRIMARY_COLOR
   },
   row: {
     flexDirection: "row",

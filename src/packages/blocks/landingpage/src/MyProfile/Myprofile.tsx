@@ -29,6 +29,7 @@ import {
   BUTTON_COLOR_PRIMARY,
   BUTTON_TEXT_COLOR_PRIMARY,
   PRIMARY_COLOR,
+  APP_BACKGROUND,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -207,7 +208,7 @@ export default class Myprofile extends LandingPageController {
                 >
                   <Image
                     resizeMode="contain"
-                    style={styles.cart}
+                    style={[styles.cart]}
                     source={CART}
                   />
                 </TouchableOpacity>
@@ -239,7 +240,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.socialbutton}
                       onPress={this.redirectToInstagramProfile}
                     >
-                      <Image style={[styles.socialIcon,{tintColor:PRIMARY}]} source={instagram} />
+                      <Image style={[styles.socialIcon]} source={instagram} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.socialbutton}
@@ -487,17 +488,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  contactIcon: { height: 20, width: 20 },
+  contactIcon: { height: 20, width: 20,tintColor:PRIMARY_COLOR },
   blur: {
     backgroundColor: WHITE,
     //@ts-ignore
     ...StyleSheet.absoluteFill,
     opacity: 0.6,
     borderRadius: 27,
+
   },
   socialbutton: {
     padding: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     marginHorizontal: 8,
     marginTop: 20,
     borderRadius: 20,
@@ -530,6 +532,7 @@ export const styles = StyleSheet.create({
   socialIcon: {
     height: 20,
     width: 20,
+    tintColor:PRIMARY_COLOR
   },
   headerText: {
     fontSize: 17,

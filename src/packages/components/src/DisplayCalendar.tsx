@@ -10,6 +10,7 @@ import {
      } from "react-native";
 import Calendar from "./Calendar";
 import { PRIMARY } from "./constants";
+import { PRIMARY_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 
 interface Props {
   isFullWidth?: boolean;
@@ -88,7 +89,7 @@ export default class DisplayCalendar extends Component<Props, State> {
   _renderModal(){
     const position = this._calcPosition();
     const markedDate:any = {}
-    markedDate[this.props.selectedDate]={ color: PRIMARY, textColor: "white" } 
+    markedDate[this.props.selectedDate]={ color: PRIMARY_COLOR, textColor: TEXT_COLOR } 
     return (
     <Modal transparent visible>
         <TouchableWithoutFeedback onPress={() => {

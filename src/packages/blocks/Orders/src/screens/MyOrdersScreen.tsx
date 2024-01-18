@@ -5,6 +5,7 @@ import * as constants from "../../../../components/src/constants";
 import RenderItem from "./RenderItem";
 import { MyOrderHeader } from "./MyOrderHeader";
 import CommonLoader from "../../../../components/src/CommonLoader";
+import { APP_BACKGROUND, TEXT_COLOR } from "../../../landingpage/src/assets";
 const { LIGHT_GREY, DARK_RED } = constants;
 
 export default class MyOrdersScreen extends OrdersController {
@@ -32,7 +33,7 @@ export default class MyOrdersScreen extends OrdersController {
                 }}
               />
             }
-            contentContainerStyle={{ flexGrow: 1,backgroundColor:LIGHT_GREY }}
+            contentContainerStyle={{ flexGrow: 1,backgroundColor:APP_BACKGROUND }}
             ListHeaderComponent={
               <MyOrderHeader
                 selected={this.state.selectedTab}
@@ -135,7 +136,7 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   price: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 17,
   },
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Modal, StyleSheet, ActivityIndicator,Text } from "react-native";
 import { DARK_RED } from "./constants";
+import { PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 interface ModalPropTypes {
   visible: boolean;
   blur?: boolean;
@@ -16,7 +17,7 @@ const CommonLoader = ({
         <View style={styles.blur}/>
         <View style={styles.loaderContainer}>
 
-        <ActivityIndicator color={DARK_RED} size={indicatorSize} />
+        <ActivityIndicator color={PRIMARY_COLOR} size={indicatorSize} />
         <Text style={styles.loading}>Loading ...</Text>
         </View>
       </View>

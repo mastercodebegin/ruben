@@ -5,6 +5,7 @@ import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../../components/src/consta
 //@ts-ignore
 import meatimage from '../../../../components/src/meatimage@2.jpg';
 import moment from 'moment';
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../../landingpage/src/assets";
 const RenderProducts = ({ item, index }: any) => {   
     const frequency = item.attributes?.frequency;      
     return (
@@ -21,7 +22,7 @@ const RenderProducts = ({ item, index }: any) => {
                     {`$ ${item?.attributes?.catalogue?.data?.attributes?.price
                         } X ${item?.attributes?.quantity}`}
                         </Text>
-                        <Text style={{color:DARK_RED,fontSize:16,fontWeight:"bold",textAlign:"right"}}>{`$${(Number(item?.attributes?.catalogue?.data?.attributes?.price)*Number(item?.attributes?.quantity)).toFixed(2)}`}</Text>
+                        <Text style={{color:SECONDARY_TEXT_COLOR,fontSize:16,fontWeight:"bold",textAlign:"right"}}>{`$${(Number(item?.attributes?.catalogue?.data?.attributes?.price)*Number(item?.attributes?.quantity)).toFixed(2)}`}</Text>
                     </View>
             </View>
         </View>
@@ -69,11 +70,11 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
     return (
         <View style={{paddingHorizontal:20}}>
             <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-            <Text style={rstyles.date}>
+            <Text style={[rstyles.date,{color:SECONDARY_TEXT_COLOR}]}>
                 {moment(date).format('MMM Do, YYYY')?.toUpperCase() || ''}
             </Text>
                {(isCompleted || isCanceled)?  <Text style={{fontSize:17,color:isCanceled ? "red" : "green"}}>{isCanceled ? 'Cancelled':'Delivered'}</Text>:<TouchableOpacity onPress={onPressCancel}>
-                    <Text style={{color:PRIMARY,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
+                    <Text style={{color:TEXT_COLOR,fontSize:16,fontWeight:"bold"}}>{ "Cancel Order"}</Text>
                 </TouchableOpacity> }            
             </View>
         <View style={rstyles.main}>
@@ -87,7 +88,7 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
                 {
                     (isCompleted || isCanceled )? <></> :
                         <><View style={rstyles.duration}>
-                            <Text style={{ color: DARK_RED, fontSize: 16 }}>Estimated Delivery</Text>
+                            <Text style={{ color: TEXT_COLOR, fontSize: 16 }}>Estimated Delivery</Text>
                             <Text style={rstyles.deliveryDate}>
                                 {moment(deliveryDate).format('MMM Do, YYYY')?.toUpperCase() || ''}
                             </Text>
@@ -104,13 +105,13 @@ const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {
 
 const rstyles = StyleSheet.create({
     main: { width: '100%', paddingBottom: 15, backgroundColor: 'white', padding: 20, borderRadius: 20, marginBottom: 20 },
-    date: { fontWeight: 'bold', color: 'grey', fontSize: 15, paddingBottom: 10 },
+    date: { fontWeight: 'bold', color: TEXT_COLOR, fontSize: 15, paddingBottom: 10 },
     duration: { flexDirection: "row", paddingTop: 25, justifyContent: 'space-between', paddingBottom: 10 },
-    deliveryDate: { fontWeight: 'bold', color: 'grey', fontSize: 15, paddingBottom: 10 },
+    deliveryDate: { fontWeight: 'bold', color: SECONDARY_TEXT_COLOR, fontSize: 15, paddingBottom: 10 },
     imageContainer: { flexDirection: 'row', width: '100%',paddingVertical:10 },
-    price: { color: DARK_RED, fontSize: 16, fontWeight: 'bold' },
+    price: { color: TEXT_COLOR, fontSize: 16, fontWeight: 'bold' },
     inner: { flex: 1, paddingLeft: 10, justifyContent: 'space-between' },
-    estimater: { backgroundColor: DARK_RED, width: '70%', height: '100%' },
-    deliveryEstimater:{ height: 5, backgroundColor: LIGHT_GREY, width: '100%' }
+    estimater: { backgroundColor: PRIMARY_COLOR, width: '70%', height: '100%' },
+    deliveryEstimater:{ height: 5, backgroundColor: TEXT_COLOR, width: '100%' }
 })
 export default RenderItem;

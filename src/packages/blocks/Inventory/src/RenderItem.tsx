@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
-import { MEAT_IMAGE1, arrowLeft } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, MEAT_IMAGE1, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR, arrowLeft } from "../../landingpage/src/assets";
 import moment from "moment";
 const sampleData = [
   {
@@ -43,14 +43,14 @@ const RenderItem = ({item}: any) => {
   const [show, setShow] = useState(false);
   return (
     <View style={{ paddingVertical: 10,
-      borderBottomColor: "grey",
+      borderBottomColor: PRIMARY_COLOR,
       borderBottomWidth: 0.5,
       paddingHorizontal: 20,
       backgroundColor: "white"}}>
       <View style={styles.main}>
         <View style={{justifyContent:"center"}}>
 
-      <View style={{backgroundColor:LIGHT_GREY,height:20,width:20,borderRadius:10,marginRight:10}} />
+      <View style={{backgroundColor:APP_BACKGROUND,height:20,width:20,borderRadius:10,marginRight:10}} />
         </View>
       <View style={styles.flex}>
       <Text style={styles.text}>{`ID:${item?.data?.attributes?.order_number?item?.data?.attributes?.order_number:item?.data?.id}`}</Text>
@@ -86,7 +86,8 @@ const RenderItem = ({item}: any) => {
           </TouchableOpacity>
       </View>
     </View>
-    {show&& <View style={{backgroundColor:LIGHT_GREY,padding:10,borderRadius:20,marginTop:10}}>
+    {show&& <View style={{backgroundColor:SECONDARY_COLOR
+      ,padding:10,borderRadius:20,marginTop:10}}>
         {
           
           item?.data?.attributes?.order_items?.data?.map((citem:any,i:number) => {
@@ -95,8 +96,8 @@ const RenderItem = ({item}: any) => {
               <View style={{ flexDirection: 'row' }}>
                   <Image style={{ height: 70, width: 70, borderRadius: 8 }} source={MEAT_IMAGE1} />
                   <View style={{paddingHorizontal:20,flex:1,justifyContent:"space-between",paddingVertical:12}}>
-                    <Text style={{color:DARK_RED,fontSize:18,fontWeight:"bold"}}>{citem?.attributes?.product_name}</Text>
-                    <Text style={{color:DARK_RED,fontSize:16}}>{"PN -"+ item?.data?.attributes?.order_number}</Text>
+                    <Text style={{color:TEXT_COLOR,fontSize:18,fontWeight:"bold"}}>{citem?.attributes?.product_name}</Text>
+                    <Text style={{color:TEXT_COLOR,fontSize:16}}>{"PN -"+ item?.data?.attributes?.order_number}</Text>
 
                     </View>
                 </View>
@@ -116,17 +117,17 @@ const RenderItem = ({item}: any) => {
 export default RenderItem;
 
 const styles = StyleSheet.create({
-  answer:{ color: DARK_RED, fontSize: 17 },
-  question:{ color: 'grey', fontSize: 17,paddingVertical:3 },
+  answer:{ color: TEXT_COLOR, fontSize: 17 },
+  question:{ color: TEXT_COLOR, fontSize: 17,paddingVertical:3 },
   main: {
     flexDirection: "row",
   },
   text: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 16,
   },
   name: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 16,
     fontWeight: "bold",
     paddingBottom: 10,
@@ -153,6 +154,6 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "270deg" }],
     tintColor: "black",
   },
-  destination: { color: DARK_RED, fontWeight: "bold", fontSize: 16 },
+  destination: { color: TEXT_COLOR, fontWeight: "bold", fontSize: 16 },
   flex: { flex: 1 }
 });

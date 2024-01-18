@@ -21,7 +21,14 @@ import {
   DARK_RED,
   WHITE,
   close,
-  backArrow
+  backArrow,
+  TEXT_COLOR,
+  SECONDARY_COLOR,
+  APP_BACKGROUND,
+  SECONDARY_TEXT_COLOR,
+  BUTTON_TEXT_COLOR_SECONDARY,
+  PRIMARY_COLOR,
+  ICON_COLOR
 } from "../assets";
 import {
   ADD_PRODUCTS,
@@ -52,7 +59,7 @@ export default class AddProducts extends LandingPageController {
   }
   render() {
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={[styles.safeArea,{backgroundColor:APP_BACKGROUND}]}>
         <KeyboardAvoidingView behavior="padding" style={styles.main}>
           <View style={styles.headerContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -232,7 +239,7 @@ export default class AddProducts extends LandingPageController {
                           )
                         }
                       >
-                        <Text style={{ color: PRIMARY, fontSize: 20 }}>+</Text>
+                        <Text style={{ color: PRIMARY_COLOR, fontSize: 20 }}>+</Text>
                       </TouchableOpacity>)
                     }}
                     horizontal
@@ -261,9 +268,9 @@ export default class AddProducts extends LandingPageController {
               );
             }}
             ListFooterComponent={() => (
-              <View>
+              <View style={{height:200}}>
                 <Button style={styles.buttonStyle} onPress={() => { this.addProduct() }} label={PUBLISH_NOW} />
-                <Button style={styles.buttonStyle} transparentBackground onPress={() => { this.props.navigation.navigate('ExplorePage') }} label={CANCEL} />
+                <Button style={[styles.buttonStyle,{backgroundColor:APP_BACKGROUND,color:BUTTON_TEXT_COLOR_SECONDARY}]} transparentBackground onPress={() => { this.props.navigation.navigate('ExplorePage') }} label={CANCEL} />
               </View>
             )}
           />
@@ -282,7 +289,7 @@ const styles = StyleSheet.create({
   },
   dollar: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingLeft: 20,
     fontWeight: 'bold'
   },
@@ -325,7 +332,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: SECONDARY_COLOR,
     borderRadius: 10,
   },
   perKg: {
@@ -336,7 +343,7 @@ const styles = StyleSheet.create({
   addImage: {
     height: 80,
     width: 80,
-    borderColor: "grey",
+    borderColor: PRIMARY_COLOR,
     borderWidth: 1,
     borderStyle: "dotted",
     borderRadius: 15,
@@ -345,31 +352,31 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   label: {
-    color: "grey",
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 14,
     paddingBottom: 10,
     paddingTop: 10,
   },
   productContainer: {
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     paddingHorizontal: 20,
     paddingVertical: 20,
     marginBottom: 20,
     borderRadius: 20,
   },
   productHeader: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 20,
     fontWeight: "bold",
     paddingBottom: 10,
   },
   textInput: {
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: SECONDARY_COLOR,
     paddingVertical: Platform.OS === "ios" ? 15 : undefined,
     paddingHorizontal: 20,
     borderRadius: 10,
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: 'bold'
   },
   safeArea: { flex: 1, backgroundColor: LIGHT_GREY },
@@ -378,12 +385,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 22,
     paddingLeft: 15
   },
   addMore: {
-    color: PRIMARY,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 16,
   },
@@ -401,7 +408,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 50,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: SECONDARY_COLOR,
     borderRadius: 10,
     padding: 12,
     shadowColor: '#000',
@@ -417,26 +424,26 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 5,
     borderBottomWidth: 1,
-    borderColor: LIGHT_GREY,
+    borderColor: TEXT_COLOR,
   },
   textItem: {
     flex: 1,
     fontSize: 16,
-    color: DARK_RED
+    color: TEXT_COLOR
   },
   placeholderStyle: {
     fontSize: 16,
-    color: DARK_RED
+    color: TEXT_COLOR
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "700",
   },
   iconStyle: {
     width: 30,
     height: 30,
-    tintColor: DARK_RED,
+    tintColor: ICON_COLOR,
   },
   containerStyle: {
     borderBottomLeftRadius: 10,

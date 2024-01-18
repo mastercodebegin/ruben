@@ -53,6 +53,7 @@ export const BUTTON_TEXT_COLOR_PRIMARY ='white'
 export const BUTTON_TEXT_COLOR_SECONDARY ='#231F20'
 export const BUTTON_COLOR_PRIMARY ='#A9C9F7'
 export const BUTTON_COLOR_SECONDARY ='#FFFFFF'
+export const ICON_COLOR='black'
 
 export const close = require("../assets/close1.png");
 export const remove = require('../assets/remove.png');
