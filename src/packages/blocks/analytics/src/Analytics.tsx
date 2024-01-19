@@ -108,12 +108,7 @@ export default class Analytics extends AnalyticsController {
           <SafeAreaView>
             <View style={styles.main}>
               <View style={styles.headerContainer}>
-                {/* <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
-                  <Image
-                    style={[styles.backImage,{tintColor:PRIMARY_COLOR}]}
-                    source={require("../../../components/src/arrow_left.png")}
-                  />
-                </TouchableOpacity> */}
+                
                  <HeaderWithBackArrowTemplate
         navigation={this.props.navigation}
         scrollView={false}

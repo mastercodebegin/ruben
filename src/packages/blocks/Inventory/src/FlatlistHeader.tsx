@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { styles } from "./Inventory";
 import Dropdown from "./DropDown";
 import SearchBarWithFilter from "../../../components/src/SearchBarWithFilter";
-import { LIGHT_GREY, WHITE } from "../../../components/src/constants";
+import {  WHITE } from "../../../components/src/constants";
 import { APP_BACKGROUND, PRIMARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 interface HeaderTypes {
   onChangeText: (text: string) => void;

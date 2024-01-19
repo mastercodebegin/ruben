@@ -14,7 +14,7 @@ import ProductDetailComponent from "../../../components/src/ProductDetailCompone
 import Button from "../../../components/src/CustomButton";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
-import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY } from "../../landingpage/src/assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 export default class MyCart extends MyCartController {
   constructor(props:Props ) {
     super(props);
@@ -45,7 +45,7 @@ export default class MyCart extends MyCartController {
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
-          headerText="My Cart"
+          headerText="My Cart1"
         >
           <KeyboardAwareFlatList
             data={this.state.productsList}
@@ -77,7 +77,7 @@ export default class MyCart extends MyCartController {
                     value={this.state.discountCode}
                      onChangeText={(text:string)=>this.setState({discountCode:text})}
                     style={styles.textInput}
-                    placeholderTextColor='#A0272A'
+                    placeholderTextColor={TEXT_COLOR}
                     />
                   <TouchableOpacity onPress={() => {
                     this.setState({discountPrice:0})
@@ -119,8 +119,8 @@ export default class MyCart extends MyCartController {
                     <Text style={styles.answer}>{`$${this.state.totalPrice.toFixed(2)}`}</Text>
                   </View>:null}
                 </View>
-                <Text style={styles.termsAndCondition}>
-                  {"*terms & conditions apply"}
+                <Text style={[styles.termsAndCondition,{color:SECONDARY_TEXT_COLOR}]}>
+                  {"* terms & conditions apply "}
                 </Text>
                 <Button
                   onPress={() => this.props.navigation.navigate('PersonelDetails', {
@@ -177,30 +177,30 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   answer: {
-    color: "#A0272A",
+    color: TEXT_COLOR,
     fontSize: 17,
     fontWeight: "bold",
   },
-  seperator: { height: 1, backgroundColor: "lightgrey" },
+  seperator: { height: 1, backgroundColor: PRIMARY_COLOR },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 10,
   },
-  paymentText: { fontSize: 17, color: "grey" },
+  paymentText: { fontSize: 17, color: TEXT_COLOR },
   paymentContainer: {
     backgroundColor: "white",
     paddingVertical: 20,
     borderRadius: 20,
   },
-  direct: { fontSize: 16, fontWeight: "bold", color: "grey",paddingVertical:25 },
+  direct: { fontSize: 16, fontWeight: "bold", color: TEXT_COLOR,paddingVertical:25 },
   discount: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#A0272A",
   },
   shade: {
-    backgroundColor: "#A0272A",
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     opacity: 0.1,
     position: "absolute",
     top: 0,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     borderRadius: 35,
     borderWidth: 2,
-    borderColor: "#A0272A",
+    borderColor: PRIMARY_COLOR,
     borderStyle: "dashed",
     overflow: "hidden",
   },
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 17,
-    color: "grey",
+    color:TEXT_COLOR,
     paddingHorizontal: 20,
     paddingBottom: 10,
     fontWeight: "bold"

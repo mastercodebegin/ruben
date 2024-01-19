@@ -16,6 +16,7 @@ import InvoiceBillingController, {
   configJSON,
 } from "./InvoiceBillingController";
 import QuerySubmittedModal from "../../contactus/src/QuerySubmittedModal";
+import { APP_BACKGROUND, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class InvoiceBilling extends InvoiceBillingController {
   backHandler: any;
@@ -131,11 +132,11 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
   },
-  date: { color: DARK_RED, fontSize: 17, paddingVertical: 5 },
-  boldDate: { fontWeight: "bold" },
-  text: { color: "grey", fontSize: 17, paddingVertical: 3 },
+  date: { color: TEXT_COLOR, fontSize: 17, paddingVertical: 5 },
+  boldDate: { fontWeight: "bold" ,color:TEXT_COLOR},
+  text: { color: SECONDARY_TEXT_COLOR, fontSize: 17, paddingVertical: 3 },
   greyContainer: {
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: SECONDARY_COLOR,
     marginTop: 20,
     padding: 20,
     borderRadius: 20,

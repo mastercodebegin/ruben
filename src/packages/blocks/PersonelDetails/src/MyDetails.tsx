@@ -10,7 +10,7 @@ const MyDetails = ({ header, list }: MyDetailsTypes) => (
     <View style={styles.myDetail}>
         {Boolean(header) &&
             <View style={styles.seperatorLine}>
-                <Text style={styles.headerText}>{header}</Text>
+                <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{header}</Text>
             </View>}
         {
             list.map((item, i) => {

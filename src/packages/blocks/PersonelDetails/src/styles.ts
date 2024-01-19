@@ -5,6 +5,7 @@ import {
   responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { DARK_RED } from "../../landingpage/src/colors";
+import { PRIMARY_COLOR, SECONDARY_TEXT_COLOR } from "../../landingpage/src/assets";
 export const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -59,7 +60,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingBottom: 20,
   },
-  seperatorLine: { borderBottomColor: "lightgrey", borderBottomWidth: 1 },
+  seperatorLine: { borderBottomColor: PRIMARY_COLOR, borderBottomWidth: 1 },
   availableSlot: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -107,7 +108,7 @@ export const styles = StyleSheet.create({
   container: { paddingHorizontal: 15 },
   estimation: {
     fontSize: 17,
-    color: "grey",
+    color: SECONDARY_TEXT_COLOR,
     fontStyle:'italic'
   },
   delivery: {
