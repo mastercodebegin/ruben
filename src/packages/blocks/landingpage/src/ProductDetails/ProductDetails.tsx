@@ -20,6 +20,10 @@ import {
   MEAT_IMAGE2,
   shareIcon,
   PRIMARY,
+  PRIMARY_COLOR,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  BUTTON_COLOR_PRIMARY,
+  TEXT_COLOR,
 } from "../assets";
 import { deepLinkingURL } from "../../../../components/src/constants";
 import RenderSteps from "./RenderSteps";
@@ -228,7 +232,7 @@ const style = StyleSheet.create({
   },
   desc: { color: "grey", fontSize: 16, paddingTop: 10 },
   cartText: {
-    color: "white",
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 15,
     fontWeight: "bold",
     padding:8,
@@ -236,14 +240,14 @@ const style = StyleSheet.create({
     textAlign:'center'
   },
   cartButton: {
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
     width:'95%',
     alignSelf:"center"
   },
   subsciptionButton:{
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
     width:'95%',
@@ -265,14 +269,14 @@ const style = StyleSheet.create({
     paddingTop: 20,
     fontSize: 18,
     fontWeight: "bold",
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
-  price: { color: DARK_RED, fontSize: 19, fontWeight: "bold" },
-  text: { fontSize: 15, fontWeight: "bold", color: DARK_RED },
+  price: { color: TEXT_COLOR, fontSize: 19, fontWeight: "bold" },
+  text: { fontSize: 15, fontWeight: "bold", color: TEXT_COLOR },
   shareButton: {
     height: 40,
     width: 40,
-    backgroundColor: PRIMARY,
+    backgroundColor: PRIMARY_COLOR,
     padding: 7,
     borderRadius: 21,
     alignSelf:"center"
@@ -281,6 +285,6 @@ const style = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode: "contain",
-    tintColor: "white",
+    tintColor: BUTTON_TEXT_COLOR_PRIMARY,
   },
 });
