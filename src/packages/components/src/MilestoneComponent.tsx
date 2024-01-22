@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 interface MileStoneTypes {
   list: Array<string>;
   selected: string;
@@ -20,7 +21,7 @@ const MileStone = ({ list, selected }: MileStoneTypes) => {
                     style={{
                       ...styles.line,
                       backgroundColor:
-                        i <= selectedIndex ? "#A0272A" : "lightgrey",
+                        i <= selectedIndex ? PRIMARY_COLOR : SECONDARY_COLOR,
                     }}
                   />
                 )}
@@ -43,7 +44,7 @@ const MileStone = ({ list, selected }: MileStoneTypes) => {
                     style={{
                       ...styles.line,
                       backgroundColor:
-                        i <= selectedIndex - 1 ? "#A0272A" : "lightgrey",
+                        i <= selectedIndex - 1 ? PRIMARY_COLOR : SECONDARY_COLOR,
                     }}
                   />
                 )}
@@ -52,7 +53,7 @@ const MileStone = ({ list, selected }: MileStoneTypes) => {
             <Text
               style={[
                 styles.text,
-                { color: i <= selectedIndex ? "#A0272A" : "grey" },
+                { color: i <= selectedIndex ? TEXT_COLOR : SECONDARY_TEXT_COLOR },
               ]}
             >
               {item}
@@ -66,8 +67,10 @@ const MileStone = ({ list, selected }: MileStoneTypes) => {
 const styles = StyleSheet.create({
   lineContainer: { flex: 1, justifyContent: "center" },
   dotContainer: {
-    backgroundColor: "white",
+    backgroundColor: APP_BACKGROUND,
     justifyContent: "center",
+    borderWidth:.5,
+    borderColor:PRIMARY_COLOR,
     alignItems: "center",
   },
   line: { height: 2, width: "100%" },
@@ -76,13 +79,13 @@ const styles = StyleSheet.create({
   dot: {
     height: 15,
     width: 15,
-    backgroundColor: "#A0272A",
+    backgroundColor: PRIMARY_COLOR,
     borderRadius: 7.5,
   },
   selectedLine: {
     height: "100%",
-    backgroundColor: "#A0272A",
+    backgroundColor: PRIMARY_COLOR,
   },
-  text: { color: "#A0272A", textAlign: "center", fontSize: 15, paddingTop: 7 },
+  text: { color: TEXT_COLOR, textAlign: "center", fontSize: 15, paddingTop: 7 },
 });
 export default MileStone;

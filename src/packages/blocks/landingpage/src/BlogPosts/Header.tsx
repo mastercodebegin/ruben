@@ -4,9 +4,9 @@ import { LIGHT_GREY } from "../assets";
 import commonStyle from "../commonStyles";
 
 export const Header = (props: any) => {
-  // const [selected, setSelected] = useState(
-  //   props?.selected ? props?.selected : "blog"
-  // );
+  const [selected, setSelected] = useState(
+    props?.selected ? props?.selected : "blog"
+  );
 
   console.log("props====>",props.selected);
   
@@ -14,11 +14,11 @@ export const Header = (props: any) => {
     <View style={styles.container}>
       <TouchableWithoutFeedback
       testID="navigate_to_blogpost_id"
-        // onPress={() => {
-        //   setSelected("blog");
-        //   props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
-        // }}
-        onPress={()=>props.onPress("blog")}
+        onPress={() => {
+          setSelected("blog");
+          props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
+        }}
+        //onPress={()=>props.onPress("blog")}
       >
         <Text
           style={[
@@ -31,11 +31,11 @@ export const Header = (props: any) => {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
       testID="navigate_to_video_library_id"
-        // onPress={() => {
-        //   setSelected("video");
-        //   props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
-        // }}
-        onPress={()=>props.onPress("video")}
+        onPress={() => {
+          setSelected("video");
+          props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
+        }}
+       // onPress={()=>props.onPress("video")}
       >
         <Text
           style={[

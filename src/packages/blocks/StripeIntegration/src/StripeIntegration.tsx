@@ -51,6 +51,7 @@ import StripeIntegrationController, {
 } from "./StripeIntegrationController";
 import PaymentCustomeAlert from "./PaymentCustomeAlert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 
 export default class StripeIntegration extends StripeIntegrationController {
@@ -169,7 +170,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     // Merge Engine - render - Start
 
     return (
-      <SafeAreaView style={styles.safearea}>
+      <SafeAreaView style={[styles.safearea,{backgroundColor:APP_BACKGROUND}]}>
         <HeaderWithBackArrowTemplate
           headerText="Payment"
           navigation={this.props.navigation}
@@ -192,11 +193,12 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} testID="cardButton" onPress={() => {
+                  <TouchableOpacity style={styles.padding} 
+                  testID="cardButton" onPress={() => {
                     this.setState({ paymentMethodType: "Card" })
                   }}>
                     <CheckBox
-                      backgroundColor={LIGHT_GREY}
+                      backgroundColor={APP_BACKGROUND}
                       checked={this.state.paymentMethodType === "Card"}
                       disabled
                       setChecked={() => { }}
@@ -211,7 +213,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     this.setState({ paymentMethodType: "Cod" })
                   }}>
                     <CheckBox
-                      backgroundColor={LIGHT_GREY}
+                      backgroundColor={APP_BACKGROUND}
                       checked={this.state.paymentMethodType === "Cod"}
                       disabled
                       setChecked={() => { }}
@@ -295,7 +297,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     <View style={styles.addressContainer}>
                     <TouchableOpacity style={styles.padding} onPress={()=>{this.onSaveCard()}}>
                       <CheckBox
-                        backgroundColor={LIGHT_GREY}
+                        backgroundColor={APP_BACKGROUND}
                         checked={this.state.saveCard}
                         disabled
                       />
@@ -375,9 +377,10 @@ export default class StripeIntegration extends StripeIntegrationController {
                 onPress={() => { 
                   this.handleCancelPress()
                 }}
-                style={[styles.buttonDouble, styles.button2Style]}
+                style={[styles.buttonDouble, styles.button2Style,
+                  {borderWidth:1,borderColor:PRIMARY_COLOR,backgroundColor:BUTTON_COLOR_SECONDARY}]}
               >
-                <Text style={[styles.textStyles, { color: PRIMARY }]}>
+                <Text style={[styles.textStyles, { color: BUTTON_TEXT_COLOR_SECONDARY }]}>
                   {"Cancel"}
                 </Text>
               </TouchableOpacity>
@@ -463,17 +466,17 @@ const styles = StyleSheet.create({
   },
   imageContainer: { flexDirection: "row", paddingTop: 20 },
   answer: { textAlign: "right", color: DARK_RED, fontSize: 15 },
-  question: { color: "grey", fontSize: 15 },
+  question: { color: TEXT_COLOR, fontSize: 15 },
   headerText: {
     letterSpacing: 3,
-    color: "grey",
+    color: TEXT_COLOR,
     fontWeight: "bold",
     paddingVertical: 15,
   },
   dot: {
     height: 15,
     width: 15,
-    backgroundColor: "#A0272A",
+    backgroundColor: PRIMARY_COLOR,
     borderRadius: 7.5,
   },
   myDetailContainer: {
@@ -571,7 +574,7 @@ const styles = StyleSheet.create({
   //   fontSize: 17,
   //   fontWeight: "bold",
   // },
-  seperatorPayment: { height: 1, backgroundColor: "lightgrey" },
+  seperatorPayment: { height: 1, backgroundColor: PRIMARY_COLOR },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -625,16 +628,16 @@ const styles = StyleSheet.create({
   },
   headerTextPayment: {
     fontSize: 15,
-    color: "grey",
+    color: TEXT_COLOR,
     paddingHorizontal: 20,
     paddingBottom: 10,
     fontWeight: "bold"
   },
   textInput: { flex: 1, paddingLeft: 25, fontWeight: 'bold', fontSize: 16, color: '#A0272A' },
   cardTextinput: {
-    color: "#5C2221",
+    color: TEXT_COLOR,
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: SECONDARY_COLOR,
     paddingHorizontal: 10,
     fontSize: 15,
     fontWeight: "bold",
@@ -644,13 +647,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    color: "#8D7D75",
+    color: TEXT_COLOR,
     paddingVertical: 10,
   },
   expirtyDate: {
     width: SCREEN_WIDTH / 2 - 40,
-    color: "#5C2221",
-    backgroundColor: "#F8F4F4",
+    color: TEXT_COLOR,
+    backgroundColor: SECONDARY_COLOR,
     fontSize: 15,
     fontWeight: "bold",
     borderRadius: 10,
@@ -658,8 +661,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   cvv: {
-    color: "#5C2221",
-    backgroundColor: "#F8F4F4",
+    color: TEXT_COLOR,
+    backgroundColor: SECONDARY_COLOR,
     fontSize: 15,
     fontWeight: "bold",
     borderRadius: 10,
@@ -683,7 +686,7 @@ const styles = StyleSheet.create({
     borderColor: PRIMARY,
     marginTop: 10,
   },
-  button1Style: { backgroundColor: PRIMARY, borderRadius: 30 },
+  button1Style: { backgroundColor: PRIMARY_COLOR, borderRadius: 30 },
   containerStyle:{ paddingTop: 20 },
 
 });

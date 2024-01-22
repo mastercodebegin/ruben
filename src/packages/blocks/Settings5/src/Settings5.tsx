@@ -24,7 +24,7 @@ import Settings5Controller, {
   Props,
   configJSON,
 } from "./Settings5Controller";
-import { APP_BACKGROUND, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {
@@ -111,6 +111,7 @@ export default class Settings5 extends Settings5Controller {
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Lifetime Subscription</Text>
                   <Switch
+                  
                     testID="lifetime_subscription_test_id"
                     value={this.state.lifeTimeSubscription}
                     onValueChange={(value) => {

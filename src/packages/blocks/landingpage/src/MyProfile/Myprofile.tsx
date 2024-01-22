@@ -211,6 +211,7 @@ export default class Myprofile extends LandingPageController {
                     style={[styles.cart]}
                     source={CART}
                   />
+
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.alertHeader,{color:TEXT_COLOR}]}>New Order Alert</Text>
@@ -280,8 +281,8 @@ export default class Myprofile extends LandingPageController {
                       {this.state.phone_number}
                     </Text>
                   </View>
-                  <TouchableOpacity style={styles.historyButton}>
-                    <Text style={styles.historyText}>Purchase History</Text>
+                  <TouchableOpacity style={[styles.historyButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}>
+                    <Text style={[styles.historyText,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>Purchase History</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -509,8 +510,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: "center",
     borderRadius: 30,
-    borderWidth: 1,
-    borderColor: DARK_RED,
     marginTop: 20,
   },
   selections: {
