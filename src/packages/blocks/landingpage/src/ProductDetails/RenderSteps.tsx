@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import CustomRadioBtn from "../../../../components/src/CustomRadioBtn";
 import { DARK_RED } from "../colors";
+import { TEXT_COLOR } from "../assets";
 interface RenderStepsTypes {
   header: string;
   description: string;
@@ -40,7 +41,7 @@ export default RenderSteps;
 
 const styles = StyleSheet.create({
   header: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
     textTransform: "uppercase",
