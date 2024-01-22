@@ -2,13 +2,8 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { styles } from "./styles";
 import CheckBox from "../../../components/src/CustomRadioBtn";
-import {
-  DARK_RED,
-  LIGHT_GREY,
-  PRIMARY,
-} from "../../../components/src/constants";
 import AddAddressModal from './AddAddressModal'
-import { APP_BACKGROUND, BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const closeIcon =  require("../assets/add.png")
 interface RenderAddressTypes {
   title: string;
@@ -21,7 +16,7 @@ const RenderAddress = ({ title, setChecked, checked, address }: RenderAddressTyp
     <View style={styles.addressContainer}>
       <TouchableOpacity style={styles.padding} onPress={setChecked}>
         <CheckBox
-          backgroundColor={SECONDARY_COLOR}
+          backgroundColor={APP_BACKGROUND}
           checked={checked}
           disabled
         />
@@ -55,7 +50,7 @@ export default class SavedAddresses extends Component<Props, State> {
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
           <View style={{flexDirection:"row",alignItems:"center"}}>
-          <Text style={[styles.headerText, { textAlign: "center" ,flex:1}]}>
+          <Text style={[styles.headerText, { textAlign: "center" ,flex:1,color:TEXT_COLOR}]}>
             {"CHOOSE FROM SAVED ADDRESS"}
             </Text>
             <TouchableOpacity onPress={() => {
