@@ -4,21 +4,18 @@ import { LIGHT_GREY } from "../assets";
 import commonStyle from "../commonStyles";
 
 export const Header = (props: any) => {
-  const [selected, setSelected] = useState(
-    props?.selected ? props?.selected : "blog"
-  );
-
-  console.log("props====>",props.selected);
+  // const [selected, setSelected] = useState(
+  //   props?.selected ? props?.selected : "blog"
+  // );
   
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
       testID="navigate_to_blogpost_id"
         onPress={() => {
-          setSelected("blog");
+          // setSelected("blog");
           props.navigation.navigate('BlogPostStack',{screen:"BlogPost"});
         }}
-        //onPress={()=>props.onPress("blog")}
       >
         <Text
           style={[
@@ -32,10 +29,9 @@ export const Header = (props: any) => {
       <TouchableWithoutFeedback
       testID="navigate_to_video_library_id"
         onPress={() => {
-          setSelected("video");
+          // setSelected("video");
           props.navigation.navigate("BlogPostStack",{screen:"VideoLibrary"});
         }}
-       // onPress={()=>props.onPress("video")}
       >
         <Text
           style={[

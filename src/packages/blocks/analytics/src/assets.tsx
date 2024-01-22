@@ -1,3 +1,4 @@
+export const cow_default = require("../assets/cow_default.jpeg");
 export const cow_head = require("../assets/cow_head.png");
 export const cow_rib = require("../assets/cow_rib.png");
 export const cow_brisket = require("../assets/cow_brisket.png");

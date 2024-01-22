@@ -5,6 +5,7 @@ import LandingPageController from "../LandingPageController";
 import BottomTab from "../BottomTab/BottomTab";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import { LIGHT_GREY } from "../../../../components/src/constants";
+import { Header } from "./Header";
 const VideoComponent = ({ data }: any) => {
   return (
     <View style={{ flex: 1 }}>
@@ -34,6 +35,10 @@ export default class VideoLibrary extends LandingPageController {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Header
+          selected={"video"}
+          navigation={this.props.navigation}
+        />  
         <VideoComponent data={this.state.videoLibrary} />
         <BottomTab tabName={"BlogPost"} navigation={this.props.navigation} />
         <CommonLoader visible={this.state.show_loader} />

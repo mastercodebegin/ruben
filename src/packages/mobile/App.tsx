@@ -61,7 +61,7 @@ const BlogPostStack = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Header navigation={navigationRef.current} />
+      {/* <Header navigation={navigationRef.current} /> */}
       <Stack.Navigator screenOptions={{
         gestureEnabled: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
