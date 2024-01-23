@@ -92,7 +92,7 @@ const RenderItem = ({
             onPress={() => onpressFav(item?.id)}
             style={styles.badgeContainer}
           >
-            <Image resizeMode="contain" style={styles.badge} source={badge} />
+            <Image resizeMode="contain" style={[styles.badge,{tintColor:PRIMARY_COLOR}]} source={badge} />
           </TouchableOpacity>
         </View>
 
@@ -112,7 +112,7 @@ const RenderItem = ({
             onPress={() => onPressCart(item?.id)}
             style={styles.cartContainer}
           >
-            <Image resizeMode="contain" style={styles.cart} source={CART} />
+            <Image resizeMode="contain" style={[styles.cart,{tintColor:PRIMARY_COLOR}]} source={CART} />
           </TouchableOpacity>
         </View>
       </View>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   description: {
-    fontSize: 17,
+    fontSize: 18,
     color: SECONDARY_TEXT_COLOR,
     paddingBottom: 15,
   },
@@ -232,8 +232,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   badgeContainer: {
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     padding: 10,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR,
     borderRadius: 20,
   },
   ratingContainer: {
@@ -259,7 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
   },
   cart: { height: 20, width: 20, }
 });

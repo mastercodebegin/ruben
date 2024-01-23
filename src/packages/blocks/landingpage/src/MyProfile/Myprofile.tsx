@@ -208,13 +208,13 @@ export default class Myprofile extends LandingPageController {
                 >
                   <Image
                     resizeMode="contain"
-                    style={[styles.cart]}
+                    style={[styles.cart,{tintColor:PRIMARY_COLOR}]}
                     source={CART}
                   />
 
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.alertHeader,{color:TEXT_COLOR}]}>New Order Alert</Text>
+                  <Text style={[styles.alertHeader,{color:TEXT_COLOR}]}>New Order Alert </Text>
                   <Text style={[styles.deliverydate,{color:SECONDARY_TEXT_COLOR}]}>Est.Delivery:</Text>
                   <TouchableOpacity
                     testID="navigate_myorder_id"
@@ -453,11 +453,11 @@ export default class Myprofile extends LandingPageController {
 export const styles = StyleSheet.create({
   cartContainer: {
     paddingVertical: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 30,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
     alignSelf: "flex-start",
     marginRight: 20,
   },
