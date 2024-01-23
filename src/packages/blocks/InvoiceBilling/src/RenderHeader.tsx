@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "./InvoiceBilling";
-import { DARK_RED } from "../../../components/src/constants";
 import { styles as cstyle } from "./styles";
 import moment from 'moment';
 import { PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";

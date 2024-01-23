@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import { DARK_RED } from "../../../components/src/constants";
-import { TEXT_COLOR } from "../../landingpage/src/assets";
+import { SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 export const styles = StyleSheet.create({
   number: { flex: 0, width:30 },
   center: { flex: 1, alignItems: "center" },
@@ -19,8 +18,8 @@ export const styles = StyleSheet.create({
   boldText:{
     padding: 10,
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
   },
-  text:{ padding: 10, fontSize: 17, color: DARK_RED }
+  text:{ padding: 10, fontSize: 17, color: TEXT_COLOR }
 });
