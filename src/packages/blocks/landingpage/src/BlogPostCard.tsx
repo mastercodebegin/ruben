@@ -9,7 +9,7 @@ import {
   Clipboard,
   Platform,
 } from "react-native";
-import {  shareIcon, playIcon, splashScreenImage, TEXT_COLOR, SECONDARY_TEXT_COLOR } from "./assets";
+import {  shareIcon, playIcon, splashScreenImage, TEXT_COLOR, SECONDARY_TEXT_COLOR, PRIMARY_COLOR } from "./assets";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   profile: { height: 40, width: 40, borderRadius: 20 },
   nameContainer: { flex: 1, paddingLeft: 15 },
-  share: { height: 20, width: 20 },
+  share: { height: 20, width: 20,tintColor:PRIMARY_COLOR },
   name: { fontSize: 20, color: TEXT_COLOR, fontWeight: "700" },
   time: { color: SECONDARY_TEXT_COLOR, fontSize: 17 },
   container: { flexGrow: 1, paddingBottom: 90 },

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import { LIGHT_GREY } from "../assets";
+import { LIGHT_GREY, SECONDARY_TEXT_COLOR } from "../assets";
 import commonStyle from "../commonStyles";
 
 export const Header = (props: any) => {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 25,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: SECONDARY_TEXT_COLOR,
   },
   container: {
     flexDirection: "row",
