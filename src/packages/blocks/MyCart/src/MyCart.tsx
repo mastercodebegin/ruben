@@ -45,7 +45,7 @@ export default class MyCart extends MyCartController {
       <SafeAreaView style={styles.main}>
         <HeaderWithBackArrowTemplate
           navigation={this.props.navigation}
-          headerText="My Cart1"
+          headerText="My Cart"
         >
           <KeyboardAwareFlatList
             data={this.state.productsList}
