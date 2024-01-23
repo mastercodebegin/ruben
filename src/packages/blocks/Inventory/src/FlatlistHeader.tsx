@@ -52,7 +52,7 @@ const FlatListHeader = ({
             selectedDate=""
             selectedStatus={selectedStatus}
             setSelectedStatus={setSelectedStatus}
-            data={["success", "pending", "canceled"]}
+            data={["Success", "Pending", "Cancelled"]}
             label="Status"
           />
         </View>
