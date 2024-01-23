@@ -74,7 +74,7 @@ export default class OrderSummary extends OrderSummaryController {
       <Modal visible={this.state.showSubscriptionModal} transparent>
         <View style={styles.blur} />
         <View style={styles.mainWrap}>
-        <View style={styles.innerContainer}>
+        <View style={[styles.innerContainer,]}>
             <TouchableOpacity
               onPress={() => this.setState({showSubscriptionModal:false})}
               style={styles.closeBtn}
@@ -137,11 +137,11 @@ export default class OrderSummary extends OrderSummaryController {
                 image={pickupIcon}
               />
             </View>
-            <View style={styles.lifetimeSub}>
+            <View style={[styles.lifetimeSub,{borderWidth:1,borderColor:PRIMARY_COLOR}]}>
               <View style={styles.cartImageContainer}>
                 <Image resizeMode="contain" style={styles.cartImage} source={require('../assets/cart.png')}/>
               </View>
-              <View style={styles.lifetimeSubContent}>
+              <View style={[styles.lifetimeSubContent]}>
                 <Text style={[styles.lifetimeSubHeading,{color:TEXT_COLOR}]}>Lifetime Subscription</Text>
                 <Text style={[styles.lifetimeSubText,{color:SECONDARY_TEXT_COLOR}]}>one-time purchase and lasts a lifetime </Text>
                 <TouchableOpacity disabled={this.state.isUserHasSubsCription} style={styles.lifetimeSubButton}
@@ -174,7 +174,7 @@ export default class OrderSummary extends OrderSummaryController {
                 )})}
               </View>
             </View>
-            <View style={{ paddingTop: 20 }}>
+            <View style={{ paddingTop: 20, }}>
               <MyDetails
                 header="MY DETAILS-"
                 list={[
@@ -191,7 +191,8 @@ export default class OrderSummary extends OrderSummaryController {
             </View>
               <View style={styles.deliverContainer}>
                 <Text style={[styles.deliverText,{color:TEXT_COLOR}]}>Deliver in 24hrs </Text>
-                <TouchableOpacity style={[styles.deliverPrice,{backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} onPress={this.state.fastDeliveryPice? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
+                <TouchableOpacity style={[styles.deliverPrice,
+                  {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} onPress={this.state.fastDeliveryPice? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
                   <Text style={[styles.deliverPriceText,{color:this.state.fastDeliveryPice ? BUTTON_TEXT_COLOR_SECONDARY:BUTTON_TEXT_COLOR_PRIMARY  }]}>{this.state.fastDeliveryPice ? "Remove" : "+ $25.00"}</Text>
                 </TouchableOpacity>
               </View>

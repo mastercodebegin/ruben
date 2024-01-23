@@ -5,7 +5,7 @@ import {
   responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { DARK_RED } from "../../landingpage/src/colors";
-import { BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 export const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -149,8 +149,10 @@ export const styles = StyleSheet.create({
   },
   deliverContainer: {
     marginTop: 20,
-    backgroundColor: WHITE,
+    backgroundColor: 'white',
     paddingHorizontal: 20,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR,
     paddingVertical: 10,
     borderRadius: 20,
     flexDirection: "row",
@@ -158,7 +160,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   deliverText: {
-    color: PRIMARY,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 18,
   },
   deliverPrice: {
