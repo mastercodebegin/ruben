@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { 
-    View, 
+    View,
     StyleSheet, 
     Dimensions, 
     Modal, 
@@ -9,7 +9,6 @@ import {
     TouchableOpacity
      } from "react-native";
 import Calendar from "./Calendar";
-import { PRIMARY } from "./constants";
 import { PRIMARY_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 
 interface Props {

@@ -15,6 +15,7 @@ import moment from "moment";
 import { store } from "../../../components/src/utils";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
 import {DARK_RED, LIGHT_GREY, PRIMARY} from "../../../components/src/constants";
+import { PRIMARY_COLOR } from "../../landingpage/src/assets";
 // Customizable Area End
 
 export const configJSON = require("./config");
@@ -275,13 +276,13 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         datasets: [
           { data: [ 0, 0, 0, 0, 0, 0, 0 ],
             colors: [
-              (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#ee5e5d`,
-              (opacity = 1) => `#F8F4F4`,
-              (opacity = 1) => `#F8F4F4`]
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR,
+              (opacity = 1) => PRIMARY_COLOR]
           }
         ]
       },

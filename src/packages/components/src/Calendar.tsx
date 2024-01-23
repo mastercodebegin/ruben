@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 //@ts-ignore
-import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
+import {  WHITE,  } from "./constants";
 import moment from "moment";
 import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 interface Props {
@@ -91,12 +91,13 @@ const Calendar = ({
         width: "55%",
         alignSelf: "center",
         marginRight: 4,
+        
       },
     },
     "stylesheet.day.basic": {
       selected: {
         borderRadius: 20,
-        backgroundColor: "black",
+        backgroundColor: "red",
         alignSelf: "center",
       },
     },

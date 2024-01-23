@@ -17,7 +17,6 @@ import Calendar from "./Calendar";
 const ScreenWidth = Dimensions.get("window").width;
 const calculatedScreenW = ScreenWidth - 40;
 import {
-  DARK_RED,
   WHITE,
   SEARCH,
   EXPLORE_BTN,

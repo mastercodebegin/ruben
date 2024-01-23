@@ -138,8 +138,8 @@ export default class OrderSummary extends OrderSummaryController {
               />
             </View>
             <View style={[styles.lifetimeSub,{borderWidth:1,borderColor:PRIMARY_COLOR}]}>
-              <View style={styles.cartImageContainer}>
-                <Image resizeMode="contain" style={styles.cartImage} source={require('../assets/cart.png')}/>
+              <View style={[styles.cartImageContainer,{borderColor:PRIMARY_COLOR}]}>
+                <Image resizeMode="contain" style={[styles.cartImage,{tintColor:PRIMARY_COLOR}]} source={require('../assets/cart.png')}/>
               </View>
               <View style={[styles.lifetimeSubContent]}>
                 <Text style={[styles.lifetimeSubHeading,{color:TEXT_COLOR}]}>Lifetime Subscription</Text>

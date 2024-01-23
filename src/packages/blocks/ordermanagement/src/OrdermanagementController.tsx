@@ -189,6 +189,8 @@ export default class OrdermanagementController extends BlockComponent<
     console.log('this.state.order_number====',this.state.order_number);
     
     if (res.length) {
+      console.log('if part===');
+
       this.setState({
         incomingOrders:filterData,
         showLoader: false,
@@ -211,8 +213,12 @@ export default class OrdermanagementController extends BlockComponent<
 //         this.setState({ incomingOrders: [...this.state.incomingOrders, ...res]})
 //       }
     } else {
+      console.log('else part===',res.length);
+      showToast('No data found')
       this.setState({
-        fetchMoreIncoming:false
+        fetchMoreIncoming:false,
+        showLoader:false,
+        showPaginationLoader:false
       })
     }
     
@@ -468,7 +474,6 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   getCorrespondingArray() {
-    console.log('returning array-----------------------------')
     
     if (this.state.isSearching) {
       return this.state.searchResult;
