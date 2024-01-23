@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED } from "../../../landingpage/src/assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, close, DARK_RED, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../../landingpage/src/assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { BLACK, LIGHT_GREY,PRIMARY, WHITE } from "../../assets/constants";
 import { Dropdown } from "../../../../components/src/DropDown/src";
@@ -78,7 +78,7 @@ export class RecurringModal extends React.Component<P, S> {
               >
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
-              <Text style={styles.counter}>{this.state.quantity}</Text>
+              <Text style={[styles.counter,{color:TEXT_COLOR}]}>{this.state.quantity}</Text>
               <TouchableOpacity
                 testID="plusbtn"
                 onPress={() => this.setState({ quantity: this.state.quantity + 1 })}
@@ -134,17 +134,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 100,
   },
-  close: { height: 15, width: 15 },
+  close: { height: 15, width: 15,tintColor:PRIMARY_COLOR },
   closeBtn: {
     alignSelf: "flex-end",
-    backgroundColor: "#FFE3D4",
     padding: 10,
     borderRadius: 20,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR
   },
   label:{
     flex:0.5,
     fontSize:15,
-    color:PRIMARY,
+    color:TEXT_COLOR,
     fontWeight:'bold',
     alignSelf:'center'
   },
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     width:'80%',
     fontSize:14,
     marginVertical:8,
-    color:COLORS.darkGray,
+    color:SECONDARY_TEXT_COLOR,
     alignSelf:'center',
     textAlign:'center'
   },
@@ -173,17 +174,17 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
-    color: DARK_RED
+    color: TEXT_COLOR
   },
   selectedTextStyle: {
-    fontSize: 16,
-    color: DARK_RED,
+    fontSize: 16, 
+    color: TEXT_COLOR,
     fontWeight: "700",
   },
   iconStyle: {
     width: 30,
     height: 30,
-    tintColor: DARK_RED,
+    tintColor: BUTTON_TEXT_COLOR_SECONDARY,
   },
   containerStyle: {
     borderBottomLeftRadius: 10,
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
   textItem: {
     flex: 1,
     fontSize: 16,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingVertical: 5,
     marginLeft: 10,
 
@@ -201,7 +202,8 @@ const styles = StyleSheet.create({
   dropdown: {
     width:'45%',
     height: 50,
-    backgroundColor: LIGHT_GREY,
+    borderWidth:1,
+    borderColor: BUTTON_COLOR_PRIMARY,
     borderRadius: 10,
     padding: 12,
     shadowColor: BLACK,
@@ -227,13 +229,14 @@ const styles = StyleSheet.create({
   button: {
     height: 25,
     width: 25,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     borderRadius: 12.5,
     justifyContent: "center",
     alignItems: "center",
   },
   count: {
-    color: DARK_RED,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
+    fontWeight:'bold'
   },
   counter: {
     paddingHorizontal: 10,
