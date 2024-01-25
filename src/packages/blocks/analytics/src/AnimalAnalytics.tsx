@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     padding: 0
   },
   animalImgContainer: {
-    backgroundColor: "white",
+    justifyContent: "flex-end",
     paddingHorizontal: 15,
-    paddingVertical: 75,
+    height:400,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 200,
     alignSelf: 'center',
-    marginTop: 40
+    marginBottom: 20
   },
   animalImg: {
     paddingTop: 1,
@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom:20
   },
   rowContainer: {
     flexDirection: 'row',

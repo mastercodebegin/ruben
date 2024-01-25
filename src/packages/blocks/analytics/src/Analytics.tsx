@@ -99,23 +99,11 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            this.hideKeyboard();
-          }}
-        >
-          {/* Customizable Area Start */}
-          <SafeAreaView>
-            <View style={styles.main}>
-              <View style={styles.headerContainer}>
-
-                <HeaderWithBackArrowTemplate
-                  navigation={this.props.navigation}
-                  scrollView={false}
-                  headerText="Analytics"
-                ></HeaderWithBackArrowTemplate>
-              </View>
+      <HeaderWithBackArrowTemplate
+      headerText="Analytics"
+      navigation={this.navigation}
+    >
+          <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
               <View style={styles.main}>
                 {this.isUser === false && (
                   <View style={styles.chartView}>
@@ -251,16 +239,12 @@ export default class Analytics extends AnalyticsController {
                   </View>
                 </View>
               </View>
-            </View>
 
             {this.state.showLoader && (
               <CommonLoader visible={this.state.showLoader} />
             )}
-          </SafeAreaView>
-          {/* Customizable Area End */}
-        </TouchableWithoutFeedback>
-      </ScrollView>
-      // Customizable Area End
+            </ScrollView>
+            </HeaderWithBackArrowTemplate>
     );
   }
 }
