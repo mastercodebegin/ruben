@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   animalImgContainer: {
     justifyContent: "flex-end",
     paddingHorizontal: 15,
-    height:400,
+    height:400, 
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
