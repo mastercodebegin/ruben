@@ -36,7 +36,7 @@ const SearchBarWithFilter = ({
         <Image resizeMode="stretch" style={[styles.search,{tintColor:PRIMARY_COLOR}]} source={SEARCH} />
         <TextInput
           style={styles.textInput}
-          placeholder="Search any Product/Video"
+          placeholder="Search Order"
           placeholderTextColor={SECONDARY_TEXT_COLOR}
           value={searchText}
           testID={testID}

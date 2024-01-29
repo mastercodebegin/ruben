@@ -121,7 +121,7 @@ export const MyOrderHeader = ({
             }}
             value={orderNo}
             keyboardType="number-pad"
-            placeholder="Search any product..."
+            placeholder="Search Order"
             placeholderTextColor={SECONDARY_TEXT_COLOR}
           />
           <TouchableOpacity

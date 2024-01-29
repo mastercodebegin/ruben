@@ -167,7 +167,7 @@ const CalendarTemplate = ({
             <TextInput
               style={expStyles.textInput}
               editable={!showCalendar}
-              placeholder="Search any product..."
+              placeholder="Search Order"
               placeholderTextColor={SECONDARY_TEXT_COLOR}
               onChangeText={onChangeText}
             />

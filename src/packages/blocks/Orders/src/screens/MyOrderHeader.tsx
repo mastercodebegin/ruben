@@ -122,7 +122,7 @@ export const MyOrderHeader = ({
             }}
             value={orderNo}
             keyboardType="number-pad"
-            placeholder="Search any product..."
+            placeholder="Search Order"
             placeholderTextColor={TEXT_COLOR}
           />
           <TouchableOpacity onPress={()=>searchOrder(orderNo)}>
