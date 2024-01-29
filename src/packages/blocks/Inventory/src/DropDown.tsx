@@ -33,7 +33,6 @@ const Dropdown = ({
   const dropdownCategoryref: any = React.createRef();
   const [selected,setSelected]=useState(label)
   useEffect(()=>{
-    console.log('data==============',data);
     
   })
   const RenderIcon = () => (

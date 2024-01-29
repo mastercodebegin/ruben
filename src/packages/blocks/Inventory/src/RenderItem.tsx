@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { DARK_RED, LIGHT_GREY } from "../../../components/src/constants";
 import { APP_BACKGROUND, MEAT_IMAGE1, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR, arrowLeft } from "../../landingpage/src/assets";
@@ -36,7 +36,8 @@ OnHand:3
   }
 ]
 const RenderItem = ({item}: any) => {  
-  {`item in the renderItem ${item}`}
+console.log('log===========',JSON.stringify(item))
+
   const selectedStatus = item?.data?.attributes?.status === 'scheduled' ?
     'pending' : item?.data?.attributes?.status === 'completed' ?
       'success' : item?.data?.attributes?.status === "on_going" ? "Pending" : item?.data?.attributes?.status;

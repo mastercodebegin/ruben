@@ -100,7 +100,7 @@ export class ExplorePage extends LandingPageController {
               <View style={{ paddingHorizontal: 20 }}>
                 <Text style={styles.header}>Store </Text>
                 <View style={styles.textInputContainer}>
-                  <View style={styles.searchContainer}>
+                  <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
                     <Image
                       resizeMode="stretch"
                       style={[styles.search,{tintColor:PRIMARY_COLOR}]}
