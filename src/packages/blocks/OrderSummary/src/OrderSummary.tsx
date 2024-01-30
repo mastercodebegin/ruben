@@ -9,8 +9,8 @@ import {
   Modal,
   ImageSourcePropType,
 } from "react-native";
+import {CALENDAR_ICON} from './assets'
 import { styles } from "./styles";
-import { PRIMARY } from "../../../components/src/constants";
 import MileStone from "../../../components/src/MilestoneComponent";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./MyDetails";
@@ -76,17 +76,19 @@ export default class OrderSummary extends OrderSummaryController {
         <View style={[styles.innerContainer,]}>
             <TouchableOpacity
               onPress={() => this.setState({showSubscriptionModal:false})}
-              style={styles.closeBtn}
+              style={[styles.closeBtn,{backgroundColor:'white',borderWidth:1,borderColor:PRIMARY_COLOR}]}
             >
               <Image
                 resizeMode="contain"
-                style={styles.close}
+                style={[styles.close,{tintColor:PRIMARY_COLOR}]}
                 source={close}
               />
             </TouchableOpacity>
-            <Image resizeMode="contain" style={styles.calenderImage} source={require('../assets/calendar.png')}/>
+            <Image resizeMode="contain" style={[styles.calenderImage,{tintColor:PRIMARY_COLOR}]}
+             source={CALENDAR_ICON}/>
 
-            <Text style={[styles.lifetimeSubHeading,{textAlign:"center",marginTop:30,lineHeight:30}]}>Lifetime Subscription {'\n'} $5</Text>
+            <Text style={[styles.lifetimeSubHeading,
+              {textAlign:"center",marginTop:30,lineHeight:30,color:TEXT_COLOR}]}>Lifetime Subscription {'\n'} $5</Text>
           <Text style={[styles.lifetimeSubText,{textAlign:'center'}]}>
             {
               "One-time purchase and lasts a lifetime."

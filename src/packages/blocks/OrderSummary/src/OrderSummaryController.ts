@@ -817,8 +817,9 @@ SS
     const OrderDetailsList: any[] = [];   
  
     if (orderDetails?.sub_total && orderDetails?.total) {
-      OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.sub_total)});
 
+      OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.sub_total)});
+      OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(5)})
       if (orderDetails?.shipping_charge) {
         OrderDetailsList.push({ question: "Shipping Charges", ans: this.numberValue(orderDetails?.shipping_charge) });
       }
@@ -832,12 +833,9 @@ SS
       if (orderDetails?.delivery_hrs) {
         OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(orderDetails?.delivery_hrs) });
       }
-      if (orderDetails?.life_time_subscription) {
-        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(0)})
-      }
+   
       if (orderDetails?.meat_storage_amount) {
         OrderDetailsList.push({question : "Meat Storage",ans:this.numberValue(orderDetails?.meat_storage_amount)})
-        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(5)})
 
       }
       if (orderDetails?.product_discount) {
