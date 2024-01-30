@@ -407,7 +407,7 @@ export default class Myprofile extends LandingPageController {
                       }}
                     /></>) :
                   <View style={{ paddingHorizontal: 20, paddingVertical: 25 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 17, color: PRIMARY, fontWeight: "bold" }}>{"No products!"}</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 17, color: TEXT_COLOR, fontWeight: "bold" }}>{"No products!"}</Text>
                   </View>
                 }
 
