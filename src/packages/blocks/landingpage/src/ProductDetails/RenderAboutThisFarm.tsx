@@ -56,6 +56,7 @@ const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
   );
 };
 export default RenderAboutThisFarm;
+
 const styles = StyleSheet.create({
   main: {},
   price: { color: TEXT_COLOR, fontWeight: "bold", fontSize: 17 },
