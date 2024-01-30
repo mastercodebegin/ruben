@@ -14,4 +14,5 @@ exports.labelBodyText = "StripeIntegration Body";
 exports.paymentApi = "bx_block_stripe_integration/payments?query=card";
 exports.codApi = "bx_block_stripe_integration/payments?query=cod";
 exports.btnExampleTitle = "CLICK ME";
+exports.pub_key="pk_test_51NNaAfSAa6CbwA4IeNXvcA9SQJvl4dqt9sVYdS30AihpOwfRGhBHRvm9QSeUlIdLKjLzdpEniVCESKufTWvkxPFZ00pIys0mos";
 // Customizable Area End
