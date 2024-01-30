@@ -508,15 +508,19 @@ export default class EmailAccountLoginController extends BlockComponent<
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      if (newLogged?.message) {
-        console.log("+++++++++++++++++++++++++++++++++++");
-        
-        this.setState({ showLoader: false })
-        showToast(newLogged?.message)
-        this.props.navigation.goBack()
-      }
-       else {
-        Alert.alert("Error", newLogged?.errors[0].account, [
+      if (newLogged?.meta?.token) {
+        AsyncStorage.setItem("userDetails", JSON.stringify(newLogged)).then(
+          () => {
+            this.setState({
+              showModal: true,
+              coupon_code: newLogged?.data?.attributes?.code,
+              showLoader: false,
+            });
+            removeStorageData('userCred');
+          }
+        );
+      } else {
+        Alert.alert("Error", newLogged.errors[0].account, [
           { text: "OK", onPress: () => this.setState({ showLoader: false }) },
         ]);
       }
@@ -529,21 +533,15 @@ export default class EmailAccountLoginController extends BlockComponent<
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      if (newLogged?.meta?.token) {
-        AsyncStorage.setItem(
-          "userDetails",
-          JSON.stringify({
-            ...newLogged,
-            meta: { ...newLogged?.meta, user_type: "merchant" },
-          })
-        ).then(() => {
-          store.dispatch({ type: "UPDATE_USER", payload: "merchant" });
-          this.setState({
-            showMerModal: true,
-            showLoader: false,
-          });
-        });
+      if (newLogged?.message) {
+        console.log('if=====================');
+        
+        this.setState({ showLoader: false })
+        showToast(newLogged?.message)
+        this.props.navigation.goBack()
       } else {
+        console.log('else=====================');
+
         Alert.alert("Error", newLogged.errors[0].account, [
           { text: "OK", onPress: () => this.setState({ showLoader: false }) },
         ]);
