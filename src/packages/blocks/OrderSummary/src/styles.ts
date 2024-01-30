@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   lifetimeSubHeading: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 20,
     paddingLeft: 10,
     fontWeight: "bold",
