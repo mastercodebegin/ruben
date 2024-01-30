@@ -1674,12 +1674,17 @@ export default class LandingPageController extends BlockComponent<
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
+      "Content-Type":'application/json',
       'token': userDetail?.meta?.token,
     };
-    const formdata = new FormData();
-    formdata.append("favouriteable_id", `${userDetail.data?.id}`);
-    formdata.append("favouriteable_type", "AccountBlock::Account");
-    formdata.append("catalogue_id", `${catalogue_id}`);
+    const body={
+      favourites:{
+        favouriteable_id:userDetail.data?.id,
+        favouritebale_type:"AccountBlock::Account",
+        catalogue_id:catalogue_id
+    }
+  }
+
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1694,7 +1699,7 @@ export default class LandingPageController extends BlockComponent<
     );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestBodyMessage),
-      formdata
+      JSON.stringify(body)
     );
     requestMessage.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),

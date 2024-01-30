@@ -16,6 +16,7 @@ import {
   removeStorageData,
   setStorageData,
 } from "../../../framework/src/Utilities";
+import { showToast } from "../../../components/src/ShowToast";
 const encryptionKey = "gh753mjb6v8cpqet7vslwf";
 // Customizable Area End
 
@@ -507,19 +508,15 @@ export default class EmailAccountLoginController extends BlockComponent<
       let newLogged = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      if (newLogged?.meta?.token) {
-        AsyncStorage.setItem("userDetails", JSON.stringify(newLogged)).then(
-          () => {
-            this.setState({
-              showModal: true,
-              coupon_code: newLogged?.data?.attributes?.code,
-              showLoader: false,
-            });
-            removeStorageData('userCred');
-          }
-        );
-      } else {
-        Alert.alert("Error", newLogged.errors[0].account, [
+      if (newLogged?.message) {
+        console.log("+++++++++++++++++++++++++++++++++++");
+        
+        this.setState({ showLoader: false })
+        showToast(newLogged?.message)
+        this.props.navigation.goBack()
+      }
+       else {
+        Alert.alert("Error", newLogged?.errors[0].account, [
           { text: "OK", onPress: () => this.setState({ showLoader: false }) },
         ]);
       }
