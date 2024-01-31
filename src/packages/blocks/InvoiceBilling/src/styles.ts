@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import {  TEXT_COLOR } from "../../landingpage/src/assets";
 export const styles = StyleSheet.create({
   number: { flex: 0, width:30 },
   center: { flex: 1, alignItems: "center" },

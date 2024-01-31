@@ -906,7 +906,7 @@ export default class LandingPageController extends BlockComponent<
 
     }
   }
-  categoryCallback(error: any, categories: Array<object>) {
+  categoryCallback(error: any, categories: Array<{attributes:{categoryId:string,name:string}}>) {
 
 
     if (error) {

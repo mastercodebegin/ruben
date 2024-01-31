@@ -15,7 +15,7 @@ import {
 import CartDetails from "../Cart";
 import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, WHITE } from "../../assets/constants";
-import { SEARCH, EXPLORE_BTN, CHICKEN, TEXT_COLOR, APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, SECONDARY_TEXT_COLOR, BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, BUTTON_COLOR_SECONDARY, SECONDARY_COLOR, BUTTON_TEXT_COLOR_SECONDARY } from "../assets";
+import { SEARCH, EXPLORE_BTN, CHICKEN, TEXT_COLOR, APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, SECONDARY_TEXT_COLOR, BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import RenderItems from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
