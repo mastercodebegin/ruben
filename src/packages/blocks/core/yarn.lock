@@ -2665,6 +2665,8 @@
 
 "@react-native-firebase/analytics@13.1.1":
   version "13.1.1"
+  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/@react-native-firebase/analytics/-/analytics-13.1.1.tgz#f0d2e943903e745b0ed0004c2588983ad5dc5543"
+  integrity sha512-6FachaeuBlI0jiZDktQBsk7KKsJyzEYxylFcgDv1Z4DBsbut0Dl4+7TlPJAlrXxqjlnU8W/2PsAv0j6U85JLmA==
 
 "@react-native-firebase/app@8.4.7":
   version "8.4.7"
@@ -3258,6 +3260,8 @@
 
 "@types/react-router-dom@5.3.3":
   version "5.3.3"
+  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/@types/react-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
+  integrity sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==
   dependencies:
     "@types/history" "^4.7.11"
     "@types/react" "*"
@@ -8015,6 +8019,8 @@ eslint-plugin-react@^7.20.0:
 
 eslint-plugin-sonarjs@0.5.0:
   version "0.5.0"
+  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.5.0.tgz#ce17b2daba65a874c2862213a9e38e8986ad7d7d"
+  integrity sha512-XW5MnzlRjhXpIdbULC/qAdJYHWw3rRLws/DyawdlPU/IdVr9AmRK1r2LaCvabwKOAW2XYYSo3kDX58E4MrB7PQ==
 
 eslint-rule-composer@^0.3.0:
   version "0.3.0"
@@ -15623,6 +15629,8 @@ react-native-document-picker@*:
 
 react-native-document-picker@8.0.0:
   version "8.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-8.0.0.tgz#f760f89049cda668be8b1cfb31a484af19716f35"
+  integrity sha512-4O1FNOJHzfZ7BBFOJhNoeCKHSjthFtZyMEWJsAxX1ORdShGSa6miLvTHtQjpCDMNWSoPU1C7fXLNNPrv8GAarQ==
   dependencies:
     invariant "^2.2.4"
 
@@ -15799,6 +15807,8 @@ react-native-ratings@^7.3.0:
 
 react-native-reanimated@1.13.1:
   version "1.13.1"
+  resolved "https://npm-cache.npm-cache.prod.eastus.az.svc.builder.ai/react-native-reanimated/-/react-native-reanimated-1.13.1.tgz#c370c32cc4d447ae896cb029bb9c6a2f7608c5b4"
+  integrity sha512-3sF46jts9MbktgIasf0sTM8uhOYO5a5Q3YyQ4X1jjSE82n/fY2nW3XTFsLGfLEpK2ir4XSDhQWVgFHazaXZTww==
   dependencies:
     fbjs "^1.0.0"
 
@@ -15854,6 +15864,8 @@ react-native-slider@^0.11.0:
 
 react-native-sound@0.11.2:
   version "0.11.2"
+  resolved "https://npm-cache.npm-cache.prod.centralindia.az.svc.builder.ai/react-native-sound/-/react-native-sound-0.11.2.tgz#e542dc5b9e16ab4b3ac7e6eaddb1fc8d98da9038"
+  integrity sha512-LmGc8lgOK3qecYMVQpyHvww/C+wgT6sWeMpVbOe4NCRGC2yKd4fo4U0KBUo9PO7AqKESO3I/2GZg1/C0+bwiiA==
 
 react-native-svg@12.2.0:
   version "12.2.0"
