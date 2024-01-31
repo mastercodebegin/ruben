@@ -32,7 +32,7 @@ const SuccessModal = ({
   const onpressCopy = () => {
     Clipboard.setString(couponCode);
     if (Platform.OS === "ios") {
-      Toast.show("Code copied");
+      Toast.show("Code copied", Toast.LONG);
       return;
     }
     ToastAndroid.show("Code copied", ToastAndroid.SHORT);
