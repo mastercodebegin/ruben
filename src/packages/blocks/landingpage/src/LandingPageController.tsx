@@ -915,20 +915,24 @@ export default class LandingPageController extends BlockComponent<
     } else {
       if (categories) {
         let arr = []
-        for (let i = 0; i < categories.length; i++) {
-
+        for (const category of categories) {
           if (this.state.isMyProfile) {
-            const obj = { 'id': categories[i]?.attributes?.categoryId, 'attributes': { 'name': categories[i]?.attributes?.name } }
-            arr.push(obj)
+            const obj = {
+              'id': category?.attributes?.categoryId,
+              'attributes': {
+                'name': category?.attributes?.name
+              }
+            };
+            arr.push(obj);
+          } else {
+            const obj = {
+              'id': category?.attributes?.categoryId,
+              'title': category?.attributes?.name
+            };
+            arr.push(obj);
           }
-          else {
-
-            const obj = { 'id': categories[i]?.attributes?.categoryId, 'title': categories[i]?.attributes?.name }
-            arr.push(obj)
-
-          }
-
         }
+        
         this.categoryPage = null;
         this.setState({ show_loader: false, categoryList: arr, categories: arr, subCategoryList: [] })
       }
