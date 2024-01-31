@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import { CalendarProvider, ExpandableCalendar } from "react-native-calendars";
 import moment from "moment";
 
-import { COLORS } from "../../framework/src/Globals"
+import { COLORS } from "../../framework/src/Globals";
 
 interface Props {
   onSelectDate: (selectedDate: string) => void;
@@ -19,7 +19,9 @@ const GenericCalendarList: FunctionComponent<Props> = ({
   testID,
 }) => {
   const [selectedDate, setSelectedDate] = useState(
-    selectDate ? moment(selectDate).format(DATE_FORMAT) : moment().format(DATE_FORMAT)
+    selectDate
+      ? moment(selectDate).format(DATE_FORMAT)
+      : moment().format(DATE_FORMAT)
   );
 
   const getTheme = () => {
@@ -43,7 +45,7 @@ const GenericCalendarList: FunctionComponent<Props> = ({
       selectedDayBorderRadius: 4,
       // disabled date
       textDisabledColor: COLORS.lightBlueGrey,
-    };
+    } as const;
   };
 
   return (
@@ -52,7 +54,7 @@ const GenericCalendarList: FunctionComponent<Props> = ({
         setSelectedDate(date);
         onSelectDate(date);
       }}
-      date={""}
+      date={moment().format(DATE_FORMAT)}
     >
       <ExpandableCalendar
         disablePan={true} //we need this

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -17,6 +18,11 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictPropertyInitialization": false,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "react": [
+        "node_modules/@types/react"
+      ]
+    }
   }
 }
