@@ -20,8 +20,6 @@ import AnimalAnalytics from "./AnimalAnalytics";
 import { BarChart } from "react-native-chart-kit";
 
 import {
-  DARK_RED,
-  PRIMARY,
   WHITE,
   LIGHT_GREY,
   SCREEN_WIDTH,
@@ -36,8 +34,8 @@ import DisplayCalendar from "../../../components/src/DisplayCalendar";
 import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
-import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import AnalyticsController, { Props, } from "./AnalyticsController";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 
 export default class Analytics extends AnalyticsController {

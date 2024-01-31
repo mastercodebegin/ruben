@@ -789,10 +789,7 @@ export default class LandingPageController extends BlockComponent<
       const response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log('response=================================', response?.data[0].attributes?.catalogue?.catalogues?.data)
+   
       if (response?.data[0].attributes?.catalogue?.catalogues?.data.length > 0) {
         this.setState({ productList: response.data, show_loader: false })
 

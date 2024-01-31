@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { DARK_RED, TEXT_COLOR } from "./assets";
+import {  TEXT_COLOR } from "./assets";
 const styles = StyleSheet.create({
     header: {
         fontSize: 23,

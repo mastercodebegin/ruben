@@ -186,7 +186,6 @@ export default class OrdermanagementController extends BlockComponent<
 
     const arr = [...this.state.incomingOrders, ...res]
     const filterData = arr.filter(order=>order?.id!=this.state.order_number)
-    console.log('this.state.order_number====',this.state.order_number);
     
     if (res.length) {
       console.log('if part===');
@@ -201,17 +200,7 @@ export default class OrdermanagementController extends BlockComponent<
           this.state.incomingCurrentPage !== this.state.incomingTotalPage,
           showPaginationLoader:false
       });
-//       if(this.state.searchText.length>0)
-//       {
-// console.log('if=================================',this.state.searchText.length);
 
-//         this.setState({
-//         incomingOrders: [ ...res],searchText:'',isSearching:false})
-       
-//       }
-//       else{
-//         this.setState({ incomingOrders: [...this.state.incomingOrders, ...res]})
-//       }
     } else {
       console.log('else part===',res.length);
       showToast('No data found')

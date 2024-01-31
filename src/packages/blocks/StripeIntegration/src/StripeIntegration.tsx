@@ -28,7 +28,6 @@ import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
 import { getStorageData, setStorageData } from "../../../framework/src/Utilities";
 import { showToast } from "../../../components/src/ShowToast";
 //@ts-ignore
-import CustomCheckBox from "../../../components/src/CustomCheckBox";
 
 // Merge Engine - import assets - Start
 // Merge Engine - import assets - End
@@ -48,11 +47,10 @@ interface ImageBoxType {
 
 import StripeIntegrationController, {
   Props,
-  configJSON,
 } from "./StripeIntegrationController";
 import PaymentCustomeAlert from "./PaymentCustomeAlert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 
 export default class StripeIntegration extends StripeIntegrationController {
