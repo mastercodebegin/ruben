@@ -19,7 +19,7 @@ import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
 import {BarChart} from "react-native-chart-kit";
 
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 import {
   DARK_RED,
