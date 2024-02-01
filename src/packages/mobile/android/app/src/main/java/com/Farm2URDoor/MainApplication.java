@@ -1,4 +1,4 @@
-package com.RuebensFTCApp;
+package com.Farm2URDoor;
 
 import androidx.multidex.MultiDexApplication;
 import android.content.Context;
@@ -28,6 +28,9 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.horcrux.svg.SvgPackage;
 
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
+import com.RNFetchBlob.RNFetchBlobPackage; 
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -51,6 +54,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           packages.add(new RNFusedLocationPackage());
           packages.add(new SvgPackage());
           packages.add(new RNGestureHandlerPackage());
+          packages.add(new RNFetchBlobPackage());
+          packages.add(new ReactNativeFirebaseMessagingPackage());
+          packages.add(new FastImageViewPackage());
           return packages;
         }
 
