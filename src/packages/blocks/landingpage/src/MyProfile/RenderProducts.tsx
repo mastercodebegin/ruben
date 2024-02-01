@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import { APP_BACKGROUND, CART, backGroundImage, badge } from "../assets";
+import { APP_BACKGROUND, CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
   navigate: (params:any)=>void;
@@ -58,9 +58,9 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"removeFavList"}
               onPress={onPressRemoveFromFav}
-              style={[styles.badgeContainer,isRecommendations&&{backgroundColor:APP_BACKGROUND}]}
+              style={[styles.badgeContainer,{borderWidth:1,borderColor:PRIMARY_COLOR}]}
             >
-              <Image resizeMode="contain" style={[styles.badge,isRecommendations &&{tintColor:"#000000"}]} source={badge} />
+              <Image resizeMode="contain" style={[styles.badge,isRecommendations && {tintColor:PRIMARY_COLOR}]} source={badge} />
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -74,11 +74,11 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"addtocart"}
               onPress={onPressAddToCart}
-              style={styles.FavcartContainer}
+              style={[styles.FavcartContainer,]}
             >
               <Image
                 resizeMode="contain"
-                style={styles.Favcart}
+                style={[styles.Favcart,{tintColor:PRIMARY_COLOR}]}
                 source={CART}
               />
             </TouchableOpacity>
