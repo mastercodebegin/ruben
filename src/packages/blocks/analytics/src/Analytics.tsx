@@ -18,8 +18,8 @@ import {
 import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
 import {BarChart} from "react-native-chart-kit";
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
-import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
+
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 import {
   DARK_RED,
@@ -45,7 +45,7 @@ export default class Analytics extends AnalyticsController {
     super(props);
     // Customizable Area Start
     this.calendarRef = React.createRef();
-    this.setState({ chartObject: this.convertToChartFormat([], moment(new Date(), "YYYY-MM-DD").toString()) })
+    this.setState({chartObject: this.convertToChartFormat([], moment(new Date(), "YYYY-MM-DD").toString())})
     // Customizable Area End
   }
 
@@ -62,14 +62,13 @@ export default class Analytics extends AnalyticsController {
   data = {
     labels: ['08/09', '08/10', '08/11', '08/12', '08/13', '08/14', '08/15'],
     datasets: [
-      {
-        data: [0, 0, 0, 0, 0, 0, 0],
+      { data: [ 0, 0, 0, 0, 0, 0, 0 ],
         colors: [
           (opacity = 1) => LIGHT_GREY,
           (opacity = 1) => LIGHT_GREY,
           (opacity = 1) => LIGHT_GREY,
           (opacity = 1) => LIGHT_GREY,
-          (opacity = 1) => TEXT_COLOR,
+          (opacity = 1) => DARK_RED,
           (opacity = 1) => LIGHT_GREY,
           (opacity = 1) => LIGHT_GREY]
       }
@@ -99,11 +98,24 @@ export default class Analytics extends AnalyticsController {
   render() {
     return (
       // Customizable Area Start
-      <HeaderWithBackArrowTemplate
-      headerText="Analytics"
-      navigation={this.navigation}
-    >
-          <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.hideKeyboard();
+          }}
+        >
+          {/* Customizable Area Start */}
+          <SafeAreaView>
+            <View style={styles.main}>
+              <View style={styles.headerContainer}>
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
+                  <Image
+                    style={styles.backImage}
+                    source={require("../../../components/src/arrow_left.png")}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>{"Analytics"}</Text>
+              </View>
               <View style={styles.main}>
                 {this.isUser === false && (
                   <View style={styles.chartView}>
@@ -119,27 +131,27 @@ export default class Analytics extends AnalyticsController {
                       >
                         <View >
                           <DisplayCalendar
-                            ref={this.calendarRef}
-                            setSelectedDay={this.handleDateSelected}
-                            selectedDate={this.state.startDate}
-                            dropdownStyle={{ height: 200 }}
-                            onClose={() => { this.calendarToggle(false); }}
-                            markedDates={this.state.markedDates}
-                          // onDaySelect={this.handleDateSelected}
+                              ref={this.calendarRef}
+                              setSelectedDay={this.handleDateSelected}
+                              selectedDate={this.state.startDate}
+                              dropdownStyle={{ height: 200 }}
+                              onClose={()=> {this.calendarToggle(false);}}
+                              markedDates={this.state.markedDates}
+                              // onDaySelect={this.handleDateSelected}
                           >
                             <TouchableOpacity
-                              testID="calender_toggle"
-                              onPress={() => {
-                                this.calendarToggle(true);
-                                this.calendarRef?.current?._onButtonPress();
-                              }}
+                                testID="calender_toggle"
+                                onPress={() => {
+                                  this.calendarToggle(true);
+                                  this.calendarRef?.current?._onButtonPress();
+                                }}
                             >
                               <View style={styles.calendarButton}>
                                 <View>
                                   <Image
-                                    style={[styles.backImage, styles.calendarButtonIcon]}
+                                    style={[styles.backImage,styles.calendarButtonIcon]}
                                     source={calendarIcon}
-                                  />
+                                />
                                 </View>
                                 <Text style={styles.calendarButtonText}>
                                   {this.dateStringToLabelFormat(this.state.startDate)}
@@ -173,23 +185,23 @@ export default class Analytics extends AnalyticsController {
                   </View>
                 )}
                 <View style={styles.numberOfSent}>
-                  <Text style={[styles.numOfSent, { color: TEXT_COLOR }]}>{"Number of Spend"}</Text>
+                  <Text style={styles.numOfSent}>{"Number of Spend"}</Text>
                   <View
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: TEXT_COLOR }}>
+                    <Text style={{ fontSize: 20, color: PRIMARY }}>
                       {`${Math.floor(this.state.numberOfSpendCount)}`}
                     </Text>
-                    <Text style={{ fontSize: 20, color: TEXT_COLOR, fontWeight: "600" }}>
+                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
                       {`$${this.state.numberOfSpend}`}
                     </Text>
                   </View>
                 </View>
                 <View style={styles.dropdownContainer} testID="dropdown-wrapper">
-                  <Dropdown
+                <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
@@ -201,7 +213,7 @@ export default class Analytics extends AnalyticsController {
                     onChange={this.handleDropdownChange}
                     renderItem={(item: any) => {
                       return (
-                        <Text style={styles.textItem}>{item?.attributes?.name}</Text>
+                          <Text style={styles.textItem}>{item?.attributes?.name}</Text>
                       )
                     }}
                     value={this.state.category_title}
@@ -232,19 +244,23 @@ export default class Analytics extends AnalyticsController {
                   </View>
                   <View style={styles.seperator} />
                   <View style={styles.box}>
-                    <Text style={styles.boxHeader}>Remaining Cuts-</Text>
-                    <Text style={styles.boxText}>
-                      {this.state.totalCuts === 0 ? '0%' : `${(100 - (7 * 3) / 100).toFixed(2)}%`}
-                    </Text>
+                    <Text style={styles.boxHeader}>Remaining Cuts</Text>
+                    <Text style={styles.boxText}>{this.state.totalCuts} ({this.state.totalCuts === 0
+                    ? '0%)'
+                    : `${((this.state.totalCuts - this.state.usedCuts) / this.state.totalCuts) * 100}%)`}</Text>
                   </View>
                 </View>
               </View>
+            </View>
 
             {this.state.showLoader && (
-              <CommonLoader visible={this.state.showLoader} />
-            )}
-            </ScrollView>
-            </HeaderWithBackArrowTemplate>
+           <CommonLoader visible={this.state.showLoader} />
+        )}
+          </SafeAreaView>
+          {/* Customizable Area End */}
+        </TouchableWithoutFeedback>
+      </ScrollView>
+      // Customizable Area End
     );
   }
 }

@@ -9,11 +9,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import {  redShadow,  } from "./assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR } from "../../landingpage/src/assets";
 // Customizable Area End
 
 import SplashscreenController, { Props } from "./SplashscreenController";
 
-import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, splashScreenImage } from "../../landingpage/src/assets";
+import { splashScreenImage } from "../../landingpage/src/assets";
 
 export default class Splashscreen extends SplashscreenController {
   constructor(props: Props) {
