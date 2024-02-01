@@ -17,9 +17,13 @@ import {
 // Customizable Area Start
 import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
-import { BarChart } from "react-native-chart-kit";
+import {BarChart} from "react-native-chart-kit";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 
 import {
+  DARK_RED,
+  PRIMARY,
   WHITE,
   LIGHT_GREY,
   SCREEN_WIDTH,
@@ -34,9 +38,7 @@ import DisplayCalendar from "../../../components/src/DisplayCalendar";
 import CommonLoader from "../../../components/src/CommonLoader";
 // Customizable Area End
 
-import AnalyticsController, { Props, } from "./AnalyticsController";
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
-import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
+import AnalyticsController, { Props, configJSON } from "./AnalyticsController";
 
 export default class Analytics extends AnalyticsController {
   constructor(props: Props) {
