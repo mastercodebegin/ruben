@@ -283,6 +283,9 @@ dependencies {
     implementation project(':react-native-view-shot')
     implementation project(':react-native-image-to-pdf')
     implementation project(':@react-native-voice_voice')
+    implementation project(':rn-fetch-blob')    
+    implementation project(':@react-native-firebase_messaging')
+    implementation project(':react-native-fast-image')
 
 
 
