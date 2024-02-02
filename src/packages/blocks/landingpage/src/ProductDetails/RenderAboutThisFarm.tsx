@@ -8,8 +8,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import { DARK_RED, MEAT_IMAGE3, PRIMARY, badge } from "../assets";
-import { sampleText, ImageData } from "./ProductDetails";
+import {  MEAT_IMAGE3, PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, badge } from "../assets";
 const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
   return (
     <View style={styles.main}>
@@ -56,9 +55,10 @@ const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
   );
 };
 export default RenderAboutThisFarm;
+
 const styles = StyleSheet.create({
   main: {},
-  price: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
+  price: { color: TEXT_COLOR, fontWeight: "bold", fontSize: 17 },
   productImage: { height: Dimensions.get('window').height * 0.2
     , width: "100%", borderRadius: 20 },
   productContainer: {
@@ -66,20 +66,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingTop: 20,
   },
-  productName: { color: DARK_RED, fontWeight: "bold", fontSize: 17 },
+  productName: { color: TEXT_COLOR, fontWeight: "bold", fontSize: 17 },
   badgeContainer: { flexDirection: "row", alignItems: "center",paddingTop:10 },
   badge: { height: "100%", width: "100%", tintColor: PRIMARY },
   button: {
     height: 30,
     width: 30,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
     padding: 5,
     borderRadius: 15,
   },
   header: {
     fontSize: 17,
-    color: "grey",
+    color: TEXT_COLOR,
     textTransform: "uppercase",
     fontWeight: "bold",
     paddingBottom: 10,
@@ -87,14 +87,14 @@ const styles = StyleSheet.create({
   headerContainer: { backgroundColor: "white", padding: 15, borderRadius: 15 },
   description: { color: "grey", fontSize: 16, paddingTop: 15 },
   image: { height: 60, width: 60, marginRight: 10, borderRadius: 10 },
-  photos: { color: "grey", fontWeight: "bold", paddingVertical: 10 },
+  photos: { color: TEXT_COLOR, fontWeight: "bold", paddingVertical: 10 },
   headerInnerContainer: {
     flex: 1,
     justifyContent: "space-evenly",
     paddingLeft: 20,
   },
   farmImage: { height: 60, width: 60, borderRadius: 10 },
-  farmName: { color: DARK_RED, fontWeight: "bold", fontSize: 18 },
-  address: { color: "grey", fontSize: 15 },
+  farmName: { color: TEXT_COLOR, fontWeight: "bold", fontSize: 18 },
+  address: { color: SECONDARY_TEXT_COLOR, fontSize: 15 },
   row: { flexDirection: "row" },
 });

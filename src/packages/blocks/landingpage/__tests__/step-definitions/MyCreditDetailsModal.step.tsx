@@ -51,7 +51,7 @@ defineFeature(feature, (test) => {
     });
 
     then("user can change handleAddressOptionChange", () => {
-      instance.handleAddressOptionChange();
+      instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
       const productList = ModalBlock.findWhere(
         (node) => node.prop("testID") === "deliverOption"
       );
@@ -69,25 +69,19 @@ defineFeature(feature, (test) => {
         }, index: 0
       })
       productList.renderProp("keyExtractor")({id:0})
+     
     })
 
     then("user can click on handleAnimatCuts", () => {
-      let handleAnimatCuts = ModalBlock.findWhere((node) => node.prop('testID') === "handleAnimatCuts");
-      handleAnimatCuts.simulate('press')
-    });
-
-    then("user can click on animalCutsDropDown", () => {
-      let animalCutsDropDown = ModalBlock.findWhere((node) => node.prop('testID') === "animalCutsDropDown");
+      const animalCutsDropDown = ModalBlock.findWhere(
+        (node) => node.prop("testID") === "animalCutsDropDown"
+      );
       animalCutsDropDown.simulate('press')
-    });
 
-
-    then("list of animalCutsOptionsListId", () => {
-      instance.handleAddressOptionChange();
       const animalCutsOptionsListId = ModalBlock.findWhere(
         (node) => node.prop("testID") === "animalCutsOptionsListId"
       );
-      animalCutsOptionsListId.renderProp('renderItem')({
+     const data = animalCutsOptionsListId.renderProp('renderItem')({
         item: {
           id: 2,
           attributes: {
@@ -99,22 +93,99 @@ defineFeature(feature, (test) => {
           }
         }, index: 0
       })
-      animalCutsOptionsListId.renderProp("keyExtractor")({id:0})
+            let handleAnimatCuts = data.findWhere((node) => node.prop('testID') === "handleAnimatCuts");
+
+            handleAnimatCuts.simulate('press')
+    });
+
+    then("user can click on animalCutsDropDown", () => {
+      let animalCutsDropDown = ModalBlock.findWhere((node) => node.prop('testID') === "animalCutsDropDown");
+      animalCutsDropDown.simulate('press')
+    });
+
+
+    then("list of animalCutsOptionsListId", () => {
+      instance.handleAddressOptionChange(false ,{id:1,attributes:{address:'test'}});
+      const animalCutsOptionsListId = ModalBlock.findWhere(
+        (node) => node.prop("testID") === "animalCutsOptionsListId"
+      );
+      // animalCutsOptionsListId.renderProp('renderItem')({
+      //   item: {
+      //     id: 2,
+      //     attributes: {
+      //       id: 2,
+      //       duration: 'Monthly',
+      //       currency: 'USD',
+      //       amount: '250',
+      //       plan_name: 'Monthly'
+      //     }
+      //   }, index: 0
+      // })
+      // animalCutsOptionsListId.renderProp("keyExtractor")({id:0})
     })
 
     then("user can enter the nearest location", () => {
+      instance.getProductByCategory();
+      instance.receiveCallback("message");
+      instance.getOrderList();
+      instance.handleLoadMore();
+      instance.handleDeliverOptionChange({});
+
+      instance.handleIncreaseAnimalCuts({id:1},0,1,1);
+      //instance.handleDecreaseAnimalCuts({id:1,name:'abc',quantity:20},1,4);
+      instance.handleAnimalCutsOption('abc',9,9);
+      instance.handleAnimalSelectSlots({});
+      instance.showHideCreditDetailModal();
+      instance.searchProductsCallback(true,{});
+      instance.updateProfileCallback(true,{});
+      instance.getFarmCallBack({},true);
+      instance.profileDetailsCallback({data:{attributes:{}}});
+      instance.getSubcategories("3");
+      instance.addProduct();
+      instance.setNotificationToken();
+      instance.shareProducts(2);
+      instance.categoryCallback(null,[])
+      instance.updateProfileCallback(null,[])
+      instance.getCategory(1,true)
+      instance.getCategories()
+      instance.farmDetails(true)
+      instance.getAboutUs()
+      instance.getVideoBlog()
+      instance.updateProfileDetails(true)
+      instance.getRecommendProduct(true)
+      instance.getRemainingProduct(9)
+      instance.getProfileDetails()
+      instance.getViewAllProduct(5)
+      instance.shareProducts(5)
+      instance.getFavorites()
+      instance.removeFavListProduct(true)
+      instance.getSlotsAndMerchantAddressHandler()
+      instance.getUserAddress()
+      // instance.setState({animalPortions:[{id:1,name:'test','quantity':6}]})
+      // instance.handleIncreaseAnimalCuts(0,0,80,9)
       let name_test_id = ModalBlock.findWhere((node) => node.prop('testID') === 'name_test_id');
       instance.setState({nearestLocation:""})
       name_test_id.simulate('changeText', 'hello@aol.com');
     });
   
     then("user can click on address_change", () => {
-      let address_change = ModalBlock.findWhere((node) => node.prop('testID') === "address_change");
+instance.setState({setDeliverOption:'Shipping'})
+      let addressFlatList = ModalBlock.findWhere((node) => node.prop('testID') === "addressFlatList");
+      const data=addressFlatList.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            time: 'Monthly'          }
+        }, index: 0
+      })
+      let address_change = data.findWhere((node) => node.prop('testID') === "address_change");
       address_change.simulate('press')
     });
 
     then("list of avaialbleSlots", () => {
-      instance.handleAddressOptionChange();
+      instance.setState({setDeliverOption:'Pickup'})
+      //instance.handleAddressOptionChange(true ,{id:1,attributes:{address:'test'}});
       const avaialbleSlots = ModalBlock.findWhere(
         (node) => node.prop("testID") === "avaialbleSlots"
       );

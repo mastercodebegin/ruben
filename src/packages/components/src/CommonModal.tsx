@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, View,  StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Button from "./CustomButton";
+import { APP_BACKGROUND, PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 const closeIcon = require("./closeIcon.png");
 interface ModalProps {
   transparent?: boolean;
@@ -30,7 +31,7 @@ const CommonModal = ({
         {blur && <View style={styles.blur} />}
         <View style={styles.banner}>
           <TouchableOpacity style={styles.closeContainer}>
-            <Image style={styles.close} source={closeIcon} />
+            <Image style={[styles.close,{tintColor:PRIMARY_COLOR}]} source={closeIcon} />
           </TouchableOpacity>
           {customChildren ? children : <></>}
           <Button label={buttonLabel} onPress={onpressButton} />
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   closeContainer: {
     alignSelf: "flex-end",
     marginVertical: 20,
-    backgroundColor: "#FFE3D4",
+    backgroundColor: APP_BACKGROUND,
     padding: 10,
     borderRadius: 20,
   },

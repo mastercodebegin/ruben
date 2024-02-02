@@ -39,6 +39,8 @@ interface S {
   incomingCurrentPage: number;
   fetchMoreIncoming: boolean;
   showPaginationLoader: boolean;
+  isUpdateOrder:boolean,
+  order_number:any
   // Customizable Area End
 }
 
@@ -67,6 +69,8 @@ export default class OrdermanagementController extends BlockComponent<
     ];
 
     this.state = {
+      order_number:'',
+      isUpdateOrder:false,
       showLoader: false,
       incomingOrders: [],
       previousOrders: [],
@@ -179,19 +183,30 @@ export default class OrdermanagementController extends BlockComponent<
   handleLoadMoreDebounced = debounce(this.getIncomingOrders.bind(this), 500); 
 
   handleIncomingPagination(res: any[], totalPage: number) {
+
+    const arr = [...this.state.incomingOrders, ...res]
+    const filterData = arr.filter(order=>order?.id!=this.state.order_number)
+    
     if (res.length) {
+
       this.setState({
-        incomingOrders: [...this.state.incomingOrders, ...res],
+        incomingOrders:filterData,
         showLoader: false,
+        searchText:'',
         incomingTotalPage: totalPage,
         incomingCurrentPage: this.state.incomingCurrentPage + 1,
         fetchMoreIncoming:
           this.state.incomingCurrentPage !== this.state.incomingTotalPage,
           showPaginationLoader:false
       });
+
     } else {
+      console.log('else part===',res.length);
+      showToast('No data found')
       this.setState({
-        fetchMoreIncoming:false
+        fetchMoreIncoming:false,
+        showLoader:false,
+        showPaginationLoader:false
       })
     }
     
@@ -251,24 +266,33 @@ export default class OrdermanagementController extends BlockComponent<
       this.setState({previousOrders:[],showLoader:false})
     }
   }
+
+
   acceptDeclineCallback(error=null) {
     if (error) {
-      showToast("Some error occurred!");
-      this.setState({showLoader: false})
+      this.getIncomingOrders();
+    
+
     } else {
-      if (this.state.selected === 'incoming') {          
+      if (this.state.selected === 'incoming') {   
         this.getIncomingOrders();
       } else {
         this.getPreviousOrders();
       }
     }
+      setTimeout(() => {
+          this.setState({showLoader: false})
+  
+        }, 4000);
+
   }
 
   async getIncomingOrders() {
     if (!this.state.fetchMoreIncoming) {
       return;
     }
-    this.setState({ showPaginationLoader: true });
+    
+    this.setState({ showPaginationLoader: true, });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -388,7 +412,7 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   async acceptDeclineOrders(orderId: number, accept: boolean) {
-    this.setState({ showLoader: true });
+    this.setState({ showLoader: true,searchText:'',isSearching:false,order_number:orderId });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -431,6 +455,7 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   getCorrespondingArray() {
+    
     if (this.state.isSearching) {
       return this.state.searchResult;
     } else if (this.state.selected === 'incoming') {

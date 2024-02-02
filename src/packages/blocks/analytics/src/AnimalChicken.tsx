@@ -9,7 +9,7 @@ import {
   Text
   // Customizable Area End
 } from "react-native";
-import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
+import { chicken, chicken_Back, chicken_Breast, chicken_Neck, chicken_Tail, chicken_Thigh, chicken_Wing, chicken_leg } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -95,7 +95,7 @@ export default class AnimalChicken extends AnalyticsController {
                   <Image
                       style={styles.animalImg}
                       resizeMode="contain"
-                      source={chicken}
+                      source={chicken_Tail}
                   />
               }
 
@@ -134,9 +134,9 @@ const styles = StyleSheet.create({
     padding: 0
   },
   animalImgContainer: {
-    backgroundColor: "white",
+    justifyContent: "flex-end",
     paddingHorizontal: 15,
-    paddingVertical: 90,
+    height:400,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 200,
     alignSelf: 'center',
-    marginTop: 40
+    marginBottom: 20
   },
   animalImg: {
     paddingTop: 1,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop:20
+    marginBottom:20
   },
   rowContainer: {
     flexDirection: 'row',

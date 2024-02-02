@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import {  redShadow,splash } from "./assets";
+import {  redShadow,  } from "./assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR,splashScreenImage } from "../../landingpage/src/assets";
 // Customizable Area End
 
 import SplashscreenController, { Props } from "./SplashscreenController";
@@ -36,14 +37,14 @@ export default class Splashscreen extends SplashscreenController {
           <Image
             resizeMode="contain"
             style={styles.image}
-            source={splash}
+            source={splashScreenImage}
           />
         </View>
         <TouchableOpacity
           onPress={this.onPressContinue}
-          style={styles.continue}
+          style={[styles.continue,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
         >
-          <Text style={styles.text}>Continue</Text>
+          <Text style={[styles.text,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>Continue</Text>
         </TouchableOpacity>
         <Image resizeMode="stretch"
          source={redShadow}
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   continue: {
     borderRadius: 28,
     alignItems: "center",
-    backgroundColor: "#a0272a",
+    backgroundColor: PRIMARY_COLOR,
     marginHorizontal: 20,
   },
   text: {

@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import { CART, backGroundImage, badge } from "../assets";
+import { APP_BACKGROUND, CART, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
   navigate: (params:any)=>void;
@@ -58,7 +58,7 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"removeFavList"}
               onPress={onPressRemoveFromFav}
-              style={[styles.badgeContainer,isRecommendations&&{backgroundColor:"white"}]}
+              style={[styles.badgeContainer,isRecommendations&&{backgroundColor:APP_BACKGROUND}]}
             >
               <Image resizeMode="contain" style={[styles.badge,isRecommendations &&{tintColor:"#000000"}]} source={badge} />
             </TouchableOpacity>

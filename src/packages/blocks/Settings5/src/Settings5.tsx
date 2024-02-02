@@ -12,18 +12,15 @@ import {
   ScrollView,
 } from "react-native";
 import CommonStyle from '../../landingpage/src/commonStyles';
-import { DARK_RED, LIGHT_GREY, WHITE } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
 import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
-let artBoardHeightOrg = 667;
-let artBoardWidthOrg = 375;
 // Merge Engine - Artboard Dimension  - End
 // Customizable Area End
 
 import Settings5Controller, {
   Props,
-  configJSON,
 } from "./Settings5Controller";
+import { APP_BACKGROUND, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {
@@ -110,6 +107,7 @@ export default class Settings5 extends Settings5Controller {
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Lifetime Subscription</Text>
                   <Switch
+                  
                     testID="lifetime_subscription_test_id"
                     value={this.state.lifeTimeSubscription}
                     onValueChange={(value) => {
@@ -146,7 +144,7 @@ export default class Settings5 extends Settings5Controller {
                 testID="delete_account_id"
                 style={styles.button}
               >
-                <Text style={[styles.options, { color: "#A0272A" }]}>
+                <Text style={[styles.options, { color: TEXT_COLOR }]}>
                   Delete My Account
                 </Text>
               </TouchableOpacity>
@@ -165,7 +163,7 @@ export default class Settings5 extends Settings5Controller {
 // Customizable Area Start
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: WHITE,
+    backgroundColor: SECONDARY_COLOR,
     paddingVertical: 25,
     marginBottom: 10,
     paddingLeft: 20,
@@ -173,12 +171,12 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
   },
   innercontainer: { flex: 1, paddingHorizontal: 20, paddingTop: 30 },
   options: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "400",
   },
   triggerContainer: {

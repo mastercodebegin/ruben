@@ -13,7 +13,7 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, edit } from "../assets";
+import { close, edit, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../assets";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props: any) {
@@ -117,6 +117,7 @@ export default class UpdateProfileModal extends LandingPageController {
                 labeStyle={styles.label}
                 value={this.props.state.phone_number}
                 testID="phone_number_test_id"
+                maxLenth={10}
                 onchangeText={(num) =>
                   this.props.setState({ phone_number: num })
                 }
@@ -180,7 +181,7 @@ export default class UpdateProfileModal extends LandingPageController {
         {this.props.state.show_loader && (
           <View style={styles.loader}>
             <View>
-              <ActivityIndicator size={"large"} />
+              <ActivityIndicator size={"large"} color={PRIMARY_COLOR} />
               <Text>Loading...</Text>
             </View>
           </View>
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom: 0,
-    backgroundColor: "black",
+    backgroundColor: SECONDARY_COLOR,
     opacity: 0.5,
   },
   close: { height: 15, width: 15 },
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     height: 120,
     width: 120,
     borderWidth: 2,
-    borderColor: DARK_RED,
+    borderColor: PRIMARY_COLOR,
     borderRadius: 8,
     overflow: "hidden",
     marginBottom: 10,
@@ -226,9 +227,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textinput: {
-    color: "#5C2221",
+    color: TEXT_COLOR,
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: SECONDARY_COLOR,
     paddingHorizontal: 10,
     fontSize: 15,
     fontWeight: "bold",
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    color: "#8D7D75",
+    color: TEXT_COLOR,
     paddingVertical: 10,
   },
   contentContainer: { flexGrow: 1 },

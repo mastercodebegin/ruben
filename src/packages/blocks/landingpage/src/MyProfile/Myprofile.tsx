@@ -24,7 +24,12 @@ import {
   facebook,
   CART,
   cow,
-  profile_pic,
+  TEXT_COLOR,
+  SECONDARY_TEXT_COLOR,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  PRIMARY_COLOR,
+  APP_BACKGROUND,
 } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
 import LandingPageController from "../LandingPageController";
@@ -44,7 +49,7 @@ export default class Myprofile extends LandingPageController {
   constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
-    
+
   }
   async componentDidMount() {
     if (this.props?.route?.params?.firstTime) {
@@ -103,13 +108,24 @@ export default class Myprofile extends LandingPageController {
   navigateToDetailsPage(params = {}) {
     this.props.navigation.navigate("ProductDetailScreen", params)
   }
-  renderItem({ item }: any) {    
-    
+
+  navigateToNext() {
+
+    if(this.state.remainingproduct[0]?.total_cuts!=undefined)
+    {                      
+      this.props.navigation.navigate("MyCreditScreen",{selectedCategoryId:this.state.selectedCategoryID,remainingCuts:this.state.remainingproduct[0]?.remaining_cuts});
+    }
+    else{
+
+      this.showAlert(" Place an order to display the values of the cuts")
+    }
+  }
+  renderItem({ item }: any) {
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:
         Array.isArray(item?.attributes?.catalogue_id?.data?.attributes?.images) ?
-          item?.attributes?.catalogue_id?.data?.attributes?.images[0]?.uri :
+          item?.attributes?.catalogue_id?.data?.attributes?.productImage :
           '',
       description: item?.attributes?.catalogue_id?.data?.attributes?.description,
       discount: item?.attributes?.catalogue_id?.data?.attributes?.discount,
@@ -123,10 +139,12 @@ export default class Myprofile extends LandingPageController {
         this.addToCart(item?.attributes?.catalogue_id?.data?.id)
       },
     } : {
-      name: item?.attributes?.name,
-      image:item?.attributes?.images[0]?.url,
+      name: item?.attributes?.categoryCode,
+      image:  item?.attributes?.images && item.attributes.images.length > 0
+      ? item.attributes.images[0]?.url
+      : undefined,
       description: item?.attributes?.description,
-      discount: item?.attributes?.discount,
+      discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       navigate: this.navigateToDetailsPage.bind(this),
       price: item?.attributes?.price,
@@ -151,13 +169,13 @@ export default class Myprofile extends LandingPageController {
   }
   getImage() {
     return this.state.profileImage?.path
-     ? this.state.profileImage.path
-     : this.state.profileImage
+      ? this.state.profileImage.path
+      : this.state.profileImage
   }
   renderProfileImage() {
     return (
       <>
-        {this.state.profileImage!='' && this.state.profileImage!=null  ? (
+        {this.state.profileImage != "" ? (
           <Image
             style={styles.profileImage}
             testID="updated_profile_id"
@@ -165,11 +183,7 @@ export default class Myprofile extends LandingPageController {
               uri: this.getImage(),
             }}
           />
-        ) : <Image
-        style={styles.profileImage}
-        testID="updated_profile_id"
-        source={profile_pic}
-      />}
+        ) : <></>}
       </>
     )
   }
@@ -194,19 +208,20 @@ export default class Myprofile extends LandingPageController {
                 >
                   <Image
                     resizeMode="contain"
-                    style={styles.cart}
+                    style={[styles.cart,{tintColor:PRIMARY_COLOR}]}
                     source={CART}
                   />
+
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.alertHeader}>New Order Alert</Text>
-                  <Text style={styles.deliverydate}>Est.Delivery:</Text>
+                  <Text style={[styles.alertHeader,{color:TEXT_COLOR}]}>New Order Alert </Text>
+                  <Text style={[styles.deliverydate,{color:SECONDARY_TEXT_COLOR}]}>Est.Delivery:</Text>
                   <TouchableOpacity
                     testID="navigate_myorder_id"
                     onPress={() =>
                       this.props.navigation.navigate("MyOrdersScreen")
                     }
-                    style={styles.detailsButton}
+                    style={[styles.detailsButton]}
                   >
                     <Text style={styles.viewDetail}>View Details</Text>
                   </TouchableOpacity>
@@ -226,7 +241,7 @@ export default class Myprofile extends LandingPageController {
                       style={styles.socialbutton}
                       onPress={this.redirectToInstagramProfile}
                     >
-                      <Image style={styles.socialIcon} source={instagram} />
+                      <Image style={[styles.socialIcon]} source={instagram} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.socialbutton}
@@ -266,8 +281,8 @@ export default class Myprofile extends LandingPageController {
                       {this.state.phone_number}
                     </Text>
                   </View>
-                  <TouchableOpacity style={styles.historyButton}>
-                    <Text style={styles.historyText}>Purchase History</Text>
+                  <TouchableOpacity style={[styles.historyButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}>
+                    <Text style={[styles.historyText,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>Purchase History</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -288,7 +303,7 @@ export default class Myprofile extends LandingPageController {
                     styles.selected,
                   ]}
                 >
-                  My Favorites
+                  My Favorites 
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -312,10 +327,11 @@ export default class Myprofile extends LandingPageController {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>{ this.setState({ selectedTab: "remaining" })
-              this.getCategories()
-            console.log("categories----",this.state.categories);
-            }}
+                onPress={() => {
+                  this.setState({ selectedTab: "remaining",isMyProfile:true })
+                  this.getCategories()
+                  console.log("categories----", this.state.categories);
+                }}
               >
                 <Text
                   style={[
@@ -329,16 +345,26 @@ export default class Myprofile extends LandingPageController {
             </ScrollView>
             {this.state.selectedTab == "remaining" ? (
               <View style={styles.remainingInvContainer}>
-               
-                     <Dropdown searchCategory={(categoryName:string) => {
-                    this.filterByCategoryApi(categoryName);
-                  }}
-          isCategory selectedDate="" data={this.state.categories} label="Category" />
+
+                <Dropdown 
+                searchCategory={(categoryName: string) => {
+
+                  const data:any = this.state.categories.filter((name:any) => name?.attributes?.name == categoryName)
+                  this.setState({ selectedCategoryID: data[0].id,selectedCategory:categoryName })
+                  console.log('id====================',data[0].id)
+                  
+                  this.getRemainingProduct(data[0].id)
+                }}
+                  isCategory selectedDate=""
+                   data={this.state.categories} 
+                   selectedStatus={this.state.selectedCategory}
+                  label="Select Category"
+                  />
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}
                 >
-                 
-                   
+
+
                   <View style={styles.invImageContainer}>
                     <Image
                       resizeMode="contain"
@@ -348,18 +374,18 @@ export default class Myprofile extends LandingPageController {
                   </View>
                   <View style={styles.invDesContainer}>
                     <Text style={styles.invDesText}>Total Available cuts</Text>
-                    <Text style={styles.invTotalText}>10</Text>
+                    <Text style={styles.invTotalText}>{this.state.remainingproduct[0]?.remaining_cuts}</Text>
                   </View>
                 </View>
                 <TouchableOpacity
                   style={styles.CreditsButton}
                   testID="navigate_to_MyCreditScreen"
                   onPress={() => {
-                    this.props.navigation.navigate("MyCreditScreen");
-                    //this.getRemainingProduct()
+                    
+                   this.navigateToNext() 
                   }}
                 >
-                  <Text style={styles.viewDetail}>My Credits</Text>
+                  <Text style={[styles.viewDetail,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>My Credits</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -381,13 +407,13 @@ export default class Myprofile extends LandingPageController {
                       }}
                     /></>) :
                   <View style={{ paddingHorizontal: 20, paddingVertical: 25 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 17, color: PRIMARY, fontWeight: "bold" }}>{"No products!"}</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 17, color: TEXT_COLOR, fontWeight: "bold" }}>{"No products!"}</Text>
                   </View>
                 }
 
                 {this.showButton() ? <TouchableOpacity
                   testID="see_all_button"
-                  onPress={() =>{
+                  onPress={() => {
                     console.log(`selected tab${this.state.selectedTab}`)
                     this.props.navigation.navigate(this.state.selectedTab)
                   }
@@ -427,20 +453,20 @@ export default class Myprofile extends LandingPageController {
 export const styles = StyleSheet.create({
   cartContainer: {
     paddingVertical: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 30,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
     alignSelf: "flex-start",
     marginRight: 20,
   },
   cart: { height: 30, width: 30 },
-  seeText: { color: PRIMARY, fontSize: 17 },
+  seeText: { color: BUTTON_TEXT_COLOR_PRIMARY, fontSize: 17 },
   seeBtn: {
     marginHorizontal: 20,
     alignItems: "center",
-    backgroundColor: WHITE,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     paddingVertical: 15,
     marginVertical: 20,
     borderRadius: 25,
@@ -451,11 +477,11 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
-  selected: { color: DARK_RED, fontWeight: "bold" },
-  historyText: { fontSize: 17, color: PRIMARY },
+  selected: { color: TEXT_COLOR, fontWeight: "bold" },
+  historyText: { fontSize: 17, color: TEXT_COLOR },
   contactText: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingLeft: 20,
   },
   contact: {
@@ -463,17 +489,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  contactIcon: { height: 20, width: 20 },
+  contactIcon: { height: 20, width: 20,tintColor:PRIMARY_COLOR },
   blur: {
     backgroundColor: WHITE,
     //@ts-ignore
     ...StyleSheet.absoluteFill,
     opacity: 0.6,
     borderRadius: 27,
+
   },
   socialbutton: {
     padding: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     marginHorizontal: 8,
     marginTop: 20,
     borderRadius: 20,
@@ -483,17 +510,15 @@ export const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: "center",
     borderRadius: 30,
-    borderWidth: 1,
-    borderColor: DARK_RED,
     marginTop: 20,
   },
   selections: {
     marginRight: 15,
     fontSize: 17,
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
   },
   description: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 16,
     marginTop: 20,
   },
@@ -506,18 +531,19 @@ export const styles = StyleSheet.create({
   socialIcon: {
     height: 20,
     width: 20,
+    tintColor:PRIMARY_COLOR
   },
   headerText: {
     fontSize: 17,
     fontWeight: "bold",
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     marginTop: 20,
   },
 
   name: {
     fontSize: 19,
     fontWeight: "bold",
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   main: {
     flex: 1,
@@ -556,14 +582,14 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
   detailsButton: {
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     alignSelf: "flex-start",
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 24,
   },
   viewDetail: {
-    color: WHITE,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 17,
   },
   innerContainer: { flex: 1, paddingHorizontal: 20 },
@@ -592,12 +618,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   invDesText: {
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 14,
     textTransform: "uppercase",
   },
   invTotalText: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 18,
     fontWeight: "bold",
     paddingTop: 8,
@@ -605,7 +631,7 @@ export const styles = StyleSheet.create({
   CreditsButton: {
     width: "100%",
     alignItems: "center",
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     paddingVertical: 12,
     paddingHorizontal: 22,
     borderRadius: 24,
@@ -631,12 +657,12 @@ export const styles = StyleSheet.create({
   },
   favdescription: {
     fontSize: 17,
-    color: MID_PEACH,
+    color: SECONDARY_TEXT_COLOR,
     paddingBottom: 15,
   },
   price: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
   },
   itemImage: {
@@ -698,7 +724,7 @@ export const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     marginTop: 15,
   },

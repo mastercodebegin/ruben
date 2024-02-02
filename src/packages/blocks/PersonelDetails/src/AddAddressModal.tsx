@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
-import { close, DARK_RED } from "../../landingpage/src/assets";
-import { validName } from "../../../components/src/utils";
+import { APP_BACKGROUND, close, DARK_RED, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { validName,whiteSpace } from "../../../components/src/utils";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 interface S {
   name: string;
@@ -71,7 +71,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
               >
                 <Image
                   resizeMode="contain"
-                  style={styles.close}
+                  style={[styles.close,{tintColor:PRIMARY_COLOR}]}
                   source={close}
                 />
               </TouchableOpacity>
@@ -121,6 +121,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 value={this.state.zipCode}
                 onchangeText={(zipCode) => this.setState({ zipCode })}
                 label="Zip Code"
+                keyBoardtype="number-pad"
               />
               <TextInput
                 textInputStyle={styles.textInput}
@@ -131,6 +132,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 }
                 keyBoardtype="number-pad"
                 label="Phone Number"
+                maxLenth={10}
               />
               <TextInput
                 textInputStyle={styles.textInput}
@@ -162,9 +164,20 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                   flatNo,
                   phoneNumber,
                 } = this.state;
-                if (!validName(name)) {
+
+                if (whiteSpace(name)) {
+                  this.showAlert('The name cannot have leading or trailing white spaces.');
+                  return false;
+                }
+                else if (!validName(name)) {
                   this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
                 }
+
+                else if  (phoneNumber.length < 10) {
+                  this.showAlert('please enter correct phone number')
+                  return false;
+                }
+                
                 else if (
                   name &&
                   address &&
@@ -238,14 +251,16 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     alignSelf: "flex-end",
-    backgroundColor: "#FFE3D4",
+    backgroundColor: APP_BACKGROUND,
     padding: 10,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR,
     borderRadius: 20,
   },
   textInput: {
-    color: "#5C2221",
+    color: TEXT_COLOR,
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: SECONDARY_COLOR,
     paddingHorizontal: 10,
     fontSize: 15,
     fontWeight: "bold",
@@ -254,7 +269,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    color: "#8D7D75",
+    color: TEXT_COLOR,
     paddingVertical: 10,
   },
   contentContainer: { flexGrow: 1 },

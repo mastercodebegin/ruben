@@ -19,6 +19,8 @@ import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
 import {BarChart} from "react-native-chart-kit";
 
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+
 import {
   DARK_RED,
   PRIMARY,
@@ -271,21 +273,22 @@ const styles = StyleSheet.create({
   seperator: { width: 10 },
   boxContainer: { flexDirection: "row", width: "100%", paddingBottom: 15 },
   boxText: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 17,
     paddingTop: 20,
     fontWeight: "bold",
     textTransform: 'capitalize'
   },
-  boxHeader: { fontSize: 17, color: "grey" },
+  boxHeader: { fontSize: 17, color: TEXT_COLOR },
   box: {
     flex: 1,
     backgroundColor: WHITE,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderRadius: 15,
+    elevation: 3
   },
-  numOfSent: { fontSize: 15, color: "grey", paddingBottom: 5 },
+  numOfSent: { fontSize: 15, color: TEXT_COLOR, paddingBottom: 5 },
   numberOfSent: {
     backgroundColor: WHITE,
     paddingHorizontal: 15,
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -307,7 +310,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
     paddingLeft: 20,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "400",
   },
   chartView: {
@@ -320,14 +323,14 @@ const styles = StyleSheet.create({
   },
   backImage: { height: 20, width: 20 },
   totalIncome: {
-    fontSize: 18, color: DARK_RED, paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
+    fontSize: 18, color: TEXT_COLOR, paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
   },
-  chartViewHeader:{
+  chartViewHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   incomeValue: {
-    marginLeft: 16, fontSize: 22, color: DARK_RED, fontWeight: "600"
+    marginLeft: 16, fontSize: 22, color: TEXT_COLOR, fontWeight: "600"
   },
   calendarButton: {
     display: "flex",
@@ -342,16 +345,17 @@ const styles = StyleSheet.create({
     minWidth: 150,
     margin: 20,
     marginTop: 0,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     flexDirection: "row",
   },
   calendarButtonIcon: {
     alignSelf: "center",
     marginRight: 10,
+    tintColor: PRIMARY_COLOR
   },
   calendarButtonText: {
     fontSize: 18,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     alignSelf: "center",
   },
   flex: { flex: 1 },
@@ -360,17 +364,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     bottom: 38,
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     width: SCREEN_WIDTH - 40
   },
   dropdownContainer: {
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 10,
     marginBottom: 0
   },
   dropdown: {
     height: 50,
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 10,
     padding: 12,
     shadowColor: BLACK,
@@ -386,29 +390,29 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 5,
     borderBottomWidth: 1,
-    borderColor: WHITE,
+    borderColor: APP_BACKGROUND,
   },
   textItem: {
     flex: 1,
     fontSize: 16,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     paddingVertical: 5,
     marginLeft: 10,
 
   },
   placeholderStyle: {
     fontSize: 16,
-    color: DARK_RED
+    color: SECONDARY_TEXT_COLOR
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: DARK_RED,
+    color: SECONDARY_TEXT_COLOR,
     fontWeight: "700",
   },
   iconStyle: {
     width: 30,
     height: 30,
-    tintColor: DARK_RED,
+    tintColor: PRIMARY_COLOR,
   },
   containerStyle: {
     borderBottomLeftRadius: 10,

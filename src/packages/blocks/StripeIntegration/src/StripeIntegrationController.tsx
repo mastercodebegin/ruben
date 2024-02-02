@@ -34,7 +34,9 @@ export interface Props {
       orderNumber: number,
       deliveryCharge: number,
       total?: number,
+      lifetimeSubscriptionCharge:any
       billingDetails?: any[];
+      isUserAlreadySubscribed:boolean
     }
   }
   // Customizable Area End
@@ -321,7 +323,7 @@ export default class StripeIntegrationController extends BlockComponent<
       body: raw,
       redirect: 'follow'
     };
-    let url = `https://api.stripe.com/v1/payment_methods?card[number]=${card}&card[exp_month]=${month}&card[exp_year]=${year}&card[cvc]=${cvv}&type=card`
+    let url = `https://api.stripe.com/v1/payment_methods?card[number]=${card}&card[exp_month]=${month}&card[exp_year]=${year}&card[cvc]=${cvv}&type=card&&key=${configJSON.pub_key}`
     if (test) {
       return url
     } 

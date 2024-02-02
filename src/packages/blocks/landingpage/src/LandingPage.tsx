@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { homeBackground, splashScreenImage } from "./assets";
+import { APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, TEXT_COLOR, homeBackground, splashScreenImage } from "./assets";
 import BottomTab from "./BottomTab/BottomTab";
 import CartDetails from "./Cart";
 import BlogPostCard from "./BlogPostCard";
@@ -64,7 +64,7 @@ export default class LandingPage extends LandingPageController {
                   source={homeBackground}
                 >
                   <Image
-                    style={styles.appLogo}
+                    style={[styles.appLogo,]}
                     resizeMode="contain"
                     source={splashScreenImage}
                   />
@@ -129,18 +129,18 @@ const styles = StyleSheet.create({
   exploreBtn: {
     fontSize: 20,
     paddingVertical: 7,
-    color: "white",
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     paddingHorizontal: 30,
     marginVertical: 5,
     fontWeight: "700",
   },
   header: {
     fontSize: 30,
-    color: "#5C2221",
+    color: TEXT_COLOR,
     fontFamily: "Gilroy-Heavy",
   },
   description: {
-    color: "#8D7D75",
+    color: TEXT_COLOR,
     fontSize: 16,
     width: "70%",
     marginTop: 10,
@@ -149,28 +149,28 @@ const styles = StyleSheet.create({
     fontSize: 42,
     letterSpacing: 2,
     fontWeight: "bold",
-    color: "#323441",
+    color: TEXT_COLOR,
     marginTop: 15,
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: "#F8F4F4",
+    backgroundColor: APP_BACKGROUND,
   },
   post: {
-    color: "#A0272A",
+    color: TEXT_COLOR,
     paddingLeft: 20,
     fontWeight: "600",
     fontSize: 23,
   },
   card: {
-    backgroundColor: "white",
+    backgroundColor: APP_BACKGROUND,
     marginHorizontal: 20,
     borderRadius: 20,
     paddingBottom: 10,
   },
   blogText: {
     fontSize: 17,
-    color: "#5c2221",
+    color: TEXT_COLOR,
     paddingBottom: 10,
   },
   blogPostHeader: {
@@ -211,11 +211,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   cart: {
-    color: "#5c2221",
+    color: PRIMARY_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
-  name: { fontSize: 20, color: "#5c2221", fontWeight: "700" },
+  name: { fontSize: 20, color: TEXT_COLOR, fontWeight: "700" },
   time: { color: "grey", fontSize: 17 },
   number: {
     fontSize: 17,
@@ -243,8 +243,7 @@ const styles = StyleSheet.create({
   },
   appLogo: {
     height: 80,
-    width: 85,
-    marginTop: 20,
+    width:100,
     marginBottom: 30,
   },
   imageBgr: { paddingHorizontal: 20 },
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
   explorebtn: {
     alignSelf: "flex-start",
     marginVertical: 20,
-    backgroundColor: "#a02721",
+    backgroundColor: PRIMARY_COLOR,
     borderRadius: 27,
   },
 });

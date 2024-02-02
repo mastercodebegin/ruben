@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 const { DARK_RED, LIGHT_GREY, removeImage } = require("./constants");
 const MeatImage = require("./meatimage@1.jpg");
 const ProductDetailComponent = ({
@@ -14,8 +15,8 @@ const ProductDetailComponent = ({
 }: any) => {
   return (
     <View style={styles.main}>
-      <View style={styles.rowCon}>
-        <Image style={styles.image} source={MeatImage} />
+      <View style={[styles.rowCon]}>
+        <Image style={[styles.image]} source={MeatImage} />
         <View style={styles.innerContainer}>
           <View style={styles.row}>
             <Text style={styles.productName}>{name} {subscriptionProduct &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}</Text>
@@ -38,7 +39,7 @@ const ProductDetailComponent = ({
               </TouchableOpacity>
             </View>
             <Text
-              style={{ color: DARK_RED, fontSize: 16, fontWeight: "bold" }}
+              style={{ color: TEXT_COLOR, fontSize: 16, fontWeight: "bold" }}
             >{`$${(Number(price) * Number(quantity)).toFixed(2)}`}</Text>
           </View>
         </View>
@@ -48,7 +49,7 @@ const ProductDetailComponent = ({
         >
           <Image
             resizeMode="contain"
-            style={{ height: 20, width: 20 }}
+            style={{ height: 20, width: 20,tintColor:PRIMARY_COLOR }}
             source={removeImage}
           />
         </TouchableOpacity>
@@ -59,8 +60,10 @@ const ProductDetailComponent = ({
 const styles = StyleSheet.create({
   removeContainer: {
     padding: 7,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: BUTTON_COLOR_SECONDARY,
     marginLeft: 10,
+    borderWidth:.6,
+    borderColor:PRIMARY_COLOR,
     borderRadius: 5,
   },
   innerContainer: { flex: 1, paddingLeft: 10, justifyContent: "space-between" },
@@ -76,17 +79,19 @@ const styles = StyleSheet.create({
   button: {
     height: 25,
     width: 25,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: BUTTON_COLOR_SECONDARY,
     borderRadius: 12.5,
+    borderWidth:.6,
+    borderColor:PRIMARY_COLOR,
     justifyContent: "center",
     alignItems: "center",
   },
   count: {
-    color: DARK_RED,
+    color: BUTTON_COLOR_PRIMARY,
   },
   counter: {
     paddingHorizontal: 10,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 17,
   },
   counterContainer: { flexDirection: "row", alignItems: "center" },
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   price: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 17,
   },
 });

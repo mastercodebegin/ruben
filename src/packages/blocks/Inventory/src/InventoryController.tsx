@@ -198,7 +198,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   }
   async getInventoryData(page: number, date = '') {
     console.log("getInventoryData--", this.state.category)
-    this.setState({ loading: true })
+    this.setState({ loading: true ,inventoryList:[]})
     const usr_details = await getStorageData("userDetails", true);
 
     const header = {
@@ -330,7 +330,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
   async getOrderByOrderId(orderId: string) {
     console.log('get order function called ===========>>>>>>>>>>>>>>>>>>>>>>>>>>',orderId);
     
-    this.setState({ loading: true, category: orderId })
+    this.setState({ loading: true, category: orderId,inventoryList:[] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {

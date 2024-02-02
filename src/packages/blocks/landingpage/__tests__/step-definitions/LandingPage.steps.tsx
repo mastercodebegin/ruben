@@ -53,23 +53,25 @@ defineFeature(feature, (test) => {
     let instance: LandingPage;
 
     given("I am a User loading LandingPage", () => {
+      //@ts-ignore
       landingPageBlock = shallow(
+        //@ts-ignore
         <LandingPage
-          setCreditDetailModal={jest.fn()}
-          updateCartDetails={jest.fn()}
-          cartDetails={[]}
-          visible={false}
-          setVisibleProfileModal={jest.fn()}
-          setState={undefined}
-          state={{
-            profileImage: 'dfghjk',
-            name:'name56'
-          }}
-          firstTime={false}
-          currentUser={"user"}
-          route={undefined}
-          {...screenProps}
-        />
+        setCreditDetailModal={jest.fn()}
+        updateCartDetails={jest.fn()}
+        cartDetails={[]}
+        visible={false}
+        setVisibleProfileModal={jest.fn()}
+        state={{
+          profileImage: 'dfghjk',
+          name: 'name56'
+        }}
+        firstTime={false}
+        currentUser="user"  
+        route={undefined}
+        {...screenProps}
+      />
+      
       );
     });
 
@@ -182,7 +184,7 @@ defineFeature(feature, (test) => {
       instance.getVideoBlog()
       instance.updateProfileDetails(true)
       instance.getRecommendProduct(true)
-      instance.getRemainingProduct()
+      instance.getRemainingProduct(9)
       instance.getProfileDetails()
       instance.getViewAllProduct(5)
       instance.shareProducts(5)
@@ -190,6 +192,8 @@ defineFeature(feature, (test) => {
       instance.removeFavListProduct(true)
       instance.getSlotsAndMerchantAddressHandler()
       instance.getUserAddress()
+      instance.setState({animalPortions:[{id:1,name:'test','quantity':6}]})
+      instance.handleIncreaseAnimalCuts(0,0,80,9)
     })
 
     then("user can see imgBlogPost",()=>{

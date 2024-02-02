@@ -1,12 +1,13 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY, TEXT_COLOR } from "./assets";
 
 const CartDetails = ({numberOfItem}:any) => {
   const navigation = useNavigation();
   return (
     <View style={styles.bottomIconContainer}>
-      <Text style={styles.cart}>MY CART</Text>
+      <Text style={[styles.cart,{color:TEXT_COLOR}]}>MY CART</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View style={styles.numContainer}>
           <Text style={styles.number}>{numberOfItem}</Text>
@@ -57,17 +58,17 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingHorizontal: 13,
     paddingVertical: 8,
-    backgroundColor: "#F8F8F4",
+    backgroundColor: BUTTON_COLOR_SECONDARY,
     marginLeft: 15,
     borderRadius: 17,
-    color: "#A0272A",
+    color: BUTTON_TEXT_COLOR_SECONDARY,
     borderWidth: 1,
-    borderColor: "#A0272A",
+    borderColor: BUTTON_COLOR_PRIMARY,
   },
   number: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#5c2221",
+    color: TEXT_COLOR,
   },
   cart: {
     color: "#5c2221",

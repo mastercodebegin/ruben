@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { Calendar as RNCalendar, LocaleConfig } from "react-native-calendars";
 //@ts-ignore
-import { PRIMARY, WHITE, DARK_RED, LIGHT_GREY } from "./constants";
+import {  WHITE,  } from "./constants";
 import moment from "moment";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 interface Props {
   dateSelected?: (date: string) => void;
   onDayPress?: (date: string) => void;
@@ -60,8 +61,8 @@ const Calendar = ({
       let momentObj = moment(dateObj, 'MM-DD-YYYY');
       let date = momentObj.format('YYYY-MM-DD')
       dict[date] = {  startingDay: counter == 0 ? true : false, 
-        color:  counter == 0 || counter == 6 ? PRIMARY : LIGHT_GREY, 
-        textColor: counter == 0 || counter == 6 ? "white"  : DARK_RED, 
+        color:  counter == 0 || counter == 6 ? PRIMARY_COLOR : SECONDARY_COLOR, 
+        textColor: counter == 0 || counter == 6 ? TEXT_COLOR  : SECONDARY_TEXT_COLOR, 
         endingDay : counter == 6 ? true : false},
       counter = counter + 1
       let addOneMoreDay = moment(dateObj).add(1, 'days').toDate();
@@ -90,6 +91,7 @@ const Calendar = ({
         width: "55%",
         alignSelf: "center",
         marginRight: 4,
+        
       },
     },
     "stylesheet.day.basic": {
@@ -120,14 +122,14 @@ const Calendar = ({
       },
     },
     backgroundColor: "#ffffff",
-    dayTextColor: DARK_RED,
+    dayTextColor: TEXT_COLOR,
     calendarBackground: WHITE,
-    textSectionTitleColor: "white",
+    textSectionTitleColor: APP_BACKGROUND,
     textDayFontSize: 17,
     textDayFontWeight: "400",
     textDayHeaderFontWeight: "bold",
     textDayHeaderFontSize: 12,
-    selectedDayTextColor: "#ffffff",
+    selectedDayTextColor: APP_BACKGROUND,
     textDayStyle: {
       fontSize: 14,
     },
@@ -138,6 +140,7 @@ const Calendar = ({
     theme: theme,
     ref: calendarRef,
     hideExtraDays: true,
+    
     onMonthChange: (month: any) => {
       setMonth(month.timestamp);
     },
@@ -186,15 +189,15 @@ const Calendar = ({
         <View style={styles.headerContainer}>
           <View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={styles.month}>{getMonthName(month)}</Text>
+              <Text style={[styles.month,{color:TEXT_COLOR}]}>{getMonthName(month)}</Text>
               <TouchableOpacity onPress={() => changeMonth(12)} style={{ paddingLeft: 10 }}>
-                <Image style={styles.back} source={backArrow} />
+                <Image style={[styles.back,{tintColor:PRIMARY_COLOR}]} source={backArrow} />
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.row}>
             <TouchableOpacity onPress={() => changeMonth(-1)}>
-              <Image style={styles.arrow} source={backArrow} />
+              <Image style={[styles.arrow,{tintColor:PRIMARY_COLOR}]} source={backArrow} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => changeMonth(1)}
@@ -202,7 +205,7 @@ const Calendar = ({
             >
               <Image
                 style={{
-                  ...styles.arrow,
+                  ...styles.arrow,tintColor:PRIMARY_COLOR,
                   transform: [{ rotate: "180deg" }],
                 }}
                 source={backArrow}
@@ -221,7 +224,7 @@ const styles = StyleSheet.create({
   overFlow: { borderRadius: 30, overflow: "hidden" },
   next: { marginLeft: 20 },
   row: { flexDirection: "row" },
-  month: { color: DARK_RED, fontSize: 18, fontWeight: "bold" },
+  month: { color: TEXT_COLOR, fontSize: 18, fontWeight: "bold" },
   main: {
     backgroundColor: WHITE,
     borderRadius: 20,
@@ -238,7 +241,7 @@ const styles = StyleSheet.create({
   back: {
     height: 13,
     width: 13,
-    tintColor: PRIMARY,
+    tintColor: PRIMARY_COLOR,
     transform: [{ rotate: "180deg" }],
   },
   headerContainer: {
@@ -281,7 +284,7 @@ const styles = StyleSheet.create({
   header: {
     height: 20,
     opacity: 0,
-    color: "red",
+    color: PRIMARY_COLOR,
   },
   headerWeek: {
     margin: 0,
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
     margin: 0,
     width: "auto",
     textAlign: "center",
-    color: "#D3D3D3",
+    color: SECONDARY_TEXT_COLOR,
     fontSize: 14,
     fontWeight: "bold",
   },
@@ -306,7 +309,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: "1.5%",
     height: 30,
   },
-  arrow: { height: 15, width: 15, tintColor: PRIMARY },
+  arrow: { height: 15, width: 15, tintColor: PRIMARY_COLOR },
 });
 
 export default Calendar;

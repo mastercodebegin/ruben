@@ -19,6 +19,7 @@ import { IBlock } from "../../../framework/src/IBlock";
 import { Message } from "../../../framework/src/Message";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { backArrow } from "./assets";
+import { PRIMARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 export const configJSON = require("./config");
 const emailReg = new RegExp(configJSON?.emailregex);
 
@@ -124,9 +125,9 @@ export default class ResetComponent extends  BlockComponent<Props, S, SS>  {
             onPress={() => this.props.navigation.goBack()}
             style={styles.backContainer}
           >
-            <Image style={styles.back} source={backArrow} />
+            <Image style={[styles.back,{tintColor:PRIMARY_COLOR}]} source={backArrow} />
           </TouchableOpacity>
-          <Text style={styles.header}>
+          <Text style={[styles.header,{color:TEXT_COLOR}]}>
             Confirm E-Mail to Get the Link
           </Text>
           <Text style={styles.label}>
@@ -136,7 +137,7 @@ export default class ResetComponent extends  BlockComponent<Props, S, SS>  {
             containerStyle={{ paddingBottom: 40 }}
             onchangeText={(text) => this.setState({ email: text })}
             value={this.state.email}
-            labeStyle={{ color: "grey" }}
+            labeStyle={{ color: TEXT_COLOR }}
             placeholder="Email ID"
             label="Enter Your Email ID"
           />

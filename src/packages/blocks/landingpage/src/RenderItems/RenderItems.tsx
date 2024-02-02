@@ -17,7 +17,11 @@ import {
   CART,
   RATING,
   badge,
-  backGroundImage
+  backGroundImage,
+  PRIMARY_COLOR,
+  TEXT_COLOR,
+  SECONDARY_TEXT_COLOR,
+  APP_BACKGROUND
 } from "../assets";
 import FastImage from "react-native-fast-image";
 const deviceWidth = Dimensions.get("window").width;
@@ -88,7 +92,7 @@ const RenderItem = ({
             onPress={() => onpressFav(item?.id)}
             style={styles.badgeContainer}
           >
-            <Image resizeMode="contain" style={styles.badge} source={badge} />
+            <Image resizeMode="contain" style={[styles.badge,{tintColor:PRIMARY_COLOR}]} source={badge} />
           </TouchableOpacity>
         </View>
 
@@ -108,7 +112,7 @@ const RenderItem = ({
             onPress={() => onPressCart(item?.id)}
             style={styles.cartContainer}
           >
-            <Image resizeMode="contain" style={styles.cart} source={CART} />
+            <Image resizeMode="contain" style={[styles.cart,{tintColor:PRIMARY_COLOR}]} source={CART} />
           </TouchableOpacity>
         </View>
       </View>
@@ -162,7 +166,7 @@ export default RenderItems;
 const styles = StyleSheet.create({
   flatList: { marginLeft: 0, paddingTop: 20 },
   renderContainer: {
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     width: deviceWidth * 0.77,
     marginRight: 20,
     overflow: "hidden",
@@ -171,13 +175,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   description: {
-    fontSize: 17,
-    color: MID_PEACH,
+    fontSize: 18,
+    color: SECONDARY_TEXT_COLOR,
     paddingBottom: 15,
   },
   price: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
   },
   itemImage: {
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 18,
     overflow: "hidden",
-    backgroundColor: MID_PEACH,
+    backgroundColor: APP_BACKGROUND,
   },
   itemHeader: {
     paddingHorizontal: 20,
@@ -200,12 +204,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   itemCategory: {
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
   seeAll: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
@@ -228,8 +232,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   badgeContainer: {
-    backgroundColor: WHITE,
+    backgroundColor: APP_BACKGROUND,
     padding: 10,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR,
     borderRadius: 20,
   },
   ratingContainer: {
@@ -238,24 +244,24 @@ const styles = StyleSheet.create({
   },
   badge: { height: 20, width: 20 },
   rating: {
-    color: "white",
+    color: APP_BACKGROUND,
     paddingLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
   },
   productName: {
     fontSize: 22,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     marginTop: 15,
   },
   cartContainer: {
     paddingVertical: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 20,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
   },
-  cart: { height: 20, width: 20 }
+  cart: { height: 20, width: 20, }
 });

@@ -201,12 +201,12 @@ export default class PersonelDetailsController extends BlockComponent<
     }
   }
   getExpectedDeliveryDate() {
-    const date = new Date(this.state.estimatedDeliveryDate);
-    const findDateDifference = (startDate: Date, endDate: Date) => {
-      const timeDifferenceMillisecond = endDate.getTime() - startDate.getTime();
-      return (timeDifferenceMillisecond / (1000 * 60 * 60 * 24));
-  }
-    const currentDate = new Date();
+    const date = new Date();
+
+// Add 3 days to the current date
+date.setDate(date.getDate() + 3);
+
+  
     const months = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -226,7 +226,7 @@ export default class PersonelDetailsController extends BlockComponent<
     } else {
     suffix = "th";
     }
-    return `Within ${Math.round(findDateDifference(currentDate,date))} days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
+    return `Within 3 days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
   }
   async addAddress(attrs:any) {
     this.setState({ showLoader: true })

@@ -5,11 +5,16 @@ import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY } from "../assets";
 import Posts from "./Post";
 import CommonLoader from "../../../../components/src/CommonLoader";
+import { Header } from "./Header";
 
 export default class BlogPost extends LandingPageController {
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
+        <Header
+          selected={"blog"}
+          navigation={this.props.navigation}
+        />  
         <View style={styles.flex}>
           <Posts
             list={this.state.imageBlogList}

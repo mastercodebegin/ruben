@@ -15,6 +15,7 @@ import {
   DARK_RED,
   badge,
   backGroundImage,
+  TEXT_COLOR,
 } from "../../landingpage/src/assets";
 import RecomentationsController from "./RecomentationsController";
 export default class Recomentations extends RecomentationsController {
@@ -59,7 +60,7 @@ export default class Recomentations extends RecomentationsController {
                   <View
                     style={styles.row}
                   >
-                    <Text style={styles.text}>{item?.attributes?.name}</Text>
+                    <Text style={styles.text}>{item?.attributes?.categoryCode}</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Text style={styles.text}>$ {item?.attributes?.price}</Text>
                       <Text style={styles.kg}>{" / kg"}</Text>
@@ -98,13 +99,13 @@ const styles = StyleSheet.create({
   },
   image: { height: 200, width: "100%", borderRadius: 15 },
   text: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 18,
   },
   kg: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   badgeContainer:{
     padding: 7,
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   },
   description:{
     flex: 1,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 15,
     paddingTop: 10,
   },

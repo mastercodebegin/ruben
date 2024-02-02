@@ -12,6 +12,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { LIGHT_GREY, DARK_RED } from "../../blocks/landingpage/src/colors";
+import { APP_BACKGROUND, PRIMARY_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 const arrowLeft = require("./arrow_left.png");
 interface HeaderWithBackArrowTemplateTypes {
   children: ReactElement<any, any>;
@@ -52,9 +53,9 @@ const HeaderWithBackArrowTemplate = ({
             style={{ padding: 5 }}
             onPress={onPressBack ? onPressBack : () => navigation.goBack()}
           >
-            <Image style={styles.backImage} source={arrowLeft} />
+            <Image style={[styles.backImage,{tintColor:PRIMARY_COLOR}]} source={arrowLeft} />
           </TouchableOpacity>
-          <Text style={styles.headerText}>{headerText}</Text>
+          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{headerText}</Text>
         </View>
         {scrollView ? (
           <ScrollView
@@ -89,7 +90,7 @@ export default HeaderWithBackArrowTemplate;
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     paddingTop: 10,
   },
   headerContainer: {
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
     paddingLeft: 20,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "400",
   },
   backImage: { height: 15, width: 15 },

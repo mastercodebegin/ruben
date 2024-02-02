@@ -2,18 +2,18 @@ import React from "react";
 import { View, TouchableOpacity, Image, Text } from "react-native";
 import { styles } from "./styles";
 import { Logo } from "./assets";
+import { splashScreenImage } from "../../landingpage/src/assets";
 interface HeaderTypes {
   navigation: any;
   selected: "login" | "signup";
 }
-const splashImage = require('../assets/splash.png')
 const Header = ({ navigation, selected }: HeaderTypes) => (
   <View
     style={{
       paddingHorizontal: 20,
     }}
   >
-    <Image style={styles.logo} source={splashImage} />
+    <Image style={styles.logo} source={splashScreenImage} resizeMode='contain' />
     <View style={{ flexDirection: "row" }}>
       <TouchableOpacity
         testID="go_to_login_test_id"

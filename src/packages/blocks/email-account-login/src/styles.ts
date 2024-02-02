@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import {  SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export const styles = StyleSheet.create({
   main: { flex: 1, backgroundColor: "#F8F4F4" },
@@ -13,7 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   selected: {
-    color: "#5C2221",
+    color: TEXT_COLOR,
     fontWeight: "bold",
   },
   remeber: {
@@ -35,7 +36,7 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     paddingRight: 18,
     paddingTop: 10,
-    color: "#8D7D75",
+    color: SECONDARY_TEXT_COLOR,
   },
   label: {
     fontSize: 15,
@@ -56,5 +57,5 @@ export const styles = StyleSheet.create({
     marginTop: 40,
     alignSelf: "center",
   },
-  rememberText: { paddingLeft: 15, color: "#A0272A", fontSize: 16 },
+  rememberText: { paddingLeft: 15, color: TEXT_COLOR, fontSize: 16 },
 });

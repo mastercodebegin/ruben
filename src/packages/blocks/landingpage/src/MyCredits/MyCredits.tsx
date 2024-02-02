@@ -10,11 +10,11 @@ import {
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import {
   WHITE,
-  DARK_RED,
   cow,
   LIGHT_GREY,
-  PRIMARY,
-  MID_PEACH
+  TEXT_COLOR,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_TEXT_COLOR_PRIMARY
 } from "../assets";
 import Modal from "./MyCreditDetailsModal";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -23,8 +23,7 @@ export default class MyCreditScreen extends LandingPageController {
     super(props);
   }
   async componentDidMount(): Promise<void> {
-    this.getRemainingProduct.bind(this)();
-   // this.getProductList(false)
+    this.getRemainingProduct.bind(this)(this.props?.route?.params?.selectedCategoryId);
   }
   render() {
     return (
@@ -65,7 +64,7 @@ export default class MyCreditScreen extends LandingPageController {
                     <Text style={styles.desText}>{item?.remaining_cuts}</Text>
                   </View>
                   <TouchableOpacity
-                    style={styles.pickButton}
+                    style={[styles.pickButton,{backgroundColor:BUTTON_COLOR_PRIMARY}]}
                     testID="detailsModal"
                     onPress={() => {
                       this.setState({ showMyCreditModal: true });
@@ -87,7 +86,12 @@ export default class MyCreditScreen extends LandingPageController {
               throw new Error("Function not implemented.");
             } } setState={undefined} state={undefined} firstTime={false} currentUser={""} route={undefined} updateCartDetails={function (data: any): void {
               throw new Error("Function not implemented.");
-            } } cartDetails={[]}          />
+            } } cartDetails={[]}   
+            submitCreditDetailModal={()=>console.log()
+            }
+            remainingCuts={this.props?.route?.params?.remainingCuts}
+            categoryId={this.props?.route?.params?.selectedCategoryId}
+            />
         </View>
       </HeaderWithBackArrowTemplate>
     );
@@ -110,13 +114,13 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   text: {
-    color: MID_PEACH,
+    color: TEXT_COLOR,
     fontWeight: "normal",
     fontSize: 16
   },
   desText: {
     fontSize: 17,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold"
   },
   flexContainer: {
@@ -133,13 +137,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: BUTTON_COLOR_PRIMARY,
     marginHorizontal: 20,
     marginTop: 10
   },
   pickText: {
     fontSize: 16,
-    color: PRIMARY,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontWeight: "700"
   }
 });

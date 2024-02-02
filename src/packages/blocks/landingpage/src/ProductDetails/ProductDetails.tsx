@@ -20,6 +20,10 @@ import {
   MEAT_IMAGE2,
   shareIcon,
   PRIMARY,
+  PRIMARY_COLOR,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  BUTTON_COLOR_PRIMARY,
+  TEXT_COLOR,
 } from "../assets";
 import { deepLinkingURL } from "../../../../components/src/constants";
 import RenderSteps from "./RenderSteps";
@@ -53,6 +57,7 @@ export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
     this.farmDetails();
+    this.updateProductViewCount(this.props?.route?.params?.id)
   }
   
   render() {
@@ -88,22 +93,22 @@ export default class ProductDetailScreen extends LandingPageController {
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
-              <View style={styles.searchContainer}>
+              <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
                 <Image
                   resizeMode="stretch"
-                  style={styles.search}
+                  style={[styles.search,{tintColor:PRIMARY_COLOR}]}
                   source={SEARCH}
                 />
                 <TextInput
                   style={styles.textInput}
                   placeholder="Search any Product/Video"
-                  placeholderTextColor={"#8D7D75"}
+                  placeholderTextColor={TEXT_COLOR}
                 />
               </View>
-              <View style={{ height: "100%" }}>
+              <View style={{ height: "100%", }}>
                 <TouchableOpacity style={styles.exploreBtn}>
                   <Image
-                    style={styles.explore}
+                    style={[styles.explore,{tintColor:PRIMARY_COLOR}]}
                     resizeMode="contain"
                     source={EXPLORE_BTN}
                   />
@@ -227,21 +232,22 @@ const style = StyleSheet.create({
   },
   desc: { color: "grey", fontSize: 16, paddingTop: 10 },
   cartText: {
-    color: "white",
-    fontSize: 16,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
+    fontSize: 15,
     fontWeight: "bold",
     padding:8,
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
+    textAlign:'center'
   },
   cartButton: {
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
     width:'95%',
     alignSelf:"center"
   },
   subsciptionButton:{
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
     width:'95%',
@@ -263,14 +269,14 @@ const style = StyleSheet.create({
     paddingTop: 20,
     fontSize: 18,
     fontWeight: "bold",
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
-  price: { color: DARK_RED, fontSize: 19, fontWeight: "bold" },
-  text: { fontSize: 15, fontWeight: "bold", color: DARK_RED },
+  price: { color: TEXT_COLOR, fontSize: 19, fontWeight: "bold" },
+  text: { fontSize: 15, fontWeight: "bold", color: TEXT_COLOR },
   shareButton: {
     height: 40,
     width: 40,
-    backgroundColor: PRIMARY,
+    backgroundColor: PRIMARY_COLOR,
     padding: 7,
     borderRadius: 21,
     alignSelf:"center"
@@ -279,6 +285,6 @@ const style = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode: "contain",
-    tintColor: "white",
+    tintColor: BUTTON_TEXT_COLOR_PRIMARY,
   },
 });

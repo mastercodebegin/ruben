@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { styles } from "../../../components/src/CalendarTemplate";
-import { SEARCH } from "../../landingpage/src/assets";
+import { PRIMARY_COLOR, SEARCH, SECONDARY_TEXT_COLOR } from "../../landingpage/src/assets";
 import { styles as expStyles } from "../../landingpage/src/ExploreStore/ExplorePage";
 import { DARK_RED, calendarIcon } from "../../../components/src/constants";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
@@ -100,12 +100,12 @@ export const MyOrderHeader = ({
         </TouchableOpacity>
       </View>
       <View style={expStyles.textInputContainer}>
-        <View style={[expStyles.searchContainer, { height: 50, paddingHorizontal: 20 }]}>
+        <View style={[expStyles.searchContainer, { height: 50, paddingHorizontal: 20,borderWidth:.4,borderColor:PRIMARY_COLOR }]}>
        {(orderNo.length ===0)?<Image
             resizeMode="stretch"
             style={[
               {
-                tintColor: DARK_RED,
+                tintColor: PRIMARY_COLOR,
                 height: 20,
                 width: 20,
                 marginRight:10
@@ -121,8 +121,8 @@ export const MyOrderHeader = ({
             }}
             value={orderNo}
             keyboardType="number-pad"
-            placeholder="Search any product..."
-            placeholderTextColor={"#8D7D75"}
+            placeholder="Search Order"
+            placeholderTextColor={SECONDARY_TEXT_COLOR}
           />
           <TouchableOpacity
             testID="search_order_button_test_id"
@@ -131,7 +131,7 @@ export const MyOrderHeader = ({
             resizeMode="stretch"
             style={[
               {
-                tintColor: DARK_RED,
+                tintColor: PRIMARY_COLOR,
                 height: 20,
                 width:20
               },
@@ -171,7 +171,7 @@ export const MyOrderHeader = ({
               }}
             >
               <Image
-                style={expStyles.explore}
+                style={[expStyles.explore,{tintColor:PRIMARY_COLOR}]}
                 resizeMode="contain"
                 source={calendarIcon}
               />

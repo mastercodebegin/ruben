@@ -5,6 +5,7 @@ import {
   responsiveWidth,
 } from "react-native-responsive-dimensions";
 import { DARK_RED } from "../../landingpage/src/colors";
+import { BUTTON_COLOR_PRIMARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 export const styles = StyleSheet.create({
   flex: {
     flex: 1,
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   safearea: { flex: 1, backgroundColor: LIGHT_GREY },
-  seperator: { width: responsiveWidth(3) },
+  seperator: { width: responsiveWidth(3), },
   lifetimeSub: {
     flexDirection: "row",
     padding: 20,
@@ -37,7 +38,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   lifetimeSubHeading: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 20,
     paddingLeft: 10,
     fontWeight: "bold",
@@ -47,7 +48,7 @@ export const styles = StyleSheet.create({
     color: "grey",
   },
   lifetimeSubButton: {
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     width: "50%",
     paddingVertical: 15,
     borderRadius: 30,
@@ -65,7 +66,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "lightgrey",
+    borderBottomColor: PRIMARY_COLOR,
   },
   addedItemsHeader: {
     fontSize: 17,
@@ -121,11 +122,11 @@ export const styles = StyleSheet.create({
     backgroundColor: "black",
     opacity: 0.6,
   },
-  answer: { textAlign: "right", color: DARK_RED, fontSize: 15 },
-  question: { color: "grey", fontSize: 15 },
+  answer: { textAlign: "right", color: SECONDARY_TEXT_COLOR, fontSize: 15 },
+  question: { color: TEXT_COLOR, fontSize: 15 },
   headerText: {
     letterSpacing: 2,
-    color: "grey",
+    color: TEXT_COLOR,
     fontWeight: "bold",
     paddingVertical: 15,
     fontSize: 17,
@@ -142,14 +143,16 @@ export const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   seperatorLine: {
-    borderBottomColor: "lightgrey",
+    borderBottomColor: PRIMARY_COLOR,
     borderBottomWidth: 1,
     marginVertical: 10,
   },
   deliverContainer: {
     marginTop: 20,
-    backgroundColor: WHITE,
+    backgroundColor: 'white',
     paddingHorizontal: 20,
+    borderWidth:1,
+    borderColor:PRIMARY_COLOR,
     paddingVertical: 10,
     borderRadius: 20,
     flexDirection: "row",
@@ -157,21 +160,21 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   deliverText: {
-    color: PRIMARY,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 18,
   },
   deliverPrice: {
     padding: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
   },
   deliverPriceText: {
-    color: PRIMARY,
+    color: PRIMARY_COLOR,
   },
   meatStorageHeading: {
     fontSize: 18,
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontWeight: "bold",
     marginBottom: 10,
   },

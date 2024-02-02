@@ -4,7 +4,7 @@ import CommonModal from "../../../components/src/CommonModal";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
-import { DARK_RED } from "../../landingpage/src/assets";
+import {  SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 import SuccessModal from "./SuccessModal";
 interface SignupComponentTypes {
   onPressLogin: () => void;
@@ -239,11 +239,11 @@ const SignupComponent = ({
           }
         />
         <View style={styles.createAcc}>
-          <Text style={{ fontSize: 17, color: "#8D7D75" }}>
+          <Text style={{ fontSize: 17, color: SECONDARY_TEXT_COLOR }}>
             {"Already have an account? "}
           </Text>
           <TouchableOpacity onPress={onPressLogin}>
-            <Text style={styles.login}>Log In</Text>
+            <Text style={[styles.login,{color:TEXT_COLOR}]}>Log In</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -281,7 +281,7 @@ const SignupComponent = ({
 const styles = StyleSheet.create({
   containerStyle: { paddingTop: 20 },
   text: {
-    color: DARK_RED,
+    color: TEXT_COLOR,
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F4F4",
   },
-  rememberText: { paddingLeft: 10, color: DARK_RED, fontSize: 16 },
+  rememberText: { paddingLeft: 10, color: TEXT_COLOR, fontSize: 16 },
 });
 
 export default SignupComponent;

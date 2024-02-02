@@ -9,7 +9,7 @@ import {
   Image
   // Customizable Area End
 } from "react-native";
-import { cow_brisket, cow_chuch, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_shortplate, cow_sirlion } from "./assets";
+import { cow_brisket, cow_chuch, cow_default, cow_flank, cow_foreshank, cow_head, cow_rib, cow_round, cow_shank, cow_shortlion, cow_shortplate, cow_sirlion } from "./assets";
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
@@ -27,7 +27,7 @@ export default class AnimalAnalytics extends AnalyticsController {
     return (
       // Customizable Area Start
       <View style={styles.container} testID="animalView">
-        {this.props?.animalSelectedValue == 'Cow' &&
+        {this.props?.animalSelectedValue == 'Beef Bacon(Naval)' &&
           <View style={styles.animalImgContainer}>
             <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
             <View style={styles.animalImgCont}>
@@ -35,7 +35,7 @@ export default class AnimalAnalytics extends AnalyticsController {
                 <Image
                   style={styles.animalImg}
                   resizeMode="contain"
-                  source={cow_head}
+                  source={cow_default}
                 />
               }
               {this.state.cowHead &&
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     padding: 0
   },
   animalImgContainer: {
-    backgroundColor: "white",
+    justifyContent: "flex-end",
     paddingHorizontal: 15,
-    paddingVertical: 75,
+    height:400,
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 200,
     alignSelf: 'center',
-    marginTop: 40
+    marginBottom: 20
   },
   animalImg: {
     paddingTop: 1,
@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom:20
   },
   rowContainer: {
     flexDirection: 'row',

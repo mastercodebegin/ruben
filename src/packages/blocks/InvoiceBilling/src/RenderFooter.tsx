@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { styles } from "./styles";
+import { TEXT_COLOR } from "../../landingpage/src/assets";
 const RenderFooter = ({ subTotal, total, params }: any) => {  
   return (
     <View
@@ -23,8 +24,8 @@ const RenderFooter = ({ subTotal, total, params }: any) => {
           <Text style={styles.boldText}>Total</Text>
         </View>
         <View>
-          <Text style={[styles.text,{textAlign:"right"}]}>{`$${Number(params?.subTotal).toFixed(2)}`}</Text>
-          <Text style={[styles.text,{textAlign:"right"}]}>{`$${Number(params?.shippingCharge).toFixed(2)}`}</Text>
+          <Text style={[styles.text,{textAlign:"right",color:TEXT_COLOR}]}>{`$${Number(params?.subTotal).toFixed(2)}`}</Text>
+          <Text style={[styles.text,{textAlign:"right",color:TEXT_COLOR}]}>{`$${Number(params?.shippingCharge).toFixed(2)}`}</Text>
           {params?.discount ? <Text style={[styles.text,{textAlign:"right"}]}>{`-$${Number(params?.discount).toFixed(2)}`}</Text> : null}
           <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.deliveryCharge).toFixed(2)}`}</Text>
           {params?.lifetimeSubscription ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.lifetimeSubscription).toFixed(2)}`}</Text> : null}

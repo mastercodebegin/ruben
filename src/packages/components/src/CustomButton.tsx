@@ -9,6 +9,7 @@ import {
   View,
   TextStyle,
 } from "react-native";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, PRIMARY_COLOR, TEXT_COLOR } from "../../blocks/landingpage/src/assets";
 
 interface ButtonType {
   style?: StyleProp<ViewStyle>;
@@ -37,15 +38,12 @@ const Button = ({
           styles.continue,
           style,
           transparentBackground && styles.transparentContinue,
-        ]}
+          {elevation:1}
+        ,{borderWidth:.8,borderColor:PRIMARY_COLOR}]}
       >
         {transparentBackground && (
-          <View style={styles.shadowContainer}>
-            <Image
-              resizeMode="cover"
-              style={styles.redShadow}
-              source={require("./full_shadow.png")}
-            />
+          <View style={[styles.shadowContainer]}>
+            
           </View>
         )}
         <Text
@@ -53,6 +51,7 @@ const Button = ({
             styles.text,
             labelStyle,
             transparentBackground && styles.transparentText,
+            
           ]}
         >
           {label}
@@ -78,18 +77,18 @@ const styles = StyleSheet.create({
   continue: {
     borderRadius: 28,
     alignItems: "center",
-    backgroundColor: "#a0272a",
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     overflow: "hidden",
   },
   text: {
-    color: "white",
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontWeight: "700",
-    fontSize: 20,
+    fontSize: 18,
     paddingVertical: 15,
   },
   shadow: { height: 20, width: "100%", top: -10, zIndex: -10 },
-  transparentText: { color: "#a0272a", fontWeight: "normal" },
-  transparentContinue: { backgroundColor: "white" },
+  transparentText: { color: TEXT_COLOR, fontWeight: "normal" },
+  transparentContinue: { backgroundColor: BUTTON_COLOR_SECONDARY },
   shadowContainer: {
     position: "absolute",
     top: 0,

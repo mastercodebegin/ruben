@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Header } from "./Header";
-import {  shareIcon, playIcon, pause ,replay} from "../assets";
+import {  shareIcon, playIcon, pause ,replay, splashScreenImage, PRIMARY_COLOR, TEXT_COLOR} from "../assets";
 import Video from "react-native-video";
 import { showToast } from "../../../../components/src/ShowToast";
 import FImage from 'react-native-fast-image';
@@ -58,11 +58,11 @@ const DetailsPage = ({ route }: any) => {
                 <Image
                   style={styles.profile}
                   resizeMode="contain"
-                  source={sampleProfile}
+                  source={splashScreenImage}
                 />
                 <View style={styles.nameContainer}>
-                  <Text style={styles.name}>{name}</Text>
-                  <Text style={styles.time}>{created_at}</Text>
+                  <Text style={[styles.name,{color:TEXT_COLOR}]}>{name}</Text>
+                  <Text style={[styles.time,{color:TEXT_COLOR}]}>{created_at}</Text>
                 </View>
                 <TouchableOpacity
                   testID="copy_url_test_id"
@@ -78,12 +78,12 @@ const DetailsPage = ({ route }: any) => {
                 >
                   <Image
                     resizeMode="contain"
-                    style={styles.share}
+                    style={[styles.share, {tintColor:PRIMARY_COLOR}]}
                     source={shareIcon}
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.blogText}>{description}</Text>
+              <Text style={[styles.blogText,{color:TEXT_COLOR}]}>{description}</Text>
               {type === "image" ? (
                 <FImage
                   style={styles.blogImage}

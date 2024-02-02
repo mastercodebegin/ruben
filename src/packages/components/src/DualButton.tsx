@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR } from "../../blocks/landingpage/src/assets";
 const PRIMARY = "#A0272A";
 interface ButtonTypes {
   button1Label: string;
@@ -36,7 +37,7 @@ const DualButton = ({
         onPress={button1Onpress}
         style={[styles.bottomButton, styles.inventory]}
       >
-        <Text style={{ color: PRIMARY, ...styles.buttonText }}>
+        <Text style={{ color: BUTTON_TEXT_COLOR_SECONDARY, ...styles.buttonText }}>
           {button1Label}
         </Text>
       </TouchableOpacity>
@@ -45,12 +46,12 @@ const DualButton = ({
         onPress={button2Onpress}
         testID={buttn2TestID}
         style={{
-          backgroundColor: PRIMARY,
+          backgroundColor: BUTTON_COLOR_PRIMARY,
           ...styles.bottomButton,
           marginLeft: 5,
         }}
       >
-        <Text style={{ color: "white", ...styles.buttonText }}>
+        <Text style={{ color: BUTTON_TEXT_COLOR_PRIMARY, ...styles.buttonText }}>
           {button2label}
         </Text>
       </TouchableOpacity>
@@ -61,7 +62,7 @@ export default DualButton;
 const styles = StyleSheet.create({
   buttonText: { fontSize: 17, textAlign: "center", fontWeight: "600" },
   inventory: {
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
     borderWidth: 1,
   },
   bottomButton: {

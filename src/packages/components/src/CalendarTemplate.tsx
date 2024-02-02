@@ -17,13 +17,16 @@ import Calendar from "./Calendar";
 const ScreenWidth = Dimensions.get("window").width;
 const calculatedScreenW = ScreenWidth - 40;
 import {
-  LIGHT_GREY,
-  DARK_RED,
   WHITE,
-  PRIMARY,
   SEARCH,
   EXPLORE_BTN,
   backArrow as BackArrow,
+  BUTTON_COLOR_PRIMARY,
+  APP_BACKGROUND,
+  PRIMARY_COLOR,
+  BUTTON_TEXT_COLOR_PRIMARY,
+  TEXT_COLOR,
+  SECONDARY_TEXT_COLOR,
 } from "../../blocks/landingpage/src/assets";
 import BottomTab from "../../blocks/landingpage/src/BottomTab/BottomTab";
 import CommonLoader from "./CommonLoader";
@@ -156,7 +159,7 @@ const CalendarTemplate = ({
               style={[
                 expStyles.search,
                 {
-                  tintColor: DARK_RED,
+                  tintColor: PRIMARY_COLOR,
                 },
               ]}
               source={SEARCH}
@@ -164,8 +167,8 @@ const CalendarTemplate = ({
             <TextInput
               style={expStyles.textInput}
               editable={!showCalendar}
-              placeholder="Search any product..."
-              placeholderTextColor={"#8D7D75"}
+              placeholder="Search Order"
+              placeholderTextColor={SECONDARY_TEXT_COLOR}
               onChangeText={onChangeText}
             />
           </View>
@@ -175,7 +178,7 @@ const CalendarTemplate = ({
               style={expStyles.exploreBtn}
             >
               <Image
-                style={expStyles.explore}
+                style={[expStyles.explore,{tintColor:PRIMARY_COLOR}]}
                 resizeMode="contain"
                 source={EXPLORE_BTN}
               />
@@ -239,11 +242,11 @@ export const styles = StyleSheet.create({
     position: "absolute",
     height: "100%",
     width: calculatedScreenW / 2,
-    backgroundColor: PRIMARY,
+    backgroundColor: BUTTON_COLOR_PRIMARY,
     borderRadius: 30,
   },
   selectedStyle: {
-    color: WHITE,
+    color: BUTTON_TEXT_COLOR_PRIMARY,
     fontWeight: "bold",
   },
   selectorText: {
@@ -256,14 +259,14 @@ export const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     paddingHorizontal: 20,
     paddingTop: 20,
   },
   header: {
     fontSize: 25,
     fontWeight: "bold",
-    color: DARK_RED,
+    color: TEXT_COLOR,
   },
   selectorContainer: {
     flex: 1,
