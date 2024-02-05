@@ -35,8 +35,8 @@ export default class PushNotificationsHelper {
 
 
   async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
-    alert(title)
-    alert("Notification received")
+    console.log("title==>",title);
+    
   }
 
 
@@ -75,9 +75,7 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
-      alert(fcmToken)
       console.log("fcmToken===>",fcmToken);
-      
       setStorageData('fcm_token', fcmToken);
     }
 
