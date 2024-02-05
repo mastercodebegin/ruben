@@ -35,26 +35,28 @@ export default class PushNotificationsHelper {
   }
 
   createNotificationChannel() {
-    PushNotification.createChannel(
-      {
-        channelId: "com.Farm2URDoor",
-        channelName: "com.Farm2URDoor",
-        importance: 4,
-        vibrate: true,
-      }
-    );
+    // PushNotification.createChannel(
+    //   {
+    //     channelId: "com.Farm2URDoor",
+    //     channelName: "com.Farm2URDoor",
+    //     importance: 4,
+    //     vibrate: true,
+    //   }
+    // );
   }
 
   async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
+    alert(title)
+    alert("Notification received")
     this.createNotificationChannel();
-      PushNotification.localNotification({
-        title: title,
-        message: body,
-        channelId: "com.Farm2URDoor",
-        playSound: true,
-        vibrate: true,
-        soundName: "default",
-      });
+      // PushNotification.localNotification({
+      //   title: title,
+      //   message: body,
+      //   channelId: "com.Farm2URDoor",
+      //   playSound: true,
+      //   vibrate: true,
+      //   soundName: "default",
+      // });
   }
 
 
@@ -93,6 +95,7 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
+      alert(fcmToken)
       setStorageData('fcm_token', fcmToken);
     }
 

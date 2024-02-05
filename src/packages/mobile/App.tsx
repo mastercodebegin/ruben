@@ -152,9 +152,9 @@ export function App() {
   });
 
   const getUserDetails = async () => {
-    // const notificationHelper = new PushNotificationHelper();
-    // notificationHelper.addListener()
-    // notificationHelper.getFcmToken()
+    const notificationHelper = new PushNotificationHelper();
+    notificationHelper.addListener()
+    notificationHelper.getFcmToken()
       const usr_details=  await getStorageData('userDetails',true);
       if(usr_details?.meta?.user_type === 'merchant'){
         store.dispatch({type:'UPDATE_USER',payload:'merchant'})
