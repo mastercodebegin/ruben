@@ -823,10 +823,7 @@ SS
       if (orderDetails?.shipping_charge) {
         OrderDetailsList.push({ question: "Shipping Charges", ans: this.numberValue(orderDetails?.shipping_charge) });
       }
-      if (orderDetails?.delivery_fees) {
-        OrderDetailsList.push({ question: "Delivery Fees", ans: this.numberValue(orderDetails?.delivery_fees)});
 
-      }
       if (orderDetails?.discount) {
         OrderDetailsList.push({ question: "Discount", ans: this.numberValue(orderDetails?.discount) });
       }

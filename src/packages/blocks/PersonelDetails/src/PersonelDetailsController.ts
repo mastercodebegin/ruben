@@ -267,6 +267,9 @@ date.setDate(date.getDate() + 3);
     return `Within 3 days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
   }
   async addAddress(attrs:any) {
+
+    console.log('attrs---------------',attrs)
+    
     this.setState({ showLoader: true })
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const usr_data: any = JSON.parse(userDetails);

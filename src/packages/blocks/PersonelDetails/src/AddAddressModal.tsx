@@ -235,7 +235,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                     address: address,
                     zip_code: zipCode,
                     phone_number: phoneNumber,
-                    state: stateName,
+                    state: state,
                     country: country,
                   });
                 } else {
