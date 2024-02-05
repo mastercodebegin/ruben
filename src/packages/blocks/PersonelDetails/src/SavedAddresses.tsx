@@ -35,6 +35,7 @@ interface Props {
   addAddress: (attrs: any) => void;
   isLoading: boolean;
   showModal: boolean;
+  stateList:any
   setShowModal: (va:boolean) => void;
 }
 interface State {
@@ -51,7 +52,7 @@ export default class SavedAddresses extends Component<Props, State> {
         <View style={styles.seperatorLine}>
           <View style={{flexDirection:"row",alignItems:"center"}}>
           <Text style={[styles.headerText, { textAlign: "center" ,flex:1,color:TEXT_COLOR}]}>
-            {"CHOOSE FROM SAVED ADDRESS"}
+            {"CHOOSE FROM SAVED ADDRESS 2"}
             </Text>
             <TouchableOpacity onPress={() => {
               this.props.setShowModal(true)
@@ -89,7 +90,9 @@ export default class SavedAddresses extends Component<Props, State> {
         }} style={[styles.delivery,{backgroundColor:BUTTON_COLOR_PRIMARY}]}>
           <Text style={{ color: BUTTON_TEXT_COLOR_PRIMARY }}>{'Delivery'}</Text>
         </TouchableOpacity>
-        {this.props.showModal ? <AddAddressModal isLoading={this.props.isLoading} addAddress={ this.props.addAddress} setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  /> : null}
+        {this.props.showModal ? <AddAddressModal isLoading={this.props.isLoading}
+         addAddress={ this.props.addAddress} stateList={this.props.stateList}
+         setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  /> : null}
       </View>
     );
   }

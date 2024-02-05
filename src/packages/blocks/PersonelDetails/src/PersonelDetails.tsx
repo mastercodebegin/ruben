@@ -53,6 +53,7 @@ export default class PersonelDetails extends PersonalDetailsController {
     await this.getAddressList();
     await this.getEstimatedDeliveryDate();
     await this.getAvailableSlots();
+    await this.getStateList();
   }
   render() {
     const { address, phone_number, zip_code, name, email } = this.getUserDetails();
@@ -145,6 +146,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                     isLoading={this.state.showLoader}
                     addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
+                    stateList ={this.state.stateList}
                   />
                 </View>
               </>
