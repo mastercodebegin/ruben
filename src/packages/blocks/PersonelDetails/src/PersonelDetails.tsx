@@ -135,11 +135,16 @@ export default class PersonelDetails extends PersonalDetailsController {
                 <View style={{ paddingTop: 20 }}>
                   <SavedAddresses
                     showModal={this.state.showAddAddress}
-                    setShowModal={(val:boolean)=>this.setState({showAddAddress:val})}
+                    setShowModal={(val:boolean)=>{this.setState({showAddAddress:val})
+                  console.log('val--',val)}
+                  
+                  }
                     addressList={this.state.addressList}
-                    setSelectedAddress={(index) => {
+                    setSelectedAddress={(index:any,value:any) => {
                       if(index !== this.state.selectedAddress){
                         this.addAddressToTheOrder(index)
+                        
+                         this.setState({shippingFee:value?.attributes?.shipping_charge})
                       }
                     }
                     }
@@ -167,6 +172,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               containerStyle={{ paddingTop: 20 }}
             />
             <DeliveryFeesModal
+            shippingFee={this.state.shippingFee}
               visible={this.state.show_modal}
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {

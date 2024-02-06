@@ -35,6 +35,7 @@ interface S {
   showAddressModal: boolean;
   showAddAddress: boolean;
   estimatedDeliveryDate: string;
+  shippingFee:any
 }
 
 interface SS {
@@ -74,7 +75,8 @@ export default class PersonelDetailsController extends BlockComponent<
       keyboardHeight: 0,
       showAddressModal: false,
       showAddAddress: false,
-      estimatedDeliveryDate:''
+      estimatedDeliveryDate:'',
+      shippingFee:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -128,14 +130,11 @@ export default class PersonelDetailsController extends BlockComponent<
           {
             const obj={'value':state.id,'label':state.name}
             arr.push(obj)
-            console.log('state==',state?.name)
             
           }
-          console.log('temp Arr++++++++++++++++++++++++++++',arr);
 
           this.setState({ showLoader: false,stateList:arr });
         } else {
-          console.log('error state++++++++++++++++++++++++++++',stateList);
 
           this.setState({ showLoader: false });
           showToast("something went wrong");
@@ -229,7 +228,6 @@ export default class PersonelDetailsController extends BlockComponent<
         const error = message.getData(
           getName(MessageEnum.RestAPIResponceErrorMessage)
         );
-      console.log('fghjkl; ',error && deliveryFeesResponse);
       
       if (!error && deliveryFeesResponse) {
         this.setState({ showLoader: false, show_modal: true });

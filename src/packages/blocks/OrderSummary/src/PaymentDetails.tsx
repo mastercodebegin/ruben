@@ -16,8 +16,8 @@ const PaymentDetails = ({ header, list, footer,isSubscribed,isUserAlreadySubscri
             </View>}
         {
             list.map((item) => {
-                console.log('===============',item?.question)
-                
+                console.log('===============',footer)
+
                 return ( item.question=='Lifetime Subscription' && !isSubscribed || item.question=='Lifetime Subscription' && isUserAlreadySubscribed?null:
                   <View style={styles.myDetailContainer} key={item?.question}>
                     <View style={styles.flex}>

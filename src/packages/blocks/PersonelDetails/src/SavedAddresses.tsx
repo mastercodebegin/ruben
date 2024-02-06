@@ -29,7 +29,7 @@ const RenderAddress = ({ title, setChecked, checked, address }: RenderAddressTyp
   </View>
 );
 interface Props {
-  setSelectedAddress: (address: number) => void;
+  setSelectedAddress: (address: number,value:any) => any;
   selectedAddress: number;
   addressList: Array<any>;
   addAddress: (attrs: any) => void;
@@ -73,7 +73,7 @@ export default class SavedAddresses extends Component<Props, State> {
             <RenderAddress
               checked={this.props.selectedAddress === index}
               setChecked={() => {
-                this.props.setSelectedAddress(index);
+                this.props.setSelectedAddress(index,item);
               }}
               key={item?.attributes?.id}
               address={item?.attributes?.address}

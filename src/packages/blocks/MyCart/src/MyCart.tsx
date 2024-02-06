@@ -102,10 +102,10 @@ export default class MyCart extends MyCartController {
                       <Text style={styles.paymentText}>Discount</Text>
                       <Text style={styles.answer}>{`-$${Math.abs(getDiscountPrice())} (${getDicountPercentage()}%)`}</Text>
                     </View> : null}
-                    {this.state.shippingCharge ? <View style={styles.row}>
+                    {/* {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
                       <Text style={styles.answer}>{`$${this.state.shippingCharge.toFixed(2)}`}</Text>
-                    </View> : null}
+                    </View> : null} */}
                     {
                       this.state.product_discount ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Product Discount</Text>

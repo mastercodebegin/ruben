@@ -201,7 +201,7 @@ export default class OrderSummary extends OrderSummaryController {
               <PaymentDetails
                 header="PAYMENT DETAILS"
                 list={this.state.billingDetails}
-                footer={{question: "Total", ans: `$${this.state.totalPrice}`}}
+                footer={{question: "Total", ans:this.numberValue(Number(this.state.totalPrice)+Number(this.state.shipping))}}
                 isUserAlreadySubscribed={this.state.isUserHasSubsCription}
                 isSubscribed={this.state.isUserSubscriptionRequested?true:false}
               />
@@ -248,7 +248,7 @@ export default class OrderSummary extends OrderSummaryController {
                   phone_number,
                   zip_code,
                   subtotal: this.state.subtotal,
-                  total: this.state.totalPrice,
+                  total: this.numberValue(Number(this.state.totalPrice)+Number(this.state.shipping)),
                   shipping: this.state.shipping,
                   discount: this.props.route.params.discount,
                   discountPercentage : this.props.route.params.discountPercentage,
