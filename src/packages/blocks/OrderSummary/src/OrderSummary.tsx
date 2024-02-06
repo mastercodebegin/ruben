@@ -28,7 +28,7 @@ interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
   selected: boolean;
-  onPress: () => void;
+  onPress?: () => void;
 }
 const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
   <TouchableOpacity
@@ -120,20 +120,20 @@ export default class OrderSummary extends OrderSummaryController {
               <ImageBox
                 selected={this.state.selectedTab === "delivery"}
                 text="Delivery"
-                onPress={() => this.setState({ selectedTab: "delivery" })}
+                // onPress={() => this.setState({ selectedTab: "delivery" })}
                 image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
-                onPress={() => this.setState({ selectedTab: "shipping" })}
+                // onPress={() => this.setState({ selectedTab: "shipping" })}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
-                onPress={() => this.setState({ selectedTab: "pickup" })}
+                // onPress={() => this.setState({ selectedTab: "pickup" })}
                 text="Pickup"
                 image={pickupIcon}
               />
