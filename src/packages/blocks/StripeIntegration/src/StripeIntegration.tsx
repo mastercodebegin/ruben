@@ -25,7 +25,8 @@ import { DARK_RED } from "../../landingpage/src/colors";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import moment from "moment";
 import PaymentDetails from "../../OrderSummary/src/PaymentDetails";
-import { getStorageData } from "../../../framework/src/Utilities";
+import { getStorageData, setStorageData } from "../../../framework/src/Utilities";
+import { showToast } from "../../../components/src/ShowToast";
 //@ts-ignore
 
 // Merge Engine - import assets - Start
@@ -332,8 +333,30 @@ export default class StripeIntegration extends StripeIntegrationController {
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
                 onPress={async ()=> {
-                  if (this.state.paymentMethodType === "Card") {  
-                    this.validateCardDetails();
+                  if (this.state.paymentMethodType === "Card") {
+                    if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
+                      return Alert.alert("Alert", "Please add card details");
+                    }
+                    if(this.state.saveCard){ 
+                      showToast("Card details will be automatically removed upon logout for security reasons")           
+                    await setStorageData(
+                      "saveCardDetails",
+                      JSON.stringify({
+                        cardNumber:this.state.cardNumber,
+                        cardName:this.state.cardName,
+                        cvv:this.state.cvv,
+                        expirtyDate:this.state.expirtyDate                  
+                      })
+                    );
+                    }
+                    this.setState({ showPaymentLoading: true })
+                    this.setState({ customAlertText: "Payment In Process.." });
+                    this.setState({ showPaymentAlert: true })
+                    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+                    let cvv = this.state.cvv
+                    let month = this.state.expirtyDate.slice(0, 2);
+                    let year = "20" + this.state.expirtyDate.slice(-2);
+                    this.getPaymentMethod(card, cvv, month, year)
                   } else {
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Order In Process.." });
