@@ -8,8 +8,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import { DARK_RED, MEAT_IMAGE3, PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, badge } from "../assets";
-import { sampleText, ImageData } from "./ProductDetails";
+import {  MEAT_IMAGE3, PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, badge } from "../assets";
 const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
   return (
     <View style={styles.main}>

@@ -789,10 +789,7 @@ export default class LandingPageController extends BlockComponent<
       const response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log('response=================================', response?.data[0].attributes?.catalogue?.catalogues?.data)
+   
       if (response?.data[0].attributes?.catalogue?.catalogues?.data.length > 0) {
         this.setState({ productList: response.data, show_loader: false })
 
@@ -909,7 +906,7 @@ export default class LandingPageController extends BlockComponent<
 
     }
   }
-  categoryCallback(error: any, categories: Array<object>) {
+  categoryCallback(error: any, categories: Array<{attributes:{categoryId:string,name:string}}>) {
 
 
     if (error) {
@@ -918,20 +915,24 @@ export default class LandingPageController extends BlockComponent<
     } else {
       if (categories) {
         let arr = []
-        for (let i = 0; i < categories.length; i++) {
-
+        for (const category of categories) {
           if (this.state.isMyProfile) {
-            const obj = { 'id': categories[i]?.attributes?.categoryId, 'attributes': { 'name': categories[i]?.attributes?.name } }
-            arr.push(obj)
+            const obj = {
+              'id': category?.attributes?.categoryId,
+              'attributes': {
+                'name': category?.attributes?.name
+              }
+            };
+            arr.push(obj);
+          } else {
+            const obj = {
+              'id': category?.attributes?.categoryId,
+              'title': category?.attributes?.name
+            };
+            arr.push(obj);
           }
-          else {
-
-            const obj = { 'id': categories[i]?.attributes?.categoryId, 'title': categories[i]?.attributes?.name }
-            arr.push(obj)
-
-          }
-
         }
+        
         this.categoryPage = null;
         this.setState({ show_loader: false, categoryList: arr, categories: arr, subCategoryList: [] })
       }

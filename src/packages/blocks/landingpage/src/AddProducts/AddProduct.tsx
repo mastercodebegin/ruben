@@ -12,14 +12,12 @@ import {
   ImageBackground,
   Alert,
   KeyboardAvoidingView,
-  ActivityIndicator
+  
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import {
-  PRIMARY,
+  
   LIGHT_GREY,
-  DARK_RED,
-  WHITE,
   close,
   backArrow,
   TEXT_COLOR,

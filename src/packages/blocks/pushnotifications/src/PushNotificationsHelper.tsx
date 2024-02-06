@@ -1,6 +1,5 @@
 import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
-import PushNotification from "react-native-push-notification";
 import { PermissionsAndroid, Platform } from "react-native";
 import { setStorageData } from "../../../framework/src/Utilities";
 interface NotificationDataType {
@@ -34,27 +33,10 @@ export default class PushNotificationsHelper {
     return pushNotificationPermission;
   }
 
-  createNotificationChannel() {
-    PushNotification.createChannel(
-      {
-        channelId: "com.Farm2URDoor",
-        channelName: "com.Farm2URDoor",
-        importance: 4,
-        vibrate: true,
-      }
-    );
-  }
 
   async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
-    this.createNotificationChannel();
-      PushNotification.localNotification({
-        title: title,
-        message: body,
-        channelId: "com.Farm2URDoor",
-        playSound: true,
-        vibrate: true,
-        soundName: "default",
-      });
+    alert(title)
+    alert("Notification received")
   }
 
 
@@ -93,6 +75,9 @@ export default class PushNotificationsHelper {
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
+      alert(fcmToken)
+      console.log("fcmToken===>",fcmToken);
+      
       setStorageData('fcm_token', fcmToken);
     }
 

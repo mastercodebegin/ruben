@@ -27,7 +27,7 @@ Once the kubernetes cluster is created, merges to master will be automatically t
 
 ### Secret management
 
-[Secrets](docs/secrets.md)  
+[Secrets](docs/secrets.md)
 
 
 ## Setup

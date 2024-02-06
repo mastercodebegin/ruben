@@ -10,11 +10,8 @@ import {
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import {
   WHITE,
-  DARK_RED,
   cow,
   LIGHT_GREY,
-  PRIMARY,
-  MID_PEACH,
   TEXT_COLOR,
   BUTTON_COLOR_PRIMARY,
   BUTTON_TEXT_COLOR_PRIMARY

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import {  SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export const styles = StyleSheet.create({
   main: { flex: 1, backgroundColor: "#F8F4F4" },

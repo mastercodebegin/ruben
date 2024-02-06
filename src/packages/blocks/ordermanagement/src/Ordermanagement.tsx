@@ -7,6 +7,8 @@ import { MyOrderHeader } from "./Header";
 import CommonLoader from "../../../components/src/CommonLoader";
 import { generateDateObject } from "../../../components/src/utils";
 import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
+import { APP_BACKGROUND } from "../../landingpage/src/assets";
+
 // Customizable Area End
 
 import OrdermanagementController, {
@@ -17,7 +19,6 @@ import OrdermanagementController, {
 import Moment from "moment";
 
 import { emptyMyOrdersIcon } from "./assets";
-import { APP_BACKGROUND } from "../../landingpage/src/assets";
 
 export default class Ordermanagement extends OrdermanagementController {
   constructor(props: Props) {

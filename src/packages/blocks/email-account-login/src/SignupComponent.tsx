@@ -4,7 +4,7 @@ import CommonModal from "../../../components/src/CommonModal";
 import Button from "../../../components/src/CustomButton";
 import CheckBox from "../../../components/src/CustomRadioBtn";
 import TextInput from "../../../components/src/CustomTextInput";
-import { DARK_RED, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import {  SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 import SuccessModal from "./SuccessModal";
 interface SignupComponentTypes {
   onPressLogin: () => void;

@@ -12,19 +12,15 @@ import {
   ScrollView,
 } from "react-native";
 import CommonStyle from '../../landingpage/src/commonStyles';
-import { DARK_RED, LIGHT_GREY, WHITE } from "../../../components/src/constants";
 import { store } from "../../../components/src/utils";
 import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
-let artBoardHeightOrg = 667;
-let artBoardWidthOrg = 375;
 // Merge Engine - Artboard Dimension  - End
 // Customizable Area End
 
 import Settings5Controller, {
   Props,
-  configJSON,
 } from "./Settings5Controller";
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {

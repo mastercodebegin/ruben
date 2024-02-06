@@ -13,7 +13,7 @@ import {
 import LandingPageController from "../LandingPageController";
 import TextInput from "../../../../components/src/CustomTextInput";
 import Button from "../../../../components/src/CustomButton";
-import { close, DARK_RED, edit, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../assets";
+import { close, edit, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../assets";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 export default class UpdateProfileModal extends LandingPageController {
   constructor(props: any) {

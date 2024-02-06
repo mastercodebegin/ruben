@@ -3,10 +3,9 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 import ContactusController, { Props } from "./ContactusController";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
-import { LIGHT_GREY, PRIMARY } from "../../../components/src/constants";
 import TextInput from "../../../components/src/CustomTextInput";
 import Button from "../../../components/src/CustomButton";
-import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR, instagram,mail } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR, instagram,mail } from "../../landingpage/src/assets";
 import QuerySubmittedModal from "./QuerySubmittedModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const webIcon = require('../assets/web.png')
