@@ -28,6 +28,7 @@ interface TextInputType {
   labeStyle?: StyleProp<TextStyle>;
   numberOfLines?: number;
   testID?:string;
+  editable?:boolean;
   maxLenth?: number;
 }
 const TextInput = ({
@@ -43,6 +44,7 @@ const TextInput = ({
   numberOfLines,
   labeStyle,
   testID,
+  editable,
   maxLenth = 400,
 }: TextInputType) => {
   const [secureEntry, setSecureEntry] = React.useState(secureTextEntry);
@@ -62,6 +64,7 @@ const TextInput = ({
           autoCapitalize="none"
           maxLength={maxLenth}
           placeholder={placeholder}
+          editable={editable}
         />
         {secureTextEntry && (
           <View style={styles.showContainer}>

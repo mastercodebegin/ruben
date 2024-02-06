@@ -279,7 +279,7 @@ export default class MyCreditDetailsModal extends LandingPageController {
                   <View style={styles.addressContinerStyle}>
                     {this.state.setDeliverOption == 'Shipping' || this.state.setDeliverOption == 'Deliver' ? <>
                       <Text style={{ alignSelf: 'center', fontSize: 16, fontWeight: 'bold',
-                       color: TEXT_COLOR }}>CHOOSE FROM SAVED ADDRESS</Text>
+                       color: TEXT_COLOR }}>CHOOSE FROM SAVED ADDRESS </Text>
                       <FlatList
                       testID="addressFlatList"
                         data={this.state.userAddress}

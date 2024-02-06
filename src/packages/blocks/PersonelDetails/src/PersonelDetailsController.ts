@@ -21,6 +21,7 @@ interface S {
   selectedTab: "delivery" | "shipping" | "pickup";
   show_modal: boolean;
   addressList: Array<any>;
+  stateList: Array<any>;
   availableSlotsList: Array<string>;
   name: string;
   addressType: string;
@@ -34,6 +35,7 @@ interface S {
   showAddressModal: boolean;
   showAddAddress: boolean;
   estimatedDeliveryDate: string;
+  shippingFee:any
 }
 
 interface SS {
@@ -73,13 +75,15 @@ export default class PersonelDetailsController extends BlockComponent<
       keyboardHeight: 0,
       showAddressModal: false,
       showAddAddress: false,
-      estimatedDeliveryDate:''
+      estimatedDeliveryDate:'',
+      shippingFee:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
 
   getPersonelDetails: string = "";
+  getStatesCallId: string = "";
   getAvailableSlotsCallId: string ;
   addAddressCallId: string = "";
   addAddressToOrderCallId: string = '';
@@ -104,7 +108,39 @@ export default class PersonelDetailsController extends BlockComponent<
       } else {
         this.setState({ showLoader: false });
       }
-    } else if (
+    } 
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getStatesCallId != null &&
+    this.getStatesCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const stateList = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        if (
+          !error &&
+          stateList
+        ) {
+          console.log('state++++++++++++++++++++++++++++',stateList);
+          let arr =[]
+          for(const state of stateList)
+          {
+            const obj={'value':state.id,'label':state.name}
+            arr.push(obj)
+            
+          }
+
+          this.setState({ showLoader: false,stateList:arr });
+        } else {
+
+          this.setState({ showLoader: false });
+          showToast("something went wrong");
+        }
+    }
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.addAddressCallId != null &&
     this.addAddressCallId ===
@@ -125,7 +161,8 @@ export default class PersonelDetailsController extends BlockComponent<
           this.setState({ showLoader: false });
           showToast("something went wrong");
         }
-    }else if (
+    }
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getAvailableSlotsCallId != null &&
       this.getAvailableSlotsCallId ===
@@ -191,7 +228,6 @@ export default class PersonelDetailsController extends BlockComponent<
         const error = message.getData(
           getName(MessageEnum.RestAPIResponceErrorMessage)
         );
-      console.log('fghjkl; ',error && deliveryFeesResponse);
       
       if (!error && deliveryFeesResponse) {
         this.setState({ showLoader: false, show_modal: true });
@@ -229,6 +265,9 @@ date.setDate(date.getDate() + 3);
     return `Within 3 days ${(day + suffix + " " + month + ", " + dayName)} - 9:00 AM to 6:00 PM`;
   }
   async addAddress(attrs:any) {
+
+    console.log('attrs---------------',attrs)
+    
     this.setState({ showLoader: true })
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const usr_data: any = JSON.parse(userDetails);
@@ -276,6 +315,33 @@ date.setDate(date.getDate() + 3);
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.getPersonelDetails
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async getStateList() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getStatesCallId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.getStatesEndPoint
     );
 
     PersonalDetails.addData(

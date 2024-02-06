@@ -14,6 +14,8 @@ import Button from "../../../components/src/CustomButton";
 import { APP_BACKGROUND, close, DARK_RED, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 import { validName,whiteSpace } from "../../../components/src/utils";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Dropdown } from 'react-native-element-dropdown';
+
 interface S {
   name: string;
   addressType: string;
@@ -25,11 +27,16 @@ interface S {
   country: string;
   keyboardHeight: number;
   showAddressModal: boolean;
+  stateName:string
+  value: null,
+  isFocus: boolean,
+
 }
 interface P {
   visible: boolean;
   setVisible: () => void;
   isLoading: boolean;
+  stateList:any
   addAddress: (atrs: any) => void;
 }
 export default class UpdateProfileModal extends React.Component<P, S> {
@@ -47,6 +54,9 @@ export default class UpdateProfileModal extends React.Component<P, S> {
       zipCode: "",
       keyboardHeight: 0,
       showAddressModal: false,
+      stateName:'',
+      value: null,
+      isFocus: false,
     };
   }
 
@@ -97,9 +107,11 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 onchangeText={(addressType) =>
                   this.setState({ addressType })
                 }
-                placeholder="eg : Office"
+                placeholder="eg : Office1"
                 label="Address Type"
               />
+             
+
               <TextInput
                 textInputStyle={styles.textInput}
                 labeStyle={styles.label}
@@ -134,13 +146,37 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 label="Phone Number"
                 maxLenth={10}
               />
-              <TextInput
-                textInputStyle={styles.textInput}
-                labeStyle={styles.label}
-                value={this.state.state}
-                onchangeText={(state) => this.setState({ state })}
-                label="State"
-              />
+               <View style={{flexDirection:'row', justifyContent:'center',alignItems:'center',marginTop:20}}>
+
+                <Dropdown
+          style={[
+            styles.dropdown,
+            this.state.isFocus && { borderColor: PRIMARY_COLOR },
+            { width: 300, height: 50 },
+          ]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          containerStyle={{ bottom: 34 }}
+          data={this.props.stateList}
+          showsVerticalScrollIndicator={false}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!this.state.isFocus ? 'Select ' : ''}
+          searchPlaceholder="Search..."
+          value={this.state.value}
+          onFocus={() => this.setState({ isFocus: true })}
+          onBlur={() => this.setState({ isFocus: false })}
+          onChange={(item:any) => {
+            console.log('item----',item)
+            
+            this.setState({ value: item.value, isFocus: false,state:item.label });
+          }}
+        />
+ 
+                 </View>
               <TextInput
                 textInputStyle={styles.textInput}
                 labeStyle={styles.label}
@@ -163,6 +199,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                   zipCode,
                   flatNo,
                   phoneNumber,
+                  stateName
                 } = this.state;
 
                 if (whiteSpace(name)) {
@@ -172,7 +209,10 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 else if (!validName(name)) {
                   this.showAlert("The name cannot be empty and should not contain any numbers or special characters");
                 }
-
+                if (!validName(state)) {
+                  this.showAlert('The state name cannot be empty');
+                  return false;
+                }
                 else if  (phoneNumber.length < 10) {
                   this.showAlert('please enter correct phone number')
                   return false;
@@ -290,5 +330,44 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     backgroundColor: "black",
     opacity: 0.8,
+  },
+  container: {
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  dropdown: {
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    flex: 1,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  dropdownlabel: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });

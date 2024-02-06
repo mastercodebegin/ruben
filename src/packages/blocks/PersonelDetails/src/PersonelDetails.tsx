@@ -53,6 +53,7 @@ export default class PersonelDetails extends PersonalDetailsController {
     await this.getAddressList();
     await this.getEstimatedDeliveryDate();
     await this.getAvailableSlots();
+    await this.getStateList();
   }
   render() {
     const { address, phone_number, zip_code, name, email } = this.getUserDetails();
@@ -134,17 +135,23 @@ export default class PersonelDetails extends PersonalDetailsController {
                 <View style={{ paddingTop: 20 }}>
                   <SavedAddresses
                     showModal={this.state.showAddAddress}
-                    setShowModal={(val:boolean)=>this.setState({showAddAddress:val})}
+                    setShowModal={(val:boolean)=>{this.setState({showAddAddress:val})
+                  console.log('val--',val)}
+                  
+                  }
                     addressList={this.state.addressList}
-                    setSelectedAddress={(index) => {
+                    setSelectedAddress={(index:any,value:any) => {
                       if(index !== this.state.selectedAddress){
                         this.addAddressToTheOrder(index)
+                        
+                         this.setState({shippingFee:value?.attributes?.shipping_charge})
                       }
                     }
                     }
                     isLoading={this.state.showLoader}
                     addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
+                    stateList ={this.state.stateList}
                   />
                 </View>
               </>
@@ -165,6 +172,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               containerStyle={{ paddingTop: 20 }}
             />
             <DeliveryFeesModal
+            shippingFee={this.state.shippingFee}
               visible={this.state.show_modal}
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {

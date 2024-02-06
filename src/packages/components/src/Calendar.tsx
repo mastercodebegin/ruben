@@ -145,8 +145,12 @@ const Calendar = ({
       setMonth(month.timestamp);
     },
     minDate:minDate,
-    markingType: "period",
-    markedDates: markedDate ? markedDate : markDate,
+    markingType: "dot",
+    markedDates: {
+      '2024-02-01': {marked: true,selectedColor: 'blue'},
+      '2024-02-02': {marked: true,selectedColor: 'blue'},
+      '2024-02-03': { marked: true, selectedColor: 'blue'}
+    },
     firstDay: 0,
     onDayPress: (day: any) => {
       if (onDayPress) {

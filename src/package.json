@@ -54,6 +54,7 @@
     "react-native-calendars": "file:./packages/blocks/core/node_modules/react-native-calendars",
     "react-native-chart-kit": "^6.11.0",
     "react-native-check-box": "file:./packages/blocks/core/node_modules/react-native-check-box",
+    "react-native-element-dropdown": "^2.10.1",
     "react-native-elements": "file:./packages/blocks/core/node_modules/react-native-elements",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-fast-image": "file:./packages/blocks/core/node_modules/react-native-fast-image",

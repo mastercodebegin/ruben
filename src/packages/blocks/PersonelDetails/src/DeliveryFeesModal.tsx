@@ -16,11 +16,13 @@ interface DeliveryFeesModalTypes {
   onpressClose: () => void;
   onpressContinue: () => void;
   visible: boolean;
+  shippingFee:string
 }
 const DeliveryFeesModal = ({
   onpressClose,
   onpressContinue,
   visible,
+  shippingFee
 }: DeliveryFeesModalTypes) => {
   return (
     <Modal visible={visible} transparent>
@@ -37,7 +39,7 @@ const DeliveryFeesModal = ({
           <Text style={[styles.headerText,{color:TEXT_COLOR}]}>Delivery Fees</Text>
           <Text style={[styles.description,{color:SECONDARY_TEXT_COLOR}]}>
             {
-              "You'll be charge $12.00 to deliver this products at your selected location."
+              `You'll be charge ${shippingFee} to deliver this products at your selected location.`
             }
           </Text>
           <Button label="Continue" onPress={onpressContinue} />

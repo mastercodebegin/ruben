@@ -703,7 +703,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
   },
   badgeContainer: {
-    backgroundColor: DARK_RED,
+    backgroundColor: APP_BACKGROUND,
     padding: 10,
     borderRadius: 20,
   },
@@ -730,11 +730,11 @@ export const styles = StyleSheet.create({
   },
   FavcartContainer: {
     paddingVertical: 10,
-    backgroundColor: LIGHT_GREY,
+    backgroundColor: APP_BACKGROUND,
     borderRadius: 20,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: PRIMARY,
+    borderColor: PRIMARY_COLOR,
   },
   Favcart: { height: 20, width: 20 },
 });
