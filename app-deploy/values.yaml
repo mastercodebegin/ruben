@@ -12,7 +12,6 @@ appExtConfig:
   EXTVAL2: "example2"
   REACT_APP_API_PATH: "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe"
 
-
 extraFiles:
   - fileName: env.js
     mountPath: /usr/share/nginx/html/env.js
