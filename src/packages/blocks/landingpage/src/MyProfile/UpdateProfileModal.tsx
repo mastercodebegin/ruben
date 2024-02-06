@@ -111,6 +111,8 @@ export default class UpdateProfileModal extends LandingPageController {
                 onchangeText={(email) => this.props.setState({ email: email })}
                 label="Email Address"
                 keyBoardtype="email-address"
+                editable={false}
+                
               />
               <TextInput
                 textInputStyle={styles.textinput}
