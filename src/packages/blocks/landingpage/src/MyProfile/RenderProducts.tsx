@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import { APP_BACKGROUND, CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
+import { CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
   navigate: (params:any)=>void;

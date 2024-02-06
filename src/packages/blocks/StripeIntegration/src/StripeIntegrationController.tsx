@@ -9,6 +9,9 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
+import { setStorageData } from "../../../framework/src/Utilities";
+import { showToast } from "../../../components/src/ShowToast";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
@@ -339,6 +342,52 @@ export default class StripeIntegrationController extends BlockComponent<
       });
       
   }
+
+  validateCardDetails=()=>{
+  const { cardNumber, cardName, cvv, expirtyDate, saveCard } = this.state;
+  if (!cardNumber || !cardName || !cvv || !expirtyDate) {
+    return Alert.alert("Alert", "Please add card details");
+  }
+  if (cardNumber.length !== 19) {
+    return Alert.alert("Alert", "Please enter the correct card number");
+  }
+  if (expirtyDate.length !== 5) {
+    return Alert.alert("Alert", "Please enter the correct expiry date");
+  }
+  if (cvv.length !== 3) {
+    return Alert.alert("Alert", "Please enter the correct cvv");
+  }
+  if (saveCard) {
+    showToast("Card details will be automatically removed upon logout for security reasons");
+    this.saveCardDetails();
+  }
+
+  this.setState({ showPaymentLoading: true });
+  this.setState({ customAlertText: "Payment In Process.." });
+  this.setState({ showPaymentAlert: true });
+
+  let card = cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
+  let month = expirtyDate.slice(0, 2);
+  let year = "20" + expirtyDate.slice(-2);
+
+  this.getPaymentMethod(card, cvv, month, year);
+}
+
+// Function to save card details
+async saveCardDetails() {
+  const { cardNumber, cardName, cvv, expirtyDate } = this.state;
+
+  await setStorageData(
+    "saveCardDetails",
+    JSON.stringify({
+      cardNumber,
+      cardName,
+      cvv,
+      expirtyDate
+    })
+  );
+}
+
 
   handlePaymentFailed = () => {
     this.setState({ customAlertText: this.state.paymentMethodType === "Card" ? "Payment Failed" : "Order Failed" });
