@@ -1,6 +1,6 @@
 import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
-import { PermissionsAndroid, Platform } from "react-native";
+import { Alert, PermissionsAndroid, Platform } from "react-native";
 import { setStorageData } from "../../../framework/src/Utilities";
 interface NotificationDataType {
   title?: string;
@@ -36,7 +36,7 @@ export default class PushNotificationsHelper {
 
   async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
     console.log("title==>",title);
-    
+    Alert.alert(title, body);
   }
 
 
