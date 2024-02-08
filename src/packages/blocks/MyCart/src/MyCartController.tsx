@@ -197,7 +197,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if(error){
       this.showAlert()
     } else {
-      this.getDiscountCode();
+      //this.getDiscountCode();
       if(prodList?.attributes?.order_items?.data?.length){
       store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
       const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
@@ -215,6 +215,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         productsList:sortedProductList,
         order_id: prodList?.id,
         showLoader: false,
+        subTotal:prodList?.attributes.subtotal,
+        totalPrice:prodList?.attributes.total,
+        shippingCharge:prodList?.attributes.shipping_charge
+        
       })
       } else {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });        
@@ -229,14 +233,14 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     } else if (discoundCode?.promo_code || (discoundCode?.sub_total &&  discoundCode?.total)) {      
       this.setState({
         discountCode: (!!discoundCode?.promo_code && discoundCode?.discount) ? discoundCode?.promo_code : '',
-        showLoader: false,
-        discountPercentage: discoundCode?.discount,
-        discountFetched: (!!discoundCode?.promo_code && discoundCode?.discount) ,
-        totalPrice: discoundCode?.total || 0,
-        discountPrice: discoundCode?.discount,
-        shippingCharge: discoundCode?.shipping_charge || 0,
-        subTotal: discoundCode?.sub_total || 0,
-        product_discount:discoundCode?.product_discount || null
+        // showLoader: false,
+        // discountPercentage: discoundCode?.discount,
+        // discountFetched: (!!discoundCode?.promo_code && discoundCode?.discount) ,
+        // totalPrice: discoundCode?.total || 0,
+        // discountPrice: discoundCode?.discount,
+        // shippingCharge: discoundCode?.shipping_charge || 0,
+        // subTotal: discoundCode?.sub_total || 0,
+         product_discount:discoundCode?.product_discount || null
         
       });
     }

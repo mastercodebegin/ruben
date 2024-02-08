@@ -28,7 +28,7 @@ interface ImageBoxType {
   text: string;
   image: ImageSourcePropType;
   selected: boolean;
-  onPress?: () => void;
+  onPress: () => void;
 }
 const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
   <TouchableOpacity
@@ -55,7 +55,7 @@ export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
     this.getCart();
     this.checkLifeTimeSubscription()
-  }
+ }
   render() {
     const {address,phone_number, zip_code,name,email} = this.getAddressDetails()
     const handleCancelPress = () => {
@@ -120,20 +120,20 @@ export default class OrderSummary extends OrderSummaryController {
               <ImageBox
                 selected={this.state.selectedTab === "delivery"}
                 text="Delivery"
-                // onPress={() => this.setState({ selectedTab: "delivery" })}
+                onPress={() => this.setState({ selectedTab: "delivery" })}
                 image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "shipping"}
-                // onPress={() => this.setState({ selectedTab: "shipping" })}
+                onPress={() => this.setState({ selectedTab: "shipping" })}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
-                // onPress={() => this.setState({ selectedTab: "pickup" })}
+                onPress={() => this.setState({ selectedTab: "pickup" })}
                 text="Pickup"
                 image={pickupIcon}
               />
@@ -193,17 +193,21 @@ export default class OrderSummary extends OrderSummaryController {
               <View style={styles.deliverContainer}>
                 <Text style={[styles.deliverText,{color:TEXT_COLOR}]}>Deliver in 24hrs </Text>
                 <TouchableOpacity style={[styles.deliverPrice,
-                  {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} onPress={this.state.fastDeliveryPice? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
-                  <Text style={[styles.deliverPriceText,{color:this.state.fastDeliveryPice ? BUTTON_TEXT_COLOR_SECONDARY:BUTTON_TEXT_COLOR_PRIMARY  }]}>{this.state.fastDeliveryPice ? "Remove" : "+ $25.00"}</Text>
+                  {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} 
+                  onPress={this.state.fastDeliveryApplied? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
+                  <Text style={[styles.deliverPriceText,
+                    {color:this.state.fastDeliveryPice ? BUTTON_TEXT_COLOR_SECONDARY:BUTTON_TEXT_COLOR_PRIMARY  }]}>
+                    {this.state.fastDeliveryApplied ? "Remove" : "+ $25.00"}</Text>
                 </TouchableOpacity>
               </View>
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"
                 list={this.state.billingDetails}
-                footer={{question: "Total", ans:this.numberValue(Number(this.state.totalPrice)+Number(this.state.shipping))}}
+                footer={{question: "Total", ans: `$${this.state.fastDeliveryApplied? Number(this.state.totalPrice)+25:Number(this.state.totalPrice)}`}}
                 isUserAlreadySubscribed={this.state.isUserHasSubsCription}
                 isSubscribed={this.state.isUserSubscriptionRequested?true:false}
+                is24HourDelivery={this.state.fastDeliveryApplied}
               />
             </View>
              
@@ -248,7 +252,7 @@ export default class OrderSummary extends OrderSummaryController {
                   phone_number,
                   zip_code,
                   subtotal: this.state.subtotal,
-                  total: this.numberValue(Number(this.state.totalPrice)+Number(this.state.shipping)),
+                  total: this.state.fastDeliveryApplied? Number(this.state.totalPrice)+25:Number(this.state.totalPrice),
                   shipping: this.state.shipping,
                   discount: this.props.route.params.discount,
                   discountPercentage : this.props.route.params.discountPercentage,
@@ -259,7 +263,8 @@ export default class OrderSummary extends OrderSummaryController {
                   lifetimeSubscriptionCharge: this.state.isUserHasSubsCription?true:this.state.isUserSubscriptionRequested?true:false,
                   email: email,
                   isUserAlreadySubscribed:this.state.isUserHasSubsCription,
-                  billingDetails:this.state.billingDetails
+                  billingDetails:this.state.billingDetails,
+                  is24HourDelivery:this.state.fastDeliveryApplied
                 })}
               }
               button2Label="Cancel"
