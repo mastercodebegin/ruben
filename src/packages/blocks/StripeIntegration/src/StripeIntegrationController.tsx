@@ -20,6 +20,7 @@ export interface Props {
   // Customizable Area Start
   route: {
     params: {
+      is24HourDelivery: boolean;
       name: string,
       email: string,
       address: string,
