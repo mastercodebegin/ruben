@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Image, SafeAreaView, StyleSheet } from "react-native";
-import { splash } from "./assets";
+import {  splash_new } from "./assets";
 const AppLauncher = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.imageContainer}>
-        <Image resizeMode="contain" style={styles.image} source={splash} />
+        <Image resizeMode="contain" style={styles.image} source={splash_new} />
       </View>
     </SafeAreaView>
   );
