@@ -5,10 +5,11 @@ interface MyDetailsTypes {
     header: string,
     list: Array<any>
     footer: any,
-    isSubscribed:any,
-    isUserAlreadySubscribed:boolean
+    isSubscribed: any,
+    isUserAlreadySubscribed: boolean
+    is24HourDelivery: boolean
 }
-const PaymentDetails = ({ header, list, footer,isSubscribed,isUserAlreadySubscribed }: MyDetailsTypes) => (
+const PaymentDetails = ({ header, list, footer, isSubscribed, isUserAlreadySubscribed, is24HourDelivery }: MyDetailsTypes) => (
     <View style={styles.myDetail}>
         {Boolean(header) &&
             <View style={styles.seperatorLine}>
@@ -16,31 +17,34 @@ const PaymentDetails = ({ header, list, footer,isSubscribed,isUserAlreadySubscri
             </View>}
         {
             list.map((item) => {
-                console.log('===============',footer)
+                console.log('===============', item.question)
+                console.log('===============', is24HourDelivery)
 
-                return ( item.question=='Lifetime Subscription' && !isSubscribed || item.question=='Lifetime Subscription' && isUserAlreadySubscribed?null:
-                  <View style={styles.myDetailContainer} key={item?.question}>
-                    <View style={styles.flex}>
-                        <Text style={styles.question}>{item?.question}</Text>
+                return (item.question == 'Lifetime Subscription' && !isSubscribed ||
+                    item.question == 'Lifetime Subscription' && isUserAlreadySubscribed ||
+                    item.question == 'Delivery in 24 hrs' && !is24HourDelivery ? null :
+                    <View style={styles.myDetailContainer} key={item?.question}>
+                        <View style={styles.flex}>
+                            <Text style={styles.question}>{item?.question}</Text>
+                        </View>
+                        <View style={styles.flex}>         
+                          <Text style={styles.answer}>{`$${item?.ans}`}</Text>                           
+                        </View>
                     </View>
-                    <View style={styles.flex}>
-                        <Text style={styles.answer}>{`$${item?.ans}`}</Text>
-                    </View>
-                  </View>
                 )
             })
         }
-        <View style={styles.seperatorLine}/>
+        <View style={styles.seperatorLine} />
         <View style={styles.myDetailContainer}>
-          {<View style={styles.flex}>
-              <Text style={styles.question}>{footer?.question}</Text>
-          </View>}
-          <View style={styles.flex}>
-              {isUserAlreadySubscribed?
-              <Text style={styles.answer}>{footer?.ans}</Text>:
-              <Text style={styles.answer}>{isSubscribed?`$${Number(footer?.ans?.slice(1))+5}`:footer?.ans}</Text>
-            }
-          </View>
+            {<View style={styles.flex}>
+                <Text style={styles.question}>{footer?.question}</Text>
+            </View>}
+            <View style={styles.flex}>
+                {isUserAlreadySubscribed ?
+                    <Text style={styles.answer}>{footer?.ans}</Text> :
+                    <Text style={styles.answer}>{isSubscribed ? `$${Number(footer?.ans?.slice(1)) + 5}` : footer?.ans}</Text>
+                }
+            </View>
         </View>
     </View>
 )

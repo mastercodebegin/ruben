@@ -329,6 +329,8 @@ export default class StripeIntegration extends StripeIntegrationController {
                 footer={{question: "Total", ans: `$${this.props.route?.params?.total}`}}
                 isSubscribed={this.props.route.params.lifetimeSubscriptionCharge}
                 isUserAlreadySubscribed={this.props.route.params.isUserAlreadySubscribed}
+                is24HourDelivery={this.props.route.params.is24HourDelivery}
+
               />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
