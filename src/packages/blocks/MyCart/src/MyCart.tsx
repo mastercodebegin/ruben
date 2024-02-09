@@ -82,7 +82,7 @@ export default class MyCart extends MyCartController {
                   <TouchableOpacity onPress={() => {
                     this.setState({discountPrice:0})
                     if (this.state.discountCode === "") {
-                      this.fetchDiscount();
+                      alert('Please enter coupon')
                     } else {
                       this.applyDiscountCode.bind(this)(this.state.discountCode);
                     }
@@ -100,12 +100,12 @@ export default class MyCart extends MyCartController {
                     </View> : null }
                    {this.state.discountFetched ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{`-$${Math.abs(getDiscountPrice())} (${getDicountPercentage()}%)`}</Text>
+                      <Text style={styles.answer}>{`-$${9}`}</Text>
                     </View> : null}
-                    {/* {this.state.shippingCharge ? <View style={styles.row}>
+                    {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
                       <Text style={styles.answer}>{`$${this.state.shippingCharge.toFixed(2)}`}</Text>
-                    </View> : null} */}
+                    </View> : null}
                     {
                       this.state.product_discount ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Product Discount</Text>

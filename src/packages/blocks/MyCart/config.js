@@ -12,5 +12,5 @@ exports.increaseCartQuantity =
   "bx_block_shopping_cart/orders/increase_product_quantity";
 exports.decreaseCartQuantity = "bx_block_shopping_cart/orders/decrease_product_quantity";
 exports.fetchDiscoundCode = "account_block/accounts/fetch_discount";
-exports.applyDiscountCode = "bx_block_coupon_cg/discount?code="
+exports.applyDiscountCode = "account_block/accounts/discount?promo_code="
 exports.fetchDiscount = "account_block/accounts/discount";
