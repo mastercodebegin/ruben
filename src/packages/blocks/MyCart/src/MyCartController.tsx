@@ -18,10 +18,10 @@ export interface Props {
 
 interface S {
   showLoader: boolean;
-  productsList:Array<any>;
-  discountCode:string;
-  discountPercentage:number;
-  show_modal:boolean;
+  productsList: Array<any>;
+  discountCode: string;
+  discountPercentage: number;
+  show_modal: boolean;
   order_id: number | null;
   discountPrice: number;
   totalPrice: number;
@@ -49,10 +49,10 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       showLoader: false,
-      productsList:[],
-      discountCode:'',
-      discountPercentage:0,
-      show_modal:false,
+      productsList: [],
+      discountCode: '',
+      discountPercentage: 0,
+      show_modal: false,
       order_id: null,
       discountPrice: 0,
       totalPrice: 0,
@@ -60,177 +60,182 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       screenError: false,
       shippingCharge: 0,
       subTotal: 0,
-      product_discount:null
+      product_discount: null
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
   }
-  cartCallId:string ='';
-  removeItemCallId:string='';
-  increaseCartCallId:string='';
+  cartCallId: string = '';
+  removeItemCallId: string = '';
+  increaseCartCallId: string = '';
   fetchDiscountCode: string = '';
   applyDiscountCodeId: string;
   fetchDiscountCallId: string = '';
-  showAlert(){
-    Alert.alert('Alert',"something went wrong please try again",[{text:'OK',onPress:()=>this.setState({showLoader:false})}])
+  showAlert() {
+    Alert.alert('Alert', "something went wrong please try again", [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }])
 
   }
   async receive(from: string, message: Message) {
-  if (
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.removeItemCallId != null &&
       this.removeItemCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (error) {
-        Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
+        Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
       } else {
         showToast('success');
         this.getCart();
       }
-    }else if (
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.fetchDiscountCode != null &&
       this.fetchDiscountCode ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let discoundCode = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.discoundCodeCallback(discoundCode,error)
-    }else if (
+      this.discoundCodeCallback(discoundCode, error)
+    } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.cartCallId != null &&
       this.cartCallId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
       let productsList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );      
+      );
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       const prodList = productsList?.data[0]
-      this.getCartCallBack(prodList,error)
-      
-    }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.increaseCartCallId != null &&
-    this.increaseCartCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){   
-        let error = message.getData(
-          getName(MessageEnum.RestAPIResponceErrorMessage)
-        );        
-        if(error){
-          this.showAlert()
-        }else{
-          this.getCart()
-        }
-    }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.applyDiscountCodeId != null &&
-    this.applyDiscountCodeId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))){   
-        let error = message.getData(
-          getName(MessageEnum.RestAPIResponceErrorMessage)
-    );   
-    
-    let discountPrice = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
+      this.getCartCallBack(prodList, error)
 
-    console.log("discountPrice===>",discountPrice);
-    
-    if (discountPrice?.discount === "Discount not present") {
-      this.setState({ showLoader: false }, ()=>this.showDiscountMessage("Discount not present"))
-    }
-    else if (!error) {
-      showToast("Discount Applied")
-      this.setState({showLoader:false,discountPrice:Number(discountPrice.discount),discountFetched:true}, ()=>this.showDiscountMessage("Discount Applied"))
-    } else {
-      this.setState({showLoader:false},()=>this.showDiscountMessage("Something went wrong"))
-    }
-  } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-  this.fetchDiscountCallId != null &&
-  this.fetchDiscountCallId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    let error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
-    let discountPrice = message.getData(getName(MessageEnum.RestAPIResponceSuccessMessage));
-    if (!error && discountPrice?.message === "discount fetched") {
-      this.fetchDiscountCallBack()
-    } else {
-      this.showDiscountMessage("Discount not present")
-      this.setState({ screenError: false, showLoader: false });
+    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.increaseCartCallId != null &&
+      this.increaseCartCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      if (error) {
+        this.showAlert()
+      } else {
+        this.getCart()
       }
-  }
+    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.applyDiscountCodeId != null &&
+      this.applyDiscountCodeId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+
+      let discountPrice = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      console.log("discountPrice===>", discountPrice);
+
+      if (discountPrice?.message === "Discount fetched") {
+        this.getCart()
+        showToast("Discount Applied")
+
+      }
+      else if (!error && discountPrice?.message=='discount is only available for first order') {
+        showToast("discount is only available for first order")
+        this.setState({ showLoader: false, })
+      } 
+      else {
+        this.setState({ showLoader: false }, () => this.showDiscountMessage("Something went wrong"))
+      }
+    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.fetchDiscountCallId != null &&
+      this.fetchDiscountCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      let error = message.getData(getName(MessageEnum.RestAPIResponceErrorMessage));
+      let discountPrice = message.getData(getName(MessageEnum.RestAPIResponceSuccessMessage));
+      if (!error && discountPrice?.message === "discount fetched") {
+        this.fetchDiscountCallBack()
+      } else {
+        this.showDiscountMessage("Discount not present")
+        this.setState({ screenError: false, showLoader: false });
+      }
+    }
   }
 
-  componentDidUpdate() {    
+  componentDidUpdate() {
     if (this.state.screenError) {
-      Alert.alert('Error','Something went wrong, please try again later---',[{text:'OK',onPress:()=>this.props.navigation.goBack()}])
+      Alert.alert('Error', 'Something went wrong, please try again later---', [{ text: 'OK', onPress: () => this.props.navigation.goBack() }])
     }
-      
+
   }
-  fetchDiscountCallBack(){
+  fetchDiscountCallBack() {
     this.getDiscountCode();
   }
 
   showDiscountMessage(message: string) {
     setTimeout(() => {
       showToast(message)
-    },300)
+    }, 300)
   }
-  removeFromCart(id:number) {
+  removeFromCart(id: number) {
     Alert.alert("Alert",
       "Are you sure delete it from cart", [
       { text: 'yes', onPress: () => this.removeItemFromCart(id) },
       {
-        text:'cancel',
+        text: 'cancel',
       }
     ])
   }
-  getCartCallBack(prodList:any,error=false){
-    if(error){
+  getCartCallBack(prodList: any, error = false) {
+    if (error) {
       this.showAlert()
     } else {
-      //this.getDiscountCode();
-      if(prodList?.attributes?.order_items?.data?.length){
-      store.dispatch({type:'UPDATE_CART_DETAILS',payload:prodList?.attributes?.order_items?.data});
-      const sortedProductList = prodList?.attributes?.order_items?.data.sort(function(a:any, b:any) {
-        const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
-        const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0; 
-      })
-      this.setState({
-        productsList:sortedProductList,
-        order_id: prodList?.id,
-        showLoader: false,
-        subTotal:prodList?.attributes.subtotal,
-        totalPrice:prodList?.attributes.total,
-        shippingCharge:prodList?.attributes.shipping_charge
-        
-      })
+      if (prodList?.attributes?.discount_amount != null) {
+        this.setState({ discountPrice: prodList?.attributes?.discount_amount })
+      }
+      if (prodList?.attributes?.order_items?.data?.length) {
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: prodList?.attributes?.order_items?.data });
+        const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
+          const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+          const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        })
+        this.setState({
+          productsList: sortedProductList,
+          order_id: prodList?.id,
+          showLoader: false,
+          subTotal: prodList?.attributes.subtotal,
+          totalPrice: prodList?.attributes.total,
+          shippingCharge: prodList?.attributes.shipping_charge
+
+        })
       } else {
-        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });        
+        store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
         this.props.navigation.pop()
       }
     }
   }
-  discoundCodeCallback(discoundCode:any,error=false){
+  discoundCodeCallback(discoundCode: any, error = false) {
     if (error) {
       this.showDiscountMessage("Discount not present")
-      this.setState({showLoader:false})
-    } else if (discoundCode?.promo_code || (discoundCode?.sub_total &&  discoundCode?.total)) {      
+      this.setState({ showLoader: false })
+    } else if (discoundCode?.promo_code || (discoundCode?.sub_total && discoundCode?.total)) {
       this.setState({
         discountCode: (!!discoundCode?.promo_code && discoundCode?.discount) ? discoundCode?.promo_code : '',
         // showLoader: false,
@@ -240,13 +245,13 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
         // discountPrice: discoundCode?.discount,
         // shippingCharge: discoundCode?.shipping_charge || 0,
         // subTotal: discoundCode?.sub_total || 0,
-         product_discount:discoundCode?.product_discount || null
-        
+        product_discount: discoundCode?.product_discount || null
+
       });
     }
   }
   onpressCancel() {
-    Alert.alert('Alert','Are you sure to cancel',[{text:'Ok',onPress:()=>this.props.navigation.goBack()},{text:'Cancel'}])
+    Alert.alert('Alert', 'Are you sure to cancel', [{ text: 'Ok', onPress: () => this.props.navigation.goBack() }, { text: 'Cancel' }])
   }
   async getCart() {
     this.setState({ showLoader: true });
@@ -270,11 +275,11 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpGetMethod
+      configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async increaseCartQuatity(catalogue_id:number,order_id:number|null,type:boolean){    
+  async increaseCartQuatity(catalogue_id: number, order_id: number | null, type: boolean) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -287,8 +292,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `${type ? configJSON.increaseCartQuantity :
-         configJSON.decreaseCartQuantity
-        }?catalogue_id=${catalogue_id}&order_id=${order_id}`
+        configJSON.decreaseCartQuantity
+      }?catalogue_id=${catalogue_id}&order_id=${order_id}`
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -296,11 +301,11 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpPostMethod
+      configJSON.httpPostMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async removeItemFromCart(id:number){
+  async removeItemFromCart(id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -320,14 +325,14 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpDeleteMethod
+      configJSON.httpDeleteMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async applyDiscountCode(code:string) {
-    console.log("code===>",code);
-    
-    this.setState({showLoader:true})
+  async applyDiscountCode(code: string) {
+    console.log("code===>", code);
+
+    this.setState({ showLoader: true })
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -339,7 +344,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.applyDiscountCode}${code}`
+      `${configJSON.applyDiscountCode}${code.toLocaleLowerCase()}`
     );
 
     subcategory.addData(
@@ -348,12 +353,12 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpGetMethod
+      'POST'
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async getDiscountCode() {
-    this.setState({showLoader:true})
+    this.setState({ showLoader: true })
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -374,13 +379,13 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-     configJSON.httpGetMethod
+      configJSON.httpGetMethod
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
   async fetchDiscount() {
-    this.setState({showLoader:true})
+    this.setState({ showLoader: true })
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -401,7 +406,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-    'POST'
+      'POST'
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
