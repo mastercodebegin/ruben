@@ -174,7 +174,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
   componentDidUpdate() {
     if (this.state.screenError) {
-      Alert.alert('Error', 'Something went wrong, please try again later---', [{ text: 'OK', onPress: () => this.props.navigation.goBack() }])
+      Alert.alert('Error', 'Something went wrong, please try again later', [{ text: 'OK', onPress: () => this.props.navigation.goBack() }])
     }
 
   }
