@@ -146,7 +146,7 @@ export default class UpdateProfileModal extends React.Component<P, S> {
                 label="Phone Number"
                 maxLenth={10}
               />
-               <View style={{flexDirection:'row', justifyContent:'center',alignItems:'center',marginTop:20,position:'relative',zIndex:1}}>
+               <View style={{flexDirection:'row', justifyContent:'center',alignItems:'center',marginTop:20,position:'relative',zIndex:999}}>
 
                 <Dropdown
           style={[

@@ -10,7 +10,7 @@ appExtConfig:
   PROJECT_TYPE: "studio_pro" 
   extval1: "example1"
   EXTVAL2: "example2"
-  REACT_APP_API_PATH: "https://ruebensftcapp-263982-ruby.b263982.uat.eastus.az.svc.builder.ai"
+  REACT_APP_API_PATH: "https://ruebensftcapp-263982-ruby.b263982.dev.eastus.az.svc.builder.cafe"
 
 extraFiles:
   - fileName: env.js
