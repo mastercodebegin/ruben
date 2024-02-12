@@ -2,20 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>127677224137-8noqen2dufdscvkhjugps39rjhaiic12.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA5JtkTuccsOevBwoojVmJmwNS0MJBhIOc</string>
+	<string>AIzaSyDPibQzyz85opAEKUBbx7hdf3SFyl6mGMQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>127677224137</string>
+	<string>767885907875</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.Farm2URDoor</string>
 	<key>PROJECT_ID</key>
-	<string>ruebensftcapp</string>
+	<string>farm2urdoordev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ruebensftcapp.appspot.com</string>
+	<string>farm2urdoordev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -27,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:127677224137:ios:d916c1536e812a0de1e918</string>
+	<string>1:767885907875:ios:2029ba77055664ad702c16</string>
 </dict>
 </plist>
