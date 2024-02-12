@@ -1,6 +1,6 @@
 import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
-import { Alert} from "react-native";
+import { Alert, PermissionsAndroid, Platform} from "react-native";
 import { setStorageData } from "../../../framework/src/Utilities";
 interface NotificationDataType {
   title?: string;
@@ -10,11 +10,24 @@ export default class PushNotificationsHelper {
 
   messageInstance = messaging();
 
+  async requestPermissionAndroid() {
+    //@ts-ignore
+    const androidPermissionStatus = await PermissionsAndroid.request('android.permission.POST_NOTIFICATIONS');
+    if (androidPermissionStatus === 'granted') {
+      return 1;
+    }
+     return 0;
+  }
+
   async requestPermission() {
     const permissionStatus = await this.messageInstance.hasPermission();
     
     if (permissionStatus === 1) {
       return permissionStatus;
+    }
+    if (Platform.OS === 'android') {
+      const androidPermissionStatus = await this.requestPermissionAndroid();
+      return androidPermissionStatus;
     }
     const pushNotificationPermission = await this.messageInstance.requestPermission();
     return pushNotificationPermission;
@@ -63,6 +76,7 @@ export default class PushNotificationsHelper {
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
       console.log("fcmToken===>",fcmToken);
+      alert(fcmToken)
       setStorageData('fcm_token', fcmToken);
     }
 

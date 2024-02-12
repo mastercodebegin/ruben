@@ -67,6 +67,12 @@
    <!-- You will also only need to add this uses-libray tag -->
    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
+    <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+    <intent-filter>
+      <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+  </service>
+
     </application>
 
     <queries>
