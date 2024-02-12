@@ -145,7 +145,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
       console.log("discountPrice===>", discountPrice);
 
-      if (discountPrice?.message === "Discount fetched") {
+      if (discountPrice?.message === "discount fetched") {
         this.getCart()
         showToast("Discount Applied")
 
