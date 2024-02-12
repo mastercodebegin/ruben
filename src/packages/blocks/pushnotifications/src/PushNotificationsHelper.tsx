@@ -76,7 +76,7 @@ export default class PushNotificationsHelper {
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
       console.log("fcmToken===>",fcmToken);
-      alert(fcmToken)
+      // alert(fcmToken)
       setStorageData('fcm_token', fcmToken);
     }
 
