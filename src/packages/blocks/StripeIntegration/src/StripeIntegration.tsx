@@ -162,6 +162,29 @@ export default class StripeIntegration extends StripeIntegrationController {
       { text: "CANCEL" },
     ]);
   };
+
+  validation = () => {
+    const { cardNumber, cvv, expirtyDate, cardName } = this.state;
+
+    if (cardNumber === "" || cvv === "" || expirtyDate === "") {
+        Alert.alert("Alert", "Please add card details");
+        return false;
+    } else if (cardName === "") {
+        Alert.alert("Alert", "Please enter the card holder name");
+        return false;
+    } else if (cardNumber.length !== 19) {
+        Alert.alert("Alert", "Please enter a valid card number");
+        return false;
+    } else if (expirtyDate.length !== 5) {
+        Alert.alert("Alert", "Please enter a valid expiry date");
+        return false;
+    } else if (cvv.length !== 3) {
+        Alert.alert("Alert", "Please enter a valid CVV");
+        return false;
+    }
+    return true;
+}
+
   // Customizable Area End
 
   render() {
@@ -336,8 +359,9 @@ export default class StripeIntegration extends StripeIntegrationController {
               <TouchableOpacity
                 onPress={async ()=> {
                   if (this.state.paymentMethodType === "Card") {
-                    if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
-                      return Alert.alert("Alert", "Please add card details");
+                    const isValid = this.validation();
+                    if(!isValid){
+                      return;
                     }
                     if(this.state.saveCard){ 
                       showToast("Card details will be automatically removed upon logout for security reasons")           
