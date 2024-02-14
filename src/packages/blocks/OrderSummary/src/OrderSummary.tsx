@@ -33,9 +33,13 @@ interface ImageBoxType {
 const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
   <TouchableOpacity
     onPress={onPress}
-    style={[styles.boxContainer, selected && { backgroundColor: PRIMARY_COLOR },
+    disabled
+    style={[styles.boxContainer,   
+      { backgroundColor: selected?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY },
       {borderWidth:1,borderColor:PRIMARY_COLOR}]}
   >
+    {console.log('seleted==',selected)
+    }
     <Image
       resizeMode="contain"
       style={[{ height: 20, width: 20 , tintColor: selected ? BUTTON_COLOR_SECONDARY :PRIMARY_COLOR }]}
@@ -121,7 +125,7 @@ export default class OrderSummary extends OrderSummaryController {
             />
             <View style={styles.imageContainer}>
               <ImageBox
-                selected={this.state.selectedTab === "delivery"}
+                selected={this.state.selectedTab === "delivery"?true:false}
                 text="Delivery"
                  //onPress={() => this.setState({ selectedTab: "delivery" })}
                  onPress={() => alert()}
@@ -129,14 +133,14 @@ export default class OrderSummary extends OrderSummaryController {
               />
               <View style={styles.seperator} />
               <ImageBox
-                selected={this.state.selectedTab === "shipping"}
+                selected={this.state.selectedTab === "shipping"?true:false}
                 onPress={() => alert()}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
-                selected={this.state.selectedTab === "pickup"}
+                selected={this.state.selectedTab === "pickup"?true:false}
                 onPress={() => alert()}
                 text="Pickup"
                 image={pickupIcon}
