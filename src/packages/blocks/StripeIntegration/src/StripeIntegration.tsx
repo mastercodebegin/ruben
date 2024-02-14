@@ -336,9 +336,18 @@ export default class StripeIntegration extends StripeIntegrationController {
               <TouchableOpacity
                 onPress={async ()=> {
                   if (this.state.paymentMethodType === "Card") {
-                    if(this.state.cardNumber == "" && this.state.cardName == "" && this.state.cvv == "" && this.state.expirtyDate == "" ){
-                      return Alert.alert("Alert", "Please add card details");
+                    if(this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "" ){
+                      return Alert.alert("Alert", "Please enter correct card details");
                     }
+                    else if (this.state.cardNumber.length !== 19) {
+                      return Alert.alert("Alert", "Please enter a valid card number");
+                    }
+                    else if (this.state.expirtyDate.length !== 5) {
+                      return Alert.alert("Alert", "Please enter a valid expiry date");
+                    } 
+                    else if (this.state.cvv.length !== 3) {
+                      return Alert.alert("Alert", "Please enter a valid CVV");
+                  }
                     if(this.state.saveCard){ 
                       showToast("Card details will be automatically removed upon logout for security reasons")           
                     await setStorageData(
