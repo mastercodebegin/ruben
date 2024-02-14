@@ -192,9 +192,13 @@ export default class PersonelDetails extends PersonalDetailsController {
             </View>: <></>}
             <DoubleButton
               button1Label={"Continue to Summary"}
-              button1_Onpress={this.onPressContinue.bind(this)}
+              button1_Onpress={this.state.selectedTab=='pickup'?
+             ()=> this.props.navigation.navigate("OrderSummary", 
+              {...this.props.route.params,address,phone_number, 
+                zip_code,name,email,selected:this.state.selectedTab})
+              :  this.onPressContinue.bind(this)}
               button2Label="Cancel"
-              button2_Onpress={()=>this.state.selectedTab=='pickup'?handleCancelPress:alert('')}
+              button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
             />
             <DeliveryFeesModal
