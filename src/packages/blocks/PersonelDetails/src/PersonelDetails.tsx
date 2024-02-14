@@ -93,9 +93,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                 onpress={() => {
                     if (!this.state.addressList.length) {
                       Alert.alert("Alert", "Please add address");
-                    } else if (this.state.selectedAddress === null) {
-                      Alert.alert("Alert", "Please select an address");
-                    } else {
+                    }  else {
                      this.setState({selectedTab:'shipping'})
                     }
                 }}
@@ -106,8 +104,11 @@ export default class PersonelDetails extends PersonalDetailsController {
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
                 onpress={() => {
-             
-                   this.setState({selectedTab:'pickup'})
+                  if (!this.state.addressList.length) {
+                    Alert.alert("Alert", "Please add address");
+                  }  else {
+                    this.setState({selectedTab:'pickup',selectedAddress:null})
+                  }
                   
                 }}
                 text="Pick Up"
@@ -151,11 +152,37 @@ export default class PersonelDetails extends PersonalDetailsController {
                     addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
                     stateList ={this.state.stateList}
+                    selectedTab={this.state.selectedTab}
                   />
                 </View>
               </>
             ) : (
+<>
+
               <AvailableSlots address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} list={this.state.availableSlotsList}/>
+              <SavedAddresses
+                    showModal={this.state.showAddAddress}
+                    setShowModal={(val:boolean)=>{this.setState({showAddAddress:val})
+                  console.log('val--',val)}
+                  
+                  }
+                    addressList={this.state.addressList}
+                    setSelectedAddress={(index:any,value:any) => {
+                      if(index !== this.state.selectedAddress){
+                        this.addAddressToTheOrder(index)
+                         this.setState({shippingFee:value?.attributes?.shipping_charge})
+
+                      }
+                    }
+                    }
+                    isLoading={this.state.showLoader}
+                    addAddress={this.addAddress.bind(this)}
+                    selectedAddress={this.state.selectedAddress}
+                    stateList ={this.state.stateList}
+                    selectedTab={this.state.selectedTab}
+
+                  />
+                  </>
             )}
             {this.state.estimatedDeliveryDate ? <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
@@ -167,12 +194,13 @@ export default class PersonelDetails extends PersonalDetailsController {
               button1Label={"Continue to Summary"}
               button1_Onpress={this.onPressContinue.bind(this)}
               button2Label="Cancel"
-              button2_Onpress={handleCancelPress}
+              button2_Onpress={()=>this.state.selectedTab=='pickup'?handleCancelPress:alert('')}
               containerStyle={{ paddingTop: 20 }}
             />
             <DeliveryFeesModal
             shippingFee={this.state.shippingFee}
               visible={this.state.show_modal}
+              selectedTab={this.state.selectedTab}
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
