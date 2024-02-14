@@ -208,7 +208,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email})
+                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,selected:this.state.selectedTab})
               }}
             />
             <CommonLoader visible={this.state.showLoader} />
