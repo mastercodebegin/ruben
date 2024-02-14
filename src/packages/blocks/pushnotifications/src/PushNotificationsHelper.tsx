@@ -1,6 +1,6 @@
 import messaging from "@react-native-firebase/messaging";
 //@ts-ignore
-import { Alert, PermissionsAndroid, Platform } from "react-native";
+import { Alert, PermissionsAndroid, Platform} from "react-native";
 import { setStorageData } from "../../../framework/src/Utilities";
 interface NotificationDataType {
   title?: string;
@@ -76,6 +76,7 @@ export default class PushNotificationsHelper {
     if (enabled) {
       fcmToken = await this.messageInstance.getToken();
       console.log("fcmToken===>",fcmToken);
+      // alert(fcmToken)
       setStorageData('fcm_token', fcmToken);
     }
 
