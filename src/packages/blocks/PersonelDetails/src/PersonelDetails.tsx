@@ -29,10 +29,13 @@ interface ImageBoxType {
   onpress: () => void;
 }
 const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
+  
   <TouchableOpacity
     onPress={onpress}
     style={[styles.boxContainer, selected ? { backgroundColor: BUTTON_COLOR_PRIMARY }:{ backgroundColor: BUTTON_COLOR_SECONDARY,borderWidth:1,borderColor:PRIMARY_COLOR }]}
   >
+    {console.log('selected=========',selected)
+    }
     <Image
       resizeMode="stretch"
       style={[{ height: 20, width: 20 ,tintColor:selected ?BUTTON_TEXT_COLOR_PRIMARY: BUTTON_TEXT_COLOR_SECONDARY}]}
@@ -41,7 +44,7 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
     <Text
       style={[
         { paddingTop: 10, textAlign: "center" },
-        selected && { color: "white" },
+         { color: selected?"white":'black' },
       ]}
     >
       {text}
@@ -103,13 +106,9 @@ export default class PersonelDetails extends PersonalDetailsController {
               <ImageBox
                 selected={this.state.selectedTab === "pickup"}
                 onpress={() => {
-                  if (!this.state.addressList.length) {
-                    Alert.alert("Alert", "Please add address");
-                  } else if (this.state.selectedAddress === null) {
-                    Alert.alert("Alert", "Please select an address");
-                  } else {
+             
                    this.setState({selectedTab:'pickup'})
-                  }
+                  
                 }}
                 text="Pick Up"
                 image={pickupIcon}
