@@ -75,7 +75,7 @@ export default class LandingPage extends LandingPageController {
                     in the information product do not simply.
                   </Text>
                   <TouchableOpacity
-                    onPress={this.onpressExploreStore}
+                    onPress={()=>this.onpressExploreStore()}
                     style={[styles.explorebtn, {height: 50}]}
                   >
                     <Text style={styles.exploreBtn}>Explore Store</Text>
