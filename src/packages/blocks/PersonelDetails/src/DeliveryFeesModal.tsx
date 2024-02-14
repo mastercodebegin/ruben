@@ -38,7 +38,7 @@ const DeliveryFeesModal = ({
               source={closeIcon}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{selectedTab=='delivery'?'Delivery':'Shipping'} Fees</Text>
+          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{selectedTab=='delivery'?'Delivery Fees':'Shipping Fees'}</Text>
           <Text style={[styles.description,{color:SECONDARY_TEXT_COLOR}]}>
             {
               `You'll be charge ${shippingFee} to deliver this products at your selected location.`
