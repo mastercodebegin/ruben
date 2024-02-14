@@ -345,6 +345,9 @@ export default class StripeIntegration extends StripeIntegrationController {
                     else if (this.state.expirtyDate.length !== 5) {
                       return Alert.alert("Alert", "Please enter a valid expiry date");
                     } 
+                    else if (this.state.cvv.length !== 3) {
+                      return Alert.alert("Alert", "Please enter a valid CVV");
+                  }
                     if(this.state.saveCard){ 
                       showToast("Card details will be automatically removed upon logout for security reasons")           
                     await setStorageData(
