@@ -57,7 +57,7 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
 );
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
-    this.getCart();
+    this.getCart(this.props.route.params?.selected);
     this.checkLifeTimeSubscription()
     this.setState({selectedTab:this.props.route.params?.selected})
     console.log('OrderSummary========',this.props.route.params?.selected);
@@ -127,7 +127,6 @@ export default class OrderSummary extends OrderSummaryController {
               <ImageBox
                 selected={this.state.selectedTab === "delivery"?true:false}
                 text="Delivery"
-                 //onPress={() => this.setState({ selectedTab: "delivery" })}
                  onPress={() => alert()}
                 image={deliveryIcon}
               />
@@ -198,7 +197,7 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-            {this.state.selectedTab!=='pickup'?<View style={styles.deliverContainer}>
+            {this.state.selectedTab=='delivery' ?<View style={styles.deliverContainer}>
                 <Text style={[styles.deliverText,{color:TEXT_COLOR}]}>Deliver in 24hrs </Text>
                <TouchableOpacity style={[styles.deliverPrice,
                   {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} 

@@ -424,7 +424,7 @@ SS
     );
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
   }
-  async getCart() {
+  async getCart(deliverytype?:string) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -437,7 +437,7 @@ SS
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.getCart
+      `${configJSON.getCart}${deliverytype}`
     );
 
     subcategory.addData(
