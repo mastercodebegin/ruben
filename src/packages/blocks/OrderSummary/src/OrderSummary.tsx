@@ -60,7 +60,6 @@ export default class OrderSummary extends OrderSummaryController {
     this.getCart(this.props.route.params?.selected);
     this.checkLifeTimeSubscription()
     this.setState({selectedTab:this.props.route.params?.selected})
-    console.log('OrderSummary========',this.props.route.params?.selected);
     
  }
   render() {
@@ -227,11 +226,15 @@ export default class OrderSummary extends OrderSummaryController {
                 { backgroundColor: isSelected ? BUTTON_COLOR_PRIMARY : BUTTON_COLOR_SECONDARY,borderWidth:1,borderColor:PRIMARY_COLOR }]}>
                     <View style={styles.meatStorageHeader}>
                       <Text style={[styles.meatStorageHeading, { color: isSelected? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY }]}>{this.capitalizeFirstLetter(item?.plan_name)}</Text>
+                    
                     {isBasic ?
                       <Text style={[styles.meatStoragePrice, {color: TEXT_COLOR}]}>{this.state.currentPlan?.id === item?.id ? 'CURRENT' :''}</Text>
                       : <Text style={[styles.meatStoragePrice, { color: isSelected ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY  }]}>{`$${item?.price}`}<Text style={styles.monthText}>{'/Month'}</Text></Text>}
                     </View>
-                    <Text style={[styles.meatStorageDesc, { color: isSelected ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY }]}>{ item?.description }</Text>
+                    <Text style={[styles.meatStorageDesc,
+                       { color: isSelected ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY }]}>
+                        { item?.description }</Text>
+
                   {!isBasic && <TouchableOpacity style={[styles.addMeatStorageButton,
                   {backgroundColor:isSelected?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY,
                     borderColor:isSelected?BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY}]}
