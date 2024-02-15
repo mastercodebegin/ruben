@@ -200,10 +200,11 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     if (error) {
       this.showAlert()
     } else {
-      if (prodList?.attributes?.discount_amount != null) {
-        this.setState({ discountPrice: prodList?.attributes?.discount_amount })
+      if (prodList?.attributes?.discountAmount != null) {
+        this.setState({ discountPrice: prodList?.attributes?.discountAmount })
       }
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.meat_storage_amount));
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.discountAmount));
       
       if (prodList?.attributes?.order_items?.data?.length) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: prodList?.attributes?.order_items?.data });

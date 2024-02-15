@@ -25,6 +25,8 @@ export default class MyCart extends MyCartController {
   }
   render() {
     const getDiscountPrice = () => {
+      console.log('discount price===',this.state.discountPrice);
+      
       if (this.state.discountPrice)
       {
         return this.state.discountPrice.toFixed(2);
@@ -34,7 +36,7 @@ export default class MyCart extends MyCartController {
     const getDicountPercentage=()=>{
       const percentatge = (Math.abs(this.state.discountPrice ? this.state.discountPrice : this.state.discountPercentage) * 100) / this.state.totalPrice;
        return Math.round(percentatge)
-     }
+     }                                                                                                                                   
     const getTotal = ()=>{
       return (this.state.totalPrice - getDiscountPrice());
     }
@@ -98,9 +100,9 @@ export default class MyCart extends MyCartController {
                       <Text style={styles.paymentText}>Subtotal</Text>
                       <Text style={styles.answer}>{`$${this.state.subTotal.toFixed(2)}`}</Text>
                     </View> : null }
-                   {this.state.discountFetched ? <View style={styles.row}>
+                   {this.state.discountPrice ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{`-$${9}`}</Text>
+                      <Text style={styles.answer}>{`-$${this.state.discountPrice}`}</Text>
                     </View> : null}
                     {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
@@ -240,5 +242,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   main: { flex: 1 },
-  textInput:{flex:1,paddingLeft:25,fontWeight:'bold',fontSize:16,color:'#A0272A'}
+  textInput:{flex:1,paddingLeft:25,fontWeight:'bold',fontSize:16,color:TEXT_COLOR} 
 });
