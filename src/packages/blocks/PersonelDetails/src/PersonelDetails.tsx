@@ -29,10 +29,13 @@ interface ImageBoxType {
   onpress: () => void;
 }
 const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
+  
   <TouchableOpacity
     onPress={onpress}
     style={[styles.boxContainer, selected ? { backgroundColor: BUTTON_COLOR_PRIMARY }:{ backgroundColor: BUTTON_COLOR_SECONDARY,borderWidth:1,borderColor:PRIMARY_COLOR }]}
   >
+    {console.log('selected=========',selected)
+    }
     <Image
       resizeMode="stretch"
       style={[{ height: 20, width: 20 ,tintColor:selected ?BUTTON_TEXT_COLOR_PRIMARY: BUTTON_TEXT_COLOR_SECONDARY}]}
@@ -41,7 +44,7 @@ const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
     <Text
       style={[
         { paddingTop: 10, textAlign: "center" },
-        selected && { color: "white" },
+         { color: selected?"white":'black' },
       ]}
     >
       {text}
@@ -90,9 +93,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                 onpress={() => {
                     if (!this.state.addressList.length) {
                       Alert.alert("Alert", "Please add address");
-                    } else if (this.state.selectedAddress === null) {
-                      Alert.alert("Alert", "Please select an address");
-                    } else {
+                    }  else {
                      this.setState({selectedTab:'shipping'})
                     }
                 }}
@@ -105,11 +106,10 @@ export default class PersonelDetails extends PersonalDetailsController {
                 onpress={() => {
                   if (!this.state.addressList.length) {
                     Alert.alert("Alert", "Please add address");
-                  } else if (this.state.selectedAddress === null) {
-                    Alert.alert("Alert", "Please select an address");
-                  } else {
-                   this.setState({selectedTab:'pickup'})
+                  }  else {
+                    this.setState({selectedTab:'pickup',selectedAddress:null})
                   }
+                  
                 }}
                 text="Pick Up"
                 image={pickupIcon}
@@ -152,11 +152,37 @@ export default class PersonelDetails extends PersonalDetailsController {
                     addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
                     stateList ={this.state.stateList}
+                    selectedTab={this.state.selectedTab}
                   />
                 </View>
               </>
             ) : (
+<>
+
               <AvailableSlots address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} list={this.state.availableSlotsList}/>
+              <SavedAddresses
+                    showModal={this.state.showAddAddress}
+                    setShowModal={(val:boolean)=>{this.setState({showAddAddress:val})
+                  console.log('val--',val)}
+                  
+                  }
+                    addressList={this.state.addressList}
+                    setSelectedAddress={(index:any,value:any) => {
+                      if(index !== this.state.selectedAddress){
+                        this.addAddressToTheOrder(index)
+                         this.setState({shippingFee:value?.attributes?.shipping_charge})
+
+                      }
+                    }
+                    }
+                    isLoading={this.state.showLoader}
+                    addAddress={this.addAddress.bind(this)}
+                    selectedAddress={this.state.selectedAddress}
+                    stateList ={this.state.stateList}
+                    selectedTab={this.state.selectedTab}
+
+                  />
+                  </>
             )}
             {this.state.estimatedDeliveryDate ? <View style={{ paddingTop: 20 }}>
               <Text style={styles.estimation}>{"* Estimated Delivery:"}</Text>
@@ -166,7 +192,11 @@ export default class PersonelDetails extends PersonalDetailsController {
             </View>: <></>}
             <DoubleButton
               button1Label={"Continue to Summary"}
-              button1_Onpress={this.onPressContinue.bind(this)}
+              button1_Onpress={this.state.selectedTab=='pickup'?
+             ()=> this.props.navigation.navigate("OrderSummary", 
+              {...this.props.route.params,address,phone_number, 
+                zip_code,name,email,selected:this.state.selectedTab})
+              :  this.onPressContinue.bind(this)}
               button2Label="Cancel"
               button2_Onpress={handleCancelPress}
               containerStyle={{ paddingTop: 20 }}
@@ -174,10 +204,11 @@ export default class PersonelDetails extends PersonalDetailsController {
             <DeliveryFeesModal
             shippingFee={this.state.shippingFee}
               visible={this.state.show_modal}
+              selectedTab={this.state.selectedTab}
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email})
+                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,selected:this.state.selectedTab})
               }}
             />
             <CommonLoader visible={this.state.showLoader} />

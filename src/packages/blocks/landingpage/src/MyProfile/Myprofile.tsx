@@ -714,7 +714,7 @@ export const styles = StyleSheet.create({
   badge: {
     height: 20,
     width: 20,
-    tintColor: WHITE
+    tintColor: PRIMARY_COLOR
   },
   rating: {
     color: "white",

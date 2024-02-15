@@ -203,6 +203,8 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       if (prodList?.attributes?.discount_amount != null) {
         this.setState({ discountPrice: prodList?.attributes?.discount_amount })
       }
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.meat_storage_amount));
+      
       if (prodList?.attributes?.order_items?.data?.length) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: prodList?.attributes?.order_items?.data });
         const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
@@ -221,7 +223,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
           order_id: prodList?.id,
           showLoader: false,
           subTotal: prodList?.attributes.subtotal,
-          totalPrice: prodList?.attributes.total,
+          totalPrice: Number(prodList?.attributes.total)-Number(prodList?.attributes?.meat_storage_amount?prodList?.attributes?.meat_storage_amount:0),
           shippingCharge: prodList?.attributes.shipping_charge
 
         })

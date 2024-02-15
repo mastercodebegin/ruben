@@ -33,9 +33,13 @@ interface ImageBoxType {
 const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
   <TouchableOpacity
     onPress={onPress}
-    style={[styles.boxContainer, selected && { backgroundColor: PRIMARY_COLOR },
+    disabled
+    style={[styles.boxContainer,   
+      { backgroundColor: selected?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY },
       {borderWidth:1,borderColor:PRIMARY_COLOR}]}
   >
+    {console.log('seleted==',selected)
+    }
     <Image
       resizeMode="contain"
       style={[{ height: 20, width: 20 , tintColor: selected ? BUTTON_COLOR_SECONDARY :PRIMARY_COLOR }]}
@@ -44,7 +48,7 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
     <Text
       style={[
         { paddingTop: 10, textAlign: "center" },
-        selected && { color: BUTTON_TEXT_COLOR_PRIMARY },
+          { color: selected?BUTTON_TEXT_COLOR_PRIMARY:BUTTON_TEXT_COLOR_SECONDARY },
       ]}
     >
       {text}
@@ -53,8 +57,11 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
 );
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount(){
-    this.getCart();
+    this.getCart(this.props.route.params?.selected);
     this.checkLifeTimeSubscription()
+    this.setState({selectedTab:this.props.route.params?.selected})
+    console.log('OrderSummary========',this.props.route.params?.selected);
+    
  }
   render() {
     const {address,phone_number, zip_code,name,email} = this.getAddressDetails()
@@ -118,22 +125,22 @@ export default class OrderSummary extends OrderSummaryController {
             />
             <View style={styles.imageContainer}>
               <ImageBox
-                selected={this.state.selectedTab === "delivery"}
+                selected={this.state.selectedTab === "delivery"?true:false}
                 text="Delivery"
-                onPress={() => this.setState({ selectedTab: "delivery" })}
+                 onPress={() => alert()}
                 image={deliveryIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
-                selected={this.state.selectedTab === "shipping"}
-                onPress={() => this.setState({ selectedTab: "shipping" })}
+                selected={this.state.selectedTab === "shipping"?true:false}
+                onPress={() => alert()}
                 text="Shipping/Mailing"
                 image={shippingIcon}
               />
               <View style={styles.seperator} />
               <ImageBox
-                selected={this.state.selectedTab === "pickup"}
-                onPress={() => this.setState({ selectedTab: "pickup" })}
+                selected={this.state.selectedTab === "pickup"?true:false}
+                onPress={() => alert()}
                 text="Pickup"
                 image={pickupIcon}
               />
@@ -190,16 +197,16 @@ export default class OrderSummary extends OrderSummaryController {
                 ]}
               />
             </View>
-              <View style={styles.deliverContainer}>
+            {this.state.selectedTab=='delivery' ?<View style={styles.deliverContainer}>
                 <Text style={[styles.deliverText,{color:TEXT_COLOR}]}>Deliver in 24hrs </Text>
-                <TouchableOpacity style={[styles.deliverPrice,
+               <TouchableOpacity style={[styles.deliverPrice,
                   {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} 
                   onPress={this.state.fastDeliveryApplied? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
                   <Text style={[styles.deliverPriceText,
                     {color:this.state.fastDeliveryPice ? BUTTON_TEXT_COLOR_SECONDARY:BUTTON_TEXT_COLOR_PRIMARY  }]}>
                     {this.state.fastDeliveryApplied ? "Remove" : "+ $25.00"}</Text>
                 </TouchableOpacity>
-              </View>
+              </View>:null}
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"

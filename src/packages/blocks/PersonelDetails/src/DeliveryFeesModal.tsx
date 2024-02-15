@@ -17,12 +17,14 @@ interface DeliveryFeesModalTypes {
   onpressContinue: () => void;
   visible: boolean;
   shippingFee:string
+  selectedTab:string
 }
 const DeliveryFeesModal = ({
   onpressClose,
   onpressContinue,
   visible,
-  shippingFee
+  shippingFee,
+  selectedTab
 }: DeliveryFeesModalTypes) => {
   return (
     <Modal visible={visible} transparent>
@@ -36,7 +38,7 @@ const DeliveryFeesModal = ({
               source={closeIcon}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>Delivery Fees</Text>
+          <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{selectedTab=='delivery'?'Delivery Fees':'Shipping Fees'}</Text>
           <Text style={[styles.description,{color:SECONDARY_TEXT_COLOR}]}>
             {
               `You'll be charge ${shippingFee} to deliver this products at your selected location.`

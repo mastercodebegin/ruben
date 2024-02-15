@@ -9,7 +9,7 @@ import {
 	FlatList,
 	ImageBackground,
 } from "react-native";
-import { APP_BACKGROUND, CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, TEXT_COLOR, WHITE, backGroundImage, badge } from "../assets";
+import { APP_BACKGROUND, CART, DARK_RED, LIGHT_GREY, MID_PEACH, PRIMARY, PRIMARY_COLOR, TEXT_COLOR, WHITE, backGroundImage, badge } from "../assets";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import { deviceHeight, deviceWidth } from "../../../../framework/src/Utilities";
 import LandingPageController, { Props } from "../LandingPageController";
@@ -75,9 +75,9 @@ export default class MyFavoritesScreen extends LandingPageController {
 																this.getFavorites()
 															}, 500);
 														}}
-														style={styles.badgeContainer}
+														style={[styles.badgeContainer,{backgroundColor:'white',borderWidth:1,borderColor:PRIMARY_COLOR}]}
 													>
-														<Image resizeMode="contain" style={styles.badge} source={badge} />
+														<Image resizeMode="contain" style={[styles.badge,{tintColor:PRIMARY_COLOR}]} source={badge} />
 													</TouchableOpacity>
 												</View>
 											</ImageBackground>
@@ -100,9 +100,9 @@ export default class MyFavoritesScreen extends LandingPageController {
 														onPress={() => {
 															this.addToCart(item?.attributes?.catalogue_id?.data.id)
 														}}
-														style={styles.FavcartContainer}
+														style={[styles.FavcartContainer,{backgroundColor:'white',borderWidth:1,borderColor:PRIMARY_COLOR}]}
 													>
-														<Image resizeMode="contain" style={styles.Favcart} source={CART} />
+														<Image resizeMode="contain" style={[styles.Favcart,{tintColor:PRIMARY_COLOR}]} source={CART} />
 													</TouchableOpacity>
 												</View>
 

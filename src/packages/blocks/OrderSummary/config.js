@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   exports.httpDeleteMethod = "DELETE";
   exports.httpPutMethod = "PUT";
   exports.ordersApiContentType = "application/json";
-  exports.getCart = "bx_block_shopping_cart/orders/order_alerts";
+  exports.getCart = "bx_block_shopping_cart/orders/order_alerts?type=";
   exports.getPersonelDetails='bx_block_order_management/addresses'
   exports.increaseCartQuantity =
     "bx_block_shopping_cart/orders/increase_product_quantity";

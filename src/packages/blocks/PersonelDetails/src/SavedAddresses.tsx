@@ -37,6 +37,7 @@ interface Props {
   showModal: boolean;
   stateList:any
   setShowModal: (va:boolean) => void;
+  selectedTab:any
 }
 interface State {
 }
@@ -47,6 +48,8 @@ export default class SavedAddresses extends Component<Props, State> {
     };
   }
   render() {
+    console.log('tab---',this.props.selectedTab);
+    
     return (
       <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
@@ -54,11 +57,11 @@ export default class SavedAddresses extends Component<Props, State> {
           <Text style={[styles.headerText, { textAlign: "center" ,flex:1,color:TEXT_COLOR}]}>
             {"CHOOSE FROM SAVED ADDRESS 2"}
             </Text>
-            <TouchableOpacity onPress={() => {
+            {this.props.selectedTab!=='pickup'?<TouchableOpacity onPress={() => {
               this.props.setShowModal(true)
             }} style={{marginLeft:10}}>
             <Image style={{height:25,width:25, tintColor:PRIMARY_COLOR}} source={closeIcon}/>
-            </TouchableOpacity>
+            </TouchableOpacity>:null}
           </View>
         </View>
         {
