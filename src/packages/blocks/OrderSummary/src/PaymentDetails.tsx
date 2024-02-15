@@ -42,7 +42,7 @@ const PaymentDetails = ({ header, list, footer, isSubscribed, isUserAlreadySubsc
             <View style={styles.flex}>
                 {isUserAlreadySubscribed ?
                     <Text style={styles.answer}>{footer?.ans}</Text> :
-                    <Text style={styles.answer}>{isSubscribed ? `$${Number(footer?.ans?.slice(1)) + 5}` : footer?.ans}</Text>
+                    <Text style={styles.answer}> {footer?.ans}</Text>
                 }
             </View>
         </View>
