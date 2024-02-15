@@ -270,6 +270,7 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
+        this.getCart(this.state.selectedTab)
         this.setState({isUserSubscriptionRequested:true,showLoader:false,showSubscriptionModal:false})
         
       }
@@ -291,6 +292,7 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
+        this.getCart(this.state.selectedTab)
         this.setState({isUserSubscriptionRequested:false,showLoader:false,showSubscriptionModal:false})
         
       }
@@ -833,19 +835,28 @@ SS
   getOrderDetailsArray(orderDetails:any) {
     const OrderDetailsList: any[] = [];   
  console.log('OrderDetailsList=======', orderDetails);
- 
     if (orderDetails?.subtotal && orderDetails?.total) {
 
       OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.subtotal)});
-      OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(5)})
+
+      if (orderDetails?.subscription_amount) {
+        OrderDetailsList.push({question : "Lifetime Subscription",ans:this.numberValue(orderDetails?.subscription_amount)})
+        this.setState({ isUserSubscriptionRequested:true})
+      }
+
       if (orderDetails?.shipping_charge) {
         OrderDetailsList.push({ question: "Shipping Charges", ans: this.numberValue(orderDetails?.shipping_charge) });
       }
-      if (orderDetails?.discount) {
-        OrderDetailsList.push({ question: "Discount", ans: this.numberValue(orderDetails?.discount) });
+
+      if (orderDetails?.delivery_fees) {
+        OrderDetailsList.push({ question: "Delivery Fees", ans: this.numberValue(orderDetails?.delivery_fees) });
       }
-      if (orderDetails) {
-        OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(25) });
+      if (orderDetails?.discountAmount) {
+        OrderDetailsList.push({ question: "Discount", ans: this.numberValue(orderDetails?.discountAmount) });
+      }
+    
+      if (orderDetails?.delivery_hrs) {
+        OrderDetailsList.push({ question: "Delivery in 24 hrs", ans: this.numberValue(orderDetails?.delivery_hrs) });
       }
    
       if (orderDetails?.meat_storage_amount) {
