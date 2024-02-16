@@ -86,7 +86,7 @@ export default class ProductDetailScreen extends LandingPageController {
              const res =  await this.addToCart(id,quantity,frequency);                          
               this.setState({showRecurringModal:false})
               setTimeout(() => {
-                if(res !=false){
+                if(res){
                   this.props.navigation.navigate('MyCart');
                 }
               }, 1000);
