@@ -271,8 +271,7 @@ export default class LandingPageController extends BlockComponent<
       fetchFavorites: false,
       selectedCategoryID: '',
       animalPortions: [],
-      subCategoryProductList: []
-
+      subCategoryProductList: [],
 
     };
     // Customizable Area End
@@ -1713,6 +1712,11 @@ export default class LandingPageController extends BlockComponent<
   async addToCart(id: number, quantity?: number, frequency?: string) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
+
+    if(userDetail?.meta?.token == undefined){
+      this.props.navigation.navigate("AuthenticationStack",{screen:"AuthenticationStack"});
+      return false;
+    }
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': userDetail?.meta?.token
