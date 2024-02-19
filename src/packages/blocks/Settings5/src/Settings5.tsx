@@ -20,7 +20,7 @@ import BottomTab from "../../landingpage/src/BottomTab/BottomTab";
 import Settings5Controller, {
   Props,
 } from "./Settings5Controller";
-import { APP_BACKGROUND, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 
 export default class Settings5 extends Settings5Controller {
   constructor(props: Props) {
@@ -107,7 +107,9 @@ export default class Settings5 extends Settings5Controller {
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Lifetime Subscription</Text>
                   <Switch
-                  
+                          trackColor={{false: 'gray', true: PRIMARY_COLOR}}
+
+                          thumbColor={ PRIMARY_COLOR}
                     testID="lifetime_subscription_test_id"
                     value={this.state.lifeTimeSubscription}
                     onValueChange={(value) => {
@@ -122,6 +124,8 @@ export default class Settings5 extends Settings5Controller {
                 <View style={styles.triggerContainer}>
                   <Text style={styles.options}>Cold Packaging Fee</Text>
                   <Switch
+                      trackColor={{false: 'gray', true: PRIMARY_COLOR}}
+                      thumbColor={ PRIMARY_COLOR}
                     testID="cold_packaging_test_id"
                     value={this.state.coldPackagingFee}
                     onValueChange={(value) => {
