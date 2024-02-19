@@ -19,7 +19,7 @@ import moment from "moment";
 import AnimalAnalytics from "./AnimalAnalytics";
 import {BarChart} from "react-native-chart-kit";
 
-import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, backArrow } from "../../landingpage/src/assets";
 
 import {
   DARK_RED,
@@ -111,7 +111,7 @@ export default class Analytics extends AnalyticsController {
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
                   <Image
                     style={styles.backImage}
-                    source={require("../../../components/src/arrow_left.png")}
+                    source={backArrow}
                   />
                 </TouchableOpacity>
                 <Text style={styles.headerText}>{"Analytics"}</Text>
@@ -192,10 +192,10 @@ export default class Analytics extends AnalyticsController {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: PRIMARY }}>
+                    <Text style={{ fontSize: 20, color: TEXT_COLOR }}>
                       {`${Math.floor(this.state.numberOfSpendCount)}`}
                     </Text>
-                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
+                    <Text style={{ fontSize: 20, color: TEXT_COLOR, fontWeight: "600" }}>
                       {`$${this.state.numberOfSpend}`}
                     </Text>
                   </View>
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     height: 375,
     backgroundColor: WHITE
   },
-  backImage: { height: 20, width: 20 },
+  backImage: { height: 20, width: 20,tintColor:PRIMARY_COLOR },
   totalIncome: {
     fontSize: 18, color: TEXT_COLOR, paddingBottom: 5, fontWeight: "600", paddingLeft: 16,
   },
