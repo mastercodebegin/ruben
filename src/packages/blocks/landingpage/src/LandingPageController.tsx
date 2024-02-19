@@ -13,6 +13,7 @@ import ImagePicker from "react-native-image-crop-picker";
 import { deepLinkingURL } from '../../../components/src/constants';
 import { store, validName, whiteSpace } from "../../../components/src/utils";
 import { showToast } from "../../../components/src/ShowToast";
+import PushNotificationsHelper from "../../pushnotifications/src/PushNotificationsHelper";
 const validInstagramLink = /^(https?:\/\/)?(www\.)?instagram\.com/;
 const validWhatssappLink = /^https?:\/\/wa\.me/;
 const validFacebookLink = /(?:https?:\/\/)?(?:www\.)?facebook\.com/;
@@ -270,8 +271,7 @@ export default class LandingPageController extends BlockComponent<
       fetchFavorites: false,
       selectedCategoryID: '',
       animalPortions: [],
-      subCategoryProductList: []
-
+      subCategoryProductList: [],
 
     };
     // Customizable Area End
@@ -1712,6 +1712,11 @@ export default class LandingPageController extends BlockComponent<
   async addToCart(id: number, quantity?: number, frequency?: string) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
+
+    if(userDetail?.meta?.token == undefined){
+      this.props.navigation.navigate("AuthenticationStack",{screen:"AuthenticationStack"});
+      return false;
+    }
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': userDetail?.meta?.token
@@ -1766,7 +1771,9 @@ export default class LandingPageController extends BlockComponent<
 
   async setNotificationToken() {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
-    const fcm_token: any = await AsyncStorage.getItem("fcm_token");
+    const notificationHelper = new PushNotificationsHelper();
+    notificationHelper.addListener(this.props.navigation)
+    const fcm_token = notificationHelper.getFcmToken()
     const data: any = JSON.parse(userDetails);
 
     const headers = {
