@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import LandingPageController from "../LandingPageController";
-import { DARK_RED, badge, MID_PEACH, TEXT_COLOR, SECONDARY_TEXT_COLOR, PRIMARY_COLOR, APP_BACKGROUND } from "../assets";
+import { DARK_RED, badge, MID_PEACH, TEXT_COLOR, SECONDARY_TEXT_COLOR, PRIMARY_COLOR } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import { SCREEN_WIDTH } from "../../../../components/src/constants";
