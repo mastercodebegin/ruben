@@ -8,9 +8,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
   const deliveryDate = item?.attributes?.delivery_date;
   const isOnGoing = item?.attributes?.status === "on_going";
   const isCancelled = item?.attributes?.status === "cancelled";
-  const newItem = selectedTab === "incoming" ? item : item;
-
-
+  const newItem = item;
   const dataList = [
     {
       name: "Order Number:",
