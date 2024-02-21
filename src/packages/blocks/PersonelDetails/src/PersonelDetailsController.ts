@@ -58,6 +58,7 @@ export default class PersonelDetailsController extends BlockComponent<
     ];
 
     this.state = {
+      stateList:[],
       showLoader: false,
       selectedAddress: null,
       selectedTab: "delivery",

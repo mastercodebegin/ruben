@@ -75,8 +75,8 @@ SS
     ];
 
     this.state = {
-      // isUserHasSubsCription:false,
-      // isUserSubscriptionRequested:false,
+      isUserHasSubsCription:false,
+      isUserSubscriptionRequested:false,
       showLoader: false,
       selectedAddress: 0,
       selectedTab: "delivery",
