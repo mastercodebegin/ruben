@@ -125,9 +125,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
             );
           })}
         </View>
-      ) : null}
-
-      {selectedTab != "incoming" && (
+      ) : 
         <View
           style={{
             paddingBottom: 15,
@@ -163,7 +161,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
             </View>
           </View>
         </View>
-      )}
+      }
     </>
   );
 };
