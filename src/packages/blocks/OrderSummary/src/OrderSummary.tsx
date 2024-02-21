@@ -38,8 +38,7 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
       { backgroundColor: selected?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY },
       {borderWidth:1,borderColor:PRIMARY_COLOR}]}
   >
-    {console.log('seleted==',selected)
-    }
+    
     <Image
       resizeMode="contain"
       style={[{ height: 20, width: 20 , tintColor: selected ? BUTTON_COLOR_SECONDARY :PRIMARY_COLOR }]}
@@ -71,7 +70,6 @@ export default class OrderSummary extends OrderSummaryController {
         { text: "CANCEL" },
       ]);
     };
-    const lifetimeSubscriptionCharge = this.state.subscriptionCharge;
 
     return (
       <SafeAreaView style={styles.safearea}>
@@ -183,7 +181,7 @@ export default class OrderSummary extends OrderSummaryController {
             </View>
             <View style={{ paddingTop: 20, }}>
               <MyDetails
-                header="MY DETAILS-"
+                header="MY DETAILS"
                 list={[
                   { question: "Name", ans: name  },
                   { question: "Email", ans:email },
@@ -197,20 +195,21 @@ export default class OrderSummary extends OrderSummaryController {
               />
             </View>
             {this.state.selectedTab=='delivery' ?<View style={styles.deliverContainer}>
+
                 <Text style={[styles.deliverText,{color:TEXT_COLOR}]}>Deliver in 24hrs </Text>
                <TouchableOpacity style={[styles.deliverPrice,
-                  {backgroundColor:this.state.fastDeliveryPice ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY }]} 
+                  {backgroundColor: BUTTON_COLOR_PRIMARY }]} 
                   onPress={this.state.fastDeliveryApplied? this.removeFastDelivery.bind(this) : this.addFastDelivery.bind(this)}>
                   <Text style={[styles.deliverPriceText,
-                    {color:this.state.fastDeliveryPice ? BUTTON_TEXT_COLOR_SECONDARY:BUTTON_TEXT_COLOR_PRIMARY  }]}>
-                    {this.state.fastDeliveryApplied ? "Remove" : "+ $25.00"}</Text>
+                    {color:BUTTON_TEXT_COLOR_PRIMARY  }]}>
+                    {this.state.fastDeliveryPice ? "Remove" : "+ $25.00"}</Text>
                 </TouchableOpacity>
               </View>:null}
             <View style={{marginTop: 20}}>
               <PaymentDetails
                 header="PAYMENT DETAILS"
                 list={this.state.billingDetails}
-                footer={{question: "Total", ans: `$${this.state.fastDeliveryApplied? Number(this.state.totalPrice)+25:Number(this.state.totalPrice)}`}}
+                footer={{question: "Total", ans: this.state.totalPrice}}
                 isUserAlreadySubscribed={this.state.isUserHasSubsCription}
                 isSubscribed={this.state.isUserSubscriptionRequested?true:false}
                 is24HourDelivery={this.state.fastDeliveryApplied}

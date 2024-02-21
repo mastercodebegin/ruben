@@ -40,7 +40,7 @@ interface S {
   orderDetails: any;
   totalPrice: number | string;
   billingDetails: any[];
-  fastDeliveryPice: null | number;
+  fastDeliveryPice: boolean;
   screenError: boolean;
   showSubscriptionModal:boolean;
   deliveryDetails: {
@@ -75,6 +75,8 @@ SS
     ];
 
     this.state = {
+      // isUserHasSubsCription:false,
+      // isUserSubscriptionRequested:false,
       showLoader: false,
       selectedAddress: 0,
       selectedTab: "delivery",
@@ -98,7 +100,7 @@ SS
       orderDetails: {},
       totalPrice: 0,
       billingDetails: [],
-      fastDeliveryPice: null,
+      fastDeliveryPice: false,
       screenError: false,
       showSubscriptionModal:false,
       deliveryDetails: {
@@ -359,12 +361,14 @@ SS
         
         const totalPrice = billingDetails?.total;
         const fastDelivery = billingDetails?.delivery_hrs;
+        console.log('delivery_hrs===',fastDelivery);
+        
         const lifetimeSubscription = billingDetails?.life_time_subscription !== null;
         this.setState({
           show_modal: false,
           orderDetails: billingDetails,
           billingDetails: list,
-          fastDeliveryPice: fastDelivery || null,
+          fastDeliveryPice: fastDelivery!=null?true:false,
           lifetimeSubscription: lifetimeSubscription,
           showLoader: false,
           showSubscriptionModal:false,
@@ -439,7 +443,7 @@ SS
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getCart}${deliverytype}`
+      `${configJSON.getCart}${this.state.selectedTab}`
     );
 
     subcategory.addData(
@@ -629,12 +633,14 @@ SS
       const list = this.getOrderDetailsArray(paymentData);
       const totalPrice = paymentData?.total;
       const fastDelivery = paymentData?.delivery_hrs;
+      console.log('fastDelivery order',fastDelivery);
+      
       const lifetimeSubscription = paymentData?.life_time_subscription !== null;
       this.setState({
         show_modal: false,
         orderDetails: paymentData,
         billingDetails: list,
-        fastDeliveryPice: fastDelivery || null,
+        fastDeliveryPice: fastDelivery!=null?true:false,
         lifetimeSubscription: lifetimeSubscription,
         showLoader: false,
         showSubscriptionModal:false,
@@ -834,7 +840,6 @@ SS
   }
   getOrderDetailsArray(orderDetails:any) {
     const OrderDetailsList: any[] = [];   
- console.log('OrderDetailsList=======', orderDetails);
     if (orderDetails?.subtotal && orderDetails?.total) {
 
       OrderDetailsList.push({question:'Subtotal', ans:this.numberValue(orderDetails?.subtotal)});
