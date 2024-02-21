@@ -13,7 +13,6 @@ import { pig, pigBackfat, pigHead, pigHock, pigJowl, pigLeg, pigLoin, pigNeck, p
 
 import AnalyticsController, {AnimalParts, Props} from "./AnalyticsController";
 import AnimalChart from "../../../components/src/AnimalChart";
-import { PRIMARY_COLOR } from "../../landingpage/src/assets";
 export default class AnimalPig extends AnalyticsController {
   constructor(props: Props) {
     super(props);
@@ -132,7 +131,7 @@ export default class AnimalPig extends AnalyticsController {
             </View>
             <View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
-                <View style={[styles.redDot, { backgroundColor: PRIMARY_COLOR, }]}>
+                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
                 </View>
                 <Text style={styles.textStyle}>Remaining</Text>
               </View>

@@ -71,7 +71,6 @@ export default class Contactus extends ContactusController {
                 this.setState({ email: "" })
                  this.setState({ name: "" })
                  this.setState({ comments: "" })
-                 this.props.navigation.goBack()
               }}
             />
             <Text style={styles.reachOut}>{"or reach out us on"}</Text>
