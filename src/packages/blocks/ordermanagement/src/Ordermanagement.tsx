@@ -85,6 +85,7 @@ export default class Ordermanagement extends OrdermanagementController {
                 }
                 renderItem={({ item }) => (
                   <RenderItem
+                    selectedTab={this.state.selected}
                     acceptDeclineOrders={this.acceptDeclineOrders.bind(this)}
                     item={item}
                   />
