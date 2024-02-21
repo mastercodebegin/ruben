@@ -41,13 +41,14 @@ export default class PushNotificationsHelper {
 
 
 
-  addListener() {
+  addListener(navigation:any) {
     //when app is in background if we came from notification onNotificationOpenedApp will called
     this.messageInstance.onNotificationOpenedApp(async (remoteMessage) => {
       console.log(
         "message from remote notification ",
         remoteMessage.notification
       );
+      navigation.navigate("MyOrdersScreen");
     });
     //while app is in alive state onMessage function will be called
     this.messageInstance.onMessage(async (remoteMessage) => {

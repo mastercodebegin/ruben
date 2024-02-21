@@ -49,13 +49,6 @@ const PaymentCustomeAlert = ({
       <View style={styles.blur} testID={testID} />
       <View style={styles.main}>
         <View style={styles.innerContainer}>
-          <TouchableOpacity onPress={onpressClose} testID="closePaymentAlert" style={styles.closeButton} >
-            <Image
-              style={[styles.closeImage,{tintColor:PRIMARY_COLOR}]}
-              resizeMode="contain"
-              source={closeIcon}
-            />
-          </TouchableOpacity>
           {isLoading ? (
             <>
             <View><ActivityIndicator size="large"/></View>

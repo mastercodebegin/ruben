@@ -25,7 +25,7 @@ import RenderCategories from "./RenderCategories";
 import SortingDropdown from "../../../../components/src/SortingDropdown";
 
 export class ExplorePage extends LandingPageController {
-  constructor(props: any) {
+  constructor(props: any) {    
     super(props);
     this.receive = this.receive.bind(this);
   }
@@ -242,7 +242,8 @@ export class ExplorePage extends LandingPageController {
             />
           )}
         </View>
-        <BottomTab navigation={this.props.navigation} tabName={"Explore"} />
+        {this?.props?.route?.params?.isLogin &&
+        <BottomTab navigation={this.props.navigation} tabName={"Explore"} />}
         {this.state.show_loader && (
           <CommonLoader visible={this.state.show_loader} />
         )}

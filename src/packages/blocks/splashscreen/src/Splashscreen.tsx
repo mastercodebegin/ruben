@@ -25,7 +25,7 @@ export default class Splashscreen extends SplashscreenController {
 
   // Customizable Area Start
   onPressContinue = () => {
-    this.props.navigation.navigate("AuthenticationStack",{screen:"AuthenticationStack"});
+    this.props.navigation.navigate("ExplorePage",{isLogin:false});
   };
   // Customizable Area End
 
