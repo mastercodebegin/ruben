@@ -67,9 +67,7 @@ export default class Contactus extends ContactusController {
                 fontWeight: "normal",
               }}
               style={styles.button}
-              onPress={() => {
-                this.props.navigation.goBack()
-              }}
+              onPress={() => this.goBack()}
             />
             <Text style={styles.reachOut}>{"or reach out us on"}</Text>
 
