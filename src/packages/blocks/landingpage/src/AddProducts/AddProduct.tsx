@@ -12,11 +12,11 @@ import {
   ImageBackground,
   Alert,
   KeyboardAvoidingView,
-  
+
 } from "react-native";
 import LandingPageController from "../LandingPageController";
 import {
-  
+
   LIGHT_GREY,
   close,
   backArrow,
@@ -57,7 +57,7 @@ export default class AddProducts extends LandingPageController {
   }
   render() {
     return (
-      <SafeAreaView style={[styles.safeArea,{backgroundColor:APP_BACKGROUND}]}>
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: APP_BACKGROUND }]}>
         <KeyboardAvoidingView behavior="padding" style={styles.main}>
           <View style={styles.headerContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -118,6 +118,7 @@ export default class AddProducts extends LandingPageController {
                       containerStyle={styles.containerStyle}
                       data={this.state.categoryList}
                       maxHeight={400}
+                      itemContainerStyle={{ padding: 8, paddingLeft: 20 }}
                       labelField="title"
                       valueField="title"
                       placeholder={this.state.categoryItem ? this.state.categoryItem : 'Select item'}
@@ -131,7 +132,7 @@ export default class AddProducts extends LandingPageController {
                           ...list[index],
                           category_id: item?.id,
                         };
-                        this.setState({ productsList: list, categoryItem: item.title,subCategoryList:[],subCategoryItem:'' })
+                        this.setState({ productsList: list, categoryItem: item.title, subCategoryList: [], subCategoryItem: '' })
                       }}
                       renderItem={(item: any) => {
                         return (
@@ -152,6 +153,7 @@ export default class AddProducts extends LandingPageController {
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
                       containerStyle={styles.containerStyle}
+                      itemContainerStyle={{ margin: 8 }}
                       data={this.state.subCategoryList}
                       maxHeight={400}
                       labelField="title"
@@ -266,18 +268,18 @@ export default class AddProducts extends LandingPageController {
               );
             }}
             ListFooterComponent={() => (
-              <View style={{height:200}}>
+              <View style={{ height: 200 }}>
                 <Button style={styles.buttonStyle} onPress={() => { this.addProduct() }} label={PUBLISH_NOW} />
-                <Button style={[styles.buttonStyle,{backgroundColor:APP_BACKGROUND,color:BUTTON_TEXT_COLOR_SECONDARY}]} transparentBackground onPress={() => { this.props.navigation.navigate('ExplorePage') }} label={CANCEL} />
+                <Button style={[styles.buttonStyle, { backgroundColor: APP_BACKGROUND, color: BUTTON_TEXT_COLOR_SECONDARY }]} transparentBackground onPress={() => { this.props.navigation.navigate('ExplorePage') }} label={CANCEL} />
               </View>
             )}
           />
           {this.state.show_loader && (
-          <CommonLoader visible={this.state.show_loader}/>
-        )}  
+            <CommonLoader visible={this.state.show_loader} />
+          )}
         </KeyboardAvoidingView>
-            
-        </SafeAreaView>
+
+      </SafeAreaView>
     );
   }
 }
