@@ -140,10 +140,6 @@ export default class ContactusController extends BlockComponent<Props, S, SS> {
   }
 
   // Customizable Area Start
-  goBack(){
-    this.props.navigation.goBack()
-
-  }
   txtNameProps = {
     onChangeText: (text: string) => {
       this.setState({ name: text });
