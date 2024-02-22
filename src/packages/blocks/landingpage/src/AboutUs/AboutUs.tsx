@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import LandingPageController from "../LandingPageController";
-import { DARK_RED, badge, MID_PEACH, TEXT_COLOR, SECONDARY_TEXT_COLOR } from "../assets";
+import { DARK_RED, badge, MID_PEACH, TEXT_COLOR, SECONDARY_TEXT_COLOR, PRIMARY_COLOR } from "../assets";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import { SCREEN_WIDTH } from "../../../../components/src/constants";
@@ -133,7 +133,7 @@ export default class AboutUs extends LandingPageController {
                       {this.state.productList[0]?.attributes?.description}
                     </Text>
                     <TouchableOpacity testID="add_to_fav_test_id" onPress={()=>this.AddToFavorites(this.state.productList[0]?.id)} style={styles.badgeContainer}>
-                      <Image source={badge} style={styles.badge} />
+                      <Image source={badge} style={[styles.badge,{tintColor:PRIMARY_COLOR}]} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -181,10 +181,10 @@ const styles = StyleSheet.create({
   },
   badgeContainer: {
     borderWidth: 1,
-    borderColor: DARK_RED,
+    borderColor: PRIMARY_COLOR,
     borderRadius: 50,
     padding: 7,
-    backgroundColor: "#F9F4F3",
+    backgroundColor: "white",
   },
   featured: {
     fontWeight: "700",
