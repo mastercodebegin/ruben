@@ -17,12 +17,14 @@ const Trigger = ({
       Animated.timing(animatedValue, {
         duration: 600,
         toValue: 22,
+        useNativeDriver:true
       }).start(() => setValue(true));
       return;
     }
     Animated.timing(animatedValue, {
       duration: 600,
       toValue: 3,
+      useNativeDriver:true
     }).start(() => setValue(false));
   };
   return (
