@@ -17,12 +17,7 @@ const PaymentDetails = ({ header, list, footer, isSubscribed, isUserAlreadySubsc
             </View>}
         {
             list.map((item) => {
-                console.log('===============', item.question)
-                console.log('===============', is24HourDelivery)
-
-                return (item.question == 'Lifetime Subscription' && !isSubscribed ||
-                    item.question == 'Lifetime Subscription' && isUserAlreadySubscribed ||
-                    item.question == 'Delivery in 24 hrs' && !is24HourDelivery ? null :
+                return (
                     <View style={styles.myDetailContainer} key={item?.question}>
                         <View style={styles.flex}>
                             <Text style={styles.question}>{item?.question}</Text>

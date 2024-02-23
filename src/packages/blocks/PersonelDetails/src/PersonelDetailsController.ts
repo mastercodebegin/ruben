@@ -58,6 +58,7 @@ export default class PersonelDetailsController extends BlockComponent<
     ];
 
     this.state = {
+      stateList:[],
       showLoader: false,
       selectedAddress: null,
       selectedTab: "delivery",
@@ -441,6 +442,8 @@ date.setDate(date.getDate() + 3);
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
+    this.setState({ showLoader: false, show_modal: true });
+return
     const headers = {
       token: data?.meta?.token,
     };

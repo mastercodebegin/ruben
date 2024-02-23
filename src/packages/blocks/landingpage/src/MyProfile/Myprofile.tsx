@@ -262,7 +262,7 @@ export default class Myprofile extends LandingPageController {
                   <Text numberOfLines={3} style={styles.description}>
                     {this.state.about_me}
                   </Text>
-                  <Text style={styles.headerText}>MY CONTACTS</Text>
+                  <Text style={styles.headerText}>MY CONTACTS </Text>
                   <View style={styles.contact}>
                     <Image
                       resizeMode="contain"
@@ -554,7 +554,7 @@ export const styles = StyleSheet.create({
     height: 120,
     width: 120,
     borderWidth: 2,
-    borderColor: DARK_RED,
+    borderColor: PRIMARY_COLOR,
     borderRadius: 8,
     overflow: "hidden",
     marginBottom: 10,

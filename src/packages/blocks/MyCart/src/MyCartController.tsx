@@ -205,12 +205,43 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       }
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.meat_storage_amount));
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.discountAmount));
-      
+      console.log('delivery_hrs >>>>>>>>>>>>>>>>>>>>>>>>>>>>',JSON.stringify(prodList?.attributes?.delivery_hrs));
+          const meat_storage_amount= Number(prodList?.attributes?.meat_storage_amount)
+         const delivery_hrs=Number(prodList?.attributes?.delivery_hrs?prodList?.attributes?.delivery_hrs:0)
+         console.log('meat_storage_amount====',meat_storage_amount);
+         console.log('delivery_hrs====',delivery_hrs);
+         console.log('meat_storage_amount typeof====',typeof meat_storage_amount);
+
       if (prodList?.attributes?.order_items?.data?.length) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: prodList?.attributes?.order_items?.data });
         const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
           const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
           const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+
+        //   const meat_storage_amount= Number(prodList?.attributes?.meat_storage_amount)
+        //  const delivery_hrs=Number(prodList?.attributes?.delivery_hrs?prodList?.attributes?.delivery_hrs:0)
+        //  console.log('meat_storage_amount====',meat_storage_amount);
+        //  console.log('delivery_hrs====',delivery_hrs);
+        //  console.log('meat_storage_amount typeof====',typeof meat_storage_amount);
+        // let  total =0
+        //  if(delivery_hrs!==null)
+        //  {
+        //    total = delivery_hrs+meat_storage_amount - Number(prodList?.attributes.total)
+        //    console.log('totalb1===',total);
+           
+        //    this.setState({totalPrice:total})
+
+          
+        // }
+      //   if(delivery_hrs==null)
+      //   {
+      //     total = meat_storage_amount - Number(prodList?.attributes.total)
+      //     console.log('totalb11===',total);
+
+      //     this.setState({totalPrice:total})
+
+      //  }
+         
           if (nameA < nameB) {
             return -1;
           }
@@ -223,12 +254,15 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
           productsList: sortedProductList,
           order_id: prodList?.id,
           showLoader: false,
+          totalPrice:Number(prodList?.attributes?.total)-Number(prodList?.attributes?.delivery_hrs?prodList?.attributes?.delivery_hrs:0)-Number(prodList?.attributes?.meat_storage_amount)-Number(prodList?.attributes?.subscription_amount?prodList?.attributes?.subscription_amount:0),
           subTotal: prodList?.attributes.subtotal,
-          totalPrice: Number(prodList?.attributes.total)-Number(prodList?.attributes?.meat_storage_amount?prodList?.attributes?.meat_storage_amount:0),
           shippingCharge: prodList?.attributes.shipping_charge
+          
 
         })
       } else {
+        console.log('else====================');
+        
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
         this.props.navigation.pop()
       }

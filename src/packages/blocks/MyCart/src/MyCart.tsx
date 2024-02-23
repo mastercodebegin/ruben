@@ -102,7 +102,7 @@ export default class MyCart extends MyCartController {
                     </View> : null }
                    {this.state.discountPrice ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Discount</Text>
-                      <Text style={styles.answer}>{`-$${this.state.discountPrice}`}</Text>
+                      <Text style={styles.answer}>{`$${this.state.discountPrice}`}</Text>
                     </View> : null}
                     {this.state.shippingCharge ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Shipping Charges</Text>
@@ -111,7 +111,7 @@ export default class MyCart extends MyCartController {
                     {
                       this.state.product_discount ? <View style={styles.row}>
                       <Text style={styles.paymentText}>Product Discount</Text>
-                      <Text style={styles.answer}>{`-$${this.state.product_discount.toFixed(2)}`}</Text>
+                      <Text style={styles.answer}>{`$${this.state.product_discount.toFixed(2)}`}</Text>
                     </View> : null
                     }
                   </View>

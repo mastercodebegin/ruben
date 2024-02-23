@@ -108,7 +108,7 @@ export class ExplorePage extends LandingPageController {
                     />
                     <TextInput
                       style={styles.textInput}
-                      placeholder="Search any Product/Video.."
+                      placeholder="Search any Product"
                       placeholderTextColor={TEXT_COLOR}
                       value={this.state.searchText}
                       testID="productSearch"

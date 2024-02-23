@@ -131,12 +131,12 @@ export default class AnimalPig extends AnalyticsController {
             </View>
             <View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
-                <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
+                <View style={[styles.redDot, { backgroundColor: '#A9C9F7', }]}>
                 </View>
                 <Text style={styles.textStyle}>Remaining</Text>
               </View>
               <View style={styles.rowContainer}>
-                <View style={[styles.redDot, { backgroundColor: '#5C2221', }]}>
+                <View style={[styles.redDot, { backgroundColor: '#A9C9F7', }]}>
                 </View>
                 <Text style={styles.textStyle}>Sold</Text>
               </View>
