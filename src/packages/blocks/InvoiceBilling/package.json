@@ -20,6 +20,11 @@
       "pre-commit": "lint-staged"
     }
   },
+  "resolutions": {
+    "@types/react": "16.9.11",
+    "@types/react-native": "0.60.22",
+    "@types/node": "18.11.19"
+    },
   "devDependencies": {
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
