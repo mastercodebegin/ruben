@@ -233,7 +233,7 @@ export default class OrderSummary extends OrderSummaryController {
                       : <Text style={[styles.meatStoragePrice, { color: isSelected ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY }]}>{`$${item?.price}`}<Text style={styles.monthText}>{'/Month'}</Text></Text>}
                   </View>
                   
-                 }
+                 
                    <RenderHtml
                       source={{ html: item?.description }}
                       contentWidth={this.state.width}
