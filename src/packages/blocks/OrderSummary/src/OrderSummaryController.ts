@@ -8,7 +8,7 @@ import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Alert} from "react-native";
 import {showToast} from "../../../components/src/ShowToast";
-
+import {Dimensions} from 'react-native'
 const configJSON = require("../config.js");
 export interface Props {
   navigation: any;
@@ -53,6 +53,7 @@ interface S {
   fastDeliveryApplied: boolean;
   isUserHasSubsCription:boolean;
   isUserSubscriptionRequested:boolean
+  width:any
 }
 
 interface SS {
@@ -75,6 +76,7 @@ SS
     ];
 
     this.state = {
+      width:Dimensions.get('window').width,
       isUserHasSubsCription:false,
       isUserSubscriptionRequested:false,
       showLoader: false,
