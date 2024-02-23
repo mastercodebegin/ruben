@@ -196,7 +196,7 @@ defineFeature(feature, (test) => {
         render(<RenderItem item={data} />);
       })
       const increaseBtn = jest.fn();
-      const { getByTestId } = render(<RenderItem item={apiResponse.data[0]} acceptDeclineOrders={increaseBtn} />);
+      const { getByTestId } = render(<RenderItem item={apiResponse.data[0]} acceptDeclineOrders={increaseBtn} selectedTab="incoming" />);
       fireEvent.press(getByTestId('decline_test_id'));
       fireEvent.press(getByTestId('accept_test_id'));
       expect(increaseBtn).toBeCalled()

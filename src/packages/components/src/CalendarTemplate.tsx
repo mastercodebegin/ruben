@@ -98,6 +98,7 @@ const CalendarTemplate = ({
     Animated.timing(AnimatedValue, {
       duration: 700,
       toValue: value,
+      useNativeDriver:true
     }).start();
   };
   const headerComponent = () => (
