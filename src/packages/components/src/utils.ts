@@ -172,11 +172,11 @@ const reducer = (state = initialState, action: any) => {
       const dayData:any = { color: LIGHT_GREY, textColor: DARK_RED };
       if (currentDate.getTime() === startDate.getTime()) {
       dayData.startingDay = true;
-      dayData.color = PRIMARY;
+      dayData.color = "#A9C9F7";
       dayData.textColor = "white";
     } else if (currentDate.getTime() === endDate.getTime()) {
       dayData.endingDay = true;
-      dayData.color = PRIMARY;
+      dayData.color = "#A9C9F7";
       dayData.textColor = "white";
       dayData.dotColor = "white";
     }

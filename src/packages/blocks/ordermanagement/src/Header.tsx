@@ -52,6 +52,7 @@ export const MyOrderHeader = ({
     Animated.timing(AnimatedValue, {
       duration: 700,
       toValue: value,
+      useNativeDriver:true
     }).start();
   };
   return (

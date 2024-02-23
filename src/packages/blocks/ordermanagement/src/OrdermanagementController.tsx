@@ -124,8 +124,8 @@ export default class OrdermanagementController extends BlockComponent<
         showToast("Some error occurred!");
         this.setState({ showLoader: false });
       } else {
-        const incomingOrders = this.filterByStatus(response?.data);
-        this.handleIncomingPagination(incomingOrders.incomingOrders,response?.meta?.total_pages);
+        const incomingOrders = response.data.attributes.all_orders;
+        this.handleIncomingPagination(incomingOrders,response?.meta?.total_pages);
       }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -180,11 +180,15 @@ export default class OrdermanagementController extends BlockComponent<
   }
   // Customizable Area Start
 
-  handleLoadMoreDebounced = debounce(this.getIncomingOrders.bind(this), 500); 
+  handleLoadMoreDebounced = debounce(() => {
+    this.setState({incomingCurrentPage:this.state.incomingCurrentPage+1})
+    this.getIncomingOrders();
+  }
+  , 500);
 
   handleIncomingPagination(res: any[], totalPage: number) {
 
-    const arr = [...this.state.incomingOrders, ...res]
+    const arr = this.state.incomingOrders.concat(res);
     const filterData = arr.filter(order=>order?.id!=this.state.order_number)
     
     if (res.length) {
@@ -194,7 +198,6 @@ export default class OrdermanagementController extends BlockComponent<
         showLoader: false,
         searchText:'',
         incomingTotalPage: totalPage,
-        incomingCurrentPage: this.state.incomingCurrentPage + 1,
         fetchMoreIncoming:
           this.state.incomingCurrentPage !== this.state.incomingTotalPage,
           showPaginationLoader:false
@@ -292,7 +295,7 @@ export default class OrdermanagementController extends BlockComponent<
       return;
     }
     
-    this.setState({ showPaginationLoader: true, });
+    this.setState({ showPaginationLoader: true,showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -443,8 +446,9 @@ export default class OrdermanagementController extends BlockComponent<
     if (tabName === 'previous' ) {
       this.getPreviousOrders();
       this.setState({incomingOrders:[]})
+    }else{
+    this.getIncomingOrders();
     }
-    this.getIncomingOrders()
     this.setState({ selected: tabName , searchResult:[],isSearching:false,previousOrders:[] });
   }
 
