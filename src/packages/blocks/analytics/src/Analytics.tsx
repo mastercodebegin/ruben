@@ -110,7 +110,7 @@ export default class Analytics extends AnalyticsController {
               <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()} testID="goback_navigation">
                   <Image
-                    style={styles.backImage}
+                    style={[styles.backImage,{tintColor:PRIMARY_COLOR}]}
                     source={require("../../../components/src/arrow_left.png")}
                   />
                 </TouchableOpacity>
@@ -192,10 +192,10 @@ export default class Analytics extends AnalyticsController {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Text style={{ fontSize: 20, color: PRIMARY }}>
+                    <Text style={{ fontSize: 20, color: TEXT_COLOR }}>
                       {`${Math.floor(this.state.numberOfSpendCount)}`}
                     </Text>
-                    <Text style={{ fontSize: 20, color: DARK_RED, fontWeight: "600" }}>
+                    <Text style={{ fontSize: 20, color: TEXT_COLOR, fontWeight: "600" }}>
                       {`$${this.state.numberOfSpend}`}
                     </Text>
                   </View>
