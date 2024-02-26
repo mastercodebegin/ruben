@@ -214,9 +214,12 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
 
       if (prodList?.attributes?.order_items?.data?.length) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: prodList?.attributes?.order_items?.data });
+        
         const sortedProductList = prodList?.attributes?.order_items?.data.sort(function (a: any, b: any) {
-          const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
-          const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode.toUpperCase();
+   
+          
+          const nameA = a.attributes?.catalogue?.data?.attributes?.categoryCode?.toUpperCase();
+          const nameB = b.attributes?.catalogue?.data?.attributes?.categoryCode?.toUpperCase();
 
         //   const meat_storage_amount= Number(prodList?.attributes?.meat_storage_amount)
         //  const delivery_hrs=Number(prodList?.attributes?.delivery_hrs?prodList?.attributes?.delivery_hrs:0)
