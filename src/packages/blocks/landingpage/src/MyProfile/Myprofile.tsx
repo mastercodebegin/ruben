@@ -183,7 +183,7 @@ export default class Myprofile extends LandingPageController {
               uri: this.getImage(),
             }}
           />
-        ) : <></>}
+        ) : <View style={ styles.profileImage}></View>}
       </>
     )
   }

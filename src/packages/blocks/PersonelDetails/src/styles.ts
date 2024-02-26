@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   availableText: { color: DARK_RED, fontSize: 17, paddingVertical: 15 },
-  address: { fontSize: 16, color: DARK_RED, paddingHorizontal: 12 },
+  address: { fontSize: 16, color: DARK_RED, paddingHorizontal: 0 },
   slots: { marginTop: 20, paddingBottom: 20 },
   container: { paddingHorizontal: 15 },
   estimation: {
