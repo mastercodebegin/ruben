@@ -51,7 +51,9 @@ export default class SavedAddresses extends Component<Props, State> {
     console.log('tab---',this.props.selectedTab);
     
     return (
-      <View style={[styles.myDetail, { paddingBottom: 10 }]}>
+      <> 
+      {this.props.selectedTab!=='pickup'?
+        <View style={[styles.myDetail, { paddingBottom: 10 }]}>
         <View style={styles.seperatorLine}>
           <View style={{flexDirection:"row",alignItems:"center"}}>
           <Text style={[styles.headerText, { textAlign: "center" ,flex:1,color:TEXT_COLOR}]}>
@@ -67,12 +69,13 @@ export default class SavedAddresses extends Component<Props, State> {
         {
               (this.props.addressList.length === 0)?(
                 <Text style={{fontSize:17,paddingTop:20,textAlign:'center'}}>
-                  {'No address added'}
+                  {'No address added '}
                 </Text>
               ):
               <>
               {this.props.addressList.map((item, index) => {          
           return (
+            
             <RenderAddress
               checked={this.props.selectedAddress === index}
               setChecked={() => {
@@ -91,12 +94,14 @@ export default class SavedAddresses extends Component<Props, State> {
 
         <TouchableOpacity onPress={() => {
         }} style={[styles.delivery,{backgroundColor:BUTTON_COLOR_PRIMARY}]}>
-          <Text style={{ color: BUTTON_TEXT_COLOR_PRIMARY }}>{'Delivery'}</Text>
+          <Text style={{ color: BUTTON_TEXT_COLOR_PRIMARY }}>{'Delivery '}</Text>
         </TouchableOpacity>
         {this.props.showModal ? <AddAddressModal isLoading={this.props.isLoading}
          addAddress={ this.props.addAddress} stateList={this.props.stateList}
          setVisible={()=>this.props.setShowModal(false)} visible={this.props.showModal}  /> : null}
-      </View>
+      </View>:<></>
+        }
+      </>
     );
   }
 }

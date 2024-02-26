@@ -185,14 +185,14 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     }
   }
   getStatus(status: string) {
-    if (status === 'success') {
+    if (status === 'Success') {
       return 'completed'
     }
-    if (status === 'pending') {
+    if (status === 'Pending') {
       return 'scheduled'
     }
 
-    if (status === 'canceled') {
+    if (status === 'Cancelled') {
       return 'cancelled'
     }
   }

@@ -166,7 +166,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                   console.log('val--',val)}
                   
                   }
-                    addressList={this.state.addressList}
+                    addressList={[{attributes:{address_type:'OFFICE'} }]}
                     setSelectedAddress={(index:any,value:any) => {
                       if(index !== this.state.selectedAddress){
                         this.addAddressToTheOrder(index)

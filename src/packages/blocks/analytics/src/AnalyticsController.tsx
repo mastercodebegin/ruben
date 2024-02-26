@@ -158,6 +158,7 @@ interface S {
   pigRibs: boolean;
   pigLoin: boolean;
   pigBackFat: boolean;
+  cuts: Array<object>;
   totalCuts: number;
   usedCuts: number;
   remianingCuts: number;
@@ -271,6 +272,13 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigRibs: false,
       pigLoin: false,
       pigBackFat: false,
+      cuts:[
+        {
+          cuts_name: "pigHead",
+          sold: 44,
+          remaining: 27
+        },
+      ],
       chartObject: {
         labels: this.formattedDateRange(today.toString()),
         datasets: [
@@ -514,7 +522,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     return result;
   }
 
-  soldChart(type: AnimalParts ) {
+  soldChart(type: AnimalParts,data:any ) {
     const typesProps:{ [key in AnimalParts]: Partial<SoldChartI>} = {
       [AnimalParts.cow_Defult]: {
         isShow: false,
@@ -677,7 +685,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         isShow: true,
         x: 40,
         y: 25,
-        lineHeight: 40
+        lineHeight: 40,
+        sold:data.sold,
+        remaining:data.remaining
       },
       [AnimalParts.pigJowl]: {
         isShow: true,
@@ -842,8 +852,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Brisket: false,
       [partOfCow]: true,
     });
-
-    this.soldChart(partOfCow);
+    const data = this.state.cuts.find((item: any) => item.cuts_name === partOfCow);
+    this.soldChart(partOfCow,data);
   }
 
   // Chicken
@@ -860,7 +870,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       chicken_tail: false,
       [partOfChicken]: true
     });
-    this.soldChart(partOfChicken);
+    const data = this.state.cuts.find((item: any) => item.cuts_name === partOfChicken);
+    this.soldChart(partOfChicken,data);
   }
 
   onPigClick(partOfPig: PigParts){
@@ -880,7 +891,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigBackFat: false,
       [partOfPig]:true,
     });
-    this.soldChart(partOfPig);
+    const data = this.state.cuts.find((item: any) => item.cuts_name === partOfPig);
+    this.soldChart(partOfPig,data);
   }
 
   getDataOfCat(item: any) {

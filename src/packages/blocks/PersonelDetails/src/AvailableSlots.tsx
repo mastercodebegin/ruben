@@ -36,11 +36,9 @@ const AvailableSlots = ({ address, list = [] }: AvailableSlotsTypes) => {
         <CheckBox checked setChecked={() => { }} />
         <View style={{flexDirection:"row",flex:1}}>
         <Text
-          numberOfLines={1}
-          style={styles.address}
-        >{`Pick Up ( ${address||''}`}
+          style={[styles.address,{color:TEXT_COLOR,marginLeft:10}]}
+        >{`Pick Up ( 10700 Hanna St, Beltsville, MD 20705, United States )`}
           </Text>
-          <Text>{')'}</Text>
         </View>
       </View>
       <View style={styles.container}>

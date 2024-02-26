@@ -242,7 +242,7 @@ export class ExplorePage extends LandingPageController {
             />
           )}
         </View>
-        {this?.props?.route?.params?.isLogin &&
+        {this?.props?.route?.params?.isLogin==undefined &&
         <BottomTab navigation={this.props.navigation} tabName={"Explore"} />}
         {this.state.show_loader && (
           <CommonLoader visible={this.state.show_loader} />

@@ -9,6 +9,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 // Customizable Area Start
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { store } from "./../../../components/src/utils";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
@@ -353,6 +354,8 @@ export default class StripeIntegrationController extends BlockComponent<
     this.setState({ showPaymentLoading: false })
   }
   setAlertText = () => {
+    store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] })
+
     if (this.state.paymentAlerttype === "PaymentSuccess") {
       this.setState({ customAlertText: "Payment Successful" })
       this.setState({ customAlertDesc: "You earned a discount coupon code. You can check this out in your profile or Reed Now!" })
