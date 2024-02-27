@@ -72,7 +72,7 @@ export default class LandingPage extends LandingPageController {
                   <Text style={styles.header}>to Nature.</Text>
                   <Text style={styles.description}>
                     The designations employed and the presentation of material
-                    in the information product do not simply.
+                    in the information product do not simply. 
                   </Text>
                   <TouchableOpacity
                     onPress={()=>this.onpressExploreStore()}
