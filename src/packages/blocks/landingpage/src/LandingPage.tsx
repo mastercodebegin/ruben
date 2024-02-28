@@ -40,15 +40,13 @@ export default class LandingPage extends LandingPageController {
   async componentDidMount() {
     super.componentDidMount();
     await this.getblogPosts.bind(this)();
-    //this.getCart.bind(this)();
+    this.getCart.bind(this)();
     this.getHomePageInfo.bind(this)()
-    //this.setNotificationToken.bind(this)();
+    this.setNotificationToken.bind(this)();
   }
   // Customizable Area End
 
   render() {
-    {console.log('data>>>>>>>>>>>>>>>>',this.state.homePageInfo);
-    }
     return (
       <SafeAreaView style={styles.mainContainer}>
         {/* Customizable Area Start */}
