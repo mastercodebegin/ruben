@@ -130,7 +130,7 @@ export default class InvoiceBillingController extends BlockComponent<
           total : invoiceDetails?.data?.attributes?.total,
           subTotal: invoiceDetails?.data?.attributes?.subtotal,
           lifetimeSubscription: invoiceDetails?.data?.attributes?.subscription_amount,
-          deliveryCharge:12
+          deliveryCharge:invoiceDetails?.data?.attributes?.delivery_fees
         }        
         
         this.setState({
