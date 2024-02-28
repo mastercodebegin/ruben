@@ -125,6 +125,7 @@ interface S {
   isMyProfile: boolean
   isCallingFromStore: boolean
   subCategoryProductList: any
+  homePageInfo:any
   // Customizable Area End
 }
 
@@ -149,6 +150,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      homePageInfo:{},
       isCallingFromStore: false,
       isMyProfile: false,
       userAddressID: '',
@@ -642,9 +644,28 @@ export default class LandingPageController extends BlockComponent<
     else {
       this.getSlotsAndMerchantAddressApiResponce(message)
       this.cartCallBack(message)
+      this.homePageResCallback(message)
     }
   }
 
+  homePageResCallback(message: Message){
+     if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.homePageInfoId != null &&
+      this.homePageInfoId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      const homePafeRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      console.log('response=====',homePafeRes?.data[0])
+      alert(homePafeRes?.data[0])
+      
+      this.setState({homePageInfo:homePafeRes?.data[0]})
+      
+      
+      }
+  }
   getSlotsAndMerchantAddressApiResponce(message: Message) {
     if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSlotsAndMerchantAddressCallId != null &&
@@ -714,6 +735,7 @@ export default class LandingPageController extends BlockComponent<
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
       }
     }
+   
   }
 
 
@@ -963,6 +985,7 @@ export default class LandingPageController extends BlockComponent<
   categoryPage: any = 1;
   addToFavId: string = ''
   getCartId: string = '';
+  homePageInfoId: string = '';
   addToCartId: string = '';
   filterProductByCategoryId: string = '';
   filterByCategoryApiId: string = '';
@@ -1830,6 +1853,31 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
+
+  async getHomePageInfo() {
+    this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.homePageInfoId = subcategory.messageId;
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'account_block/home_pages'
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async getOrderList() {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')

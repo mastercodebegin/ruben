@@ -41,6 +41,7 @@ export default class LandingPage extends LandingPageController {
     super.componentDidMount();
     await this.getblogPosts.bind(this)();
     this.getCart.bind(this)();
+    this.getHomePageInfo.bind(this)()
     this.setNotificationToken.bind(this)();
   }
   // Customizable Area End
@@ -60,19 +61,17 @@ export default class LandingPage extends LandingPageController {
               <View style={styles.landingPageView}>
                 <ImageBackground
                   style={styles.imageBgr}
-                  resizeMode="stretch"
-                  source={homeBackground}
+                  resizeMode="contain"
+                  source={{uri:this.state.homePageInfo?.attributes?.images[0].url}}
                 >
                   <Image
                     style={[styles.appLogo,]}
                     resizeMode="contain"
                     source={splashScreenImage}
                   />
-                  <Text style={styles.header}>Back </Text>
-                  <Text style={styles.header}>to Nature.</Text>
-                  <Text style={styles.description}>
-                    The designations employed and the presentation of material
-                    in the information product do not simply. 
+                  <Text style={[styles.header,{color:'white'}]}>{this.state.homePageInfo?.attributes?.title} </Text>
+                  <Text style={[styles.description,{color:'white'}]}>
+                  {this.state.homePageInfo?.attributes?.description}
                   </Text>
                   <TouchableOpacity
                     onPress={()=>this.onpressExploreStore()}
