@@ -1773,9 +1773,8 @@ export default class LandingPageController extends BlockComponent<
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const notificationHelper = new PushNotificationsHelper();
     notificationHelper.addListener(this.props.navigation)
-    const fcm_token = notificationHelper.getFcmToken()
+    const fcm_token = await  notificationHelper.getFcmToken()
     const data: any = JSON.parse(userDetails);
-
     const headers = {
       token: data?.meta?.token,
       "Content-Type": "application/json",
