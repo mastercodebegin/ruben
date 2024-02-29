@@ -222,16 +222,12 @@ export default class OrdermanagementController extends BlockComponent<
   searchOrdersWithNumberId: string = '';
   
   previousOrderCallBack(response:any,error:any) {
-    alert('previousOrderCallBack')
-    console.log('res=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.',response?.data?.attributes?.all_orders);
 
 
     if (error && !response?.data?.length) {
       showToast("Some error occurred!");
       this.setState({ showLoader: false });
     } else if (response?.data?.attributes?.all_orders) {
-      alert('response?.data?.length')
-      console.log('res=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.',response?.data?.length);
       
       this.setState({ previousOrders: response?.data?.attributes?.all_orders, showLoader: false });
     }
@@ -241,7 +237,12 @@ export default class OrdermanagementController extends BlockComponent<
       showToast("No orders found");
       this.setState({showLoader:false,searchResult:[]})
     } else {
-      this.setState({showLoader:false,searchResult:response?.data?.length?response?.data?.attributes?.all_orders:[] })
+      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data);
+      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data?.attributes);
+      
+      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data?.attributes?.order);
+     
+      this.setState({showLoader:false,searchResult:response?.data?.attributes?.order })
     }
   }
 
@@ -377,7 +378,9 @@ export default class OrdermanagementController extends BlockComponent<
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?order_no=${orderNo}&status=${this.getParams()}`
+      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}`
+
+
     );
 
     getPreviousOrdersRequest.addData(

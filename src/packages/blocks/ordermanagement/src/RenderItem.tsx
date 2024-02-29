@@ -64,7 +64,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
               {newItem?.no_of_orders} Orders
             </Text>
           </View>
-          {item.orders.data.map((item: any, index: number) => {
+          {item.orders?.data?.map((item: any, index: number) => {
             return (
               <View key={index} style={[styles.container, { marginTop: 10 }]}>
                 <View
@@ -180,7 +180,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
             {newItem?.no_of_orders} Orders
           </Text>
         </View>
-        {item.orders.data.map((item: any, index: number) => {
+        {item?.orders?.data?.map((item: any, index: number) => {
           
           return (
             <View key={index} style={[styles.container, { marginTop: 10 }]}>
