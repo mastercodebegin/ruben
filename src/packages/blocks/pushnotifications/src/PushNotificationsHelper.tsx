@@ -36,7 +36,6 @@ export default class PushNotificationsHelper {
 
   async handleNotificationsReceive({ body = "", title = "" }: NotificationDataType) {
     console.log("title==>",title);
-    Alert.alert(title, body);
   }
 
 
@@ -74,12 +73,13 @@ export default class PushNotificationsHelper {
     const enabled =
       notificationPermission === messaging.AuthorizationStatus.AUTHORIZED ||
       notificationPermission === messaging.AuthorizationStatus.PROVISIONAL;
-      console.log(enabled);
-      
+if(enabled){
+
+     
       fcmToken = await this.messageInstance.getToken();
       console.log("fcmToken===>",fcmToken);
       setStorageData('fcm_token', fcmToken);
-
+}
     return fcmToken;
   }
 }

@@ -659,7 +659,6 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       console.log('response=====',homePafeRes?.data[0])
-      alert(homePafeRes?.data[0])
       
       this.setState({homePageInfo:homePafeRes?.data[0]})
       

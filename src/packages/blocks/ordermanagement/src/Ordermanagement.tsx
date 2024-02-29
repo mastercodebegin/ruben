@@ -70,7 +70,7 @@ export default class Ordermanagement extends OrdermanagementController {
                     searchOrder={this.searchOrder.bind(this)}
                     minDate={this.state.selectedDate.startDate}
                     markedDates={generateDateObject(
-                      this.state.selectedDate.startDate,
+                      this.state.selectedDate.startDate, 
                       this.state.selectedDate.endDate
                         ? this.state.selectedDate.endDate
                         : this.state.selectedDate.startDate
