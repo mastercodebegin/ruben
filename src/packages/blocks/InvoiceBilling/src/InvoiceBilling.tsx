@@ -65,7 +65,7 @@ export default class InvoiceBilling extends InvoiceBillingController {
       >
         <View style={{ flex: 1, padding: 20 }}>
           <View style={styles.innerContainer}>
-            <FlatList
+            <FlatList 
               bounces={false}
               showsVerticalScrollIndicator={false}
               data={this.state.productsList}

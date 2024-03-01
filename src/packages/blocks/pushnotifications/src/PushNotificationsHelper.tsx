@@ -60,6 +60,7 @@ export default class PushNotificationsHelper {
     // if we open app from notification when app is not alive
     this.messageInstance.getInitialNotification().then((remoteMessage) => {
       if (remoteMessage) {
+        navigation.navigate("MyOrdersScreen");
         console.log(
           "Notification caused app to open from quit state:",
           remoteMessage.notification
