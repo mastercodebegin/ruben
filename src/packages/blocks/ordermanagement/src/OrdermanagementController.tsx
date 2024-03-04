@@ -124,7 +124,9 @@ export default class OrdermanagementController extends BlockComponent<
         showToast("Some error occurred!");
         this.setState({ showLoader: false });
       } else {
-        const incomingOrders = response.data.attributes.all_orders;
+        console.log('response.data.attributes.all_orders====',response.data?.attributes?.all_order_items)
+        
+        const incomingOrders = response.data.attributes?.all_order_items;
         this.handleIncomingPagination(incomingOrders,response?.meta?.total_pages);
       }
     } else if (
@@ -190,9 +192,11 @@ export default class OrdermanagementController extends BlockComponent<
 
     const arr = this.state.incomingOrders.concat(res);
     const filterData = arr.filter(order=>order?.id!=this.state.order_number)
-    
-    if (res.length) {
+    console.log(
+    'test2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.',res)
 
+    if (res.length) {
+alert('test')
       this.setState({
         incomingOrders:filterData,
         showLoader: false,
@@ -204,7 +208,6 @@ export default class OrdermanagementController extends BlockComponent<
       });
 
     } else {
-      console.log('else part===',res.length);
       showToast('No data found')
       this.setState({
         fetchMoreIncoming:false,
@@ -229,7 +232,7 @@ export default class OrdermanagementController extends BlockComponent<
       this.setState({ showLoader: false });
     } else if (response?.data?.attributes?.all_orders) {
       
-      this.setState({ previousOrders: response?.data?.attributes?.all_orders, showLoader: false });
+      this.setState({ previousOrders: response?.data?.attributes?.all_orders_item, showLoader: false });
     }
   }
   searchOrderCallBack(response:any,error:any) {
@@ -267,11 +270,12 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   filterByDateCallBack(response:any , error=null) {
+    
     if (!error) {
       if (this.state.selected === 'incoming') {
-        this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        this.setState({incomingOrders: response?.data?.attributes?.all_order_items ,showLoader:false})
       } else {
-        this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        this.setState({previousOrders:response?.data?.attributes?.all_order_items,showLoader:false})
       }
     } else {
       this.setState({previousOrders:[],showLoader:false})
@@ -408,8 +412,9 @@ export default class OrdermanagementController extends BlockComponent<
     this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;    
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?status=["${type}"]&start_date="${startDate}"&end_date="${endDate}"`
-    );
+     // `bx_block_shopping_cart/orders/merchant_inventory?status=["${type}"]&start_date="${startDate}"&end_date="${endDate}"`
+     `bx_block_shippingchargecalculator/pickups/pickups/order/search?&start_date=${startDate}&end_date=${endDate}`
+     );
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

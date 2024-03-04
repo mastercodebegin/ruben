@@ -48,7 +48,6 @@ export default class SavedAddresses extends Component<Props, State> {
     };
   }
   render() {
-    console.log('tab---',this.props.selectedTab);
     
     return (
       <> 

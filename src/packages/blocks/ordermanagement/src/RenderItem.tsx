@@ -10,8 +10,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
   const isCancelled = item?.status === "cancelled";
   const newItem = item;
   console.log(selectedTab,' -----------------------------------------------',JSON.stringify(item))
-  console.log('date -----------------------------------------------',JSON.stringify(deliveryDate))
-  console.log('date -----------------------------------------------',JSON.stringify(deliveryDate))
+  console.log('data -----------------------------------------------',item.order_items)
   
   const dataList = [
     {
@@ -64,7 +63,9 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
               {newItem?.no_of_orders} Orders
             </Text>
           </View>
-          {item.orders?.data?.map((item: any, index: number) => {
+          {item.order_items?.data?.map((item: any, index: number) => {
+            console.log('render-item>>>>>>>>>>>>>>>',item)
+            
             return (
               <View key={index} style={[styles.container, { marginTop: 10 }]}>
                 <View
@@ -180,7 +181,9 @@ const ChildrenComponent = ({ acceptDeclineOrders, item,selectedTab }: any) => {
             {newItem?.no_of_orders} Orders
           </Text>
         </View>
-        {item?.orders?.data?.map((item: any, index: number) => {
+        {item?.order_items?.data?.map((item: any, index: number) => {
+          console.log('>>>>>>>>>>',item)
+          
           
           return (
             <View key={index} style={[styles.container, { marginTop: 10 }]}>
