@@ -31,7 +31,6 @@ const RenderList = ({ selectedSlot, setSelectedSlot, slot }: ListType) => (
 );
 const AvailableSlots = ({ address,merchantAddress, list = [] }: AvailableSlotsTypes) => {
   const [selectedSlot, setSelectedSlot] = useState(list[0]);  
-  console.log('merchant address>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',merchantAddress)
 
   return (
     
