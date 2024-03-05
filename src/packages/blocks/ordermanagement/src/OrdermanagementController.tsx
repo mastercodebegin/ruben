@@ -141,7 +141,8 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-     this.previousOrderCallBack(response,error)
+      const oreviousOrder = response.data.attributes?.all_order_items;
+     this.previousOrderCallBack(oreviousOrder,error)
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
@@ -151,13 +152,19 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-     this.acceptDeclineCallback(error)
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      console.log('response>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',response);
+      
+     this.acceptDeclineCallback(response,error)
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.filterOrdersWithDateId != null &&
       this.filterOrdersWithDateId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
     ) {
+      
       let response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -177,7 +184,10 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.searchOrderCallBack(response, error);
+      const data = response.data.attributes.all_order_items[0].order_items.data.length > 0 ?
+      response.data.attributes.all_order_items : []
+
+      this.searchOrderCallBack(data, error);
     }
   }
   // Customizable Area Start
@@ -190,15 +200,11 @@ export default class OrdermanagementController extends BlockComponent<
 
   handleIncomingPagination(res: any[], totalPage: number) {
 
-    const arr = this.state.incomingOrders.concat(res);
-    const filterData = arr.filter(order=>order?.id!=this.state.order_number)
-    console.log(
-    'test2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.',res)
+    
 
     if (res.length) {
-alert('test')
       this.setState({
-        incomingOrders:filterData,
+        incomingOrders:res,
         showLoader: false,
         searchText:'',
         incomingTotalPage: totalPage,
@@ -226,26 +232,25 @@ alert('test')
   
   previousOrderCallBack(response:any,error:any) {
 
-
-    if (error && !response?.data?.length) {
+    if (error && !response?.length) {
       showToast("Some error occurred!");
       this.setState({ showLoader: false });
-    } else if (response?.data?.attributes?.all_orders) {
+    } else if (response.length) {
       
-      this.setState({ previousOrders: response?.data?.attributes?.all_orders_item, showLoader: false });
+      this.setState({ previousOrders: response, showLoader: false });
     }
   }
+
   searchOrderCallBack(response:any,error:any) {
-    if (error && !response) {
+    console.log('error====',error)
+    
+    if (response.length==0) {
       showToast("No orders found");
       this.setState({showLoader:false,searchResult:[]})
     } else {
-      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data);
-      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data?.attributes);
-      
-      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response?.data?.attributes?.order);
-     
-      this.setState({showLoader:false,searchResult:response?.data?.attributes?.order })
+      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response);
+
+      this.setState({showLoader:false,searchResult:response })
     }
   }
 
@@ -283,11 +288,13 @@ alert('test')
   }
 
 
-  acceptDeclineCallback(error=null) {
-    if (error) {
-      this.getIncomingOrders();
+  acceptDeclineCallback(response:any,error:any) {
+    console.log('acceptDeclineCallback response>>>>>>>>>>>>>>>',response);
+    console.log('acceptDeclineCallback error>>>>>>>>>>>>>>>',error);
     
-
+    if (error) {
+      alert('something went wrong')
+      //this.getIncomingOrders();
     } else {
       if (this.state.selected === 'incoming') {   
         this.getIncomingOrders();
@@ -370,6 +377,8 @@ alert('test')
   }
 
   async searchOrder(orderNo:number) {
+    console.log('order number=================');
+    
     this.setState({ showLoader: true ,isSearching:true});
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -382,7 +391,9 @@ alert('test')
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}`
+      this.state.selected=='incoming'?
+      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}?status=${1}`:
+     `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}}`
 
 
     );
