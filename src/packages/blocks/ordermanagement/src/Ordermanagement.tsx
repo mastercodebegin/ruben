@@ -31,7 +31,7 @@ export default class Ordermanagement extends OrdermanagementController {
 
   // Customizable Area Start
   async componentDidMount() {
-    this.getIncomingOrders();
+    //this.getIncomingOrders();
   }
   // Customizable Area End
 

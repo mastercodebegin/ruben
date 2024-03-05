@@ -9,8 +9,8 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
   const isOnGoing = item?.status === "on_going";
   const isCancelled = item?.status === "cancelled";
   const newItem = item;
-  console.log(selectedTab, ' -----------------------------------------------', JSON.stringify(item))
-  console.log('data -----------------------------------------------', item.order_items)
+  // console.log(selectedTab, ' -----------------------------------------------', JSON.stringify(item))
+  // console.log('data -----------------------------------------------', item.order_items)
 
   const dataList = [
     {
@@ -58,7 +58,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
               justifyContent: "space-between",
             }}
           >
-            <Text style={styles.headerText}>{moment(newItem.date,'DD-MM-YYYY', true).format('MMMM')}</Text>
+            <Text style={styles.headerText}>{newItem.date}</Text>
             <Text style={styles.headerText}>
               {newItem?.no_of_order_items} Orders
             </Text>
@@ -104,7 +104,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
                       <Text style={styles.qText}>Sub Total:</Text>
                       <Text style={styles.text}>$ {`${item?.attributes.price * item?.attributes?.quantity}`}</Text>
                     </View>
-                    {selectedTab !== "incoming"?<View style={styles.row}>
+                    {selectedTab !== "incomingg"?<View style={styles.row}>
                       <Text style={styles.qText}>Status:</Text>
                       <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
                     </View>:null}
@@ -128,10 +128,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
           })}
         </View>
       ) :
-      <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
-
-<Text>No record found</Text> 
-      </View>   
+  null  
     }
     </>
   );

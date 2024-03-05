@@ -171,7 +171,11 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      this.filterByDateCallBack(response, error);
+      console.log('response====',JSON.stringify(response))
+      
+     const data =  response?.data?.attributes?.all_order_items[0].order_items?.data.length > 0 ?
+        response?.data?.attributes?.all_order_items : []
+      this.filterByDateCallBack(data, error);
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.searchOrdersWithNumberId != null &&
@@ -184,8 +188,19 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      const data = response.data.attributes.all_order_items[0].order_items.data.length > 0 ?
-      response.data.attributes.all_order_items : []
+      let data=[]
+      console.log('data1=========',error)
+      console.log('datares=========',JSON.stringify(response))
+      
+      if(!response?.message)
+      {
+        console.log('data2=========')
+
+         data = response?.data?.attributes?.all_order_items[0].order_items?.data.length > 0 ?
+        response?.data?.attributes?.all_order_items : []
+      }
+      console.log('data3=========')
+
 
       this.searchOrderCallBack(data, error);
     }
@@ -242,9 +257,9 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   searchOrderCallBack(response:any,error:any) {
-    console.log('error====',error)
+    console.log('response====',response)
     
-    if (response.length==0) {
+    if ( response.message || response.length==0 ) {
       showToast("No orders found");
       this.setState({showLoader:false,searchResult:[]})
     } else {
@@ -275,12 +290,17 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   filterByDateCallBack(response:any , error=null) {
-    
+    console.log('error===============',error);
+    console.log('response===============',response);
+
     if (!error) {
+      console.log('error1===============',);
+      console.log('response1===============',);
+
       if (this.state.selected === 'incoming') {
-        this.setState({incomingOrders: response?.data?.attributes?.all_order_items ,showLoader:false})
+        this.setState({incomingOrders: response,showLoader:false})
       } else {
-        this.setState({previousOrders:response?.data?.attributes?.all_order_items,showLoader:false})
+        this.setState({previousOrders:response,showLoader:false})
       }
     } else {
       this.setState({previousOrders:[],showLoader:false})
@@ -326,7 +346,7 @@ export default class OrdermanagementController extends BlockComponent<
 
     getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getIncomingOrders}?page=${this.state.incomingCurrentPage}&per_page=10`
+      `${configJSON.getIncomingOrders}?page=${this.state.incomingCurrentPage}&per_page=10?status=${1}`
     );
 
     getIncomingOrdersRequest.addData(
@@ -392,7 +412,7 @@ export default class OrdermanagementController extends BlockComponent<
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       this.state.selected=='incoming'?
-      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}?status=${1}`:
+      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}&status=${1}`:
      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}}`
 
 
@@ -411,6 +431,10 @@ export default class OrdermanagementController extends BlockComponent<
     
   }
   async filterWithDate(status: any, startDate: string, endDate: string) {    
+
+    const urlDateParams = startDate&& endDate ? `start_date=${this.formatDateToYYYYMMDD(startDate)}&end_date=${this.formatDateToYYYYMMDD(endDate)}` : '';
+//const urlValueParam = value ? `order_no=${value}` : '';
+const isIncommingOrders = this.state.selected === 'previous' ? null : `status=${1}`
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -423,8 +447,10 @@ export default class OrdermanagementController extends BlockComponent<
     this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;    
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-     // `bx_block_shopping_cart/orders/merchant_inventory?status=["${type}"]&start_date="${startDate}"&end_date="${endDate}"`
-     `bx_block_shippingchargecalculator/pickups/pickups/order/search?&start_date=${startDate}&end_date=${endDate}`
+    //`bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
+      // `bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date="2024-02-26"&end_date="2024-02-29"&status=1`
+       //"bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date="+{startDate}+end_date+{endDate}"&"+status={1}"
+     `bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}`
      );
 
     getPreviousOrdersRequest.addData(
@@ -477,10 +503,19 @@ export default class OrdermanagementController extends BlockComponent<
     }
     this.setState({ selected: tabName , searchResult:[],isSearching:false,previousOrders:[] });
   }
+  formatDateToYYYYMMDD=(dateString:any)=> {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   onCloseCalendar() {
     if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
-      this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
+     
+      this.filterWithDate('',this.formatDateToYYYYMMDD(this.state.selectedDate.startDate),
+      this.formatDateToYYYYMMDD(this.state.selectedDate.endDate))
       }
   }
 
