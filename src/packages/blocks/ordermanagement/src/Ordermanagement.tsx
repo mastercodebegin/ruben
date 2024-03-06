@@ -31,7 +31,7 @@ export default class Ordermanagement extends OrdermanagementController {
 
   // Customizable Area Start
   async componentDidMount() {
-    //this.getIncomingOrders();
+    this.getIncomingOrders();
   }
   // Customizable Area End
 
@@ -47,7 +47,7 @@ export default class Ordermanagement extends OrdermanagementController {
                 data={this.getCorrespondingArray()}
                 testID="orders_list_id"
                 keyExtractor={(item, index) => JSON.stringify(index) + item}
-                onEndReached={this.handleLoadMoreDebounced}
+                //onEndReached={this.handleLoadMoreDebounced}
                 ListFooterComponent={
                   this.state.showPaginationLoader ? (
                     <View style={{ alignItems: "center" }}>

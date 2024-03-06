@@ -104,7 +104,7 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
                       <Text style={styles.qText}>Sub Total:</Text>
                       <Text style={styles.text}>$ {`${item?.attributes.price * item?.attributes?.quantity}`}</Text>
                     </View>
-                    {selectedTab !== "incomingg"?<View style={styles.row}>
+                    {selectedTab !== "incoming"?<View style={styles.row}>
                       <Text style={styles.qText}>Status:</Text>
                       <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
                     </View>:null}
