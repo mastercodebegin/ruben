@@ -449,9 +449,9 @@ const isIncommingOrders = this.state.selected === 'previous' ? null : `status=${
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}&status=${1}`
 
-    //`bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
+    `bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
        //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date="2024-02-26"&end_date="2024-02-29"&status=1`
-     `bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}`
+     //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}`
      );
 
     getPreviousOrdersRequest.addData(
