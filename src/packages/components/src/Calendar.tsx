@@ -159,7 +159,7 @@ const Calendar = ({
   };
   const changeMonth = (duration: number) => {
     //@ts-ignore
-    calendarRef.current.addMonth(duration);
+    calendarRef?.current?.addMonth(duration);
     console.log(calendarRef.current);
 
   };

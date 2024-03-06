@@ -47,7 +47,7 @@ export default class Ordermanagement extends OrdermanagementController {
                 data={this.getCorrespondingArray()}
                 testID="orders_list_id"
                 keyExtractor={(item, index) => JSON.stringify(index) + item}
-                onEndReached={this.handleLoadMoreDebounced}
+                //onEndReached={this.handleLoadMoreDebounced}
                 ListFooterComponent={
                   this.state.showPaginationLoader ? (
                     <View style={{ alignItems: "center" }}>
@@ -70,7 +70,7 @@ export default class Ordermanagement extends OrdermanagementController {
                     searchOrder={this.searchOrder.bind(this)}
                     minDate={this.state.selectedDate.startDate}
                     markedDates={generateDateObject(
-                      this.state.selectedDate.startDate,
+                      this.state.selectedDate.startDate, 
                       this.state.selectedDate.endDate
                         ? this.state.selectedDate.endDate
                         : this.state.selectedDate.startDate

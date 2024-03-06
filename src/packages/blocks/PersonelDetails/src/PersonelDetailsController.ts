@@ -35,7 +35,8 @@ interface S {
   showAddressModal: boolean;
   showAddAddress: boolean;
   estimatedDeliveryDate: string;
-  shippingFee:any
+  shippingFee:any,
+  merchantAddress:object
 }
 
 interface SS {
@@ -59,6 +60,7 @@ export default class PersonelDetailsController extends BlockComponent<
 
     this.state = {
       stateList:[],
+      merchantAddress:{},
       showLoader: false,
       selectedAddress: null,
       selectedTab: "delivery",
@@ -84,6 +86,7 @@ export default class PersonelDetailsController extends BlockComponent<
   }
 
   getPersonelDetails: string = "";
+  getMerchantAddressId: string = "";
   getStatesCallId: string = "";
   getAvailableSlotsCallId: string ;
   addAddressCallId: string = "";
@@ -114,7 +117,8 @@ export default class PersonelDetailsController extends BlockComponent<
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getStatesCallId != null &&
     this.getStatesCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
+      {
         const stateList = message.getData(
           getName(MessageEnum.RestAPIResponceSuccessMessage)
         );
@@ -135,6 +139,32 @@ export default class PersonelDetailsController extends BlockComponent<
           }
 
           this.setState({ showLoader: false,stateList:arr });
+        } else {
+
+          this.setState({ showLoader: false });
+          showToast("something went wrong");
+        }
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getMerchantAddressId != null &&
+    this.getMerchantAddressId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) 
+      {
+        const merchantAddress = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+        if (
+          !error &&
+          merchantAddress
+        ) {
+          console.log('merchantList++++++++++++++++++++++++++++',merchantAddress.data[0].id);
+         
+          this.setState({merchantAddress:merchantAddress.data[0]})
+         
         } else {
 
           this.setState({ showLoader: false });
@@ -316,6 +346,35 @@ date.setDate(date.getDate() + 3);
     PersonalDetails.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.getPersonelDetails
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+  async getMerchantAddressList() {
+    console.log('merchant call---------');
+    
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getMerchantAddressId = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.merchantAddressEndPoint
     );
 
     PersonalDetails.addData(

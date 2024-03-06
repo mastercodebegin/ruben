@@ -124,10 +124,81 @@ export default class OrdermanagementController extends BlockComponent<
         showToast("Some error occurred!");
         this.setState({ showLoader: false });
       } else {
-        const incomingOrders = response.data.attributes.all_orders;
+        console.log('response.data.attributes.all_orders====',response.data?.attributes?.all_order_items)
+        
+        const incomingOrders = response.data.attributes?.all_order_items;
         this.handleIncomingPagination(incomingOrders,response?.meta?.total_pages);
       }
-    } else if (
+    }  else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.acceptDeclineOrdersId != null &&
+      this.acceptDeclineOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      console.log('response>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',response);
+      
+     this.acceptDeclineCallback(response,error)
+    }  else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.searchOrdersWithNumberId != null &&
+      this.searchOrdersWithNumberId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) 
+    {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      let data=[]
+      console.log('data1=========',error)
+      console.log('datares=========',JSON.stringify(response))
+      
+      if(!response?.message)
+      {
+        console.log('data2=========')
+
+         data = response?.data?.attributes?.all_order_items[0].order_items?.data.length > 0 ?
+        response?.data?.attributes?.all_order_items : []
+      }
+      console.log('data3=========')
+
+
+      this.searchOrderCallBack(data, error);
+    }
+    this.subAsyncRecieve(message)
+  }
+  // Customizable Area Start
+
+  async subAsyncRecieve(message:Message){
+     if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterOrdersWithDateId != null &&
+      this.filterOrdersWithDateId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('response====',JSON.stringify(response))
+      
+     const data =  response?.data?.attributes?.all_order_items[0].order_items?.data?.length > 0 ?
+        response?.data?.attributes?.all_order_items : []
+      this.filterByDateCallBack(data, error);
+    }
+
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getPreviousOrdersId != null &&
       this.getPreviousOrdersId ===
@@ -139,47 +210,11 @@ export default class OrdermanagementController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-     this.previousOrderCallBack(response,error)
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.acceptDeclineOrdersId != null &&
-      this.acceptDeclineOrdersId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-     this.acceptDeclineCallback(error)
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.filterOrdersWithDateId != null &&
-      this.filterOrdersWithDateId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let response = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.filterByDateCallBack(response, error);
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.searchOrdersWithNumberId != null &&
-      this.searchOrdersWithNumberId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let response = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.searchOrderCallBack(response, error);
+      const oreviousOrder = response.data.attributes?.all_order_items;
+     this.previousOrderCallBack(oreviousOrder,error)
     }
-  }
-  // Customizable Area Start
 
+  }
   handleLoadMoreDebounced = debounce(() => {
     this.setState({incomingCurrentPage:this.state.incomingCurrentPage+1})
     this.getIncomingOrders();
@@ -188,13 +223,11 @@ export default class OrdermanagementController extends BlockComponent<
 
   handleIncomingPagination(res: any[], totalPage: number) {
 
-    const arr = this.state.incomingOrders.concat(res);
-    const filterData = arr.filter(order=>order?.id!=this.state.order_number)
     
-    if (res.length) {
 
+    if (res.length) {
       this.setState({
-        incomingOrders:filterData,
+        incomingOrders:res,
         showLoader: false,
         searchText:'',
         incomingTotalPage: totalPage,
@@ -204,7 +237,6 @@ export default class OrdermanagementController extends BlockComponent<
       });
 
     } else {
-      console.log('else part===',res.length);
       showToast('No data found')
       this.setState({
         fetchMoreIncoming:false,
@@ -222,19 +254,26 @@ export default class OrdermanagementController extends BlockComponent<
   searchOrdersWithNumberId: string = '';
   
   previousOrderCallBack(response:any,error:any) {
-    if (error && !response?.data?.length) {
+
+    if (error && !response?.length) {
       showToast("Some error occurred!");
       this.setState({ showLoader: false });
-    } else if (response?.data?.length) {
-      this.setState({ previousOrders: response?.data, showLoader: false });
+    } else if (response.length) {
+      
+      this.setState({ previousOrders: response, showLoader: false });
     }
   }
+
   searchOrderCallBack(response:any,error:any) {
-    if (error && !response) {
+    console.log('response====',response)
+    
+    if ( response.message || response.length==0 ) {
       showToast("No orders found");
       this.setState({showLoader:false,searchResult:[]})
     } else {
-      this.setState({showLoader:false,searchResult:response?.data?.length?response?.data:[] })
+      console.log('response?.data?.attributes?.all_orders>>>>>>>>>>>>>>>>>>>>>>',response);
+
+      this.setState({showLoader:false,searchResult:response })
     }
   }
 
@@ -259,11 +298,17 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   filterByDateCallBack(response:any , error=null) {
+    console.log('error===============',error);
+    console.log('response===============',response);
+
     if (!error) {
+      console.log('error1===============',);
+      console.log('response1===============',);
+
       if (this.state.selected === 'incoming') {
-        this.setState({incomingOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        this.setState({incomingOrders: response,showLoader:false})
       } else {
-        this.setState({previousOrders:response?.data?.length ? response?.data :[],showLoader:false})
+        this.setState({previousOrders:response,showLoader:false})
       }
     } else {
       this.setState({previousOrders:[],showLoader:false})
@@ -271,11 +316,11 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
 
-  acceptDeclineCallback(error=null) {
+  acceptDeclineCallback(response:any,error:any) {
+   
     if (error) {
+      alert('something went wrong')
       this.getIncomingOrders();
-    
-
     } else {
       if (this.state.selected === 'incoming') {   
         this.getIncomingOrders();
@@ -307,7 +352,7 @@ export default class OrdermanagementController extends BlockComponent<
 
     getIncomingOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getIncomingOrders}?page=${this.state.incomingCurrentPage}&per_page=10`
+      `${configJSON.getIncomingOrders}?page=${this.state.incomingCurrentPage}&per_page=10?status=${1}`
     );
 
     getIncomingOrdersRequest.addData(
@@ -358,6 +403,8 @@ export default class OrdermanagementController extends BlockComponent<
   }
 
   async searchOrder(orderNo:number) {
+    console.log('order number=================');
+    
     this.setState({ showLoader: true ,isSearching:true});
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -370,7 +417,11 @@ export default class OrdermanagementController extends BlockComponent<
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?order_no=${orderNo}&status=${this.getParams()}`
+      this.state.selected=='incoming'?
+      `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}&status=${1}`:
+     `bx_block_shippingchargecalculator/pickups/pickups/order/search?order_no=${orderNo}}`
+
+
     );
 
     getPreviousOrdersRequest.addData(
@@ -386,6 +437,9 @@ export default class OrdermanagementController extends BlockComponent<
     
   }
   async filterWithDate(status: any, startDate: string, endDate: string) {    
+
+    const urlDateParams = startDate&& endDate ? `start_date=${this.formatDateToYYYYMMDD(startDate)}&end_date=${this.formatDateToYYYYMMDD(endDate)}` : '';
+const isIncommingOrders = this.state.selected === 'previous' ? null : `status=${1}`
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -398,8 +452,8 @@ export default class OrdermanagementController extends BlockComponent<
     this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;    
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `bx_block_shopping_cart/orders/merchant_inventory?status=["${type}"]&start_date="${startDate}"&end_date="${endDate}"`
-    );
+ `bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
+     );
 
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
@@ -451,10 +505,19 @@ export default class OrdermanagementController extends BlockComponent<
     }
     this.setState({ selected: tabName , searchResult:[],isSearching:false,previousOrders:[] });
   }
+  formatDateToYYYYMMDD=(dateString:any)=> {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   onCloseCalendar() {
     if (this.state.selectedDate.startDate && this.state.selectedDate.endDate) {
-      this.filterWithDate('',this.state.selectedDate.startDate,this.state.selectedDate.endDate)
+     
+      this.filterWithDate('',this.formatDateToYYYYMMDD(this.state.selectedDate.startDate),
+      this.formatDateToYYYYMMDD(this.state.selectedDate.endDate))
       }
   }
 

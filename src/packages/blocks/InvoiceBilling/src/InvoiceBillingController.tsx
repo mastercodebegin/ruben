@@ -130,7 +130,9 @@ export default class InvoiceBillingController extends BlockComponent<
           total : invoiceDetails?.data?.attributes?.total,
           subTotal: invoiceDetails?.data?.attributes?.subtotal,
           lifetimeSubscription: invoiceDetails?.data?.attributes?.subscription_amount,
-          deliveryCharge:invoiceDetails?.data?.attributes?.delivery_fees
+          deliveryCharge:invoiceDetails?.data?.attributes?.delivery_fees,
+          deliveryIn24Hours : invoiceDetails?.data?.attributes?.delivery_hrs,
+          meat_storage_amount : invoiceDetails?.data?.attributes?.meat_storage_amount
         } 
         
         this.setState({

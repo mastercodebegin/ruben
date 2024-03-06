@@ -11,7 +11,7 @@ const RenderFooter = ({ subTotal, total, params }: any) => {
         borderTopColor: "grey",
         paddingTop: 10,
         paddingBottom: 10,
-      }}
+      }} 
     >
       <View style={{ flexDirection: "row" }}>
         <View>
@@ -21,6 +21,8 @@ const RenderFooter = ({ subTotal, total, params }: any) => {
           <Text style={styles.text}>Delivery Charges</Text>
           {params?.lifetimeSubscription ? <Text style={styles.text}>Lifetime Subscription</Text> : null}
           {params?.product_discount ? <Text style={styles.text}>Product Discount</Text> : null}
+          {params?.deliveryIn24Hours ? <Text style={styles.text}>Deliver in 24 hrs</Text> : null}
+          {params?.meat_storage_amount ? <Text style={styles.text}>Meat Storage </Text> : null}
           <Text style={styles.boldText}>Total</Text>
         </View>
         <View>
@@ -29,7 +31,10 @@ const RenderFooter = ({ subTotal, total, params }: any) => {
           {params?.discount ? <Text style={[styles.text,{textAlign:"right"}]}>{`-$${Number(params?.discount).toFixed(2)}`}</Text> : null}
           <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.deliveryCharge).toFixed(2)}`}</Text>
           {params?.lifetimeSubscription ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.lifetimeSubscription).toFixed(2)}`}</Text> : null}
-          {params?.product_discount ?<Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.product_discount).toFixed(2)}`}</Text>: null}
+          {params?.product_discount  ? <Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.params?.product_discount ).toFixed(2)}`}</Text> : null}
+          {params?.deliveryIn24Hours ?<Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.deliveryIn24Hours).toFixed(2)}`}</Text>: null}
+          
+          {params?.meat_storage_amount ?<Text style={[styles.text, { textAlign: "right" }]}>{`$${Number(params?.meat_storage_amount).toFixed(2)}`}</Text>: null}
           <Text style={[styles.boldText, { textAlign: "right" }]}>{`$${Number(params?.total).toFixed(2)}`}</Text>
         </View>
       </View>

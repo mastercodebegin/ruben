@@ -57,6 +57,7 @@ export default class PersonelDetails extends PersonalDetailsController {
     await this.getEstimatedDeliveryDate();
     await this.getAvailableSlots();
     await this.getStateList();
+    await this.getMerchantAddressList()
   }
   render() {
     const { address, phone_number, zip_code, name, email } = this.getUserDetails();
@@ -159,14 +160,17 @@ export default class PersonelDetails extends PersonalDetailsController {
             ) : (
 <>
 
-              <AvailableSlots address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} list={this.state.availableSlotsList}/>
+              <AvailableSlots 
+              address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} 
+              list={this.state.availableSlotsList}
+              merchantAddress={this.state.merchantAddress}
+              />
               <SavedAddresses
                     showModal={this.state.showAddAddress}
                     setShowModal={(val:boolean)=>{this.setState({showAddAddress:val})
                   console.log('val--',val)}
                   
                   }
-                    addressList={[{attributes:{address_type:'OFFICE'} }]}
                     setSelectedAddress={(index:any,value:any) => {
                       if(index !== this.state.selectedAddress){
                         this.addAddressToTheOrder(index)
@@ -176,6 +180,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                     }
                     }
                     isLoading={this.state.showLoader}
+                    addressList={[{attributes:{address_type:'OFFICE'} }]}
                     addAddress={this.addAddress.bind(this)}
                     selectedAddress={this.state.selectedAddress}
                     stateList ={this.state.stateList}
