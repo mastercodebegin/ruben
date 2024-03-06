@@ -9,8 +9,6 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
   const isOnGoing = item?.status === "on_going";
   const isCancelled = item?.status === "cancelled";
   const newItem = item;
-  // console.log(selectedTab, ' -----------------------------------------------', JSON.stringify(item))
-  // console.log('data -----------------------------------------------', item.order_items)
 
   const dataList = [
     {
@@ -42,6 +40,15 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
         >{`${newItem?.attributes?.status}`}</Text>
       ),
     });
+  }
+  const orderStatusRender=(item:{attributes:{status:string}})=>{
+    return(
+
+    <>
+    {selectedTab !== "incoming"?<View style={styles.row}>
+    <Text style={styles.qText}>Status:</Text>
+    <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
+  </View>:null}</>)
   }
   return (
     <>
@@ -81,33 +88,30 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
                         {item?.attributes?.order_no}
                       </Text>
                       <Text style={styles.text}>{`$ ${(
-                        item?.attributes?.price || 0
-                      ).toFixed(2)} x ${item?.attributes?.quantity || 0
+                        item?.attributes?.price 
+                      ).toFixed(2)} x ${item?.attributes?.quantity 
                         }`}</Text>
                     </View>
                     <View style={styles.row}>
                       <Text style={styles.qText}>Order Number:</Text>
-                      <Text style={[styles.text, , { marginTop: 6 }]}>{item.attributes?.order_no}</Text>
+                      <Text style={[styles.text, { marginTop: 6 }]}>{item.attributes?.order_no}</Text>
                     </View>
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Due Date:</Text>
-                      <Text style={styles.text}>{item?.attributes.delivered_at ? moment(item?.attributes.delivered_at).format("DD-MM-YYYY") : ""}</Text>
+                      <Text style={styles.text}>{ moment(item?.attributes.delivered_at).format("DD-MM-YYYY") }</Text>
                     </View>
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Shipping Time:</Text>
-                      <Text style={styles.text}>{item?.attributes.delivered_at ? moment(item?.attributes.delivered_at).format("hh:mm A") : ""}</Text>
+                      <Text style={styles.text}>{moment(item?.attributes.delivered_at).format("hh:mm A") }</Text>
                     </View>
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Sub Total:</Text>
                       <Text style={styles.text}>$ {`${item?.attributes.price * item?.attributes?.quantity}`}</Text>
                     </View>
-                    {selectedTab !== "incoming"?<View style={styles.row}>
-                      <Text style={styles.qText}>Status:</Text>
-                      <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
-                    </View>:null}
+{orderStatusRender(item)}
                   </View>
                 </View>
 

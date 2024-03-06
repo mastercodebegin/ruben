@@ -129,21 +129,7 @@ export default class OrdermanagementController extends BlockComponent<
         const incomingOrders = response.data.attributes?.all_order_items;
         this.handleIncomingPagination(incomingOrders,response?.meta?.total_pages);
       }
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getPreviousOrdersId != null &&
-      this.getPreviousOrdersId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let response = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      const oreviousOrder = response.data.attributes?.all_order_items;
-     this.previousOrderCallBack(oreviousOrder,error)
-    } else if (
+    }  else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.acceptDeclineOrdersId != null &&
       this.acceptDeclineOrdersId ===
@@ -158,30 +144,13 @@ export default class OrdermanagementController extends BlockComponent<
       console.log('response>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',response);
       
      this.acceptDeclineCallback(response,error)
-    } else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.filterOrdersWithDateId != null &&
-      this.filterOrdersWithDateId ===
-        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      
-      let response = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      console.log('response====',JSON.stringify(response))
-      
-     const data =  response?.data?.attributes?.all_order_items[0].order_items?.data?.length > 0 ?
-        response?.data?.attributes?.all_order_items : []
-      this.filterByDateCallBack(data, error);
-    } else if (
+    }  else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.searchOrdersWithNumberId != null &&
       this.searchOrdersWithNumberId ===
         message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
+    ) 
+    {
       let response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
@@ -204,9 +173,48 @@ export default class OrdermanagementController extends BlockComponent<
 
       this.searchOrderCallBack(data, error);
     }
+    this.subAsyncRecieve(message)
   }
   // Customizable Area Start
 
+  async subAsyncRecieve(message:Message){
+     if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.filterOrdersWithDateId != null &&
+      this.filterOrdersWithDateId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('response====',JSON.stringify(response))
+      
+     const data =  response?.data?.attributes?.all_order_items[0].order_items?.data?.length > 0 ?
+        response?.data?.attributes?.all_order_items : []
+      this.filterByDateCallBack(data, error);
+    }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getPreviousOrdersId != null &&
+      this.getPreviousOrdersId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let response = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      const oreviousOrder = response.data.attributes?.all_order_items;
+     this.previousOrderCallBack(oreviousOrder,error)
+    }
+
+  }
   handleLoadMoreDebounced = debounce(() => {
     this.setState({incomingCurrentPage:this.state.incomingCurrentPage+1})
     this.getIncomingOrders();
@@ -309,12 +317,10 @@ export default class OrdermanagementController extends BlockComponent<
 
 
   acceptDeclineCallback(response:any,error:any) {
-    console.log('acceptDeclineCallback response>>>>>>>>>>>>>>>',response);
-    console.log('acceptDeclineCallback error>>>>>>>>>>>>>>>',error);
-    
+   
     if (error) {
       alert('something went wrong')
-      //this.getIncomingOrders();
+      this.getIncomingOrders();
     } else {
       if (this.state.selected === 'incoming') {   
         this.getIncomingOrders();
@@ -433,7 +439,6 @@ export default class OrdermanagementController extends BlockComponent<
   async filterWithDate(status: any, startDate: string, endDate: string) {    
 
     const urlDateParams = startDate&& endDate ? `start_date=${this.formatDateToYYYYMMDD(startDate)}&end_date=${this.formatDateToYYYYMMDD(endDate)}` : '';
-//const urlValueParam = value ? `order_no=${value}` : '';
 const isIncommingOrders = this.state.selected === 'previous' ? null : `status=${1}`
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
@@ -447,11 +452,7 @@ const isIncommingOrders = this.state.selected === 'previous' ? null : `status=${
     this.filterOrdersWithDateId = getPreviousOrdersRequest.messageId;    
     getPreviousOrdersRequest.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}&status=${1}`
-
-    `bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
-       //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date="2024-02-26"&end_date="2024-02-29"&status=1`
-     //`bx_block_shippingchargecalculator/pickups/pickups/order/search?start_date=${startDate}&end_date=${endDate}`
+ `bx_block_shippingchargecalculator/pickups/pickups/order/search?${[ urlDateParams,isIncommingOrders].filter(param => param).join('&')}`
      );
 
     getPreviousOrdersRequest.addData(
