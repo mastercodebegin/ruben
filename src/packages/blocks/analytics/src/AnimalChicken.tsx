@@ -112,7 +112,7 @@ export default class AnimalChicken extends AnalyticsController {
 
             </View>
 
-            <View style={styles.bottomContainer}>
+          { this.props.isChartDisplay? <View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
                 <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
                 </View>
@@ -123,7 +123,7 @@ export default class AnimalChicken extends AnalyticsController {
                 </View>
                 <Text style={styles.textStyle}>Sold</Text>
               </View>
-            </View>
+            </View>:<></>}
           </View>
         }
       </View>
