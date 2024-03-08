@@ -222,9 +222,12 @@ export default class Analytics extends AnalyticsController {
                   />
                 </View>
                 <View style={styles.animalImagContainer}>
-                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
-                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
-                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue} navigation={this.state.animalSelectedValue} id={""} />
+                  <AnimalAnalytics animalSelectedValue={this.state.animalSelectedValue}
+                   navigation={this.state.animalSelectedValue} id={""} visible={true} />
+                  <AnimalChicken animalSelectedValue={this.state.animalSelectedValue} 
+                  navigation={this.state.animalSelectedValue} id={""} visible={true} />
+                  <AnimalPig animalSelectedValue={this.state.animalSelectedValue}
+                   navigation={this.state.animalSelectedValue} id={""} visible={true} />
                 </View>
                 <View style={styles.boxContainer}>
                   <View style={styles.box}>

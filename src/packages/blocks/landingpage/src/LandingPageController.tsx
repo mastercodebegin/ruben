@@ -1476,6 +1476,7 @@ export default class LandingPageController extends BlockComponent<
 
 
   async getSubcategories(subCategoryId: string) {
+    alert(subCategoryId)
     this.setState({ show_loader: true, selectedSub: '', })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
