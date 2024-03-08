@@ -24,6 +24,7 @@ import CommonLoader from "../../../../components/src/CommonLoader";
 import RenderCategories from "./RenderCategories";
 import SortingDropdown from "../../../../components/src/SortingDropdown";
 import AnimalPig from "../../../analytics/src/AnimalPig";
+import AnimalChicken from "../../../analytics/src/AnimalChicken";
 
 export class ExplorePage extends LandingPageController {
   constructor(props: any) {    
@@ -167,11 +168,15 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-              <AnimalPig animalSelectedValue="Pig" navigation={''} id='3' visible={false}
+              {/* <AnimalPig animalSelectedValue="Pig" navigation={''} id='3' isChartDisplay={false}
               animalPartCallBack={(item:string)=>this.getSubcategories(item)
               }
-              />
-              {/* <FlatList
+              /> */}
+              {/* <AnimalChicken animalSelectedValue="Chicken" id="8"
+               navigation={null} 
+               isChartDisplay={false}
+               animalPartCallBack={(item:string)=>this.getSubcategories(item)}/> */}
+              <FlatList
                 data={this.state.subCategoryList}
                 horizontal
                 bounces={false}
@@ -179,7 +184,7 @@ export class ExplorePage extends LandingPageController {
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
                 renderItem={this.renderItem}
-              /> */}
+              />
              {this.state.productList?.map((item:any,index:number)=>{
                 const {attributes} = item;         
                 return(
