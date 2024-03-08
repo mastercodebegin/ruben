@@ -25,7 +25,7 @@ export interface Props {
   id: string;
   // Customizable Area Start
   animalSelectedValue: string;
-  visible: boolean
+  isChartDisplay: boolean
   animalPartCallBack: (item:string) => void
   // Customizable Area End
 }
@@ -196,8 +196,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
-
     // Customizable Area Start
+
     const today = moment(new Date(), "YYYY-MM-DD").toString();
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
@@ -879,6 +879,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     });
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfChicken);
     this.soldChart(partOfChicken, data);
+    this.props.animalPartCallBack(partOfChicken)
   }
 
   onPigClick(partOfPig: PigParts) {
@@ -905,7 +906,6 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   getDataOfCat(item: any) {
-
     this.setState({ animalSelectedValue: item?.attributes?.name });
   }
   // Customizable Area End

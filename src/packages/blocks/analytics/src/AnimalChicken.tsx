@@ -18,6 +18,8 @@ export default class AnimalChicken extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    props.isChartDisplay=true
+
     console.log("value== == == == ::::", this.props?.animalSelectedValue);
     // Customizable Area End
   }
@@ -38,7 +40,8 @@ export default class AnimalChicken extends AnalyticsController {
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Chicken' &&
           <View style={styles.animalImgContainer}>
-            <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
+           {this.props.isChartDisplay? <AnimalChart top={top} left={left} 
+            isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />:null}
             <View style={styles.animalImgCont}>
               {
                 this.state.chicken_Defult &&
