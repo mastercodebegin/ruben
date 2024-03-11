@@ -31,7 +31,7 @@ export default class AnimalPig extends AnalyticsController {
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Pig' &&
-          <View style={styles.animalImgContainer}>
+          <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
             {this.props.isChartDisplay?<AnimalChart top={top} left={left} isShow={isAnimalChartSow} 
             sold={sold} remaining={remaining} lineHeight={lineHeight} />:<Text>hi</Text>}
             <View style={styles.animalImgCont}>
@@ -132,7 +132,7 @@ export default class AnimalPig extends AnalyticsController {
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBackFat) }} style={styles.clickBackFat} testID="pigBackFat" />
 
             </View>
-            <View style={styles.bottomContainer}>
+            {this.props.isChartDisplay?<View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
                 <View style={[styles.redDot, { backgroundColor: '#A9C9F7', }]}>
                 </View>
@@ -143,7 +143,7 @@ export default class AnimalPig extends AnalyticsController {
                 </View>
                 <Text style={styles.textStyle}>Sold</Text>
               </View>
-            </View>
+            </View>:<></>}
           </View>
         }
       </View>
@@ -163,6 +163,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
+  },
+  animalImgContainerForStore: {
+    justifyContent: "center",
+    height:150,
+    borderRadius: 10,
+     marginTop: 20,
   },
   animalImgCont: {
     width: 250,
