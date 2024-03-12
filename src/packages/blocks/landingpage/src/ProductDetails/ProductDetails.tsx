@@ -118,7 +118,7 @@ export default class ProductDetailScreen extends LandingPageController {
               </View>
             </View>
             <RenderCategoriesList
-              onPressCategory={this.getSubcategories.bind(this)}
+              //onPressCategory={this.getSubcategories.bind(this)}
               onEndReached={() => {
                 if (this.categoryPage === null) {
                   return;
