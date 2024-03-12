@@ -25,6 +25,7 @@ import RenderCategories from "./RenderCategories";
 import SortingDropdown from "../../../../components/src/SortingDropdown";
 import AnimalPig from "../../../analytics/src/AnimalPig";
 import AnimalChicken from "../../../analytics/src/AnimalChicken";
+import AnimalCow from "../../../../components/src/AnimalCow";
 
 export class ExplorePage extends LandingPageController {
   constructor(props: any) {
@@ -169,10 +170,14 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-              <AnimalPig animalSelectedValue="Pig" navigation={''} id='3' isChartDisplay={false}
+                <AnimalCow animalSelectedValue="Cow" navigation={''} id='3' isChartDisplay={false}
               animalPartCallBack={(item:string)=>this.getSubcategories(item)
               }
               />
+              {/* <AnimalPig animalSelectedValue="Pig" navigation={''} id='3' isChartDisplay={false}
+              animalPartCallBack={(item:string)=>this.getSubcategories(item)
+              }
+              /> */}
               {/* <View style={{height:200,backgroundColor:'red'}}> */}
 
                 {/* <AnimalChicken animalSelectedValue="Chicken" id="8"

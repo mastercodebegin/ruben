@@ -26,7 +26,7 @@ export interface Props {
   // Customizable Area Start
   animalSelectedValue: string;
   isChartDisplay: boolean
-  animalPartCallBack: (item:string) => void
+  animalPartCallBack: (item: number) => void
   // Customizable Area End
 }
 
@@ -859,7 +859,21 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Brisket: false,
       [partOfCow]: true,
     });
+    console.log('partofcow===', [partOfCow])
+
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfCow);
+    console.log('data===', data)
+    let id = 0;
+    switch (partOfCow) {
+      case 'cow_Round':
+        id = 2;
+        break;
+      default: id = 10
+
+
+    }
+    this.props.animalPartCallBack(id)
+
     this.soldChart(partOfCow, data);
   }
 
