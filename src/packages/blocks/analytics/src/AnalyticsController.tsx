@@ -865,10 +865,42 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     console.log('data===', data)
     let id = 0;
     switch (partOfCow) {
-      case 'cow_Round':
+      case 'chuck':
+        id = 1;
+        break;
+    case 'cowHead':
         id = 2;
         break;
-      default: id = 10
+    case 'cow_Fore_Shank':
+        id = 3;
+        break;
+    case 'cow_Short_plate':
+        id = 4;
+        break;
+    case 'cow_Flank':
+        id = 5;
+        break;
+    case 'cow_shank':
+        id = 6;
+        break;
+    case 'cow_Round':
+        id = 7;
+        break;
+    case 'cow_Sirllion':
+        id = 8;
+        break;
+    case 'cow_Short_lion':
+        id = 9;
+        break;
+    case 'cow_Rib':
+        id = 10;
+        break;
+    case 'cow_Brisket':
+        id = 11;
+        break;
+    default:
+        id = 10;
+        break;
 
 
     }

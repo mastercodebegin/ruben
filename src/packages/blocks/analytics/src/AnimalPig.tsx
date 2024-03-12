@@ -28,12 +28,19 @@ export default class AnimalPig extends AnalyticsController {
     
     const {x: left,y:top ,
        isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
+
+       const chartDisplay=()=>
+       {
+        return(<>
+        {this.props.isChartDisplay?<AnimalChart top={top} left={left} isShow={isAnimalChartSow} 
+            sold={sold} remaining={remaining} lineHeight={lineHeight} />:<></>}
+        </>)
+       }
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Pig' &&
           <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
-            {this.props.isChartDisplay?<AnimalChart top={top} left={left} isShow={isAnimalChartSow} 
-            sold={sold} remaining={remaining} lineHeight={lineHeight} />:<></>}
+            {chartDisplay()}
             <View style={styles.animalImgCont}>
               {this.state.pig &&
                 <Image

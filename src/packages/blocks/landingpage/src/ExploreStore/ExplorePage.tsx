@@ -170,21 +170,21 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-                <AnimalCow animalSelectedValue="Cow" navigation={''} id='3' isChartDisplay={false}
-              animalPartCallBack={(item:string)=>this.getSubcategories(item)
+                <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3' 
+                isChartDisplay={false}
+              animalPartCallBack={(item:number)=>this.getSubcategories(item)
               }
               />
-              {/* <AnimalPig animalSelectedValue="Pig" navigation={''} id='3' isChartDisplay={false}
-              animalPartCallBack={(item:string)=>this.getSubcategories(item)
+              <AnimalPig animalSelectedValue={this.state.selectedCat}
+               navigation={''} id='3' isChartDisplay={false}
+              animalPartCallBack={(item:number)=>this.getSubcategories(item)
               }
-              /> */}
-              {/* <View style={{height:200,backgroundColor:'red'}}> */}
+              />
 
-                {/* <AnimalChicken animalSelectedValue="Chicken" id="8"
+               <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                   navigation={null}
                   isChartDisplay={false}
-                  animalPartCallBack={(item: string) => this.getSubcategories(item)} /> */}
-              {/* </View> */}
+                  animalPartCallBack={(item: number) => this.getSubcategories(item)} /> 
 
               <FlatList
                 data={this.state.subCategoryList}

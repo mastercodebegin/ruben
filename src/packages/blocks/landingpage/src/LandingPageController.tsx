@@ -191,7 +191,7 @@ export default class LandingPageController extends BlockComponent<
       categories: [],
       subcategories: [],
       selectedSub: '',
-      selectedCat: null,
+      selectedCat: 'Cow',
       searchText: '',
       searchResults: [],
       showSearchResults: false,
@@ -1475,7 +1475,7 @@ export default class LandingPageController extends BlockComponent<
   }
 
 
-  async getSubcategories(subCategoryId: string) {
+  async getSubcategories(subCategoryId: number) {
     alert(subCategoryId)
     return
     this.setState({ show_loader: true, selectedSub: '', })
