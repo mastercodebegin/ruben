@@ -34,8 +34,44 @@ export class ExplorePage extends LandingPageController {
   }
   async componentDidMount() {
     this.getCategory.bind(this)(1);
+    //this.getProductByCategory()
     this.getProductList(this.state.sortAscending);
   }
+  getAnimalByCategory=(name:string)=>{
+    console.log('name===',name);
+    
+    if( name=='angus beef bacon' || name=="angus beef" )
+    {
+      console.log('if');
+      
+ return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3' 
+    isChartDisplay={false}
+    animalPartCallBack={
+      (item:number)=> //this.getProductByCategory()
+     this.getProductList(this.state.sortAscending)
+  }
+  />
+}
+else if(name=='berkshire pork')
+{
+return (<AnimalPig animalSelectedValue={this.state.selectedCat}
+   navigation={''} id='3' isChartDisplay={false}
+   animalPartCallBack={() =>    // (item:number)=>this.getSubcategories(item)
+   this.getProductList(this.state.sortAscending)
+  }
+  />)
+}
+else if(name=='chicken')
+{
+return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
+      navigation={null}
+      isChartDisplay={false}
+      animalPartCallBack={()=>
+        // (item:number)=>this.getSubcategories(item)
+        this.getProductList(this.state.sortAscending)
+
+     }       /> 
+  }}
   renderItem = ({ item, index }: any) => {
 
 
@@ -160,8 +196,12 @@ export class ExplorePage extends LandingPageController {
                   return (
                     <RenderCategories
                       onpress={() => {
-                        this.setState({ selectedCat: item?.id, isCallingFromStore: true, subCategoryList: [] })
-                        this.getSubcategories.bind(this)(item?.id)
+                        console.log('item===============',item)
+                        
+                        this.setState({
+                           selectedCat: item?.title, 
+                          isCallingFromStore: true, subCategoryList: [] })
+                        //this.getSubcategories.bind(this)(item?.id)
                       }}
                       item={item}
                       index={index}
@@ -170,23 +210,9 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-                <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3' 
-                isChartDisplay={false}
-              animalPartCallBack={(item:number)=>this.getSubcategories(item)
-              }
-              />
-              <AnimalPig animalSelectedValue={this.state.selectedCat}
-               navigation={''} id='3' isChartDisplay={false}
-              animalPartCallBack={(item:number)=>this.getSubcategories(item)
-              }
-              />
+{this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
 
-               <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
-                  navigation={null}
-                  isChartDisplay={false}
-                  animalPartCallBack={(item: number) => this.getSubcategories(item)} /> 
-
-              <FlatList
+              {/* <FlatList
                 data={this.state.subCategoryList}
                 horizontal
                 bounces={false}
@@ -194,7 +220,7 @@ export class ExplorePage extends LandingPageController {
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
                 renderItem={this.renderItem}
-              />
+              /> */}
               {this.state.productList?.map((item: any, index: number) => {
                 const { attributes } = item;
                 return (
@@ -314,6 +340,27 @@ const ReduxExplorePage: any = connect(
 export default ReduxExplorePage;
 
 export const styles = StyleSheet.create({
+  button: {
+    height: 25,
+    width: 25,
+    backgroundColor: BUTTON_COLOR_SECONDARY,
+    borderRadius: 12.5,
+    borderWidth: .6,
+    borderColor: PRIMARY_COLOR,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  counter: {
+    paddingHorizontal: 10,
+    color: TEXT_COLOR,
+    fontSize: 17,
+  },
+
+  counterContainer: { flexDirection: "row", alignItems: "center" },
+
+  count: {
+    color: BUTTON_COLOR_PRIMARY,
+  },
   dualButton: {
     position: "absolute",
     bottom: 0,

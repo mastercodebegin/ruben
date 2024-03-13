@@ -38,7 +38,7 @@ export default class AnimalPig extends AnalyticsController {
        }
     return (
       <View style={styles.container}>
-        {this.props?.animalSelectedValue == 'Pig' &&
+        {this.props?.animalSelectedValue == 'Berkshire Pork' &&
           <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
             {chartDisplay()}
             <View style={styles.animalImgCont}>

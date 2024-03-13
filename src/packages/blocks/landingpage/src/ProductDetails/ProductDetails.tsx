@@ -24,6 +24,7 @@ import {
   BUTTON_TEXT_COLOR_PRIMARY,
   BUTTON_COLOR_PRIMARY,
   TEXT_COLOR,
+  BUTTON_COLOR_SECONDARY,
 } from "../assets";
 import { deepLinkingURL } from "../../../../components/src/constants";
 import RenderSteps from "./RenderSteps";
@@ -32,6 +33,7 @@ import RenderCategoriesList from "../RenderCategoriesList";
 import RenderAboutThisFarm from "./RenderAboutThisFarm";
 import {RecurringModal} from "../ProductDetails/RecurringModal";
 import { showToast } from "../../../../components/src/ShowToast";
+import CustomDropdown from "../../../PersonelDetails/src/CustomDropDown";
 
 export const ImageData = [
   {
@@ -56,6 +58,7 @@ export const sampleText =
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
+    this.getProductDetailsByCategoryId(809)
     this.farmDetails();
     this.updateProductViewCount(this.props?.route?.params?.id)
   }
@@ -95,7 +98,7 @@ export default class ProductDetailScreen extends LandingPageController {
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
-              <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
+              {/* <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
                 <Image
                   resizeMode="stretch"
                   style={[styles.search,{tintColor:PRIMARY_COLOR}]}
@@ -115,10 +118,9 @@ export default class ProductDetailScreen extends LandingPageController {
                     source={EXPLORE_BTN}
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
-            <RenderCategoriesList
-              //onPressCategory={this.getSubcategories.bind(this)}
+            {/* <RenderCategoriesList
               onEndReached={() => {
                 if (this.categoryPage === null) {
                   return;
@@ -127,7 +129,7 @@ export default class ProductDetailScreen extends LandingPageController {
                 this.getCategory.bind(this)(this.categoryPage);
               }}
               data={this.state.categories}
-            />
+            /> */}
             <View style={style.imageContainer}>
               <View style={style.flex}>
                 <Image
@@ -156,6 +158,40 @@ export default class ProductDetailScreen extends LandingPageController {
               </Text>
               
             </View>
+            <View style={{ height: 80, flexDirection: 'row' }}>
+              <View style={{ flex: .6, }}>
+                <CustomDropdown data={
+
+                  [
+                    { label: 'small', value: '1' },
+                    { label: 'medium', value: '2' },
+                    { label: 'large', value: '3' }
+                  ]
+                }
+                onChange={(item)=>console.log(item)}
+
+                />
+              </View>
+              <View style={{ flex: .4,justifyContent:'center',alignItems:'flex-start' }}>
+                <View style={styles.counterContainer}>
+                  <TouchableOpacity
+                  disabled={this.state.variantQuantity<=0?true:false}
+                     onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
+                    style={styles.button}
+                  >
+                    <Text style={{ color: BUTTON_COLOR_PRIMARY }}>{"-"}</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.counter}>{this.state.variantQuantity}</Text>
+                  <TouchableOpacity
+                   onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
+                    style={styles.button}
+                  >
+                    <Text style={{ color: BUTTON_COLOR_PRIMARY, }}>{"+"}</Text>
+                  </TouchableOpacity>
+                </View>           
+                 </View>
+            </View>
+
             <View style={{ flexDirection: "row",marginVertical:10}}>
               <View style={{flex:0.15,justifyContent:"center"}}>
                 <TouchableOpacity
@@ -288,5 +324,26 @@ const style = StyleSheet.create({
     width: "100%",
     resizeMode: "contain",
     tintColor: BUTTON_TEXT_COLOR_PRIMARY,
+  },
+  counter: {
+    paddingHorizontal: 10,
+    color: TEXT_COLOR,
+    fontSize: 17,
+  },
+  button: {
+    height: 25,
+    width: 25,
+    backgroundColor: BUTTON_COLOR_SECONDARY,
+    borderRadius: 12.5,
+    borderWidth: .6,
+    borderColor: PRIMARY_COLOR,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  counterContainer: { flexDirection: "row", alignItems: "center" },
+
+  count: {
+    color: BUTTON_COLOR_PRIMARY,
   },
 });

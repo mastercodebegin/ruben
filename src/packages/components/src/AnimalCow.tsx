@@ -41,7 +41,7 @@ export default class AnimalCow extends AnalyticsController {
 
     return (
       <View style={styles.container}>
-        {this.props?.animalSelectedValue === "Cow" && (
+        {this.props?.animalSelectedValue =='Angus Beef Bacon' && (
           <View
             style={
               this.props.isChartDisplay

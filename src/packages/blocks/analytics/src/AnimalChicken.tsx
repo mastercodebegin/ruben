@@ -35,11 +35,16 @@ export default class AnimalChicken extends AnalyticsController {
       lineHeight
     } = this.state.soldChart;
 
-
+ 
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Chicken' &&
-          <View style={styles.animalImgContainer}>
+          <View 
+          style={
+            this.props.isChartDisplay
+              ? styles.animalImgContainer
+              : [styles.animalImgContainerForStore,{marginTop:40}]
+          }>
            {this.props.isChartDisplay? <AnimalChart top={top} left={left} 
             isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />:null}
             <View style={styles.animalImgCont}>
@@ -261,6 +266,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 0,
     transform: [{ rotate: '-35deg' }],
+  },
+  animalImgContainerForStore: {
+    justifyContent: "center",
+    height: 150,
+    borderRadius: 10,
+    marginTop: 20,
   },
   clickOnChickenTail: {
     width: 55,

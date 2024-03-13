@@ -68,7 +68,7 @@ interface S {
   categories: Array<object>;
   subcategories: Array<object>;
   selectedSub: string;
-  selectedCat: any,
+  selectedCat: string,
   searchText: string;
   showSearchResults: boolean;
   searchResults: any[];
@@ -126,6 +126,7 @@ interface S {
   isCallingFromStore: boolean
   subCategoryProductList: any
   homePageInfo:any
+  variantQuantity:number
   // Customizable Area End
 }
 
@@ -150,6 +151,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      variantQuantity:0,
       homePageInfo:{},
       isCallingFromStore: false,
       isMyProfile: false,
@@ -191,7 +193,7 @@ export default class LandingPageController extends BlockComponent<
       categories: [],
       subcategories: [],
       selectedSub: '',
-      selectedCat: 'Cow',
+      selectedCat: '',
       searchText: '',
       searchResults: [],
       showSearchResults: false,
@@ -320,7 +322,8 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.searchProductsCallback(error, userDetails);
-    } else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    } 
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.updateProfileDetailsId != null &&
       this.updateProfileDetailsId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -332,6 +335,21 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.updateProfileCallback(error, userDetails)
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getProductDetailsByCategoryCallId != null &&
+      this.getProductDetailsByCategoryCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const userDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      this.props.setState({ show_loader: false })
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      console.log('getProductDetailsByCategoryCallId================');
+      
+      this.getProductDetailsByCategoryCallback(error, userDetails)
     }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getCategoriesId != null &&
@@ -401,7 +419,16 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
 
+handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
+if(increameant)
+{
+  this.setState({variantQuantity:this.state.variantQuantity+1})
+}
+else{
+  this.setState({variantQuantity:this.state.variantQuantity-1})
 
+}
+}
   handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
 
     if (availableCuts < remainingCuts) {
@@ -971,10 +998,19 @@ export default class LandingPageController extends BlockComponent<
       }
     }
   }
+  getProductDetailsByCategoryCallback(error: any, response: any) {
+    if (error) {
+      this.showAlert('something went wrong')
+    } else if (response) {
+    console.log('response=========================',response)
+    
+    }
+  }
   getprofileDetailsId: string = '';
   setTokenId: string = '';
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
+  getProductDetailsByCategoryCallId: string = '';
   getFarmId: string = '';
   getAboutUsId: any;
   getSubCategoryId: string = '';
@@ -1053,6 +1089,42 @@ export default class LandingPageController extends BlockComponent<
     );
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
+
+  async getProductDetailsByCategoryId(categoryId: number, loader = true) {
+    console.log('function getProductDetailsByCategoryCallId>>>>>>>>>>>>>>>>>>>');
+    
+    this.setState({ show_loader: loader, subCategoryList: [] })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.getProductDetailsByCategoryCallId = getValidationsMsg.messageId;
+
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_catalogue/catalogues/${categoryId}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
   async updateProductViewCount(id: number, loader = true) {
     this.setState({ show_loader: loader })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1476,8 +1548,7 @@ export default class LandingPageController extends BlockComponent<
 
 
   async getSubcategories(subCategoryId: number) {
-    alert(subCategoryId)
-    return
+    
     this.setState({ show_loader: true, selectedSub: '', })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)

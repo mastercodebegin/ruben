@@ -196,9 +196,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   constructor(props: Props) {
     super(props);
     this.receive = this.receive.bind(this);
-    // Customizable Area Start
 
-    const today = moment(new Date(), "YYYY-MM-DD").toString();
+    // Customizable Area Start
+    const today = moment(new Date(),  "YYYY-MM-DD").toString();
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
@@ -865,42 +865,10 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     console.log('data===', data)
     let id = 0;
     switch (partOfCow) {
-      case 'chuck':
-        id = 1;
-        break;
-    case 'cowHead':
+      case 'cow_Round':
         id = 2;
         break;
-    case 'cow_Fore_Shank':
-        id = 3;
-        break;
-    case 'cow_Short_plate':
-        id = 4;
-        break;
-    case 'cow_Flank':
-        id = 5;
-        break;
-    case 'cow_shank':
-        id = 6;
-        break;
-    case 'cow_Round':
-        id = 7;
-        break;
-    case 'cow_Sirllion':
-        id = 8;
-        break;
-    case 'cow_Short_lion':
-        id = 9;
-        break;
-    case 'cow_Rib':
-        id = 10;
-        break;
-    case 'cow_Brisket':
-        id = 11;
-        break;
-    default:
-        id = 10;
-        break;
+      default: id = 10
 
 
     }
@@ -925,7 +893,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     });
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfChicken);
     this.soldChart(partOfChicken, data);
-    this.props.animalPartCallBack(partOfChicken)
+    this.props.animalPartCallBack(1)
   }
 
   onPigClick(partOfPig: PigParts) {
@@ -947,7 +915,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     });
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfPig);
     this.soldChart(partOfPig, data);
-    this.props.animalPartCallBack(partOfPig)
+    this.props.animalPartCallBack(2)
 
   }
 

@@ -35,7 +35,7 @@ interface S{
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          containerStyle={{bottom:34}}
+          containerStyle={{bottom:10,borderRadius:10}}
           data={props.data}
          // search
          showsVerticalScrollIndicator={false}
@@ -66,17 +66,20 @@ interface S{
     container: {
       backgroundColor: 'white',
       padding: 16,
+      flex:1
     },
     dropdown: {
       //height: 50,
       borderColor: 'gray',
       borderWidth: 0.5,
-      borderRadius: 8,
+      borderRadius: 26,
       //width:280,
       flex:1,
-      alignSelf:'center',
+      color:'red',
+
       backgroundColor:'white',
       paddingHorizontal: 8,
+
       //bottom:8
     },
     icon: {
@@ -93,13 +96,20 @@ interface S{
     },
     placeholderStyle: {
       fontSize: 16,
+      color:'gray',
+      left:4
+
     },
     selectedTextStyle: {
       fontSize: 16,
+      color:'gray',
+      left:4
+
     },
     iconStyle: {
       width: 20,
       height: 20,
+      tintColor:'gray'
     },
     inputSearchStyle: {
       height: 40,
