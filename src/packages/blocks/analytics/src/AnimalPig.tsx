@@ -104,20 +104,7 @@ export default class AnimalPig extends AnalyticsController {
                   source={pigShoulder}
                 />
               }
-              {this.state.pigPicnic &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigpicnis}
-                />
-              }
-              {this.state.pigJowl &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigJowl}
-                />
-              }
+
               {this.state.pigBackFat &&
                 <Image
                   style={styles.animalImg}
