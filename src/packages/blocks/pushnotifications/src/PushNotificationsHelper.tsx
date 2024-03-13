@@ -43,7 +43,6 @@ export default class PushNotificationsHelper {
   addListener(navigation:any) {
     //when app is in background if we came from notification onNotificationOpenedApp will called
     this.messageInstance.onNotificationOpenedApp(async (remoteMessage) => {
-      alert('test alert 1')
 
       console.log(
         "message from remote notification ",
@@ -53,7 +52,6 @@ export default class PushNotificationsHelper {
     });
     //while app is in alive state onMessage function will be called
     this.messageInstance.onMessage(async (remoteMessage) => {
-      alert('test alert 2')
 
       console.log(
         "message from remote notification alive 60 ",
@@ -64,7 +62,6 @@ export default class PushNotificationsHelper {
     // if we open app from notification when app is not alive
     this.messageInstance.getInitialNotification().then((remoteMessage) => {
       if (remoteMessage) {
-        alert('test alert 3')
         navigation.navigate("MyOrdersScreen");
         console.log(
           "Notification caused app to open from quit state:",
