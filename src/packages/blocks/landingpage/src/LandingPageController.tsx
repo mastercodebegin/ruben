@@ -351,31 +351,7 @@ export default class LandingPageController extends BlockComponent<
       
       this.getProductDetailsByCategoryCallback(error, userDetails)
     }
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getCategoriesId != null &&
-      this.getCategoriesId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const categories = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.categoryCallback.bind(this)(error, categories.data)
-    }
 
-    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.getFarmId != null &&
-      this.getFarmId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const farmDetails = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      this.getFarmCallBack(farmDetails, error)
-    }
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.getSubCategoryId != null &&
@@ -399,6 +375,7 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductCallback(message)
     }
     else {
+      this.subAsyncRecieve(message)
       this.receiveCallback(message)
       this.resDeleteFavAPI(message)
       this.resFavListAPI(message)
@@ -418,6 +395,43 @@ export default class LandingPageController extends BlockComponent<
   }
 
   // Customizable Area Start
+
+  subAsyncRecieve(message:Message)
+  {
+     if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.remainingProductApiCallId != null &&
+      this.remainingProductApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      this.remainingProductCallback(message)
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getCategoriesId != null &&
+    this.getCategoriesId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const categories = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.categoryCallback.bind(this)(error, categories.data)
+  }
+
+  else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getFarmId != null &&
+    this.getFarmId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+    const farmDetails = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    this.getFarmCallBack(farmDetails, error)
+  }
+  }
 
 handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
 if(increameant)

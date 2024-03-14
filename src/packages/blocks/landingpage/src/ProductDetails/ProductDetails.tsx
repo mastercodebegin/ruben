@@ -98,38 +98,9 @@ export default class ProductDetailScreen extends LandingPageController {
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
-              {/* <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
-                <Image
-                  resizeMode="stretch"
-                  style={[styles.search,{tintColor:PRIMARY_COLOR}]}
-                  source={SEARCH}
-                />
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Search any Product"
-                  placeholderTextColor={TEXT_COLOR}
-                />
-              </View>
-              <View style={{ height: "100%", }}>
-                <TouchableOpacity style={styles.exploreBtn}>
-                  <Image
-                    style={[styles.explore,{tintColor:PRIMARY_COLOR}]}
-                    resizeMode="contain"
-                    source={EXPLORE_BTN}
-                  />
-                </TouchableOpacity>
-              </View> */}
+           
             </View>
-            {/* <RenderCategoriesList
-              onEndReached={() => {
-                if (this.categoryPage === null) {
-                  return;
-                }
-                this.categoryPage = this.categoryPage + 1;
-                this.getCategory.bind(this)(this.categoryPage);
-              }}
-              data={this.state.categories}
-            /> */}
+         
             <View style={style.imageContainer}>
               <View style={style.flex}>
                 <Image

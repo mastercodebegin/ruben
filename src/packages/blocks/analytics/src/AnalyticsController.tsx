@@ -198,7 +198,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.receive = this.receive.bind(this);
 
     // Customizable Area Start
-    const today = moment(new Date(),  "YYYY-MM-DD").toString();
+    const today = moment(new Date(), "YYYY-MM-DD").toString();
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
@@ -865,8 +865,14 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     console.log('data===', data)
     let id = 0;
     switch (partOfCow) {
-      case 'cow_Round':
+      case 'cowHead':
         id = 2;
+        break;
+      case 'chuck':
+        id = 3;
+        break;
+      case 'cow_Fore_Shank':
+        id = 3;
         break;
       default: id = 10
 
