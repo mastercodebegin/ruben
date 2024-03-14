@@ -58,7 +58,7 @@ export const sampleText =
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
-    this.getProductDetailsByCategoryId(809)
+    this.getProductDetailsByCategoryId(1269)
     this.farmDetails();
     this.updateProductViewCount(this.props?.route?.params?.id)
   }
@@ -86,7 +86,7 @@ export default class ProductDetailScreen extends LandingPageController {
             visible={this.state.showRecurringModal}
             setVisible={()=>this.setState({showRecurringModal:false})}
             recurringOrder={async (quantity,frequency)=>{              
-             const res =  await this.addToCart(id,quantity,frequency);                          
+             const res =  await this.addToCart(id,1,frequency);                          
               this.setState({showRecurringModal:false})
               setTimeout(() => {
                 if(res){
@@ -125,7 +125,7 @@ export default class ProductDetailScreen extends LandingPageController {
             <View style={style.priceContainer}>
               <Text style={style.text}>
                 <Text style={style.text}>$</Text>
-                <Text style={style.price}>{price}</Text>/kg
+                <Text style={style.price}>{this.state.variantObject.price}</Text>/kg
               </Text>
               
             </View>
@@ -133,20 +133,18 @@ export default class ProductDetailScreen extends LandingPageController {
               <View style={{ flex: .6, }}>
                 <CustomDropdown data={
 
-                  [
-                    { label: 'small', value: '1' },
-                    { label: 'medium', value: '2' },
-                    { label: 'large', value: '3' }
-                  ]
+                  this.state.variantObject.variantArray
                 }
                 onChange={(item)=>console.log(item)}
+                placeholder={this.state.variantObject.variantType}
 
                 />
               </View>
+
               <View style={{ flex: .4,justifyContent:'center',alignItems:'flex-start' }}>
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
-                  disabled={this.state.variantQuantity<=0?true:false}
+                  disabled={this.state.variantObject.quantity<=0?true:false}
                      onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
                     style={styles.button}
                   >
@@ -162,7 +160,10 @@ export default class ProductDetailScreen extends LandingPageController {
                 </View>           
                  </View>
             </View>
-
+{           
+ this.state.variantObject.quantity>0?<Text style={{color:'red',fontWeight:'400'}}>in stock </Text>:
+ <Text style={{color:'red',fontWeight:'400'}}> {this.state.variantObject.quantity} </Text>
+}
             <View style={{ flexDirection: "row",marginVertical:10}}>
               <View style={{flex:0.15,justifyContent:"center"}}>
                 <TouchableOpacity
@@ -180,11 +181,13 @@ export default class ProductDetailScreen extends LandingPageController {
                 </View>
                 <View style={{flex:0.4,justifyContent:"center"}}>
                 <TouchableOpacity
-                testID="adToCart"
+                  testID="adToCart"
                   onPress={() =>
-                    this.addToCart.bind(this)(this.props?.route?.params?.id)
+                    {this.state.variantQuantity>0?this.addToCart.bind(this)(this.props?.route?.params?.id,
+                      this.state.variantQuantity,
+                      this.state.variantObject.catalogue_id):alert('Please add quantity')}
                   }
-                  style={style.cartButton}
+                  style={[style.cartButton,]}
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>

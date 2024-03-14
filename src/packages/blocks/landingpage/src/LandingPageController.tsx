@@ -126,7 +126,8 @@ interface S {
   isCallingFromStore: boolean
   subCategoryProductList: any
   homePageInfo:any
-  variantQuantity:number
+  variantQuantity:number,
+  variantObject:{price:string,productImage:string,quantity:number,variantArray:Array<any>,variantType:string,catalogue_id:number}
   // Customizable Area End
 }
 
@@ -151,6 +152,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      variantObject:{price:'',productImage:'',quantity:0,variantArray:[],variantType:'',catalogue_id:0},
       variantQuantity:0,
       homePageInfo:{},
       isCallingFromStore: false,
@@ -340,16 +342,16 @@ export default class LandingPageController extends BlockComponent<
       this.getProductDetailsByCategoryCallId != null &&
       this.getProductDetailsByCategoryCallId ===
       message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-      const userDetails = message.getData(
+      const variantResponse = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      this.props.setState({ show_loader: false })
+      this.setState({ show_loader: false })
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('getProductDetailsByCategoryCallId================');
+      console.log('getProductDetailsByCategoryCallId==============',variantResponse);
       
-      this.getProductDetailsByCategoryCallback(error, userDetails)
+      this.getProductDetailsByCategoryCallback(error, variantResponse)
     }
 
     else if (
@@ -434,13 +436,21 @@ export default class LandingPageController extends BlockComponent<
   }
 
 handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
-if(increameant)
+if(this.state.variantObject.quantity>0)
+{
+
+
+  if(increameant)
 {
   this.setState({variantQuantity:this.state.variantQuantity+1})
 }
 else{
   this.setState({variantQuantity:this.state.variantQuantity-1})
 
+}
+}
+else{
+  alert('Product is out of stock')
 }
 }
   handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
@@ -1012,12 +1022,29 @@ else{
       }
     }
   }
-  getProductDetailsByCategoryCallback(error: any, response: any) {
+  getProductDetailsByCategoryCallback(error: any, catalogResponse: any) {
     if (error) {
       this.showAlert('something went wrong')
-    } else if (response) {
-    console.log('response=========================',response)
-    
+    } else if (catalogResponse) {
+    console.log('+++++++++++++++',catalogResponse.data.attributes?.catalogue_variants[0])
+    console.log('response2==+++++',catalogResponse.data.attributes?.catalogue_variants[0].attributes )
+    let tempArr :any= []
+    catalogResponse.data.attributes?.catalogue_variants.map((item:any)=>{
+      console.log('item====',item.attributes.catalogue_id,)
+      const data: {value:string,label:string} = {
+        value: item.attributes.itemId,
+        label: item.attributes.variantType
+      };
+      tempArr.push(data)
+    }
+    )
+    const { price, stock_qty, productImage, variantType,itemId } =
+      catalogResponse.data.attributes?.catalogue_variants[0].attributes ;
+    const obj ={
+      price:price,productImage:productImage,
+      quantity:stock_qty?Number(stock_qty):0,variantArray:tempArr,variantType:variantType,catalogue_id:Number(itemId)}
+    this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0})
+    console.log('temp=============',tempArr);
     }
   }
   getprofileDetailsId: string = '';
@@ -1818,7 +1845,7 @@ else{
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number, quantity?: number, frequency?: string) {
+  async addToCart(id: number, quantity: number, variantId:number) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
 
@@ -1834,12 +1861,13 @@ else{
     const httpBody = {
       "order_items": {
         "catalogue_id": id,
+        'catalogue_variant_id':variantId,
         "quantity": quantity ? quantity : 1,
         "taxable": "true",
         "taxable_value": 0.1233,
         "other_charges": 0.124,
         "delivered_at": "2023-04-21T12:27:59.395Z",
-        "frequency": frequency
+        "frequency": ''
       }
     }
 

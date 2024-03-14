@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
   import { StyleSheet, Text, View } from 'react-native';
   import { Dropdown } from 'react-native-element-dropdown';
 import { PRIMARY_COLOR } from '../../landingpage/src/assets';
+import Placeholder from 'react-select/src/components/Placeholder';
 
 interface S{
     data:any
     onChange:()=>{}
     width:number
     height:number
-    placeholder:string
+    placeholder:string 
 }
 
   const CustomDropdown = (props:S) => {
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
+    useEffect(()=>{
+setValue(props.placeholder)
+    },[])
     const renderLabel = () => {
       if (value || isFocus) {
         return (
@@ -42,9 +46,10 @@ interface S{
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select ' : ''}
+          placeholder={ props.placeholder }
           searchPlaceholder="Search..."
           value={value}
+          
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
