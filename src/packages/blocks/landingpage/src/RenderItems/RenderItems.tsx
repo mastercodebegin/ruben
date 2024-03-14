@@ -53,6 +53,9 @@ const RenderItem = ({
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
+
+  console.log('Item========',item?.attributes?.catalogue_variants[0].attributes.price )
+  
   
   return (
     <TouchableOpacity
@@ -62,7 +65,8 @@ const RenderItem = ({
           id: item?.id,
           description: isSearch ? item?.description : item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
-          price:  isSearch ? item?.price :item?.attributes?.price,
+          price:  isSearch ? item?.attributes?.catalogue_variants[0].attributes.price :
+          item?.attributes?.catalogue_variants[0].attributes.price,
           image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
           productList:productList
         })
@@ -70,7 +74,10 @@ const RenderItem = ({
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        <FastImage resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage} />
+        {item?.attributes?.productImage ?
+          <FastImage resizeMode="stretch" style={styles.itemImage} source={{uri:item.attributes.productImage}} />:
+          <FastImage resizeMode="stretch" style={styles.itemImage} source={backGroundImage} />
+        }
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {!rating ? (
@@ -99,17 +106,26 @@ const RenderItem = ({
         </View>
       </View>
       <View style={{ paddingHorizontal: 15 }}>
-        <Text style={styles.productName}>{isSearch ? item?.categoryCode : item?.attributes?.categoryCode}</Text>
+        <Text style={styles.productName}>{isSearch ? item?.categoryCode : item?.attributes?.description}</Text>
         <Text style={styles.description} numberOfLines={1}>
           {isSearch ? item?.description : item?.attributes?.description}
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>
-            {`$ ${isSearch ? item?.price : item?.attributes?.price}` + "/Kg"}
+            {`$ ${isSearch ? item?.attributes?.catalogue_variants[0].attributes.price : item?.attributes?.catalogue_variants[0].attributes.price}` + "/Kgs"}
           </Text>
           <TouchableOpacity
             testID={"add_to_cart_id_" + index}
-            onPress={() => onPressCart(item?.id)}
+            onPress={() =>
+              navigation.navigate("ProductDetailScreen", {
+                id: item?.id,
+                description: isSearch ? item?.description : item?.attributes?.description,
+                name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
+                price:  isSearch ? item?.price :item?.attributes?.price,
+                image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
+                productList:productList
+              })
+            }
             style={styles.cartContainer}
           >
             <Image resizeMode="contain" style={[styles.cart,{tintColor:PRIMARY_COLOR}]} source={CART} />

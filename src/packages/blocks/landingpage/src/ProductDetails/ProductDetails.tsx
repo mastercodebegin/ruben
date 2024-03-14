@@ -58,7 +58,7 @@ export const sampleText =
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
     this.getCategory(1);
-    this.getProductDetailsByCategoryId(1269)
+    this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
     this.farmDetails();
     this.updateProductViewCount(this.props?.route?.params?.id)
   }
@@ -72,6 +72,8 @@ export default class ProductDetailScreen extends LandingPageController {
       productList:this.props?.route?.params?.productList,
       image:this.props?.route?.params?.image
     }
+    console.log('this.props?.route?.params',this.props?.route?.params);
+    
     return (
       <SafeAreaView style={style.flex}>
         <HeaderWithBackArrowTemplate
@@ -135,7 +137,7 @@ export default class ProductDetailScreen extends LandingPageController {
 
                   this.state.variantObject.variantArray
                 }
-                onChange={(item)=>console.log(item)}
+                onChange={(item:any)=>this.updateVariant(item)}
                 placeholder={this.state.variantObject.variantType}
 
                 />
@@ -161,8 +163,9 @@ export default class ProductDetailScreen extends LandingPageController {
                  </View>
             </View>
 {           
- this.state.variantObject.quantity>0?<Text style={{color:'red',fontWeight:'400'}}>in stock </Text>:
- <Text style={{color:'red',fontWeight:'400'}}> {this.state.variantObject.quantity} </Text>
+ this.state.variantObject.quantity<=0?
+ <Text style={{color:'red',fontWeight:'400'}}>The product is out of stock</Text>:
+ null
 }
             <View style={{ flexDirection: "row",marginVertical:10}}>
               <View style={{flex:0.15,justifyContent:"center"}}>

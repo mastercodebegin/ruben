@@ -47,7 +47,8 @@ export class ExplorePage extends LandingPageController {
  return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3' 
     isChartDisplay={false}
     animalPartCallBack={
-      (item:number)=> //this.getProductByCategory()
+      (item:number)=> 
+      //this.getProductByCategory()
      this.getProductList(this.state.sortAscending)
   }
   />
@@ -56,7 +57,8 @@ else if(name=='berkshire pork')
 {
 return (<AnimalPig animalSelectedValue={this.state.selectedCat}
    navigation={''} id='3' isChartDisplay={false}
-   animalPartCallBack={() =>    // (item:number)=>this.getSubcategories(item)
+   animalPartCallBack={() =>   
+     // (item:number)=>this.getSubcategories(item)
    this.getProductList(this.state.sortAscending)
   }
   />)
@@ -197,11 +199,11 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                     <RenderCategories
                       onpress={() => {
                         console.log('item===============',item)
-                        
+                        this.getProductByCategory(item.id)
+
                         this.setState({
                            selectedCat: item?.title, 
                           isCallingFromStore: true, subCategoryList: [] })
-                        //this.getSubcategories.bind(this)(item?.id)
                       }}
                       item={item}
                       index={index}

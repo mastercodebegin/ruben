@@ -435,6 +435,14 @@ export default class LandingPageController extends BlockComponent<
   }
   }
 
+updateVariant=(variant:any)=>{
+
+  const { price, ...rest } = this.state.variantObject;
+  const updatedVariantObject = { ...rest, price: variant.price };
+  this.setState({ variantObject: updatedVariantObject });
+  
+}
+
 handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
 if(this.state.variantObject.quantity>0)
 {
@@ -562,7 +570,7 @@ else{
       );
       if (!error && filterByCategoryResponse) {
 
-        this.setState({ productList: filterByCategoryResponse?.data, loader: false })
+        this.setState({ productList: filterByCategoryResponse?.data,})
       }
     }
   }
@@ -1006,7 +1014,7 @@ else{
         }
         
         this.categoryPage = null;
-        this.setState({ show_loader: false, categoryList: arr, categories: arr, subCategoryList: [] })
+        this.setState({ categoryList: arr, categories: arr, subCategoryList: [] })
       }
 
     }
@@ -1031,9 +1039,10 @@ else{
     let tempArr :any= []
     catalogResponse.data.attributes?.catalogue_variants.map((item:any)=>{
       console.log('item====',item.attributes.catalogue_id,)
-      const data: {value:string,label:string} = {
+      const data: {value:string,label:string,price:''} = {
         value: item.attributes.itemId,
-        label: item.attributes.variantType
+        label: item.attributes.variantType,
+        price: item.attributes.price,
       };
       tempArr.push(data)
     }
