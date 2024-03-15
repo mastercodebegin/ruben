@@ -38,6 +38,7 @@ export class ExplorePage extends LandingPageController {
     this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory=(name:string)=>{
+
     console.log('name===',name);
     
     if( name=='angus beef bacon' || name=="angus beef" )
@@ -198,9 +199,7 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                   return (
                     <RenderCategories
                       onpress={() => {
-                        console.log('item===============',item)
                         this.getProductByCategory(item.id)
-
                         this.setState({
                            selectedCat: item?.title, 
                           isCallingFromStore: true, subCategoryList: [] })
@@ -226,14 +225,14 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
               {this.state.productList?.map((item: any, index: number) => {
                 const { attributes } = item;
                 return (
-                  this.state.selectedCat || this.state.selectedSub == '' ?
-                    <>
-                      {attributes?.catalogue?.catalogues?.data.length > 0 &&
+                  
+                      
                         <View style={styles.productWrap}>
                           <View style={styles.productContainer}>
                             <Text style={styles.itemCategory}>{attributes.name}</Text>
-                            {attributes?.catalogue.catalogues_count > 8 &&
-                              <Text onPress={() => this.props.navigation.navigate("ViewProduct", { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
+                            {this.state.productList.length > 898 &&
+                              <Text onPress={() => this.props.navigation.navigate("ViewProduct", 
+                              { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
                           </View>
                           <RenderItems
                             navigation={this.props.navigation}
@@ -245,26 +244,9 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                             header={true}
                             rating={true}
                           />
-                        </View>}
-                    </> :
-                    (this.state.selectedCat == attributes?.id) &&
-                    <View style={styles.productWrap}>
-                      <View style={styles.productContainer}>
-                        <Text style={styles.itemCategory}>{attributes.name}</Text>
-                        {attributes?.catalogue.catalogues_count > 8 &&
-                          <Text onPress={() => this.props.navigation.navigate("ViewProduct", { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
-                      </View>
-                      <RenderItems
-                        navigation={this.props.navigation}
-                        onPressCart={this.addToCart.bind(this)}
-                        onpressFav={this.AddToFavorites.bind(this)}
-                        testID="products_list_id2"
-                        handleLoadMore={() => { this.handleLoadMore() }}
-                        item={attributes?.catalogue?.catalogues?.data}
-                        header={true}
-                        rating={true}
-                      />
-                    </View>
+                        </View>
+                    
+                   
                 )
               })}
 

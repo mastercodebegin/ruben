@@ -54,7 +54,6 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  console.log('Item========',item?.attributes?.catalogue_variants[0].attributes.price )
   
   
   return (
@@ -148,6 +147,8 @@ const RenderItems = ({
   prodList
 }: Types) => {
   const productList = item;
+  console.log('productList======',productList);
+  
   return (
     <View>
       <FlatList
@@ -165,7 +166,7 @@ const RenderItems = ({
             item={item}
             navigation={navigation}
             index={index}
-            productList={isSearch ? prodList : productList}
+            productList={ productList}
             isSearch={isSearch}
           />
         )}

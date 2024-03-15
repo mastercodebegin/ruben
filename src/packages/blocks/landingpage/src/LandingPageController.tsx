@@ -73,6 +73,7 @@ interface S {
   showSearchResults: boolean;
   searchResults: any[];
   productsList: Array<any>;
+  categoryProductsList: Array<any>;
   refresh: boolean;
   imageBlogList: Array<object>;
   videoLibrary: Array<object>;
@@ -152,6 +153,7 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      categoryProductsList:[],
       variantObject:{price:'',productImage:'',quantity:0,variantArray:[],variantType:'',catalogue_id:0},
       variantQuantity:0,
       homePageInfo:{},
@@ -549,7 +551,9 @@ else{
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        this.setState({ productList: filterByCategoryResponse?.data })
+        console.log('response=======',filterByCategoryResponse)
+        
+        this.setState({ productList: filterByCategoryResponse?.data,show_loader:false })
       }
     }
   }
@@ -1485,8 +1489,10 @@ else{
 
     return true;
   }
-  async getProductByCategory() {
-    this.setState({ loader: true })
+  async getProductByCategory(id:number) {
+    console.log('getProductByCategory id==========',id);
+    
+    this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1499,7 +1505,7 @@ else{
     this.filterProductByCategoryId = getValidationsMsg.messageId;
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      'bx_block_catalogue/catalogues?query=brisket'
+      `bx_block_categories/categories/fetch_products_by_category?category_id=${id}`
     );
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

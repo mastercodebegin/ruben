@@ -36,6 +36,7 @@ export default class AnimalPig extends AnalyticsController {
             sold={sold} remaining={remaining} lineHeight={lineHeight} />:<></>}
         </>)
        }
+     
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Berkshire Pork' &&
