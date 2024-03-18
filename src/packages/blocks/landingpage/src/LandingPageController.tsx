@@ -128,6 +128,8 @@ interface S {
   subCategoryProductList: any
   homePageInfo:any
   variantQuantity:number,
+  variantId:number,
+  availableQuantity:number,
   variantObject:{price:string,productImage:string,quantity:number,variantArray:Array<any>,variantType:string,catalogue_id:number}
   // Customizable Area End
 }
@@ -153,6 +155,8 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
+      variantId:0,
+      availableQuantity:0,
       categoryProductsList:[],
       variantObject:{price:'',productImage:'',quantity:0,variantArray:[],variantType:'',catalogue_id:0},
       variantQuantity:0,
@@ -433,9 +437,7 @@ export default class LandingPageController extends BlockComponent<
   let error = message.getData(
     getName(MessageEnum.RestAPIResponceErrorMessage)
   );
- console.log('stockRes=====',stockRes);
- console.log('stockRes error=====',error);
-
+this.setState({availableQuantity:stockRes?.result?.stockQty?stockRes?.result?.stockQty:0,show_loader:false})
  
 }
   else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -453,25 +455,31 @@ export default class LandingPageController extends BlockComponent<
   }
 
 updateVariant=(variant:any)=>{
+console.log('variant====',variant);
 
   const { price, ...rest } = this.state.variantObject;
-  const updatedVariantObject = { ...rest, price: variant.price };
-  this.setState({ variantObject: updatedVariantObject });
+  const updatedVariantObject = { ...rest, price: variant.price,image:variant?.image };
+  this.checkStock(variant.value)
+  this.setState({ variantObject: updatedVariantObject,variantId:variant.value });
   
 }
 
 handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
-if(this.state.variantObject.quantity>0)
+if(this.state.availableQuantity>0  )
 {
 
-
+if(this.state.variantQuantity<this.state.availableQuantity)
+{
   if(increameant)
 {
   this.setState({variantQuantity:this.state.variantQuantity+1})
 }
 else{
   this.setState({variantQuantity:this.state.variantQuantity-1})
-
+}
+}
+else{
+  alert('You have reached max limit')
 }
 }
 else{
@@ -567,9 +575,15 @@ else{
       );
       if (!error && filterByCategoryResponse) {
         console.log('filterByCategoryResponse=======',filterByCategoryResponse)
+        if(filterByCategoryResponse.data.length==0)
+        {
+showToast('No products foound')
+        }
+        else{
+
         
         this.setState({ searchResults: filterByCategoryResponse?.data,show_loader:false,productList:[] })
-      }
+      }}
     }
   }
 
@@ -766,7 +780,6 @@ else{
 
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', updateProductViewCount)
 
-      this.setState({ show_loader: false })
 
 
     }
@@ -818,10 +831,10 @@ else{
 
   getFarmCallBack(farmDetails: any, error: any) {
     if (error) {
-      this.setState({ show_loader: false })
+      this.setState({ show_loader: true })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      this.setState({ productDetails: farmDetails.data[0], show_loader: false })
+      this.setState({ productDetails: farmDetails.data[0], show_loader: true })
     }
   }
 
@@ -913,6 +926,8 @@ else{
       const cartData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
+      console.log("cartData=============",cartData);
+      
 
       if (cartData?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
@@ -1054,26 +1069,32 @@ else{
       this.showAlert('something went wrong')
     } else if (catalogResponse) {
     console.log('+++++++++++++++',catalogResponse.data.attributes?.catalogue_variants[0])
-    console.log('response2==+++++',catalogResponse.data.attributes?.catalogue_variants[0].attributes )
+    console.log('catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId',    catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId
+    )
     let tempArr :any= []
     catalogResponse.data.attributes?.catalogue_variants.map((item:any)=>{
-      console.log('item====',item.attributes.catalogue_id,)
-      const data: {value:string,label:string,price:''} = {
-        value: item.attributes.itemId,
+      console.log('item attributes=========',item.attributes,)
+      const data: {value:string,label:string,price:'',productImage:''} = {
+        value: item.attributes.id,
         label: item.attributes.variantType,
         price: item.attributes.price,
+        productImage: item.attributes?.productImage
       };
       tempArr.push(data)
     }
     )
     const { price, stock_qty, productImage, variantType,itemId } =
       catalogResponse.data.attributes?.catalogue_variants[0].attributes ;
-    const obj ={
+    
+      const obj ={
       price:price,productImage:productImage,
-      quantity:stock_qty?Number(stock_qty):0,variantArray:tempArr,variantType:variantType,catalogue_id:Number(itemId)}
-   this.checkStock(123)
-      this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0})
-    console.log('temp=============',tempArr);
+      quantity:stock_qty?Number(stock_qty):0,
+      variantArray:tempArr,variantType:variantType,
+      catalogue_id:Number(itemId)}
+
+      this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0,variantId:catalogResponse.data.attributes?.catalogue_variants[0].attributes.id})
+      this.checkStock(catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId)
+
     }
   }
   getprofileDetailsId: string = '';
@@ -1129,7 +1150,7 @@ else{
     getUpDateFavList: this.removeFavListProduct
   }
   async getCategory(page: number, loader = true) {
-    this.setState({ show_loader: loader, subCategoryList: [] })
+    this.setState({ show_loader: false, subCategoryList: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1180,7 +1201,7 @@ else{
 
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `/bx_block_categories/categories/fetch_subcategory_products?sub_category_id=${id}`
+      `bx_block_categories/categories/check_stock_availability?item_id=${id}`
     );
 
     getValidationsMsg.addData(
@@ -1195,7 +1216,6 @@ else{
   }
 
   async getProductDetailsByCategoryId(categoryId: number, loader = true) {
-    console.log('function getProductDetailsByCategoryCallId>>>>>>>>>>>>>>>>>>>');
     
     this.setState({ show_loader: loader, subCategoryList: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1230,7 +1250,6 @@ else{
   }
 
   async updateProductViewCount(id: number, loader = true) {
-    this.setState({ show_loader: loader })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1911,6 +1930,10 @@ else{
   }
 
   async addToCart(id: number, quantity: number, variantId:number) {
+    console.log('id',id);
+    console.log('quantity',quantity);
+    console.log('variantId',variantId);
+    
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
 

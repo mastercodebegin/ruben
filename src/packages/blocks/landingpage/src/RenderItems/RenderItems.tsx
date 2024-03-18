@@ -64,7 +64,7 @@ const RenderItem = ({
           id: item?.id,
           description: isSearch ? item?.description : item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
-          price:  isSearch ? item?.attributes?.catalogue_variants[0].attributes.price :
+          price:  
           item?.attributes?.catalogue_variants[0].attributes.price,
           image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
           productList:productList
@@ -111,7 +111,7 @@ const RenderItem = ({
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>
-            {`$ ${isSearch ? item?.attributes?.catalogue_variants[0].attributes.price : item?.attributes?.catalogue_variants[0].attributes.price}` + "/Kgs"}
+            {`$ ${item?.attributes?.catalogue_variants[0].attributes.price}` + "/Kgs"}
           </Text>
           <TouchableOpacity
             testID={"add_to_cart_id_" + index}

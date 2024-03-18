@@ -31,7 +31,7 @@ import RenderSteps from "./RenderSteps";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
 import RenderCategoriesList from "../RenderCategoriesList";
 import RenderAboutThisFarm from "./RenderAboutThisFarm";
-import {RecurringModal} from "../ProductDetails/RecurringModal";
+import { RecurringModal } from "../ProductDetails/RecurringModal";
 import { showToast } from "../../../../components/src/ShowToast";
 import CustomDropdown from "../../../PersonelDetails/src/CustomDropDown";
 
@@ -57,25 +57,24 @@ export const sampleText =
   "Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text that shares some characteristics of a real written text , but is a random or otherwise generated.";
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
-    this.getCategory(1);
     this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
-    console.log('this.props?.route?.params?.id',this.props?.route?.params?.id);
-    
+    console.log('this.props?.route?.params?.id', this.props?.route?.params?.id);
+
     this.farmDetails();
     this.updateProductViewCount(this.props?.route?.params?.id)
   }
-  
+
   render() {
-    const { id = '', description = '', name = '', price = '' ,productList=[],image=""} = {
+    const { id = '', description = '', name = '', price = '', productList = [], image = "" } = {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
       price: this.props?.route?.params?.price,
-      productList:this.props?.route?.params?.productList,
-      image:this.props?.route?.params?.image
+      productList: this.props?.route?.params?.productList,
+      image: this.props?.route?.params?.image
     }
-    console.log('this.props?.route?.params',this.props?.route?.params);
-    
+    console.log('this.props?.route?.params', this.props?.route?.params);
+
     return (
       <SafeAreaView style={style.flex}>
         <HeaderWithBackArrowTemplate
@@ -85,40 +84,40 @@ export default class ProductDetailScreen extends LandingPageController {
           navigation={this.props.navigation}
         >
           <>
-          {this.state.showRecurringModal && (
-            <RecurringModal 
-            visible={this.state.showRecurringModal}
-            setVisible={()=>this.setState({showRecurringModal:false})}
-            recurringOrder={async (quantity,frequency)=>{              
-             const res =  await this.addToCart(id,1,frequency);                          
-              this.setState({showRecurringModal:false})
-              setTimeout(() => {
-                if(res){
-                  this.props.navigation.navigate('MyCart');
-                }
-              }, 1000);
-            }}/>
-          )}
+            {this.state.showRecurringModal && (
+              <RecurringModal
+                visible={this.state.showRecurringModal}
+                setVisible={() => this.setState({ showRecurringModal: false })}
+                recurringOrder={async (quantity, frequency) => {
+                  const res = await this.addToCart(id, 1, frequency);
+                  this.setState({ showRecurringModal: false })
+                  setTimeout(() => {
+                    if (res) {
+                      this.props.navigation.navigate('MyCart');
+                    }
+                  }, 1000);
+                }} />
+            )}
             <View
               style={{ ...styles.textInputContainer, paddingTop: undefined }}
             >
-           
+
             </View>
-         
+
             <View style={style.imageContainer}>
-              <View style={style.flex}>
+              {/* <View style={style.flex}>
                 <Image
                   resizeMode="stretch"
                   style={style.image}
                   source={MEAT_IMAGE1}
                 />
               </View>
-              <View style={style.seperator} />
+              <View style={style.seperator} /> */}
               <View style={style.flex}>
                 <Image
                   resizeMode="stretch"
                   style={style.image}
-                  source={MEAT_IMAGE2}
+                  source={this.state.variantObject.productImage?{uri:this.state.variantObject.productImage}:MEAT_IMAGE2}
                 />
               </View>
             </View>
@@ -131,7 +130,7 @@ export default class ProductDetailScreen extends LandingPageController {
                 <Text style={style.text}>$</Text>
                 <Text style={style.price}>{this.state.variantObject.price}</Text>/kg
               </Text>
-              
+
             </View>
             <View style={{ height: 80, flexDirection: 'row' }}>
               <View style={{ flex: .6, }}>
@@ -139,38 +138,38 @@ export default class ProductDetailScreen extends LandingPageController {
 
                   this.state.variantObject.variantArray
                 }
-                onChange={(item:any)=>this.updateVariant(item)}
-                placeholder={this.state.variantObject.variantType}
+                  onChange={(item: any) => this.updateVariant(item)}
+                  placeholder={this.state.variantObject.variantType}
 
                 />
               </View>
 
-              <View style={{ flex: .4,justifyContent:'center',alignItems:'flex-start' }}>
+              <View style={{ flex: .4, justifyContent: 'center', alignItems: 'flex-start' }}>
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
-                  disabled={this.state.variantObject.quantity<=0?true:false}
-                     onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
+                    disabled={this.state.availableQuantity <= 0 ? true : false}
+                    onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
                     style={styles.button}
                   >
                     <Text style={{ color: BUTTON_COLOR_PRIMARY }}>{"-"}</Text>
                   </TouchableOpacity>
                   <Text style={styles.counter}>{this.state.variantQuantity}</Text>
                   <TouchableOpacity
-                   onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
+                    onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
                     style={styles.button}
                   >
                     <Text style={{ color: BUTTON_COLOR_PRIMARY, }}>{"+"}</Text>
                   </TouchableOpacity>
-                </View>           
-                 </View>
+                </View>
+              </View>
             </View>
-{           
- this.state.variantObject.quantity<=0?
- <Text style={{color:'red',fontWeight:'400'}}>The product is out of stock</Text>:
- null
-}
-            <View style={{ flexDirection: "row",marginVertical:10}}>
-              <View style={{flex:0.15,justifyContent:"center"}}>
+            {
+              this.state.availableQuantity >0 ?null:
+                <Text style={{ color: 'red', fontWeight: '400' }}>The product is out of stock</Text> 
+                
+            }
+            <View style={{ flexDirection: "row", marginVertical: 10 }}>
+              <View style={{ flex: 0.15, justifyContent: "center" }}>
                 <TouchableOpacity
                   testID="copy_link_test_id"
                   onPress={() => {
@@ -183,30 +182,32 @@ export default class ProductDetailScreen extends LandingPageController {
                 >
                   <Image style={style.shareImage} source={shareIcon} />
                 </TouchableOpacity>
-                </View>
-                <View style={{flex:0.4,justifyContent:"center"}}>
+              </View>
+              <View style={{ flex: 0.4, justifyContent: "center" }}>
                 <TouchableOpacity
                   testID="adToCart"
-                  onPress={() =>
-                    {this.state.variantQuantity>0?this.addToCart.bind(this)(this.props?.route?.params?.id,
+                  onPress={() => {
+                    this.state.variantQuantity > 0 ? this.addToCart.bind(this)(
+                      this.props?.route?.params?.id,
                       this.state.variantQuantity,
-                      this.state.variantObject.catalogue_id):alert('Please add quantity')}
+                      this.state.variantId) : alert('Please add quantity')
+                  }
                   }
                   style={[style.cartButton,]}
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
                 </TouchableOpacity>
-                </View>
-                <View style={{flex:0.45,justifyContent:"center"}}>
+              </View>
+              <View style={{ flex: 0.45, justifyContent: "center" }}>
                 <TouchableOpacity
-                 testID="Subscription"
-                  onPress={() => this.setState({showRecurringModal:true})}
+                  testID="Subscription"
+                  onPress={() => this.setState({ showRecurringModal: true })}
                   style={style.subsciptionButton}
                 >
                   <Text style={style.cartText}>Subscriptions</Text>
                 </TouchableOpacity>
-                </View>
               </View>
+            </View>
             <RenderSteps
               images={this.state.productDetails?.attributes?.step1_images}
               header="Step 01:"
@@ -232,7 +233,7 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             /> */}
-            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} details={this.state.productDetails} props={this.props.route.params}/> :<></>}
+            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} details={this.state.productDetails} props={this.props.route.params} /> : <></>}
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>
@@ -252,23 +253,23 @@ const style = StyleSheet.create({
     color: BUTTON_TEXT_COLOR_PRIMARY,
     fontSize: 15,
     fontWeight: "bold",
-    padding:8,
+    padding: 8,
     paddingHorizontal: 16,
-    textAlign:'center'
+    textAlign: 'center'
   },
   cartButton: {
     backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
-    width:'95%',
-    alignSelf:"center"
+    width: '95%',
+    alignSelf: "center"
   },
-  subsciptionButton:{
+  subsciptionButton: {
     backgroundColor: BUTTON_COLOR_PRIMARY,
     justifyContent: "center",
     borderRadius: 20,
-    width:'95%',
-    alignSelf:"center"
+    width: '95%',
+    alignSelf: "center"
   },
   imageContainer: {
     flexDirection: "row",
@@ -296,7 +297,7 @@ const style = StyleSheet.create({
     backgroundColor: PRIMARY_COLOR,
     padding: 7,
     borderRadius: 21,
-    alignSelf:"center"
+    alignSelf: "center"
   },
   shareImage: {
     height: "100%",

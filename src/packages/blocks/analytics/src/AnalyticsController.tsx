@@ -872,18 +872,18 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     console.log('data===', data)
     let id = 0;
     switch (partOfCow) {
-      case 'chuck':id = 34173;break;
-      case 'cowHead':id = 34177;break;
-      case 'cow_Fore_Shank': id = 34182;break;
-      case 'cow_Short_plate':id = 34185;break;
-      case 'cow_Flank':id = 34175; break;
-      case 'cow_Flank':id = 34175; break;
-      case 'cow_shank':id = 34175; break;//
-      case 'cow_Round':id = 34181; break;
-      case 'cow_Sirllion':id = 34187; break;
-      case 'cow_Short_lion':id = 34183; break;
-      case 'cow_Rib':id = 34180; break;
-      case 'cow_Brisket':id = 34172; break;
+      case 'chuck': id = 34173; break;
+      case 'cowHead': id = 34177; break;
+      case 'cow_Fore_Shank': id = 34182; break;
+      case 'cow_Short_plate': id = 34185; break;
+      case 'cow_Flank': id = 34175; break;
+      case 'cow_Flank': id = 34175; break;
+      case 'cow_shank': id = 34175; break;//
+      case 'cow_Round': id = 34181; break;
+      case 'cow_Sirllion': id = 34187; break;
+      case 'cow_Short_lion': id = 34183; break;
+      case 'cow_Rib': id = 34180; break;
+      case 'cow_Brisket': id = 34172; break;
       default: id = 10
 
 
@@ -928,9 +928,10 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         id = 34212
         break;
       case 'chicken_Wing':
-        id = 34214
+        id = 34214; break
       case 'chicken_tail':
-        id = 0
+        id = 1; break
+      default: id = 0; break
 
     }
     this.props.animalPartCallBack(id)
@@ -956,26 +957,22 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfPig);
     this.soldChart(partOfPig, data);
 
-    // LoinRib = 34197,
-    // OrgansAndMore = 34198,
-    // RibsLoin = 34201,
-    // SausagesAndGround = 34202,
-    // Shoulder = 34203
-    let id =0
-    switch(partOfPig)
-    {
-case 'pigHead': id = 0
-case 'pigJowl': id = 34193
-case 'pigNeck': id = 34193
-case 'pigShoulder': id = 34203
-case 'pigPicnic': id = 34199
-case 'pigHock': id = 34199
-case 'pigBacon': id = 34192
-case 'pigLegham': id = 34194
-case 'pigLegham': id = 34194
-case 'pigRibs': id = 34200
-case 'pigLoin': id = 34195
-case 'pigBackFat': id = 34196
+
+    let id = 0
+    switch (partOfPig) {
+      case 'pigHead': id = 1; break
+      case 'pigJowl': id = 34193; break
+      case 'pigNeck': id = 34198; break
+      case 'pigShoulder': id = 34203; break
+      case 'pigPicnic': id = 34199; break
+      case 'pigHock': id = 34199; break
+      case 'pigBacon': id = 34192; break
+      case 'pigLegham': id = 34194; break
+      case 'pigLegham': id = 34194; break
+      case 'pigRibs': id = 34200; break
+      case 'pigLoin': id = 34195; break
+      case 'pigBackFat': id = 34196; break
+      default: id = 34195; break
 
 
     }
