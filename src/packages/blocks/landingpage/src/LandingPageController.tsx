@@ -424,6 +424,21 @@ export default class LandingPageController extends BlockComponent<
   }
 
   else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+  this.checkStockCallId != null &&
+  this.checkStockCallId ===
+  message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+  const stockRes = message.getData(
+    getName(MessageEnum.RestAPIResponceSuccessMessage)
+  );
+  let error = message.getData(
+    getName(MessageEnum.RestAPIResponceErrorMessage)
+  );
+ console.log('stockRes=====',stockRes);
+ console.log('stockRes error=====',error);
+
+ 
+}
+  else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.getFarmId != null &&
     this.getFarmId ===
     message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
@@ -551,9 +566,9 @@ else{
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        console.log('response=======',filterByCategoryResponse)
+        console.log('filterByCategoryResponse=======',filterByCategoryResponse)
         
-        this.setState({ productList: filterByCategoryResponse?.data,show_loader:false })
+        this.setState({ searchResults: filterByCategoryResponse?.data,show_loader:false,productList:[] })
       }
     }
   }
@@ -874,8 +889,8 @@ else{
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
    
-      if (response?.data[0].attributes?.catalogue?.catalogues?.data.length > 0) {
-        this.setState({ productList: response.data, show_loader: false })
+      if (response?.data?.length) {
+        this.setState({ searchResults: response.data, show_loader: false,productList:[] })
 
       }
       else {
@@ -1056,7 +1071,8 @@ else{
     const obj ={
       price:price,productImage:productImage,
       quantity:stock_qty?Number(stock_qty):0,variantArray:tempArr,variantType:variantType,catalogue_id:Number(itemId)}
-    this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0})
+   this.checkStock(123)
+      this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0})
     console.log('temp=============',tempArr);
     }
   }
@@ -1065,6 +1081,7 @@ else{
   updateProfileDetailsId: string = '';
   getCategoriesId: string = '';
   getProductDetailsByCategoryCallId: string = '';
+  checkStockCallId: string = '';
   getFarmId: string = '';
   getAboutUsId: any;
   getSubCategoryId: string = '';
@@ -1131,6 +1148,39 @@ else{
     getValidationsMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `bx_block_categories/categories?page=${page}`
+    );
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
+  }
+
+  async checkStock(id:number) {
+    this.setState({ show_loader: true })
+    const userDetails: any = await AsyncStorage.getItem('userDetails')
+    const data: any = JSON.parse(userDetails)
+    const headers = {
+      "Content-Type": configJSON.validationApiContentType,
+      'token': data?.meta?.token
+    };
+
+
+    const getValidationsMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.checkStockCallId = getValidationsMsg.messageId;
+
+
+    getValidationsMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `/bx_block_categories/categories/fetch_subcategory_products?sub_category_id=${id}`
     );
 
     getValidationsMsg.addData(
@@ -1492,7 +1542,7 @@ else{
   async getProductByCategory(id:number) {
     console.log('getProductByCategory id==========',id);
     
-    this.setState({ show_loader: true })
+    this.setState({ show_loader: false })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1634,8 +1684,8 @@ else{
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
-  async getProductBySubcategory(subCategoryId: string) {
-    this.setState({ show_loader: true, selectedSub: subCategoryId })
+  async getProductBySubcategory(subCategoryId: number) {
+    this.setState({ show_loader: true,  })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {

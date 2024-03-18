@@ -17,7 +17,7 @@ import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, WHITE } from "../../assets/constants";
 import { SEARCH, EXPLORE_BTN, CHICKEN, TEXT_COLOR, APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, SECONDARY_TEXT_COLOR, BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-import RenderItems from "../RenderItems/RenderItems";
+import { RenderItems, RenderItem } from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
@@ -35,46 +35,42 @@ export class ExplorePage extends LandingPageController {
   async componentDidMount() {
     this.getCategory.bind(this)(1);
     //this.getProductByCategory()
-    this.getProductList(this.state.sortAscending);
+   this.getProductList(this.state.sortAscending);
   }
-  getAnimalByCategory=(name:string)=>{
+  getAnimalByCategory = (name: string) => {
 
-    console.log('name===',name);
-    
-    if( name=='angus beef bacon' || name=="angus beef" )
-    {
+    console.log('name===', name);
+
+    if (name == 'angus beef bacon' || name == "angus beef") {
       console.log('if');
-      
- return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3' 
-    isChartDisplay={false}
-    animalPartCallBack={
-      (item:number)=> 
-      //this.getProductByCategory()
-     this.getProductList(this.state.sortAscending)
-  }
-  />
-}
-else if(name=='berkshire pork')
-{
-return (<AnimalPig animalSelectedValue={this.state.selectedCat}
-   navigation={''} id='3' isChartDisplay={false}
-   animalPartCallBack={() =>   
-     // (item:number)=>this.getSubcategories(item)
-   this.getProductList(this.state.sortAscending)
-  }
-  />)
-}
-else if(name=='chicken')
-{
-return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
-      navigation={null}
-      isChartDisplay={false}
-      animalPartCallBack={()=>
-        // (item:number)=>this.getSubcategories(item)
-        this.getProductList(this.state.sortAscending)
 
-     }       /> 
-  }}
+      return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3'
+        isChartDisplay={false}
+        animalPartCallBack={
+          (item: number) =>
+            //this.getProductByCategory()
+            this.getProductBySubcategory(item)
+        }
+      />
+    }
+    else if (name == 'berkshire pork') {
+      return (<AnimalPig animalSelectedValue={this.state.selectedCat}
+        navigation={''} id='3' isChartDisplay={false}
+        animalPartCallBack={(item: number) =>
+          this.getProductBySubcategory(item)
+        }
+      />)
+    }
+    else if (name == 'chicken') {
+      return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
+        navigation={null}
+        isChartDisplay={false}
+        animalPartCallBack={(item: number) =>
+          this.getProductBySubcategory(item)
+
+        } />
+    }
+  }
   renderItem = ({ item, index }: any) => {
 
 
@@ -200,9 +196,13 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                     <RenderCategories
                       onpress={() => {
                         this.getProductByCategory(item.id)
+                        console.log('renderItem====',item);
+                        
                         this.setState({
-                           selectedCat: item?.title, 
-                          isCallingFromStore: true, subCategoryList: [] })
+                          selectedCat: item?.title,
+                          productList:[],
+                          isCallingFromStore: true, subCategoryList: []
+                        })
                       }}
                       item={item}
                       index={index}
@@ -211,44 +211,50 @@ return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
                   );
                 }}
               />
-{this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
+              {this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
 
-              {/* <FlatList
-                data={this.state.subCategoryList}
-                horizontal
+              <FlatList
+                data={this.state.searchResults}
                 bounces={false}
                 testID="subcategoryList"
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
-                renderItem={this.renderItem}
-              /> */}
-              {this.state.productList?.map((item: any, index: number) => {
+                renderItem={({ item }) => <RenderItem
+                  navigation={this.props.navigation}
+                  onPressCart={this.addToCart.bind(this)}
+                  onpressFav={this.AddToFavorites.bind(this)}
+                  testID="products_list_id2"
+                  handleLoadMore={() => { this.handleLoadMore() }}
+                  item={item}
+                  header={true}
+                  rating={true}
+                />}
+              />
+               {this.state.productList?.map((item: any, index: number) => {
                 const { attributes } = item;
                 return (
-                  
-                      
-                        <View style={styles.productWrap}>
-                          <View style={styles.productContainer}>
-                            <Text style={styles.itemCategory}>{attributes.name}</Text>
-                            {this.state.productList.length > 898 &&
-                              <Text onPress={() => this.props.navigation.navigate("ViewProduct", 
-                              { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
-                          </View>
-                          <RenderItems
-                            navigation={this.props.navigation}
-                            onPressCart={this.addToCart.bind(this)}
-                            onpressFav={this.AddToFavorites.bind(this)}
-                            testID="products_list_id2"
-                            handleLoadMore={() => { this.handleLoadMore() }}
-                            item={attributes?.catalogue?.catalogues?.data}
-                            header={true}
-                            rating={true}
-                          />
-                        </View>
-                    
-                   
+                  <View style={styles.productWrap}>
+                    <View style={styles.productContainer}>
+                      <Text style={styles.itemCategory}>{this.state.selectedCat}</Text>
+                      {this.state.productList.length > 8 &&
+                        <Text onPress={() => this.props.navigation.navigate("ViewProduct",
+                          { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
+                    </View>
+                    <RenderItems
+                      navigation={this.props.navigation}
+                      onPressCart={this.addToCart.bind(this)}
+                      onpressFav={this.AddToFavorites.bind(this)}
+                      testID="products_list_id2"
+                      handleLoadMore={() => { this.handleLoadMore() }}
+                      item={item?.attributes?.catalogue?.data}
+                      header={true}
+                      rating={true}
+                    />
+                  </View>
+
+
                 )
-              })}
+              })} 
 
             </View>
           </ScrollView>

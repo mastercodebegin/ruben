@@ -156,6 +156,7 @@ const RenderItems = ({
         style={styles.flatList}
         keyExtractor={(item, i) => `${i}`}
         testID={testID}
+        data={item}
         horizontal
         nestedScrollEnabled
         renderItem={({ item, index }) => (
@@ -173,12 +174,11 @@ const RenderItems = ({
         onEndReachedThreshold={1}
         // onEndReached={handleLoadMore}
         pagingEnabled={false}
-        data={item}
       />
     </View>
   );
 };
-export default RenderItems;
+export  {RenderItems,RenderItem};
 
 const styles = StyleSheet.create({
   flatList: { marginLeft: 0, paddingTop: 20 },
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: APP_BACKGROUND,
     width: deviceWidth * 0.77,
     marginRight: 20,
+    marginTop:20,
     overflow: "hidden",
     paddingHorizontal: 10,
     paddingTop: 10,
