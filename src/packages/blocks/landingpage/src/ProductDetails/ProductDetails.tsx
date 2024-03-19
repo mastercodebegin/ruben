@@ -157,8 +157,8 @@ export default class ProductDetailScreen extends LandingPageController {
               </View>
             </View>
             {
-              !this.state.showLoader&&this.state.availableQuantity >0 ?null:
-                <Text style={{ color: 'red', fontWeight: '400' }}>The product is out of stock</Text> 
+              this.state.showLoader&& this.state.availableQuantity <=0 ?
+                <Text style={{ color: 'red', fontWeight: '400' }}>The product is out of stock</Text> :null
                 
             }
             <View style={{ flexDirection: "row", marginVertical: 10 }}>

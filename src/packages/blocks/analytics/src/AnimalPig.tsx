@@ -27,7 +27,7 @@ export default class AnimalPig extends AnalyticsController {
     // Customizable Area Start
  
 
-      const renderImageItem = (stateKey, imageSource) => {
+      const renderImageItem = (stateKey:string, imageSource:any) => {
         if (this.state[stateKey]) {
           return (
             <Image

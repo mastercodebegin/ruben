@@ -1702,7 +1702,7 @@ showToast('No products foound')
   }
 
   async getProductBySubcategory(subCategoryId: number) {
-    this.setState({ show_loader: true,  })
+    this.setState({ show_loader: true, searchResults:[] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
