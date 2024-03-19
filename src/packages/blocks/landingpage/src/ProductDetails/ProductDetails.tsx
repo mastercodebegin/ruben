@@ -25,6 +25,7 @@ import {
   BUTTON_COLOR_PRIMARY,
   TEXT_COLOR,
   BUTTON_COLOR_SECONDARY,
+  BUTTON_TEXT_COLOR_SECONDARY,
 } from "../assets";
 import { deepLinkingURL } from "../../../../components/src/constants";
 import RenderSteps from "./RenderSteps";
@@ -177,19 +178,34 @@ export default class ProductDetailScreen extends LandingPageController {
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 0.4, justifyContent: "center" }}>
-                <TouchableOpacity
+               { this.state.variantQuantity > 0 ?<TouchableOpacity
                   testID="adToCart"
+                  
                   onPress={() => {
-                    this.state.variantQuantity > 0 ? this.addToCart.bind(this)(
+                    this.addToCart.bind(this)(
                       this.props?.route?.params?.id,
                       this.state.variantQuantity,
-                      this.state.variantId) : alert('Please add quantity')
+                      this.state.variantId) 
                   }
                   }
                   style={[style.cartButton,]}
                 >
                   <Text style={style.cartText}>Add to Cart</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>:
+                <TouchableOpacity
+                  testID="adToCart"
+                  disabled
+                  onPress={() => {
+                    this.addToCart.bind(this)(
+                      this.props?.route?.params?.id,
+                      this.state.variantQuantity,
+                      this.state.variantId) 
+                  }
+                  }
+                  style={[style.cartButton,{backgroundColor:BUTTON_COLOR_SECONDARY,borderColor:PRIMARY_COLOR,borderWidth:1}]}
+                >
+                  <Text style={[style.cartText,{color:BUTTON_TEXT_COLOR_SECONDARY}]}>Add to Cart</Text>
+                </TouchableOpacity>}
               </View>
               <View style={{ flex: 0.45, justifyContent: "center" }}>
                 <TouchableOpacity
