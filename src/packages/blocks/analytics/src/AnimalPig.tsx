@@ -27,96 +27,18 @@ export default class AnimalPig extends AnalyticsController {
     // Customizable Area Start
  
 
-    const renderImage=()=>{
-      return(<>
-      
-              {this.state.pig &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pig}
-                />
-              }
-              {this.state.pigHead &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigHead} />
-              }
-              {this.state.pigHock &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigHock}
-                />
-              }
-              {this.state.pigBacon &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigbacon}
-                />
-              }
-              {this.state.pigNeck &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigNeck}
-                />
-              }
-              {this.state.pigLegham &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigLeg}
-                />
-              }
-              {this.state.pigRibs &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigRibs}
-                />
-              }
-              {this.state.pigLoin &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigLoin}
-                />
-              }
-              {this.state.pigShoulder &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigShoulder}
-                />
-              }
-
-              {this.state.pigBackFat &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigBackfat}
-                />
-              }
-               {this.state.pigPicnic &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigpicnis}
-                />
-              }
-              {this.state.pigJowl &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigJowl}
-                />
-              }
-      </>
-      )
-    }
+      const renderImageItem = (stateKey, imageSource) => {
+        if (this.state[stateKey]) {
+          return (
+            <Image
+              style={styles.animalImg}
+              resizeMode="contain"
+              source={imageSource}
+            />
+          );
+        }
+        return null;
+      };
     
     const {x: left,y:top ,
        isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
@@ -137,7 +59,20 @@ export default class AnimalPig extends AnalyticsController {
           <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
             <View style={styles.animalImgCont}>
               {chartDisplay()}
-              {renderImage()}
+              {<>
+      {renderImageItem('pig', pig)}
+      {renderImageItem('pigHead', pigHead)}
+      {renderImageItem('pigHock', pigHock)}
+      {renderImageItem('pigBacon', pigbacon)}
+      {renderImageItem('pigNeck', pigNeck)}
+      {renderImageItem('pigLegham', pigLeg)}
+      {renderImageItem('pigRibs', pigRibs)}
+      {renderImageItem('pigLoin', pigLoin)}
+      {renderImageItem('pigShoulder', pigShoulder)}
+      {renderImageItem('pigBackFat', pigBackfat)}
+      {renderImageItem('pigPicnic', pigpicnis)}
+      {renderImageItem('pigJowl', pigJowl)}
+    </>}
 
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHockRight" />
