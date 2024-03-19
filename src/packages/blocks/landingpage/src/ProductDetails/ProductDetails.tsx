@@ -105,14 +105,7 @@ export default class ProductDetailScreen extends LandingPageController {
             </View>
 
             <View style={style.imageContainer}>
-              {/* <View style={style.flex}>
-                <Image
-                  resizeMode="stretch"
-                  style={style.image}
-                  source={MEAT_IMAGE1}
-                />
-              </View>
-              <View style={style.seperator} /> */}
+          
               <View style={style.flex}>
                 <Image
                   resizeMode="stretch"
@@ -164,7 +157,7 @@ export default class ProductDetailScreen extends LandingPageController {
               </View>
             </View>
             {
-              this.state.availableQuantity >0 ?null:
+              !this.state.showLoader&&this.state.availableQuantity >0 ?null:
                 <Text style={{ color: 'red', fontWeight: '400' }}>The product is out of stock</Text> 
                 
             }

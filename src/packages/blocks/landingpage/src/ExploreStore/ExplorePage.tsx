@@ -40,7 +40,7 @@ export class ExplorePage extends LandingPageController {
 
     console.log('name===', name);
 
-    if (name == 'angus beef bacon' || name == "angus beef") {
+    if ( name == "angus beef") {
       console.log('if');
 
       return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3'

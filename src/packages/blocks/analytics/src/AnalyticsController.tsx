@@ -859,35 +859,38 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Brisket: false,
       [partOfCow]: true,
     });
-    console.log('partofcow===', [partOfCow])
-    // All = 34171,
-    // Brisket = 34172,
-    // ChuckRibShortPlate = 34174,
-    // GroundBeefAndSausage = 34176,
-    // OrgansAndMore = 34178,
-    // QuarterHalfAndWholeCow = 34179,
-    // ShortLoinSirloin = 34184,
-    // Shoulder = 34186,
+
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfCow);
     console.log('data===', data)
-    let id = 0;
-    switch (partOfCow) {
-      case 'chuck': id = 34173; break;
-      case 'cowHead': id = 34177; break;
-      case 'cow_Fore_Shank': id = 34182; break;
-      case 'cow_Short_plate': id = 34185; break;
-      case 'cow_Flank': id = 34175; break;
-      case 'cow_Flank': id = 34175; break;
-      case 'cow_shank': id = 34175; break;//
-      case 'cow_Round': id = 34181; break;
-      case 'cow_Sirllion': id = 34187; break;
-      case 'cow_Short_lion': id = 34183; break;
-      case 'cow_Rib': id = 34180; break;
-      case 'cow_Brisket': id = 34172; break;
-      default: id = 10
+    function getCowPartId(partOfCow:string) {
+      switch (partOfCow) {
+          case 'chuck':
+              return 34173;
+          case 'cowHead':
+              return 34177;
+          case 'cow_Fore_Shank':
+              return 34182;
+          case 'cow_Short_plate':
+              return 34185;
+          case 'cow_Flank':
+          case 'cow_shank':
+              return 34175;
+          case 'cow_Round':
+              return 34181;
+          case 'cow_Sirllion':
+              return 34187;
+          case 'cow_Short_lion':
+              return 34183;
+          case 'cow_Rib':
+              return 34180;
+          case 'cow_Brisket':
+              return 34172;
+          default:
+              return 10;
+      }
+  }
+  let id = getCowPartId(partOfCow);
 
-
-    }
     this.props.animalPartCallBack(id)
 
     this.soldChart(partOfCow, data);
@@ -910,30 +913,27 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfChicken);
     this.soldChart(partOfChicken, data);
 
-    let id = 0
-    switch (partOfChicken) {
-      case 'chicken_Breast':
-        id = 34207
-        break;
-      case 'chicken_Back':
-        id = 34206
-        break;
-      case 'chicken_leg':
-        id = 34209
-        break;
-      case 'chicken_Neck':
-        id = 34210
-        break;
-      case 'chicken_Thigh':
-        id = 34212
-        break;
-      case 'chicken_Wing':
-        id = 34214; break
-      case 'chicken_tail':
-        id = 1; break
-      default: id = 0; break
-
-    }
+    function getChickenPartId(partOfChicken:string) {
+      switch (partOfChicken) {
+          case 'chicken_Breast':
+              return 34207;
+          case 'chicken_Back':
+              return 34206;
+          case 'chicken_leg':
+              return 34209;
+          case 'chicken_Neck':
+              return 34210;
+          case 'chicken_Thigh':
+              return 34212;
+          case 'chicken_Wing':
+              return 34214;
+          case 'chicken_tail':
+              return 1;
+          default:
+              return 0;
+      }
+  }   let id = getChickenPartId(partOfChicken);
+ 
     this.props.animalPartCallBack(id)
   }
 
@@ -958,25 +958,35 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.soldChart(partOfPig, data);
 
 
-    let id = 0
-    switch (partOfPig) {
-      case 'pigHead': id = 1; break
-      case 'pigJowl': id = 34193; break
-      case 'pigNeck': id = 34198; break
-      case 'pigShoulder': id = 34203; break
-      case 'pigPicnic': id = 34199; break
-      case 'pigHock': id = 34199; break
-      case 'pigBacon': id = 34192; break
-      case 'pigLegham': id = 34194; break
-      case 'pigLegham': id = 34194; break
-      case 'pigRibs': id = 34200; break
-      case 'pigLoin': id = 34195; break
-      case 'pigBackFat': id = 34196; break
-      default: id = 34195; break
-
-
-    }
-    this.props.animalPartCallBack(2)
+    function getPigPartId(partOfPig:string) {
+      switch (partOfPig) {
+          case 'pigHead':
+              return 1;
+          case 'pigJowl':
+              return 34193;
+          case 'pigNeck':
+              return 34198;
+          case 'pigShoulder':
+              return 34203;
+          case 'pigPicnic':
+          case 'pigHock':
+              return 34199;
+          case 'pigBacon':
+              return 34192;
+          case 'pigLegham':
+              return 34194;
+          case 'pigRibs':
+              return 34200;
+          case 'pigLoin':
+              return 34195;
+          case 'pigBackFat':
+              return 34196;
+          default:
+              return 34195;
+      }
+  }
+  let id = getPigPartId(partOfPig);
+    this.props.animalPartCallBack(id)
 
   }
 

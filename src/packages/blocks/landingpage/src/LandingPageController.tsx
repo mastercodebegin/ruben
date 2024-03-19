@@ -908,7 +908,7 @@ showToast('No products foound')
       }
       else {
         showToast('No product found ')
-        this.setState({ productList:[], show_loader: false })
+        this.setState({ productList:[], show_loader: false ,searchResults:[]})
 
       }
 
@@ -1075,7 +1075,7 @@ showToast('No products foound')
     catalogResponse.data.attributes?.catalogue_variants.map((item:any)=>{
       console.log('item attributes=========',item.attributes,)
       const data: {value:string,label:string,price:'',productImage:''} = {
-        value: item.attributes.id,
+        value: item.attributes.itemId,
         label: item.attributes.variantType,
         price: item.attributes.price,
         productImage: item.attributes?.productImage
