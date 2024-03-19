@@ -434,9 +434,7 @@ export default class LandingPageController extends BlockComponent<
   const stockRes = message.getData(
     getName(MessageEnum.RestAPIResponceSuccessMessage)
   );
-  let error = message.getData(
-    getName(MessageEnum.RestAPIResponceErrorMessage)
-  );
+
 this.setState({availableQuantity:stockRes?.result?.stockQty?stockRes?.result?.stockQty:0,show_loader:false})
  
 }

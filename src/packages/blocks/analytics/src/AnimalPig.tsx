@@ -29,19 +29,12 @@ export default class AnimalPig extends AnalyticsController {
     const {x: left,y:top ,
        isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
 
-       const chartDisplay=()=>
-       {
-        return(<>
-        {this.props.isChartDisplay?<AnimalChart top={top} left={left} isShow={isAnimalChartSow} 
-            sold={sold} remaining={remaining} lineHeight={lineHeight} />:<></>}
-        </>)
-       }
+      
      
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Berkshire Pork' &&
           <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
-            {chartDisplay()}
             <View style={styles.animalImgCont}>
               {this.state.pig &&
                 <Image
@@ -113,6 +106,21 @@ export default class AnimalPig extends AnalyticsController {
                   source={pigBackfat}
                 />
               }
+               {this.state.pigPicnic &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigpicnis}
+                />
+              }
+              {this.state.pigJowl &&
+                <Image
+                  style={styles.animalImg}
+                  resizeMode="contain"
+                  source={pigJowl}
+                />
+              }
+
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHockRight" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHockLeft" />
