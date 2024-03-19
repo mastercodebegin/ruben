@@ -2373,7 +2373,10 @@ showToast('No products foound')
     if (error) {
       this.showAlert('something went wrong ')
     } else if (response) {
-      this.setState({ showSearchResults: true, searchResults: response?.product, show_loader: false })
+      console.log('response====',response);
+      
+      this.setState({ showSearchResults: true, productList: response?.data,
+         show_loader: false,searchResults:[] })
     }
   }
 
