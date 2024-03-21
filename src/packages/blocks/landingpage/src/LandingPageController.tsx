@@ -1789,7 +1789,6 @@ showToast('No products foound')
   }
 
   async addProduct() {
-console.log('addProduct==================',JSON.stringify(this.state.productsList));
 const {desciption,category_id,sub_category_id,name,price,sellingPrice,tax,hsnCode,subscription,subscriptionSellingPrice}=this.state.productsList[0]
 const formData = new FormData();
     formData.append("name",name)
