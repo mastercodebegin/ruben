@@ -14,7 +14,7 @@ const RenderProducts = ({ item, index }: any) => {
         <View style={rstyles.inner}>
             <View style={styles.row}>
                 <Text style={[styles.productName,{fontWeight:"bold"}]}>
-                    {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
+                    {item?.attributes?.catalogue_variant?.data?.attributes?.variantType||item?.attributes?.catalogue?.data?.attributes?.name}
                     {frequency &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}
                     </Text>
                     <View>

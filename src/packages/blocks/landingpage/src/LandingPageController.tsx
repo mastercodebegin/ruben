@@ -959,13 +959,17 @@ showToast('No products foound')
   }
   addProductCallback(error: any, response: any) {
     if (error) {
+      console.log('error>>>>>>>>>>>>>>>',error);
+      
       this.showAlert('something went wrong')
     } else {
-      Alert.alert('Success', 'Hey! your product create successfully', [{
-        text: 'OK', onPress: () => {
-          this.props.navigation.navigate('ExplorePage')
-        }
-      }]);
+      console.log('response>>>>>>>>>>>>>>>',response);
+
+      // Alert.alert('Success', 'Hey! your product create successfully', [{
+      //   text: 'OK', onPress: () => {
+      //     //this.props.navigation.navigate('ExplorePage')
+      //   }
+      // }]);
     }
   }
 
@@ -1785,65 +1789,67 @@ showToast('No products foound')
   }
 
   async addProduct() {
-console.log('addProduct',this.state.productList);
+console.log('addProduct==================',JSON.stringify(this.state.productsList));
+const {desciption,category_id,sub_category_id,name,price,sellingPrice,tax,hsnCode,subscription,subscriptionSellingPrice}=this.state.productsList[0]
+const formData = new FormData();
+    formData.append("name",name)
+    formData.append("category_id","484")
+    formData.append("sub_category_id","34214")
+    formData.append("description",desciption)
+    formData.append("price",price)
+    formData.append("sale_price",sellingPrice)
+    formData.append("taxableAmount",tax)
+    formData.append("hsnCode",hsnCode)
+    formData.append("subscription",subscription)
+    formData.append("subscription_selling_price",subscriptionSellingPrice)
+    formData.append("free_delivery","Yes")
+    formData.append("productImage",this.state.productsList[0].images[0])
 
-    if (this.state.productsList[0].name.length == 0) {
-      this.showAlert('Please provide title')
-      return
+    // variants:[{description:'',itemCode:'',weight:'',price:'',
+    //     stock:'',image:{},subscriptionAmount:'',isSubscribed:''}],
+
+
+    for(const [index, obj] of this.state.productsList[0].variants.entries()) {
+      console.log('obj====',obj);
+      
+      formData.append(`catalogue_variants_attributes[${index}][variant_description]`,obj.description)
+      formData.append(`catalogue_variants_attributes[${index}][itemNo]`,obj.itemCode)
+      formData.append(`catalogue_variants_attributes[${index}][variantType]`,obj.description)
+      formData.append(`catalogue_variants_attributes[${index}][price]`,obj.price)
+      formData.append(`catalogue_variants_attributes[${index}][productImage]`,this.state.productsList[0].images[0])  
     }
-    if (this.state.productsList[0].category_id.length == 0) {
-      this.showAlert('Please provide category')
-      return
-    }
-    // if (this.state.productsList[0].sub_category_id.length == 0) {
-    //   this.showAlert('Please provide sub-category')
-    //   return
-    // }
-    if (this.state.productsList[0].price.length == 0) {
-      this.showAlert('Please provide price')
-      return
-    }
-    if (this.state.productsList[0].desciption.length == 0) {
-      this.showAlert('Please provide description')
-      return
-    }
-    if (this.state.productsList[0].images.length == 0) {
-      this.showAlert('Please add image')
-      return
-    }
-    this.setState({ show_loader: true })
+    
+
 
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
-    const headers = {
-      "Content-Type": configJSON.validationApiContentType,
+    const header = {
+      //"Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-    const raw = JSON.stringify({
-      "catalogues": this.state.productsList
-    });
+  
 
-    const addProductMsg = new Message(
+    const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
-    this.getAddProductId = addProductMsg.messageId;
-    addProductMsg.addData(
+    this.getAddProductId = requestMessage.messageId;
+    requestMessage.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       configJSON.addProductEndpoint
     );
-    addProductMsg.addData(
+    requestMessage.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(headers)
+      JSON.stringify(header)
     );
-    addProductMsg.addData(
-      getName(MessageEnum.RestAPIRequestHeaderMessage),
-      JSON.stringify(raw)
+    requestMessage.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      formData
     );
-    addProductMsg.addData(
+    requestMessage.addData(
       getName(MessageEnum.RestAPIRequestMethodMessage),
-      configJSON.exampleAPiMethod
+      'POST'
     );
-    runEngine.sendMessage(addProductMsg.id, addProductMsg);
+    runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
   async getViewAllProduct(id: number) {

@@ -92,22 +92,7 @@ export default class AddProducts extends LandingPageController {
   }
 
   updateVariantImage = (index:number, newImage:object) => {
-    // Copy the current state
-  
-//     let tempvarArr = arr[0].variant
-// console.log("tempvarArr",tempvarArr);
 
-// let temp = arr[0].variant[1]
-// console.log("temp",temp);
-
-// const obj = {...temp,image:newObj}
-// console.log("obj",obj);
-
-// const data = tempvarArr.splice(1,1,obj)
-// console.log("data",data);
-// console.log("tempvarArr",tempvarArr);
-
-// const finalArr = [...data,obj]
 console.log('index',index);
 
     // Copy the variants array of the first product
@@ -121,27 +106,39 @@ console.log('index',index);
     const obj={...updatedVariants,image:newImage}
     console.log('obj============',obj);
     
-    const data = tempVariantArr.splice(index,1,obj)
+     tempVariantArr.splice(index,1,obj)
+    const data={...this.state.productsList[0],variants:tempVariantArr}
 
   console.log('tempVariantArr',JSON.stringify(tempVariantArr));
-  //console.log(newImage);
-
+  this.setState({productsList:[data]})
   
-    // Update the image object of the variant at the specified index
-    // updatedVariants[index].image = {
-    //   ...updatedVariants[index].image,
-    //   images: [...updatedVariants[index].image.images, newImage],
-    // };
   
-    // // Update the variants array in the first product
-    // updatedProductsList[0] = {
-    //   ...updatedProductsList[0],
-    //   variants: updatedVariants,
-    // };
-  
-    // // Set the state with the updated productsList
-    // this.setState({ productsList: updatedProductsList });
   }
+
+
+  removeVariantImage = (index:number, newImage:object) => {
+
+    console.log('index',index);
+    
+        // Copy the variants array of the first product
+        console.log('tempVariantArr1',JSON.stringify(this.state.productsList[0].variants));
+    
+        const tempVariantArr = [...this.state.productsList[0].variants];
+    
+        const updatedVariants = tempVariantArr[index];
+        console.log('updatedVariants============',updatedVariants);
+    
+        const obj={...updatedVariants,image:newImage}
+        console.log('obj============',obj);
+        
+         tempVariantArr.splice(index,1,obj)
+        const data={...this.state.productsList[0],variants:tempVariantArr}
+    
+      console.log('tempVariantArr',JSON.stringify(tempVariantArr));
+      this.setState({productsList:[data]})
+      
+      
+      }
   
 
   render() {
@@ -281,9 +278,8 @@ console.log('index',index);
                     }}
                     style={[styles.textInput, { height: 70 }]}
                   />
-                  {/* <Text style={styles.label}>{ENTER_PRICE}</Text>
+                <Text style={styles.label}>{` Price`}</Text>
                   <View style={styles.priceTextInput}>
-                    <Text style={styles.dollar}>$</Text>
                     <TextInput
                       //@ts-ignore
                       value={item.price}
@@ -298,7 +294,154 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                    <Text style={styles.perKg}>{PER_KG}</Text>
+                  </View> 
+
+                  <Text style={styles.label}>{`Selling Price`}</Text>
+                  <View style={styles.priceTextInput}>
+                    <TextInput
+                      //@ts-ignore
+                      value={item.sellingPrice}
+                      keyboardType="number-pad"
+                      onChangeText={(price) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          sellingPrice: price,
+                        };
+                        this.setState({ productsList: list });
+                      }}
+                      style={[styles.textInput, styles.priceText]}
+                    />
+                  </View> 
+
+                  <Text style={styles.label}>{` Tax`}</Text>
+                  <View style={styles.priceTextInput}>
+                    <TextInput
+                      //@ts-ignore
+                      value={item.tax}
+                      keyboardType="number-pad"
+                      onChangeText={(price) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          tax: price,
+                        };
+                        this.setState({ productsList: list });
+                      }}
+                      style={[styles.textInput, styles.priceText]}
+                    />
+                  </View> 
+
+                  <Text style={styles.label}>{` HSN Code`}</Text>
+                  <View style={styles.priceTextInput}>
+                    <TextInput
+                      //@ts-ignore
+                      value={item.hsnCode}
+                      keyboardType="number-pad"
+                      onChangeText={(price) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          hsnCode: price,
+                        };
+                        this.setState({ productsList: list });
+                      }}
+                      style={[styles.textInput, styles.priceText]}
+                    />
+                  </View> 
+
+
+                  <Text style={styles.label}>{`Subscription`}</Text>
+
+                   <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={[{id:'1',title:'Yes'},{id:'1',title:'No'}]}
+                      maxHeight={400}
+                      itemContainerStyle={{ padding: 8, paddingLeft: 20 }}
+                      labelField="title"
+                      valueField="title"
+                      placeholder={this.state.categoryItem ? this.state.categoryItem : 'Select item'}
+
+                      onChange={(item: any) => {
+                        console.log('', item)
+
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          subscription: item?.title,
+                        };
+                        this.setState({ productsList: list, categoryItem: item.title, subCategoryList: [], subCategoryItem: '' })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.categoryItem}
+                    />
+
+                  </View>
+
+                  <Text style={styles.label}>{` Subscription Selling Price `}</Text>
+                  <View style={styles.priceTextInput}>
+                    <TextInput
+                      //@ts-ignore
+                      value={item.price}
+                      keyboardType="number-pad"
+                      onChangeText={(price) => {
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          subscriptionSellingPrice: price,
+                        };
+                        this.setState({ productsList: list });
+                      }}
+                      style={[styles.textInput, styles.priceText]}
+                    />
+                  </View> 
+                  <Text style={styles.label}>{` Free Delivery `}</Text>
+
+                  <View style={styles.dropdownContainer}>
+                    <Dropdown
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      iconStyle={styles.iconStyle}
+                      containerStyle={styles.containerStyle}
+                      data={[]}
+                      maxHeight={400}
+                      itemContainerStyle={{ padding: 8, paddingLeft: 20 }}
+                      labelField="title"
+                      valueField="title"
+                      placeholder={'Yes'}
+
+                      onChange={(item: any) => {
+                        console.log('', item)
+
+                        const list = this.state.productsList;
+                        list[index] = {
+                          ...list[index],
+                          subscription: item?.title,
+                        };
+                        this.setState({ productsList: list, categoryItem: item.title, subCategoryList: [], subCategoryItem: '' })
+                      }}
+                      renderItem={(item: any) => {
+                        return (
+                          <View>
+                            <Text style={styles.textItem}>{item?.title}</Text>
+                          </View>
+                        )
+                      }}
+                      value={this.state.categoryItem}
+                    />
+
                   </View>
                   <Text style={styles.label}>{UPLOAD_IMAGE}</Text>
                   <FlatList
@@ -339,6 +482,8 @@ console.log('index',index);
                     }}
                     horizontal
                     renderItem={(prop: any) => {
+                      console.log('props===1',prop);
+                      
                       return (
                         <ImageBackground
                           source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
@@ -361,14 +506,14 @@ console.log('index',index);
                           </TouchableOpacity>
                         </ImageBackground>
                       )
-                    }} /> */}
+                    }} /> 
 
                   {/************************* variant start ************************ */}
 
 
                   <FlatList
                     data={this.state.productsList[0].variants}
-                    renderItem={({ item, index }) =>
+                    renderItem={({ item,index }) =>
                       <View style={{ flex: 1, marginTop: 20 }}>
                         <View style={{ height: 40, flexDirection: 'row' }}>
 
@@ -434,14 +579,15 @@ console.log('index',index);
                         
                         <Text style={styles.label}>{`UPLOAD_IMAGES`}</Text>
                         <FlatList
-                          data={item?.images}
+                          data={item.image.path?[item.image]:[]}
                           keyExtractor={(_, index) => {
                             return String(index)
                           }}
                           bounces={false}
                           showsHorizontalScrollIndicator={false}
                           ListHeaderComponent={() => {
-                            return (<TouchableOpacity
+                            return (
+                            item.image.path?<></>:<TouchableOpacity
                               style={styles.addImage}
                               onPress={() =>
                                 this.selectImage.bind(this)(
@@ -459,27 +605,20 @@ console.log('index',index);
                               }
                             >
                               <Text style={{ color: PRIMARY_COLOR, fontSize: 20 }}>+</Text>
-                            </TouchableOpacity>)
+                            </TouchableOpacity>
+                            )
                           }}
                           horizontal
-                          renderItem={(prop: any) => {
+                          renderItem={({ item: variant }) => {
+                            console.log('index=====',index);
+                            
                             return (
                               <ImageBackground
-                                source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
+                                source={{ uri: Platform.OS === 'ios' ? `file://${variant?.path}` : variant?.path }}
                                 style={styles.imagesContainer}>
                                 <TouchableOpacity onPress={() => {
-
-                                  const imageList = [...item.images]
-                                  console.log('imgelist==', imageList);
-
-                                  imageList.splice(prop.index, 1)
-                                  const list = this.state.productsList;
-                                  list[index] = {
-                                    ...list[index],
-                                    images: [...imageList],
-                                  };
-                                  this.setState({ productsList: list });
-                                }} style={styles.closeContainer}>
+                                 this.removeVariantImage(index,{})
+                                  }} style={styles.closeContainer}>
                                   <View style={styles.blur} />
                                   <Image resizeMode="contain" style={styles.closeIcon} source={close} />
                                 </TouchableOpacity>
