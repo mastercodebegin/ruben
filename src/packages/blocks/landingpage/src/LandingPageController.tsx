@@ -211,6 +211,8 @@ export default class LandingPageController extends BlockComponent<
         name: '',
         price: '',
         images: [],
+        variants:[{description:'',itemCode:'',weight:'',price:'',
+        stock:'',image:{},subscriptionAmount:'',isSubscribed:''}],
         desciption: ''
       }],
       productDetails: {},
@@ -1379,7 +1381,7 @@ showToast('No products foound')
     ImagePicker.openCamera({
       cropping: false,
       mediaType: 'photo',
-      includeBase64: true
+      includeBase64: false
     }).then((image) => {
       callBack(image)
     }).catch(e => error(e))
@@ -1389,7 +1391,7 @@ showToast('No products foound')
     ImagePicker.openPicker({
       cropping: false,
       mediaType: 'photo',
-      includeBase64: true
+      includeBase64: false
     }).then((image) => {
       callBack(image)
     }).catch(e => {
@@ -1778,6 +1780,7 @@ showToast('No products foound')
   }
 
   async addProduct() {
+console.log('addProduct',this.state.productList);
 
     if (this.state.productsList[0].name.length == 0) {
       this.showAlert('Please provide title')
@@ -1787,10 +1790,10 @@ showToast('No products foound')
       this.showAlert('Please provide category')
       return
     }
-    if (this.state.productsList[0].sub_category_id.length == 0) {
-      this.showAlert('Please provide sub-category')
-      return
-    }
+    // if (this.state.productsList[0].sub_category_id.length == 0) {
+    //   this.showAlert('Please provide sub-category')
+    //   return
+    // }
     if (this.state.productsList[0].price.length == 0) {
       this.showAlert('Please provide price')
       return

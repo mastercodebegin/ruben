@@ -141,7 +141,7 @@ export default class ProductDetailScreen extends LandingPageController {
               <View style={{ flex: .4, justifyContent: 'center', alignItems: 'flex-start' }}>
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
-                    disabled={this.state.availableQuantity <= 0 ? true : false}
+                    disabled={this.state.variantQuantity <= 0 ? true : false}
                     onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
                     style={styles.button}
                   >
@@ -151,6 +151,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <TouchableOpacity
                     onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
                     style={styles.button}
+                    disabled={this.state.variantQuantity< this.state.availableQuantity?false:true}
                   >
                     <Text style={{ color: BUTTON_COLOR_PRIMARY, }}>{"+"}</Text>
                   </TouchableOpacity>

@@ -14,7 +14,7 @@ import {
   KeyboardAvoidingView,
 
 } from "react-native";
-import LandingPageController from "../LandingPageController";
+import LandingPageController, { Props } from "../LandingPageController";
 import {
 
   LIGHT_GREY,
@@ -55,6 +55,95 @@ export default class AddProducts extends LandingPageController {
   async componentDidMount() {
     this.getCategory.bind(this)(1)
   }
+  componentDidUpdate(): void {
+    console.log('state---', JSON.stringify(this.state.productsList));
+
+  }
+  handleVariantChange = (index: number) => ({ description, itemCode, weight, price, stock, image, subscriptionAmount, isSubscribed }:
+    {
+      description?: string; itemCode?: string; weight?: string; price?: string;
+      stock?: string; image?: string, subscriptionAmount?: string, isSubscribed?: string
+    }) => {
+    // Copy the current state
+    const updatedProductsList = [...this.state.productsList];
+
+    // Copy the variants array of the first product
+    const updatedVariants = [...updatedProductsList[0].variants];
+
+    // Update the variant at the specified index
+    updatedVariants[index] = {
+      ...updatedVariants[index],
+      description: description !== undefined ? description : updatedVariants[index].description,
+      itemCode: itemCode !== undefined ? itemCode : updatedVariants[index].itemCode,
+      weight: weight !== undefined ? weight : updatedVariants[index].weight,
+      price: price !== undefined ? price : updatedVariants[index].price,
+      stock: stock !== undefined ? stock : updatedVariants[index].stock,
+      image: image !== undefined ? image : updatedVariants[index].image,
+    };
+
+    // Update the variants array in the first product
+    updatedProductsList[0] = {
+      ...updatedProductsList[0],
+      variants: updatedVariants,
+    };
+
+    // Set the state with the updated productsList
+    this.setState({ productsList: updatedProductsList });
+  }
+
+  updateVariantImage = (index:number, newImage:object) => {
+    // Copy the current state
+  
+//     let tempvarArr = arr[0].variant
+// console.log("tempvarArr",tempvarArr);
+
+// let temp = arr[0].variant[1]
+// console.log("temp",temp);
+
+// const obj = {...temp,image:newObj}
+// console.log("obj",obj);
+
+// const data = tempvarArr.splice(1,1,obj)
+// console.log("data",data);
+// console.log("tempvarArr",tempvarArr);
+
+// const finalArr = [...data,obj]
+console.log('index',index);
+
+    // Copy the variants array of the first product
+    console.log('tempVariantArr1',JSON.stringify(this.state.productsList[0].variants));
+
+    const tempVariantArr = [...this.state.productsList[0].variants];
+
+    const updatedVariants = tempVariantArr[index];
+    console.log('updatedVariants============',updatedVariants);
+
+    const obj={...updatedVariants,image:newImage}
+    console.log('obj============',obj);
+    
+    const data = tempVariantArr.splice(index,1,obj)
+
+  console.log('tempVariantArr',JSON.stringify(tempVariantArr));
+  //console.log(newImage);
+
+  
+    // Update the image object of the variant at the specified index
+    // updatedVariants[index].image = {
+    //   ...updatedVariants[index].image,
+    //   images: [...updatedVariants[index].image.images, newImage],
+    // };
+  
+    // // Update the variants array in the first product
+    // updatedProductsList[0] = {
+    //   ...updatedProductsList[0],
+    //   variants: updatedVariants,
+    // };
+  
+    // // Set the state with the updated productsList
+    // this.setState({ productsList: updatedProductsList });
+  }
+  
+
   render() {
     return (
       <SafeAreaView style={[styles.safeArea, { backgroundColor: APP_BACKGROUND }]}>
@@ -192,7 +281,7 @@ export default class AddProducts extends LandingPageController {
                     }}
                     style={[styles.textInput, { height: 70 }]}
                   />
-                  <Text style={styles.label}>{ENTER_PRICE}</Text>
+                  {/* <Text style={styles.label}>{ENTER_PRICE}</Text>
                   <View style={styles.priceTextInput}>
                     <Text style={styles.dollar}>$</Text>
                     <TextInput
@@ -225,12 +314,18 @@ export default class AddProducts extends LandingPageController {
                         onPress={() =>
                           this.selectImage.bind(this)(
                             (res) => {
+                              console.log('res===',res);
+                              
                               const list = this.state.productsList;
+                              console.log('list1===',list);
+
                               list[index] = {
                                 ...list[index],
                                 //@ts-ignore
                                 images: [...list[index].images, res],
                               };
+                              console.log('list===',list);
+
                               this.setState({ productsList: list });
                             },
                             (err) => {
@@ -249,7 +344,10 @@ export default class AddProducts extends LandingPageController {
                           source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
                           style={styles.imagesContainer}>
                           <TouchableOpacity onPress={() => {
+                            
                             const imageList = [...item.images]
+                            console.log('imgelist==',imageList);
+                            
                             imageList.splice(prop.index, 1)
                             const list = this.state.productsList;
                             list[index] = {
@@ -263,10 +361,142 @@ export default class AddProducts extends LandingPageController {
                           </TouchableOpacity>
                         </ImageBackground>
                       )
-                    }} />
+                    }} /> */}
+
+                  {/************************* variant start ************************ */}
+
+
+                  <FlatList
+                    data={this.state.productsList[0].variants}
+                    renderItem={({ item, index }) =>
+                      <View style={{ flex: 1, marginTop: 20 }}>
+                        <View style={{ height: 40, flexDirection: 'row' }}>
+
+                          <View style={{ flex: .5, justifyContent: 'flex-end' }}>
+                            <Text style={styles.productHeader}>{`Add Variant`}</Text>
+                          </View>
+                          <TouchableOpacity
+                            style={{ flex: .5, justifyContent: 'center', alignItems: 'flex-end' }}
+                            onPress={() => {
+                              let variants = this.state.productsList[0].variants
+                              console.log('varaints', variants);
+                              const tempArr = [...variants, { description: '', itemCode: '', weight: '', price: '', stock: '', image: {} }]
+                              console.log('tempArr', tempArr)
+
+                              const obj = { ...this.state.productsList[0], variants: tempArr }
+                              this.setState({ productsList: [obj] })
+
+                            }
+                            }
+                          >
+                            <Text style={{ fontSize: 16, letterSpacing: 1 }}>{`+ Add Variant`}</Text>
+                          </TouchableOpacity>
+
+                        </View>
+                        <Text style={styles.label}>{`Variant Description`}</Text>
+                        <TextInput
+                          //@ts-ignore
+                          value={item.title}
+                          onChangeText={(description) => this.handleVariantChange(index)({ description })}
+                          style={styles.textInput}
+                        />
+                        <Text style={styles.label}>{`Item Code`}</Text>
+                        <TextInput
+                          //@ts-ignore
+                          value={item.title}
+                          style={styles.textInput}
+                        />
+                         <Text style={styles.label}>{`Weight (in lbs)`}</Text>
+                        <TextInput
+                          //@ts-ignore
+                          value={item.title}
+                          style={styles.textInput}
+                        />
+                        <Text style={styles.label}>{ENTER_PRICE}</Text>
+                        <View style={styles.priceTextInput}>
+                          <Text style={styles.dollar}>$</Text>
+                          <TextInput
+                            //@ts-ignore
+                            value={item.price}
+                            keyboardType="number-pad"
+                            onChangeText={(price) => this.handleVariantChange(index)({ price })}
+                            style={[styles.textInput, styles.priceText]}
+                          />
+                          <Text style={styles.perKg}>{PER_KG}</Text>
+                        </View>
+                        <Text style={styles.label}>{`Stock`}</Text>
+                        <TextInput
+                          //@ts-ignore
+                          value={item.title}
+                          style={styles.textInput}
+                        />
+
+                        
+                        <Text style={styles.label}>{`UPLOAD_IMAGES`}</Text>
+                        <FlatList
+                          data={item?.images}
+                          keyExtractor={(_, index) => {
+                            return String(index)
+                          }}
+                          bounces={false}
+                          showsHorizontalScrollIndicator={false}
+                          ListHeaderComponent={() => {
+                            return (<TouchableOpacity
+                              style={styles.addImage}
+                              onPress={() =>
+                                this.selectImage.bind(this)(
+                                  (res) => {
+                                    //console.log('res--------',res);
+                                    
+                                    this.updateVariantImage(index,res)
+                                  },
+                                  (err) => {
+                                    console.log(err);
+                                    
+                                    Alert.alert('Error', 'Something ')
+                                  }
+                                )
+                              }
+                            >
+                              <Text style={{ color: PRIMARY_COLOR, fontSize: 20 }}>+</Text>
+                            </TouchableOpacity>)
+                          }}
+                          horizontal
+                          renderItem={(prop: any) => {
+                            return (
+                              <ImageBackground
+                                source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
+                                style={styles.imagesContainer}>
+                                <TouchableOpacity onPress={() => {
+
+                                  const imageList = [...item.images]
+                                  console.log('imgelist==', imageList);
+
+                                  imageList.splice(prop.index, 1)
+                                  const list = this.state.productsList;
+                                  list[index] = {
+                                    ...list[index],
+                                    images: [...imageList],
+                                  };
+                                  this.setState({ productsList: list });
+                                }} style={styles.closeContainer}>
+                                  <View style={styles.blur} />
+                                  <Image resizeMode="contain" style={styles.closeIcon} source={close} />
+                                </TouchableOpacity>
+                              </ImageBackground>
+                            )
+                          }} />
+
+
+                      </View>
+                    }
+                  />
+
                 </View>
               );
+
             }}
+
             ListFooterComponent={() => (
               <View style={{ height: 200 }}>
                 <Button style={styles.buttonStyle} onPress={() => { this.addProduct() }} label={PUBLISH_NOW} />
