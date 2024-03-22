@@ -14,7 +14,7 @@ import {
   KeyboardAvoidingView,
 
 } from "react-native";
-import LandingPageController, { Props } from "../LandingPageController";
+import LandingPageController from "../LandingPageController";
 import {
 
   LIGHT_GREY,
@@ -592,7 +592,6 @@ console.log('index',index);
                               onPress={() =>
                                 this.selectImage.bind(this)(
                                   (res) => {
-                                    //console.log('res--------',res);
                                     
                                     this.updateVariantImage(index,res)
                                   },

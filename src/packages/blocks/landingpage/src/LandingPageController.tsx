@@ -965,11 +965,7 @@ showToast('No products foound')
     } else {
       console.log('response>>>>>>>>>>>>>>>',response);
 
-      // Alert.alert('Success', 'Hey! your product create successfully', [{
-      //   text: 'OK', onPress: () => {
-      //     //this.props.navigation.navigate('ExplorePage')
-      //   }
-      // }]);
+
     }
   }
 
@@ -1789,7 +1785,7 @@ showToast('No products foound')
   }
 
   async addProduct() {
-const {desciption,category_id,sub_category_id,name,price,sellingPrice,tax,hsnCode,subscription,subscriptionSellingPrice}=this.state.productsList[0]
+const {desciption,name,price,sellingPrice,tax,hsnCode,subscription,subscriptionSellingPrice}=this.state.productsList[0]
 const formData = new FormData();
     formData.append("name",name)
     formData.append("category_id","484")

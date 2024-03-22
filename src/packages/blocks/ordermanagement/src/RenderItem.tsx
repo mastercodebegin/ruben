@@ -5,15 +5,7 @@ import { DARK_RED, MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
-  const imageUri = item?.order_items?.data[0].attributes?.
-    catalogue?.data?.attributes?.productImage
-  //   console.log('merchant item1',item?.order_items?.data[0].attributes?.catalogue?.data?.attributes
-  // );
 
-  //   console.log('merchant item',item?.attributes?.catalogue
-  // );
-  //   console.log('merchant item3',item?.attributes?.catalogue?.data?.attributes?.name
-  // );
 
   const deliveryDate = item?.date;
   const isOnGoing = item?.status === "on_going";
