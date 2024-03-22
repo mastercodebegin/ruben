@@ -13,10 +13,12 @@ const ProductDetailComponent = ({
   index,
   subscriptionProduct
 }: any) => {
+
+
   return (
     <View style={styles.main}>
       <View style={[styles.rowCon]}>
-        <Image style={[styles.image]} source={MeatImage} />
+        <Image style={[styles.image]} source={image?.data?.attributes?.productImage?{uri:image?.data?.attributes?.productImage}:MeatImage} />
         <View style={styles.innerContainer}>
           <View style={styles.row}>
             <Text style={styles.productName}>{name} {subscriptionProduct &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}</Text>

@@ -34,7 +34,7 @@ export class ExplorePage extends LandingPageController {
   }
   async componentDidMount() {
     this.getCategory.bind(this)(1);
-   //this.getProductList(this.state.sortAscending);
+   this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory = (name: string) => {
 
@@ -78,7 +78,7 @@ export class ExplorePage extends LandingPageController {
         testID={index + "selectedSubscategory"}
         onPress={() => {
           this.getProductBySubcategory.bind(this)(this.state.selectedCat)
-          this.setState({ selectedSub: item?.id })
+          this.setState({ selectedSub: item?.id,productList:[] })
         }
         }
         style={[
@@ -195,7 +195,6 @@ export class ExplorePage extends LandingPageController {
                     <RenderCategories
                       onpress={() => {
                         this.getProductByCategory(item.id)
-                        console.log('renderItem====',item);
                         
                         this.setState({
                           selectedCat: item?.title,

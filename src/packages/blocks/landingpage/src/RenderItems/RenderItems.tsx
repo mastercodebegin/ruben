@@ -62,7 +62,7 @@ const RenderItem = ({
       onPress={() =>
         navigation.navigate("ProductDetailScreen", {
           id: item?.id,
-          description: isSearch ? item?.description : item?.attributes?.description,
+          description: item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
           price:  
           item?.attributes?.catalogue_variants[0].attributes.price,
@@ -105,9 +105,9 @@ const RenderItem = ({
         </View>
       </View>
       <View style={{ paddingHorizontal: 15 }}>
-        <Text style={styles.productName}>{isSearch ? item?.categoryCode : item?.attributes?.description}</Text>
+        <Text style={styles.productName}>{ item?.attributes?.description}</Text>
         <Text style={styles.description} numberOfLines={1}>
-          {isSearch ? item?.description : item?.attributes?.description}
+          {item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description}
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>

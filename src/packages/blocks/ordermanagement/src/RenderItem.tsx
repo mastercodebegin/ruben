@@ -5,6 +5,16 @@ import { DARK_RED, MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
+  const imageUri = item?.order_items?.data[0].attributes?.
+    catalogue?.data?.attributes?.productImage
+  //   console.log('merchant item1',item?.order_items?.data[0].attributes?.catalogue?.data?.attributes
+  // );
+
+  //   console.log('merchant item',item?.attributes?.catalogue
+  // );
+  //   console.log('merchant item3',item?.attributes?.catalogue?.data?.attributes?.name
+  // );
+
   const deliveryDate = item?.date;
   const isOnGoing = item?.status === "on_going";
   const isCancelled = item?.status === "cancelled";
@@ -41,18 +51,18 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
       ),
     });
   }
-  const orderStatusRender=(item:{attributes:{status:string}})=>{
-    return(
+  const orderStatusRender = (item: { attributes: { status: string } }) => {
+    return (
 
-    <>
-    {selectedTab !== "incoming"?<View style={styles.row}>
-    <Text style={styles.qText}>Status:</Text>
-    <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
-  </View>:null}</>)
+      <>
+        {selectedTab !== "incoming" ? <View style={styles.row}>
+          <Text style={styles.qText}>Status:</Text>
+          <Text style={[styles.text, { color: item?.attributes?.status == 'completed' ? 'green' : 'red' }]}>{item?.attributes?.status}</Text>
+        </View> : null}</>)
   }
   return (
     <>
-      {newItem?.order_items?.data.length !=0 ? (
+      {newItem?.order_items?.data.length != 0 ? (
         <View
           style={{
             paddingBottom: 15,
@@ -71,6 +81,9 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
             </Text>
           </View>
           {item.order_items?.data?.map((item: any, index: number) => {
+            console.log('item===',item?.attributes?.catalogue?.data?.attributes?.name);
+            
+
 
             return (
               <View key={index} style={[styles.container, { marginTop: 10 }]}>
@@ -79,19 +92,29 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
                   style={{ flexDirection: "row", paddingBottom: 10 }}
                 >
                   <Image
+                    resizeMode="contain"
                     style={{ height: 75, width: 75, borderRadius: 20 }}
-                    source={MeatImage}
+                    source={imageUri ? { uri: imageUri } : MeatImage}
                   />
-                  <View style={styles.innerCon}>
+                  <View style={[styles.innerCon,]}>
+                    <View style={[styles.row, { width: '80%',flexDirection:'column' }]}>
+                      <Text style={[styles.text, { marginTop: 6,fontWeight:'bold',fontSize:16,color:'black' }]}>
+                      {item?.attributes?.catalogue?.data?.attributes?.name}
+                      </Text>
+                      <Text style={[styles.text, { marginBottom:6,marginTop: 6,fontWeight:'400',fontSize:14,color:'black' }]}>
+                      {item?.attributes?.catalogue_variant?.data?.attributes?.variantType}
+                      </Text>
+                    </View>
                     <View style={styles.row}>
                       <Text style={[styles.headerText]}>
                         {item?.attributes?.order_no}
                       </Text>
                       <Text style={styles.text}>{`$ ${(
-                        item?.attributes?.price 
-                      ).toFixed(2)} x ${item?.attributes?.quantity 
+                        item?.attributes?.price
+                      ).toFixed(2)} x ${item?.attributes?.quantity
                         }`}</Text>
                     </View>
+
                     <View style={styles.row}>
                       <Text style={styles.qText}>Order Number:</Text>
                       <Text style={[styles.text, { marginTop: 6 }]}>{item.attributes?.order_no}</Text>
@@ -99,23 +122,23 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Due Date:</Text>
-                      <Text style={styles.text}>{ moment(item?.attributes.delivered_at).format("DD-MM-YYYY") }</Text>
+                      <Text style={styles.text}>{moment(item?.attributes.delivered_at).format("DD-MM-YYYY")}</Text>
                     </View>
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Shipping Time:</Text>
-                      <Text style={styles.text}>{moment(item?.attributes.delivered_at).format("hh:mm A") }</Text>
+                      <Text style={styles.text}>{moment(item?.attributes.delivered_at).format("hh:mm A")}</Text>
                     </View>
 
                     <View style={styles.row}>
                       <Text style={styles.qText}>Sub Total:</Text>
                       <Text style={styles.text}>$ {`${item?.attributes.price * item?.attributes?.quantity}`}</Text>
                     </View>
-{orderStatusRender(item)}
+                    {orderStatusRender(item)}
                   </View>
                 </View>
 
-              { selectedTab == "incoming"? <DualButton
+                {selectedTab == "incoming" ? <DualButton
                   button1Label="Decline"
                   button2label="Accept"
                   buttn1TestID="decline_test_id"
@@ -126,14 +149,14 @@ const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
                   button2Onpress={() => {
                     if (item.id) acceptDeclineOrders(item?.id, true);
                   }}
-                />:null}
+                /> : null}
               </View>
             );
           })}
         </View>
       ) :
-  null  
-    }
+        null
+      }
     </>
   );
 };
