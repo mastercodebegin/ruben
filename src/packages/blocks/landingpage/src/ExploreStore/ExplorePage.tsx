@@ -17,31 +17,69 @@ import LandingPageController from "../LandingPageController";
 import { LIGHT_GREY, WHITE } from "../../assets/constants";
 import { SEARCH, EXPLORE_BTN, CHICKEN, TEXT_COLOR, APP_BACKGROUND, BUTTON_TEXT_COLOR_PRIMARY, SECONDARY_TEXT_COLOR, BUTTON_COLOR_PRIMARY, PRIMARY_COLOR, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY } from "../assets";
 import BottomTab from "../BottomTab/BottomTab";
-import RenderItems from "../RenderItems/RenderItems";
+import { RenderItems, RenderItem } from "../RenderItems/RenderItems";
 import { connect } from "react-redux";
 import DualButton from "../../../../components/src/DualButton";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import RenderCategories from "./RenderCategories";
 import SortingDropdown from "../../../../components/src/SortingDropdown";
+import AnimalPig from "../../../analytics/src/AnimalPig";
+import AnimalChicken from "../../../analytics/src/AnimalChicken";
+import AnimalCow from "../../../../components/src/AnimalCow";
 
 export class ExplorePage extends LandingPageController {
-  constructor(props: any) {    
+  constructor(props: any) {
     super(props);
     this.receive = this.receive.bind(this);
   }
   async componentDidMount() {
     this.getCategory.bind(this)(1);
-    this.getProductList(this.state.sortAscending);
+   this.getProductList(this.state.sortAscending);
   }
-   renderItem = ({ item, index }: any) => {
-    
+  getAnimalByCategory = (name: string) => {
+
+    console.log('name===', name);
+
+    if ( name == "angus beef") {
+      console.log('if');
+
+      return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3'
+        isChartDisplay={false}
+        animalPartCallBack={
+          (item: number) =>
+            //this.getProductByCategory()
+            this.getProductBySubcategory(item)
+        }
+      />
+    }
+    else if (name == 'berkshire pork') {
+      return (<AnimalPig animalSelectedValue={this.state.selectedCat}
+        navigation={''} id='3' isChartDisplay={false}
+        animalPartCallBack={(item: number) =>
+          this.getProductBySubcategory(item)
+        }
+      />)
+    }
+    else if (name == 'chicken') {
+      return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
+        navigation={null}
+        isChartDisplay={false}
+        animalPartCallBack={(item: number) =>
+          this.getProductBySubcategory(item)
+
+        } />
+    }
+  }
+  renderItem = ({ item, index }: any) => {
+
 
     return (
       <TouchableOpacity
         testID={index + "selectedSubscategory"}
-        onPress={() =>
-          {this.getProductBySubcategory.bind(this)(this.state.selectedCat)
-          this.setState({ selectedSub: item?.id })}
+        onPress={() => {
+          this.getProductBySubcategory.bind(this)(this.state.selectedCat)
+          this.setState({ selectedSub: item?.id,productList:[] })
+        }
         }
         style={[
           styles.subcategory,
@@ -58,7 +96,7 @@ export class ExplorePage extends LandingPageController {
             height: 25,
             width: 25,
             marginRight: 10,
-            tintColor: this.state.selectedSub==item?.id ? BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY ,
+            tintColor: this.state.selectedSub == item?.id ? BUTTON_COLOR_SECONDARY : BUTTON_COLOR_PRIMARY,
           }}
           source={CHICKEN}
         />
@@ -66,7 +104,7 @@ export class ExplorePage extends LandingPageController {
           numberOfLines={1}
           style={{
             fontSize: 16,
-            color: this.state.selectedSub==item?.id ? BUTTON_TEXT_COLOR_PRIMARY :BUTTON_TEXT_COLOR_SECONDARY,
+            color: this.state.selectedSub == item?.id ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY,
             fontWeight: "500",
           }}
         >
@@ -100,10 +138,10 @@ export class ExplorePage extends LandingPageController {
               <View style={{ paddingHorizontal: 20 }}>
                 <Text style={styles.header}>Store </Text>
                 <View style={styles.textInputContainer}>
-                  <View style={[styles.searchContainer,{borderWidth:.5,borderColor:PRIMARY_COLOR}]}>
+                  <View style={[styles.searchContainer, { borderWidth: .5, borderColor: PRIMARY_COLOR }]}>
                     <Image
                       resizeMode="stretch"
-                      style={[styles.search,{tintColor:PRIMARY_COLOR}]}
+                      style={[styles.search, { tintColor: PRIMARY_COLOR }]}
                       source={SEARCH}
                     />
                     <TextInput
@@ -130,7 +168,7 @@ export class ExplorePage extends LandingPageController {
                       }
                     >
                       <Image
-                        style={[styles.explore,{tintColor:BUTTON_COLOR_PRIMARY}]}
+                        style={[styles.explore, { tintColor: BUTTON_COLOR_PRIMARY }]}
                         resizeMode="contain"
                         source={EXPLORE_BTN}
                       />
@@ -152,13 +190,18 @@ export class ExplorePage extends LandingPageController {
                   this.categoryPage = this.categoryPage + 1;
                   this.getCategory.bind(this)(this.categoryPage);
                 }}
-                renderItem={({ item, index }:any) => {                  
+                renderItem={({ item, index }: any) => {
                   return (
                     <RenderCategories
                       onpress={() => {
-                        this.setState({selectedCat: item?.id,isCallingFromStore:true,subCategoryList:[]})
-                        this.getSubcategories.bind(this)(item?.id)
-                        }}
+                        this.getProductByCategory(item.id)
+                        
+                        this.setState({
+                          selectedCat: item?.title,
+                          productList:[],
+                          isCallingFromStore: true, subCategoryList: []
+                        })
+                      }}
                       item={item}
                       index={index}
                       selectedCategory={this.state.selectedCat}
@@ -166,26 +209,34 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
+              {this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
+
               <FlatList
-                data={this.state.subCategoryList}
-                horizontal
+                data={this.state.searchResults}
                 bounces={false}
                 testID="subcategoryList"
                 style={{ marginLeft: 20 }}
                 showsHorizontalScrollIndicator={false}
-                renderItem={this.renderItem}
+                renderItem={({ item }) => <RenderItem
+                  navigation={this.props.navigation}
+                  onPressCart={this.addToCart.bind(this)}
+                  onpressFav={this.AddToFavorites.bind(this)}
+                  testID="products_list_id2"
+                  handleLoadMore={() => { this.handleLoadMore() }}
+                  item={item}
+                  header={true}
+                  rating={true}
+                />}
               />
-             {this.state.productList?.map((item:any,index:number)=>{
-                const {attributes} = item;         
-                return(
-                  this.state.selectedCat || this.state.selectedSub == '' ?
-                  <>
-                  {attributes?.catalogue?.catalogues?.data.length > 0 &&
+               {this.state.productList?.map((item: any, index: number) => {
+                const { attributes } = item;
+                return (
                   <View style={styles.productWrap}>
                     <View style={styles.productContainer}>
-                      <Text style={styles.itemCategory}>{attributes.name}</Text>
-                      {attributes?.catalogue.catalogues_count > 8 &&
-                      <Text onPress={()=>this.props.navigation.navigate("ViewProduct",{category: attributes})} style={styles.seeText}>SEE ALL</Text>}
+                      <Text style={styles.itemCategory}>{this.state.selectedCat}</Text>
+                      {this.state.productList.length > 8 &&
+                        <Text onPress={() => this.props.navigation.navigate("ViewProduct",
+                          { category: attributes })} style={styles.seeText}>SEE ALL</Text>}
                     </View>
                     <RenderItems
                       navigation={this.props.navigation}
@@ -193,33 +244,16 @@ export class ExplorePage extends LandingPageController {
                       onpressFav={this.AddToFavorites.bind(this)}
                       testID="products_list_id2"
                       handleLoadMore={() => { this.handleLoadMore() }}
-                      item={attributes?.catalogue?.catalogues?.data}
+                      item={item?.attributes?.catalogue?.data}
                       header={true}
                       rating={true}
                     />
-                  </View>}
-                  </>:
-                (this.state.selectedCat ==  attributes?.id) &&
-                    <View style={styles.productWrap}>
-                      <View style={styles.productContainer}>
-                        <Text style={styles.itemCategory}>{attributes.name}</Text>
-                        {attributes?.catalogue.catalogues_count > 8 &&
-                        <Text onPress={()=>this.props.navigation.navigate("ViewProduct",{category: attributes})} style={styles.seeText}>SEE ALL</Text>}
-                      </View>
-                      <RenderItems
-                        navigation={this.props.navigation}
-                        onPressCart={this.addToCart.bind(this)}
-                        onpressFav={this.AddToFavorites.bind(this)}
-                        testID="products_list_id2"
-                        handleLoadMore={() => { this.handleLoadMore() }}
-                        item={attributes?.catalogue?.catalogues?.data}
-                        header={true}
-                        rating={true}
-                      />
-                    </View>
+                  </View>
+
+
                 )
-              })}
-              
+              })} 
+
             </View>
           </ScrollView>
           {this.props.currentUser === "user" ? (
@@ -234,7 +268,7 @@ export class ExplorePage extends LandingPageController {
               button2Onpress={() =>
                 this.props.navigation.navigate("AddProducts")
               }
-              button1Onpress={()=>this.props.navigation.navigate("Inventory")}
+              button1Onpress={() => this.props.navigation.navigate("Inventory")}
               buttn2TestID="add_product_test_id"
               buttn1TestID="inventory_test_id"
               button1Label="Inventory"
@@ -242,8 +276,8 @@ export class ExplorePage extends LandingPageController {
             />
           )}
         </View>
-        {this?.props?.route?.params?.isLogin==undefined &&
-        <BottomTab navigation={this.props.navigation} tabName={"Explore"} />}
+        {this?.props?.route?.params?.isLogin == undefined &&
+          <BottomTab navigation={this.props.navigation} tabName={"Explore"} />}
         {this.state.show_loader && (
           <CommonLoader visible={this.state.show_loader} />
         )}
@@ -294,6 +328,27 @@ const ReduxExplorePage: any = connect(
 export default ReduxExplorePage;
 
 export const styles = StyleSheet.create({
+  button: {
+    height: 25,
+    width: 25,
+    backgroundColor: BUTTON_COLOR_SECONDARY,
+    borderRadius: 12.5,
+    borderWidth: .6,
+    borderColor: PRIMARY_COLOR,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  counter: {
+    paddingHorizontal: 10,
+    color: TEXT_COLOR,
+    fontSize: 17,
+  },
+
+  counterContainer: { flexDirection: "row", alignItems: "center" },
+
+  count: {
+    color: BUTTON_COLOR_PRIMARY,
+  },
   dualButton: {
     position: "absolute",
     bottom: 0,
@@ -390,20 +445,20 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
   },
-  productWrap:{
-    padding:20
+  productWrap: {
+    padding: 20
   },
-  productContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between'
+  productContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   itemCategory: {
     color: TEXT_COLOR,
     fontWeight: "bold",
     fontSize: 17,
   },
-  seeText:{
-    color:SECONDARY_TEXT_COLOR,
+  seeText: {
+    color: SECONDARY_TEXT_COLOR,
     fontWeight: "bold",
   }
 });

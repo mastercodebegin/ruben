@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { store } from "../../../components/src/utils";
 import DisplayCalendar from "../../../components/src/DisplayCalendar";
-import {DARK_RED, LIGHT_GREY, PRIMARY} from "../../../components/src/constants";
+import { DARK_RED, LIGHT_GREY, PRIMARY } from "../../../components/src/constants";
 import { PRIMARY_COLOR } from "../../landingpage/src/assets";
 // Customizable Area End
 
@@ -25,6 +25,8 @@ export interface Props {
   id: string;
   // Customizable Area Start
   animalSelectedValue: string;
+  isChartDisplay: boolean
+  animalPartCallBack: (item: number) => void
   // Customizable Area End
 }
 
@@ -40,7 +42,7 @@ export interface SoldChartI {
 
 export enum AnimalParts {
   // chicken
-  'chicken_Defult'= 'chicken_Defult',
+  'chicken_Defult' = 'chicken_Defult',
   'chicken_Breast' = 'chicken_Breast',
   'chicken_Back' = 'chicken_Back',
   'chicken_leg' = 'chicken_leg',
@@ -62,54 +64,54 @@ export enum AnimalParts {
   'pigBackFat' = 'pigBackFat',
   'pigLoin' = 'pigLoin',
   // cow
-  'chuck'='chuck',
-  'cow_Defult'='cow_Defult',
-  'cowHead'='cowHead',
-  'cow_Fore_Shank'='cow_Fore_Shank',
-  'cow_Short_plate'='cow_Short_plate',
-  'cow_Flank'='cow_Flank',
-  'cow_shank'='cow_shank',
-  'cow_Round'='cow_Round',
-  'cow_Sirllion'='cow_Sirllion',
-  'cow_Short_lion'='cow_Short_lion',
-  'cow_Brisket'='cow_Brisket',
-  'cow_Rib'='cow_Rib',
+  'chuck' = 'chuck',
+  'cow_Defult' = 'cow_Defult',
+  'cowHead' = 'cowHead',
+  'cow_Fore_Shank' = 'cow_Fore_Shank',
+  'cow_Short_plate' = 'cow_Short_plate',
+  'cow_Flank' = 'cow_Flank',
+  'cow_shank' = 'cow_shank',
+  'cow_Round' = 'cow_Round',
+  'cow_Sirllion' = 'cow_Sirllion',
+  'cow_Short_lion' = 'cow_Short_lion',
+  'cow_Brisket' = 'cow_Brisket',
+  'cow_Rib' = 'cow_Rib',
 }
 
 export type ChickenParts = AnimalParts.chicken_Defult
-    | AnimalParts.chicken_Breast
-    | AnimalParts.chicken_Back
-    | AnimalParts.chicken_leg
-    | AnimalParts.chicken_Neck
-    | AnimalParts.chicken_Thigh
-    | AnimalParts.chicken_Wing
-    | AnimalParts.chicken_tail;
+  | AnimalParts.chicken_Breast
+  | AnimalParts.chicken_Back
+  | AnimalParts.chicken_leg
+  | AnimalParts.chicken_Neck
+  | AnimalParts.chicken_Thigh
+  | AnimalParts.chicken_Wing
+  | AnimalParts.chicken_tail;
 
 export type PigParts = AnimalParts.pig
-    | AnimalParts.pigHead
-    | AnimalParts.pigJowl
-    | AnimalParts.pigNeck
-    | AnimalParts.pigShoulder
-    | AnimalParts.pigPicnic
-    | AnimalParts.pigHock
-    | AnimalParts.pigBacon
-    | AnimalParts.pigLegham
-    | AnimalParts.pigRibs
-    | AnimalParts.pigBackFat
-    | AnimalParts.pigLoin;
+  | AnimalParts.pigHead
+  | AnimalParts.pigJowl
+  | AnimalParts.pigNeck
+  | AnimalParts.pigShoulder
+  | AnimalParts.pigPicnic
+  | AnimalParts.pigHock
+  | AnimalParts.pigBacon
+  | AnimalParts.pigLegham
+  | AnimalParts.pigRibs
+  | AnimalParts.pigBackFat
+  | AnimalParts.pigLoin;
 
 export type CowParts = AnimalParts.chuck
-    | AnimalParts.cow_Defult
-    | AnimalParts.cowHead
-    | AnimalParts.cow_Fore_Shank
-    | AnimalParts.cow_Short_plate
-    | AnimalParts.cow_Flank
-    | AnimalParts.cow_shank
-    | AnimalParts.cow_Round
-    | AnimalParts.cow_Sirllion
-    | AnimalParts.cow_Short_lion
-    | AnimalParts.cow_Brisket
-    | AnimalParts.cow_Rib;
+  | AnimalParts.cow_Defult
+  | AnimalParts.cowHead
+  | AnimalParts.cow_Fore_Shank
+  | AnimalParts.cow_Short_plate
+  | AnimalParts.cow_Flank
+  | AnimalParts.cow_shank
+  | AnimalParts.cow_Round
+  | AnimalParts.cow_Sirllion
+  | AnimalParts.cow_Short_lion
+  | AnimalParts.cow_Brisket
+  | AnimalParts.cow_Rib;
 
 
 
@@ -171,6 +173,7 @@ interface S {
   chartObject: any;
   markedDays: any;
   soldChart: SoldChartI
+  selectedAnimalPart: string
   // Customizable Area End
 }
 
@@ -184,7 +187,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   // Customizable Area Start
   categoaryCallId: string = '';
   myCreditCallId: string = '';
-  calendarRef:  React.RefObject<DisplayCalendar> | null = null;
+  calendarRef: React.RefObject<DisplayCalendar> | null = null;
   showAlert() {
     Alert.alert('Alert', "something went wrong please try again", [{ text: 'OK', onPress: () => this.setState({ showLoader: false }) }])
   }
@@ -195,7 +198,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.receive = this.receive.bind(this);
 
     // Customizable Area Start
-    const today = moment(new Date(),  "YYYY-MM-DD").toString();
+    const today = moment(new Date(), "YYYY-MM-DD").toString();
     this.subScribedMessages = [
       getName(MessageEnum.AccoutLoginSuccess),
       // Customizable Area Start
@@ -205,6 +208,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
     this.state = {
       // Customizable Area Start
+      selectedAnimalPart: '',
       chuck: false,
       markedDays: [],
       cowHead: false,
@@ -272,7 +276,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigRibs: false,
       pigLoin: false,
       pigBackFat: false,
-      cuts:[
+      cuts: [
         {
           cuts_name: "pigHead",
           sold: 44,
@@ -282,7 +286,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       chartObject: {
         labels: this.formattedDateRange(today.toString()),
         datasets: [
-          { data: [ 0, 0, 0, 0, 0, 0, 0 ],
+          {
+            data: [0, 0, 0, 0, 0, 0, 0],
             colors: [
               (opacity = 1) => PRIMARY_COLOR,
               (opacity = 1) => PRIMARY_COLOR,
@@ -330,7 +335,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       } else {
         this.setState({ categoryList: list.data });
         this.setState({ category_id: list.data[0]?.id })
-        this.setState({ category_title: list.data[0]?.attributes?.name, animalSelectedValue:list.data[0]?.attributes?.name })
+        this.setState({ category_title: list.data[0]?.attributes?.name, animalSelectedValue: list.data[0]?.attributes?.name })
         this.getAnalyticData(list.data[0]?.id)
       }
     } else if (
@@ -347,9 +352,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       );
       if (error) {
         Alert.alert("Error", "Something went wrong", [{ text: 'OK', onPress: () => { this.setState({ showLoader: false }) } }]);
-      } else {   
-        this.analyticsRes(list)     
-       
+      } else {
+        this.analyticsRes(list)
+
       }
     }
 
@@ -414,38 +419,38 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     if (!startDate) {
       let date = new Date();
       date.setDate(date.getDate() - 7);
-      formattedStartDate  = moment(date).format("YYYY-MM-DD");
+      formattedStartDate = moment(date).format("YYYY-MM-DD");
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
       let startDateString = moment(momentObj).format("YYYY-MM-DD");
       startDate = startDateString
-      this.setState({startDate: startDate})
+      this.setState({ startDate: startDate })
     } else {
-       formattedStartDate  = moment(startDate).format("YYYY-MM-DD");
+      formattedStartDate = moment(startDate).format("YYYY-MM-DD");
       let momentObj = moment(startDate).format("YYYY-MM-DD");
-      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");      
+      let startDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       startDate = startDateString
     }
     let endDate = this.state.endDate
-    let formattedEndDate;    
+    let formattedEndDate;
     if (!endDate) {
-      let date = new Date();    
+      let date = new Date();
       formattedEndDate = moment(date).format("YYYY-MM-DD");
       let momentObj = moment(date, "YYYY-MM-DD'T'HH:mm:ss.sssZ");
       let endDateString = moment(momentObj).format("YYYY-MM-DD'T'HH:mm:ss.sssZ");
       endDate = endDateString
-      this.setState({endDate: endDate})
-    }else{
+      this.setState({ endDate: endDate })
+    } else {
       const datePart = endDate.split("'")[0];
-      formattedEndDate = moment(datePart).format("YYYY-MM-DD");      
+      formattedEndDate = moment(datePart).format("YYYY-MM-DD");
     }
-    let params: string;    
+    let params: string;
     if (store.getState().currentUser === "user") {
       params = `${configJSON.getAnalytic}?category_id=${categoryId}`
     } else {
       // params = `?query=${this.state.category_title}&category_id=${categoryId}&start_date=${startDate}&end_date=${endDate}`
       params = `${configJSON.getAnalytic}?category_id=${categoryId}&start_date=${formattedStartDate}&end_date=${formattedEndDate}`
     }
-    
+
     analytics.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       params
@@ -463,49 +468,50 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(analytics.id, analytics);
   }
 
-  analyticsRes(list:any){
-    if(list.message !="No Data For This Category" && list.message != "No Order Present for this category"){
-      this.setState({chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate)})     
-       let amount = list.tota_amount?.toFixed(2);        
-       let numberOfSpend = list.no_of_spend?.toFixed(2)
-       let numberOfSpendCount = list.no_of_spend_count?.toFixed(2)
-       this.setState({ usedCuts: list.used_cuts });
-       this.setState({ remianingCuts: list.remaining_cuts });
-       this.setState({ totalCuts: list.total_cuts });
-       this.setState({ totaAmount: amount });
-       this.setState({ numberOfSpendCount: numberOfSpendCount });
-       this.setState({ numberOfSpend: numberOfSpend });
-       this.setState({ showLoader: false });
-       }else{
-         const today = moment(new Date(),  "YYYY-MM-DD").toString();
-         this.setState({ showLoader: false,usedCuts:0,remianingCuts:0,totalCuts:0,totaAmount:0 ,numberOfSpendCount:0,numberOfSpend:0});
-       this.setState({
-         chartObject:{
-           labels: this.formattedDateRange(today.toString()),
-           datasets: [
-             { data: [ 0, 0, 0, 0, 0, 0, 0 ]
-             }
-           ]
-         }
-       })
-       }
+  analyticsRes(list: any) {
+    if (list.message != "No Data For This Category" && list.message != "No Order Present for this category") {
+      this.setState({ chartObject: this.convertToChartFormat(list.chart_data, this.state.startDate) })
+      let amount = list.tota_amount?.toFixed(2);
+      let numberOfSpend = list.no_of_spend?.toFixed(2)
+      let numberOfSpendCount = list.no_of_spend_count?.toFixed(2)
+      this.setState({ usedCuts: list.used_cuts });
+      this.setState({ remianingCuts: list.remaining_cuts });
+      this.setState({ totalCuts: list.total_cuts });
+      this.setState({ totaAmount: amount });
+      this.setState({ numberOfSpendCount: numberOfSpendCount });
+      this.setState({ numberOfSpend: numberOfSpend });
+      this.setState({ showLoader: false });
+    } else {
+      const today = moment(new Date(), "YYYY-MM-DD").toString();
+      this.setState({ showLoader: false, usedCuts: 0, remianingCuts: 0, totalCuts: 0, totaAmount: 0, numberOfSpendCount: 0, numberOfSpend: 0 });
+      this.setState({
+        chartObject: {
+          labels: this.formattedDateRange(today.toString()),
+          datasets: [
+            {
+              data: [0, 0, 0, 0, 0, 0, 0]
+            }
+          ]
+        }
+      })
+    }
   }
 
-  calendarToggle (value: boolean){
+  calendarToggle(value: boolean) {
     this.setState({ showCalendar: value });
   }
 
-  generateDateObject(startDate:Date, endDate:Date) {
+  generateDateObject(startDate: Date, endDate: Date) {
     if (startDate > endDate) {
       const temp = startDate;
       startDate = endDate;
       endDate = temp;
     }
-    const result :any = {};
+    const result: any = {};
     let currentDate = new Date(startDate.toString());
     while (currentDate <= endDate) {
       const currentDateStr = currentDate.toISOString().split("T")[0];
-      const dayData:any = { color: LIGHT_GREY, textColor: DARK_RED };
+      const dayData: any = { color: LIGHT_GREY, textColor: DARK_RED };
       if (currentDate.getTime() === startDate.getTime()) {
         dayData.startingDay = true;
         dayData.color = PRIMARY;
@@ -522,15 +528,15 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     return result;
   }
 
-  soldChart(type: AnimalParts,data:any ) {
-    const typesProps:{ [key in AnimalParts]: Partial<SoldChartI>} = {
+  soldChart(type: AnimalParts, data: any) {
+    const typesProps: { [key in AnimalParts]: Partial<SoldChartI> } = {
       [AnimalParts.cow_Defult]: {
         isShow: false,
       },
       [AnimalParts.chuck]: {
         isShow: true,
         x: 170,
-        y:20,
+        y: 20,
         lineHeight: 25,
         sold: 100,
         remaining: 220
@@ -546,7 +552,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.cowHead]: {
         isShow: true,
         x: 210,
-        y:20,
+        y: 20,
         lineHeight: 30,
         sold: 100,
         remaining: 73
@@ -562,7 +568,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.cow_Short_lion]: {
         isShow: true,
         x: 110,
-        y:20,
+        y: 20,
         lineHeight: 25,
         sold: 100,
         remaining: 22
@@ -570,7 +576,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.cow_Sirllion]: {
         isShow: true,
         x: 85,
-        y:20,
+        y: 20,
         lineHeight: 15,
         sold: 100,
         remaining: 22
@@ -602,7 +608,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.cow_Short_plate]: {
         isShow: true,
         x: 110,
-        y:20,
+        y: 20,
         lineHeight: 65,
         sold: 20,
         remaining: 65
@@ -610,7 +616,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.cow_Brisket]: {
         isShow: true,
         x: 185,
-        y:20,
+        y: 20,
         lineHeight: 65,
         sold: 20,
         remaining: 65
@@ -618,7 +624,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.chicken_Defult]: {
         isShow: false,
         x: 0,
-        y:0,
+        y: 0,
       },
       [AnimalParts.chicken_Breast]: {
         isShow: true,
@@ -648,7 +654,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
         isShow: true,
         x: 50,
         y: 5,
-        lineHeight:50,
+        lineHeight: 50,
         sold: 28,
         remaining: 73
       },
@@ -663,7 +669,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.chicken_tail]: {
         isShow: true,
         x: 180,
-        y:25,
+        y: 25,
         lineHeight: 80,
         sold: 150,
         remaining: 100
@@ -679,15 +685,15 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [AnimalParts.pig]: {
         isShow: false,
         x: 0,
-        y:0,
+        y: 0,
       },
       [AnimalParts.pigHead]: {
         isShow: true,
         x: 40,
         y: 25,
         lineHeight: 40,
-        sold:data.sold,
-        remaining:data.remaining
+        sold: data?.sold,
+        remaining: data?.remaining
       },
       [AnimalParts.pigJowl]: {
         isShow: true,
@@ -751,16 +757,17 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       },
     }
 
-   this.setState({
+    this.setState({
       soldChart: {
         isShow: false,
         sold: 1,
         remaining: 1,
         lineHeight: 30,
-        x:0,
-        y:0,
+        x: 0,
+        y: 0,
         ...typesProps[type]
-      }})
+      }
+    })
   }
 
   handleDateSelected = (data: string) => {
@@ -788,58 +795,58 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     const labels: string[] = this.formattedDateRange(startDate);
     const colors = [(opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`,
     (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`, (opacity = 1) => `#F8F4F4`]
-    
+
     let maxSell = 0;
     let maxSellIdx = 0;
     chartData?.forEach(item => {
-        const date = new Date(item.date)
-        const chartDataMMDD = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
-        const dataIdx = labels.indexOf(chartDataMMDD);
-        if (dataIdx !== -1) {
-          data[dataIdx] = item.sell;
-        }
-        if((parseFloat(item.sell)) > maxSell) {
-            maxSell = parseFloat(item.sell);
-            maxSellIdx = dataIdx;
-        }
+      const date = new Date(item.date)
+      const chartDataMMDD = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+      const dataIdx = labels.indexOf(chartDataMMDD);
+      if (dataIdx !== -1) {
+        data[dataIdx] = item.sell;
+      }
+      if ((parseFloat(item.sell)) > maxSell) {
+        maxSell = parseFloat(item.sell);
+        maxSellIdx = dataIdx;
+      }
     })
-    
-    colors[maxSellIdx] = (opacity = 1) => `#ee5e5d`;
-    
-    const datasets = [
-        {
-            data,
-            colors
-        }
-    ]
-    
-    return {
-        labels,
-        datasets
-    };
-}
 
-  formattedDateRange(startDate: string, daysNum: number = 7, format="MM/DD"){
+    colors[maxSellIdx] = (opacity = 1) => `#ee5e5d`;
+
+    const datasets = [
+      {
+        data,
+        colors
+      }
+    ]
+
+    return {
+      labels,
+      datasets
+    };
+  }
+
+  formattedDateRange(startDate: string, daysNum: number = 7, format = "MM/DD") {
     const result = []
     const date = new Date(startDate);
-    for(let i = 0; i < daysNum; i++) {
+    for (let i = 0; i < daysNum; i++) {
       result.push(moment(date).format(format));
       date.setDate(date.getDate() + 1);
     }
     return result;
   }
 
-  dateStringToLabelFormat = (date: string)=> {
+  dateStringToLabelFormat = (date: string) => {
     let _date = new Date(date);
     return moment(_date).format('MMMM, YYYY');
   }
 
-  onCowClick(partOfCow: CowParts){
+  onCowClick(partOfCow: CowParts) {
 
     // @ts-ignore
     this.setState({
-      chuck: false,
       cow_Defult: false,
+      chuck: false,
       cowHead: false,
       cow_Fore_Shank: false,
       cow_Short_plate: false,
@@ -852,8 +859,41 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       cow_Brisket: false,
       [partOfCow]: true,
     });
+
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfCow);
-    this.soldChart(partOfCow,data);
+    console.log('data===', data)
+    function getCowPartId(partOfCow:string) {
+      switch (partOfCow) {
+          case 'chuck':
+              return 34173;
+          case 'cowHead':
+              return 34177;
+          case 'cow_Fore_Shank':
+              return 34182;
+          case 'cow_Short_plate':
+              return 34185;
+          case 'cow_Flank':
+          case 'cow_shank':
+              return 34175;
+          case 'cow_Round':
+              return 34181;
+          case 'cow_Sirllion':
+              return 34187;
+          case 'cow_Short_lion':
+              return 34183;
+          case 'cow_Rib':
+              return 34180;
+          case 'cow_Brisket':
+              return 34172;
+          default:
+              return 10;
+      }
+  }
+  let id = getCowPartId(partOfCow);
+
+    this.props.animalPartCallBack(id)
+
+    this.soldChart(partOfCow, data);
   }
 
   // Chicken
@@ -871,10 +911,33 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       [partOfChicken]: true
     });
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfChicken);
-    this.soldChart(partOfChicken,data);
+    this.soldChart(partOfChicken, data);
+
+    function getChickenPartId(partOfChicken:string) {
+      switch (partOfChicken) {
+          case 'chicken_Breast':
+              return 34207;
+          case 'chicken_Back':
+              return 34206;
+          case 'chicken_leg':
+              return 34209;
+          case 'chicken_Neck':
+              return 34210;
+          case 'chicken_Thigh':
+              return 34212;
+          case 'chicken_Wing':
+              return 34214;
+          case 'chicken_tail':
+              return 1;
+          default:
+              return 0;
+      }
+  }   let id = getChickenPartId(partOfChicken);
+ 
+    this.props.animalPartCallBack(id)
   }
 
-  onPigClick(partOfPig: PigParts){
+  onPigClick(partOfPig: PigParts) {
     // @ts-ignore
     this.setState({
       pig: false,
@@ -889,10 +952,42 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       pigRibs: false,
       pigLoin: false,
       pigBackFat: false,
-      [partOfPig]:true,
+      [partOfPig]: true,
     });
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfPig);
-    this.soldChart(partOfPig,data);
+    this.soldChart(partOfPig, data);
+
+
+    function getPigPartId(partOfPig:string) {
+      switch (partOfPig) {
+          case 'pigHead':
+              return 1;
+          case 'pigJowl':
+              return 34193;
+          case 'pigNeck':
+              return 34198;
+          case 'pigShoulder':
+              return 34203;
+          case 'pigPicnic':
+          case 'pigHock':
+              return 34199;
+          case 'pigBacon':
+              return 34192;
+          case 'pigLegham':
+              return 34194;
+          case 'pigRibs':
+              return 34200;
+          case 'pigLoin':
+              return 34195;
+          case 'pigBackFat':
+              return 34196;
+          default:
+              return 34195;
+      }
+  }
+  let id = getPigPartId(partOfPig);
+    this.props.animalPartCallBack(id)
+
   }
 
   getDataOfCat(item: any) {

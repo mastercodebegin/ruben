@@ -53,6 +53,8 @@ const RenderItem = ({
   const total = item?.attributes?.price;
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
+
+  
   
   return (
     <TouchableOpacity
@@ -60,9 +62,10 @@ const RenderItem = ({
       onPress={() =>
         navigation.navigate("ProductDetailScreen", {
           id: item?.id,
-          description: isSearch ? item?.description : item?.attributes?.description,
+          description: item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
-          price:  isSearch ? item?.price :item?.attributes?.price,
+          price:  
+          item?.attributes?.catalogue_variants[0].attributes.price,
           image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
           productList:productList
         })
@@ -70,7 +73,10 @@ const RenderItem = ({
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        <FastImage resizeMode="stretch" style={styles.itemImage} source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage} />
+        {item?.attributes?.productImage ?
+          <FastImage resizeMode="stretch" style={styles.itemImage} source={{uri:item.attributes.productImage}} />:
+          <FastImage resizeMode="stretch" style={styles.itemImage} source={backGroundImage} />
+        }
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {!rating ? (
@@ -99,17 +105,26 @@ const RenderItem = ({
         </View>
       </View>
       <View style={{ paddingHorizontal: 15 }}>
-        <Text style={styles.productName}>{isSearch ? item?.categoryCode : item?.attributes?.categoryCode}</Text>
+        <Text style={styles.productName}>{ item?.attributes?.description}</Text>
         <Text style={styles.description} numberOfLines={1}>
-          {isSearch ? item?.description : item?.attributes?.description}
+          {item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description}
         </Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>
-            {`$ ${isSearch ? item?.price : item?.attributes?.price}` + "/Kg"}
+            {`$ ${item?.attributes?.catalogue_variants[0].attributes.price}` + "/Kgs"}
           </Text>
           <TouchableOpacity
             testID={"add_to_cart_id_" + index}
-            onPress={() => onPressCart(item?.id)}
+            onPress={() =>
+              navigation.navigate("ProductDetailScreen", {
+                id: item?.id,
+                description: isSearch ? item?.description : item?.attributes?.description,
+                name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
+                price:  isSearch ? item?.price :item?.attributes?.price,
+                image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
+                productList:productList
+              })
+            }
             style={styles.cartContainer}
           >
             <Image resizeMode="contain" style={[styles.cart,{tintColor:PRIMARY_COLOR}]} source={CART} />
@@ -132,6 +147,8 @@ const RenderItems = ({
   prodList
 }: Types) => {
   const productList = item;
+  console.log('productList======',productList);
+  
   return (
     <View>
       <FlatList
@@ -139,6 +156,7 @@ const RenderItems = ({
         style={styles.flatList}
         keyExtractor={(item, i) => `${i}`}
         testID={testID}
+        data={item}
         horizontal
         nestedScrollEnabled
         renderItem={({ item, index }) => (
@@ -149,19 +167,18 @@ const RenderItems = ({
             item={item}
             navigation={navigation}
             index={index}
-            productList={isSearch ? prodList : productList}
+            productList={ productList}
             isSearch={isSearch}
           />
         )}
         onEndReachedThreshold={1}
         // onEndReached={handleLoadMore}
         pagingEnabled={false}
-        data={item}
       />
     </View>
   );
 };
-export default RenderItems;
+export  {RenderItems,RenderItem};
 
 const styles = StyleSheet.create({
   flatList: { marginLeft: 0, paddingTop: 20 },
@@ -169,6 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: APP_BACKGROUND,
     width: deviceWidth * 0.77,
     marginRight: 20,
+    marginTop:20,
     overflow: "hidden",
     paddingHorizontal: 10,
     paddingTop: 10,

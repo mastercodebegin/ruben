@@ -10,14 +10,23 @@ const RenderProducts = ({ item, index }: any) => {
     const frequency = item.attributes?.frequency;      
     return (
         <View key={index} style={rstyles.imageContainer}>
-        <Image style={{height:50,width:50,borderRadius:10}} source={meatimage}/>
+        <Image style={{height:50,width:50,borderRadius:10}}
+         source={item?.attributes?.catalogue_variant?.data?.attributes?.productImage?{uri:item?.attributes?.catalogue_variant?.data?.attributes?.productImage}:meatimage}/>
         <View style={rstyles.inner}>
             <View style={styles.row}>
-                <Text style={[styles.productName,{fontWeight:"bold"}]}>
-                    {item?.attributes?.catalogue?.data?.attributes?.categoryCode}
+                <View style={{flexDirection:'column',width:'50%'}}>
+
+            <Text style={[styles.productName]}>
+                    {item?.attributes?.catalogue?.data?.attributes?.name}
                     {frequency &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}
                     </Text>
-                    <View>
+                <Text style={[styles.productName]}>
+                    {item?.attributes?.catalogue_variant?.data?.attributes?.variantType||item?.attributes?.catalogue?.data?.attributes?.name}
+                    {frequency &&  <Text style={[styles.productName,{fontSize:8}]}>{"(S)"}</Text>}
+                    </Text>
+                    </View>
+
+                    <View style={{width:'50%',justifyContent:'flex-start',alignItems:'flex-end'}}>
                 <Text style={styles.price}>
                     {`$ ${item?.attributes?.catalogue?.data?.attributes?.price
                         } X ${item?.attributes?.quantity}`}
@@ -53,7 +62,9 @@ const getDeliveryPercentage = (startDate: Date, endDate: Date) => {
         
     }
 }
-const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {     
+const RenderItem = ({ item, cancelOrder, selectedStatus }: any) => {   
+    
+    
     const isCompleted = item?.attributes?.status === 'completed';
     const isCanceled = item?.attributes?.status === 'cancelled';    
     const onPressCancel = () => {

@@ -18,6 +18,8 @@ export default class AnimalChicken extends AnalyticsController {
   constructor(props: Props) {
     super(props);
     // Customizable Area Start
+    props.isChartDisplay=true
+
     console.log("value== == == == ::::", this.props?.animalSelectedValue);
     // Customizable Area End
   }
@@ -33,12 +35,18 @@ export default class AnimalChicken extends AnalyticsController {
       lineHeight
     } = this.state.soldChart;
 
-
+ 
     return (
       <View style={styles.container}>
         {this.props?.animalSelectedValue == 'Chicken' &&
-          <View style={styles.animalImgContainer}>
-            <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
+          <View 
+          style={
+            this.props.isChartDisplay
+              ? styles.animalImgContainer
+              : [styles.animalImgContainerForStore,{marginTop:40}]
+          }>
+           {this.props.isChartDisplay? <AnimalChart top={top} left={left} 
+            isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />:null}
             <View style={styles.animalImgCont}>
               {
                 this.state.chicken_Defult &&
@@ -109,7 +117,7 @@ export default class AnimalChicken extends AnalyticsController {
 
             </View>
 
-            <View style={styles.bottomContainer}>
+          { this.props.isChartDisplay? <View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
                 <View style={[styles.redDot, { backgroundColor: '#A0272A', }]}>
                 </View>
@@ -120,7 +128,7 @@ export default class AnimalChicken extends AnalyticsController {
                 </View>
                 <Text style={styles.textStyle}>Sold</Text>
               </View>
-            </View>
+            </View>:<></>}
           </View>
         }
       </View>
@@ -258,6 +266,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 0,
     transform: [{ rotate: '-35deg' }],
+  },
+  animalImgContainerForStore: {
+    justifyContent: "center",
+    height: 150,
+    borderRadius: 10,
+    marginTop: 20,
   },
   clickOnChickenTail: {
     width: 55,

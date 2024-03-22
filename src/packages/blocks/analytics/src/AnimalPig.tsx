@@ -25,96 +25,55 @@ export default class AnimalPig extends AnalyticsController {
 
   render() {
     // Customizable Area Start
-    const {x: left,y:top , isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
+ 
+
+      const renderImageItem = (stateKey:string, imageSource:any) => {
+        if (this.state[stateKey]) {
+          return (
+            <Image
+              style={styles.animalImg}
+              resizeMode="contain"
+              source={imageSource}
+            />
+          );
+        }
+        return null;
+      };
+    
+    const {x: left,y:top ,
+       isShow: isAnimalChartSow, sold, remaining, lineHeight} = this.state.soldChart;
+
+       const chartDisplay=()=>
+       {
+        return(<>
+        {this.props.isChartDisplay?<AnimalChart top={top} left={left} isShow={isAnimalChartSow} 
+            sold={sold} remaining={remaining} lineHeight={lineHeight} />:<></>}
+        </>)
+       }
+
+      
+     
     return (
       <View style={styles.container}>
-        {this.props?.animalSelectedValue == 'Pig' &&
-          <View style={styles.animalImgContainer}>
-            <AnimalChart top={top} left={left} isShow={isAnimalChartSow} sold={sold} remaining={remaining} lineHeight={lineHeight} />
+        {this.props?.animalSelectedValue == 'Berkshire Pork' &&
+          <View style={this.props.isChartDisplay?styles.animalImgContainer:styles.animalImgContainerForStore}>
             <View style={styles.animalImgCont}>
-              {this.state.pig &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pig}
-                />
-              }
-              {this.state.pigHead &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigHead} />
-              }
-              {this.state.pigHock &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigHock}
-                />
-              }
-              {this.state.pigBacon &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigbacon}
-                />
-              }
-              {this.state.pigNeck &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigNeck}
-                />
-              }
-              {this.state.pigLegham &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigLeg}
-                />
-              }
-              {this.state.pigRibs &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigRibs}
-                />
-              }
-              {this.state.pigLoin &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigLoin}
-                />
-              }
-              {this.state.pigShoulder &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigShoulder}
-                />
-              }
-              {this.state.pigPicnic &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigpicnis}
-                />
-              }
-              {this.state.pigJowl &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigJowl}
-                />
-              }
-              {this.state.pigBackFat &&
-                <Image
-                  style={styles.animalImg}
-                  resizeMode="contain"
-                  source={pigBackfat}
-                />
-              }
+              {chartDisplay()}
+              {<>
+      {renderImageItem('pig', pig)}
+      {renderImageItem('pigHead', pigHead)}
+      {renderImageItem('pigHock', pigHock)}
+      {renderImageItem('pigBacon', pigbacon)}
+      {renderImageItem('pigNeck', pigNeck)}
+      {renderImageItem('pigLegham', pigLeg)}
+      {renderImageItem('pigRibs', pigRibs)}
+      {renderImageItem('pigLoin', pigLoin)}
+      {renderImageItem('pigShoulder', pigShoulder)}
+      {renderImageItem('pigBackFat', pigBackfat)}
+      {renderImageItem('pigPicnic', pigpicnis)}
+      {renderImageItem('pigJowl', pigJowl)}
+    </>}
+
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHead) }} style={styles.clickOnPigHead} testID="pigHead" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockRight} testID="pigHockRight" />
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigHock)  }} style={styles.clickOnPigHockLeft} testID="pigHockLeft" />
@@ -129,7 +88,7 @@ export default class AnimalPig extends AnalyticsController {
               <TouchableOpacity onPress={() => { this.onPigClick(AnimalParts.pigBackFat) }} style={styles.clickBackFat} testID="pigBackFat" />
 
             </View>
-            <View style={styles.bottomContainer}>
+            {this.props.isChartDisplay?<View style={styles.bottomContainer}>
               <View style={styles.rowContainer}>
                 <View style={[styles.redDot, { backgroundColor: '#A9C9F7', }]}>
                 </View>
@@ -140,7 +99,7 @@ export default class AnimalPig extends AnalyticsController {
                 </View>
                 <Text style={styles.textStyle}>Sold</Text>
               </View>
-            </View>
+            </View>:<></>}
           </View>
         }
       </View>
@@ -160,6 +119,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     marginTop: 40
+  },
+  animalImgContainerForStore: {
+    justifyContent: "center",
+    height:150,
+    borderRadius: 10,
+     marginTop: 20,
   },
   animalImgCont: {
     width: 250,
