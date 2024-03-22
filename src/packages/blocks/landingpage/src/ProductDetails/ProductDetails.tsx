@@ -62,7 +62,7 @@ export default class ProductDetailScreen extends LandingPageController {
     console.log('this.props?.route?.params?.id', this.props?.route?.params?.id);
 
     this.farmDetails();
-    this.updateProductViewCount(this.props?.route?.params?.id)
+     this.updateProductViewCount(this.props?.route?.params?.id)
   }
 
   render() {

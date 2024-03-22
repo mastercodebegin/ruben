@@ -1221,8 +1221,7 @@ showToast('No products foound')
   }
 
   async getProductDetailsByCategoryId(categoryId: number, loader = true) {
-    
-    this.setState({ show_loader: loader, subCategoryList: [] })
+    //this.setState({ show_loader: loader, subCategoryList: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1230,6 +1229,11 @@ showToast('No products foound')
       'token': data?.meta?.token
     };
 
+if(data?.meta?.token==undefined)
+
+{
+  this.props.navigation.navigate('EmailAccountLoginBlock')
+}
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1262,7 +1266,7 @@ showToast('No products foound')
       'token': data?.meta?.token
     };
 
-
+    
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1320,13 +1324,19 @@ showToast('No products foound')
   }
 
   async farmDetails(loader = true) {
-    this.setState({ show_loader: loader })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
+
+    if(data?.meta?.token==undefined)
+
+{
+
+  this.props.navigation.navigate('EmailAccountLoginBlock')
+}
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1569,10 +1579,16 @@ showToast('No products foound')
     this.setState({ show_loader: false })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
+
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
+    if(data?.meta?.token==undefined)
+
+    {
+      this.props.navigation.navigate('EmailAccountLoginBlock')
+    }
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
