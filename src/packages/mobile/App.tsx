@@ -112,6 +112,7 @@ const RootNavigator = ({ initialScreen }: NavigatorType) => {
         />
         <Stack.Screen name="Myprofile" component={Myprofile} />
         <Stack.Screen name="MyCart" component={MyCart} />
+        <Stack.Screen name="EmailAccountLoginBlock" component={EmailAccountLoginBlock} />
         <Stack.Screen name="AboutUs" component={AboutUs} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="MeatLocker" component={MeatLocker} />
