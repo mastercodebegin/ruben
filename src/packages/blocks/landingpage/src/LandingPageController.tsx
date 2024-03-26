@@ -126,11 +126,11 @@ interface S {
   isMyProfile: boolean
   isCallingFromStore: boolean
   subCategoryProductList: any
-  homePageInfo:any
-  variantQuantity:number,
-  variantId:number,
-  availableQuantity:number,
-  variantObject:{price:string,productImage:string,quantity:number,variantArray:Array<any>,variantType:string,catalogue_id:number}
+  homePageInfo: any
+  variantQuantity: number,
+  variantId: number,
+  availableQuantity: number,
+  variantObject: { price: string, productImage: string, quantity: number, variantArray: Array<any>, variantType: string, catalogue_id: number }
   // Customizable Area End
 }
 
@@ -155,12 +155,12 @@ export default class LandingPageController extends BlockComponent<
     ];
 
     this.state = {
-      variantId:0,
-      availableQuantity:0,
-      categoryProductsList:[],
-      variantObject:{price:'',productImage:'',quantity:0,variantArray:[],variantType:'',catalogue_id:0},
-      variantQuantity:0,
-      homePageInfo:{},
+      variantId: 0,
+      availableQuantity: 0,
+      categoryProductsList: [],
+      variantObject: { price: '', productImage: '', quantity: 0, variantArray: [], variantType: '', catalogue_id: 0 },
+      variantQuantity: 0,
+      homePageInfo: {},
       isCallingFromStore: false,
       isMyProfile: false,
       userAddressID: '',
@@ -210,14 +210,16 @@ export default class LandingPageController extends BlockComponent<
         sub_category_id: '',
         name: '',
         price: '',
-        sellingPrice:'',
-        tax:'',
-        hsnCode:'',
-        subscription:'',
-        subscriptionSellingPrice:'',
+        sellingPrice: '',
+        tax: '',
+        hsnCode: '',
+        subscription: '',
+        subscriptionSellingPrice: '',
         images: [],
-        variants:[{description:'',itemCode:'',weight:'',price:'',
-        stock:'',image:{},subscriptionAmount:'',isSubscribed:''}],
+        variants: [{
+          description: '', itemCode: '', weight: '', price: '',
+          stock: '', image: {}, subscriptionAmount: '', isSubscribed: ''
+        }],
         desciption: ''
       }],
       productDetails: {},
@@ -337,7 +339,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       this.searchProductsCallback(error, userDetails);
-    } 
+    }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.updateProfileDetailsId != null &&
       this.updateProfileDetailsId ===
@@ -362,8 +364,8 @@ export default class LandingPageController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('getProductDetailsByCategoryCallId==============',variantResponse);
-      
+      console.log('getProductDetailsByCategoryCallId==============', variantResponse);
+
       this.getProductDetailsByCategoryCallback(error, variantResponse)
     }
 
@@ -411,9 +413,8 @@ export default class LandingPageController extends BlockComponent<
 
   // Customizable Area Start
 
-  subAsyncRecieve(message:Message)
-  {
-     if (
+  subAsyncRecieve(message: Message) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.remainingProductApiCallId != null &&
       this.remainingProductApiCallId ===
@@ -422,75 +423,72 @@ export default class LandingPageController extends BlockComponent<
       this.remainingProductCallback(message)
     }
     else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getCategoriesId != null &&
-    this.getCategoriesId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const categories = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.categoryCallback.bind(this)(error, categories.data)
+      this.getCategoriesId != null &&
+      this.getCategoriesId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const categories = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.categoryCallback.bind(this)(error, categories.data)
+    }
+
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.checkStockCallId != null &&
+      this.checkStockCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const stockRes = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      this.setState({ availableQuantity: stockRes?.result?.stockQty ? stockRes?.result?.stockQty : 0, show_loader: false })
+
+    }
+    else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getFarmId != null &&
+      this.getFarmId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+      const farmDetails = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      this.getFarmCallBack(farmDetails, error)
+    }
   }
 
-  else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-  this.checkStockCallId != null &&
-  this.checkStockCallId ===
-  message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-  const stockRes = message.getData(
-    getName(MessageEnum.RestAPIResponceSuccessMessage)
-  );
+  updateVariant = (variant: any) => {
+    console.log('variant====', variant);
 
-this.setState({availableQuantity:stockRes?.result?.stockQty?stockRes?.result?.stockQty:0,show_loader:false})
- 
-}
-  else if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-    this.getFarmId != null &&
-    this.getFarmId ===
-    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
-    const farmDetails = message.getData(
-      getName(MessageEnum.RestAPIResponceSuccessMessage)
-    );
-    let error = message.getData(
-      getName(MessageEnum.RestAPIResponceErrorMessage)
-    );
-    this.getFarmCallBack(farmDetails, error)
-  }
+    const { price, ...rest } = this.state.variantObject;
+    const updatedVariantObject = { ...rest, price: variant.price, image: variant?.image };
+    this.checkStock(variant.value)
+    this.setState({ variantObject: updatedVariantObject, variantId: variant.value });
+
   }
 
-updateVariant=(variant:any)=>{
-console.log('variant====',variant);
+  handleIcreameantORDecreamentVariantCount = (increameant: boolean) => {
+    if (this.state.availableQuantity > 0) {
 
-  const { price, ...rest } = this.state.variantObject;
-  const updatedVariantObject = { ...rest, price: variant.price,image:variant?.image };
-  this.checkStock(variant.value)
-  this.setState({ variantObject: updatedVariantObject,variantId:variant.value });
-  
-}
-
-handleIcreameantORDecreamentVariantCount=(increameant:boolean)=>{
-if(this.state.availableQuantity>0  )
-{
-
-if(this.state.variantQuantity<this.state.availableQuantity)
-{
-  if(increameant)
-{
-  this.setState({variantQuantity:this.state.variantQuantity+1})
-}
-else{
-  this.setState({variantQuantity:this.state.variantQuantity-1})
-}
-}
-else{
-  alert('You have reached max limit')
-}
-}
-else{
-  alert('Product is out of stock')
-}
-}
+      if (this.state.variantQuantity < this.state.availableQuantity) {
+        if (increameant) {
+          this.setState({ variantQuantity: this.state.variantQuantity + 1 })
+        }
+        else {
+          this.setState({ variantQuantity: this.state.variantQuantity - 1 })
+        }
+      }
+      else {
+        alert('You have reached max limit')
+      }
+    }
+    else {
+      alert('Product is out of stock')
+    }
+  }
   handleIncreaseAnimalCuts = (item: any, index: any, remainingCuts: any, availableCuts: any) => {
 
     if (availableCuts < remainingCuts) {
@@ -579,16 +577,16 @@ else{
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
-        console.log('filterByCategoryResponse=======',filterByCategoryResponse)
-        if(filterByCategoryResponse.data.length==0)
-        {
-showToast('No products foound')
+        console.log('filterByCategoryResponse=======', filterByCategoryResponse)
+        if (filterByCategoryResponse.data.length == 0) {
+          showToast('No products foound')
         }
-        else{
+        else {
 
-        
-        this.setState({ searchResults: filterByCategoryResponse?.data,show_loader:false,productList:[] })
-      }}
+
+          this.setState({ searchResults: filterByCategoryResponse?.data, show_loader: false, productList: [] })
+        }
+      }
     }
   }
 
@@ -608,7 +606,7 @@ showToast('No products foound')
       );
       if (!error && filterByCategoryResponse) {
 
-        this.setState({ productList: filterByCategoryResponse?.data,})
+        this.setState({ productList: filterByCategoryResponse?.data, })
       }
     }
   }
@@ -745,8 +743,8 @@ showToast('No products foound')
     }
   }
 
-  homePageResCallback(message: Message){
-     if (
+  homePageResCallback(message: Message) {
+    if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.homePageInfoId != null &&
       this.homePageInfoId ===
@@ -755,12 +753,12 @@ showToast('No products foound')
       const homePafeRes = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      console.log('response=====',homePafeRes?.data[0])
-      
-      this.setState({homePageInfo:homePafeRes?.data[0]})
-      
-      
-      }
+      console.log('response=====', homePafeRes?.data[0])
+
+      this.setState({ homePageInfo: homePafeRes?.data[0] })
+
+
+    }
   }
   getSlotsAndMerchantAddressApiResponce(message: Message) {
     if (getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -830,7 +828,7 @@ showToast('No products foound')
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: [] });
       }
     }
-   
+
   }
 
 
@@ -839,7 +837,7 @@ showToast('No products foound')
       this.setState({ show_loader: true })
       Alert.alert('Error', 'Something went wrong, Please try again later')
     } else {
-      this.setState({ productDetails: farmDetails.data[0], show_loader: true })
+      this.setState({ productDetails: farmDetails.data[0], show_loader: false })
     }
   }
 
@@ -906,14 +904,14 @@ showToast('No products foound')
       const response = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-   
+
       if (response?.data?.length) {
-        this.setState({ searchResults: response.data, show_loader: false,productList:[] })
+        this.setState({ searchResults: response.data, show_loader: false, productList: [] })
 
       }
       else {
         showToast('No product found ')
-        this.setState({ productList:[], show_loader: false ,searchResults:[]})
+        this.setState({ productList: [], show_loader: false, searchResults: [] })
 
       }
 
@@ -931,8 +929,8 @@ showToast('No products foound')
       const cartData = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
-      console.log("cartData=============",cartData);
-      
+      console.log("cartData=============", cartData);
+
 
       if (cartData?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
@@ -959,11 +957,11 @@ showToast('No products foound')
   }
   addProductCallback(error: any, response: any) {
     if (error) {
-      console.log('error>>>>>>>>>>>>>>>',error);
-      
+      console.log('error>>>>>>>>>>>>>>>', error);
+
       this.showAlert('something went wrong')
     } else {
-      console.log('response>>>>>>>>>>>>>>>',response);
+      console.log('response>>>>>>>>>>>>>>>', response);
 
 
     }
@@ -1025,7 +1023,7 @@ showToast('No products foound')
 
     }
   }
-  categoryCallback(error: any, categories: Array<{attributes:{categoryId:string,name:string}}>) {
+  categoryCallback(error: any, categories: Array<{ attributes: { categoryId: string, name: string } }>) {
 
 
     if (error) {
@@ -1051,7 +1049,7 @@ showToast('No products foound')
             arr.push(obj);
           }
         }
-        
+
         this.categoryPage = null;
         this.setState({ categoryList: arr, categories: arr, subCategoryList: [] })
       }
@@ -1073,31 +1071,32 @@ showToast('No products foound')
     if (error) {
       this.showAlert('something went wrong')
     } else if (catalogResponse) {
-    console.log('+++++++++++++++',catalogResponse.data.attributes?.catalogue_variants[0])
-    console.log('catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId',    catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId
-    )
-    let tempArr :any= []
-    catalogResponse.data.attributes?.catalogue_variants.map((item:any)=>{
-      console.log('item attributes=========',item.attributes,)
-      const data: {value:string,label:string,price:'',productImage:''} = {
-        value: item.attributes.itemId,
-        label: item.attributes.variantType,
-        price: item.attributes.price,
-        productImage: item.attributes?.productImage
-      };
-      tempArr.push(data)
-    }
-    )
-    const { price, stock_qty, productImage, variantType,itemId } =
-      catalogResponse.data.attributes?.catalogue_variants[0].attributes ;
-    
-      const obj ={
-      price:price,productImage:productImage,
-      quantity:stock_qty?Number(stock_qty):0,
-      variantArray:tempArr,variantType:variantType,
-      catalogue_id:Number(itemId)}
+      console.log('+++++++++++++++', catalogResponse.data.attributes?.catalogue_variants[0])
+      console.log('catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId', catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId
+      )
+      let tempArr: any = []
+      catalogResponse.data.attributes?.catalogue_variants.map((item: any) => {
+        console.log('item attributes=========', item.attributes,)
+        const data: { value: string, label: string, price: '', productImage: '' } = {
+          value: item.attributes.itemId,
+          label: item.attributes.variantType,
+          price: item.attributes.price,
+          productImage: item.attributes?.productImage
+        };
+        tempArr.push(data)
+      }
+      )
+      const { price, stock_qty, productImage, variantType, itemId } =
+        catalogResponse.data.attributes?.catalogue_variants[0].attributes;
 
-      this.setState({variantObject:obj,variantQuantity:stock_qty?Number(stock_qty):0,variantId:catalogResponse.data.attributes?.catalogue_variants[0].attributes.id})
+      const obj = {
+        price: price, productImage: productImage,
+        quantity: stock_qty ? Number(stock_qty) : 0,
+        variantArray: tempArr, variantType: variantType,
+        catalogue_id: Number(itemId)
+      }
+
+      this.setState({ variantObject: obj, variantQuantity: stock_qty ? Number(stock_qty) : 0, variantId: catalogResponse.data.attributes?.catalogue_variants[0].attributes.id })
       this.checkStock(catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId)
 
     }
@@ -1187,8 +1186,8 @@ showToast('No products foound')
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async checkStock(id:number) {
-    this.setState({ show_loader: true })
+  async checkStock(id: number) {
+    // this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1221,7 +1220,6 @@ showToast('No products foound')
   }
 
   async getProductDetailsByCategoryId(categoryId: number, loader = true) {
-    //this.setState({ show_loader: loader, subCategoryList: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1229,12 +1227,12 @@ showToast('No products foound')
       'token': data?.meta?.token
     };
 
-if(data?.meta?.token==undefined)
-
-{
-  this.props.navigation.navigate('EmailAccountLoginBlock')
-}
-
+    if (data?.meta?.token == undefined) {
+      this.props.navigation.navigate('EmailAccountLoginBlock')
+    }
+    if (!data?.meta?.token == undefined) {
+      this.setState({ show_loader: loader })
+    }
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1266,7 +1264,7 @@ if(data?.meta?.token==undefined)
       'token': data?.meta?.token
     };
 
-    
+
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -1331,12 +1329,10 @@ if(data?.meta?.token==undefined)
       'token': data?.meta?.token
     };
 
-    if(data?.meta?.token==undefined)
+    if (data?.meta?.token == undefined) {
 
-{
-
-  this.props.navigation.navigate('EmailAccountLoginBlock')
-}
+      this.props.navigation.navigate('EmailAccountLoginBlock')
+    }
 
     const getValidationsMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1511,9 +1507,9 @@ if(data?.meta?.token==undefined)
       return false;
     }
 
-   
-   
-   
+
+
+
     return true
   }
 
@@ -1573,9 +1569,9 @@ if(data?.meta?.token==undefined)
 
     return true;
   }
-  async getProductByCategory(id:number) {
-    console.log('getProductByCategory id==========',id);
-    
+  async getProductByCategory(id: number) {
+    console.log('getProductByCategory id==========', id);
+
     this.setState({ show_loader: false })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1584,9 +1580,7 @@ if(data?.meta?.token==undefined)
       "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-    if(data?.meta?.token==undefined)
-
-    {
+    if (data?.meta?.token == undefined) {
       this.props.navigation.navigate('EmailAccountLoginBlock')
     }
     const getValidationsMsg = new Message(
@@ -1694,7 +1688,7 @@ if(data?.meta?.token==undefined)
 
 
   async getSubcategories(subCategoryId: number) {
-    
+
     this.setState({ show_loader: true, selectedSub: '', })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
@@ -1725,7 +1719,7 @@ if(data?.meta?.token==undefined)
   }
 
   async getProductBySubcategory(subCategoryId: number) {
-    this.setState({ show_loader: true, searchResults:[] })
+    this.setState({ show_loader: true, searchResults: [] })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const headers = {
@@ -1801,34 +1795,43 @@ if(data?.meta?.token==undefined)
   }
 
   async addProduct() {
-const {desciption,name,price,sellingPrice,tax,hsnCode,subscription,subscriptionSellingPrice}=this.state.productsList[0]
-const formData = new FormData();
-    formData.append("name",name)
-    formData.append("category_id","484")
-    formData.append("sub_category_id","34214")
-    formData.append("description",desciption)
-    formData.append("price",price)
-    formData.append("sale_price",sellingPrice)
-    formData.append("taxableAmount",tax)
-    formData.append("hsnCode",hsnCode)
-    formData.append("subscription",subscription)
-    formData.append("subscription_selling_price",subscriptionSellingPrice)
-    formData.append("free_delivery","Yes")
-    formData.append("images",this.state.productsList[0].images[0])
+    const { images,desciption,category_id,sub_category_id, name,
+       price, sellingPrice, tax, hsnCode, 
+       subscription, subscriptionSellingPrice } = this.state.productsList[0]
+
+    if (name.length == 0) { this.showAlert('Please provide title'); return }
+    if (category_id.length == 0) { this.showAlert('Please provide category'); return }
+    if (sub_category_id.length == 0) { this.showAlert('Please provide sub-category'); return }
+    if (price.length == 0) { this.showAlert('Please provide price'); return }
+    if (desciption.length == 0) { this.showAlert('Please provide description'); return }
+    if (images.length == 0) { this.showAlert('Please add image'); return }
+    const formData = new FormData();
+    formData.append("name", name)
+    formData.append("category_id", "484")
+    formData.append("sub_category_id", "34214")
+    formData.append("description", desciption)
+    formData.append("price", price)
+    formData.append("sale_price", sellingPrice)
+    formData.append("taxableAmount", tax)
+    formData.append("hsnCode", hsnCode)
+    formData.append("subscription", subscription)
+    formData.append("subscription_selling_price", subscriptionSellingPrice)
+    formData.append("free_delivery", "Yes")
+    formData.append("images", this.state.productsList[0].images[0])
 
 
 
 
-    for(const [index, obj] of this.state.productsList[0].variants.entries()) {
-      console.log('obj====',obj);
-      
-      formData.append(`catalogue_variants_attributes[${index}][variant_description]`,obj.description)
-      formData.append(`catalogue_variants_attributes[${index}][itemNo]`,obj.itemCode)
-      formData.append(`catalogue_variants_attributes[${index}][variantType]`,obj.description)
-      formData.append(`catalogue_variants_attributes[${index}][price]`,obj.price)
-      formData.append(`catalogue_variants_attributes[${index}][images]`,this.state.productsList[0].images[0])  
+    for (const [index, obj] of this.state.productsList[0].variants.entries()) {
+      console.log('obj====', obj);
+
+      formData.append(`catalogue_variants_attributes[${index}][variant_description]`, obj.description)
+      formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
+      formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
+      formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
+      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0])
     }
-    
+
 
 
     const userDetails: any = await AsyncStorage.getItem('userDetails')
@@ -1837,7 +1840,7 @@ const formData = new FormData();
       //"Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
-  
+
 
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1917,16 +1920,16 @@ const formData = new FormData();
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
-      "Content-Type":'application/json',
+      "Content-Type": 'application/json',
       'token': userDetail?.meta?.token,
     };
-    const body={
-      favourites:{
-        favouriteable_id:userDetail.data?.id,
-        favouritebale_type:"AccountBlock::Account",
-        catalogue_id:catalogue_id
+    const body = {
+      favourites: {
+        favouriteable_id: userDetail.data?.id,
+        favouritebale_type: "AccountBlock::Account",
+        catalogue_id: catalogue_id
+      }
     }
-  }
 
     const requestMessage = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
@@ -1951,16 +1954,16 @@ const formData = new FormData();
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number, quantity: number, variantId:number) {
-    console.log('id',id);
-    console.log('quantity',quantity);
-    console.log('variantId',variantId);
-    
+  async addToCart(id: number, quantity: number, variantId: number) {
+    console.log('id', id);
+    console.log('quantity', quantity);
+    console.log('variantId', variantId);
+
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
 
-    if(userDetail?.meta?.token == undefined){
-      this.props.navigation.navigate("AuthenticationStack",{screen:"AuthenticationStack"});
+    if (userDetail?.meta?.token == undefined) {
+      this.props.navigation.navigate("AuthenticationStack", { screen: "AuthenticationStack" });
       return false;
     }
     const headers = {
@@ -1971,7 +1974,7 @@ const formData = new FormData();
     const httpBody = {
       "order_items": {
         "catalogue_id": id,
-        'catalogue_variant_id':variantId,
+        'catalogue_variant_id': variantId,
         "quantity": quantity ? quantity : 1,
         "taxable": "true",
         "taxable_value": 0.1233,
@@ -2020,7 +2023,7 @@ const formData = new FormData();
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const notificationHelper = new PushNotificationsHelper();
     notificationHelper.addListener(this.props.navigation)
-    const fcm_token = await  notificationHelper.getFcmToken()
+    const fcm_token = await notificationHelper.getFcmToken()
     const data: any = JSON.parse(userDetails);
     const headers = {
       token: data?.meta?.token,
@@ -2397,10 +2400,12 @@ const formData = new FormData();
     if (error) {
       this.showAlert('something went wrong ')
     } else if (response) {
-      console.log('response====',response);
-      
-      this.setState({ showSearchResults: true, productList: response?.data,
-         show_loader: false,searchResults:[] })
+      console.log('response====', response);
+
+      this.setState({
+        showSearchResults: true, productList: response?.data,
+        show_loader: false, searchResults: []
+      })
     }
   }
 
