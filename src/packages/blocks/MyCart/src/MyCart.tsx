@@ -25,7 +25,6 @@ export default class MyCart extends MyCartController {
   }
   render() {
     const getDiscountPrice = () => {
-      console.log('discount price===',this.state.discountPrice);
       
       if (this.state.discountPrice)
       {
@@ -143,7 +142,8 @@ export default class MyCart extends MyCartController {
                 {"No items added in the cart"}
                 </Text>)}
             renderItem={({item,index}:any) => { 
-              const frequency = item.attributes?.frequency;    
+              const frequency = item.attributes?.frequency;  
+                
               return (
                 <ProductDetailComponent
                 name={item?.attributes?.catalogue?.data?.attributes?.categoryCode}
@@ -153,7 +153,7 @@ export default class MyCart extends MyCartController {
                 index={index}
                 onpressRemove={()=>this.removeFromCart(item.id)}
                 image={item.attributes?.catalogue}
-                onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res)}
+                onpressIncrease={(res:boolean)=>this.increaseCartQuatity.bind(this)(item?.attributes?.catalogue?.data?.id,this.state.order_id,res,item?.attributes?.catalogue_variant?.data?.id)}
               />
             )}}
           />

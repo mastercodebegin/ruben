@@ -58,11 +58,10 @@ export const sampleText =
   "Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text that shares some characteristics of a real written text , but is a random or otherwise generated.";
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
-    this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
-    console.log('this.props?.route?.params?.id', this.props?.route?.params?.id);
+     this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
 
-    this.farmDetails();
-     this.updateProductViewCount(this.props?.route?.params?.id)
+     this.farmDetails();
+      this.updateProductViewCount(this.props?.route?.params?.id)
   }
 
   render() {

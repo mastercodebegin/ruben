@@ -319,7 +319,9 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async increaseCartQuatity(catalogue_id: number, order_id: number | null, type: boolean) {
+  async increaseCartQuatity(catalogue_id: number, order_id: number | null, type: boolean,variantId:number) {
+    console.log('carinatId',variantId);
+    
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -333,7 +335,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `${type ? configJSON.increaseCartQuantity :
         configJSON.decreaseCartQuantity
-      }?catalogue_id=${catalogue_id}&order_id=${order_id}`
+      }?catalogue_id=${catalogue_id}&order_id=${order_id}&catalogue_variant_id=${variantId}`
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

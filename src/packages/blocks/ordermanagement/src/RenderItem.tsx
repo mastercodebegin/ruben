@@ -5,6 +5,8 @@ import { DARK_RED, MeatImage } from "../../../components/src/constants";
 import moment from "moment";
 import { APP_BACKGROUND, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const ChildrenComponent = ({ acceptDeclineOrders, item, selectedTab }: any) => {
+  const imageUri = item?.order_items?.data[0].attributes?.
+    catalogue?.data?.attributes?.productImage
 
 
   const deliveryDate = item?.date;
