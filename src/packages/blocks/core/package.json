@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "echo npm core no tests",
-    "testBackend": "echo npm core no tests"
+    "testBackend": "echo npm core no tests",
+    "postinstall": "patch-package"
   },
   "resolutions": {
     "@types/node": "18.11.19",
