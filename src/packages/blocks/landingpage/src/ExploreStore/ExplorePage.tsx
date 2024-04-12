@@ -219,7 +219,7 @@ export class ExplorePage extends LandingPageController {
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => <RenderItem
                   navigation={this.props.navigation}
-                  onPressCart={this.addToCart.bind(this)}
+                  onPressCart={this.addToCart}
                   onpressFav={this.AddToFavorites.bind(this)}
                   testID="products_list_id2"
                   handleLoadMore={() => { this.handleLoadMore() }}
@@ -240,7 +240,7 @@ export class ExplorePage extends LandingPageController {
                     </View>
                     <RenderItems
                       navigation={this.props.navigation}
-                      onPressCart={this.addToCart.bind(this)}
+                      onPressCart={this.addToCart}
                       onpressFav={this.AddToFavorites.bind(this)}
                       testID="products_list_id2"
                       handleLoadMore={() => { this.handleLoadMore() }}
