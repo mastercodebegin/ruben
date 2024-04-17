@@ -70,7 +70,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 													<TouchableOpacity
 														testID={"removeFavList"}
 														onPress={() => {
-															this.removeFavListProduct(item?.id)
+															this.AddToFavorites(item?.id)
 															setTimeout(() => {
 																this.getFavorites()
 															}, 500);
