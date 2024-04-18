@@ -150,7 +150,7 @@ export default class ProductDetailScreen extends LandingPageController {
                   <TouchableOpacity
                     onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
                     style={styles.button}
-                    disabled={this.state.variantQuantity === this.state.availableQuantity?false:true}
+                    disabled={this.state.variantQuantity<= this.state.availableQuantity?false:true}
                   >
                     <Text style={{ color: BUTTON_COLOR_PRIMARY, }}>{"+"}</Text>
                   </TouchableOpacity>
