@@ -37,9 +37,7 @@ export class ExplorePage extends LandingPageController {
    this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory = (name: string) => {
-
-    console.log('name===', name);
-
+    
     if ( name == "angus beef") {
       console.log('if');
 
