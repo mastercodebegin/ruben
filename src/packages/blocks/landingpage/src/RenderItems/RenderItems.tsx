@@ -73,8 +73,12 @@ const RenderItem = ({
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        {item?.attributes?.productImage ?
-          <FastImage resizeMode="stretch" style={styles.itemImage} source={{uri:item.attributes.productImage}} />:
+        {item.attributes?.catalogue_variants?.attributes?.productImage ?
+        <FastImage
+        style={styles.itemImage}
+        resizeMode="stretch"
+        source={{ uri:item.attributes?.catalogue_variants?.attributes?.productImage}}
+      />:
           <FastImage resizeMode="stretch" style={styles.itemImage} source={backGroundImage} />
         }
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>

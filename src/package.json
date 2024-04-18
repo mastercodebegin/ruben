@@ -57,7 +57,7 @@
     "react-native-element-dropdown": "^2.10.1",
     "react-native-elements": "file:./packages/blocks/core/node_modules/react-native-elements",
     "react-native-encrypted-storage": "^4.0.3",
-    "react-native-fast-image": "file:./packages/blocks/core/node_modules/react-native-fast-image",
+    "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",
     "react-native-geolocation-service": "file:./packages/blocks/core/node_modules/react-native-geolocation-service",
     "react-native-gesture-handler": "file:./packages/blocks/core/node_modules/react-native-gesture-handler",

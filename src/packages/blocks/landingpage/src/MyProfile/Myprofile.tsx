@@ -377,16 +377,6 @@ export default class Myprofile extends LandingPageController {
                     <Text style={styles.invTotalText}>{this.state.remainingproduct[0]?.remaining_cuts}</Text>
                   </View>
                 </View>
-                <TouchableOpacity
-                  style={styles.CreditsButton}
-                  testID="navigate_to_MyCreditScreen"
-                  onPress={() => {
-                    
-                   this.navigateToNext() 
-                  }}
-                >
-                  <Text style={[styles.viewDetail,{color:BUTTON_TEXT_COLOR_PRIMARY}]}>My Credits</Text>
-                </TouchableOpacity>
               </View>
             ) : (
               <>
