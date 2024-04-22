@@ -944,15 +944,22 @@ export default class LandingPageController extends BlockComponent<
   addToFavCallBack(AddToFavRes: any, error: any) {
     if (error) {
       showToast("Something went wrong");
-    } else if (AddToFavRes) {
-      if (AddToFavRes?.message === 'product already exists') {
-        showToast("Product already exists in favorites");
+    } 
+    else  {
+      console.log('AddToFavRes==',AddToFavRes);
+      
+      if (AddToFavRes?.message === 'Product removed from favourites') {
+        showToast("Product removed from favourites");
+        this.getProductList(true)
+
         return;
       }
-      showToast("Product added to favorites");
-      if (this.state.fetchFavorites) {
-        this.getFavorites();
+     else if (AddToFavRes?.data) {
+        showToast("Product added to favorites");
+        this.getProductList(true)
+        return;
       }
+
     }
   }
   addProductCallback(error: any, response: any) {
@@ -1917,6 +1924,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
+    
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
