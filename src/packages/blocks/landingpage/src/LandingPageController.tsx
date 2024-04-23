@@ -1924,6 +1924,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
+    console.log('cate====',catalogue_id);
     
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
@@ -1933,7 +1934,7 @@ export default class LandingPageController extends BlockComponent<
     };
     const body = {
       favourites: {
-        favouriteable_id: userDetail.data?.id,
+        favouriteable_id: 2,
         favouritebale_type: "AccountBlock::Account",
         catalogue_id: catalogue_id
       }

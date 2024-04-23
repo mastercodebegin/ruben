@@ -53,7 +53,9 @@ interface S {
   fastDeliveryApplied: boolean;
   isUserHasSubsCription:boolean;
   isUserSubscriptionRequested:boolean
-  width:any
+  width:any,
+  subscriptionCondition:{description:string},
+  isAcceptedCondition:boolean
 }
 
 interface SS {
@@ -112,7 +114,9 @@ SS
         phone_number: '',
         zip_code:''
       },
-      fastDeliveryApplied:false
+      fastDeliveryApplied:false,
+      subscriptionCondition:{description:''},
+      isAcceptedCondition:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -128,10 +132,13 @@ SS
   removeFastDeliveryApiCallId: string = '';
   getBillingDetailsCallId: string = '';
   checkLifeTimeSubscriptionCallId: string = '';
+  getLifeTimeSubscriptionConditionCallId: string = '';
   applyLifeTimeSubscriptionCallId: string = '';
   removeLifeTimeSubscriptionCallId: string = '';
 
   componentDidUpdate(){
+    console.log('info=====',this.state.subscriptionCondition);
+    
     if (this.state.screenError) {
       Alert.alert("Error","Something went wrong please try again later",[{text:"OK",onPress:()=>this.props.navigation.goBack()}])
       }
@@ -257,6 +264,31 @@ SS
         
       }
     }
+
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.getLifeTimeSubscriptionConditionCallId != null &&
+      this.getLifeTimeSubscriptionConditionCallId ===
+        message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+
+          
+          let error = message.getData(
+            getName(MessageEnum.RestAPIResponceErrorMessage)
+          );
+          let data = message.getData(
+            getName(MessageEnum.RestAPIResponceSuccessMessage)
+          ); 
+      if (error) {
+        showToast("Something went wrong");
+      } else {
+        console.log('data 1=====',data.data);
+        console.log('data=====',data.data[0].attributes);
+        
+          this.setState({showLoader:false,subscriptionCondition:data.data[0].attributes})
+        
+      }
+    }
+
 
     else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -584,6 +616,33 @@ SS
     );
     runEngine.sendMessage(billingDetails.id, billingDetails);
   }
+
+  async getLifeTimeSubscriptionCondition(){
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const billingDetails = new Message(getName(MessageEnum.RestAPIRequestMessage));
+
+    this.getLifeTimeSubscriptionConditionCallId = billingDetails.messageId;
+
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_subscriptions/subscription_conditions'
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    billingDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(billingDetails.id, billingDetails);
+  }
+
 
   getCartCallBack(prodList: any, plans: any[],subTotal:number,total:number,billingAddress:any, error = false) {    
     if(error){

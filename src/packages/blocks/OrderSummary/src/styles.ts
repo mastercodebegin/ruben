@@ -106,6 +106,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: responsiveWidth(10),
     paddingHorizontal: 20,
     paddingTop: 20,
+    
     borderRadius: 20,
     paddingBottom: 10,
   },

@@ -8,6 +8,7 @@ import {
   Image,
   Modal,
   ImageSourcePropType,
+  ScrollView,
 } from "react-native";
 import { CALENDAR_ICON } from './assets'
 import { styles } from "./styles";
@@ -22,6 +23,7 @@ import CommonLoader from "../../../components/src/CommonLoader";
 import Button from "../../../components/src/CustomButton";
 import RenderHtml from 'react-native-render-html';
 import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, close } from "../../landingpage/src/assets";
+import { CheckBox } from "react-native-elements";
 const deliveryIcon = require("../../../components/src/deliveryIcon.png");
 const pickupIcon = require('../../../components/src/shippingIcon.png');
 const shippingIcon = require('../../../components/src/package.png');
@@ -59,6 +61,7 @@ export default class OrderSummary extends OrderSummaryController {
   async componentDidMount() {
     this.getCart(this.props.route.params?.selected);
     this.checkLifeTimeSubscription()
+   this.getLifeTimeSubscriptionCondition()
     this.setState({ selectedTab: this.props.route.params?.selected })
 
   }
@@ -75,7 +78,8 @@ export default class OrderSummary extends OrderSummaryController {
     return (
       <SafeAreaView style={styles.safearea}>
 
-        <Modal visible={this.state.showSubscriptionModal} transparent>
+{this.state.isUserSubscriptionRequested?      
+  <Modal visible={this.state.showSubscriptionModal} transparent>
           <View style={styles.blur} />
           <View style={styles.mainWrap}>
             <View style={[styles.innerContainer,]}>
@@ -96,19 +100,73 @@ export default class OrderSummary extends OrderSummaryController {
               { textAlign: "center", marginTop: 30, lineHeight: 30, color: TEXT_COLOR }]}>Lifetime Subscription {'\n'} $5</Text>
               <Text style={[styles.lifetimeSubText, { textAlign: 'center' }]}>
                 {
-                  "One-time purchase and lasts a lifetime."
+                  "One-time purchase and lasts a lifetime.false"
                 }
               </Text>
 
               <Button
                 style={{ marginTop: 20 }}
                 testID="add_to_cart"
-                onPress={this.state.isUserSubscriptionRequested ? this.removeLifeTimeSubscription.bind(this) : this.applyLifeTimeSubscription.bind(this)}
-                label={this.state.isUserSubscriptionRequested ? "Remove" : "Add to cart"}
+                onPress={ this.removeLifeTimeSubscription.bind(this) }
+                label={ "Remove" }
               />
             </View>
           </View>
+        </Modal>:
+        <Modal visible={this.state.showSubscriptionModal} transparent>
+          <View style={styles.blur} />
+          <View style={styles.mainWrap}>
+            <ScrollView style={[styles.innerContainer, { backgroundColor: 'white' }]}>
+              <TouchableOpacity
+                onPress={() => this.setState({ showSubscriptionModal: false })}
+                style={[styles.closeBtn, {
+                  backgroundColor: 'white', borderWidth: 1,
+                  borderColor: PRIMARY_COLOR
+                }]}
+              >
+                <Image
+                  resizeMode="contain"
+                  style={[styles.close, { tintColor: PRIMARY_COLOR }]}
+                  source={close}
+                />
+              </TouchableOpacity>
+              <Image resizeMode="contain" style={[styles.calenderImage, { tintColor: PRIMARY_COLOR }]}
+                source={CALENDAR_ICON} />
+
+              <Text style={[styles.lifetimeSubHeading,
+              { textAlign: "center", marginTop: 30, lineHeight: 30, color: TEXT_COLOR }]}>Lifetime Subscription {'\n'} $5</Text>
+              <Text style={[styles.lifetimeSubText, { textAlign: 'center' }]}>
+                {
+                  "One-time purchase and lasts a lifetime."
+                }
+              </Text>
+               <Text style={[styles.lifetimeSubText,
+              { fontSize: 14, letterSpacing: 1, fontWeight: '500', color: 'black' }]}>
+                {this.state.subscriptionCondition?.description}
+              </Text>
+
+              <View style={{ height: 150, }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                  <CheckBox
+                    checked={this.state.isAcceptedCondition}
+                    checkedColor={PRIMARY_COLOR} size={20}
+                    onPress={() => this.setState({ isAcceptedCondition: !this.state.isAcceptedCondition })} />
+                  <Text style={{ fontWeight: 'bold' }}>Accept the Terms and conditions</Text>
+                </View>
+                <Button
+                  disable={!this.state.isAcceptedCondition}
+                  style={{ marginTop: 20, }}
+                  testID="add_to_cart"
+                  onPress={this.applyLifeTimeSubscription.bind(this)}
+                  label={"Add to cart"}
+                />
+
+              </View> 
+            </ScrollView>
+
+          </View>
         </Modal>
+        }
 
         <HeaderWithBackArrowTemplate
           headerText="Summary"

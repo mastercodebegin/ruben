@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import {
   DARK_RED,
@@ -22,11 +23,8 @@ import {
   TEXT_COLOR,
   SECONDARY_TEXT_COLOR,
   APP_BACKGROUND,
-  SECONDARY_COLOR,
   BUTTON_COLOR_PRIMARY,
-  BUTTON_COLOR_SECONDARY,
-  BUTTON_TEXT_COLOR_PRIMARY,
-  BUTTON_TEXT_COLOR_SECONDARY
+  BUTTON_COLOR_SECONDARY
 } from "../assets";
 import FastImage from "react-native-fast-image";
 const deviceWidth = Dimensions.get("window").width;
@@ -59,7 +57,7 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  // console.log('data render===',item);
+  console.log('JSON================',item.attributes?.productImage);
   
   
   return (
@@ -79,14 +77,9 @@ const RenderItem = ({
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        {item.attributes?.catalogue_variants?.attributes?.productImage ?
-        <FastImage
-        style={styles.itemImage}
-        resizeMode="stretch"
-        source={{ uri:item.attributes?.catalogue_variants?.attributes?.productImage}}
-      />:
-          <FastImage resizeMode="stretch" style={styles.itemImage} source={item.attributes?.catalogue_variants[0]?.attributes?.productImage?{ uri:item.attributes?.catalogue_variants[0]?.attributes?.productImage}:backGroundImage} />
-        }
+        
+<ImageBackground resizeMode="stretch" style={styles.itemImage} 
+source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage} /> 
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {!rating ? (
