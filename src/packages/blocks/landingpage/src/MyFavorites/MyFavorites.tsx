@@ -81,7 +81,7 @@ export default class MyFavoritesScreen extends LandingPageController {
 													</TouchableOpacity>
 												</View>
 											</ImageBackground>
-											<View style={{ paddingHorizontal: 15 }}>
+											<View style={{ paddingHorizontal: 6 }}>
 												<View style={styles.priceContainer}>
 													<Text style={styles.productName}>{item?.attributes?.catalogue_id
 														?.data?.attributes?.categoryCode || ''}</Text>

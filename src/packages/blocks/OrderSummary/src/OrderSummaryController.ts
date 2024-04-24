@@ -513,7 +513,7 @@ SS
     );
     runEngine.sendMessage(subcategory.id, subcategory);
   }
-  async increaseCartQuatity(catalogue_id:number,orderId:number|null,type:boolean){
+  async increaseCartQuatity(catalogue_id: number, orderId: number | null, type: boolean,variantId:number){
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -527,8 +527,8 @@ SS
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
       `${type ? configJSON.increaseCartQuantity :
-         configJSON.decreaseCartQuantity
-        }?catalogue_id=${catalogue_id}&order_id=${orderId}`
+        configJSON.decreaseCartQuantity
+      }?catalogue_id=${catalogue_id}&order_id=${orderId}&catalogue_variant_id=${variantId}`
     );
     subcategory.addData(
       getName(MessageEnum.RestAPIRequestHeaderMessage),

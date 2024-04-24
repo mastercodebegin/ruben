@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import { CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
+import {  BUTTON_COLOR_SECONDARY, CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
   navigate: (params:any)=>void;
@@ -33,6 +33,8 @@ const RenderProducts = ({
   onPressAddToCart,
   isRecommendations=false
 }: RenderProductsTypes) => {
+  console.log('image===',image);
+  
   return (
     <View style={styles.FavContainer}>
       <TouchableOpacity
@@ -58,9 +60,11 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"removeFavList"}
               onPress={onPressRemoveFromFav}
-              style={[styles.badgeContainer,{borderWidth:1,borderColor:PRIMARY_COLOR}]}
+              style={[styles.badgeContainer,
+                {borderWidth:1,borderColor:PRIMARY_COLOR,backgroundColor:PRIMARY_COLOR}]}
             >
-              <Image resizeMode="contain" style={[styles.badge,isRecommendations && {tintColor:PRIMARY_COLOR}]} source={badge} />
+              <Image resizeMode="contain" 
+              style={[styles.badge,{tintColor:BUTTON_COLOR_SECONDARY},isRecommendations && {tintColor:BUTTON_COLOR_SECONDARY}]} source={badge} />
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -74,11 +78,11 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"addtocart"}
               onPress={onPressAddToCart}
-              style={[styles.FavcartContainer,]}
+              style={[styles.FavcartContainer,{backgroundColor:PRIMARY_COLOR}]}
             >
               <Image
                 resizeMode="contain"
-                style={[styles.Favcart,{tintColor:PRIMARY_COLOR}]}
+                style={[styles.Favcart,{tintColor:BUTTON_COLOR_SECONDARY}]}
                 source={CART}
               />
             </TouchableOpacity>
