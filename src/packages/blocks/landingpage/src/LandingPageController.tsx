@@ -364,7 +364,7 @@ export default class LandingPageController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log('getProductDetailsByCategoryCallId==============', variantResponse);
+      console.log('getProductDetailsByCategoryCallId==============', JSON.stringify(variantResponse));
 
       this.getProductDetailsByCategoryCallback(error, variantResponse)
     }
@@ -469,17 +469,27 @@ export default class LandingPageController extends BlockComponent<
     this.setState({ variantObject: updatedVariantObject, variantId: variant.value });
 
   }
+  handleDecreamentVariantCount = () => {
+    if (this.state.variantQuantity > 0) {
 
-  handleIcreameantORDecreamentVariantCount = (increameant: boolean) => {
+
+      this.setState({ variantQuantity: this.state.variantQuantity - 1 })
+
+    }
+    else {
+      alert('You have zero')
+    }
+
+
+  }
+
+  handleIcreameantVariantCount = () => {
     if (this.state.availableQuantity > 0) {
 
       if (this.state.variantQuantity < this.state.availableQuantity) {
-        if (increameant) {
-          this.setState({ variantQuantity: this.state.variantQuantity + 1 })
-        }
-        else {
-          this.setState({ variantQuantity: this.state.variantQuantity - 1 })
-        }
+
+        this.setState({ variantQuantity: this.state.variantQuantity + 1 })
+
       }
       else {
         alert('You have reached max limit')
@@ -606,7 +616,7 @@ export default class LandingPageController extends BlockComponent<
       );
       if (!error && filterByCategoryResponse) {
 
-        this.setState({ productList: filterByCategoryResponse?.data, })
+        this.setState({ productList: filterByCategoryResponse?.data, loader: false })
       }
     }
   }
@@ -930,11 +940,16 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
       console.log("cartData=============", cartData);
-
+      if (cartData?.errors) {
+        showToast("Something went wrong")
+        return false;
+      }
 
       if (cartData?.data) {
         store.dispatch({ type: 'UPDATE_CART_DETAILS', payload: cartData?.data?.attributes?.order_items?.data });
+        this.setState({ show_loader: false })
         showToast('Product Added to the cart')
+        this.props.navigation.goBack()
       } else {
         const errorMessage = cartData.errors[0].errors;
         showToast(errorMessage)
@@ -944,19 +959,22 @@ export default class LandingPageController extends BlockComponent<
   addToFavCallBack(AddToFavRes: any, error: any) {
     if (error) {
       showToast("Something went wrong");
-    } 
-    else  {
-      console.log('AddToFavRes==',AddToFavRes);
-      
+    }
+    else {
+      console.log('AddToFavRes==', AddToFavRes);
+
       if (AddToFavRes?.message === 'Product removed from favourites') {
         showToast("Product removed from favourites");
         this.getProductList(true)
+        this.getFavorites()
+
 
         return;
       }
-     else if (AddToFavRes?.data) {
+      else if (AddToFavRes?.data) {
         showToast("Product added to favorites");
         this.getProductList(true)
+        this.getFavorites()
         return;
       }
 
@@ -1103,7 +1121,7 @@ export default class LandingPageController extends BlockComponent<
         catalogue_id: Number(itemId)
       }
 
-      this.setState({ variantObject: obj, variantQuantity: stock_qty ? Number(stock_qty) : 0, variantId: catalogResponse.data.attributes?.catalogue_variants[0].attributes.id })
+      this.setState({ variantObject: obj, variantId: catalogResponse.data.attributes?.catalogue_variants[0].attributes.id })
       this.checkStock(catalogResponse.data.attributes?.catalogue_variants[0].attributes.itemId)
 
     }
@@ -1228,6 +1246,7 @@ export default class LandingPageController extends BlockComponent<
 
   async getProductDetailsByCategoryId(categoryId: number, loader = true) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
+    this.setState({ show_loader: true })
     const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
@@ -1802,9 +1821,9 @@ export default class LandingPageController extends BlockComponent<
   }
 
   async addProduct() {
-    const { images,desciption,category_id,sub_category_id, name,
-       price, sellingPrice, tax, hsnCode, 
-       subscription, subscriptionSellingPrice } = this.state.productsList[0]
+    const { images, desciption, category_id, sub_category_id, name,
+      price, sellingPrice, tax, hsnCode,
+      subscription, subscriptionSellingPrice } = this.state.productsList[0]
 
     if (name.length == 0) { this.showAlert('Please provide title'); return }
     if (category_id.length == 0) { this.showAlert('Please provide category'); return }
@@ -1924,8 +1943,8 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getProductListMsg.id, getProductListMsg);
   }
   async AddToFavorites(catalogue_id: number) {
-    console.log('cate====',catalogue_id);
-    
+    console.log('cate====', catalogue_id);
+
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
@@ -1963,11 +1982,8 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number, quantity: number, variantId: number) {
-    console.log('id', id);
-    console.log('quantity', quantity);
-    console.log('variantId', variantId);
-
+  async addToCart(id: number, quantity: number, variantId: number,frequency?:string) {
+    this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
 
@@ -1989,7 +2005,7 @@ export default class LandingPageController extends BlockComponent<
         "taxable_value": 0.1233,
         "other_charges": 0.124,
         "delivered_at": "2023-04-21T12:27:59.395Z",
-        "frequency": ''
+        "frequency": frequency?frequency:''
       }
     }
 

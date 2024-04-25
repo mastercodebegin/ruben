@@ -57,7 +57,6 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  console.log('JSON================',item.attributes?.productImage);
   
   
   return (
@@ -98,7 +97,7 @@ source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :bac
           )}
           <TouchableOpacity
             testID={"add_to_fav_id_" + index}
-            onPress={() => {onpressFav(item?.attributes?.id),console.log('item boolean',item?.favouriteable_enable)}}
+            onPress={() => {onpressFav(item?.attributes?.id),alert(item?.attributes?.id)}}
             style={[styles.badgeContainer,{backgroundColor:item?.attributes?.favouriteable_enable?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY}]}
           >
             
@@ -156,7 +155,6 @@ const RenderItems = ({
   prodList
 }: Types) => {
   const productList = item;
-  console.log('productList======',productList);
   
   return (
     <View>
