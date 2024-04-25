@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Alert} from "react-native";
 import {showToast} from "../../../components/src/ShowToast";
 import {Dimensions} from 'react-native'
+import moment from "moment";
 const configJSON = require("../config.js");
 export interface Props {
   navigation: any;
@@ -49,6 +50,7 @@ interface S {
     zip_code: string;
     name: string;
     email: string;
+    preDeliveryDate:any
   };
   fastDeliveryApplied: boolean;
   isUserHasSubsCription:boolean;
@@ -110,7 +112,8 @@ SS
         email: '',
         name: '',
         phone_number: '',
-        zip_code:''
+        zip_code:'',
+        preDeliveryDate:null
       },
       fastDeliveryApplied:false
     };
@@ -182,16 +185,19 @@ SS
         const prodList = productsList?.data[0];
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
+        const preDeliveryDate = moment(productsList?.data[0]?.attributes?.delivery_date).isValid() ?
+         moment(productsList?.data[0]?.attributes?.delivery_date).format('DD-MM-yyyy') : ''
         
         const billingAddress = {
           address: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.address,
           email: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.email,
           name: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.name,
           phone_number: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.phone_number,
-          zip_code :  productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.zip_code
+          zip_code :  productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.zip_code,
+          preDeliveryDate
         }
         
-        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress, error);
+        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress,error);
       } else {
         showToast('Something went wrong');
       }
@@ -838,6 +844,7 @@ SS
       zip_code: this.state.deliveryDetails?.zip_code || '',
       name: this.state.deliveryDetails?.name || '',
       email:this.state.deliveryDetails?.email || '',
+      delivery_slot:this.props.route.params.delivery_slot
     }    
   }
   getOrderDetailsArray(orderDetails:any) {

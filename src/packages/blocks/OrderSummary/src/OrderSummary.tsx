@@ -63,7 +63,7 @@ export default class OrderSummary extends OrderSummaryController {
 
   }
   render() {
-    const { address, phone_number, zip_code, name, email } = this.getAddressDetails()
+    const { address, phone_number, zip_code, name, email, delivery_slot } = this.getAddressDetails()
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel ", [
@@ -193,6 +193,7 @@ export default class OrderSummary extends OrderSummaryController {
                     ans: address,
                   },
                   { question: "Zipcode", ans: zip_code },
+                  { question: "Delivery", ans:delivery_slot.delivery_date.length > 0 ? `${delivery_slot.delivery_date}(${delivery_slot.delivery_time})` : this.state.deliveryDetails.preDeliveryDate },
                 ]}
               />
             </View>
