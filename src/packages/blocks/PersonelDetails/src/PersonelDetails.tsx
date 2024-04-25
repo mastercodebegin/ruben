@@ -205,9 +205,9 @@ export default class PersonelDetails extends PersonalDetailsController {
               >
             {this.state.selectedDeliverySlot.attributes.slots.map((item:string)=>
             this.renderSlotitem({
-              currentSlotid:item,
+              currentSlotid:item.trim(),
               selectedSlotid:this.state.selectedDeliveryTime,
-              SlotItem:item,onPress:this.selectTimeSlot,SlotText:item
+              SlotItem:item.trim(),onPress:this.selectTimeSlot,SlotText:item
             })
             )}
             </View>

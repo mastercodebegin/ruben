@@ -186,7 +186,7 @@ SS
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
         const preDeliveryDate = moment(productsList?.data[0]?.attributes?.delivery_date).isValid() ?
-         moment(productsList?.data[0]?.attributes?.delivery_date).format('DD-MM-yyyy') : ''
+         moment(productsList?.data[0]?.attributes?.delivery_date).format('DD-MM-yyyy (hh:mm A)') : ''
         
         const billingAddress = {
           address: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.address,

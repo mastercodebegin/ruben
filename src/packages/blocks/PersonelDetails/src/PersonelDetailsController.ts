@@ -8,6 +8,7 @@ import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showToast } from "../../../components/src/ShowToast";
 import { Alert } from 'react-native';
+import moment from "moment";
 const configJSON = require("../config.js");
 
 export interface DeliverySlot {
@@ -50,6 +51,7 @@ interface S {
   deliverySlots:Array<DeliverySlot>
   selectedDeliverySlot:DeliverySlot 
   selectedDeliveryTime:string
+  isDeliverySlotSelected:boolean
 }
 
 interface SS {
@@ -95,7 +97,8 @@ export default class PersonelDetailsController extends BlockComponent<
       shippingFee:'',
       deliverySlots:[],
       selectedDeliverySlot:{id:'',type:'delivery_day',attributes:{id:0,date:"",slots:[]}},
-      selectedDeliveryTime:''
+      selectedDeliveryTime:'',
+      isDeliverySlotSelected:false
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -110,7 +113,8 @@ export default class PersonelDetailsController extends BlockComponent<
   estimatedDeliveryDateCallId: string = '';
   deliveryFeesApiCallId: string = '';
   addressId:any = null;
-  deliverySlotApicallid : string = ""
+  deliverySlotApicallid : string = "";
+  adddeliverySlotApicallid : string = ""
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -298,6 +302,24 @@ export default class PersonelDetailsController extends BlockComponent<
       } 
       else {
         this.setState({ showLoader: false});
+      }
+    } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.adddeliverySlotApicallid != null &&
+    this.adddeliverySlotApicallid ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const response = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      
+      if (!error && response && response.data) {
+        this.setState({ showLoader: false,isDeliverySlotSelected:true});
+      } 
+      else {
+        this.setState({ showLoader: false,isDeliverySlotSelected:false});
       }
     }
   }
@@ -580,7 +602,10 @@ return
         Alert.alert("Alert", "Please add address");
       } else if (this.state.selectedAddress === null) {
         Alert.alert("Alert", "Please select an address");
-      } 
+      }
+      else if(!this.state.isDeliverySlotSelected){
+        Alert.alert("Alert","Please Select Delivery Slot")
+      }
       else {
       this.addDeliveryFess();
       console.log('caled');
@@ -616,11 +641,63 @@ return
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
   }
 
+  async addDeliveryDate() {
+   //this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const formattedDate = this.getFormattedDate(this.state.selectedDeliverySlot.attributes.date ,this.state.selectedDeliveryTime)
+     const isValidDate = moment(formattedDate).isValid()
+    let addEndoint = ""
+    
+    if(isValidDate){
+    addEndoint = "date=" + moment(formattedDate).format("yyyy-MM-DD") + "&slot=" + moment(formattedDate).format("HH:MM:SS")
+    }
+    else return this.showAlert("Error","Error occured during selecting slot")
+
+    const addDeliveryDateMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.adddeliverySlotApicallid = addDeliveryDateMsg.messageId;
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.adddeliveryslotApiEndpoint + addEndoint
+    );
+
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(addDeliveryDateMsg.id, addDeliveryDateMsg);
+  }
+
+  getFormattedDate = (date:string,time:string) => {
+    const formattedDate = date
+    const formattedTime = time.split(' ')
+    let extractedTime:any = formattedTime[0].split(':')
+    if(formattedTime[1] === "PM")
+    { extractedTime[0] = (12 + parseInt(extractedTime[0])).toString()}
+
+    if(extractedTime[0].length === 1)
+    { extractedTime[0] = '0'+ extractedTime[0] }
+    extractedTime.push('00')
+    extractedTime = extractedTime.join(':')
+    return formattedDate + "T" + extractedTime + '.000Z'
+  }
+
   selectDeliveryDate = (deliveryItem:DeliverySlot) => {
     this.setState({selectedDeliverySlot:deliveryItem,selectedDeliveryTime:''})
   }
 
   selectTimeSlot = (timeslotItem:string) => {
-    this.setState({selectedDeliveryTime:timeslotItem})
+    this.setState({selectedDeliveryTime:timeslotItem},()=>this.addDeliveryDate())
   }
 }

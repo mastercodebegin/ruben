@@ -193,7 +193,7 @@ export default class OrderSummary extends OrderSummaryController {
                     ans: address,
                   },
                   { question: "Zipcode", ans: zip_code },
-                  { question: "Delivery", ans:delivery_slot.delivery_date.length > 0 ? `${delivery_slot.delivery_date}(${delivery_slot.delivery_time})` : this.state.deliveryDetails.preDeliveryDate },
+                  { question: "Delivery", ans:this.state.deliveryDetails.preDeliveryDate},
                 ]}
               />
             </View>
