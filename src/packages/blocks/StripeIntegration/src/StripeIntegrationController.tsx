@@ -167,7 +167,6 @@ export default class StripeIntegrationController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      //console.log("check paymentData", paymentData.success);
       
       if (error) {
         this.setState({ paymentAlerttype: "PaymentFailed" })
