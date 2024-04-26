@@ -130,6 +130,8 @@ interface S {
   variantQuantity: number,
   variantId: number,
   availableQuantity: number,
+  isRecommended:boolean,
+  isFavouriteFunctionCallingFromProfile: boolean
   variantObject: { price: string, productImage: string, quantity: number, variantArray: Array<any>, variantType: string, catalogue_id: number }
   // Customizable Area End
 }
@@ -157,11 +159,13 @@ export default class LandingPageController extends BlockComponent<
     this.state = {
       variantId: 0,
       availableQuantity: 0,
+      isRecommended:false,
+      isFavouriteFunctionCallingFromProfile: false,
       categoryProductsList: [],
       variantObject: { price: '', productImage: '', quantity: 0, variantArray: [], variantType: '', catalogue_id: 0 },
       variantQuantity: 0,
       homePageInfo: {},
-      isCallingFromStore: false,
+      isCallingFromStore: true,
       isMyProfile: false,
       userAddressID: '',
       selectedUserAddress: '',
@@ -615,6 +619,7 @@ export default class LandingPageController extends BlockComponent<
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
       if (!error && filterByCategoryResponse) {
+        console.log('filterByCategoryResponse', JSON.stringify(filterByCategoryResponse));
 
         this.setState({ productList: filterByCategoryResponse?.data, loader: false })
       }
@@ -965,16 +970,18 @@ export default class LandingPageController extends BlockComponent<
 
       if (AddToFavRes?.message === 'Product removed from favourites') {
         showToast("Product removed from favourites");
-        this.getProductList(true)
-        this.getFavorites()
-
-
+        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+        if (this.state.isRecommended) { this.getRecommendProduct('')}
         return;
       }
       else if (AddToFavRes?.data) {
         showToast("Product added to favorites");
-        this.getProductList(true)
-        this.getFavorites()
+        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+        if (this.state.isRecommended) { this.getRecommendProduct('')}
+          
+        
         return;
       }
 
@@ -1849,7 +1856,6 @@ export default class LandingPageController extends BlockComponent<
 
 
     for (const [index, obj] of this.state.productsList[0].variants.entries()) {
-      console.log('obj====', obj);
 
       formData.append(`catalogue_variants_attributes[${index}][variant_description]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
@@ -1944,7 +1950,7 @@ export default class LandingPageController extends BlockComponent<
   }
   async AddToFavorites(catalogue_id: number) {
     console.log('cate====', catalogue_id);
-
+    this.setState({ loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {
@@ -1982,7 +1988,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(requestMessage.id, requestMessage);
   }
 
-  async addToCart(id: number, quantity: number, variantId: number,frequency?:string) {
+  async addToCart(id: number, quantity: number, variantId: number, frequency?: string) {
     this.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails)
@@ -2005,7 +2011,7 @@ export default class LandingPageController extends BlockComponent<
         "taxable_value": 0.1233,
         "other_charges": 0.124,
         "delivered_at": "2023-04-21T12:27:59.395Z",
-        "frequency": frequency?frequency:''
+        "frequency": frequency ? frequency : ''
       }
     }
 
@@ -2163,7 +2169,9 @@ export default class LandingPageController extends BlockComponent<
   }
 
   async getFavorites() {
-    this.setState({ show_loader: true });
+     this.setState({ show_loader: true });
+    console.log('favo');
+    
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -2240,8 +2248,9 @@ export default class LandingPageController extends BlockComponent<
       const getFavoritesList = message.getData(
         getName(MessageEnum.RestAPIResponceSuccessMessage)
       );
+console.log('res favo===================');
 
-      this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false })
+      this.setState({ showFavoriteList: getFavoritesList?.data || [], show_loader: false,loader:false })
     }
   }
   resAddFavList(message: any) {

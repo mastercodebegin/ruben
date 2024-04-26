@@ -320,8 +320,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async increaseCartQuatity(catalogue_id: number, order_id: number | null, type: boolean,variantId:number) {
-    console.log('carinatId',variantId);
-    
+ this.setState({showLoader:true})
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -348,6 +347,7 @@ export default class MyCartController extends BlockComponent<Props, S, SS> {
     runEngine.sendMessage(subcategory.id, subcategory);
   }
   async removeItemFromCart(id: number) {
+    this.setState({showLoader:true})
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {

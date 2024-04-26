@@ -7,10 +7,10 @@ import {
   Image,
 } from "react-native";
 import { styles } from "./Myprofile";
-import {  BUTTON_COLOR_SECONDARY, CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, CART, PRIMARY_COLOR, backGroundImage, badge } from "../assets";
 
 interface RenderProductsTypes {
-  navigate: (params:any)=>void;
+  navigate: (params: any) => void;
   id: number;
   description: string;
   name: string;
@@ -20,6 +20,7 @@ interface RenderProductsTypes {
   onPressRemoveFromFav: () => void;
   onPressAddToCart: () => void;
   isRecommendations?: boolean;
+  isFavourite: boolean
 }
 const RenderProducts = ({
   navigate,
@@ -31,16 +32,17 @@ const RenderProducts = ({
   image,
   onPressRemoveFromFav,
   onPressAddToCart,
-  isRecommendations=false
+  isRecommendations,
+  isFavourite
 }: RenderProductsTypes) => {
-  console.log('image===',image);
-  
+console.log('isFavourite',isFavourite);
+
   return (
     <View style={styles.FavContainer}>
       <TouchableOpacity
         testID={"navigateToProductDetailScreen"}
         onPress={() =>
-            navigate({
+          navigate({
             id: id,
             description: description,
             name: name,
@@ -52,20 +54,25 @@ const RenderProducts = ({
         <ImageBackground
           resizeMode="stretch"
           style={image ? styles.itemImage : styles.itemNoImage}
-          source={image?{uri:image}:backGroundImage}
+          source={image ? { uri: image } : backGroundImage}
         >
           <View style={styles.offerContainer}>
             <Text style={styles.offer}>{`${discount || " "}` + " 10% off"}</Text>
 
-            <TouchableOpacity
-              testID={"removeFavList"}
-              onPress={onPressRemoveFromFav}
-              style={[styles.badgeContainer,
-                {borderWidth:1,borderColor:PRIMARY_COLOR,backgroundColor:PRIMARY_COLOR}]}
-            >
-              <Image resizeMode="contain" 
-              style={[styles.badge,{tintColor:BUTTON_COLOR_SECONDARY},isRecommendations && {tintColor:BUTTON_COLOR_SECONDARY}]} source={badge} />
-            </TouchableOpacity>
+          
+              <TouchableOpacity
+                testID={"removeFavList"}
+                onPress={onPressRemoveFromFav}
+                style={[styles.badgeContainer,
+                {
+                  borderWidth: 1, borderColor: PRIMARY_COLOR,
+                  backgroundColor: isFavourite ? BUTTON_COLOR_PRIMARY : BUTTON_COLOR_SECONDARY
+                }]}
+              >
+                <Image resizeMode="contain"
+                  style={[styles.badge, { tintColor: isFavourite ? BUTTON_COLOR_SECONDARY : BUTTON_COLOR_PRIMARY }]} source={badge} />
+              </TouchableOpacity> 
+
           </View>
         </ImageBackground>
         <View style={{ paddingHorizontal: 15 }}>
@@ -78,11 +85,11 @@ const RenderProducts = ({
             <TouchableOpacity
               testID={"addtocart"}
               onPress={onPressAddToCart}
-              style={[styles.FavcartContainer,{backgroundColor:PRIMARY_COLOR}]}
+              style={[styles.FavcartContainer, { backgroundColor: PRIMARY_COLOR }]}
             >
               <Image
                 resizeMode="contain"
-                style={[styles.Favcart,{tintColor:BUTTON_COLOR_SECONDARY}]}
+                style={[styles.Favcart, { tintColor: BUTTON_COLOR_SECONDARY }]}
                 source={CART}
               />
             </TouchableOpacity>
