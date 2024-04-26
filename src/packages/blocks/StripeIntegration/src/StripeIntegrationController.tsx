@@ -38,7 +38,8 @@ export interface Props {
       total?: number,
       lifetimeSubscriptionCharge:any
       billingDetails?: any[];
-      isUserAlreadySubscribed:boolean
+      isUserAlreadySubscribed:boolean;
+      deliveryDate:string
     }
   }
   // Customizable Area End
@@ -166,7 +167,7 @@ export default class StripeIntegrationController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log("check paymentData", paymentData.success);
+      //console.log("check paymentData", paymentData.success);
       
       if (error) {
         this.setState({ paymentAlerttype: "PaymentFailed" })

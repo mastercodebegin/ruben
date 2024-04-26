@@ -51,7 +51,8 @@ interface S {
   deliverySlots:Array<DeliverySlot>
   selectedDeliverySlot:DeliverySlot 
   selectedDeliveryTime:string
-  isDeliverySlotSelected:boolean
+  isDeliverySlotSelected:boolean;
+  deliveryParams:string
 }
 
 interface SS {
@@ -98,7 +99,8 @@ export default class PersonelDetailsController extends BlockComponent<
       deliverySlots:[],
       selectedDeliverySlot:{id:'',type:'delivery_day',attributes:{id:0,date:"",slots:[]}},
       selectedDeliveryTime:'',
-      isDeliverySlotSelected:false
+      isDeliverySlotSelected:false,
+      deliveryParams:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -298,7 +300,7 @@ export default class PersonelDetailsController extends BlockComponent<
         );
       
       if (!error && response && response.data) {
-        this.setState({ showLoader: false, deliverySlots:response.data });
+        this.setState({ showLoader: false, deliverySlots:[response.data ]});
       } 
       else {
         this.setState({ showLoader: false});
@@ -590,10 +592,7 @@ return
       zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
       name: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.name||'',
       email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||'',
-      delivery_slot:{
-        delivery_date:this.state.selectedDeliverySlot.attributes.date,
-        delivery_time:this.state.selectedDeliveryTime
-      }
+      deliverySlotParams:this.state.deliveryParams
     }    
   }
 
@@ -642,22 +641,16 @@ return
   }
 
   async addDeliveryDate() {
-   //this.setState({ showLoader: true });
+   
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
       token: data?.meta?.token,
     };
 
-    const formattedDate = this.getFormattedDate(this.state.selectedDeliverySlot.attributes.date ,this.state.selectedDeliveryTime)
-     const isValidDate = moment(formattedDate).isValid()
-    let addEndoint = ""
-    
-    if(isValidDate){
-    addEndoint = "date=" + moment(formattedDate).format("yyyy-MM-DD") + "&slot=" + moment(formattedDate).format("HH:MM:SS")
-    }
-    else return this.showAlert("Error","Error occured during selecting slot")
+    const paramendpoint = this.getFormattedParams(this.state.selectedDeliverySlot.attributes.date ,this.state.selectedDeliveryTime)
 
+    this.setState({ showLoader: true ,deliveryParams:paramendpoint});
     const addDeliveryDateMsg = new Message(
       getName(MessageEnum.RestAPIRequestMessage)
     );
@@ -665,7 +658,7 @@ return
     this.adddeliverySlotApicallid = addDeliveryDateMsg.messageId;
     addDeliveryDateMsg.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      configJSON.adddeliveryslotApiEndpoint + addEndoint
+      configJSON.adddeliveryslotApiEndpoint + paramendpoint
     );
 
     addDeliveryDateMsg.addData(
@@ -679,22 +672,42 @@ return
     runEngine.sendMessage(addDeliveryDateMsg.id, addDeliveryDateMsg);
   }
 
-  getFormattedDate = (date:string,time:string) => {
-    const formattedDate = date
+  getFormattedParams = (date:string,time:string) => {
+    let  formattedDate = date
     const formattedTime = time.split(' ')
     let extractedTime:any = formattedTime[0].split(':')
     if(formattedTime[1] === "PM")
-    { extractedTime[0] = (12 + parseInt(extractedTime[0])).toString()}
+    {if(!(parseInt(extractedTime[0]) === 12)){
+      extractedTime[0] = (12 + parseInt(extractedTime[0])).toString()
+    }}
+
+    if(formattedTime[1] === "AM"){
+      if(parseInt(extractedTime[0]) === 12 && parseInt(extractedTime[1]) === 0)
+      {extractedTime[0] = '24'}
+      else if(parseInt(extractedTime[0]) === 12 &&  parseInt(extractedTime[1]) > 0){
+        extractedTime[0] = "00"
+      } 
+    }
 
     if(extractedTime[0].length === 1)
     { extractedTime[0] = '0'+ extractedTime[0] }
     extractedTime.push('00')
     extractedTime = extractedTime.join(':')
-    return formattedDate + "T" + extractedTime + '.000Z'
+    const UTCDate =  formattedDate + "T" + extractedTime + '.000Z'
+    const isValidDate = moment(UTCDate).isValid()
+    let addEndoint = ""
+    
+    if(isValidDate){
+    addEndoint = "&date=" + moment(UTCDate).format("yyyy-MM-DD") + "&slot=" + extractedTime
+    console.log(addEndoint)
+    }
+    else { this.showAlert("Error","Error occured during selecting slot")}
+    console.log(UTCDate)
+    return addEndoint
   }
 
   selectDeliveryDate = (deliveryItem:DeliverySlot) => {
-    this.setState({selectedDeliverySlot:deliveryItem,selectedDeliveryTime:''})
+    this.setState({selectedDeliverySlot:deliveryItem,selectedDeliveryTime:'',isDeliverySlotSelected:false})
   }
 
   selectTimeSlot = (timeslotItem:string) => {

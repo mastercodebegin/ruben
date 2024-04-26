@@ -80,7 +80,7 @@ export default class PersonelDetails extends PersonalDetailsController {
     )
 };
   render() {
-    const { address, phone_number, zip_code, name, email,delivery_slot } = this.getUserDetails();
+    const { address, phone_number, zip_code, name, email, deliverySlotParams } = this.getUserDetails();
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel", [
@@ -268,7 +268,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,delivery_slot,selected:this.state.selectedTab})
+                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,deliverySlotParams,selected:this.state.selectedTab})
               }}
             />
             <CommonLoader visible={this.state.showLoader} />

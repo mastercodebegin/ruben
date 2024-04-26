@@ -320,6 +320,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     ans: this.props.route.params.address,
                   },
                   { question: "Zipcode", ans: this.props.route.params.zip_code },
+                  { question: "Delivery", ans:this.props.route.params.deliveryDate},
                 ]}
               />
             </View>

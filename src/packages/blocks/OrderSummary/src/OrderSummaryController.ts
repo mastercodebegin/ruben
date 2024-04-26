@@ -186,7 +186,7 @@ SS
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
         const preDeliveryDate = moment(productsList?.data[0]?.attributes?.delivery_date).isValid() ?
-         moment(productsList?.data[0]?.attributes?.delivery_date).format('DD-MM-yyyy (hh:mm A)') : ''
+         moment(productsList?.data[0]?.attributes?.delivery_date).utc().format('DD-MM-yyyy (hh:mm A)') : ''
         
         const billingAddress = {
           address: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.address,
@@ -214,7 +214,7 @@ SS
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
   } else {
-        this.getCart();
+        this.getCart(this.props.route.params?.deliverySlotParams);
       }
   }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.increaseCartCallId != null &&
@@ -226,7 +226,7 @@ SS
         if(error){
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
         }else{
-          this.getCart()
+          this.getCart(this.props.route.params?.deliverySlotParams)
         }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -239,7 +239,7 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        this.getCart();
+        this.getCart(this.props.route.params?.deliverySlotParams);
       }
     }
     
@@ -320,7 +320,7 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );      
       if (fastDeliveryResponse && !error) {
-        this.getCart();     
+        this.getCart('');     
         if (typeof fastDeliveryResponse?.message === 'string') {
           this.setState({ fastDeliveryApplied: true });
         }
@@ -342,7 +342,7 @@ SS
       );      
       if (fastDeliveryResponse && !error) {
         this.setState({ fastDeliveryApplied: false });
-        this.getCart();   
+        this.getCart(this.props.route.params?.deliverySlotParams);   
   
         if (typeof fastDeliveryResponse?.message === 'string') {
           this.setState({ fastDeliveryApplied: false });
@@ -438,7 +438,7 @@ SS
     );
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
   }
-  async getCart(deliverytype?:string) {
+  async getCart(deliverySlotParams:string) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -446,12 +446,11 @@ SS
       token: data?.meta?.token,
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
-
     this.getCartId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getCart}${this.state.selectedTab}`
+      `${configJSON.getCart}${this.state.selectedTab}${deliverySlotParams}`
     );
 
     subcategory.addData(
@@ -844,7 +843,7 @@ SS
       zip_code: this.state.deliveryDetails?.zip_code || '',
       name: this.state.deliveryDetails?.name || '',
       email:this.state.deliveryDetails?.email || '',
-      delivery_slot:this.props.route.params.delivery_slot
+      deliverySlotParams:this.props.route.params.deliverySlotParams
     }    
   }
   getOrderDetailsArray(orderDetails:any) {
@@ -883,4 +882,6 @@ SS
     }
     return OrderDetailsList;
   }
+
+
 }

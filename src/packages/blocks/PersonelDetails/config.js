@@ -12,5 +12,5 @@ exports.getStatesEndPoint = "bx_block_shopping_cart/orders/get_shipping_states";
 exports.availableSlots = "bx_block_shippingchargecalculator/pickups";
 exports.addAddressToTheOrder =
   "bx_block_shopping_cart/orders/save_address?address_id=";
-exports.deliverslotapiendpoint = "/bx_block_shippingchargecalculator/delivery_days"
-exports.adddeliveryslotApiEndpoint = "/bx_block_shopping_cart/orders/order_alerts?type=delivery&"
+exports.deliverslotapiendpoint = "/bx_block_shippingchargecalculator/delivery_days/shows"
+exports.adddeliveryslotApiEndpoint = "/bx_block_shopping_cart/orders/order_alerts?type=delivery"
