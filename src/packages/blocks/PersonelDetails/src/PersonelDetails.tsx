@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ImageSourcePropType,
+  StyleSheet
 } from "react-native";
 import { styles } from "./styles";
 import MileStone from "../../../components/src/MilestoneComponent";
@@ -79,6 +80,42 @@ export default class PersonelDetails extends PersonalDetailsController {
     </TouchableOpacity>
     )
 };
+
+renderSlotSection = () => {
+  if(this.state.selectedTab === 'delivery'){
+    return(<>
+    <View style={styles.seperatorLine}>
+                <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE DELIVERY SLOT'}</Text>
+            </View>
+              <View
+              style={ownstyles.slotview}
+              >
+            {this.state.deliverySlots.map((item:DeliverySlot)=>
+            this.renderSlotitem({
+              currentSlotid:item.id,
+              selectedSlotid:this.state.selectedDeliverySlot.id,
+              SlotItem:item,onPress:this.selectDeliveryDate,SlotText:item.attributes.date
+            }))
+            }
+            </View>    
+
+             {this.state.selectedDeliverySlot.id.length > 0 ?<Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE TIME SLOT'}</Text>:null} 
+            <View
+              style={ownstyles.slotview}
+              >
+            {this.state.selectedDeliverySlot.attributes.slots.map((item:string)=>
+            this.renderSlotitem({
+              currentSlotid:item.trim(),
+              selectedSlotid:this.state.selectedDeliveryTime,
+              SlotItem:item.trim(),onPress:this.selectTimeSlot,SlotText:item
+            })
+            )}
+            </View>
+            </>)
+  } else return null
+}
+
+
   render() {
     const { address, phone_number, zip_code, name, email, deliverySlotParams } = this.getUserDetails();
     const handleCancelPress = () => {
@@ -175,42 +212,7 @@ export default class PersonelDetails extends PersonalDetailsController {
                     stateList ={this.state.stateList}
                     selectedTab={this.state.selectedTab}
                   />
-
-              <View style={styles.seperatorLine}>
-                <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE DELIVERY SLOT'}</Text>
-            </View>
-              <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent:"center"
-              }}
-              >
-            {this.state.deliverySlots.map((item:DeliverySlot)=>
-            this.renderSlotitem({
-              currentSlotid:item.id,
-              selectedSlotid:this.state.selectedDeliverySlot.id,
-              SlotItem:item,onPress:this.selectDeliveryDate,SlotText:item.attributes.date
-            }))
-            }
-            </View>    
-
-             {this.state.selectedDeliverySlot.id.length > 0 ?<Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE TIME SLOT'}</Text>:null} 
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent:"center"
-              }}
-              >
-            {this.state.selectedDeliverySlot.attributes.slots.map((item:string)=>
-            this.renderSlotitem({
-              currentSlotid:item.trim(),
-              selectedSlotid:this.state.selectedDeliveryTime,
-              SlotItem:item.trim(),onPress:this.selectTimeSlot,SlotText:item
-            })
-            )}
-            </View>
+                  {this.renderSlotSection()}
             </View>
               </>
             ) : (
@@ -279,4 +281,10 @@ export default class PersonelDetails extends PersonalDetailsController {
   }
 }
 
-
+const ownstyles = StyleSheet.create({
+slotview:{
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent:"center"
+}
+})

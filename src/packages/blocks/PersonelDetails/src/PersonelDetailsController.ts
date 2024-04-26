@@ -698,7 +698,7 @@ return
     let addEndoint = ""
     
     if(isValidDate){
-    addEndoint = "&date=" + moment(UTCDate).format("yyyy-MM-DD") + "&slot=" + extractedTime
+    addEndoint = "&date=" + formattedDate + "&slot=" + extractedTime
     console.log(addEndoint)
     }
     else { this.showAlert("Error","Error occured during selecting slot")}
