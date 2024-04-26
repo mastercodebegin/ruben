@@ -57,10 +57,9 @@ const ImageBox = ({ text, image, selected, onPress }: ImageBoxType) => (
 );
 export default class OrderSummary extends OrderSummaryController {
   async componentDidMount() {
-    this.getCart(this.props.route.params?.selected);
+    this.getCart(this.props.route.params?.deliverySlotParams);
     this.checkLifeTimeSubscription()
     this.setState({ selectedTab: this.props.route.params?.selected })
-
   }
   render() {
     const { address, phone_number, zip_code, name, email } = this.getAddressDetails()
@@ -193,6 +192,7 @@ export default class OrderSummary extends OrderSummaryController {
                     ans: address,
                   },
                   { question: "Zipcode", ans: zip_code },
+                  { question: "Delivery", ans:this.state.deliveryDetails.preDeliveryDate},
                 ]}
               />
             </View>
@@ -282,7 +282,8 @@ export default class OrderSummary extends OrderSummaryController {
                   email: email,
                   isUserAlreadySubscribed: this.state.isUserHasSubsCription,
                   billingDetails: this.state.billingDetails,
-                  is24HourDelivery: this.state.fastDeliveryApplied
+                  is24HourDelivery: this.state.fastDeliveryApplied,
+                  deliveryDate : this.state.deliveryDetails.preDeliveryDate
                 })
               }
               }
