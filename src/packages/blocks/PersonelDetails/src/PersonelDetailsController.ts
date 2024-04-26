@@ -300,7 +300,7 @@ export default class PersonelDetailsController extends BlockComponent<
         );
       
       if (!error && response && response.data) {
-        this.setState({ showLoader: false, deliverySlots:[response.data ]});
+        this.setState({ showLoader: false, deliverySlots:response.data});
       } 
       else {
         this.setState({ showLoader: false});
