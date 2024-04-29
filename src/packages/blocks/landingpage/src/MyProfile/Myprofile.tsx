@@ -120,18 +120,37 @@ export default class Myprofile extends LandingPageController {
     return true;
   }
   navigateToDetailsPage(item:Item) {
-    console.log('item function',JSON.stringify(item));
+    console.log('pass props-----',this.state.selectedTab,item);
     
-   this.props.navigation.navigate("ProductDetailScreen", {
+    
+   this.props.navigation.navigate("ProductDetailScreen", 
+   this.state.selectedTab=='MyFavoritesScreen'?{
       id: item?.attributes?.catalogue_id?.data?.id,
       description: item?.attributes?.catalogue_id?.data?.attributes?.additionalDescription?
       item?.attributes?.catalogue_id?.data?.attributes?.additionalDescription: 
       item?.attributes?.catalogue_id?.data?.attributes?.description,
       name: item?.attributes?.catalogue_id?.data?.attributes?.name,
       price:'',
+      isFavourite:item?.attributes?.catalogue_id?.data?.attributes?.favouriteable_enable,
       image:item?.attributes?.catalogue_id?.data?.attributes?.productImage,
       productList:[item?.attributes?.catalogue_id?.data]
-    })
+    }:{
+      id: item?.id,
+      description: item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description,
+      name: item?.attributes?.categoryCode,
+      image:item?.attributes?.productImage ,
+      isFavourite:item?.attributes?.favouriteable_enable,
+      // onPressFav: () => {
+      //   this.setState({ isRecommended:true,isFavouriteFunctionCallingFromProfile:true })
+      //   this.AddToFavorites(item?.id)
+      // },
+      // onPressAddToCart: () => {
+      //   this.navigateToDetailsPage.bind(this)(item)
+      // },
+      isRecommendations: true,
+      productList:[item]
+    }
+    )
   }
 
   navigateToNext() {
@@ -146,10 +165,9 @@ export default class Myprofile extends LandingPageController {
     }
   }
   renderItem({ item }: any) {
-    //console.log('item==================================',item?.attributes?.catalogue_id?.data?.attributes?.favouriteable_enable);
-    // console.log('item==================================',JSON.stringify(item?.attributes));
-    console.log('item==================================',item?.attributes?.favouriteable_enable);
-    console.log('productImage==================================',item?.attributes?.productImage);
+    // console.log('item==================================',JSON.stringify(item?.attributes?.catalogue_id?.data?.attributes))
+    // console.log('item==================================',item?.attributes?.favouriteable_enable);
+    // console.log('productImage==================================',item?.attributes?.productImage);
     
     
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
@@ -177,7 +195,7 @@ export default class Myprofile extends LandingPageController {
       discount: item?.attributes?.order_items?.data[0]?.attributes?.catalogue?.data?.attributes?.discount,
       id: item?.id,
       isFavourite:item?.attributes?.favouriteable_enable,
-      navigate: this.navigateToDetailsPage.bind(this),
+    navigate: ()=>this.navigateToDetailsPage.bind(this)(item),
       price: item?.attributes?.price,
       onPressRemoveFromFav: () => {
         this.setState({ isRecommended:true,isFavouriteFunctionCallingFromProfile:true })
@@ -186,8 +204,11 @@ export default class Myprofile extends LandingPageController {
       onPressAddToCart: () => {
         this.navigateToDetailsPage.bind(this)(item)
       },
-      isRecommendations: true,
+      isRecommendations: false,
     }
+
+    console.log('props----------',props);
+    
     return (
       <RenderProducts
         {...props}

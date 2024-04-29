@@ -131,6 +131,7 @@ interface S {
   variantId: number,
   availableQuantity: number,
   isRecommended:boolean,
+  isProductFavourite:boolean
   isFavouriteFunctionCallingFromProfile: boolean
   variantObject: { price: string, productImage: string, quantity: number, variantArray: Array<any>, variantType: string, catalogue_id: number }
   // Customizable Area End
@@ -158,6 +159,7 @@ export default class LandingPageController extends BlockComponent<
 
     this.state = {
       variantId: 0,
+      isProductFavourite:false,
       availableQuantity: 0,
       isRecommended:false,
       isFavouriteFunctionCallingFromProfile: false,
@@ -468,7 +470,7 @@ export default class LandingPageController extends BlockComponent<
     console.log('variant====', variant);
 
     const { price, ...rest } = this.state.variantObject;
-    const updatedVariantObject = { ...rest, price: variant.price, image: variant?.image };
+    const updatedVariantObject = { ...rest, price: variant.price, productImage: variant?.image };
     this.checkStock(variant.value)
     this.setState({ variantObject: updatedVariantObject, variantId: variant.value });
 
@@ -966,10 +968,11 @@ export default class LandingPageController extends BlockComponent<
       showToast("Something went wrong");
     }
     else {
-      console.log('AddToFavRes==', AddToFavRes);
+      console.log('AddToFavRes==', JSON.stringify(AddToFavRes));
 
       if (AddToFavRes?.message === 'Product removed from favourites') {
         showToast("Product removed from favourites");
+        this.setState({isProductFavourite:false})
         if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
         if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
         if (this.state.isRecommended) { this.getRecommendProduct('')}
@@ -977,6 +980,7 @@ export default class LandingPageController extends BlockComponent<
       }
       else if (AddToFavRes?.data) {
         showToast("Product added to favorites");
+        this.setState({isProductFavourite:true})
         if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
         if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
         if (this.state.isRecommended) { this.getRecommendProduct('')}
@@ -1251,9 +1255,11 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getProductDetailsByCategoryId(categoryId: number, loader = true) {
+  async getProductDetailsByCategoryId(categoryId: number, loader = true,isFave:boolean) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
-    this.setState({ show_loader: true })
+    console.log("isFav++++++++++++++++",isFave);
+    
+    this.setState({ show_loader: true,isProductFavourite:isFave })
     const data: any = JSON.parse(userDetails)
     const headers = {
       "Content-Type": configJSON.validationApiContentType,
@@ -1950,7 +1956,7 @@ export default class LandingPageController extends BlockComponent<
   }
   async AddToFavorites(catalogue_id: number) {
     console.log('cate====', catalogue_id);
-    this.setState({ loader: true })
+    this.setState({ loader: true ,show_loader:true})
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const userDetail: any = JSON.parse(userDetails);
     const header = {

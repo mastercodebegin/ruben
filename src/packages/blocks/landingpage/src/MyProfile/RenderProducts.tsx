@@ -35,20 +35,17 @@ const RenderProducts = ({
   isRecommendations,
   isFavourite
 }: RenderProductsTypes) => {
-console.log('isFavourite',isFavourite);
+  console.log('id',id);
+  console.log('description',description);
+  console.log('name',name);
+  console.log('price',price);
+  
 
   return (
     <View style={styles.FavContainer}>
       <TouchableOpacity
         testID={"navigateToProductDetailScreen"}
-        onPress={() =>
-          navigate({
-            id: id,
-            description: description,
-            name: name,
-            price: price,
-          })
-        }
+        onPress={navigate}
         style={styles.renderContainer}
       >
         <ImageBackground
@@ -84,7 +81,7 @@ console.log('isFavourite',isFavourite);
             <Text style={styles.price}>{`$ ${price}` + "/Kg"}</Text>
             <TouchableOpacity
               testID={"addtocart"}
-              onPress={onPressAddToCart}
+              onPress={navigate}
               style={[styles.FavcartContainer, { backgroundColor: PRIMARY_COLOR }]}
             >
               <Image

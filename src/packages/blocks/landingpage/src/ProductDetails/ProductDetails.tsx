@@ -54,12 +54,10 @@ export const sampleText =
   "Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text that shares some characteristics of a real written text , but is a random or otherwise generated.";
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
-    // console.log('this.props?.route?.params===================',this.props?.route?.params?.id);
-    // console.log('this.props?.route?.productList===================',this.props?.route?.params?.productList);
-    
-     this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
-     //this.farmDetails();
-      //this.updateProductViewCount(this.props?.route?.params?.id)
+     console.log('this.props?.route?.params===================',this.props?.route?.params);
+     this.getProductDetailsByCategoryId(this.props?.route?.params?.id,true,this.props?.route?.params?.isFavourite)
+    this.farmDetails();
+    this.updateProductViewCount(this.props?.route?.params?.id)
   }
 
   render() {
@@ -73,6 +71,11 @@ export default class ProductDetailScreen extends LandingPageController {
       image: this.props?.route?.params?.image
     }
     console.log('this.props?.route?.params', this.props?.route?.params);
+    console.log('id', id);
+    console.log('description', description);
+    console.log('name', name);
+    console.log('price', this.props?.route?.params);
+    console.log('productList', productList);
 
     return (
       <SafeAreaView style={style.flex}>
@@ -250,8 +253,19 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             /> */}
-            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} 
-            item={productList[0]} details={this.state.productDetails} props={this.props.route.params} /> : <></>}
+            <Text>HI</Text>
+            <Text>{price}</Text>
+            <Text>{description}</Text>
+            <Text>{id}</Text>
+            {productList.length ? <RenderAboutThisFarm 
+            AddToFavorites={this.AddToFavorites.bind(this)} 
+            item={productList[0]} 
+            details={this.state.variantObject}
+             props={this.props.route.params}
+             isProductFavourite={this.state.isProductFavourite}
+             productImage={this.state.variantObject.productImage?{uri:this.state.variantObject.productImage}:MEAT_IMAGE2}
+             /> : <></>}
+            
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>
