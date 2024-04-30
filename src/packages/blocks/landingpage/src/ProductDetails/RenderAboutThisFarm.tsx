@@ -8,8 +8,9 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import {  MEAT_IMAGE3, PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, badge } from "../assets";
-const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
+import {  BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, MEAT_IMAGE3, PRIMARY, PRIMARY_COLOR, SECONDARY_TEXT_COLOR, TEXT_COLOR, badge } from "../assets";
+const RenderAboutThisFarm = ({ item , AddToFavorites,details,props,isProductFavourite,productImage}: any) => {
+ 
   return (
     <View style={styles.main}>
       <Text style={styles.header}>{"About this farm"}</Text>
@@ -36,7 +37,7 @@ const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
         <Text style={styles.photos}>PRODUCTS</Text>
 
         <View>
-        <Image style={styles.productImage} source={props?.image} />
+        <Image style={styles.productImage} source={productImage} />
           <View style={styles.productContainer}>
             <Text style={styles.productName}>{  item?.attributes?.categoryCode }</Text>
             <Text style={styles.price}>{`$ ${ item?.attributes?.price }/kg`}</Text>
@@ -45,8 +46,13 @@ const RenderAboutThisFarm = ({ item , AddToFavorites,details,props}: any) => {
             <View style={{ flex: 1 }}>
               <Text numberOfLines={3}>{item?.attributes?.description}</Text>
             </View>
-            <TouchableOpacity testID="add_to_fav_test_id" onPress={()=>AddToFavorites(item?.id)} style={styles.button}>
-              <Image style={styles.badge} source={badge} />
+            <TouchableOpacity testID="add_to_fav_test_id" 
+            onPress={()=>AddToFavorites(item?.id)} 
+            style={[styles.button,
+              {borderColor:isProductFavourite?BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY},
+            {backgroundColor:isProductFavourite?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY}
+            ]}>
+              <Image style={[styles.badge,{tintColor:isProductFavourite?BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY}]} source={badge} />
             </TouchableOpacity>
           </View>
         </View>

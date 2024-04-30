@@ -36,8 +36,8 @@ const PaymentDetails = ({ header, list, footer, isSubscribed, isUserAlreadySubsc
             </View>}
             <View style={styles.flex}>
                 {isUserAlreadySubscribed ?
-                    <Text style={styles.answer}>{footer?.ans}</Text> :
-                    <Text style={styles.answer}> {footer?.ans}</Text>
+                    <Text style={styles.answer}> ${footer?.ans}.00</Text> :
+                    <Text style={styles.answer}> ${footer?.ans}.00</Text>
                 }
             </View>
         </View>

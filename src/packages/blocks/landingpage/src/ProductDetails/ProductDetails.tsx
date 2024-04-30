@@ -13,13 +13,10 @@ import { styles } from "../ExploreStore/ExplorePage";
 import LandingPageController from "../LandingPageController";
 import CommonLoader from "../../../../components/src/CommonLoader";
 import {
-  DARK_RED,
-  EXPLORE_BTN,
-  SEARCH,
+
   MEAT_IMAGE1,
   MEAT_IMAGE2,
   shareIcon,
-  PRIMARY,
   PRIMARY_COLOR,
   BUTTON_TEXT_COLOR_PRIMARY,
   BUTTON_COLOR_PRIMARY,
@@ -30,7 +27,6 @@ import {
 import { deepLinkingURL } from "../../../../components/src/constants";
 import RenderSteps from "./RenderSteps";
 import HeaderWithBackArrowTemplate from "../../../../components/src/HeaderWithBackArrowTemplate";
-import RenderCategoriesList from "../RenderCategoriesList";
 import RenderAboutThisFarm from "./RenderAboutThisFarm";
 import { RecurringModal } from "../ProductDetails/RecurringModal";
 import { showToast } from "../../../../components/src/ShowToast";
@@ -58,14 +54,15 @@ export const sampleText =
   "Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text tht shares some characteristics of a real written text , but is a random or otherwise generated.Filter text is the text that shares some characteristics of a real written text , but is a random or otherwise generated.";
 export default class ProductDetailScreen extends LandingPageController {
   async componentDidMount() {
-     this.getProductDetailsByCategoryId(this.props?.route?.params?.id)
-
-     this.farmDetails();
-      this.updateProductViewCount(this.props?.route?.params?.id)
+     console.log('this.props?.route?.params===================',this.props?.route?.params);
+     this.getProductDetailsByCategoryId(this.props?.route?.params?.id,true,this.props?.route?.params?.isFavourite)
+    this.farmDetails();
+    this.updateProductViewCount(this.props?.route?.params?.id)
   }
 
   render() {
-    const { id = '', description = '', name = '', price = '', productList = [], image = "" } = {
+    const { id = '', description = '', name = '', price = '', productList = [], image = "" }
+     = {
       id: this.props?.route?.params?.id,
       description: this.props?.route?.params?.description,
       name: this.props?.route?.params?.name,
@@ -74,6 +71,11 @@ export default class ProductDetailScreen extends LandingPageController {
       image: this.props?.route?.params?.image
     }
     console.log('this.props?.route?.params', this.props?.route?.params);
+    console.log('id', id);
+    console.log('description', description);
+    console.log('name', name);
+    console.log('price', this.props?.route?.params);
+    console.log('productList', productList);
 
     return (
       <SafeAreaView style={style.flex}>
@@ -86,16 +88,25 @@ export default class ProductDetailScreen extends LandingPageController {
           <>
             {this.state.showRecurringModal && (
               <RecurringModal
+              quantity={this.state.variantQuantity}
+              maxQuantity={this.state.availableQuantity}
+              onPressDecreaseQuantity={this.handleDecreamentVariantCount}
+              onPressIncreamentQuantity={this.handleIcreameantVariantCount}
                 visible={this.state.showRecurringModal}
                 setVisible={() => this.setState({ showRecurringModal: false })}
                 recurringOrder={async (quantity, frequency) => {
-                  const res = await this.addToCart(id, 1, frequency);
+                  console.log('frequency===',frequency);
+                  
+                  
+                    this.addToCart.bind(this)(
+                      this.props?.route?.params?.id,
+                      this.state.variantQuantity,
+                      this.state.variantId,
+                      frequency
+                      ) 
+                  ;
                   this.setState({ showRecurringModal: false })
-                  setTimeout(() => {
-                    if (res) {
-                      this.props.navigation.navigate('MyCart');
-                    }
-                  }, 1000);
+
                 }} />
             )}
             <View
@@ -141,14 +152,14 @@ export default class ProductDetailScreen extends LandingPageController {
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
                     disabled={this.state.variantQuantity <= 0 ? true : false}
-                    onPress={() => this.handleIcreameantORDecreamentVariantCount(false)}
+                    onPress={() => this.handleDecreamentVariantCount()}
                     style={styles.button}
                   >
                     <Text style={{ color: BUTTON_COLOR_PRIMARY }}>{"-"}</Text>
                   </TouchableOpacity>
                   <Text style={styles.counter}>{this.state.variantQuantity}</Text>
                   <TouchableOpacity
-                    onPress={() => this.handleIcreameantORDecreamentVariantCount(true)}
+                    onPress={() => this.handleIcreameantVariantCount()}
                     style={styles.button}
                     disabled={this.state.variantQuantity<= this.state.availableQuantity?false:true}
                   >
@@ -242,7 +253,19 @@ export default class ProductDetailScreen extends LandingPageController {
               header="Step 05:"
               description={sampleText}
             /> */}
-            {productList.length ? <RenderAboutThisFarm AddToFavorites={this.AddToFavorites.bind(this)} item={productList[0]} details={this.state.productDetails} props={this.props.route.params} /> : <></>}
+            <Text>HI</Text>
+            <Text>{price}</Text>
+            <Text>{description}</Text>
+            <Text>{id}</Text>
+            {productList.length ? <RenderAboutThisFarm 
+            AddToFavorites={this.AddToFavorites.bind(this)} 
+            item={productList[0]} 
+            details={this.state.variantObject}
+             props={this.props.route.params}
+             isProductFavourite={this.state.isProductFavourite}
+             productImage={this.state.variantObject.productImage?{uri:this.state.variantObject.productImage}:MEAT_IMAGE2}
+             /> : <></>}
+            
             <CommonLoader visible={this.state.show_loader} />
           </>
         </HeaderWithBackArrowTemplate>

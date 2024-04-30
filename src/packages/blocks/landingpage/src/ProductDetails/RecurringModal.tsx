@@ -22,6 +22,10 @@ interface S {
 interface P {
   visible: boolean;
   setVisible: () => void;
+  quantity:number
+  maxQuantity:number
+  onPressIncreamentQuantity:()=>void
+  onPressDecreaseQuantity:()=>void
   recurringOrder: (quantity:number, frequency:string) => void;
 }
 export class RecurringModal extends React.Component<P, S> {
@@ -33,8 +37,16 @@ export class RecurringModal extends React.Component<P, S> {
     };
   }
 
+  componentDidMount(): void {
+    console.log('quantity==========',this.props.quantity);
+    
+  }
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: any): void {
+    console.log('update quantity==========',this.props.quantity);
+
+  }
   AddSubscription=()=>{
-    if(this.state.quantity == 0 || this.state.frequency == "Select"){
+    if(this.props.quantity == 0 || this.state.frequency == "Select"){
       Alert.alert("Error","Please Select Quantity and Frequency",[{text:"OK"}])
       return;
     }
@@ -72,16 +84,16 @@ export class RecurringModal extends React.Component<P, S> {
             <View style={styles.counterContainer}>
               <TouchableOpacity
                 testID="minusbtn"
-                disabled={this.state.quantity == 0 ? true : false}
-                onPress={() => this.setState({ quantity: this.state.quantity - 1 })}
+                disabled={this.props.quantity == 0 ? true : false}
+                onPress={this.props.onPressDecreaseQuantity}
                 style={styles.button}
               >
                 <Text style={styles.count}>{"-"}</Text>
               </TouchableOpacity>
-              <Text style={[styles.counter,{color:TEXT_COLOR}]}>{this.state.quantity}</Text>
+              <Text style={[styles.counter,{color:TEXT_COLOR}]}>{this.props.quantity}</Text>
               <TouchableOpacity
                 testID="plusbtn"
-                onPress={() => this.setState({ quantity: this.state.quantity + 1 })}
+                onPress={this.props.onPressIncreamentQuantity}
                 style={styles.button}
               >
                 <Text style={styles.count}>{"+"}</Text>

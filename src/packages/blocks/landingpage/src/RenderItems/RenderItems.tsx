@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import {
   DARK_RED,
@@ -21,7 +22,9 @@ import {
   PRIMARY_COLOR,
   TEXT_COLOR,
   SECONDARY_TEXT_COLOR,
-  APP_BACKGROUND
+  APP_BACKGROUND,
+  BUTTON_COLOR_PRIMARY,
+  BUTTON_COLOR_SECONDARY
 } from "../assets";
 import FastImage from "react-native-fast-image";
 const deviceWidth = Dimensions.get("window").width;
@@ -54,6 +57,7 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
+  console.log(item);
   
   
   return (
@@ -73,14 +77,9 @@ const RenderItem = ({
       style={styles.renderContainer}
     >
       <View style={styles.itemImage}>
-        {item.attributes?.catalogue_variants?.attributes?.productImage ?
-        <FastImage
-        style={styles.itemImage}
-        resizeMode="stretch"
-        source={{ uri:item.attributes?.catalogue_variants?.attributes?.productImage}}
-      />:
-          <FastImage resizeMode="stretch" style={styles.itemImage} source={backGroundImage} />
-        }
+        
+<ImageBackground resizeMode="stretch" style={styles.itemImage} 
+source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage} /> 
         <View style={{position:"absolute",right:0,left:0,top:0,bottom:0}}>
         <View style={styles.offerContainer}>
           {!rating ? (
@@ -99,10 +98,16 @@ const RenderItem = ({
           )}
           <TouchableOpacity
             testID={"add_to_fav_id_" + index}
-            onPress={() => onpressFav(item?.id)}
-            style={styles.badgeContainer}
+            onPress={() => {onpressFav(item?.attributes?.id)}}
+            style={[styles.badgeContainer,{backgroundColor:item?.attributes?.favouriteable_enable?BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY}]}
           >
-            <Image resizeMode="contain" style={[styles.badge,{tintColor:PRIMARY_COLOR}]} source={badge} />
+            
+            <Image resizeMode="contain" style={[styles.badge,
+              {tintColor:item?.attributes?.favouriteable_enable?BUTTON_COLOR_SECONDARY:BUTTON_COLOR_PRIMARY},
+              
+
+            ]} 
+              source={badge} />
           </TouchableOpacity>
         </View>
 
@@ -151,7 +156,6 @@ const RenderItems = ({
   prodList
 }: Types) => {
   const productList = item;
-  console.log('productList======',productList);
   
   return (
     <View>
