@@ -31,6 +31,15 @@ export const pigRibs = require('../assets/pigRibs.png');
 export const pigShoulder = require('../assets/pigShoulder.png');
 export const pigBackfat = require('../assets/pigBackfat.png');
 export const pig = require('../assets/pig.png');
+export const lambBreast = require('../assets/lamb_breast.png');
+export const lambChuck = require('../assets/lamb_chuck.png');
+export const lambDefault = require('../assets/lamb_default.png');
+export const lambFlank = require('../assets/lamb_flank.png');
+export const lambLeg = require('../assets/lamb_leg.png');
+export const lambLion = require('../assets/lamb_lion.png');
+export const lambNeck = require('../assets/lamb_neck.png');
+export const lambShank = require('../assets/lamb_shank.png');
+export const lambSoulder = require('../assets/lamb_shoulder.png');
 
 
 
