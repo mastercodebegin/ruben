@@ -37,15 +37,15 @@ export class ExplorePage extends LandingPageController {
    this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory = (name: string) => {
+    console.log('name animal-----------------',name);
     
-    if ( name == "angus beef") {
+    if ( name == "Angus beef") {
       console.log('if');
 
       return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3'
         isChartDisplay={false}
         animalPartCallBack={
           (item: number) =>
-            //this.getProductByCategory()
             this.getProductBySubcategory(item)
         }
       />
@@ -58,6 +58,7 @@ export class ExplorePage extends LandingPageController {
         }
       />)
     }
+
     else if (name == 'chicken') {
       return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
         navigation={null}
@@ -207,7 +208,7 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-              {this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
+              {this.getAnimalByCategory(this.state.selectedCat)}
 
               <FlatList
                 data={this.state.searchResults}
