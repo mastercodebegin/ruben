@@ -68,8 +68,8 @@ const RenderItem = ({
           id: item?.id,
           description: item?.attributes?.additionalDescription?item?.attributes?.additionalDescription:item?.attributes?.description,
           name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
-          price:  
-          item?.attributes?.catalogue_variants[0].attributes.price,
+          price:item?.attributes?.catalogue_variants[0].attributes.price,
+          isFavourite: item?.attributes?.favouriteable_enable,
           image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
           productList:productList
         })
