@@ -140,13 +140,7 @@ export default class Myprofile extends LandingPageController {
       name: item?.attributes?.categoryCode,
       image:item?.attributes?.productImage ,
       isFavourite:item?.attributes?.favouriteable_enable,
-      // onPressFav: () => {
-      //   this.setState({ isRecommended:true,isFavouriteFunctionCallingFromProfile:true })
-      //   this.AddToFavorites(item?.id)
-      // },
-      // onPressAddToCart: () => {
-      //   this.navigateToDetailsPage.bind(this)(item)
-      // },
+
       isRecommendations: true,
       productList:[item]
     }
@@ -165,10 +159,6 @@ export default class Myprofile extends LandingPageController {
     }
   }
   renderItem({ item }: any) {
-    // console.log('item==================================',JSON.stringify(item?.attributes?.catalogue_id?.data?.attributes))
-    // console.log('item==================================',item?.attributes?.favouriteable_enable);
-    // console.log('productImage==================================',item?.attributes?.productImage);
-    
     
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,

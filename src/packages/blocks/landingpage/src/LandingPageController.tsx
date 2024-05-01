@@ -968,28 +968,31 @@ export default class LandingPageController extends BlockComponent<
       showToast("Something went wrong");
     }
     else {
-      console.log('AddToFavRes==', JSON.stringify(AddToFavRes));
+      this.getProductsApiCallAsPerScreen(AddToFavRes)
 
-      if (AddToFavRes?.message === 'Product removed from favourites') {
-        showToast("Product removed from favourites");
-        this.setState({isProductFavourite:false})
-        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-        if (this.state.isRecommended) { this.getRecommendProduct('')}
-        return;
-      }
-      else if (AddToFavRes?.data) {
-        showToast("Product added to favorites");
-        this.setState({isProductFavourite:true})
-        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-        if (this.state.isRecommended) { this.getRecommendProduct('')}
-          
-        
-        return;
-      }
-
+      
     }
+  }
+  getProductsApiCallAsPerScreen(AddToFavRes:{message:string,data:object}){
+    if (AddToFavRes?.message === 'Product removed from favourites') {
+      showToast("Product removed from favourites");
+      this.setState({isProductFavourite:false})
+      if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+      if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+      if (this.state.isRecommended) { this.getRecommendProduct('')}
+      return;
+    }
+    else if (AddToFavRes?.data) {
+      showToast("Product added to favorites");
+      this.setState({isProductFavourite:true})
+      if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+      if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+      if (this.state.isRecommended) { this.getRecommendProduct('')}
+        
+      
+      return;
+    }
+  
   }
   addProductCallback(error: any, response: any) {
     if (error) {
@@ -998,7 +1001,6 @@ export default class LandingPageController extends BlockComponent<
       this.showAlert('something went wrong')
     } else {
       console.log('response>>>>>>>>>>>>>>>', response);
-
 
     }
   }
