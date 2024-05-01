@@ -39,7 +39,7 @@ export const lambLeg = require('../assets/lamb_leg.png');
 export const lambLion = require('../assets/lamb_lion.png');
 export const lambNeck = require('../assets/lamb_neck.png');
 export const lambShank = require('../assets/lamb_shank.png');
-export const lambSoulder = require('../assets/lamb_shoulder.png');
+export const lambShoulder = require('../assets/lamb_shoulder.png');
 
 
 

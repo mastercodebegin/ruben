@@ -76,6 +76,17 @@ export enum AnimalParts {
   'cow_Short_lion' = 'cow_Short_lion',
   'cow_Brisket' = 'cow_Brisket',
   'cow_Rib' = 'cow_Rib',
+  // lamb
+  'lamb' = 'lamb',
+  'lambBreast' = 'lambBreast',
+  'lambChuck' = 'lambChuck',
+  'lambDefault' = 'lambDefault',
+  'lambFlank' = 'lambFlank',
+  'lambLeg' = 'lambLeg',
+  'lambLion' = 'lambLion',
+  'lambNeck' = 'lambNeck',
+  'lambShank' = 'lambShank',
+  'lambShoulder' = 'lambShoulder',
 }
 
 export type ChickenParts = AnimalParts.chicken_Defult
@@ -112,6 +123,17 @@ export type CowParts = AnimalParts.chuck
   | AnimalParts.cow_Short_lion
   | AnimalParts.cow_Brisket
   | AnimalParts.cow_Rib;
+
+  export type LambParts = 
+  | AnimalParts.lambDefault
+  | AnimalParts.lambBreast
+  | AnimalParts.lambChuck
+  | AnimalParts.lambFlank
+  | AnimalParts.lambLeg
+  | AnimalParts.lambLion
+  | AnimalParts.lambNeck
+  | AnimalParts.lambShank
+  | AnimalParts.lambShoulder;
 
 
 
@@ -153,8 +175,8 @@ interface S {
   lambBreast: boolean,
   lambChuck: boolean
   lambFlank: boolean
-  lambleg: boolean
-  lamblion: boolean
+  lambLeg: boolean
+  lambLion: boolean
   lambNeck: boolean,
   lambShank: boolean,
   lambShoulder: boolean,
@@ -226,8 +248,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       lambBreast: false,
       lambChuck: false,
       lambFlank: false,
-      lambleg: false,
-      lamblion: false,
+      lambLeg: false,
+      lambLion: false,
       lambNeck: false,
       lambShank: false,
       lambShoulder: false,
@@ -1009,6 +1031,67 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     this.props.animalPartCallBack(id)
 
   }
+
+  onLambClick(partOfLamb: LambParts) {
+    // this.setState({
+    //   lambDefault: false,
+    //   lambBreast: false,
+    //   lambChuck: false,
+    //   lambFlank: false,
+    //   lambLeg: false,
+    //   lambLion: false,
+    //   lambNeck: false,
+    //   lambShank: false,
+    //   lambShoulder: false,
+    //   [partOfLamb]: true,
+    // });
+    this.setState((prevState) => ({
+    ...prevState,
+    lamb: false,
+    lambBreast: false,
+    lambChuck: false,
+    lambDefault: false,
+    lambFlank: false,
+    lambLeg: false,
+    lambLion: false,
+    lambNeck: false,
+    lambShank: false,
+    lambShoulder: false,
+    [partOfLamb]: true,
+  }))
+    const data = this.state.cuts.find((item: any) => item.cuts_name === partOfLamb);
+    this.soldChart(partOfLamb, data);
+  
+    function getLambPartId(partOfLamb: string) {
+      switch (partOfLamb) {
+        case 'lambHead':
+          return 1;
+        case 'lambNeck':
+          return 2;
+        case 'lambShoulder':
+          return 3;
+        case 'lambBreast':
+          return 4;
+        case 'lambChuck':
+          return 5;
+        case 'lambShank':
+          return 6;
+        case 'lambLeg':
+          return 7;
+        case 'lambLoin':
+          return 8;
+        case 'lambFlank':
+          return 9;
+        case 'lambLion':
+          return 10;
+        default:
+          return 8;
+      }
+    }
+    let id = getLambPartId(partOfLamb);
+    this.props.animalPartCallBack(id);
+  }
+  
 
   getDataOfCat(item: any) {
     this.setState({ animalSelectedValue: item?.attributes?.name });

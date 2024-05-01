@@ -56,7 +56,7 @@ export default class AddProducts extends LandingPageController {
     this.getCategory.bind(this)(1)
   }
   componentDidUpdate(): void {
-    console.log('state---', JSON.stringify(this.state.productsList));
+   // console.log('state---', JSON.stringify(this.state.productsList));
 
   }
   handleVariantChange = (index: number) => ({ description, itemCode, weight, price, stock, image, subscriptionAmount, isSubscribed }:

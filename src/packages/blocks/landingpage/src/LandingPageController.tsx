@@ -1856,7 +1856,7 @@ export default class LandingPageController extends BlockComponent<
     formData.append("subscription", subscription)
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
-    formData.append("images", this.state.productsList[0].images[0])
+    formData.append("images", this.state.productsList[0].images[0].file)
 
 
 
@@ -1867,7 +1867,7 @@ export default class LandingPageController extends BlockComponent<
       formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
       formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
-      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0])
+      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0].file)
     }
 
 
