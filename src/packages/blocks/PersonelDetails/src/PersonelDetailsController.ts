@@ -8,7 +8,18 @@ import { Message } from "../../../framework/src/Message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showToast } from "../../../components/src/ShowToast";
 import { Alert } from 'react-native';
+import moment from "moment";
 const configJSON = require("../config.js");
+
+export interface DeliverySlot {
+  "id": string,
+  "type": string,
+  "attributes": {
+      "id": number,
+      "date": string,
+      "slots": Array<string>
+  }
+}
 export interface Props {
   navigation: any;
   id: string;
@@ -36,7 +47,12 @@ interface S {
   showAddAddress: boolean;
   estimatedDeliveryDate: string;
   shippingFee:any,
-  merchantAddress:object
+  merchantAddress:object;
+  deliverySlots:Array<DeliverySlot>
+  selectedDeliverySlot:DeliverySlot 
+  selectedDeliveryTime:string
+  isDeliverySlotSelected:boolean;
+  deliveryParams:string
 }
 
 interface SS {
@@ -79,7 +95,12 @@ export default class PersonelDetailsController extends BlockComponent<
       showAddressModal: false,
       showAddAddress: false,
       estimatedDeliveryDate:'',
-      shippingFee:''
+      shippingFee:'',
+      deliverySlots:[],
+      selectedDeliverySlot:{id:'',type:'delivery_day',attributes:{id:0,date:"",slots:[]}},
+      selectedDeliveryTime:'',
+      isDeliverySlotSelected:false,
+      deliveryParams:''
     };
 
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
@@ -94,6 +115,8 @@ export default class PersonelDetailsController extends BlockComponent<
   estimatedDeliveryDateCallId: string = '';
   deliveryFeesApiCallId: string = '';
   addressId:any = null;
+  deliverySlotApicallid : string = "";
+  adddeliverySlotApicallid : string = ""
   async receive(from: string, message: Message) {
     if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -264,6 +287,41 @@ export default class PersonelDetailsController extends BlockComponent<
         this.setState({ showLoader: false, show_modal: true });
       } else {
         this.setState({ showLoader: false});
+      }
+    } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.deliverySlotApicallid != null &&
+    this.deliverySlotApicallid ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const response = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      
+      if (!error && response && response.data) {
+        this.setState({ showLoader: false, deliverySlots:response.data});
+      } 
+      else {
+        this.setState({ showLoader: false});
+      }
+    } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.adddeliverySlotApicallid != null &&
+    this.adddeliverySlotApicallid ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))) {
+        const response = message.getData(
+          getName(MessageEnum.RestAPIResponceSuccessMessage)
+        );
+
+        const error = message.getData(
+          getName(MessageEnum.RestAPIResponceErrorMessage)
+        );
+      
+      if (!error && response && response.data) {
+        this.setState({ showLoader: false,isDeliverySlotSelected:true});
+      } 
+      else {
+        this.setState({ showLoader: false,isDeliverySlotSelected:false});
       }
     }
   }
@@ -533,7 +591,8 @@ return
       phone_number:this.state.addressList[this.state.selectedAddress || 0]?.attributes?.phone_number || '',
       zip_code: this.state.addressList[this.state.selectedAddress]?.attributes?.zip_code || '',
       name: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.name||'',
-      email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||''
+      email: this.state.addressList[this.state.selectedAddress || 0]?.attributes?.email||'',
+      deliverySlotParams:this.state.deliveryParams
     }    
   }
 
@@ -542,10 +601,116 @@ return
         Alert.alert("Alert", "Please add address");
       } else if (this.state.selectedAddress === null) {
         Alert.alert("Alert", "Please select an address");
-      } else {
+      }
+      else if(!this.state.isDeliverySlotSelected){
+        Alert.alert("Alert","Please Select Delivery Slot")
+      }
+      else {
       this.addDeliveryFess();
       console.log('caled');
       
     }
+  }
+
+  async getDeliverySlot() {
+    this.setState({ showLoader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const PersonalDetails = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.deliverySlotApicallid = PersonalDetails.messageId;
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.deliverslotapiendpoint
+    );
+
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    PersonalDetails.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
+  }
+
+  async addDeliveryDate() {
+   
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+
+    const paramendpoint = this.getFormattedParams(this.state.selectedDeliverySlot.attributes.date ,this.state.selectedDeliveryTime)
+
+    this.setState({ showLoader: true ,deliveryParams:paramendpoint});
+    const addDeliveryDateMsg = new Message(
+      getName(MessageEnum.RestAPIRequestMessage)
+    );
+
+    this.adddeliverySlotApicallid = addDeliveryDateMsg.messageId;
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      configJSON.adddeliveryslotApiEndpoint + paramendpoint
+    );
+
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    addDeliveryDateMsg.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.httpGetMethod
+    );
+    runEngine.sendMessage(addDeliveryDateMsg.id, addDeliveryDateMsg);
+  }
+
+  getFormattedParams = (date:string,time:string) => {
+    let  formattedDate = date
+    const formattedTime = time.split(' ')
+    let extractedTime:any = formattedTime[0].split(':')
+    if(formattedTime[1] === "PM")
+    {if(!(parseInt(extractedTime[0]) === 12)){
+      extractedTime[0] = (12 + parseInt(extractedTime[0])).toString()
+    }}
+
+    if(formattedTime[1] === "AM"){
+      if(parseInt(extractedTime[0]) === 12 && parseInt(extractedTime[1]) === 0)
+      {extractedTime[0] = '24'}
+      else if(parseInt(extractedTime[0]) === 12 &&  parseInt(extractedTime[1]) > 0){
+        extractedTime[0] = "00"
+      } 
+    }
+
+    if(extractedTime[0].length === 1)
+    { extractedTime[0] = '0'+ extractedTime[0] }
+    extractedTime.push('00')
+    extractedTime = extractedTime.join(':')
+    const UTCDate =  formattedDate + "T" + extractedTime + '.000Z'
+    const isValidDate = moment(UTCDate).isValid()
+    let addEndoint = ""
+    
+    if(isValidDate){
+    addEndoint = "&date=" + formattedDate + "&slot=" + extractedTime
+    console.log(addEndoint)
+    }
+    else { this.showAlert("Error","Error occured during selecting slot")}
+    console.log(UTCDate)
+    return addEndoint
+  }
+
+  selectDeliveryDate = (deliveryItem:DeliverySlot) => {
+    this.setState({selectedDeliverySlot:deliveryItem,selectedDeliveryTime:'',isDeliverySlotSelected:false})
+  }
+
+  selectTimeSlot = (timeslotItem:string) => {
+    this.setState({selectedDeliveryTime:timeslotItem},()=>this.addDeliveryDate())
   }
 }

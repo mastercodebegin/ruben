@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Alert} from "react-native";
 import {showToast} from "../../../components/src/ShowToast";
 import {Dimensions} from 'react-native'
+import moment from "moment";
 const configJSON = require("../config.js");
 export interface Props {
   navigation: any;
@@ -49,6 +50,7 @@ interface S {
     zip_code: string;
     name: string;
     email: string;
+    preDeliveryDate:any
   };
   fastDeliveryApplied: boolean;
   isUserHasSubsCription:boolean;
@@ -112,7 +114,8 @@ SS
         email: '',
         name: '',
         phone_number: '',
-        zip_code:''
+        zip_code:'',
+        preDeliveryDate:null
       },
       fastDeliveryApplied:false,
       subscriptionCondition:{description:''},
@@ -189,16 +192,19 @@ SS
         const prodList = productsList?.data[0];
         const subTotal = productsList?.data[0]?.attributes?.subtotal;
         const total = productsList?.data[0]?.attributes?.total;
+        const preDeliveryDate = moment(productsList?.data[0]?.attributes?.delivery_date).isValid() ?
+         moment(productsList?.data[0]?.attributes?.delivery_date).utc().format('DD-MM-yyyy (hh:mm A)') : ''
         
         const billingAddress = {
           address: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.address,
           email: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.email,
           name: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.name,
           phone_number: productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.phone_number,
-          zip_code :  productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.zip_code
+          zip_code :  productsList?.data[0]?.attributes?.shipping_address?.data?.attributes?.zip_code,
+          preDeliveryDate
         }
         
-        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress, error);
+        this.getCartCallBack(prodList, productsList?.data[0]?.attributes?.customer?.data?.attributes?.plans, subTotal, total, billingAddress,error);
       } else {
         showToast('Something went wrong');
       }
@@ -215,7 +221,7 @@ SS
       if (error) {
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
   } else {
-        this.getCart();
+        this.getCart(this.props.route.params?.deliverySlotParams);
       }
   }else if(  getName(MessageEnum.RestAPIResponceMessage) === message.id &&
     this.increaseCartCallId != null &&
@@ -227,7 +233,7 @@ SS
         if(error){
         Alert.alert("Error", "Something went wrong",[{text:'OK',onPress:()=>{this.setState({showLoader:false})}}]);
         }else{
-          this.getCart()
+          this.getCart(this.props.route.params?.deliverySlotParams)
         }
     } else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
@@ -240,7 +246,7 @@ SS
       if (error) {
         showToast("Something went wrong");
       } else {
-        this.getCart();
+        this.getCart(this.props.route.params?.deliverySlotParams);
       }
     }
     
@@ -346,7 +352,7 @@ SS
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );      
       if (fastDeliveryResponse && !error) {
-        this.getCart();     
+        this.getCart('');     
         if (typeof fastDeliveryResponse?.message === 'string') {
           this.setState({ fastDeliveryApplied: true });
         }
@@ -368,7 +374,7 @@ SS
       );      
       if (fastDeliveryResponse && !error) {
         this.setState({ fastDeliveryApplied: false });
-        this.getCart();   
+        this.getCart(this.props.route.params?.deliverySlotParams);   
   
         if (typeof fastDeliveryResponse?.message === 'string') {
           this.setState({ fastDeliveryApplied: false });
@@ -464,7 +470,7 @@ SS
     );
     runEngine.sendMessage(PersonalDetails.id, PersonalDetails);
   }
-  async getCart(deliverytype?:string) {
+  async getCart(deliverySlotParams:string) {
     this.setState({ showLoader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -472,12 +478,11 @@ SS
       token: data?.meta?.token,
     };
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
-
     this.getCartId = subcategory.messageId;
 
     subcategory.addData(
       getName(MessageEnum.RestAPIResponceEndPointMessage),
-      `${configJSON.getCart}${this.state.selectedTab}`
+      `${configJSON.getCart}${this.state.selectedTab}${deliverySlotParams}`
     );
 
     subcategory.addData(
@@ -897,6 +902,7 @@ SS
       zip_code: this.state.deliveryDetails?.zip_code || '',
       name: this.state.deliveryDetails?.name || '',
       email:this.state.deliveryDetails?.email || '',
+      deliverySlotParams:this.props.route.params.deliverySlotParams
     }    
   }
   getOrderDetailsArray(orderDetails:any) {
@@ -935,4 +941,6 @@ SS
     }
     return OrderDetailsList;
   }
+
+
 }

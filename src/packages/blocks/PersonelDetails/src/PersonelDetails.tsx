@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Image,
   ImageSourcePropType,
+  StyleSheet
 } from "react-native";
 import { styles } from "./styles";
 import MileStone from "../../../components/src/MilestoneComponent";
-import PersonalDetailsController from "./PersonelDetailsController";
+import PersonalDetailsController,{DeliverySlot} from "./PersonelDetailsController";
 import HeaderWithBackArrowTemplate from "../../../components/src/HeaderWithBackArrowTemplate";
 import MyDetails from "./MyDetails";
 import SavedAddresses from "./SavedAddresses";
@@ -18,7 +19,7 @@ import AvailableSlots from "./AvailableSlots";
 import DoubleButton from "../../../components/src/DoubleButton";
 import DeliveryFeesModal from "./DeliveryFeesModal";
 import CommonLoader from "../../../components/src/CommonLoader";
-import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR } from "../../landingpage/src/assets";
+import { BUTTON_COLOR_PRIMARY, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_PRIMARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
 const deliveryIcon = require('../../../components/src/deliveryIcon.png');
 const pickupIcon = require('../../../components/src/shippingIcon.png');
 const shippingIcon = require('../../../components/src/package.png');
@@ -28,6 +29,7 @@ interface ImageBoxType {
   selected: boolean;
   onpress: () => void;
 }
+
 const ImageBox = ({ text, image, selected, onpress }: ImageBoxType) => (
   
   <TouchableOpacity
@@ -58,9 +60,64 @@ export default class PersonelDetails extends PersonalDetailsController {
     await this.getAvailableSlots();
     await this.getStateList();
     await this.getMerchantAddressList()
+    await this.getDeliverySlot()
   }
+
+  renderSlotitem = ({SlotItem,SlotText,selectedSlotid,currentSlotid,onPress}:
+  {SlotItem:any,SlotText:string,selectedSlotid:string,currentSlotid:string,onPress:Function}) => {
+    const isSelected = currentSlotid === selectedSlotid
+    return(
+    <TouchableOpacity
+      onPress={()=>onPress(SlotItem)}
+      style={{
+        backgroundColor: isSelected ?  BUTTON_COLOR_PRIMARY:BUTTON_COLOR_SECONDARY,
+        ...styles.slot,marginHorizontal:"1%"
+      }}
+    >
+      <Text style={{ color: isSelected ? BUTTON_TEXT_COLOR_PRIMARY : BUTTON_TEXT_COLOR_SECONDARY }}>
+        {SlotText.trim()}
+      </Text>
+    </TouchableOpacity>
+    )
+};
+
+renderSlotSection = () => {
+  if(this.state.selectedTab === 'delivery'){
+    return(<>
+    <View style={styles.seperatorLine}>
+                <Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE DELIVERY SLOT'}</Text>
+            </View>
+              <View
+              style={ownstyles.slotview}
+              >
+            {this.state.deliverySlots.map((item:DeliverySlot)=>
+            this.renderSlotitem({
+              currentSlotid:item.id,
+              selectedSlotid:this.state.selectedDeliverySlot.id,
+              SlotItem:item,onPress:this.selectDeliveryDate,SlotText:item.attributes.date
+            }))
+            }
+            </View>    
+
+             {this.state.selectedDeliverySlot.id.length > 0 ?<Text style={[styles.headerText,{color:TEXT_COLOR}]}>{'CHOOSE TIME SLOT'}</Text>:null} 
+            <View
+              style={ownstyles.slotview}
+              >
+            {this.state.selectedDeliverySlot.attributes.slots.map((item:string)=>
+            this.renderSlotitem({
+              currentSlotid:item.trim(),
+              selectedSlotid:this.state.selectedDeliveryTime,
+              SlotItem:item.trim(),onPress:this.selectTimeSlot,SlotText:item
+            })
+            )}
+            </View>
+            </>)
+  } else return null
+}
+
+
   render() {
-    const { address, phone_number, zip_code, name, email } = this.getUserDetails();
+    const { address, phone_number, zip_code, name, email, deliverySlotParams } = this.getUserDetails();
     const handleCancelPress = () => {
       const handleOkPress = () => this.props.navigation.goBack();
       Alert.alert("Alert", "Are you sure to cancel", [
@@ -155,11 +212,11 @@ export default class PersonelDetails extends PersonalDetailsController {
                     stateList ={this.state.stateList}
                     selectedTab={this.state.selectedTab}
                   />
-                </View>
+                  {this.renderSlotSection()}
+            </View>
               </>
             ) : (
-<>
-
+              <>
               <AvailableSlots 
               address={this.state.addressList[this.state.selectedAddress]?.attributes?.address} 
               list={this.state.availableSlotsList}
@@ -213,7 +270,7 @@ export default class PersonelDetails extends PersonalDetailsController {
               onpressClose={() => this.setState({ show_modal: false })}
               onpressContinue={() => {
                 this.setState({show_modal: false})
-                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,selected:this.state.selectedTab})
+                this.props.navigation.navigate("OrderSummary", {...this.props.route.params,address,phone_number, zip_code,name,email,deliverySlotParams,selected:this.state.selectedTab})
               }}
             />
             <CommonLoader visible={this.state.showLoader} />
@@ -223,3 +280,11 @@ export default class PersonelDetails extends PersonalDetailsController {
     );
   }
 }
+
+const ownstyles = StyleSheet.create({
+slotview:{
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent:"center"
+}
+})
