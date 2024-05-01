@@ -968,29 +968,33 @@ export default class LandingPageController extends BlockComponent<
       showToast("Something went wrong");
     }
     else {
-      console.log('AddToFavRes==', JSON.stringify(AddToFavRes));
 
-      if (AddToFavRes?.message === 'Product removed from favourites') {
-        showToast("Product removed from favourites");
-        this.setState({isProductFavourite:false})
-        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-        if (this.state.isRecommended) { this.getRecommendProduct('')}
-        return;
-      }
-      else if (AddToFavRes?.data) {
-        showToast("Product added to favorites");
-        this.setState({isProductFavourite:true})
-        if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-        if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-        if (this.state.isRecommended) { this.getRecommendProduct('')}
-          
-        
-        return;
-      }
+this.getProductApiCallAsPerScreen(AddToFavRes)
 
     }
   }
+getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
+{
+  if (AddToFavRes?.message === 'Product removed from favourites') {
+    showToast("Product removed from favourites");
+    this.setState({isProductFavourite:false})
+    if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+    if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+    if (this.state.isRecommended) { this.getRecommendProduct('')}
+    return;
+  }
+  else if (AddToFavRes?.data) {
+    showToast("Product added to favorites");
+    this.setState({isProductFavourite:true})
+    if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+    if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+    if (this.state.isRecommended) { this.getRecommendProduct('')}
+      
+    
+    return;
+  }
+}
+
   addProductCallback(error: any, response: any) {
     if (error) {
       console.log('error>>>>>>>>>>>>>>>', error);
@@ -1255,7 +1259,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getProductDetailsByCategoryId(categoryId: number, loader = true,isFave:boolean) {
+  async getProductDetailsByCategoryId(categoryId: number, isFave:boolean,loader = true) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     console.log("isFav++++++++++++++++",isFave);
     
