@@ -1257,7 +1257,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getProductDetailsByCategoryId(categoryId: number, loader = true,isFave:boolean) {
+  async getProductDetailsByCategoryId(categoryId: number,isFave:boolean, loader = true,) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     console.log("isFav++++++++++++++++",isFave);
     
