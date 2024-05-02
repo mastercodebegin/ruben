@@ -31,7 +31,12 @@ const screenProps = {
   id: "Analytics",
   route: {},
 };
-
+interface AnalyticsProps {
+  isChartDisplay: boolean;
+  animalPartCallBack: (item: number) => void;
+  animalSelectedValue: string;
+  visible: boolean;
+}
 interface CatalogImage {
   id: number;
   filename: string;
@@ -190,10 +195,12 @@ defineFeature(feature, (test) => {
   test("User navigates to Analytics", ({ given, when, then }) => {
     let analyticsBlock: ShallowWrapper;
     let instance: Analytics;
-
+    const mockCallBack = jest.fn();
     given("I am a User loading Analytics", () => {
       analyticsBlock = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps}/>
+        <Analytics isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
     });
 
@@ -293,7 +300,9 @@ defineFeature(feature, (test) => {
 
     then("go back navigation", () => {
       analyticsBlock = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
       const touchableOpacity = analyticsBlock.find(
         '[testID="goback_navigation"]'
@@ -304,7 +313,9 @@ defineFeature(feature, (test) => {
     then("load chart data", () => {
       let analyticsWrapper: ShallowWrapper;
       analyticsWrapper = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
       const dataArray = {
         labels: ["08/09", "08/10", "08/11", "08/12", "08/13", "08/14", "08/15"],
@@ -400,7 +411,9 @@ defineFeature(feature, (test) => {
     then("analyticsRes", () => {
       let analyticsWrapper: ShallowWrapper;
       analyticsWrapper = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
       let instanceWapper = analyticsWrapper.instance() as Analytics;
       instanceWapper.analyticsRes({});
@@ -416,7 +429,9 @@ defineFeature(feature, (test) => {
     then("show_calendar", () => {
       let analyticsWrapper: ShallowWrapper;
       analyticsWrapper = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
       const touchableOpacity = analyticsWrapper.find(
         '[testID="show_calendar"]'
@@ -429,7 +444,9 @@ defineFeature(feature, (test) => {
     then("load calendar", () => {
       let analyticsWrapper: ShallowWrapper;
       analyticsWrapper = shallow(
-        <Analytics animalSelectedValue={""} {...screenProps} />
+        <Analytics  isChartDisplay={false}
+        animalPartCallBack={mockCallBack}
+        animalSelectedValue={""} {...screenProps}/>
       );
       const { queryByTestId } = render(<Calendar />);
       const calenarOpen: any = queryByTestId("calendar");
