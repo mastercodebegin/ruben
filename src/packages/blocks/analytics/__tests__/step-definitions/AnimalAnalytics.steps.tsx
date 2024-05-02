@@ -37,7 +37,11 @@ defineFeature(feature, (test) => {
         let instance:AnimalAnalytics; 
 
         given('I am a User loading AnimalAnalytics', () => {
-            analyticsBlock = shallow(<AnimalAnalytics animalSelectedValue={"Cow"} {...screenProps}/>)
+            analyticsBlock = shallow(<AnimalAnalytics
+                isChartDisplay={false}
+                animalPartCallBack={ jest.fn()}
+                animalSelectedValue={"Cow"}
+                {...screenProps} />)
         });
 
         when('I navigate to the AnimalAnalytics', () => {
