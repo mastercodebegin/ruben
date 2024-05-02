@@ -87,6 +87,8 @@ export enum AnimalParts {
   'lambNeck' = 'lambNeck',
   'lambShank' = 'lambShank',
   'lambShoulder' = 'lambShoulder',
+  'lambRibs' = 'lambRibs',
+  'lamHead' = 'lamHead',
 }
 
 export type ChickenParts = AnimalParts.chicken_Defult
@@ -133,7 +135,9 @@ export type CowParts = AnimalParts.chuck
   | AnimalParts.lambLion
   | AnimalParts.lambNeck
   | AnimalParts.lambShank
-  | AnimalParts.lambShoulder;
+  | AnimalParts.lambShoulder
+  | AnimalParts.lambRibs
+  | AnimalParts.lamHead;
 
 
 
@@ -180,6 +184,8 @@ interface S {
   lambNeck: boolean,
   lambShank: boolean,
   lambShoulder: boolean,
+  lamHead: boolean,
+  lambRibs:boolean
 
   pig: boolean;
   pigHead: boolean;
@@ -244,7 +250,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       selectedAnimalPart: '',
       chuck: false,
       markedDays: [],
-      lambDefault: false,
+      lambDefault: true,
       lambBreast: false,
       lambChuck: false,
       lambFlank: false,
@@ -253,6 +259,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
       lambNeck: false,
       lambShank: false,
       lambShoulder: false,
+      lamHead: false,
+      lambRibs:false,
       cowHead: false,
       cow_Defult: true,
       cow_Rib: false,
@@ -1033,6 +1041,9 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }
 
   onLambClick(partOfLamb: LambParts) {
+
+    console.log('partOfLamb======',partOfLamb);
+    
     // this.setState({
     //   lambDefault: false,
     //   lambBreast: false,
@@ -1043,6 +1054,8 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
     //   lambNeck: false,
     //   lambShank: false,
     //   lambShoulder: false,
+    //   lambRibs: false,
+    //   lamHead:false,
     //   [partOfLamb]: true,
     // });
     this.setState((prevState) => ({
@@ -1061,29 +1074,32 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
   }))
     const data = this.state.cuts.find((item: any) => item.cuts_name === partOfLamb);
     this.soldChart(partOfLamb, data);
+
   
     function getLambPartId(partOfLamb: string) {
       switch (partOfLamb) {
         case 'lambHead':
-          return 1;
+          return 0;
         case 'lambNeck':
-          return 2;
+          return 34219;
         case 'lambShoulder':
-          return 3;
+          return 34222;
         case 'lambBreast':
-          return 4;
+          return 0;
         case 'lambChuck':
-          return 5;
+          return 34215;
         case 'lambShank':
           return 6;
         case 'lambLeg':
-          return 7;
+          return 34217;
         case 'lambLoin':
-          return 8;
+          return 34218;
         case 'lambFlank':
-          return 9;
+          return 0;
         case 'lambLion':
           return 10;
+        case 'lambRibs':
+          return 34221;
         default:
           return 8;
       }
