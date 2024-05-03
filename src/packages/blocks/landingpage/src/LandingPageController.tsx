@@ -867,15 +867,18 @@ export default class LandingPageController extends BlockComponent<
         full_name,
         instagram_link,
         phone_number,
-        photo,
+        images,
         whatsapp_link,
         id
       } = profileDetails.data.attributes;
+
+      console.log('profileDetails?.data?.attributes',JSON.stringify(profileDetails?.data?.attributes));
+      
       this.setState({
         about_me, email: email_address,
         facebook_link, name: full_name,
         instagram_link, phone_number: String(phone_number),
-        profileImage: photo?.url,
+        profileImage: images[0]?.url,
         whatsapp_link,
         id: id,
         loader: false
@@ -1555,10 +1558,10 @@ export default class LandingPageController extends BlockComponent<
   }
 
   async updateProfileDetails(firstTime: boolean) {
+
     if (!this.checkValidation()) {
       return
     }
-
 
     this.props.setState({ show_loader: true })
     const userDetails: any = await AsyncStorage.getItem('userDetails');
@@ -1569,6 +1572,10 @@ export default class LandingPageController extends BlockComponent<
       const imageName = this.props.state?.profileImage?.filename ?
         this.props.state?.profileImage?.filename : imagePath.slice(imagePath.lastIndexOf('/') + 1)
       const filename = `${data?.meta?.token}${new Date().getTime()}${imageName}`
+      console.log('photo',imagePath);
+      console.log('photo1',this.props.state?.profileImage?.mime);
+      console.log('filename',filename);
+
       formdata.append('photo', {
         //@ts-ignore
         uri: imagePath,
@@ -1576,6 +1583,8 @@ export default class LandingPageController extends BlockComponent<
         name: filename,
       });
     }
+
+    
     formdata.append("full_name", this.props.state.name);
     formdata.append("email_address", this.props.state.email);
     formdata.append("about_me", this.props.state.about_me);
@@ -1583,6 +1592,7 @@ export default class LandingPageController extends BlockComponent<
     formdata.append("whatsapp_link", this.props.state.whatsapp_link);
     formdata.append("facebook_link", this.props.state.facebook_link);
     formdata.append("phone_number", this.props.state.phone_number);
+
     const header = {
       'token': data?.meta?.token,
     };
@@ -1840,17 +1850,21 @@ export default class LandingPageController extends BlockComponent<
       price, sellingPrice, tax, hsnCode,
       subscription, subscriptionSellingPrice } = this.state.productsList[0]
 
-    if (name.length == 0) { this.showAlert('Please provide title'); return }
-    if (category_id.length == 0) { this.showAlert('Please provide category'); return }
-    if (sub_category_id.length == 0) { this.showAlert('Please provide sub-category'); return }
-    if (price.length == 0) { this.showAlert('Please provide price'); return }
-    if (desciption.length == 0) { this.showAlert('Please provide description'); return }
-    if (images.length == 0) { this.showAlert('Please add image'); return }
+    // if (name.length == 0) { this.showAlert('Please provide title'); return }
+    // if (category_id.length == 0) { this.showAlert('Please provide category'); return }
+    // if (sub_category_id.length == 0) { this.showAlert('Please provide sub-category'); return }
+    // if (price.length == 0) { this.showAlert('Please provide price'); return }
+    // if (desciption.length == 0) { this.showAlert('Please provide description'); return }
+    // if (images.length == 0) { this.showAlert('Please add image'); return }
+    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.imagePath);
+    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.mime);
+    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.filename);
+    const filename = `${data?.meta?.token}${new Date().getTime()}`
     const formData = new FormData();
-    formData.append("name", name)
-    formData.append("category_id", "484")
+    formData.append("name", 'name'+name)
+    formData.append("category_id", "674")
     formData.append("sub_category_id", "34214")
-    formData.append("description", desciption)
+    formData.append("description", ''+desciption)
     formData.append("price", price)
     formData.append("sale_price", sellingPrice)
     formData.append("taxableAmount", tax)
@@ -1859,6 +1873,24 @@ export default class LandingPageController extends BlockComponent<
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
     formData.append("images", this.state.productsList[0].images[0])
+    formData.append('images', {
+      uri: this.state.productsList[0].images[0].imagePath,
+      type: this.state.productsList[0].images[0].mime,
+      name: filename
+    });
+
+    // formData.append("name", name)
+    // formData.append("category_id", "484")
+    // formData.append("sub_category_id", "34214")
+    // formData.append("description", desciption)
+    // formData.append("price", price)
+    // formData.append("sale_price", sellingPrice)
+    // formData.append("taxableAmount", tax)
+    // formData.append("hsnCode", hsnCode)
+    // formData.append("subscription", subscription)
+    // formData.append("subscription_selling_price", subscriptionSellingPrice)
+    // formData.append("free_delivery", "Yes")
+    // formData.append("images", this.state.productsList[0].images[0])
 
 
 
@@ -1869,7 +1901,13 @@ export default class LandingPageController extends BlockComponent<
       formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
       formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
-      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0])
+      formData.append(`catalogue_variants_attributes[${index}][images]`, 
+      {
+        uri: this.state.productsList[0].images[0].imagePath,
+        type: this.state.productsList[0].images[0].mime,
+        name: filename
+      }
+      )
     }
 
 
