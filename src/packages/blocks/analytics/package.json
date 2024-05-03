@@ -80,8 +80,8 @@
       "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|react-navigation|@react-navigation|@react-native-firebase|d3-shape|d3-path/.*))"
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!((jest-)?react-native|react-navigation|@react-navigation|@react-native-firebase|d3-shape|d3|internmap|delaunator|robust-predicates))"
     ],
     "testPathIgnorePatterns": [
       "\\.snap$",
