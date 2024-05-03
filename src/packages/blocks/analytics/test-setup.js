@@ -24,3 +24,13 @@ jest.mock("../../components/src/utils", () => ({
     }),
     setItem: jest.fn(),
   }));
+  jest.mock('@react-native-firebase/analytics', () => (
+    {
+      __esModule: true,
+      default: () => ({
+        requestPermission: jest.fn(),
+        onTokenRefresh: jest.fn()
+      }),
+    }))  
+    
+  
