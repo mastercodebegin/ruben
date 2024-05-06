@@ -10,6 +10,7 @@ import { runEngine } from "../../../framework/src/RunEngine";
 import { imgPasswordInVisible, imgPasswordVisible } from "./assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { store } from "./../../../components/src/utils";
+import { Alert } from "react-native";
 export const configBase = require('../../../framework/src/config')
 // Customizable Area End
 
@@ -60,6 +61,7 @@ interface S {
   expirtyDate: string;
   cvv: string;
   isOrderSuccess: boolean;
+  savedCards:Array<{}>
   paymentMethodType: "Card" | "Cod";
   paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   // Customizable Area Start
@@ -93,6 +95,7 @@ export default class StripeIntegrationController extends BlockComponent<
     ];
 
     this.state = {
+      savedCards:[{cardNumber:'5644',name:'Alex'},{cardNumber:'8965',name:'Smith'}],
       txtInputValue: "",
       txtSavedValue: "A",
       enableField: false,
@@ -119,6 +122,8 @@ export default class StripeIntegrationController extends BlockComponent<
   }
   paymentId: string = '';
   codId: string = '';
+  saveCardApiCallId: string = '';
+  getSavedCardsCallId: string = '';
 
   async receive(from: string, message: Message) {
     runEngine.debugLog("Message Recived", message);
@@ -154,7 +159,8 @@ export default class StripeIntegrationController extends BlockComponent<
         this.setState({ paymentAlerttype: "PaymentSuccess" })
         this.handlePaymentSuccess()
       }
-    } else if (
+    } 
+    else if (
       getName(MessageEnum.RestAPIResponceMessage) === message.id &&
       this.codId != null &&
       this.codId ===
@@ -174,6 +180,28 @@ export default class StripeIntegrationController extends BlockComponent<
       }else  {
         this.setState({ paymentAlerttype: "ThankYouForYourOder" })
         this.handlePaymentSuccess()
+      } 
+    }
+    else if (
+      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+      this.saveCardApiCallId != null &&
+      this.saveCardApiCallId ===
+      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+    ) {
+      let saveCards = message.getData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage)
+      );
+
+      let error = message.getData(
+        getName(MessageEnum.RestAPIResponceErrorMessage)
+      );
+      
+      if (error) {
+        console.log('error res',error);
+
+      }else  {
+        console.log('sacecards res',saveCards);
+        
       } 
     }
     // Customizable Area Start
@@ -238,8 +266,64 @@ export default class StripeIntegrationController extends BlockComponent<
   // Customizable Area Start
 
   onSaveCard(){
-    this.setState({saveCard:!this.state.saveCard})
+    if(this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "" ){
+      return Alert.alert("Alert", "Please enter correct card details");
+    }
+    else if (this.state.cardNumber.length !== 19) {
+      return Alert.alert("Alert", "Please enter a valid card number");
+    }
+    else if (this.state.expirtyDate.length !== 5) {
+      return Alert.alert("Alert", "Please enter a valid expiry date");
+    } 
+    else if (this.state.cvv.length !== 3) {
+      return Alert.alert("Alert", "Please enter a valid CVV");
   }
+  else{
+    this.setState({saveCard:!this.state.saveCard})
+    this.saveCardApiCalled(78);
+  }
+  }
+  async saveCardApiCalled(order_id: number) {
+    console.log('expirary',this.state.expirtyDate);
+    
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+      "Content-Type": "application/json"
+    };
+
+    const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.saveCardApiCallId = subcategory.messageId;
+    let raw = JSON.stringify({
+      "payments":{
+        "exp_month":this.state.expirtyDate,
+        "exp_year": 2024,
+        "cvc": 314,
+        "number":"4242 4242 4242 4242",
+        "name": "alexa"
+    }
+    });
+    subcategory.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      `bx_block_stripe_integration/payments/save`
+    );
+
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestBodyMessage),
+      raw
+    );
+    subcategory.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.exampleAPiMethod
+    );
+    runEngine.sendMessage(subcategory.id, subcategory);
+  }
+
   async paymentApi(payment_methods: string, order_id: number) {
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
@@ -311,6 +395,29 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.sendMessage(subcategory.id, subcategory);
   }
 
+  async getSavedCards(cardId:string) {
+    //this.setState({ show_loader: true });
+    const userDetails: any = await AsyncStorage.getItem("userDetails");
+    const data: any = JSON.parse(userDetails);
+    const headers = {
+      token: data?.meta?.token,
+    };
+    const getSavedCards = new Message(getName(MessageEnum.RestAPIRequestMessage));
+    this.getSavedCardsCallId = getSavedCards.messageId;
+    getSavedCards.addData(
+      getName(MessageEnum.RestAPIResponceEndPointMessage),
+      'bx_block_stripe_integration/payments/retrive?customer='+cardId
+    );
+    getSavedCards.addData(
+      getName(MessageEnum.RestAPIRequestHeaderMessage),
+      JSON.stringify(headers)
+    );
+    getSavedCards.addData(
+      getName(MessageEnum.RestAPIRequestMethodMessage),
+      configJSON.validationApiMethodType
+    );
+    runEngine.sendMessage(getSavedCards.id, getSavedCards);
+  }
   async getPaymentMethod(card: string, cvv:string, month:string, year:string, test=false) {
     let myHeaders: any; 
     if (test === false) {

@@ -2134,7 +2134,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
   }
 
   async getCart() {
-    this.setState({ show_loader: true });
+    //this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
