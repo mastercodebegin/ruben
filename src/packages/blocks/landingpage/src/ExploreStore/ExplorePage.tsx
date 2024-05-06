@@ -26,6 +26,7 @@ import SortingDropdown from "../../../../components/src/SortingDropdown";
 import AnimalPig from "../../../analytics/src/AnimalPig";
 import AnimalChicken from "../../../analytics/src/AnimalChicken";
 import AnimalCow from "../../../../components/src/AnimalCow";
+import AnimalLamb from "../../../../components/src/AnimalLamb";
 
 export class ExplorePage extends LandingPageController {
   constructor(props: any) {
@@ -33,19 +34,19 @@ export class ExplorePage extends LandingPageController {
     this.receive = this.receive.bind(this);
   }
   async componentDidMount() {
-    this.getCategory.bind(this)(1);
+   this.getCategory.bind(this)(1);
    this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory = (name: string) => {
+    console.log('name animal-----------------',name);
     
-    if ( name == "angus beef") {
+    if ( name == "Angus beef") {
       console.log('if');
 
       return <AnimalCow animalSelectedValue={this.state.selectedCat} navigation={''} id='3'
         isChartDisplay={false}
         animalPartCallBack={
           (item: number) =>
-            //this.getProductByCategory()
             this.getProductBySubcategory(item)
         }
       />
@@ -58,8 +59,20 @@ export class ExplorePage extends LandingPageController {
         }
       />)
     }
+
     else if (name == 'chicken') {
       return <AnimalChicken animalSelectedValue={this.state.selectedCat} id="8"
+        navigation={null}
+        isChartDisplay={false}
+        animalPartCallBack={(item: number) =>
+          this.getProductBySubcategory(item)
+
+        } />
+    }
+    else{
+      console.log('lamb====');
+      
+      return <AnimalLamb animalSelectedValue={this.state.selectedCat} id="8"
         navigation={null}
         isChartDisplay={false}
         animalPartCallBack={(item: number) =>
@@ -207,7 +220,7 @@ export class ExplorePage extends LandingPageController {
                   );
                 }}
               />
-              {this.getAnimalByCategory(this.state.selectedCat.toLocaleLowerCase())}
+              {this.getAnimalByCategory(this.state.selectedCat)}
 
               <FlatList
                 data={this.state.searchResults}

@@ -140,8 +140,7 @@ export default class Myprofile extends LandingPageController {
       name: item?.attributes?.categoryCode,
       image:item?.attributes?.productImage ,
       isFavourite:item?.attributes?.favouriteable_enable,
-
-      isRecommendations: true,
+mmendations: true,
       productList:[item]
     }
     )
@@ -159,7 +158,6 @@ export default class Myprofile extends LandingPageController {
     }
   }
   renderItem({ item }: any) {
-    
     const props = this.state.selectedTab === 'MyFavoritesScreen' ? {
       name: item?.attributes?.catalogue_id?.data?.attributes?.categoryCode,
       image:

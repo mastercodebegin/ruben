@@ -971,32 +971,34 @@ export default class LandingPageController extends BlockComponent<
       showToast("Something went wrong");
     }
     else {
-      this.getProductsApiCallAsPerScreen(AddToFavRes)
 
-      
-    }
-  }
-  getProductsApiCallAsPerScreen(AddToFavRes:{message:string,data:object}){
-    if (AddToFavRes?.message === 'Product removed from favourites') {
-      showToast("Product removed from favourites");
-      this.setState({isProductFavourite:false})
-      if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-      if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-      if (this.state.isRecommended) { this.getRecommendProduct('')}
-      return;
-    }
-    else if (AddToFavRes?.data) {
-      showToast("Product added to favorites");
-      this.setState({isProductFavourite:true})
-      if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
-      if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
-      if (this.state.isRecommended) { this.getRecommendProduct('')}
-        
-      
-      return;
+this.getProductApiCallAsPerScreen(AddToFavRes)
+
     }
   
   }
+getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
+{
+  if (AddToFavRes?.message === 'Product removed from favourites') {
+    showToast("Product removed from favourites");
+    this.setState({isProductFavourite:false})
+    if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+    if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+    if (this.state.isRecommended) { this.getRecommendProduct('')}
+    return;
+  }
+  else if (AddToFavRes?.data) {
+    showToast("Product added to favorites");
+    this.setState({isProductFavourite:true})
+    if (!this.state.isFavouriteFunctionCallingFromProfile) { this.getProductList(true) }
+    if (this.state.isFavouriteFunctionCallingFromProfile) {this.getFavorites()}
+    if (this.state.isRecommended) { this.getRecommendProduct('')}
+      
+    
+    return;
+  }
+}
+
   addProductCallback(error: any, response: any) {
     if (error) {
       console.log('error>>>>>>>>>>>>>>>', error);
@@ -1260,7 +1262,7 @@ export default class LandingPageController extends BlockComponent<
     runEngine.sendMessage(getValidationsMsg.id, getValidationsMsg);
   }
 
-  async getProductDetailsByCategoryId(categoryId: number,isFave:boolean, loader = true,) {
+  async getProductDetailsByCategoryId(categoryId: number, isFave:boolean,loader = true) {
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     console.log("isFav++++++++++++++++",isFave);
     
@@ -1872,25 +1874,7 @@ export default class LandingPageController extends BlockComponent<
     formData.append("subscription", subscription)
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
-    formData.append("images", this.state.productsList[0].images[0])
-    formData.append('images', {
-      uri: this.state.productsList[0].images[0].imagePath,
-      type: this.state.productsList[0].images[0].mime,
-      name: filename
-    });
-
-    // formData.append("name", name)
-    // formData.append("category_id", "484")
-    // formData.append("sub_category_id", "34214")
-    // formData.append("description", desciption)
-    // formData.append("price", price)
-    // formData.append("sale_price", sellingPrice)
-    // formData.append("taxableAmount", tax)
-    // formData.append("hsnCode", hsnCode)
-    // formData.append("subscription", subscription)
-    // formData.append("subscription_selling_price", subscriptionSellingPrice)
-    // formData.append("free_delivery", "Yes")
-    // formData.append("images", this.state.productsList[0].images[0])
+    formData.append("images", this.state.productsList[0].images[0].file)
 
 
 
@@ -1901,13 +1885,7 @@ export default class LandingPageController extends BlockComponent<
       formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
       formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
-      formData.append(`catalogue_variants_attributes[${index}][images]`, 
-      {
-        uri: this.state.productsList[0].images[0].imagePath,
-        type: this.state.productsList[0].images[0].mime,
-        name: filename
-      }
-      )
+      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0].file)
     }
 
 
