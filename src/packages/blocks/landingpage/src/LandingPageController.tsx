@@ -1861,7 +1861,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.imagePath);
     console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.mime);
     console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.filename);
-    const filename = `${data?.meta?.token}${new Date().getTime()}`
+    const filename = `${new Date().getTime()}`
     const formData = new FormData();
     formData.append("name", 'name'+name)
     formData.append("category_id", "674")
@@ -1874,7 +1874,26 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     formData.append("subscription", subscription)
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
-    formData.append("images", this.state.productsList[0].images[0].file)
+    const image = this.state.productsList[0].images[0];
+    
+    // Convert the image data into a Blob
+    const blob = await fetch(image.uri).then(response => response.blob());
+    
+    // Append the Blob to FormData
+    formData.append('images', blob, filename);
+
+    // formData.append("name", name)
+    // formData.append("category_id", "484")
+    // formData.append("sub_category_id", "34214")
+    // formData.append("description", desciption)
+    // formData.append("price", price)
+    // formData.append("sale_price", sellingPrice)
+    // formData.append("taxableAmount", tax)
+    // formData.append("hsnCode", hsnCode)
+    // formData.append("subscription", subscription)
+    // formData.append("subscription_selling_price", subscriptionSellingPrice)
+    // formData.append("free_delivery", "Yes")
+    // formData.append("images", this.state.productsList[0].images[0])
 
 
 
@@ -1885,7 +1904,9 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
       formData.append(`catalogue_variants_attributes[${index}][itemNo]`, obj.itemCode)
       formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
-      formData.append(`catalogue_variants_attributes[${index}][images]`, this.state.productsList[0].images[0].file)
+      formData.append(`catalogue_variants_attributes[${index}][images]`, 
+       this.state.productsList[0].images[0]
+      )
     }
 
 

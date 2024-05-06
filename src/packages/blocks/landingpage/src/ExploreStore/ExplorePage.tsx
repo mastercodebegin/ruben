@@ -34,8 +34,8 @@ export class ExplorePage extends LandingPageController {
     this.receive = this.receive.bind(this);
   }
   async componentDidMount() {
-   this.getCategory.bind(this)(1);
-   this.getProductList(this.state.sortAscending);
+    this.getCategory.bind(this)(1);
+   //this.getProductList(this.state.sortAscending);
   }
   getAnimalByCategory = (name: string) => {
     console.log('name animal-----------------',name);

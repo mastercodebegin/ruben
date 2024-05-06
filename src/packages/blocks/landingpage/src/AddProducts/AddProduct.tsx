@@ -53,7 +53,7 @@ export default class AddProducts extends LandingPageController {
     this.receive = this.receive.bind(this);
   }
   async componentDidMount() {
-    this.getCategory.bind(this)(1)
+    // this.getCategory.bind(this)(1)
   }
   componentDidUpdate(): void {
    // console.log('state---', JSON.stringify(this.state.productsList));
@@ -91,55 +91,55 @@ export default class AddProducts extends LandingPageController {
     this.setState({ productsList: updatedProductsList });
   }
 
-  updateVariantImage = (index:number, newImage:object) => {
+  updateVariantImage = (index: number, newImage: object) => {
 
-console.log('index',index);
+    console.log('index', index);
 
     // Copy the variants array of the first product
-    console.log('tempVariantArr1',JSON.stringify(this.state.productsList[0].variants));
+    console.log('tempVariantArr1', JSON.stringify(this.state.productsList[0].variants));
 
     const tempVariantArr = [...this.state.productsList[0].variants];
 
     const updatedVariants = tempVariantArr[index];
-    console.log('updatedVariants============',updatedVariants);
+    console.log('updatedVariants============', updatedVariants);
 
-    const obj={...updatedVariants,image:newImage}
-    console.log('obj============',obj);
-    
-     tempVariantArr.splice(index,1,obj)
-    const data={...this.state.productsList[0],variants:tempVariantArr}
+    const obj = { ...updatedVariants, image: newImage }
+    console.log('obj============', obj);
 
-  console.log('tempVariantArr',JSON.stringify(tempVariantArr));
-  this.setState({productsList:[data]})
-  
-  
+    tempVariantArr.splice(index, 1, obj)
+    const data = { ...this.state.productsList[0], variants: tempVariantArr }
+
+    console.log('tempVariantArr', JSON.stringify(tempVariantArr));
+    this.setState({ productsList: [data] })
+
+
   }
 
 
-  removeVariantImage = (index:number, newImage:object) => {
+  removeVariantImage = (index: number, newImage: object) => {
 
-    console.log('index',index);
-    
-        // Copy the variants array of the first product
-        console.log('tempVariantArr1',JSON.stringify(this.state.productsList[0].variants));
-    
-        const tempVariantArr = [...this.state.productsList[0].variants];
-    
-        const updatedVariants = tempVariantArr[index];
-        console.log('updatedVariants============',updatedVariants);
-    
-        const obj={...updatedVariants,image:newImage}
-        console.log('obj============',obj);
-        
-         tempVariantArr.splice(index,1,obj)
-        const data={...this.state.productsList[0],variants:tempVariantArr}
-    
-      console.log('tempVariantArr',JSON.stringify(tempVariantArr));
-      this.setState({productsList:[data]})
-      
-      
-      }
-  
+    console.log('index', index);
+
+    // Copy the variants array of the first product
+    console.log('tempVariantArr1', JSON.stringify(this.state.productsList[0].variants));
+
+    const tempVariantArr = [...this.state.productsList[0].variants];
+
+    const updatedVariants = tempVariantArr[index];
+    console.log('updatedVariants============', updatedVariants);
+
+    const obj = { ...updatedVariants, image: newImage }
+    console.log('obj============', obj);
+
+    tempVariantArr.splice(index, 1, obj)
+    const data = { ...this.state.productsList[0], variants: tempVariantArr }
+
+    console.log('tempVariantArr', JSON.stringify(tempVariantArr));
+    this.setState({ productsList: [data] })
+
+
+  }
+
 
   render() {
     return (
@@ -278,7 +278,7 @@ console.log('index',index);
                     }}
                     style={[styles.textInput, { height: 70 }]}
                   />
-                <Text style={styles.label}>{` Price`}</Text>
+                  <Text style={styles.label}>{` Price`}</Text>
                   <View style={styles.priceTextInput}>
                     <TextInput
                       //@ts-ignore
@@ -294,7 +294,7 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                  </View> 
+                  </View>
 
                   <Text style={styles.label}>{`Selling Price`}</Text>
                   <View style={styles.priceTextInput}>
@@ -312,7 +312,7 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                  </View> 
+                  </View>
 
                   <Text style={styles.label}>{` Tax`}</Text>
                   <View style={styles.priceTextInput}>
@@ -330,7 +330,7 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                  </View> 
+                  </View>
 
                   <Text style={styles.label}>{` HSN Code`}</Text>
                   <View style={styles.priceTextInput}>
@@ -348,19 +348,19 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                  </View> 
+                  </View>
 
 
                   <Text style={styles.label}>{`Subscription`}</Text>
 
-                   <View style={styles.dropdownContainer}>
+                  <View style={styles.dropdownContainer}>
                     <Dropdown
                       style={styles.dropdown}
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
                       containerStyle={styles.containerStyle}
-                      data={[{id:'1',title:'Yes'},{id:'1',title:'No'}]}
+                      data={[{ id: '1', title: 'Yes' }, { id: '1', title: 'No' }]}
                       maxHeight={400}
                       itemContainerStyle={{ padding: 8, paddingLeft: 20 }}
                       labelField="title"
@@ -405,7 +405,7 @@ console.log('index',index);
                       }}
                       style={[styles.textInput, styles.priceText]}
                     />
-                  </View> 
+                  </View>
                   <Text style={styles.label}>{` Free Delivery `}</Text>
 
                   <View style={styles.dropdownContainer}>
@@ -457,17 +457,17 @@ console.log('index',index);
                         onPress={() =>
                           this.selectImage.bind(this)(
                             (res) => {
-                              console.log('res===',res);
-                              
+                              console.log('res===', res);
+
                               const list = this.state.productsList;
-                              console.log('list1===',list);
+                              console.log('list1===', list);
 
                               list[index] = {
                                 ...list[index],
                                 //@ts-ignore
                                 images: [...list[index].images, res],
                               };
-                              console.log('list===',list);
+                              console.log('list===', list);
 
                               this.setState({ productsList: list });
                             },
@@ -482,17 +482,17 @@ console.log('index',index);
                     }}
                     horizontal
                     renderItem={(prop: any) => {
-                      console.log('props===1',prop);
-                      
+                      console.log('props===1', prop);
+
                       return (
                         <ImageBackground
                           source={{ uri: Platform.OS === 'ios' ? `file://${prop.item?.path}` : prop.item?.path }}
                           style={styles.imagesContainer}>
                           <TouchableOpacity onPress={() => {
-                            
+
                             const imageList = [...item.images]
-                            console.log('imgelist==',imageList);
-                            
+                            console.log('imgelist==', imageList);
+
                             imageList.splice(prop.index, 1)
                             const list = this.state.productsList;
                             list[index] = {
@@ -506,14 +506,14 @@ console.log('index',index);
                           </TouchableOpacity>
                         </ImageBackground>
                       )
-                    }} /> 
+                    }} />
 
                   {/************************* variant start ************************ */}
 
 
                   <FlatList
                     data={this.state.productsList[0].variants}
-                    renderItem={({ item,index }) =>
+                    renderItem={({ item, index }) =>
                       <View style={{ flex: 1, marginTop: 20 }}>
                         <View style={{ height: 40, flexDirection: 'row' }}>
 
@@ -551,7 +551,7 @@ console.log('index',index);
                           value={item.title}
                           style={styles.textInput}
                         />
-                         <Text style={styles.label}>{`Weight (in lbs)`}</Text>
+                        <Text style={styles.label}>{`Weight (in lbs)`}</Text>
                         <TextInput
                           //@ts-ignore
                           value={item.title}
@@ -576,10 +576,10 @@ console.log('index',index);
                           style={styles.textInput}
                         />
 
-                        
+
                         <Text style={styles.label}>{`UPLOAD_IMAGES`}</Text>
                         <FlatList
-                          data={item.image.path?[item.image]:[]}
+                          data={item.image.path ? [item.image] : []}
                           keyExtractor={(_, index) => {
                             return String(index)
                           }}
@@ -587,37 +587,37 @@ console.log('index',index);
                           showsHorizontalScrollIndicator={false}
                           ListHeaderComponent={() => {
                             return (
-                            item.image.path?<></>:<TouchableOpacity
-                              style={styles.addImage}
-                              onPress={() =>
-                                this.selectImage.bind(this)(
-                                  (res) => {
-                                    
-                                    this.updateVariantImage(index,res)
-                                  },
-                                  (err) => {
-                                    console.log(err);
-                                    
-                                    Alert.alert('Error', 'Something ')
-                                  }
-                                )
-                              }
-                            >
-                              <Text style={{ color: PRIMARY_COLOR, fontSize: 20 }}>+</Text>
-                            </TouchableOpacity>
+                              item.image.path ? <></> : <TouchableOpacity
+                                style={styles.addImage}
+                                onPress={() =>
+                                  this.selectImage.bind(this)(
+                                    (res) => {
+
+                                      this.updateVariantImage(index, res)
+                                    },
+                                    (err) => {
+                                      console.log(err);
+
+                                      Alert.alert('Error', 'Something ')
+                                    }
+                                  )
+                                }
+                              >
+                                <Text style={{ color: PRIMARY_COLOR, fontSize: 20 }}>+</Text>
+                              </TouchableOpacity>
                             )
                           }}
                           horizontal
                           renderItem={({ item: variant }) => {
-                            console.log('index=====',index);
-                            
+                            console.log('index=====', index);
+
                             return (
                               <ImageBackground
                                 source={{ uri: Platform.OS === 'ios' ? `file://${variant?.path}` : variant?.path }}
                                 style={styles.imagesContainer}>
                                 <TouchableOpacity onPress={() => {
-                                 this.removeVariantImage(index,{})
-                                  }} style={styles.closeContainer}>
+                                  this.removeVariantImage(index, {})
+                                }} style={styles.closeContainer}>
                                   <View style={styles.blur} />
                                   <Image resizeMode="contain" style={styles.closeIcon} source={close} />
                                 </TouchableOpacity>
