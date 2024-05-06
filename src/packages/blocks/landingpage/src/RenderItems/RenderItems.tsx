@@ -57,7 +57,7 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  console.log(item);
+  console.log('++++++++++++++++++++++++++++++++++++++++++',item);
   
   
   return (
@@ -71,7 +71,7 @@ const RenderItem = ({
           price:item?.attributes?.catalogue_variants[0].attributes.price,
           isFavourite: item?.attributes?.favouriteable_enable,
           image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
-          productList:productList
+          productList:[item]
         })
       }
       style={styles.renderContainer}
@@ -125,13 +125,13 @@ source={item?.attributes?.productImage ? {uri:item.attributes.productImage} :bac
           <TouchableOpacity
             testID={"add_to_cart_id_" + index}
             onPress={() =>
-              navigation.navigate("ProductDetailScreen", {
+                navigation.navigate("ProductDetailScreen", {
                 id: item?.id,
                 description: isSearch ? item?.description : item?.attributes?.description,
                 name:  isSearch ? item?.categoryCode :item?.attributes?.categoryCode,
                 price:  isSearch ? item?.price :item?.attributes?.price,
                 image:item?.attributes?.productImage ? {uri:item.attributes.productImage} :backGroundImage,
-                productList:productList
+                productList:[item]
               })
             }
             style={styles.cartContainer}
