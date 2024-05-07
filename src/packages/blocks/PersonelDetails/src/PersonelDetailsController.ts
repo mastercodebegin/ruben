@@ -152,7 +152,6 @@ export default class PersonelDetailsController extends BlockComponent<
           !error &&
           stateList
         ) {
-          console.log('state++++++++++++++++++++++++++++',stateList);
           let arr =[]
           for(const state of stateList)
           {
@@ -301,8 +300,12 @@ export default class PersonelDetailsController extends BlockComponent<
       
       if (!error && response && response.data) {
         this.setState({ showLoader: false, deliverySlots:response.data});
+        console.log('DELIVERYS SLOTS==============',response);
+        
       } 
       else {
+        console.log('DELIVERYS SLOTS ERROR==============',error);
+
         this.setState({ showLoader: false});
       }
     } else if ( getName(MessageEnum.RestAPIResponceMessage) === message.id &&

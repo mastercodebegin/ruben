@@ -57,7 +57,6 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  console.log('++++++++++++++++++++++++++++++++++++++++++',item);
   
   
   return (

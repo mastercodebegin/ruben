@@ -62,6 +62,7 @@ interface S {
   cvv: string;
   isOrderSuccess: boolean;
   savedCards:Array<{}>
+  cardId:number
   paymentMethodType: "Card" | "Cod";
   paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   // Customizable Area Start
@@ -95,7 +96,8 @@ export default class StripeIntegrationController extends BlockComponent<
     ];
 
     this.state = {
-      savedCards:[{cardNumber:'5644',name:'Alex'},{cardNumber:'8965',name:'Smith'}],
+      cardId:0,
+      savedCards:[],
       txtInputValue: "",
       txtSavedValue: "A",
       enableField: false,
@@ -150,7 +152,8 @@ export default class StripeIntegrationController extends BlockComponent<
       let error = message.getData(
         getName(MessageEnum.RestAPIResponceErrorMessage)
       );
-      console.log("check paymentData", paymentData.errors);
+      console.log("check paymentData", paymentData);
+      console.log("check paymentData error", error);
       
       if (paymentData.errors || error) {
         this.setState({ paymentAlerttype: "PaymentFailed" })
@@ -182,31 +185,59 @@ export default class StripeIntegrationController extends BlockComponent<
         this.handlePaymentSuccess()
       } 
     }
-    else if (
-      getName(MessageEnum.RestAPIResponceMessage) === message.id &&
-      this.saveCardApiCallId != null &&
-      this.saveCardApiCallId ===
-      message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
-    ) {
-      let saveCards = message.getData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage)
-      );
-
-      let error = message.getData(
-        getName(MessageEnum.RestAPIResponceErrorMessage)
-      );
-      
-      if (error) {
-        console.log('error res',error);
-
-      }else  {
-        console.log('sacecards res',saveCards);
-        
-      } 
-    }
+   this.subAsync(message)
+    
     // Customizable Area Start
     // Customizable Area End
   }
+
+subAsync(message:Message){
+   if (
+    getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.getSavedCardsCallId != null &&
+    this.getSavedCardsCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+  ) {
+    let saveCards = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    
+    if (error) {
+      console.log('getSavedCardsCallId error res',error);
+
+    }else  {
+      console.log('getSavedCardsCallId res',saveCards);
+      this.setState({savedCards:saveCards})
+    } 
+  }
+  else if (
+    getName(MessageEnum.RestAPIResponceMessage) === message.id &&
+    this.saveCardApiCallId != null &&
+    this.saveCardApiCallId ===
+    message.getData(getName(MessageEnum.RestAPIResponceDataMessage))
+  ) {
+    let saveCards = message.getData(
+      getName(MessageEnum.RestAPIResponceSuccessMessage)
+    );
+
+    let error = message.getData(
+      getName(MessageEnum.RestAPIResponceErrorMessage)
+    );
+    
+    if (error) {
+      console.log('error res',error);
+
+    }else  {
+      console.log('sacecards res',saveCards?.customer);
+      this.getSavedCards(saveCards?.customer)
+      
+    } 
+  }
+}
 
   txtInputWebProps = {
     onChangeText: (text: string) => {
@@ -283,6 +314,12 @@ export default class StripeIntegrationController extends BlockComponent<
     this.saveCardApiCalled(78);
   }
   }
+  changeCard(data:object){
+console.log('data==========',data);
+this.setState({cardNumber:data.card_number,cardName:data.name,cardId:data.card_number})
+
+
+  }
   async saveCardApiCalled(order_id: number) {
     console.log('expirary',this.state.expirtyDate);
     
@@ -295,13 +332,15 @@ export default class StripeIntegrationController extends BlockComponent<
 
     const subcategory = new Message(getName(MessageEnum.RestAPIRequestMessage));
     this.saveCardApiCallId = subcategory.messageId;
+    console.log('expiry date',this.state.expirtyDate);
+    
     let raw = JSON.stringify({
       "payments":{
-        "exp_month":this.state.expirtyDate,
+        "exp_month":11,
         "exp_year": 2024,
         "cvc": 314,
         "number":"4242 4242 4242 4242",
-        "name": "alexa"
+        "name": this.state.cardName
     }
     });
     subcategory.addData(

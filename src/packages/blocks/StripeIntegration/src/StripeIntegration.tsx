@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ImageSourcePropType,
   TouchableOpacity,
-  Alert
+  Alert,
+  FlatList
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
 import {
@@ -42,7 +43,7 @@ interface ImageBoxType {
   image: ImageSourcePropType;
   selected: boolean;
   onpress: () => void;
-  
+
 }
 
 import StripeIntegrationController, {
@@ -70,15 +71,20 @@ export default class StripeIntegration extends StripeIntegrationController {
   }
 
   // Customizable Area Start
-  
+
   async componentDidMount() {
     const saveCard_Details = await getStorageData("saveCardDetails", true);
-    console.log("saveCard_Details",saveCard_Details);
-    this.setState({cardName:saveCard_Details?.cardName || "",cardNumber:saveCard_Details?.cardNumber || "",cvv:saveCard_Details?.cvv|| "",expirtyDate:saveCard_Details?.expirtyDate|| ""})
+    console.log("saveCard_Details", saveCard_Details);
+    this.setState({ cardName: saveCard_Details?.cardName || "", cardNumber: saveCard_Details?.cardNumber || "", cvv: saveCard_Details?.cvv || "", expirtyDate: saveCard_Details?.expirtyDate || "" })
   }
 
   handleExpiryDate = (text: string) => {
+    console.log('text===', text);
+
     let year: string = moment().format("YY");
+    console.log('year', year);
+
+
     let textTemp: any = text;
     if (textTemp[0] !== "1" && textTemp[0] !== "0") {
       textTemp = "";
@@ -135,17 +141,17 @@ export default class StripeIntegration extends StripeIntegrationController {
         this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
           this.handlePaymentSuccess()
         });
-       } else {
+      } else {
         this.setState({ showPaymentAlert: false });
         this.props.navigation.navigate('InvoiceBilling', this.props.route.params);
       }
     } else {
-       if (this.state.paymentAlerttype === "PaymentFailed") {
-        this.setState({showPaymentAlert: false})
-    }
+      if (this.state.paymentAlerttype === "PaymentFailed") {
+        this.setState({ showPaymentAlert: false })
+      }
     }
   }
-   getMeatStorage = ()=>{
+  getMeatStorage = () => {
     if (this.props.route.params.storageClass === "Gold") {
       return 3.99
     } else if (this.props.route.params.storageClass === "Platinum") {
@@ -155,8 +161,8 @@ export default class StripeIntegration extends StripeIntegrationController {
     }
   }
 
-   handleOkPress = () => this.props.navigation.goBack();
-   handleCancelPress = () => {
+  handleOkPress = () => this.props.navigation.goBack();
+  handleCancelPress = () => {
     Alert.alert("Alert", "Are you sure to cancel", [
       { text: "OK", onPress: this.handleOkPress },
       { text: "CANCEL" },
@@ -169,7 +175,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     // Merge Engine - render - Start
 
     return (
-      <SafeAreaView style={[styles.safearea,{backgroundColor:APP_BACKGROUND}]}>
+      <SafeAreaView style={[styles.safearea, { backgroundColor: APP_BACKGROUND }]}>
         <HeaderWithBackArrowTemplate
           headerText="Payment"
           navigation={this.props.navigation}
@@ -192,10 +198,10 @@ export default class StripeIntegration extends StripeIntegrationController {
               <View style={styles.seperatorPayment} />
               <View style={styles.checkContainer}>
                 <View style={styles.addressContainer}>
-                  <TouchableOpacity style={styles.padding} 
-                  testID="cardButton" onPress={() => {
-                    this.setState({ paymentMethodType: "Card" })
-                  }}>
+                  <TouchableOpacity style={styles.padding}
+                    testID="cardButton" onPress={() => {
+                      this.setState({ paymentMethodType: "Card" })
+                    }}>
                     <CheckBox
                       backgroundColor={APP_BACKGROUND}
                       checked={this.state.paymentMethodType === "Card"}
@@ -203,7 +209,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       setChecked={() => { }}
                     />
                   </TouchableOpacity>
-                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>                
+                  <Text style={[styles.question, styles.addressText]}>{`Credit/Debit Card`}</Text>
                 </View>
                 <Text style={{ color: DARK_RED }}>{""}
                 </Text>
@@ -222,6 +228,47 @@ export default class StripeIntegration extends StripeIntegrationController {
                 </View>
               </View>
             </View>
+            <View style={{ height: 4 }}></View>
+            <View style={styles.seperatorPayment} />
+
+            <FlatList
+              data={this.state.savedCards}
+              renderItem={({ item, index }) =>
+                <View>
+                  {index == 0 && <Text style={{
+                    fontSize: 15,
+                    padding:6,
+                    color: TEXT_COLOR,
+                    fontWeight: "bold"
+                  }}>SAVED CARDS</Text>}
+                  <View style={{
+                    flex: 1,
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    padding: 10, flexDirection: 'row'
+                  }}>
+                    <View style={{ marginTop: 3 }}>
+                      <CheckBox
+                        backgroundColor={APP_BACKGROUND}
+                        checked={item?.cardNumber == this.state.cardId ? true : false}
+                        setChecked={() => this.changeCard(item)} />
+                        </View>
+
+                    <Text style={{
+                      fontSize: 15,
+                      color: TEXT_COLOR,
+                      fontWeight: "bold",
+                      marginLeft: 12
+                    }}>{item.name}</Text>
+
+                  </View>
+                  <View style={{ marginLeft: 45 }}>
+                    <Text>{item.card_number}</Text>
+                  </View>
+                </View>
+
+              }
+            />
             {this.state.paymentMethodType === "Card" && (
               <View style={{ paddingTop: 20 }}>
                 <View style={styles.paymentContainer}>
@@ -294,15 +341,15 @@ export default class StripeIntegration extends StripeIntegrationController {
                       </View>
                     </View>
                     <View style={styles.addressContainer}>
-                    <TouchableOpacity style={styles.padding} onPress={()=>{this.onSaveCard()}}>
-                      <CheckBox
-                        backgroundColor={APP_BACKGROUND}
-                        checked={this.state.saveCard}
-                        disabled
-                      />
-                    </TouchableOpacity>
-                    <Text style={[styles.question, styles.addressText]}>Save Card Details</Text>
-                  </View>
+                      <TouchableOpacity style={styles.padding} onPress={() => { this.onSaveCard() }}>
+                        <CheckBox
+                          backgroundColor={APP_BACKGROUND}
+                          checked={this.state.saveCard}
+                          disabled
+                        />
+                      </TouchableOpacity>
+                      <Text style={[styles.question, styles.addressText]}>Save Card Details</Text>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -320,24 +367,24 @@ export default class StripeIntegration extends StripeIntegrationController {
                     ans: this.props.route.params.address,
                   },
                   { question: "Zipcode", ans: this.props.route.params.zip_code },
-                  { question: "Delivery", ans:this.props.route.params.deliveryDate},
+                  { question: "Delivery", ans: this.props.route.params.deliveryDate },
                 ]}
               />
             </View>
             <PaymentDetails
-                header="PAYMENT DETAILS"
-                list={this.props.route?.params.billingDetails || []}
-                footer={{question: "Total", ans: `$${this.props.route?.params?.total}`}}
-                isSubscribed={this.props.route.params.lifetimeSubscriptionCharge}
-                isUserAlreadySubscribed={this.props.route.params.isUserAlreadySubscribed}
-                is24HourDelivery={this.props.route.params.is24HourDelivery}
+              header="PAYMENT DETAILS"
+              list={this.props.route?.params.billingDetails || []}
+              footer={{ question: "Total", ans: `$${this.props.route?.params?.total}` }}
+              isSubscribed={this.props.route.params.lifetimeSubscriptionCharge}
+              isUserAlreadySubscribed={this.props.route.params.isUserAlreadySubscribed}
+              is24HourDelivery={this.props.route.params.is24HourDelivery}
 
-              />
+            />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
-                onPress={async ()=> {
+                onPress={async () => {
                   if (this.state.paymentMethodType === "Card") {
-                    if(this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "" ){
+                    if (this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "") {
                       return Alert.alert("Alert", "Please enter correct card details");
                     }
                     else if (this.state.cardNumber.length !== 19) {
@@ -345,22 +392,11 @@ export default class StripeIntegration extends StripeIntegrationController {
                     }
                     else if (this.state.expirtyDate.length !== 5) {
                       return Alert.alert("Alert", "Please enter a valid expiry date");
-                    } 
+                    }
                     else if (this.state.cvv.length !== 3) {
                       return Alert.alert("Alert", "Please enter a valid CVV");
-                  }
-                    if(this.state.saveCard){ 
-                      showToast("Card details will be automatically removed upon logout for security reasons")           
-                    await setStorageData(
-                      "saveCardDetails",
-                      JSON.stringify({
-                        cardNumber:this.state.cardNumber,
-                        cardName:this.state.cardName,
-                        cvv:this.state.cvv,
-                        expirtyDate:this.state.expirtyDate                  
-                      })
-                    );
                     }
+
                     this.setState({ showPaymentLoading: true })
                     this.setState({ customAlertText: "Payment In Process.." });
                     this.setState({ showPaymentAlert: true })
@@ -374,7 +410,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                     this.setState({ customAlertText: "Order In Process.." });
                     this.codeApiCalled(this.props.route.params.orderId)
                     this.setState({ showPaymentAlert: true })
-                  }  
+                  }
                 }}
                 style={[styles.buttonDouble, styles.button1Style]}
                 testID="doneFirstButtonEvent"
@@ -385,11 +421,11 @@ export default class StripeIntegration extends StripeIntegrationController {
               </TouchableOpacity>
               <TouchableOpacity
                 testID="doneSecondButtonEvent"
-                onPress={() => { 
+                onPress={() => {
                   this.handleCancelPress()
                 }}
                 style={[styles.buttonDouble, styles.button2Style,
-                  {borderWidth:1,borderColor:PRIMARY_COLOR,backgroundColor:BUTTON_COLOR_SECONDARY}]}
+                { borderWidth: 1, borderColor: PRIMARY_COLOR, backgroundColor: BUTTON_COLOR_SECONDARY }]}
               >
                 <Text style={[styles.textStyles, { color: BUTTON_TEXT_COLOR_SECONDARY }]}>
                   {"Cancel"}
@@ -401,10 +437,10 @@ export default class StripeIntegration extends StripeIntegrationController {
         {this.state.showPaymentAlert && (
           <PaymentCustomeAlert visible={this.state.showPaymentAlert} onpressClose={() => {
             this.setState({ showPaymentAlert: false });
-          } } onpressContinue={() => {
+          }} onpressContinue={() => {
             this.handleContinueButton();
-          } } customeText={this.state.customAlertText}
-          isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} testID={"paymentAlert"} />
+          }} customeText={this.state.customAlertText}
+            isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} testID={"paymentAlert"} />
         )}
       </SafeAreaView>
     );
@@ -564,7 +600,7 @@ const styles = StyleSheet.create({
   addressContainer: { flexDirection: "row", alignItems: "center" },
   padding: { padding: 3 },
   addressText: { paddingVertical: 10, paddingLeft: 10 },
-  fetchDetails:{backgroundColor:"#A0272A",borderRadius:5,color:WHITE,paddingHorizontal:10},
+  fetchDetails: { backgroundColor: "#A0272A", borderRadius: 5, color: WHITE, paddingHorizontal: 10 },
   answerContainer: { paddingHorizontal: 20, paddingBottom: 10 },
   checkContainer: { paddingHorizontal: 20 },
   termsAndCondition: { color: "grey", fontSize: 17, paddingVertical: 15 },
@@ -593,7 +629,7 @@ const styles = StyleSheet.create({
   },
   paymentText: { fontSize: 17, color: "grey" },
   paymentContainer: {
-    backgroundColor:WHITE,
+    backgroundColor: WHITE,
     paddingVertical: 20,
     borderRadius: 20,
     paddingTop: 20,
@@ -698,7 +734,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button1Style: { backgroundColor: PRIMARY_COLOR, borderRadius: 30 },
-  containerStyle:{ paddingTop: 20 },
+  containerStyle: { paddingTop: 20 },
 
 });
 // Customizable Area End
