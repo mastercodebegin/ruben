@@ -954,6 +954,7 @@ export default class LandingPageController extends BlockComponent<
       console.log("cartData=============", cartData);
       if (cartData?.errors) {
         showToast("Something went wrong")
+        this.setState({show_loader:false})
         return false;
       }
 
@@ -1864,8 +1865,6 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     const formData = new FormData();
    
     const imagePath = this.state.productsList[0].images[0].path
-    const imageName = this.state.productsList[0].images[0]?.filename ?
-    this.state.productsList[0].images[0].filename : imagePath.slice(imagePath.lastIndexOf('/') + 1)
     formData.append('images', {
       uri: imagePath,
       type: this.state.productsList[0].images[0].mime,
@@ -1882,7 +1881,6 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     formData.append("subscription", subscription)
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
-    const img = this.state.productsList[0].images[0];
     
 
     for (const [index, obj] of this.state.productsList[0].variants.entries()) {
