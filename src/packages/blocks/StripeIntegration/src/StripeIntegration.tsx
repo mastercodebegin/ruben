@@ -52,6 +52,7 @@ import StripeIntegrationController, {
 import PaymentCustomeAlert from "./PaymentCustomeAlert";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { APP_BACKGROUND, BUTTON_COLOR_SECONDARY, BUTTON_TEXT_COLOR_SECONDARY, PRIMARY_COLOR, SECONDARY_COLOR, TEXT_COLOR } from "../../landingpage/src/assets";
+import CommonLoader from "../../../components/src/CommonLoader";
 
 
 export default class StripeIntegration extends StripeIntegrationController {
@@ -374,7 +375,7 @@ export default class StripeIntegration extends StripeIntegrationController {
             <PaymentDetails
               header="PAYMENT DETAILS"
               list={this.props.route?.params.billingDetails || []}
-              footer={{ question: "Total", ans: `$${this.props.route?.params?.total}` }}
+              footer={{ question: "Total", ans: `${this.props.route?.params?.total}` }}
               isSubscribed={this.props.route.params.lifetimeSubscriptionCharge}
               isUserAlreadySubscribed={this.props.route.params.isUserAlreadySubscribed}
               is24HourDelivery={this.props.route.params.is24HourDelivery}
@@ -442,6 +443,7 @@ export default class StripeIntegration extends StripeIntegrationController {
           }} customeText={this.state.customAlertText}
             isLoading={this.state.showPaymentLoading} customeDescription={this.state.customAlertDesc} paymentAlerttype={this.state.paymentAlerttype} testID={"paymentAlert"} />
         )}
+        <CommonLoader visible={this.state.isLoading}/>
       </SafeAreaView>
     );
     // Merge Engine - render - End

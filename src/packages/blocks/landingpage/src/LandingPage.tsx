@@ -38,12 +38,11 @@ export default class LandingPage extends LandingPageController {
     this.props.navigation.navigate("ExplorePage");
   };
   async componentDidMount() {
-    this.props.navigation.navigate("ExplorePage");
-    // super.componentDidMount();
-    // await this.getblogPosts.bind(this)();
-    // this.getCart.bind(this)();
-    // this.getHomePageInfo.bind(this)()
-    // this.setNotificationToken.bind(this)();
+    super.componentDidMount();
+    await this.getblogPosts.bind(this)();
+     this.getCart.bind(this)();
+    this.getHomePageInfo.bind(this)()
+    this.setNotificationToken.bind(this)();
   }
   // Customizable Area End
 

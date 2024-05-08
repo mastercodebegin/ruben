@@ -63,6 +63,7 @@ interface S {
   isOrderSuccess: boolean;
   savedCards:Array<{}>
   cardId:number
+  isLoading:boolean
   paymentMethodType: "Card" | "Cod";
   paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
   // Customizable Area Start
@@ -97,6 +98,7 @@ export default class StripeIntegrationController extends BlockComponent<
 
     this.state = {
       cardId:0,
+      isLoading:false,
       savedCards:[],
       txtInputValue: "",
       txtSavedValue: "A",
@@ -211,7 +213,7 @@ subAsync(message:Message){
 
     }else  {
       console.log('getSavedCardsCallId res',saveCards);
-      this.setState({savedCards:saveCards})
+      this.setState({savedCards:saveCards,isLoading:false})
     } 
   }
   else if (
@@ -311,7 +313,7 @@ subAsync(message:Message){
   }
   else{
     this.setState({saveCard:!this.state.saveCard})
-    this.saveCardApiCalled(78);
+    this.saveCardApiCalled();
   }
   }
   changeCard(data:object){
@@ -320,9 +322,9 @@ this.setState({cardNumber:data.card_number,cardName:data.name,cardId:data.card_n
 
 
   }
-  async saveCardApiCalled(order_id: number) {
+  async saveCardApiCalled() {
     console.log('expirary',this.state.expirtyDate);
-    
+    this.setState({isLoading:true})
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {

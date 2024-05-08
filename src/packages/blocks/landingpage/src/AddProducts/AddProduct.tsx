@@ -457,8 +457,7 @@ export default class AddProducts extends LandingPageController {
                         onPress={() =>
                           this.selectImage.bind(this)(
                             (res) => {
-                              console.log('res===', res);
-
+                   
                               const list = this.state.productsList;
                               console.log('list1===', list);
 

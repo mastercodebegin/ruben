@@ -132,6 +132,7 @@ interface S {
   availableQuantity: number,
   isRecommended:boolean,
   isProductFavourite:boolean
+  imageObj:object
   isFavouriteFunctionCallingFromProfile: boolean
   variantObject: { price: string, productImage: string, quantity: number, variantArray: Array<any>, variantType: string, catalogue_id: number }
   // Customizable Area End
@@ -159,6 +160,7 @@ export default class LandingPageController extends BlockComponent<
 
     this.state = {
       variantId: 0,
+      imageObj:{},
       isProductFavourite:false,
       availableQuantity: 0,
       isRecommended:false,
@@ -1438,7 +1440,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     ImagePicker.openCamera({
       cropping: false,
       mediaType: 'photo',
-      includeBase64: false
+      includeBase64: true
     }).then((image) => {
       callBack(image)
     }).catch(e => error(e))
@@ -1448,7 +1450,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     ImagePicker.openPicker({
       cropping: false,
       mediaType: 'photo',
-      includeBase64: false
+      includeBase64: true
     }).then((image) => {
       callBack(image)
     }).catch(e => {
@@ -1858,11 +1860,20 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     // if (price.length == 0) { this.showAlert('Please provide price'); return }
     // if (desciption.length == 0) { this.showAlert('Please provide description'); return }
     // if (images.length == 0) { this.showAlert('Please add image'); return }
-    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.imagePath);
-    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.mime);
-    console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.filename);
+    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.imagePath);
+    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.mime);
+    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.filename);
     const filename = `${new Date().getTime()}`
     const formData = new FormData();
+   
+    const imagePath = this.state.productsList[0].images[0].path
+    const imageName = this.state.productsList[0].images[0]?.filename ?
+    this.state.productsList[0].images[0].filename : imagePath.slice(imagePath.lastIndexOf('/') + 1)
+    formData.append('images', {
+      uri: imagePath,
+      type: this.state.productsList[0].images[0].mime,
+      name: filename,
+    });
     formData.append("name", 'name'+name)
     formData.append("category_id", "674")
     formData.append("sub_category_id", "34214")
@@ -1874,13 +1885,13 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     formData.append("subscription", subscription)
     formData.append("subscription_selling_price", subscriptionSellingPrice)
     formData.append("free_delivery", "Yes")
-    const image = this.state.productsList[0].images[0];
+    const img = this.state.productsList[0].images[0];
     
     // Convert the image data into a Blob
-    const blob = await fetch(image.uri).then(response => response.blob());
     
     // Append the Blob to FormData
-    formData.append('images', blob, filename);
+
+
 
     // formData.append("name", name)
     // formData.append("category_id", "484")
@@ -1905,7 +1916,11 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
       formData.append(`catalogue_variants_attributes[${index}][variantType]`, obj.description)
       formData.append(`catalogue_variants_attributes[${index}][price]`, obj.price)
       formData.append(`catalogue_variants_attributes[${index}][images]`, 
-       this.state.productsList[0].images[0]
+      {
+        uri: imagePath,
+        type: this.state.productsList[0].images[0].mime,
+        name: filename,
+      }
       )
     }
 
@@ -1914,7 +1929,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     const userDetails: any = await AsyncStorage.getItem('userDetails')
     const data: any = JSON.parse(userDetails)
     const header = {
-      //"Content-Type": configJSON.validationApiContentType,
+      // "Content-Type": configJSON.validationApiContentType,
       'token': data?.meta?.token
     };
 
