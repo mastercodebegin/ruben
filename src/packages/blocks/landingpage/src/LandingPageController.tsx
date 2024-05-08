@@ -1854,15 +1854,12 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
       price, sellingPrice, tax, hsnCode,
       subscription, subscriptionSellingPrice } = this.state.productsList[0]
 
-    // if (name.length == 0) { this.showAlert('Please provide title'); return }
-    // if (category_id.length == 0) { this.showAlert('Please provide category'); return }
-    // if (sub_category_id.length == 0) { this.showAlert('Please provide sub-category'); return }
-    // if (price.length == 0) { this.showAlert('Please provide price'); return }
-    // if (desciption.length == 0) { this.showAlert('Please provide description'); return }
-    // if (images.length == 0) { this.showAlert('Please add image'); return }
-    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.imagePath);
-    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.mime);
-    // console.log('this.state.productsList[0].images[0]',this.state.productsList[0].images[0]?.filename);
+    if (name.length == 0) { this.showAlert('Please provide title'); return }
+    if (category_id.length == 0) { this.showAlert('Please provide category'); return }
+    if (sub_category_id.length == 0) { this.showAlert('Please provide sub-category'); return }
+    if (price.length == 0) { this.showAlert('Please provide price'); return }
+    if (desciption.length == 0) { this.showAlert('Please provide description'); return }
+    if (images.length == 0) { this.showAlert('Please add image'); return }
     const filename = `${new Date().getTime()}`
     const formData = new FormData();
    
@@ -1887,27 +1884,6 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
     formData.append("free_delivery", "Yes")
     const img = this.state.productsList[0].images[0];
     
-    // Convert the image data into a Blob
-    
-    // Append the Blob to FormData
-
-
-
-    // formData.append("name", name)
-    // formData.append("category_id", "484")
-    // formData.append("sub_category_id", "34214")
-    // formData.append("description", desciption)
-    // formData.append("price", price)
-    // formData.append("sale_price", sellingPrice)
-    // formData.append("taxableAmount", tax)
-    // formData.append("hsnCode", hsnCode)
-    // formData.append("subscription", subscription)
-    // formData.append("subscription_selling_price", subscriptionSellingPrice)
-    // formData.append("free_delivery", "Yes")
-    // formData.append("images", this.state.productsList[0].images[0])
-
-
-
 
     for (const [index, obj] of this.state.productsList[0].variants.entries()) {
 
@@ -2149,7 +2125,7 @@ getProductApiCallAsPerScreen(AddToFavRes:{message?:string,data:object})
   }
 
   async getCart() {
-    //this.setState({ show_loader: true });
+    this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {

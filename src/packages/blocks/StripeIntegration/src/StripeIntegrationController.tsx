@@ -437,7 +437,6 @@ this.setState({cardNumber:data.card_number,cardName:data.name,cardId:data.card_n
   }
 
   async getSavedCards(cardId:string) {
-    //this.setState({ show_loader: true });
     const userDetails: any = await AsyncStorage.getItem("userDetails");
     const data: any = JSON.parse(userDetails);
     const headers = {
@@ -517,5 +516,6 @@ this.setState({cardNumber:data.card_number,cardName:data.name,cardId:data.card_n
       this.setState({ customAlertDesc: "Check your email for order details" })
     }
   }
+
   // Customizable Area End
 }

@@ -1042,22 +1042,7 @@ export default class AnalyticsController extends BlockComponent<Props, S, SS> {
 
   onLambClick(partOfLamb: LambParts) {
 
-    console.log('partOfLamb======',partOfLamb);
-    
-    // this.setState({
-    //   lambDefault: false,
-    //   lambBreast: false,
-    //   lambChuck: false,
-    //   lambFlank: false,
-    //   lambLeg: false,
-    //   lambLion: false,
-    //   lambNeck: false,
-    //   lambShank: false,
-    //   lambShoulder: false,
-    //   lambRibs: false,
-    //   lamHead:false,
-    //   [partOfLamb]: true,
-    // });
+
     this.setState((prevState) => ({
     ...prevState,
     lamb: false,
