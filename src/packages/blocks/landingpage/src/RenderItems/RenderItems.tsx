@@ -57,8 +57,7 @@ const RenderItem = ({
   const partial = item?.attributes?.discount;
   const percentage = ((partial / total) * 100)||10;  
 
-  
-  
+
   return (
     <TouchableOpacity
       testID={`navigate_to_product_details_id_${index}`}

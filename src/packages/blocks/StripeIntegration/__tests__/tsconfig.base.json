@@ -62,6 +62,13 @@
   
       /* Advanced Options */
       "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+     , "baseUrl": ".",
+      "paths": {
+        "react": [
+          "../node_modules/@types/react"
+        ]
+      }
     }
+    
   }
   

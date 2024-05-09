@@ -92,7 +92,7 @@
   },
   "devDependencies": {
     "@types/d3-shape": "file:./packages/blocks/core/node_modules/@types/d3-shape",
-    "@types/node": "file:./packages/blocks/core/node_modules/@types/node",
+    "@types/node": "^20.12.11",
     "@types/react": "file:./packages/blocks/core/node_modules/@types/react",
     "@types/react-native": "file:./packages/blocks/core/node_modules/@types/react-native",
     "@types/react-native-check-box": "file:./packages/blocks/core/node_modules/@types/react-native-check-box",

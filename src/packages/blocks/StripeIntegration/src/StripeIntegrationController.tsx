@@ -32,7 +32,7 @@ export interface Props {
       shipping: number,
       discount: number,
       discountPercentage : number,
-      storageClass: "Basic" | "Gold" | "Platinum",
+      storageClass: string,
       orderId: number,
       orderNumber: number,
       deliveryCharge: number,
@@ -61,8 +61,8 @@ interface S {
   expirtyDate: string;
   cvv: string;
   isOrderSuccess: boolean;
-  savedCards:Array<{}>
-  cardId:number
+  savedCards:Array<{cardNumber:string,name:string,card_number:string}>
+  cardId:string
   isLoading:boolean
   paymentMethodType: "Card" | "Cod";
   paymentAlerttype: "PaymentFailed" | "PaymentSuccess" | "ThankYouForYourOder" | "ContinueToEmail" | "CodConfirmation";
@@ -97,7 +97,7 @@ export default class StripeIntegrationController extends BlockComponent<
     ];
 
     this.state = {
-      cardId:0,
+      cardId:'',
       isLoading:false,
       savedCards:[],
       txtInputValue: "",
@@ -316,9 +316,9 @@ subAsync(message:Message){
     this.saveCardApiCalled();
   }
   }
-  changeCard(data:object){
+  changeCard(data:{cardNumber:string,name:string,card_number:string}){
 console.log('data==========',data);
-this.setState({cardNumber:data.card_number,cardName:data.name,cardId:data.card_number})
+this.setState({cardNumber:data?.card_number,cardName:data?.name,cardId:data?.card_number})
 
 
   }

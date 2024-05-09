@@ -17,6 +17,29 @@ import { flattenProp } from "recompose";
 import { Alert } from "react-native";
 const navigation = require("react-navigation");
 const screenProps = {
+  route: {
+    params: {
+      is24HourDelivery: true,
+      name: '',
+      email: '',
+      address: '',
+      phone_number: 0,
+      zip_code: 0,
+      subtotal: 0,
+      shipping: 0,
+      discount: 0,
+      discountPercentage : 0,
+      storageClass: "Basic" ,
+      orderId: 0,
+      orderNumber: 0,
+      deliveryCharge: 0,
+      total: 0,
+      lifetimeSubscriptionCharge:{},
+      billingDetails: [],
+      isUserAlreadySubscribed:true,
+      deliveryDate:'string'
+    }
+  },
   navigation: navigation,
   id: "StripeIntegration",
   goBack: jest.fn(),
@@ -44,24 +67,6 @@ defineFeature(feature, (test) => {
     given("I am a User loading StripeIntegration", () => {
       exampleBlockA = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
           {...screenProps}
         />
       );
@@ -222,24 +227,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          
           {...screenProps}
         />
       );
@@ -270,26 +258,8 @@ defineFeature(feature, (test) => {
 
       const { getByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+         {...screenProps}
+          
         />
       );
       const input = getByTestId("cardNameInput");
@@ -301,26 +271,7 @@ defineFeature(feature, (test) => {
     then("I can enter card number", () => {
       const { getByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          {...screenProps}
         />
       );
       const input = getByTestId("cardNumber");
@@ -337,26 +288,8 @@ defineFeature(feature, (test) => {
     then("I can enter card expirtydate", () => {
       const { getByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       const input = getByTestId("cardExpiry");
@@ -375,26 +308,8 @@ defineFeature(feature, (test) => {
     then("I can enter card expirtydate with digit", () => {
       const { getByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       const input = getByTestId("cardExpiry");
@@ -409,26 +324,8 @@ defineFeature(feature, (test) => {
     then("I can enter cvv", () => {
       const { getByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       const input = getByTestId("cardCVV");
@@ -487,24 +384,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          
           {...screenProps}
         />
       );
@@ -556,26 +436,8 @@ defineFeature(feature, (test) => {
     then("Payment all texts", async () => {
       const renders = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       if (instance.state.paymentAlerttype === "PaymentSuccess") {
@@ -610,26 +472,8 @@ defineFeature(feature, (test) => {
     then("Payment all images", async () => {
       const { queryByTestId } = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       const circle = require("./../../../StripeIntegration/assets/ic_check_circle_icon.png");
@@ -640,26 +484,8 @@ defineFeature(feature, (test) => {
       // expect(queryByTestId('stripe').image.props.source).toBe(imgSource);
       const renders = render(
         <StripeIntegration
-          navigation={navigation}
-          id={"1"}
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+        {...screenProps}
+
         />
       );
       if (instance.state.paymentAlerttype === "PaymentSuccess") {
@@ -697,24 +523,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+        
             {...screenProps}
           />
         );
@@ -747,24 +556,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+            
             {...screenProps}
           />
         );
@@ -797,24 +589,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+            
             {...screenProps}
           />
         );
@@ -846,24 +621,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          
           {...screenProps}
         />
       );
@@ -894,24 +652,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+
             {...screenProps}
           />
         );
@@ -950,24 +691,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+
             {...screenProps}
           />
         );
@@ -1006,24 +730,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+
           {...screenProps}
         />
       );
@@ -1047,24 +754,7 @@ defineFeature(feature, (test) => {
       instance.setState({ saveCard: true });      
       const { queryByTestId } = render(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+
           {...screenProps}
         />
       );
@@ -1098,24 +788,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          
           {...screenProps}
         />
       );
@@ -1130,24 +803,7 @@ defineFeature(feature, (test) => {
       instance.setState({showPaymentAlert:true})
       const { getByText } = render(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+
           {...screenProps}
         />
       );
@@ -1167,24 +823,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+          
           {...screenProps}
         />
       );
@@ -1201,24 +840,7 @@ defineFeature(feature, (test) => {
         let explorePageWrapper: ShallowWrapper;
         explorePageWrapper = shallow(
           <StripeIntegration
-            route={{
-              params: {
-                name: "",
-                address: "",
-                phone_number: 0,
-                zip_code: 0,
-                subtotal: 0,
-                shipping: 0,
-                discount: 0,
-                storageClass: "Basic",
-                orderId: 0,
-                orderNumber: 0,
-                email: "",
-                discountPercentage: 0,
-                deliveryCharge: 0,
-              total:0
-              },
-            }}
+
             {...screenProps}
           />
         );
@@ -1248,24 +870,7 @@ defineFeature(feature, (test) => {
       let explorePageWrapper: ShallowWrapper;
       explorePageWrapper = shallow(
         <StripeIntegration
-          route={{
-            params: {
-              name: "",
-              address: "",
-              phone_number: 0,
-              zip_code: 0,
-              subtotal: 0,
-              shipping: 0,
-              discount: 0,
-              storageClass: "Basic",
-              orderId: 0,
-              orderNumber: 0,
-              email: "",
-              discountPercentage: 0,
-              deliveryCharge: 0,
-              total:0
-            },
-          }}
+
           {...screenProps}
         />
       );

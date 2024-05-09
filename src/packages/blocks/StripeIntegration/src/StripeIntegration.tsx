@@ -328,7 +328,7 @@ export default class StripeIntegration extends StripeIntegrationController {
 
             <FlatList
               data={this.state.savedCards}
-              renderItem={({ item, index }) =>
+              renderItem={({ item, index }: { item: {cardNumber:string,name:string,card_number:string}; index: number }) =>
                 <View>
                   {index == 0 && <Text style={{
                     fontSize: 15,
