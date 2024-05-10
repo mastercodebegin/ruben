@@ -23,3 +23,13 @@ jest.mock("../../framework/src/Utilities", () => ({
   getStorageData: jest.fn(()=>new Promise((resolve) =>resolve('test response'))),
   setStorageData: jest.fn(() => { }),
 }));
+jest.mock("rn-fetch-blob", () => ({
+  fs: {
+    dirs: {
+      DownloadDir: "",
+    },
+  },
+  config: () => ({
+    fetch: () => Promise.resolve({}),
+  }),
+}));
