@@ -59,7 +59,7 @@ defineFeature(feature, (test) => {
       ToastAndroid: { show: jest.fn() },
     }));
   });
-
+ 
   test("User navigates to StripeIntegration", ({ given, when, then }) => {
     let exampleBlockA: ShallowWrapper;
     let instance: StripeIntegration;
@@ -479,9 +479,6 @@ defineFeature(feature, (test) => {
       const circle = require("./../../../StripeIntegration/assets/ic_check_circle_icon.png");
       const excl = require("./../../../StripeIntegration/assets/ic_exclamation_icon.png");
       const email = require("./../../../StripeIntegration/assets/ic_email_icon.png");
-
-      // const image = mans.getByTestId('Stripe');
-      // expect(queryByTestId('stripe').image.props.source).toBe(imgSource);
       const renders = render(
         <StripeIntegration
         {...screenProps}
