@@ -67,28 +67,28 @@ defineFeature(feature, (test) => {
       expect(exampleBlockA).toBeTruthy();
     });
 
-    // then("I can enter text with out errors", () => {
-    //   let textInputComponent = exampleBlockA.findWhere(
-    //     (node) => node.prop("data-test-id") === "txtInput"
-    //   );
-    //   const event = {
-    //     preventDefault() {},
-    //     target: { value: "hello@aol.com" },
-    //   };
-    //   textInputComponent.simulate("change", event);
-    // });
+    then("I can enter text with out errors", () => {
+      let textInputComponent = exampleBlockA.findWhere(
+        (node) => node.prop("data-test-id") === "txtInput"
+      );
+      const event = {
+        preventDefault() {},
+        target: { value: "hello@aol.com" },
+      };
+      textInputComponent.simulate("change", event);
+    });
 
-    // then("I can select the button with with out errors", () => {
-    //   let buttonComponent = exampleBlockA.findWhere(
-    //     (node) => node.prop("data-test-id") === "btnAddExample"
-    //   );
-    //   buttonComponent.simulate("press");
-    //   expect(exampleBlockA).toBeTruthy();
-    // });
+    then("I can select the button with with out errors", () => {
+      let buttonComponent = exampleBlockA.findWhere(
+        (node) => node.prop("data-test-id") === "btnAddExample"
+      );
+      buttonComponent.simulate("press");
+      expect(exampleBlockA).toBeTruthy();
+    });
 
-    // then("I can leave the screen with out errors", () => {
-    //   instance.componentWillUnmount();
-    //   expect(exampleBlockA).toBeTruthy();
-    // });
+    then("I can leave the screen with out errors", () => {
+      instance.componentWillUnmount();
+      expect(exampleBlockA).toBeTruthy();
+    });
   });
 });

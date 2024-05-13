@@ -299,16 +299,23 @@ subAsync(message:Message){
   // Customizable Area Start
 
   onSaveCard(){
-    if(this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "" ){
+    if(this.state.cardNumber == "" 
+    || this.state.cardName == ""
+     || this.state.cvv == "" ||
+      this.state.expirtyDate == "" )
+      {
       return Alert.alert("Alert", "Please enter correct card details");
     }
-    else if (this.state.cardNumber.length !== 19) {
+    else if (this.state.cardNumber.length !== 19)
+     {
       return Alert.alert("Alert", "Please enter a valid card number");
     }
-    else if (this.state.expirtyDate.length !== 5) {
+    else if (this.state.expirtyDate.length !== 5) 
+    {
       return Alert.alert("Alert", "Please enter a valid expiry date");
     } 
-    else if (this.state.cvv.length !== 3) {
+    else if (this.state.cvv.length !== 3)
+     {
       return Alert.alert("Alert", "Please enter a valid CVV");
   }
   else{
