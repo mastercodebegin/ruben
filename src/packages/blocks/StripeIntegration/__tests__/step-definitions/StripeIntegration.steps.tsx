@@ -9,7 +9,6 @@ import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import StripeIntegration from "../../src/StripeIntegration";
-import { cardNumberFormatter } from "../../src/StripeIntegration";
 import PaymentCustomeAlert from "../../src/PaymentCustomeAlert";
 import DoubleButton from "../../../../components/src/DoubleButton";
 import { State } from "react-native-gesture-handler";
@@ -80,12 +79,25 @@ defineFeature(feature, (test) => {
       expect(exampleBlockA).toBeTruthy();
     });
     then("should return 3.99 for storageClass Gold", () => {
+      let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'cardButton');
+      textInputComponent.simulate('press');
+      let textInputComponent1 = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneFirstButtonEvent');
+      textInputComponent1.simulate('press');
+      let doneSecondButtonEvent = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneSecondButtonEvent');
+      doneSecondButtonEvent.simulate('press');
+      let codButton = exampleBlockA.findWhere((node) => node.prop('testID') === 'codButton');
+      doneSecondButtonEvent.simulate('press');
+      // let textInputComponent1 = exampleBlockA.findWhere(
+      //   (node) => node.prop("testID") === "cardNameInput"
+      // );
+      // textInputComponent1.simulate("changeText", 'test');  
       });
     then("Receive function works properly", () => {
       let textInputComponent = exampleBlockA.findWhere(
-        (node) => node.prop("testID") === "cardNumber"
+        (node) => node.prop("testID") === "cardNameInput"
       );
-      textInputComponent.simulate("change", 'test');    });
+      textInputComponent.simulate("changeText", 'test');   
+     });
    
     then("I can leave the screen with out errors", () => {
       instance.componentWillUnmount();

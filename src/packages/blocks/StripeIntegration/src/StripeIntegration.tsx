@@ -79,52 +79,6 @@ export default class StripeIntegration extends StripeIntegrationController {
     this.setState({ cardName: saveCard_Details?.cardName || "", cardNumber: saveCard_Details?.cardNumber || "", cvv: saveCard_Details?.cvv || "", expirtyDate: saveCard_Details?.expirtyDate || "" })
   }
 
-  handleExpiryDate = (text: string) => {
-    console.log('text===', text);
-
-    let year: string = moment().format("YY");
-    console.log('year', year);
-
-
-    let textTemp: any = text;
-    if (textTemp[0] !== "1" && textTemp[0] !== "0") {
-      textTemp = "";
-    }
-    if (textTemp.length === 2) {
-      if (
-        parseInt(textTemp.substring(0, 2)) > 12 ||
-        parseInt(textTemp.substring(0, 2)) == 0
-      ) {
-        textTemp = textTemp[0];
-      } else if (text.length === 2 && !this.state.backspaceFlag) {
-        textTemp += "/";
-        this.setState({ backspaceFlag: true });
-      } else if (text.length === 2 && this.state.backspaceFlag) {
-        textTemp = textTemp[0];
-        this.setState({ backspaceFlag: false });
-      } else {
-        textTemp = textTemp[0];
-      }
-    }
-    this.setState({ expirtyDate: textTemp })
-    if (textTemp.length > 3) {
-      this.handleExpirtyMorethan3(textTemp, year)
-    }
-  };
-
-  handleExpirtyMorethan3 = (textTemp: any, year: any) => {
-    let yearN = Number(year)
-    if (parseInt(textTemp[3]) < (~~(yearN / 10))) {
-      textTemp = textTemp.slice(0, 3);
-    }
-    if (parseInt(textTemp[4]) < yearN % 10) {
-      textTemp[4] = "";
-      textTemp = textTemp.slice(0, 4);
-
-    }
-    this.setState({ expirtyDate: textTemp });
-  }
-
   cardUI(){
     return( 
       this.state.paymentMethodType === "Card" && (
@@ -140,7 +94,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 value={this.state.cardName}
                 testID="cardNameInput"
                 onchangeText={(text) => {
-                  this.setState({ cardName: text })
+                  this.setCardNameState(text)
                 }
                 }
                 label="Name on card"
@@ -153,8 +107,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 value={this.state.cardNumber}
                 testID="cardNumber"
                 onchangeText={(text) => {
-                  let formattedCard = cardNumberFormatter(text, this.state.cardNumber);
-                  this.setState({ cardNumber: formattedCard })
+                  this.setCardNumberState(text)
                 }
                 }
                 label="Card number"
@@ -394,35 +347,8 @@ export default class StripeIntegration extends StripeIntegrationController {
             />
             <View style={styles.containerStyle} testID="doubleButton">
               <TouchableOpacity
-                onPress={async () => {
-                  if (this.state.paymentMethodType === "Card") {
-                    if (this.state.cardNumber == "" || this.state.cardName == "" || this.state.cvv == "" || this.state.expirtyDate == "") {
-                      return Alert.alert("Alert", "Please enter correct card details");
-                    }
-                    else if (this.state.cardNumber.length !== 19) {
-                      return Alert.alert("Alert", "Please enter a valid card number");
-                    }
-                    else if (this.state.expirtyDate.length !== 5) {
-                      return Alert.alert("Alert", "Please enter a valid expiry date");
-                    }
-                    else if (this.state.cvv.length !== 3) {
-                      return Alert.alert("Alert", "Please enter a valid CVV");
-                    }
-
-                    this.setState({ showPaymentLoading: true })
-                    this.setState({ customAlertText: "Payment In Process.." });
-                    this.setState({ showPaymentAlert: true })
-                    let card = this.state.cardNumber.replace(' ', '').replace(' ', '').replace(' ', '');
-                    let cvv = this.state.cvv
-                    let month = this.state.expirtyDate.slice(0, 2);
-                    let year = "20" + this.state.expirtyDate.slice(-2);
-                    this.getPaymentMethod(card, cvv, month, year)
-                  } else {
-                    this.setState({ showPaymentLoading: true })
-                    this.setState({ customAlertText: "Order In Process.." });
-                    this.codeApiCalled(this.props.route.params.orderId)
-                    this.setState({ showPaymentAlert: true })
-                  }
+                onPress={ () => {
+                  this.handleSubmit()
                 }}
                 style={[styles.buttonDouble, styles.button1Style]}
                 testID="doneFirstButtonEvent"
@@ -461,42 +387,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     // Customizable Area End
   }
 }
-export const cardNumberFormatter = (value: string, previousValue: string) => {
-  // return nothing if no value
-  if (!value) {
-    return value;
-  }
-  // only allows 0-9 inputs
-  const currentValue = value.replace(/[^\d]/g, "");
-  const cvLength = currentValue.length;
 
-  if (!previousValue || value.length > previousValue.length) {
-    // returns: "x", "xx", "xxx"
-    if (cvLength < 5) {
-      return currentValue;
-    }
-
-    if (cvLength < 9) {
-      let d1 = `${currentValue.slice(0, 4)} ${currentValue.slice(4)}`;
-      return d1;
-    }
-
-    if (cvLength < 13) {
-      let d1 = `${currentValue.slice(0, 4)} ${currentValue.slice(
-        4,
-        8
-      )} ${currentValue.slice(8)}`;
-      return d1;
-    }
-
-    return `${currentValue.slice(0, 4)} ${currentValue.slice(
-      4,
-      8
-    )} ${currentValue.slice(8, 12)} ${currentValue.slice(12, 16)}`;
-  } else {
-    return value;
-  }
-};
 
 
 // Customizable Area Start
