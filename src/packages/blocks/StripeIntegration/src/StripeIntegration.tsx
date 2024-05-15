@@ -167,55 +167,7 @@ export default class StripeIntegration extends StripeIntegrationController {
     ))
   }
 
-  handleCVVTextInput = (text: string) => {
-    this.setState({ cvv: text });
-  };
-  handleContinueButton = () => {
-    if (this.state.isOrderSuccess) {
-      if (this.state.paymentAlerttype === "PaymentSuccess") {
-        this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
-          this.handlePaymentSuccess()
-        });
-      } else if (this.state.paymentAlerttype === "ThankYouForYourOder" && this.state.paymentMethodType === "Cod") {
-        this.setState({ paymentAlerttype: "CodConfirmation" }, () => {
-          this.handlePaymentSuccess()
-        });
-      } else if (this.state.paymentAlerttype === "CodConfirmation" || this.state.paymentAlerttype === "ThankYouForYourOder") {
-        this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
-          this.handlePaymentSuccess()
-        });
-      } else {
-        this.setState({ showPaymentAlert: false });
-        this.props.navigation.navigate('InvoiceBilling', this.props.route.params);
-      }
-    } else {
-      if (this.state.paymentAlerttype === "PaymentFailed") {
-        this.setState({ showPaymentAlert: false })
-      }
-    }
-  }
-  getMeatStorage = () => {
-    if (this.props.route.params.storageClass === "Gold") {
-      return 3.99
-    } else if (this.props.route.params.storageClass === "Platinum") {
-      return 9.99
-    } else {
-      return 0.0
-    }
-  }
-
-  handleOkPress = () => this.props.navigation.goBack();
-  handleCancelPress = () => {
-    Alert.alert("Alert", "Are you sure to cancel", [
-      { text: "OK", onPress: this.handleOkPress },
-      { text: "CANCEL" },
-    ]);
-  };
-
-  getButtonName()
-  {
-    return( this.state.paymentMethodType === "Card" ? "Pay" : "Continue")
-  }
+ 
   // Customizable Area End
 
   render() {
@@ -251,6 +203,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                       this.setState({ paymentMethodType: "Card" })
                     }}>
                     <CheckBox
+                    testID="CardCheckBoxId"
                       backgroundColor={APP_BACKGROUND}
                       checked={this.state.paymentMethodType === "Card"}
                       disabled
@@ -338,8 +291,8 @@ export default class StripeIntegration extends StripeIntegrationController {
             </View>
             <PaymentDetails
               header="PAYMENT DETAILS"
-              list={this.props.route?.params.billingDetails || []}
-              footer={{ question: "Total", ans: `${this.props.route?.params?.total}` }}
+              list={this.props.route.params.billingDetails||[] }
+              footer={{ question: "Total", ans: `${this.props.route.params.total}` }}
               isSubscribed={this.props.route.params.lifetimeSubscriptionCharge}
               isUserAlreadySubscribed={this.props.route.params.isUserAlreadySubscribed}
               is24HourDelivery={this.props.route.params.is24HourDelivery}

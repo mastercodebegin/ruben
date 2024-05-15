@@ -123,6 +123,7 @@ export default class StripeIntegrationController extends BlockComponent<
     runEngine.attachBuildingBlock(this as IBlock, this.subScribedMessages);
 
     // Customizable Area Start
+    
     // Customizable Area End
   }
   paymentId: string = '';
@@ -619,6 +620,55 @@ async handleSubmit()
   }
 
 
+}
+handleCVVTextInput = (text: string) => {
+  this.setState({ cvv: text });
+};
+handleContinueButton = () => {
+  if (this.state.isOrderSuccess) {
+    if (this.state.paymentAlerttype === "PaymentSuccess") {
+      this.setState({ paymentAlerttype: "ThankYouForYourOder" }, () => {
+        this.handlePaymentSuccess()
+      });
+    } else if (this.state.paymentAlerttype === "ThankYouForYourOder" && this.state.paymentMethodType === "Cod") {
+      this.setState({ paymentAlerttype: "CodConfirmation" }, () => {
+        this.handlePaymentSuccess()
+      });
+    } else if (this.state.paymentAlerttype === "CodConfirmation" || this.state.paymentAlerttype === "ThankYouForYourOder") {
+      this.setState({ paymentAlerttype: "ContinueToEmail" }, () => {
+        this.handlePaymentSuccess()
+      });
+    } else {
+      this.setState({ showPaymentAlert: false });
+      this.props.navigation.navigate('InvoiceBilling', this.props.route.params);
+    }
+  } else {
+    if (this.state.paymentAlerttype === "PaymentFailed") {
+      this.setState({ showPaymentAlert: false })
+    }
+  }
+}
+getMeatStorage = () => {
+  if (this.props.route.params.storageClass === "Gold") {
+    return 3.99
+  } else if (this.props.route.params.storageClass === "Platinum") {
+    return 9.99
+  } else {
+    return 0.0
+  }
+}
+
+handleOkPress = () => this.props.navigation.goBack();
+handleCancelPress = () => {
+  Alert.alert("Alert", "Are you sure to cancel", [
+    { text: "OK", onPress: this.handleOkPress },
+    { text: "CANCEL" },
+  ]);
+};
+
+getButtonName()
+{
+  return( this.state.paymentMethodType === "Card" ? "Pay" : "Continue")
 }
   handlePaymentFailed = () => {
     this.setState({ customAlertText: this.state.paymentMethodType === "Card" ? "Payment Failed" : "Order Failed" });
