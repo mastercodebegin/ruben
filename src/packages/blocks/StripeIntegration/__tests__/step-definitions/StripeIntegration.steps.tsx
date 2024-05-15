@@ -86,21 +86,233 @@ defineFeature(feature, (test) => {
       let doneSecondButtonEvent = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneSecondButtonEvent');
       doneSecondButtonEvent.simulate('press');
       let codButton = exampleBlockA.findWhere((node) => node.prop('testID') === 'codButton');
-      doneSecondButtonEvent.simulate('press');
+      codButton.simulate('press');
+      let CardCheckBoxId = exampleBlockA.findWhere((node) => node.prop('testID') === 'CardCheckBoxId');
+      CardCheckBoxId.simulate('press');
+      
       // let textInputComponent1 = exampleBlockA.findWhere(
       //   (node) => node.prop("testID") === "cardNameInput"
       // );
       // textInputComponent1.simulate("changeText", 'test');  
       });
     then("Receive function works properly", () => {
-      let textInputComponent = exampleBlockA.findWhere(
-        (node) => node.prop("testID") === "cardNameInput"
+      const locationSuccessRestApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
       );
-      textInputComponent.simulate("changeText", 'test');   
+      locationSuccessRestApi.addData(
+        getName(MessageEnum.AccoutLoginSuccess),
+        locationSuccessRestApi
+      );
+      locationSuccessRestApi.addData(
+        getName(MessageEnum.AccoutLoginSuccess),
+        locationSuccessRestApi
+      );
+      locationSuccessRestApi.addData(
+        getName(MessageEnum.AccoutLoginSuccess),
+        locationSuccessRestApi.messageId
+      );
+      locationSuccessRestApi.getData(getName(MessageEnum.AuthTokenDataMessage));
+      instance.getSavedCardsCallId = locationSuccessRestApi.messageId;
+      runEngine.sendMessage("Unit Test", locationSuccessRestApi);
+
      });
    
+    then("I can call payment api  without errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+         data:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.paymentId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call payment api  with errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceErrorMessage),
+        {
+         error:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.paymentId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call code api  without errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+         data:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.codId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call code api  with errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceErrorMessage),
+        {
+         error:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.codId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call getSavedCardsCallId api  without errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+         data:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.getSavedCardsCallId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call getSavedCardsCallId api  with errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceErrorMessage),
+        {
+         error:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.getSavedCardsCallId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call saveCardApiCallId api  without errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+         data:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.saveCardApiCallId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
+    then("I can call saveCardApiCallId api  with errors", () => {
+      const paymentApi = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceErrorMessage),
+        {
+         error:[]
+        }
+      );
+      paymentApi.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        paymentApi.messageId
+      );
+      instance.saveCardApiCallId = paymentApi.messageId;
+      runEngine.sendMessage("Unit Test", paymentApi);
+      expect(exampleBlockA).toBeTruthy();
+    });
     then("I can leave the screen with out errors", () => {
-      instance.componentWillUnmount();
+      const magLogInSucessRestAPI = new Message(
+        getName(MessageEnum.RestAPIResponceMessage)
+      );
+      magLogInSucessRestAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        magLogInSucessRestAPI
+      );
+      magLogInSucessRestAPI.addData(
+        getName(MessageEnum.RestAPIResponceSuccessMessage),
+        {
+         errors:[]
+        }
+      );
+      magLogInSucessRestAPI.addData(
+        getName(MessageEnum.RestAPIResponceDataMessage),
+        magLogInSucessRestAPI.messageId
+      );
+      instance.paymentId = magLogInSucessRestAPI.messageId;
+      runEngine.sendMessage("Unit Test", magLogInSucessRestAPI);
       expect(exampleBlockA).toBeTruthy();
     });
   });
