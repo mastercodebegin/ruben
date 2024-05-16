@@ -317,6 +317,8 @@ handleExpiryDate = (text: string) => {
 };
 
 handleExpirtyMorethan3 = (textTemp: any, year: any) => {
+  console.log('handleExpirtyMorethan3',textTemp,year);
+  
   let yearN = Number(year)
   if (parseInt(textTemp[3]) < (~~(yearN / 10))) {
     textTemp = textTemp.slice(0, 3);

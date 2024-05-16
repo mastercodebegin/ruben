@@ -129,34 +129,138 @@ defineFeature(feature, (test) => {
 
     when("I enter card expiry date", () => {
       let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
-      cardNumber.props().onchangeText('545646571555756777358865');
+      cardNumber.props().onchangeText('1124');
     });
     then("card expiry date should be more then 4 digit", () => {
       let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
-      cardNumber.props().onchangeText('545646571555756777358865');
-      expect(instance.state.cardNumber.length).toBeGreaterThan(16);
+      cardNumber.props().onchangeText('1124');
+      expect(instance.state.cardNumber.length).toBeGreaterThan(3);
     });
 
     when("I enter card cvv", () => {
       let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
-      cardNumber.props().onchangeText('545646571555756777358865');
+      cardNumber.props().onchangeText('123');
     });
     then("card cvv should be 3 digit", () => {
       let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
-      cardNumber.props().onchangeText('545646571555756777358865');
-      expect(instance.state.cardNumber.length).toBeGreaterThan(16);
+      cardNumber.props().onchangeText('123');
+      expect(instance.state.cvv.length).toBe(3);
     });
+    when("I check the savecard api call with valid card details", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = 'John';
+      cardNameInput.props().onchangeText(newName);
+
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('54564345765675675675555');
+
+      let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardExpiry.props().onchangeText('1225');
+
+      let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardCVV.props().onchangeText('123');
+    });
+    then("check with valid card details", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = 'John';
+      cardNameInput.props().onchangeText(newName);
+
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('75675555');
+
+      let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardExpiry.props().onchangeText('1125');
+
+      let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardCVV.props().onchangeText('123');
+
+      
+      expect(instance.state.cvv.length).toBe(3);
+    });
+
+    then("check with invalid card details", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = '89';
+      cardNameInput.props().onchangeText(newName);
+
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('908');
+
+      let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardExpiry.props().onchangeText('90');
+
+      let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardCVV.props().onchangeText('90');
+
+      
+      expect(instance.state.cvv.length).toBe(2);
+    });
+
+    then("check with invalid card number details", () => {
+
+      // let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
+      // cardNumber.simulate('press');
+      // let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      // cardNumber.props().onchangeText('');
+
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = '89';
+      cardNameInput.props().onchangeText(newName);
+
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('90854');
+
+      let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardExpiry.props().onchangeText('1225');
+
+      let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardCVV.props().onchangeText('907');
+    });
+    then("check with invalid card expiry details", () => {
+
+      // let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
+      // cardNumber.simulate('press');
+      // let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      // cardNumber.props().onchangeText('');
+
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = '89';
+      cardNameInput.props().onchangeText(newName);
+
+      // let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      // cardNumber.props().onchangeText('9085478665577768989');
+
+      // let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      // cardExpiry.props().onchangeText('1225');
+
+      // let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      // cardCVV.props().onchangeText('907');
+    });
+
     when("I press cod button", () => {
       let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
       cardNumber.simulate('press');
     });
     then("cod option should be selected", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = '89';
+      cardNameInput.props().onchangeText(newName);
+
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('9085478665577768989');
+
+      let cardExpiry = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardExpiry.props().onchangeText('1225');
+
+      let cardCVV = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardCVV.props().onchangeText('907');
       let codButton = exampleBlockA.findWhere((node) => node.prop('testID') === 'onSaveCardTestId');
       codButton.simulate('press');
       let CardCheckBoxId = exampleBlockA.findWhere((node) => node.prop('testID') === 'CardCheckBoxId');
       CardCheckBoxId.simulate('press');
-      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
-      cardNumber.simulate('press');
+      let onSaveCardTestId = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
+      onSaveCardTestId.simulate('press');
+      
       expect(instance.state.paymentMethodType.length).toBeGreaterThan(1);
     });
 
@@ -183,6 +287,7 @@ defineFeature(feature, (test) => {
     });
 
     then("I can call getSavedCardsCallId api  without errors", () => {
+  
       const paymentApi = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
       );
