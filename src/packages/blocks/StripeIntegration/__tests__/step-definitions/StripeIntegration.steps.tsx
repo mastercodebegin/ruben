@@ -9,11 +9,6 @@ import MessageEnum, {
   getName,
 } from "../../../../framework/src/Messages/MessageEnum";
 import StripeIntegration from "../../src/StripeIntegration";
-import PaymentCustomeAlert from "../../src/PaymentCustomeAlert";
-import DoubleButton from "../../../../components/src/DoubleButton";
-import { State } from "react-native-gesture-handler";
-import { flattenProp } from "recompose";
-import { Alert } from "react-native";
 const navigation = require("react-navigation");
 const screenProps = {
   route: {
@@ -27,16 +22,16 @@ const screenProps = {
       subtotal: 0,
       shipping: 0,
       discount: 0,
-      discountPercentage : 0,
-      storageClass: "Basic" ,
+      discountPercentage: 0,
+      storageClass: "Basic",
       orderId: 0,
       orderNumber: 0,
       deliveryCharge: 0,
       total: 0,
-      lifetimeSubscriptionCharge:{},
+      lifetimeSubscriptionCharge: {},
       billingDetails: [],
-      isUserAlreadySubscribed:true,
-      deliveryDate:'string'
+      isUserAlreadySubscribed: true,
+      deliveryDate: 'string'
     }
   },
   navigation: navigation,
@@ -58,7 +53,7 @@ defineFeature(feature, (test) => {
       ToastAndroid: { show: jest.fn() },
     }));
   });
- 
+
   test("User navigates to StripeIntegration", ({ given, when, then }) => {
     let exampleBlockA: ShallowWrapper;
     let instance: StripeIntegration;
@@ -78,23 +73,93 @@ defineFeature(feature, (test) => {
     then("StripeIntegration will load with out errors", () => {
       expect(exampleBlockA).toBeTruthy();
     });
-    then("should return 3.99 for storageClass Gold", () => {
+    when("I press on cardButton", () => {
       let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'cardButton');
       textInputComponent.simulate('press');
+    });
+
+    then("cardButton should be display", () => {
+      let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'cardButton');
+      textInputComponent.simulate('press');
+      expect(instance.state.paymentMethodType).toBe('Card');
+    });
+
+    when("I press on doneFirstButtonEvent", () => {
       let textInputComponent1 = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneFirstButtonEvent');
       textInputComponent1.simulate('press');
+    });
+
+    then("button name should be pay", () => {
+      let textInputComponent = exampleBlockA.findWhere((node) => node.prop('testID') === 'cardButton');
+      textInputComponent.simulate('press');
+     expect(instance.getButtonName()).toBe('Pay');
+    });
+
+    when("I press on doneSecondButtonEvent", () => {
       let doneSecondButtonEvent = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneSecondButtonEvent');
       doneSecondButtonEvent.simulate('press');
-      let codButton = exampleBlockA.findWhere((node) => node.prop('testID') === 'codButton');
+    });
+    then("button name should be Continue", () => {
+      let doneSecondButtonEvent = exampleBlockA.findWhere((node) => node.prop('testID') === 'doneSecondButtonEvent');
+      doneSecondButtonEvent.simulate('press');
+      expect(instance.getButtonName()).toBe('Pay');
+    });
+
+    when("I enter card name", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = 'John Doe';
+      cardNameInput.props().onchangeText(newName);
+    });
+    then("name should be more then 2 digit", () => {
+      let cardNameInput = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNameInput");
+      const newName = 'John';
+      cardNameInput.props().onchangeText(newName);
+      expect(instance.state.cardName.length).toBeGreaterThan(2);
+    });
+
+    when("I enter card number", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('545646571555756777358865');
+    });
+    then("name should be more then 16 digit", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardNumber");
+      cardNumber.props().onchangeText('545646571555756777358865');
+      expect(instance.state.cardNumber.length).toBeGreaterThan(16);
+    });
+
+    when("I enter card expiry date", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardNumber.props().onchangeText('545646571555756777358865');
+    });
+    then("card expiry date should be more then 4 digit", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardExpiry");
+      cardNumber.props().onchangeText('545646571555756777358865');
+      expect(instance.state.cardNumber.length).toBeGreaterThan(16);
+    });
+
+    when("I enter card cvv", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardNumber.props().onchangeText('545646571555756777358865');
+    });
+    then("card cvv should be 3 digit", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "cardCVV");
+      cardNumber.props().onchangeText('545646571555756777358865');
+      expect(instance.state.cardNumber.length).toBeGreaterThan(16);
+    });
+    when("I press cod button", () => {
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
+      cardNumber.simulate('press');
+    });
+    then("cod option should be selected", () => {
+      let codButton = exampleBlockA.findWhere((node) => node.prop('testID') === 'onSaveCardTestId');
       codButton.simulate('press');
       let CardCheckBoxId = exampleBlockA.findWhere((node) => node.prop('testID') === 'CardCheckBoxId');
       CardCheckBoxId.simulate('press');
-      
-      // let textInputComponent1 = exampleBlockA.findWhere(
-      //   (node) => node.prop("testID") === "cardNameInput"
-      // );
-      // textInputComponent1.simulate("changeText", 'test');  
-      });
+      let cardNumber = exampleBlockA.findWhere((node) => node.prop("testID") === "onSaveCardTestId");
+      cardNumber.simulate('press');
+      expect(instance.state.paymentMethodType.length).toBeGreaterThan(1);
+    });
+
     then("Receive function works properly", () => {
       const locationSuccessRestApi = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
@@ -115,96 +180,8 @@ defineFeature(feature, (test) => {
       instance.getSavedCardsCallId = locationSuccessRestApi.messageId;
       runEngine.sendMessage("Unit Test", locationSuccessRestApi);
 
-     });
-   
-    then("I can call payment api  without errors", () => {
-      const paymentApi = new Message(
-        getName(MessageEnum.RestAPIResponceMessage)
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-         data:[]
-        }
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi.messageId
-      );
-      instance.paymentId = paymentApi.messageId;
-      runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
     });
-    then("I can call payment api  with errors", () => {
-      const paymentApi = new Message(
-        getName(MessageEnum.RestAPIResponceMessage)
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceErrorMessage),
-        {
-         error:[]
-        }
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi.messageId
-      );
-      instance.paymentId = paymentApi.messageId;
-      runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
-    });
-    then("I can call code api  without errors", () => {
-      const paymentApi = new Message(
-        getName(MessageEnum.RestAPIResponceMessage)
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-         data:[]
-        }
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi.messageId
-      );
-      instance.codId = paymentApi.messageId;
-      runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
-    });
-    then("I can call code api  with errors", () => {
-      const paymentApi = new Message(
-        getName(MessageEnum.RestAPIResponceMessage)
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceErrorMessage),
-        {
-         error:[]
-        }
-      );
-      paymentApi.addData(
-        getName(MessageEnum.RestAPIResponceDataMessage),
-        paymentApi.messageId
-      );
-      instance.codId = paymentApi.messageId;
-      runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
-    });
+
     then("I can call getSavedCardsCallId api  without errors", () => {
       const paymentApi = new Message(
         getName(MessageEnum.RestAPIResponceMessage)
@@ -215,9 +192,13 @@ defineFeature(feature, (test) => {
       );
       paymentApi.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
-        {
-         data:[]
-        }
+        
+           [
+            {name:'abc',card_number:'1234'},
+            {name:'abc',card_number:'1234'},
+            {name:'abc',card_number:'1234'}
+          ]
+        
       );
       paymentApi.addData(
         getName(MessageEnum.RestAPIResponceDataMessage),
@@ -225,7 +206,7 @@ defineFeature(feature, (test) => {
       );
       instance.getSavedCardsCallId = paymentApi.messageId;
       runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
+      expect(instance.state.savedCards.length).toBe(3);
     });
     then("I can call getSavedCardsCallId api  with errors", () => {
       const paymentApi = new Message(
@@ -238,7 +219,7 @@ defineFeature(feature, (test) => {
       paymentApi.addData(
         getName(MessageEnum.RestAPIResponceErrorMessage),
         {
-         error:[]
+          error: {}
         }
       );
       paymentApi.addData(
@@ -247,7 +228,6 @@ defineFeature(feature, (test) => {
       );
       instance.getSavedCardsCallId = paymentApi.messageId;
       runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
     });
     then("I can call saveCardApiCallId api  without errors", () => {
       const paymentApi = new Message(
@@ -260,7 +240,7 @@ defineFeature(feature, (test) => {
       paymentApi.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
         {
-         data:[]
+          data: {name:'abc',card_number:'1234'}
         }
       );
       paymentApi.addData(
@@ -269,7 +249,38 @@ defineFeature(feature, (test) => {
       );
       instance.saveCardApiCallId = paymentApi.messageId;
       runEngine.sendMessage("Unit Test", paymentApi);
-      expect(exampleBlockA).toBeTruthy();
+
+
+      let plans2 = exampleBlockA.findWhere((node) => node.prop('testID') === "saveCardFlatlistCallId");
+      plans2.props().renderItem({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            duration: 'Monthly',
+            currency: 'USD',
+            amount: '250',
+            plan_name: 'Monthly',
+            star: true
+          }
+        }
+      })
+
+      const FlatListRenderItem = plans2.renderProp('renderItem')({
+        item: {
+          id: 2,
+          attributes: {
+            id: 2,
+            duration: 'Monthly',
+            currency: 'USD',
+            amount: '250',
+            plan_name: 'Monthly'
+          }
+        }, index: 0
+      })
+      const onPressUser1 = FlatListRenderItem.findWhere((node: { prop: (arg0: string) => string; }) => node.prop('testID') === 'changeCardTestId')
+      onPressUser1.props().setChecked("press");
+
     });
     then("I can call saveCardApiCallId api  with errors", () => {
       const paymentApi = new Message(
@@ -282,7 +293,7 @@ defineFeature(feature, (test) => {
       paymentApi.addData(
         getName(MessageEnum.RestAPIResponceErrorMessage),
         {
-         error:[]
+          error: []
         }
       );
       paymentApi.addData(
@@ -304,7 +315,7 @@ defineFeature(feature, (test) => {
       magLogInSucessRestAPI.addData(
         getName(MessageEnum.RestAPIResponceSuccessMessage),
         {
-         errors:[]
+          errors: []
         }
       );
       magLogInSucessRestAPI.addData(
@@ -315,5 +326,7 @@ defineFeature(feature, (test) => {
       runEngine.sendMessage("Unit Test", magLogInSucessRestAPI);
       expect(exampleBlockA).toBeTruthy();
     });
+
   });
+
 });

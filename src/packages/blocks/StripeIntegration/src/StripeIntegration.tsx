@@ -9,7 +9,6 @@ import {
   StyleSheet,
   ImageSourcePropType,
   TouchableOpacity,
-  Alert,
   FlatList
 } from "react-native";
 import TextInput from "../../../components/src/CustomTextInput";
@@ -80,6 +79,7 @@ export default class StripeIntegration extends StripeIntegrationController {
   }
 
   cardUI(){
+    
     return( 
       this.state.paymentMethodType === "Card" && (
       <View style={{ paddingTop: 20 }}>
@@ -94,6 +94,8 @@ export default class StripeIntegration extends StripeIntegrationController {
                 value={this.state.cardName}
                 testID="cardNameInput"
                 onchangeText={(text) => {
+                  console.log('set cardnumber state=======');
+                  
                   this.setCardNameState(text)
                 }
                 }
@@ -152,7 +154,7 @@ export default class StripeIntegration extends StripeIntegrationController {
               </View>
             </View>
             <View style={styles.addressContainer}>
-              <TouchableOpacity style={styles.padding} onPress={() => { this.onSaveCard() }}>
+              <TouchableOpacity style={styles.padding} testID="onSaveCardTestId" onPress={() => { this.onSaveCard() }}>
                 <CheckBox
                   backgroundColor={APP_BACKGROUND}
                   checked={this.state.saveCard}
@@ -200,6 +202,7 @@ export default class StripeIntegration extends StripeIntegrationController {
                 <View style={styles.addressContainer}>
                   <TouchableOpacity style={styles.padding}
                     testID="cardButton" onPress={() => {
+                      
                       this.setState({ paymentMethodType: "Card" })
                     }}>
                     <CheckBox
@@ -233,6 +236,7 @@ export default class StripeIntegration extends StripeIntegrationController {
             <View style={styles.seperatorPayment} />
 
             <FlatList
+            testID="saveCardFlatlistCallId"
               data={this.state.savedCards}
               renderItem={({ item, index }: { item: {cardNumber:string,name:string,card_number:string}; index: number }) =>
                 <View>
@@ -250,8 +254,9 @@ export default class StripeIntegration extends StripeIntegrationController {
                   }}>
                     <View style={{ marginTop: 3 }}>
                       <CheckBox
+                      testID="changeCardTestId"
                         backgroundColor={APP_BACKGROUND}
-                        checked={item?.cardNumber == this.state.cardId ? true : false}
+                        checked={item?.card_number == this.state.cardId ? true : false}
                         setChecked={() => this.changeCard(item)} />
                         </View>
 

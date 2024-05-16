@@ -300,7 +300,7 @@ export default class PersonelDetailsController extends BlockComponent<
       
       if (!error && response && response.data) {
         this.setState({ showLoader: false, deliverySlots:response.data});
-        console.log('DELIVERYS SLOTS==============',response);
+        console.log('DELIVERYS SLOTS==============',JSON.stringify(response.data[0]));
         
       } 
       else {
@@ -704,8 +704,9 @@ return
     addEndoint = "&date=" + formattedDate + "&slot=" + extractedTime
     console.log(addEndoint)
     }
-    else { this.showAlert("Error","Error occured during selecting slot")}
-    console.log(UTCDate)
+    else { 
+      console.log(UTCDate)
+    }
     return addEndoint
   }
 

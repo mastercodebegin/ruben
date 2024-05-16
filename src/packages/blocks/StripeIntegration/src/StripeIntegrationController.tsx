@@ -392,6 +392,10 @@ setCardNumberState(text:string)
   // Customizable Area Start
 
   onSaveCard(){
+    console.log('this.state.cardNumber',this.state.cardNumber);
+    console.log('this.state.cardName',this.state.cardName);
+    console.log('this.state.expirtyDate',this.state.expirtyDate);
+    console.log('this.state.cvv',this.state.cvv);
     if(this.state.cardNumber == "" 
     || this.state.cardName == ""
      || this.state.cvv == "" ||
@@ -417,7 +421,9 @@ setCardNumberState(text:string)
   }
   }
   changeCard(data:{cardNumber:string,name:string,card_number:string}){
-console.log('data==========',data);
+    console.log('card',data);
+    console.log('card number',data?.card_number);
+    
 this.setState({cardNumber:data?.card_number,cardName:data?.name,cardId:data?.card_number})
 
 
